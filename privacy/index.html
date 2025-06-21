@@ -248,35 +248,38 @@
       margin-right: 8px;
     }
     
+    /* Footer */
     footer {
-      margin-top: 50px;
+      background: var(--dark);
+      color: white;
+      padding: 60px 0 30px;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
       padding-top: 30px;
-      font-size: 0.9rem;
-      color: var(--gray);
-      border-top: 1px solid var(--light-gray);
       text-align: center;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.95rem;
     }
-    
-    footer p {
-      margin-bottom: 10px;
-    }
-    
-    footer a {
-      color: var(--primary);
+
+    .footer-bottom a {
+      color: rgba(255, 255, 255, 0.8);
       text-decoration: none;
       transition: var(--transition);
     }
-    
-    footer a:hover {
-      color: var(--secondary);
+
+    .footer-bottom a:hover {
+      color: white;
       text-decoration: underline;
     }
-    
-    .creator-credit {
-      margin-top: 15px;
-      font-weight: 500;
-      color: var(--dark);
-      font-size: 1.1rem;
+
+    .footer-links-row {
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
     }
     
     /* Cookie Consent Styles */
@@ -533,6 +536,11 @@
         font-size: 1.8rem;
       }
       
+      .footer-links-row {
+        flex-direction: column;
+        gap: 10px;
+      }
+      
       .cookie-content {
         flex-direction: column;
         align-items: flex-start;
@@ -562,14 +570,6 @@
       
       .logo {
         font-size: 2.8rem;
-      }
-      
-      .settings-modal {
-        padding: 20px;
-      }
-      
-      .settings-header h2 {
-        font-size: 1.5rem;
       }
     }
   </style>
@@ -701,14 +701,18 @@
       <a href="/" class="back-to-home"><i class="fas fa-arrow-left"></i>Take me Home</a>
     </div>
 
+    <!-- Updated Footer -->
     <footer>
-      <p>
-        <a href="/about">About Us</a> | 
-        <a href="/contact">Contact</a> | 
-        <a href="/privacy-policy">Privacy Policy</a> | 
-        <a href="#" id="open-settings-footer">Cookie Settings</a>
-      </p>
-      <p class="creator-credit">© 2025 EveryTool.io | All Rights Reserved</p>
+      <div class="container">
+        <div class="footer-bottom">
+          <div class="footer-links-row">
+            <a href="/privacy">Privacy</a>
+            <a href="/terms">Terms</a>
+            <a href="#" id="open-settings-footer">Cookies</a>
+          </div>
+          <p>© 2025 EveryTool.io. All rights reserved.</p>
+        </div>
+      </div>
     </footer>
   </div>
   
