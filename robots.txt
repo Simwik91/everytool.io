@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+
+Sitemap: https://everytool.io/sitemap.xml
