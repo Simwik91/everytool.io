@@ -108,72 +108,6 @@
       color: var(--primary);
     }
 
-    .dropdown {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      width: 250px;
-      background: white;
-      border-radius: var(--border-radius);
-      box-shadow: var(--box-shadow);
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(10px);
-      transition: var(--transition);
-      z-index: 100;
-    }
-
-    .nav-item:hover .dropdown {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0);
-    }
-
-    .dropdown-item {
-      padding: 12px 20px;
-      border-bottom: 1px solid var(--light-gray);
-      transition: var(--transition);
-    }
-
-    .dropdown-item:last-child {
-      border-bottom: none;
-    }
-
-    .dropdown-item a {
-      color: var(--dark);
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-    }
-
-    .dropdown-item i {
-      margin-right: 10px;
-      width: 20px;
-      text-align: center;
-      color: var(--primary);
-    }
-
-    .dropdown-item:hover {
-      background: rgba(67, 97, 238, 0.05);
-    }
-
-    .dropdown-item:hover a {
-      color: var(--primary);
-    }
-
-    .dropdown-header {
-      padding: 15px 20px;
-      font-weight: 600;
-      color: var(--primary);
-      border-bottom: 1px solid var(--light-gray);
-      display: flex;
-      align-items: center;
-    }
-
-    .dropdown-header i {
-      margin-right: 10px;
-    }
-
     .mobile-menu-btn {
       display: none;
       background: none;
@@ -239,7 +173,7 @@
 
     .features-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      grid-template-columns: repeat(2, 1fr);
       gap: 30px;
     }
 
@@ -429,6 +363,243 @@
       margin-bottom: 20px;
       flex-wrap: wrap;
     }
+    
+    /* Cookie Consent Styles */
+    #cookie-consent {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 95%;
+      max-width: 800px;
+      background: var(--light);
+      border-radius: var(--border-radius);
+      box-shadow: 0 5px 30px rgba(0, 0, 0, 0.15);
+      padding: 20px;
+      z-index: 1000;
+      display: none;
+    }
+
+    .cookie-content {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .cookie-text {
+      flex: 1;
+      min-width: 300px;
+      color: var(--dark);
+    }
+
+    .cookie-text p {
+      margin-bottom: 10px;
+      font-size: 0.95rem;
+    }
+
+    .cookie-text a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .cookie-text a:hover {
+      text-decoration: underline;
+    }
+
+    .cookie-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .cookie-btn {
+      padding: 10px 20px;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 0.9rem;
+      border: none;
+      min-width: 180px;
+    }
+
+    .reject-btn {
+      background: var(--light-gray);
+      color: var(--dark);
+    }
+
+    .reject-btn:hover {
+      background: #e0e0e0;
+    }
+
+    .accept-btn {
+      background: var(--primary);
+      color: white;
+    }
+
+    .accept-btn:hover {
+      background: var(--primary-dark);
+    }
+
+    .cookie-settings-btn {
+      background: transparent;
+      color: var(--gray);
+      text-decoration: underline;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      margin-top: 10px;
+      font-size: 0.85rem;
+    }
+
+    .cookie-settings-btn:hover {
+      color: var(--dark);
+    }
+
+    #cookie-settings {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+    }
+
+    .settings-modal {
+      background: var(--light);
+      border-radius: var(--border-radius);
+      width: 95%;
+      max-width: 600px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 30px;
+      position: relative;
+    }
+
+    .settings-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .settings-header h2 {
+      font-size: 1.8rem;
+      margin: 0;
+    }
+
+    .close-settings {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--gray);
+      transition: var(--transition);
+    }
+
+    .close-settings:hover {
+      color: var(--dark);
+    }
+
+    .settings-content {
+      margin-bottom: 20px;
+    }
+
+    .cookie-type {
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid var(--light-gray);
+    }
+
+    .cookie-type-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .cookie-type h3 {
+      margin: 0;
+      font-size: 1.2rem;
+    }
+
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 24px;
+    }
+
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 24px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: var(--primary);
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(26px);
+    }
+
+    .cookie-type p {
+      font-size: 0.9rem;
+      color: var(--gray);
+      margin-bottom: 10px;
+    }
+
+    .settings-buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .save-settings {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 25px;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .save-settings:hover {
+      background: var(--primary-dark);
+    }
 
     /* Responsive Design */
     @media (max-width: 992px) {
@@ -542,6 +713,10 @@
       .mobile-dropdown-toggle.active i {
         transform: rotate(180deg);
       }
+      
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
     }
 
     @media (max-width: 768px) {
@@ -587,10 +762,87 @@
         flex-direction: column;
         gap: 10px;
       }
+      
+      .cookie-content {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .cookie-buttons {
+        width: 100%;
+      }
+      
+      .cookie-btn {
+        width: 100%;
+      }
     }
   </style>
 </head>
 <body>
+  <!-- Cookie Consent Banner -->
+  <div id="cookie-consent">
+    <div class="cookie-content">
+      <div class="cookie-text">
+        <p>We use cookies to enhance your experience and analyze site traffic. By clicking "Accept All", you consent to our use of cookies. 
+          <a href="/privacy-policy.html">Learn more</a> in our Privacy Policy.
+        </p>
+        <button class="cookie-settings-btn" id="open-settings">Cookie Settings</button>
+      </div>
+      <div class="cookie-buttons">
+        <button class="cookie-btn reject-btn" id="reject-cookies">Reject Non-Essential</button>
+        <button class="cookie-btn accept-btn" id="accept-cookies">Accept All</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="cookie-settings">
+    <div class="settings-modal">
+      <div class="settings-header">
+        <h2><i class="fas fa-cookie-bite"></i> Cookie Settings</h2>
+        <button class="close-settings" aria-label="Close cookie settings">×</button>
+      </div>
+      <div class="settings-content">
+        <p>You can set your preferences for how we and our partners use cookies and similar technologies.</p>
+        
+        <div class="cookie-type">
+          <div class="cookie-type-header">
+            <h3>Essential Cookies</h3>
+            <div class="toggle-switch">
+              <input type="checkbox" id="essential-toggle" checked disabled aria-label="Essential cookies toggle (always enabled)">
+              <span class="slider"></span>
+            </div>
+          </div>
+          <p>These cookies are necessary for the website to function and cannot be switched off.</p>
+        </div>
+        
+        <div class="cookie-type">
+          <div class="cookie-type-header">
+            <h3>Analytics Cookies</h3>
+            <div class="toggle-switch">
+              <input type="checkbox" id="analytics-toggle" aria-label="Analytics cookies toggle">
+              <span class="slider"></span>
+            </div>
+          </div>
+          <p>These cookies allow us to count visits and traffic sources so we can measure and improve the performance of our site.</p>
+        </div>
+        
+        <div class="cookie-type">
+          <div class="cookie-type-header">
+            <h3>Advertising Cookies</h3>
+            <div class="toggle-switch">
+              <input type="checkbox" id="advertising-toggle" aria-label="Advertising cookies toggle">
+              <span class="slider"></span>
+            </div>
+          </div>
+          <p>These cookies may be set through our site by our advertising partners to build a profile of your interests.</p>
+        </div>
+      </div>
+      <div class="settings-buttons">
+        <button class="save-settings" id="save-settings">Save Settings</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Header & Navigation -->
   <header>
     <div class="container">
@@ -604,96 +856,6 @@
           <ul class="nav-menu">
             <li class="nav-item">
               <a href="#" class="nav-link"><i class="fas fa-home"></i> Home</a>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link"><i class="fas fa-qrcode"></i> QR Tools</a>
-              <div class="dropdown">
-                <div class="dropdown-header"><i class="fas fa-qrcode"></i> QR Code Tools</div>
-                <div class="dropdown-item">
-                  <a href="#"><i class="fas fa-bolt"></i> QR Code Generator</a>
-                </div>
-                <div class="dropdown-item">
-                  <a href="#"><i class="fas fa-camera"></i> QR Code Reader</a>
-                </div>
-                <div class="dropdown-item">
-                  <a href="#"><i class="fas fa-paint-brush"></i> QR Code Designer</a>
-                </div>
-                <div class="dropdown-item">
-                  <a href="#"><i class="fas fa-barcode"></i> Barcode to QR</a>
-                </div>
-              </div>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link"><i class="fas fa-barcode"></i> Barcode Tools</a>
-              <div class="dropdown">
-                <div class="dropdown-header"><i class="fas fa-barcode"></i> Barcode Tools</div>
-                <div class="dropdown-item">
-                  <a href="#"><i class="fas fa-bolt"></i> Barcode Generator</a>
-                </div>
-                <div class="dropdown-item">
-                  <a href="#"><i class="fas fa-camera"></i> Barcode Reader</a>
-                </div>
-                <div class="dropdown-item">
-                  <a href="#"><i class="fas fa-list-ol"></i> EAN Generator</a>
-                </div>
-                <div class="dropdown-item">
-                  <a href="#"><i class="fas fa-sync"></i> Barcode Converter</a>
-                </div>
-              </div>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link"><i class="fas fa-image"></i> Image Tools</a>
-              <div class="dropdown">
-                <div class="dropdown-header"><i class="fas fa-image"></i> Image Tools</div>
-                <div class="dropdown-item">
-                  <a href="#"><i class="fas fa-compress"></i> Image Compressor</a>
-                </div>
-                <div class="dropdown-item">
-                  <a href="#"><i class="fas fa-expand"></i> Image Resizer</a>
-                </div>
-                <div class="dropdown-item">
-                  <a href="#"><i class="fas fa-sync"></i> Image Converter</a>
-                </div>
-                <div class="dropdown-item">
-                  <a href="#"><i class="fas fa-crop"></i> Image Cropper</a>
-                </div>
-              </div>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link"><i class="fas fa-video"></i> Video Tools</a>
-              <div class="dropdown">
-                <div class="dropdown-header"><i class="fas fa-video"></i> Video Tools</div>
-                <div class="dropdown-item">
-                  <a href="#"><i class="fas fa-compress"></i> Video Compressor</a>
-                </div>
-                <div class="dropdown-item">
-                  <a href="#"><i class="fas fa-cut"></i> Video Trimmer</a>
-                </div>
-                <div class="dropdown-item">
-                  <a href="#"><i class="fas fa-sync"></i> Video Converter</a>
-                </div>
-                <div class="dropdown-item">
-                  <a href="#"><i class="fas fa-film"></i> Video Merger</a>
-                </div>
-              </div>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link"><i class="fas fa-file"></i> Document Tools</a>
-              <div class="dropdown">
-                <div class="dropdown-header"><i class="fas fa-file"></i> Document Tools</div>
-                <div class="dropdown-item">
-                  <a href="#"><i class="fas fa-file-pdf"></i> PDF Compressor</a>
-                </div>
-                <div class="dropdown-item">
-                  <a href="#"><i class="fas fa-file-word"></i> Word to PDF</a>
-                </div>
-                <div class="dropdown-item">
-                  <a href="#"><i class="fas fa-file-excel"></i> Excel to PDF</a>
-                </div>
-                <div class="dropdown-item">
-                  <a href="#"><i class="fas fa-lock"></i> PDF Protector</a>
-                </div>
-              </div>
             </li>
             <li class="nav-item">
               <a href="#" class="nav-link"><i class="fas fa-address-card"></i> About</a>
@@ -724,106 +886,6 @@
     <ul class="mobile-nav-menu">
       <li class="mobile-nav-item">
         <a href="#" class="mobile-nav-link"><i class="fas fa-home"></i> Home</a>
-      </li>
-      <li class="mobile-nav-item">
-        <div class="mobile-nav-link mobile-dropdown-toggle">
-          <span><i class="fas fa-qrcode"></i> QR Tools</span>
-          <i class="fas fa-chevron-down"></i>
-        </div>
-        <ul class="mobile-dropdown">
-          <li class="mobile-dropdown-item">
-            <a href="#"><i class="fas fa-bolt"></i> QR Code Generator</a>
-          </li>
-          <li class="mobile-dropdown-item">
-            <a href="#"><i class="fas fa-camera"></i> QR Code Reader</a>
-          </li>
-          <li class="mobile-dropdown-item">
-            <a href="#"><i class="fas fa-paint-brush"></i> QR Code Designer</a>
-          </li>
-          <li class="mobile-dropdown-item">
-            <a href="#"><i class="fas fa-barcode"></i> Barcode to QR</a>
-          </li>
-        </ul>
-      </li>
-      <li class="mobile-nav-item">
-        <div class="mobile-nav-link mobile-dropdown-toggle">
-          <span><i class="fas fa-barcode"></i> Barcode Tools</span>
-          <i class="fas fa-chevron-down"></i>
-        </div>
-        <ul class="mobile-dropdown">
-          <li class="mobile-dropdown-item">
-            <a href="#"><i class="fas fa-bolt"></i> Barcode Generator</a>
-          </li>
-          <li class="mobile-dropdown-item">
-            <a href="#"><i class="fas fa-camera"></i> Barcode Reader</a>
-          </li>
-          <li class="mobile-dropdown-item">
-            <a href="#"><i class="fas fa-list-ol"></i> EAN Generator</a>
-          </li>
-          <li class="mobile-dropdown-item">
-            <a href="#"><i class="fas fa-sync"></i> Barcode Converter</a>
-          </li>
-        </ul>
-      </li>
-      <li class="mobile-nav-item">
-        <div class="mobile-nav-link mobile-dropdown-toggle">
-          <span><i class="fas fa-image"></i> Image Tools</span>
-          <i class="fas fa-chevron-down"></i>
-        </div>
-        <ul class="mobile-dropdown">
-          <li class="mobile-dropdown-item">
-            <a href="#"><i class="fas fa-compress"></i> Image Compressor</a>
-          </li>
-          <li class="mobile-dropdown-item">
-            <a href="#"><i class="fas fa-expand"></i> Image Resizer</a>
-          </li>
-          <li class="mobile-dropdown-item">
-            <a href="#"><i class="fas fa-sync"></i> Image Converter</a>
-          </li>
-          <li class="mobile-dropdown-item">
-            <a href="#"><i class="fas fa-crop"></i> Image Cropper</a>
-          </li>
-        </ul>
-      </li>
-      <li class="mobile-nav-item">
-        <div class="mobile-nav-link mobile-dropdown-toggle">
-          <span><i class="fas fa-video"></i> Video Tools</span>
-          <i class="fas fa-chevron-down"></i>
-        </div>
-        <ul class="mobile-dropdown">
-          <li class="mobile-dropdown-item">
-            <a href="#"><i class="fas fa-compress"></i> Video Compressor</a>
-          </li>
-          <li class="mobile-dropdown-item">
-            <a href="#"><i class="fas fa-cut"></i> Video Trimmer</a>
-          </li>
-          <li class="mobile-dropdown-item">
-            <a href="#"><i class="fas fa-sync"></i> Video Converter</a>
-          </li>
-          <li class="mobile-dropdown-item">
-            <a href="#"><i class="fas fa-film"></i> Video Merger</a>
-          </li>
-        </ul>
-      </li>
-      <li class="mobile-nav-item">
-        <div class="mobile-nav-link mobile-dropdown-toggle">
-          <span><i class="fas fa-file"></i> Document Tools</span>
-          <i class="fas fa-chevron-down"></i>
-        </div>
-        <ul class="mobile-dropdown">
-          <li class="mobile-dropdown-item">
-            <a href="#"><i class="fas fa-file-pdf"></i> PDF Compressor</a>
-          </li>
-          <li class="mobile-dropdown-item">
-            <a href="#"><i class="fas fa-file-word"></i> Word to PDF</a>
-          </li>
-          <li class="mobile-dropdown-item">
-            <a href="#"><i class="fas fa-file-excel"></i> Excel to PDF</a>
-          </li>
-          <li class="mobile-dropdown-item">
-            <a href="#"><i class="fas fa-lock"></i> PDF Protector</a>
-          </li>
-        </ul>
       </li>
       <li class="mobile-nav-item">
         <a href="#" class="mobile-nav-link"><i class="fas fa-address-card"></i> About</a>
@@ -859,7 +921,7 @@
           </div>
           <h3>Complete Privacy</h3>
           <p>All processing happens directly in your browser. Your files never leave your computer, ensuring complete privacy and security.</p>
-          <a href="#" class="feature-link">
+          <a href="/privacy" class="feature-link">
             Learn more <i class="fas fa-arrow-right"></i>
           </a>
         </div>
@@ -870,9 +932,6 @@
           </div>
           <h3>Instant Processing</h3>
           <p>Whether generating barcodes or processing files, our tools work at the speed of your browser. No uploads, no waiting.</p>
-          <a href="#" class="feature-link">
-            Try a tool <i class="fas fa-arrow-right"></i>
-          </a>
         </div>
         
         <div class="feature-card">
@@ -881,9 +940,6 @@
           </div>
           <h3>100% Free</h3>
           <p>All our tools are completely free to use. No subscriptions, no hidden fees, and no account required.</p>
-          <a href="#" class="feature-link">
-            Start using <i class="fas fa-arrow-right"></i>
-          </a>
         </div>
         
         <div class="feature-card">
@@ -892,9 +948,6 @@
           </div>
           <h3>No Installation</h3>
           <p>Access all tools directly from your browser. No downloads or installations required. Works on any device.</p>
-          <a href="#" class="feature-link">
-            Explore tools <i class="fas fa-arrow-right"></i>
-          </a>
         </div>
       </div>
     </div>
@@ -947,26 +1000,94 @@
     </div>
   </section>
 
-<!-- Footer -->
-<footer>
-  <div class="container">
-    <div class="footer-bottom">
-      <div class="footer-links-row">
-        <a href="/privacy">Privacy</a>
-        <a href="/cookies">Cookies</a>
-        <a href="/terms">Terms</a>
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-bottom">
+        <div class="footer-links-row">
+          <a href="/privacy">Privacy</a>
+          <a href="/terms">Terms</a>
+          <a href="#" id="open-settings-footer">Cookies</a>
+        </div>
+        <p>© 2025 EveryTool.io. All rights reserved. Made with <i class="fas fa-heart" style="color: var(--accent);"></i> for a more private web.</p>
       </div>
-      <p>© 2025 EveryTool.io. All rights reserved. Made with <i class="fas fa-heart" style="color: var(--accent);"></i> for a more private web.</p>
     </div>
-  </div>
-</footer>
+  </footer>
 
   <script>
+    // Cookie Management Functions
+    const COOKIE_CONSENT_KEY = 'cookieConsent';
+    
+    function getCookiePreferences() {
+      const preferences = localStorage.getItem(COOKIE_CONSENT_KEY);
+      return preferences ? JSON.parse(preferences) : null;
+    }
+    
+    function saveCookiePreferences(preferences) {
+      localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(preferences));
+    }
+    
+    function checkCookieConsent() {
+      const preferences = getCookiePreferences();
+      
+      if (!preferences) {
+        document.getElementById('cookie-consent').style.display = 'block';
+      } else {
+        if (preferences.analytics) loadGoogleAnalytics();
+        if (preferences.advertising) loadGoogleAdSense();
+      }
+    }
+    
+    function loadGoogleAnalytics() {
+      if (window.gaLoaded) return;
+      
+      const gtagScript = document.createElement('script');
+      gtagScript.async = true;
+      gtagScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-LR5XP1GJFC';
+      document.head.appendChild(gtagScript);
+      
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-LR5XP1GJFC');
+      
+      window.gaLoaded = true;
+      console.log('Google Analytics loaded');
+    }
+    
+    function loadGoogleAdSense() {
+      if (window.adsenseLoaded) return;
+      
+      const adsenseScript = document.createElement('script');
+      adsenseScript.async = true;
+      adsenseScript.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4041775163958551';
+      adsenseScript.crossOrigin = 'anonymous';
+      document.head.appendChild(adsenseScript);
+      
+      window.adsenseLoaded = true;
+      console.log('Google AdSense loaded');
+    }
+
+    function openCookieSettings() {
+      const preferences = getCookiePreferences();
+      if (preferences) {
+        document.getElementById('analytics-toggle').checked = preferences.analytics;
+        document.getElementById('advertising-toggle').checked = preferences.advertising;
+      } else {
+        document.getElementById('analytics-toggle').checked = true;
+        document.getElementById('advertising-toggle').checked = true;
+      }
+      document.getElementById('cookie-settings').style.display = 'flex';
+    }
+    
+    function closeCookieSettings() {
+      document.getElementById('cookie-settings').style.display = 'none';
+    }
+
     // Mobile menu toggle functionality
     const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
     const closeMobileMenu = document.getElementById('close-mobile-menu');
     const mobileNav = document.getElementById('mobile-nav');
-    const mobileDropdownToggles = document.querySelectorAll('.mobile-dropdown-toggle');
     
     mobileMenuToggle.addEventListener('click', () => {
       mobileNav.classList.add('active');
@@ -976,14 +1097,6 @@
     closeMobileMenu.addEventListener('click', () => {
       mobileNav.classList.remove('active');
       document.body.style.overflow = '';
-    });
-    
-    mobileDropdownToggles.forEach(toggle => {
-      toggle.addEventListener('click', () => {
-        toggle.classList.toggle('active');
-        const dropdown = toggle.nextElementSibling;
-        dropdown.classList.toggle('active');
-      });
     });
     
     // Close mobile menu when clicking outside
@@ -1014,6 +1127,52 @@
             document.body.style.overflow = '';
           }
         }
+      });
+    });
+    
+    // Cookie Event Listeners
+    document.addEventListener('DOMContentLoaded', () => {
+      checkCookieConsent();
+      
+      document.getElementById('accept-cookies').addEventListener('click', function() {
+        saveCookiePreferences({
+          essential: true,
+          analytics: true,
+          advertising: true
+        });
+        document.getElementById('cookie-consent').style.display = 'none';
+        loadGoogleAnalytics();
+        loadGoogleAdSense();
+      });
+      
+      document.getElementById('reject-cookies').addEventListener('click', function() {
+        saveCookiePreferences({
+          essential: true,
+          analytics: false,
+          advertising: false
+        });
+        document.getElementById('cookie-consent').style.display = 'none';
+      });
+      
+      document.getElementById('open-settings').addEventListener('click', openCookieSettings);
+      document.querySelector('.close-settings').addEventListener('click', closeCookieSettings);
+      
+      document.getElementById('save-settings').addEventListener('click', function() {
+        const preferences = {
+          essential: true,
+          analytics: document.getElementById('analytics-toggle').checked,
+          advertising: document.getElementById('advertising-toggle').checked
+        };
+        saveCookiePreferences(preferences);
+        if (preferences.analytics) loadGoogleAnalytics();
+        if (preferences.advertising) loadGoogleAdSense();
+        closeCookieSettings();
+        document.getElementById('cookie-consent').style.display = 'none';
+      });
+      
+      document.getElementById('open-settings-footer').addEventListener('click', function(e) {
+        e.preventDefault();
+        openCookieSettings();
       });
     });
   </script>
