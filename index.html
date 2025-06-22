@@ -330,29 +330,29 @@
       background: rgba(255, 255, 255, 0.95);
     }
 
-    /* Footer */
+    /* Footer - Fixed to match main page background */
     footer {
-      background: var(--dark);
-      color: white;
+      background: linear-gradient(135deg, var(--light) 0%, #f0f4ff 100%);
+      color: var(--dark);
       padding: 60px 0 30px;
     }
 
     .footer-bottom {
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
       padding-top: 30px;
       text-align: center;
-      color: rgba(255, 255, 255, 0.7);
+      color: var(--gray);
       font-size: 0.95rem;
     }
 
     .footer-bottom a {
-      color: rgba(255, 255, 255, 0.8);
+      color: var(--gray);
       text-decoration: none;
       transition: var(--transition);
     }
 
     .footer-bottom a:hover {
-      color: white;
+      color: var(--dark);
       text-decoration: underline;
     }
 
