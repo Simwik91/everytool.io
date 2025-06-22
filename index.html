@@ -271,6 +271,9 @@
       transition: var(--transition);
       position: relative;
       overflow: hidden;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
     }
 
     .feature-card:hover {
@@ -301,6 +304,7 @@
     .feature-card p {
       color: var(--gray);
       margin-bottom: 25px;
+      flex-grow: 1;
     }
 
     .feature-link {
@@ -312,6 +316,7 @@
       justify-content: center;
       gap: 8px;
       transition: var(--transition);
+      margin-top: auto;
     }
 
     .feature-link:hover {
@@ -998,6 +1003,9 @@
           </div>
           <h3>Instant Processing</h3>
           <p>Whether generating barcodes or processing files, our tools work at the speed of your browser. No uploads, no waiting.</p>
+          <a href="#" class="feature-link">
+            Explore tools <i class="fas fa-arrow-right"></i>
+          </a>
         </div>
         
         <div class="feature-card">
@@ -1006,6 +1014,9 @@
           </div>
           <h3>100% Free</h3>
           <p>All our tools are completely free to use. No subscriptions, no hidden fees, and no account required.</p>
+          <a href="#" class="feature-link">
+            Get started <i class="fas fa-arrow-right"></i>
+          </a>
         </div>
         
         <div class="feature-card">
@@ -1014,6 +1025,9 @@
           </div>
           <h3>No Installation</h3>
           <p>Access all tools directly from your browser. No downloads or installations required. Works on any device.</p>
+          <a href="#" class="feature-link">
+            Browse tools <i class="fas fa-arrow-right"></i>
+          </a>
         </div>
       </div>
     </div>
@@ -1225,16 +1239,64 @@
       const searchSuggestions = document.getElementById('search-suggestions');
       const searchButton = document.getElementById('search-button');
       
-      // Sample tool data (would typically come from a database)
+      // Tool database - in a real application, this would come from an API
       const tools = [
-        { name: "PDF Converter", category: "Documents", icon: "file-pdf" },
-        { name: "Image Compressor", category: "Media", icon: "file-image" },
-        { name: "QR Code Generator", category: "Utilities", icon: "qrcode" },
-        { name: "Password Generator", category: "Security", icon: "key" },
-        { name: "Text Formatter", category: "Text", icon: "font" },
-        { name: "Color Picker", category: "Design", icon: "palette" },
-        { name: "Unit Converter", category: "Calculators", icon: "ruler" },
-        { name: "JSON Formatter", category: "Development", icon: "code" }
+        { 
+          name: "PDF Converter", 
+          description: "Convert PDFs to other formats and vice versa", 
+          category: "Documents", 
+          icon: "file-pdf",
+          url: "/tools/pdf-converter"
+        },
+        { 
+          name: "Image Compressor", 
+          description: "Reduce image file size without losing quality", 
+          category: "Media", 
+          icon: "file-image",
+          url: "/tools/image-compressor"
+        },
+        { 
+          name: "QR Code Generator", 
+          description: "Create custom QR codes for URLs, text, and more", 
+          category: "Utilities", 
+          icon: "qrcode",
+          url: "/tools/qr-generator"
+        },
+        { 
+          name: "Password Generator", 
+          description: "Create strong, secure passwords instantly", 
+          category: "Security", 
+          icon: "key",
+          url: "/tools/password-generator"
+        },
+        { 
+          name: "Text Formatter", 
+          description: "Format and manipulate text in various ways", 
+          category: "Text", 
+          icon: "font",
+          url: "/tools/text-formatter"
+        },
+        { 
+          name: "Color Picker", 
+          description: "Select colors and get their hex/rgb values", 
+          category: "Design", 
+          icon: "palette",
+          url: "/tools/color-picker"
+        },
+        { 
+          name: "Unit Converter", 
+          description: "Convert between different measurement units", 
+          category: "Calculators", 
+          icon: "ruler",
+          url: "/tools/unit-converter"
+        },
+        { 
+          name: "JSON Formatter", 
+          description: "Validate and format JSON data", 
+          category: "Development", 
+          icon: "code",
+          url: "/tools/json-formatter"
+        }
       ];
       
       // Show suggestions when typing
@@ -1245,6 +1307,7 @@
         if (searchTerm.length > 1) {
           const filteredTools = tools.filter(tool => 
             tool.name.toLowerCase().includes(searchTerm) || 
+            tool.description.toLowerCase().includes(searchTerm) ||
             tool.category.toLowerCase().includes(searchTerm)
           );
           
@@ -1258,8 +1321,9 @@
                 <span class="category">${tool.category}</span>
               `;
               suggestion.addEventListener('click', () => {
-                searchInput.value = tool.name;
-                performSearch(tool.name);
+                // Redirect to tool page in a real scenario
+                // For this demo, we'll simulate navigation
+                window.location.href = tool.url;
               });
               searchSuggestions.appendChild(suggestion);
             });
@@ -1267,7 +1331,7 @@
           } else {
             const noResults = document.createElement('div');
             noResults.className = 'suggestion-item';
-            noResults.textContent = 'No tools found';
+            noResults.textContent = 'No tools found matching your search';
             searchSuggestions.appendChild(noResults);
             searchSuggestions.classList.add('visible');
           }
@@ -1299,12 +1363,33 @@
       function performSearch(term) {
         if (term.trim() === '') return;
         
-        // In a real application, this would navigate to a search results page
-        // For this demo, we'll just show an alert and clear the search
-        alert(`Searching for: ${term}\n\nIn a real application, this would show search results.`);
+        // Find matching tools
+        const matchedTools = tools.filter(tool => 
+          tool.name.toLowerCase().includes(term.toLowerCase()) || 
+          tool.description.toLowerCase().includes(term.toLowerCase()) ||
+          tool.category.toLowerCase().includes(term.toLowerCase())
+        );
+        
+        if (matchedTools.length > 0) {
+          // Redirect to the first matching tool (in a real site)
+          // For this demo, we'll show an alert
+          alert(`Found ${matchedTools.length} tools matching "${term}".\n\nIn a real site, you would be redirected to the tool page.`);
+        } else {
+          alert(`No tools found matching "${term}". Please try a different search term.`);
+        }
+        
+        // Clear search field
         searchInput.value = '';
         searchSuggestions.classList.remove('visible');
       }
+      
+      // Close mobile nav when clicking a link
+      document.querySelectorAll('.mobile-nav-link').forEach(link => {
+        link.addEventListener('click', () => {
+          mobileNav.classList.remove('active');
+          document.body.style.overflow = '';
+        });
+      });
     });
   </script>
 </body>
