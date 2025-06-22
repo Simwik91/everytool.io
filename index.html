@@ -147,6 +147,91 @@
       margin-right: auto;
     }
 
+    /* Search Bar */
+    .search-container {
+      max-width: 700px;
+      margin: 0 auto 30px;
+      position: relative;
+    }
+    
+    .search-box {
+      display: flex;
+      background: white;
+      border-radius: 50px;
+      overflow: hidden;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+      border: 1px solid rgba(67, 97, 238, 0.2);
+    }
+    
+    .search-box input {
+      flex: 1;
+      padding: 16px 25px;
+      border: none;
+      outline: none;
+      font-size: 1.1rem;
+      background: transparent;
+    }
+    
+    .search-box button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0 30px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .search-box button:hover {
+      background: var(--primary-dark);
+    }
+    
+    .search-suggestions {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: white;
+      border-radius: var(--border-radius);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      margin-top: 10px;
+      max-height: 300px;
+      overflow-y: auto;
+      display: none;
+      z-index: 100;
+    }
+    
+    .search-suggestions.visible {
+      display: block;
+    }
+    
+    .suggestion-item {
+      padding: 12px 20px;
+      border-bottom: 1px solid var(--light-gray);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      transition: var(--transition);
+    }
+    
+    .suggestion-item:hover {
+      background: rgba(67, 97, 238, 0.05);
+    }
+    
+    .suggestion-item i {
+      margin-right: 10px;
+      color: var(--primary);
+    }
+    
+    .suggestion-item .category {
+      font-size: 0.85rem;
+      color: var(--gray);
+      margin-left: 10px;
+      background: rgba(67, 97, 238, 0.1);
+      padding: 3px 8px;
+      border-radius: 20px;
+    }
+
     /* Features Section */
     .features {
       padding: 70px 0;
@@ -675,6 +760,10 @@
       .features-grid {
         grid-template-columns: 1fr;
       }
+      
+      .search-box button {
+        padding: 0 25px;
+      }
     }
 
     @media (max-width: 768px) {
@@ -732,6 +821,14 @@
       
       .cookie-btn {
         width: 100%;
+      }
+      
+      .search-box input {
+        padding: 14px 20px;
+      }
+      
+      .search-box button {
+        padding: 0 20px;
       }
     }
   </style>
@@ -860,6 +957,17 @@
       <div class="hero-content">
         <h1>Free Online Tools That Respect Your Privacy</h1>
         <p>EveryTool.io offers a collection of powerful, free tools that work entirely in your browser. Your files never leave your computer, ensuring complete privacy and security.</p>
+        
+        <!-- Search Box -->
+        <div class="search-container">
+          <div class="search-box">
+            <input type="text" id="tool-search" placeholder="Search for tools...">
+            <button id="search-button"><i class="fas fa-search"></i></button>
+          </div>
+          <div class="search-suggestions" id="search-suggestions">
+            <!-- Suggestions will be populated by JavaScript -->
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -1111,6 +1219,92 @@
         e.preventDefault();
         openCookieSettings();
       });
+      
+      // Search functionality
+      const searchInput = document.getElementById('tool-search');
+      const searchSuggestions = document.getElementById('search-suggestions');
+      const searchButton = document.getElementById('search-button');
+      
+      // Sample tool data (would typically come from a database)
+      const tools = [
+        { name: "PDF Converter", category: "Documents", icon: "file-pdf" },
+        { name: "Image Compressor", category: "Media", icon: "file-image" },
+        { name: "QR Code Generator", category: "Utilities", icon: "qrcode" },
+        { name: "Password Generator", category: "Security", icon: "key" },
+        { name: "Text Formatter", category: "Text", icon: "font" },
+        { name: "Color Picker", category: "Design", icon: "palette" },
+        { name: "Unit Converter", category: "Calculators", icon: "ruler" },
+        { name: "JSON Formatter", category: "Development", icon: "code" }
+      ];
+      
+      // Show suggestions when typing
+      searchInput.addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        searchSuggestions.innerHTML = '';
+        
+        if (searchTerm.length > 1) {
+          const filteredTools = tools.filter(tool => 
+            tool.name.toLowerCase().includes(searchTerm) || 
+            tool.category.toLowerCase().includes(searchTerm)
+          );
+          
+          if (filteredTools.length > 0) {
+            filteredTools.forEach(tool => {
+              const suggestion = document.createElement('div');
+              suggestion.className = 'suggestion-item';
+              suggestion.innerHTML = `
+                <i class="fas fa-${tool.icon}"></i>
+                ${tool.name}
+                <span class="category">${tool.category}</span>
+              `;
+              suggestion.addEventListener('click', () => {
+                searchInput.value = tool.name;
+                performSearch(tool.name);
+              });
+              searchSuggestions.appendChild(suggestion);
+            });
+            searchSuggestions.classList.add('visible');
+          } else {
+            const noResults = document.createElement('div');
+            noResults.className = 'suggestion-item';
+            noResults.textContent = 'No tools found';
+            searchSuggestions.appendChild(noResults);
+            searchSuggestions.classList.add('visible');
+          }
+        } else {
+          searchSuggestions.classList.remove('visible');
+        }
+      });
+      
+      // Hide suggestions when clicking outside
+      document.addEventListener('click', function(e) {
+        if (!searchInput.contains(e.target) && !searchSuggestions.contains(e.target)) {
+          searchSuggestions.classList.remove('visible');
+        }
+      });
+      
+      // Search button click
+      searchButton.addEventListener('click', function() {
+        performSearch(searchInput.value);
+      });
+      
+      // Enter key in search field
+      searchInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          performSearch(this.value);
+        }
+      });
+      
+      // Perform search function
+      function performSearch(term) {
+        if (term.trim() === '') return;
+        
+        // In a real application, this would navigate to a search results page
+        // For this demo, we'll just show an alert and clear the search
+        alert(`Searching for: ${term}\n\nIn a real application, this would show search results.`);
+        searchInput.value = '';
+        searchSuggestions.classList.remove('visible');
+      }
     });
   </script>
 </body>
