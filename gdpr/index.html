@@ -306,7 +306,7 @@
       border-top: 1px solid var(--light-gray);
     }
 
-    /* Footer */
+    /* Footer - Original version with Cookie Settings */
     footer {
       background: linear-gradient(135deg, var(--light) 0%, #f0f4ff 100%);
       color: #000;
@@ -485,7 +485,7 @@
               <a href="index.html" class="nav-link"><i class="fas fa-home"></i> Home</a>
             </li>
             <li class="nav-item">
-              <a href="/tools" class="nav-link"><i class="fas fa-toolbox"></i> Tools</a>
+              <a href="/tools" class="nav-link"><i class="fas fa-toolbox"></i> Explore our Tools</a>
             </li>
             <li class="nav-item">
               <a href="/about" class="nav-link"><i class="fas fa-address-card"></i> About</a>
@@ -518,7 +518,7 @@
         <a href="index.html" class="mobile-nav-link"><i class="fas fa-home"></i> Home</a>
       </li>
       <li class="mobile-nav-item">
-        <a href="/tools" class="mobile-nav-link"><i class="fas fa-toolbox"></i> Tools</a>
+        <a href="/tools" class="mobile-nav-link"><i class="fas fa-toolbox"></i> Explore our Tools</a>
       </li>
       <li class="mobile-nav-item">
         <a href="/about" class="mobile-nav-link"><i class="fas fa-address-card"></i> About</a>
@@ -640,7 +640,7 @@
     </div>
   </section>
 
-  <!-- Footer -->
+  <!-- Footer - Original version with Cookie Settings -->
   <footer>
     <div class="container">
       <div class="footer-bottom">
@@ -648,7 +648,7 @@
           <a href="/privacy">Privacy Policy</a>
           <a href="/terms">Terms of Service</a>
           <a href="/gdpr">GDPR Compliance</a>
-          <a href="/contact">Contact Us</a>
+          <a href="#" id="open-settings-footer">Cookie Settings</a>
         </div>
         <p>© 2025 EveryTool.io. All rights reserved.</p>
       </div>
@@ -687,6 +687,13 @@
         mobileNav.classList.remove('active');
         document.body.style.overflow = '';
       });
+    });
+
+    // Cookie Settings functionality
+    document.getElementById('open-settings-footer').addEventListener('click', function(e) {
+      e.preventDefault();
+      // This would open the cookie settings modal in a real implementation
+      alert("Cookie settings would open here. In a real implementation, this would trigger the cookie consent modal.");
     });
   </script>
 </body>
