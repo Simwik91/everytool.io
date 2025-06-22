@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="EveryTool.io - GDPR Compliance Information. Learn how we protect your data and privacy through client-side processing.">
+  <title>GDPR Compliance - EveryTool.io</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #4361ee;
+      --primary-dark: #3a56d4;
+      --secondary: #7209b7;
+      --accent: #f72585;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --gray: #6c757d;
+      --light-gray: #e9ecef;
+      --border-radius: 12px;
+      --box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, var(--light) 0%, #f0f4ff 100%);
+      color: var(--dark);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Header & Navigation */
+    header {
+      background: white;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .logo i {
+      margin-right: 10px;
+      font-size: 2.2rem;
+    }
+
+    .nav-container {
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-menu {
+      display: flex;
+      list-style: none;
+      margin-right: 20px;
+    }
+
+    .nav-item {
+      position: relative;
+      margin: 0 15px;
+    }
+
+    .nav-link {
+      padding: 10px 15px;
+      color: var(--dark);
+      text-decoration: none;
+      font-weight: 500;
+      border-radius: var(--border-radius);
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-link i {
+      margin-right: 8px;
+    }
+
+    .nav-link:hover {
+      background: rgba(67, 97, 238, 0.1);
+      color: var(--primary);
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--dark);
+      cursor: pointer;
+    }
+
+    /* GDPR Hero Section */
+    .gdpr-hero {
+      padding: 80px 0 40px;
+      text-align: center;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .gdpr-hero::before {
+      content: "";
+      position: absolute;
+      top: -50px;
+      left: -50px;
+      width: 200px;
+      height: 200px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+    }
+
+    .gdpr-hero::after {
+      content: "";
+      position: absolute;
+      bottom: -80px;
+      right: -80px;
+      width: 250px;
+      height: 250px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+    }
+
+    .gdpr-hero h1 {
+      font-size: 2.8rem;
+      margin-bottom: 20px;
+      font-weight: 700;
+      position: relative;
+      z-index: 2;
+    }
+
+    .gdpr-hero p {
+      font-size: 1.2rem;
+      max-width: 800px;
+      margin: 0 auto;
+      opacity: 0.9;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* GDPR Content Styles */
+    .gdpr-content {
+      padding: 60px 0;
+      background: white;
+    }
+
+    .gdpr-section {
+      margin-bottom: 50px;
+    }
+
+    .gdpr-section h2 {
+      color: var(--primary);
+      margin-bottom: 20px;
+      font-size: 2rem;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--light-gray);
+    }
+
+    .gdpr-section h3 {
+      color: var(--secondary);
+      margin: 25px 0 15px;
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .gdpr-section p {
+      margin-bottom: 15px;
+      color: var(--dark);
+      line-height: 1.8;
+    }
+
+    .gdpr-section ul {
+      margin: 20px 0;
+      padding-left: 30px;
+    }
+
+    .gdpr-section li {
+      margin-bottom: 12px;
+      line-height: 1.6;
+      position: relative;
+      padding-left: 25px;
+    }
+
+    .gdpr-section li::before {
+      content: "•";
+      color: var(--primary);
+      font-weight: bold;
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+
+    .highlight-box {
+      background: rgba(67, 97, 238, 0.05);
+      border-left: 4px solid var(--primary);
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 0 var(--border-radius) var(--border-radius) 0;
+    }
+
+    .privacy-diagram {
+      display: flex;
+      justify-content: space-between;
+      margin: 40px 0;
+      flex-wrap: wrap;
+    }
+
+    .diagram-item {
+      flex: 1;
+      min-width: 300px;
+      text-align: center;
+      padding: 20px;
+      margin: 10px;
+      background: rgba(67, 97, 238, 0.03);
+      border-radius: var(--border-radius);
+    }
+
+    .diagram-icon {
+      font-size: 3.5rem;
+      color: var(--primary);
+      margin-bottom: 15px;
+    }
+
+    .diagram-item h4 {
+      margin: 15px 0;
+      color: var(--dark);
+    }
+
+    .contact-card {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 30px;
+      box-shadow: var(--box-shadow);
+      margin: 30px 0;
+      border-top: 4px solid var(--primary);
+      text-align: center;
+    }
+
+    .contact-card h3 {
+      color: var(--primary);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .contact-card p {
+      margin-bottom: 15px;
+    }
+
+    .email-link {
+      display: inline-block;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin: 15px 0;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(67, 97, 238, 0.1);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .email-link:hover {
+      background: rgba(67, 97, 238, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .last-updated {
+      text-align: center;
+      font-style: italic;
+      color: var(--gray);
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid var(--light-gray);
+    }
+
+    /* Footer */
+    footer {
+      background: linear-gradient(135deg, var(--light) 0%, #f0f4ff 100%);
+      color: #000;
+      padding: 60px 0 30px;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+      padding-top: 30px;
+      text-align: center;
+    }
+
+    .footer-bottom a {
+      color: #000;
+      text-decoration: none;
+      transition: var(--transition);
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin: 0 10px;
+    }
+
+    .footer-bottom a:hover {
+      color: var(--primary);
+      text-decoration: underline;
+    }
+
+    .footer-links-row {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    
+    .footer-bottom p {
+      color: #000;
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin: 0;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 992px) {
+      .nav-menu {
+        display: none;
+      }
+      
+      .mobile-menu-btn {
+        display: block;
+      }
+      
+      .mobile-nav {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        width: 280px;
+        height: 100vh;
+        background: white;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        z-index: 2000;
+        transition: var(--transition);
+        overflow-y: auto;
+        display: block;
+      }
+      
+      .mobile-nav.active {
+        left: 0;
+      }
+      
+      .mobile-nav-header {
+        padding: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid var(--light-gray);
+      }
+      
+      .close-mobile-menu {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        color: var(--dark);
+        cursor: pointer;
+      }
+      
+      .mobile-nav-menu {
+        list-style: none;
+        padding: 20px;
+      }
+      
+      .mobile-nav-item {
+        margin-bottom: 10px;
+      }
+      
+      .mobile-nav-link {
+        display: block;
+        padding: 12px 15px;
+        color: var(--dark);
+        text-decoration: none;
+        font-weight: 500;
+        border-radius: var(--border-radius);
+        transition: var(--transition);
+      }
+      
+      .mobile-nav-link:hover {
+        background: rgba(67, 97, 238, 0.1);
+        color: var(--primary);
+      }
+    }
+
+    @media (min-width: 993px) {
+      .mobile-nav {
+        display: none !important;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .gdpr-hero h1 {
+        font-size: 2.2rem;
+      }
+      
+      .gdpr-hero p {
+        font-size: 1.1rem;
+      }
+      
+      .gdpr-section h2 {
+        font-size: 1.8rem;
+      }
+      
+      .footer-links-row {
+        flex-direction: column;
+        gap: 10px;
+      }
+      
+      .privacy-diagram {
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .header-container {
+        padding: 15px 0;
+      }
+      
+      .logo {
+        font-size: 1.5rem;
+      }
+      
+      .logo i {
+        font-size: 1.8rem;
+      }
+      
+      .gdpr-hero {
+        padding: 60px 0 30px;
+      }
+      
+      .gdpr-hero h1 {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header & Navigation -->
+  <header>
+    <div class="container">
+      <div class="header-container">
+        <a href="index.html" class="logo">
+          <i class="fas fa-tools"></i>
+          EveryTool.io
+        </a>
+        
+        <div class="nav-container">
+          <ul class="nav-menu">
+            <li class="nav-item">
+              <a href="index.html" class="nav-link"><i class="fas fa-home"></i> Home</a>
+            </li>
+            <li class="nav-item">
+              <a href="/tools" class="nav-link"><i class="fas fa-toolbox"></i> Tools</a>
+            </li>
+            <li class="nav-item">
+              <a href="/about" class="nav-link"><i class="fas fa-address-card"></i> About</a>
+            </li>
+            <li class="nav-item">
+              <a href="/contact" class="nav-link"><i class="fas fa-envelope"></i> Contact</a>
+            </li>
+          </ul>
+          <button class="mobile-menu-btn" id="mobile-menu-toggle">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Navigation -->
+  <div class="mobile-nav" id="mobile-nav">
+    <div class="mobile-nav-header">
+      <a href="index.html" class="logo">
+        <i class="fas fa-tools"></i>
+        EveryTool.io
+      </a>
+      <button class="close-mobile-menu" id="close-mobile-menu">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <ul class="mobile-nav-menu">
+      <li class="mobile-nav-item">
+        <a href="index.html" class="mobile-nav-link"><i class="fas fa-home"></i> Home</a>
+      </li>
+      <li class="mobile-nav-item">
+        <a href="/tools" class="mobile-nav-link"><i class="fas fa-toolbox"></i> Tools</a>
+      </li>
+      <li class="mobile-nav-item">
+        <a href="/about" class="mobile-nav-link"><i class="fas fa-address-card"></i> About</a>
+      </li>
+      <li class="mobile-nav-item">
+        <a href="/contact" class="mobile-nav-link"><i class="fas fa-envelope"></i> Contact</a>
+      </li>
+    </ul>
+  </div>
+
+  <!-- GDPR Hero Section -->
+  <section class="gdpr-hero">
+    <div class="container">
+      <h1><i class="fas fa-shield-alt"></i> GDPR Compliance</h1>
+      <p>Learn how EveryTool.io's client-side architecture aligns with GDPR principles</p>
+    </div>
+  </section>
+
+  <!-- GDPR Content -->
+  <section class="gdpr-content">
+    <div class="container">
+      <div class="gdpr-section">
+        <h2>Our Privacy-First Approach</h2>
+        <p>At EveryTool.io, we've built our platform with privacy as the foundation. Unlike traditional web services, our tools run entirely within your browser - your data never touches our servers. This architecture fundamentally aligns with GDPR principles by design.</p>
+        
+        <div class="privacy-diagram">
+          <div class="diagram-item">
+            <div class="diagram-icon">
+              <i class="fas fa-laptop-code"></i>
+            </div>
+            <h4>Client-Side Processing</h4>
+            <p>All data processing happens in your browser using JavaScript</p>
+          </div>
+          
+          <div class="diagram-item">
+            <div class="diagram-icon">
+              <i class="fas fa-server"></i>
+            </div>
+            <h4>No Server Processing</h4>
+            <p>Your files and data never leave your device</p>
+          </div>
+          
+          <div class="diagram-item">
+            <div class="diagram-icon">
+              <i class="fas fa-database"></i>
+            </div>
+            <h4>No Data Storage</h4>
+            <p>We don't store any personal data or processed files</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="gdpr-section">
+        <h2>How Our Architecture Meets GDPR Requirements</h2>
+        
+        <div class="highlight-box">
+          <h3><i class="fas fa-user-shield"></i> Data Minimization</h3>
+          <p>We collect absolutely no personal data through our tools. The only information we might receive is what you voluntarily provide through our contact form, which we use solely to respond to your inquiry.</p>
+        </div>
+        
+        <div class="highlight-box">
+          <h3><i class="fas fa-bullseye"></i> Purpose Limitation</h3>
+          <p>Since we don't collect or process personal data, there's no risk of using data beyond its original purpose. Any information you provide via our contact form is used exclusively to address your specific request.</p>
+        </div>
+        
+        <div class="highlight-box">
+          <h3><i class="fas fa-lock"></i> Security by Design</h3>
+          <p>By processing everything client-side, we eliminate server-related security risks. Your data remains entirely within your control and never leaves your browser.</p>
+        </div>
+      </div>
+
+      <div class="gdpr-section">
+        <h2>Your Rights Under GDPR</h2>
+        <p>While our architecture minimizes data collection, we fully respect your GDPR rights:</p>
+        
+        <ul>
+          <li><strong>Right to Access:</strong> You can request any information we might have about you (limited to contact form submissions).</li>
+          <li><strong>Right to Rectification:</strong> You can request correction of any information you believe is inaccurate.</li>
+          <li><strong>Right to Erasure:</strong> You can request deletion of any information you've submitted through our contact form.</li>
+          <li><strong>Right to Restrict Processing:</strong> Since we don't process personal data beyond responding to contact requests, this right is inherently respected.</li>
+          <li><strong>Right to Data Portability:</strong> You can request a copy of any information you've submitted to us.</li>
+        </ul>
+      </div>
+
+      <div class="gdpr-section">
+        <h2>Data Processing Explanation</h2>
+        <h3><i class="fas fa-window-restore"></i> Our Tools</h3>
+        <p>When you use any tool on EveryTool.io:</p>
+        <ul>
+          <li>All processing occurs within your browser using JavaScript</li>
+          <li>No data is transmitted to any server</li>
+          <li>No cookies or tracking are used during tool operation</li>
+          <li>Your original files never leave your device</li>
+          <li>Processed results are generated and downloaded directly from your browser</li>
+        </ul>
+        
+        <h3><i class="fas fa-envelope"></i> Contact Form</h3>
+        <p>If you choose to contact us through our form:</p>
+        <ul>
+          <li>We collect only the information you provide (name, email, message)</li>
+          <li>This information is used solely to respond to your inquiry</li>
+          <li>We delete messages after 90 days unless required to retain them for legal reasons</li>
+          <li>We never use your contact information for marketing purposes</li>
+        </ul>
+      </div>
+
+      <div class="contact-card">
+        <h3><i class="fas fa-headset"></i> Contact Us</h3>
+        <p>If you have questions about our GDPR compliance or wish to exercise your rights:</p>
+        <a href="/contact" class="email-link">
+          <i class="fas fa-envelope"></i> Use Our Contact Form
+        </a>
+        <p>We respond to all legitimate requests within one month.</p>
+      </div>
+
+      <div class="last-updated">
+        <p><i class="fas fa-sync-alt"></i> Last Updated: June 23, 2025</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-bottom">
+        <div class="footer-links-row">
+          <a href="/privacy">Privacy Policy</a>
+          <a href="/terms">Terms of Service</a>
+          <a href="/gdpr">GDPR Compliance</a>
+          <a href="/contact">Contact Us</a>
+        </div>
+        <p>© 2025 EveryTool.io. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle functionality
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    const closeMobileMenu = document.getElementById('close-mobile-menu');
+    const mobileNav = document.getElementById('mobile-nav');
+    
+    mobileMenuToggle.addEventListener('click', () => {
+      mobileNav.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+    
+    closeMobileMenu.addEventListener('click', () => {
+      mobileNav.classList.remove('active');
+      document.body.style.overflow = '';
+    });
+    
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (mobileNav.classList.contains('active') && 
+          !mobileNav.contains(e.target) && 
+          e.target !== mobileMenuToggle) {
+        mobileNav.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    });
+    
+    // Close mobile nav when clicking a link
+    document.querySelectorAll('.mobile-nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileNav.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+    });
+  </script>
+</body>
+</html>
