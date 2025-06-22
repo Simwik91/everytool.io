@@ -116,74 +116,82 @@
       cursor: pointer;
     }
     
-    /* Contact Page Styles */
-    .contact-page {
-      padding: 60px 0;
-    }
-    
-    .contact-header {
+    /* Contact Hero Section */
+    .contact-hero {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border-radius: var(--border-radius);
+      padding: 80px 40px;
+      margin: 60px 0 40px;
+      box-shadow: var(--box-shadow);
       text-align: center;
-      margin-bottom: 40px;
+      position: relative;
+      overflow: hidden;
     }
     
-    .contact-header h1 {
-      font-size: 2.8rem;
-      margin-bottom: 15px;
-      font-weight: 700;
-      background: linear-gradient(90deg, var(--primary), var(--secondary));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+    .contact-hero:before {
+      content: "";
+      position: absolute;
+      top: -50px;
+      right: -50px;
+      width: 200px;
+      height: 200px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
     }
     
-    .contact-header p {
-      font-size: 1.2rem;
-      color: var(--gray);
-      max-width: 700px;
+    .contact-hero:after {
+      content: "";
+      position: absolute;
+      bottom: -80px;
+      left: -80px;
+      width: 250px;
+      height: 250px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+    }
+    
+    .contact-hero h2 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .contact-hero p {
+      font-size: 1.25rem;
+      max-width: 800px;
       margin: 0 auto;
+      position: relative;
+      z-index: 2;
+      line-height: 1.7;
+      opacity: 0.9;
     }
     
-    .contact-content {
-      display: flex;
-      gap: 40px;
-      flex-wrap: wrap;
-    }
-    
+    /* Contact Form Section */
     .contact-form-container {
-      flex: 1;
-      min-width: 300px;
-    }
-    
-    .contact-info {
-      flex: 1;
-      min-width: 300px;
+      max-width: 800px;
+      margin: 0 auto 60px;
     }
     
     .contact-card {
       background: white;
       border-radius: var(--border-radius);
-      padding: 30px;
+      padding: 40px;
       box-shadow: var(--box-shadow);
       margin-bottom: 30px;
     }
     
     .contact-card h2 {
-      font-size: 1.8rem;
-      margin-bottom: 20px;
+      font-size: 2rem;
+      margin-bottom: 25px;
       color: var(--primary);
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      text-align: center;
     }
     
     .contact-card h2 i {
       color: var(--secondary);
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(67, 97, 238, 0.1);
-      border-radius: 50%;
+      margin-right: 12px;
     }
     
     .form-group {
@@ -220,7 +228,7 @@
     
     .btn {
       display: inline-block;
-      padding: 14px 30px;
+      padding: 16px 40px;
       background: var(--primary);
       color: white;
       border: none;
@@ -265,46 +273,6 @@
       color: var(--gray);
     }
     
-    .contact-direct {
-      background: rgba(114, 9, 183, 0.05);
-      border-left: 4px solid var(--secondary);
-      padding: 20px;
-      margin: 30px 0;
-      border-radius: 0 var(--border-radius) var(--border-radius) 0;
-      text-align: center;
-    }
-    
-    .contact-direct h3 {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      margin-bottom: 15px;
-      color: var(--secondary);
-    }
-    
-    .email-link {
-      display: inline-block;
-      font-size: 1.2rem;
-      font-weight: 600;
-      color: var(--primary);
-      margin: 15px 0;
-      padding: 10px 20px;
-      border-radius: 8px;
-      background: rgba(67, 97, 238, 0.1);
-      text-decoration: none;
-      transition: var(--transition);
-    }
-    
-    .email-link:hover {
-      background: rgba(67, 97, 238, 0.2);
-      transform: translateY(-2px);
-    }
-    
-    .email-link i {
-      margin-right: 8px;
-    }
-    
     .success-message {
       background: rgba(39, 174, 96, 0.1);
       color: #27ae60;
@@ -313,45 +281,7 @@
       margin: 20px 0;
       display: none;
       border-left: 4px solid #27ae60;
-    }
-    
-    .info-points {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      margin-top: 30px;
-    }
-    
-    .info-card {
-      flex: 1;
-      min-width: 250px;
-      background: white;
-      border-radius: var(--border-radius);
-      padding: 25px;
-      box-shadow: var(--box-shadow);
       text-align: center;
-      transition: var(--transition);
-    }
-    
-    .info-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    }
-    
-    .info-card i {
-      font-size: 2.5rem;
-      color: var(--primary);
-      margin-bottom: 15px;
-    }
-    
-    .info-card h3 {
-      font-size: 1.4rem;
-      margin-bottom: 10px;
-      color: var(--dark);
-    }
-    
-    .info-card p {
-      color: var(--gray);
     }
     
     /* Footer */
@@ -464,6 +394,14 @@
       .mobile-menu-btn {
         display: block;
       }
+      
+      .contact-hero {
+        padding: 60px 30px;
+      }
+      
+      .contact-card {
+        padding: 30px;
+      }
     }
 
     @media (min-width: 993px) {
@@ -473,16 +411,16 @@
     }
 
     @media (max-width: 768px) {
-      .contact-header h1 {
-        font-size: 2.2rem;
+      .contact-hero h2 {
+        font-size: 2rem;
       }
       
-      .contact-header p {
+      .contact-hero p {
         font-size: 1.1rem;
       }
       
-      .contact-content {
-        flex-direction: column;
+      .contact-card h2 {
+        font-size: 1.8rem;
       }
       
       .footer-links-row {
@@ -504,8 +442,17 @@
         font-size: 1.8rem;
       }
       
-      .contact-header h1 {
-        font-size: 2rem;
+      .contact-hero {
+        padding: 50px 20px;
+        margin: 40px 0 30px;
+      }
+      
+      .contact-hero h2 {
+        font-size: 1.8rem;
+      }
+      
+      .contact-card {
+        padding: 25px 20px;
       }
     }
   </style>
@@ -570,94 +517,67 @@
     </ul>
   </div>
 
-  <!-- Contact Page Content -->
-  <section class="contact-page">
+  <!-- Contact Hero Section -->
+  <section class="contact-hero">
     <div class="container">
-      <div class="contact-header">
-        <h1>Contact Us</h1>
-        <p>We'd love to hear from you! Share your feedback, suggestions, or ask us anything.</p>
-      </div>
-      
-      <div class="contact-content">
-        <div class="contact-form-container">
-          <div class="contact-card">
-            <h2><i class="fas fa-envelope"></i> Send us a message</h2>
-            
-            <div class="success-message" id="success-message">
-              <i class="fas fa-check-circle"></i> Thank you for your message! We'll get back to you soon.
-            </div>
-            
-            <form id="contact-form">
-              <div class="form-group">
-                <label for="name">Your Name</label>
-                <input type="text" id="name" name="name" placeholder="Enter your name" required>
-              </div>
-              
-              <div class="form-group">
-                <label for="email">Email Address</label>
-                <input type="email" id="email" name="email" placeholder="Enter your email" required>
-              </div>
-              
-              <div class="form-group">
-                <label for="subject">Message Type</label>
-                <select id="subject" name="subject" required>
-                  <option value="" disabled selected>Select message type</option>
-                  <option value="feedback">Feedback on Existing Tool</option>
-                  <option value="feature">Feature Request</option>
-                  <option value="bug">Report a Bug</option>
-                  <option value="gdpr">GDPR/Privacy Inquiry</option>
-                  <option value="other">Other Inquiry</option>
-                </select>
-              </div>
-              
-              <div class="form-group">
-                <label for="message">Your Message</label>
-                <textarea id="message" name="message" placeholder="Tell us what you think..." required></textarea>
-              </div>
-              
-              <div class="feature-request">
-                <h3><i class="fas fa-lightbulb"></i> Feature Request Tips</h3>
-                <p>When suggesting a new feature, please include:</p>
-                <ul>
-                  <li>What problem it would solve</li>
-                  <li>How you imagine it would work</li>
-                  <li>Any examples of similar features</li>
-                </ul>
-              </div>
-              
-              <button type="submit" class="btn"><i class="fas fa-paper-plane"></i> Send Message</button>
-            </form>
-          </div>
+      <h2><i class="fas fa-comments"></i> Help Us Improve EveryTool.io</h2>
+      <p>Your feedback helps us create better tools. Share your thoughts, report issues, or suggest new features!</p>
+    </div>
+  </section>
+
+  <!-- Contact Form Section -->
+  <div class="container">
+    <div class="contact-form-container">
+      <div class="contact-card">
+        <h2><i class="fas fa-envelope"></i> Send us a message</h2>
+        
+        <div class="success-message" id="success-message">
+          <i class="fas fa-check-circle"></i> Thank you for your message! We'll get back to you soon.
         </div>
         
-        <div class="contact-info">
-          <div class="contact-card">
-            <h2><i class="fas fa-info-circle"></i> Contact Information</h2>
-            
-            <div class="contact-direct">
-              <h3><i class="fas fa-envelope-open-text"></i> Direct Email</h3>
-              <p>Prefer to contact us directly?</p>
-              <a href="mailto:support@everytool.io" class="email-link">
-                <i class="fas fa-envelope"></i> support@everytool.io
-              </a>
-              <p>We'll respond as soon as possible!</p>
-            </div>
-            
-            <div class="info-points">
-              <div class="info-card">
-                <i class="fas fa-clock"></i>
-                <h3>Response Time</h3>
-                <p>We typically respond within 24-48 hours on business days</p>
-              </div>
-              
-              <div class="info-card">
-                <i class="fas fa-headset"></i>
-                <h3>Support Hours</h3>
-                <p>Monday-Friday: 9AM-5PM (GMT)</p>
-              </div>
-            </div>
+        <form id="contact-form">
+          <div class="form-group">
+            <label for="name">Your Name</label>
+            <input type="text" id="name" name="name" placeholder="Enter your name" required>
           </div>
-  </section>
+          
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="subject">Message Type</label>
+            <select id="subject" name="subject" required>
+              <option value="" disabled selected>Select message type</option>
+              <option value="feedback">Feedback on Existing Tool</option>
+              <option value="feature">Feature Request</option>
+              <option value="bug">Report a Bug</option>
+              <option value="gdpr">GDPR/Privacy Inquiry</option>
+              <option value="other">Other Inquiry</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="message">Your Message</label>
+            <textarea id="message" name="message" placeholder="Tell us what you think..." required></textarea>
+          </div>
+          
+          <div class="feature-request">
+            <h3><i class="fas fa-lightbulb"></i> Feature Request Tips</h3>
+            <p>When suggesting a new feature, please include:</p>
+            <ul>
+              <li>What problem it would solve</li>
+              <li>How you imagine it would work</li>
+              <li>Any examples of similar features</li>
+            </ul>
+          </div>
+          
+          <button type="submit" class="btn"><i class="fas fa-paper-plane"></i> Send Message</button>
+        </form>
+      </div>
+    </div>
+  </div>
 
   <!-- Footer -->
   <footer>
@@ -730,6 +650,12 @@
         mobileNav.classList.remove('active');
         document.body.style.overflow = '';
       });
+    });
+    
+    // Cookie settings functionality
+    document.getElementById('open-settings-footer').addEventListener('click', function(e) {
+      e.preventDefault();
+      alert("Cookie settings would open here. In a real implementation, this would trigger the cookie consent modal.");
     });
   </script>
 </body>
