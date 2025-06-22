@@ -33,51 +33,113 @@
       color: var(--dark);
       line-height: 1.6;
       min-height: 100vh;
-      padding: 0;
-      transition: var(--transition);
     }
     
     .container {
-      max-width: 1000px;
+      max-width: 1200px;
       margin: 0 auto;
-      padding: 20px;
+      padding: 0 20px;
     }
-    
+
+    /* Header & Navigation */
     header {
-      text-align: center;
-      padding: 40px 0 20px;
-      margin-bottom: 10px;
+      background: white;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
     }
-    
+
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+    }
+
     .logo {
-      font-size: 3.5rem;
-      margin-bottom: 15px;
-      color: var(--primary);
-      display: inline-block;
-      animation: pulse 2s infinite;
-    }
-    
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-      100% { transform: scale(1); }
-    }
-    
-    h1 {
-      font-size: 2.8rem;
-      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      font-size: 1.8rem;
       font-weight: 700;
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .logo i {
+      margin-right: 10px;
+      font-size: 2.2rem;
+    }
+
+    .nav-container {
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-menu {
+      display: flex;
+      list-style: none;
+      margin-right: 20px;
+    }
+
+    .nav-item {
+      position: relative;
+      margin: 0 15px;
+    }
+
+    .nav-link {
+      padding: 10px 15px;
       color: var(--dark);
+      text-decoration: none;
+      font-weight: 500;
+      border-radius: var(--border-radius);
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-link i {
+      margin-right: 8px;
+    }
+
+    .nav-link:hover {
+      background: rgba(67, 97, 238, 0.1);
+      color: var(--primary);
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--dark);
+      cursor: pointer;
+    }
+    
+    /* About Page Content */
+    .about-page {
+      padding: 60px 0;
+    }
+    
+    .about-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    
+    .about-header h1 {
+      font-size: 2.8rem;
+      margin-bottom: 15px;
+      font-weight: 700;
       background: linear-gradient(90deg, var(--primary), var(--secondary));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
     
-    .tagline {
-      font-size: 1.3rem;
+    .about-header p {
+      font-size: 1.2rem;
       color: var(--gray);
       max-width: 700px;
-      margin: 0 auto 25px;
+      margin: 0 auto;
     }
     
     .about-hero {
@@ -85,7 +147,7 @@
       color: white;
       border-radius: var(--border-radius);
       padding: 80px 40px;
-      margin: 40px 0;
+      margin: 40px 0 60px;
       box-shadow: var(--box-shadow);
       text-align: center;
       position: relative;
@@ -128,6 +190,7 @@
       position: relative;
       z-index: 2;
       line-height: 1.8;
+      opacity: 0.9;
     }
     
     .mission-section {
@@ -138,7 +201,7 @@
     }
     
     .mission-card {
-      background: var(--light);
+      background: white;
       border-radius: var(--border-radius);
       padding: 40px 30px;
       box-shadow: var(--box-shadow);
@@ -248,7 +311,7 @@
     }
     
     .value-card {
-      background: var(--light);
+      background: white;
       border-radius: var(--border-radius);
       padding: 30px;
       box-shadow: var(--box-shadow);
@@ -267,224 +330,413 @@
       color: var(--gray);
     }
     
-    .back-to-home {
-      display: inline-block;
-      margin: 30px 0;
-      padding: 15px 30px;
-      background: var(--light);
-      color: var(--primary);
-      border: 2px solid var(--primary);
-      border-radius: 50px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: var(--transition);
-      font-size: 1.1rem;
-    }
-    
-    .back-to-home:hover {
-      background: var(--primary);
-      color: white;
-      transform: translateY(-3px);
-      box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
-    }
-    
-    .back-to-home i {
-      margin-right: 8px;
-    }
-    
+    /* Footer */
     footer {
-      margin-top: 50px;
+      background: linear-gradient(135deg, var(--light) 0%, #f0f4ff 100%);
+      color: #000;
+      padding: 60px 0 30px;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
       padding-top: 30px;
-      font-size: 0.9rem;
-      color: var(--gray);
-      border-top: 1px solid var(--light-gray);
       text-align: center;
     }
+
+    .footer-bottom a {
+      color: #000;
+      text-decoration: none;
+      transition: var(--transition);
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin: 0 10px;
+    }
+
+    .footer-bottom a:hover {
+      color: var(--primary);
+      text-decoration: underline;
+    }
+
+    .footer-links-row {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
     
-    footer p {
+    .footer-bottom p {
+      color: #000;
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin: 0;
+    }
+    
+    /* Mobile Navigation */
+    .mobile-nav {
+      position: fixed;
+      top: 0;
+      left: -100%;
+      width: 280px;
+      height: 100vh;
+      background: white;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      z-index: 2000;
+      transition: var(--transition);
+      overflow-y: auto;
+      display: block;
+    }
+    
+    .mobile-nav.active {
+      left: 0;
+    }
+    
+    .mobile-nav-header {
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--light-gray);
+    }
+    
+    .close-mobile-menu {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--dark);
+      cursor: pointer;
+    }
+    
+    .mobile-nav-menu {
+      list-style: none;
+      padding: 20px;
+    }
+    
+    .mobile-nav-item {
       margin-bottom: 10px;
     }
     
-    footer a {
-      color: var(--primary);
+    .mobile-nav-link {
+      display: block;
+      padding: 12px 15px;
+      color: var(--dark);
       text-decoration: none;
+      font-weight: 500;
+      border-radius: var(--border-radius);
       transition: var(--transition);
     }
     
-    footer a:hover {
-      color: var(--secondary);
-      text-decoration: underline;
+    .mobile-nav-link:hover {
+      background: rgba(67, 97, 238, 0.1);
+      color: var(--primary);
     }
     
-    .creator-credit {
-      margin-top: 15px;
-      font-weight: 500;
-      color: var(--dark);
-      font-size: 1.1rem;
-    }
-    
-    @media (max-width: 768px) {
-      .about-hero {
-        padding: 60px 20px;
+    /* Responsive Design */
+    @media (max-width: 992px) {
+      .nav-menu {
+        display: none;
       }
       
-      h1 {
+      .mobile-menu-btn {
+        display: block;
+      }
+      
+      .about-hero {
+        padding: 60px 30px;
+      }
+      
+      .mission-card, .step, .value-card {
+        padding: 30px;
+      }
+    }
+
+    @media (min-width: 993px) {
+      .mobile-nav {
+        display: none !important;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .about-header h1 {
         font-size: 2.2rem;
+      }
+      
+      .about-header p {
+        font-size: 1.1rem;
       }
       
       .about-hero h2 {
         font-size: 2rem;
       }
       
-      .mission-card, .step, .value-card {
-        padding: 30px 20px;
+      .about-hero p {
+        font-size: 1rem;
+      }
+      
+      .footer-links-row {
+        flex-direction: column;
+        gap: 10px;
       }
     }
-    
-    @media (max-width: 480px) {
-      h1 {
-        font-size: 2rem;
+
+    @media (max-width: 576px) {
+      .header-container {
+        padding: 15px 0;
+      }
+      
+      .logo {
+        font-size: 1.5rem;
+      }
+      
+      .logo i {
+        font-size: 1.8rem;
+      }
+      
+      .about-hero {
+        padding: 50px 20px;
       }
       
       .about-hero h2 {
         font-size: 1.8rem;
       }
       
-      .logo {
-        font-size: 2.8rem;
+      .mission-card, .step, .value-card {
+        padding: 25px 20px;
       }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <div class="logo">
+  <!-- Header & Navigation -->
+  <header>
+    <div class="container">
+      <div class="header-container">
+        <a href="index.html" class="logo">
+          <i class="fas fa-tools"></i>
+          EveryTool.io
+        </a>
+        
+        <div class="nav-container">
+          <ul class="nav-menu">
+            <li class="nav-item">
+              <a href="index.html" class="nav-link"><i class="fas fa-home"></i> Home</a>
+            </li>
+            <li class="nav-item">
+              <a href="/tools" class="nav-link"><i class="fas fa-toolbox"></i> Explore our Tools</a>
+            </li>
+            <li class="nav-item">
+              <a href="/about" class="nav-link"><i class="fas fa-address-card"></i> About</a>
+            </li>
+            <li class="nav-item">
+              <a href="/contact" class="nav-link"><i class="fas fa-envelope"></i> Contact</a>
+            </li>
+          </ul>
+          <button class="mobile-menu-btn" id="mobile-menu-toggle">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Navigation -->
+  <div class="mobile-nav" id="mobile-nav">
+    <div class="mobile-nav-header">
+      <a href="index.html" class="logo">
         <i class="fas fa-tools"></i>
-      </div>
-      <h1>About EveryTool.io</h1>
-      <p class="tagline">Where Privacy Meets Practicality in Online Tools</p>
-    </header>
-
-    <section class="about-hero">
-      <h2><i class="fas fa-history"></i> Our Story</h2>
-      <p>EveryTool.io was born from a simple idea: what if online tools could be both powerful and private? Created in 2025, we set out to create a suite of free utilities that process everything directly in your browser.</p>
-      <p>Today, we serve thousands of users worldwide who trust us for their daily tool needs without compromising their privacy.</p>
-    </section>
-
-    <div class="mission-section">
-      <div class="mission-card">
-        <div class="mission-icon">
-          <i class="fas fa-lock"></i>
-        </div>
-        <h3>Privacy First</h3>
-        <p>We believe your data belongs to you. That's why all processing happens in your browser - your files never touch our servers.</p>
-      </div>
-      
-      <div class="mission-card">
-        <div class="mission-icon">
-          <i class="fas fa-bolt"></i>
-        </div>
-        <h3>Instant Tools</h3>
-        <p>No signups, no uploads, no waiting. Our tools work at the speed of your browser to deliver immediate results.</p>
-      </div>
-      
-      <div class="mission-card">
-        <div class="mission-icon">
-          <i class="fas fa-gift"></i>
-        </div>
-        <h3>Free Forever</h3>
-        <p>We're committed to keeping our tools 100% free. No hidden fees, no premium tiers - just powerful utilities for everyone.</p>
-      </div>
-      
-      <div class="mission-card">
-        <div class="mission-icon">
-          <i class="fas fa-shield-alt"></i>
-        </div>
-        <h3>Data Defender</h3>
-        <p>We've got your back! Like a digital shield, we protect your data with ninja-level security moves during processing.</p>
-      </div>
+        EveryTool.io
+      </a>
+      <button class="close-mobile-menu" id="close-mobile-menu">
+        <i class="fas fa-times"></i>
+      </button>
     </div>
-
-    <section class="how-it-works">
-      <h2><i class="fas fa-cogs"></i> How Our Tools Work</h2>
-      <div class="steps">
-        <div class="step">
-          <div class="step-number">1</div>
-          <div class="step-icon">
-            <i class="fas fa-mouse-pointer"></i>
-          </div>
-          <h3>Choose Your Tool</h3>
-          <p>Select from our collection of privacy-focused utilities designed for various needs.</p>
-        </div>
-        
-        <div class="step">
-          <div class="step-number">2</div>
-          <div class="step-icon">
-            <i class="fas fa-laptop-code"></i>
-          </div>
-          <h3>Process in Browser</h3>
-          <p>Your device handles all the work - no data is sent to any server during processing.</p>
-        </div>
-        
-        <div class="step">
-          <div class="step-number">3</div>
-          <div class="step-icon">
-            <i class="fas fa-download"></i>
-          </div>
-          <h3>Get Your Result</h3>
-          <p>Download or view your result instantly. Your original data remains private and secure.</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="values-section">
-      <h2><i class="fas fa-star"></i> Our Core Values</h2>
-      <div class="values-grid">
-        <div class="value-card">
-          <h3><i class="fas fa-user-shield"></i> User Privacy</h3>
-          <p>We prioritize your privacy above all else. Our tools are designed to keep your data secure and private.</p>
-        </div>
-        
-        <div class="value-card">
-          <h3><i class="fas fa-lightbulb"></i> Innovation</h3>
-          <p>We constantly explore new ways to create useful tools that solve real problems while respecting privacy.</p>
-        </div>
-        
-        <div class="value-card">
-          <h3><i class="fas fa-heart"></i> Simplicity</h3>
-          <p>Our tools are designed to be intuitive and easy to use, regardless of your technical expertise.</p>
-        </div>
-        
-        <div class="value-card">
-          <h3><i class="fas fa-globe"></i> Accessibility</h3>
-          <p>We believe powerful tools should be available to everyone, everywhere, without barriers.</p>
-        </div>
-        
-        <div class="value-card">
-          <h3><i class="fas fa-rocket"></i> Performance</h3>
-          <p>We optimize our tools for speed and efficiency, ensuring they work smoothly on any device.</p>
-        </div>
-        
-        <div class="value-card">
-          <h3><i class="fas fa-users"></i> Community Focused</h3>
-          <p>We actively listen to user feedback to continuously improve and expand our tool collection.</p>
-        </div>
-      </div>
-    </section>
-
-    <div style="text-align: center;">
-      <a href="/" class="back-to-home"><i class="fas fa-home"></i>Take me Home</a>
-    </div>
-
-    <footer>
-      <p>
-        <a href="/privacy-policy">Privacy Policy</a> | 
-        <a href="/terms">Terms of Use</a> | 
-        <a href="/cookie-settings">Cookie settings</a>
-      </p>
-      <p class="creator-credit">© 2025 EveryTool.io | All Rights Reserved</p>
-    </footer>
+    <ul class="mobile-nav-menu">
+      <li class="mobile-nav-item">
+        <a href="index.html" class="mobile-nav-link"><i class="fas fa-home"></i> Home</a>
+      </li>
+      <li class="mobile-nav-item">
+        <a href="/tools" class="mobile-nav-link"><i class="fas fa-toolbox"></i> Explore our Tools</a>
+      </li>
+      <li class="mobile-nav-item">
+        <a href="/about" class="mobile-nav-link"><i class="fas fa-address-card"></i> About</a>
+      </li>
+      <li class="mobile-nav-item">
+        <a href="/contact" class="mobile-nav-link"><i class="fas fa-envelope"></i> Contact</a>
+      </li>
+    </ul>
   </div>
+
+  <!-- About Page Content -->
+  <section class="about-page">
+    <div class="container">
+      <div class="about-header">
+        <h1>About EveryTool.io</h1>
+        <p>Where Privacy Meets Practicality in Online Tools</p>
+      </div>
+
+      <section class="about-hero">
+        <h2><i class="fas fa-history"></i> Our Story</h2>
+        <p>EveryTool.io was born from a simple idea: what if online tools could be both powerful and private? Created in 2025, we set out to create a suite of free utilities that process everything directly in your browser.</p>
+        <p>Today, we serve thousands of users worldwide who trust us for their daily tool needs without compromising their privacy.</p>
+      </section>
+
+      <div class="mission-section">
+        <div class="mission-card">
+          <div class="mission-icon">
+            <i class="fas fa-lock"></i>
+          </div>
+          <h3>Privacy First</h3>
+          <p>We believe your data belongs to you. That's why all processing happens in your browser - your files never touch our servers.</p>
+        </div>
+        
+        <div class="mission-card">
+          <div class="mission-icon">
+            <i class="fas fa-bolt"></i>
+          </div>
+          <h3>Instant Tools</h3>
+          <p>No signups, no uploads, no waiting. Our tools work at the speed of your browser to deliver immediate results.</p>
+        </div>
+        
+        <div class="mission-card">
+          <div class="mission-icon">
+            <i class="fas fa-gift"></i>
+          </div>
+          <h3>Free Forever</h3>
+          <p>We're committed to keeping our tools 100% free. No hidden fees, no premium tiers - just powerful utilities for everyone.</p>
+        </div>
+        
+        <div class="mission-card">
+          <div class="mission-icon">
+            <i class="fas fa-shield-alt"></i>
+          </div>
+          <h3>Data Defender</h3>
+          <p>We've got your back! Like a digital shield, we protect your data with ninja-level security moves during processing.</p>
+        </div>
+      </div>
+
+      <section class="how-it-works">
+        <h2><i class="fas fa-cogs"></i> How Our Tools Work</h2>
+        <div class="steps">
+          <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-icon">
+              <i class="fas fa-mouse-pointer"></i>
+            </div>
+            <h3>Choose Your Tool</h3>
+            <p>Select from our collection of privacy-focused utilities designed for various needs.</p>
+          </div>
+          
+          <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-icon">
+              <i class="fas fa-laptop-code"></i>
+            </div>
+            <h3>Process in Browser</h3>
+            <p>Your device handles all the work - no data is sent to any server during processing.</p>
+          </div>
+          
+          <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-icon">
+              <i class="fas fa-download"></i>
+            </div>
+            <h3>Get Your Result</h3>
+            <p>Download or view your result instantly. Your original data remains private and secure.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="values-section">
+        <h2><i class="fas fa-star"></i> Our Core Values</h2>
+        <div class="values-grid">
+          <div class="value-card">
+            <h3><i class="fas fa-user-shield"></i> User Privacy</h3>
+            <p>We prioritize your privacy above all else. Our tools are designed to keep your data secure and private.</p>
+          </div>
+          
+          <div class="value-card">
+            <h3><i class="fas fa-lightbulb"></i> Innovation</h3>
+            <p>We constantly explore new ways to create useful tools that solve real problems while respecting privacy.</p>
+          </div>
+          
+          <div class="value-card">
+            <h3><i class="fas fa-heart"></i> Simplicity</h3>
+            <p>Our tools are designed to be intuitive and easy to use, regardless of your technical expertise.</p>
+          </div>
+          
+          <div class="value-card">
+            <h3><i class="fas fa-globe"></i> Accessibility</h3>
+            <p>We believe powerful tools should be available to everyone, everywhere, without barriers.</p>
+          </div>
+          
+          <div class="value-card">
+            <h3><i class="fas fa-rocket"></i> Performance</h3>
+            <p>We optimize our tools for speed and efficiency, ensuring they work smoothly on any device.</p>
+          </div>
+          
+          <div class="value-card">
+            <h3><i class="fas fa-users"></i> Community Focused</h3>
+            <p>We actively listen to user feedback to continuously improve and expand our tool collection.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-bottom">
+        <div class="footer-links-row">
+          <a href="/privacy">Privacy Policy</a>
+          <a href="/terms">Terms of Service</a>
+          <a href="/gdpr">GDPR Compliance</a>
+          <a href="#" id="open-settings-footer">Cookie Settings</a>
+        </div>
+        <p>© 2025 EveryTool.io. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle functionality
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    const closeMobileMenu = document.getElementById('close-mobile-menu');
+    const mobileNav = document.getElementById('mobile-nav');
+    
+    mobileMenuToggle.addEventListener('click', () => {
+      mobileNav.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+    
+    closeMobileMenu.addEventListener('click', () => {
+      mobileNav.classList.remove('active');
+      document.body.style.overflow = '';
+    });
+    
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (mobileNav.classList.contains('active') && 
+          !mobileNav.contains(e.target) && 
+          e.target !== mobileMenuToggle) {
+        mobileNav.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    });
+    
+    // Close mobile nav when clicking a link
+    document.querySelectorAll('.mobile-nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileNav.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+    });
+    
+    // Cookie settings functionality
+    document.getElementById('open-settings-footer').addEventListener('click', function(e) {
+      e.preventDefault();
+      alert("Cookie settings would open here. In a real implementation, this would trigger the cookie consent modal.");
+    });
+  </script>
 </body>
 </html>
