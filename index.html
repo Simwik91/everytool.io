@@ -338,10 +338,10 @@
       background: rgba(255, 255, 255, 0.95);
     }
 
-    /* Footer - Updated with improved typography */
+    /* Footer - Updated with improved typography and GDPR link */
     footer {
       background: linear-gradient(135deg, var(--light) 0%, #f0f4ff 100%);
-      color: #000; /* Pure black text */
+      color: #000;
       padding: 60px 0 30px;
     }
 
@@ -352,11 +352,12 @@
     }
 
     .footer-bottom a {
-      color: #000; /* Pure black links */
+      color: #000;
       text-decoration: none;
       transition: var(--transition);
-      font-weight: 600; /* Bold links */
-      font-size: 1.1rem; /* Slightly larger font */
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin: 0 10px;
     }
 
     .footer-bottom a:hover {
@@ -367,15 +368,15 @@
     .footer-links-row {
       display: flex;
       justify-content: center;
-      gap: 25px;
+      gap: 15px;
       margin-bottom: 20px;
       flex-wrap: wrap;
     }
     
     .footer-bottom p {
-      color: #000; /* Pure black text */
-      font-weight: 600; /* Bold text */
-      font-size: 1.1rem; /* Slightly larger font */
+      color: #000;
+      font-weight: 600;
+      font-size: 1.1rem;
       margin: 0;
     }
     
@@ -616,7 +617,7 @@
       background: var(--primary-dark);
     }
 
-    /* Responsive Design */
+    /* Responsive Design - Fixed mobile nav */
     @media (max-width: 992px) {
       .hero h1 {
         font-size: 2.8rem;
@@ -641,6 +642,7 @@
         z-index: 2000;
         transition: var(--transition);
         overflow-y: auto;
+        display: block;
       }
       
       .mobile-nav.active {
@@ -689,6 +691,12 @@
       
       .features-grid {
         grid-template-columns: 1fr;
+      }
+    }
+
+    @media (min-width: 993px) {
+      .mobile-nav {
+        display: none !important;
       }
     }
 
@@ -816,7 +824,7 @@
     </div>
   </div>
 
-  <!-- Header & Navigation -->
+  <!-- Header & Navigation - Updated order -->
   <header>
     <div class="container">
       <div class="header-container">
@@ -831,10 +839,10 @@
               <a href="#" class="nav-link"><i class="fas fa-home"></i> Home</a>
             </li>
             <li class="nav-item">
-              <a href="/about" class="nav-link"><i class="fas fa-address-card"></i> About</a>
+              <a href="/tools" class="nav-link"><i class="fas fa-toolbox"></i> Explore our Tools</a>
             </li>
             <li class="nav-item">
-              <a href="/tools" class="nav-link"><i class="fas fa-toolbox"></i> Explore our Tools</a>
+              <a href="/about" class="nav-link"><i class="fas fa-address-card"></i> About</a>
             </li>
             <li class="nav-item">
               <a href="/contact" class="nav-link"><i class="fas fa-envelope"></i> Contact</a>
@@ -848,7 +856,7 @@
     </div>
   </header>
 
-  <!-- Mobile Navigation -->
+  <!-- Mobile Navigation - Updated order -->
   <div class="mobile-nav" id="mobile-nav">
     <div class="mobile-nav-header">
       <a href="index.html" class="logo">
@@ -864,10 +872,10 @@
         <a href="#" class="mobile-nav-link"><i class="fas fa-home"></i> Home</a>
       </li>
       <li class="mobile-nav-item">
-        <a href="/about" class="mobile-nav-link"><i class="fas fa-address-card"></i> About</a>
+        <a href="/tools" class="mobile-nav-link"><i class="fas fa-toolbox"></i> Explore our Tools</a>
       </li>
       <li class="mobile-nav-item">
-        <a href="/tools" class="mobile-nav-link"><i class="fas fa-toolbox"></i> Explore our Tools</a>
+        <a href="/about" class="mobile-nav-link"><i class="fas fa-address-card"></i> About</a>
       </li>
       <li class="mobile-nav-item">
         <a href="/contact" class="mobile-nav-link"><i class="fas fa-envelope"></i> Contact</a>
@@ -981,14 +989,15 @@
     </div>
   </section>
 
-  <!-- Footer - Updated with improved typography -->
+  <!-- Footer - Updated with GDPR link -->
   <footer>
     <div class="container">
       <div class="footer-bottom">
         <div class="footer-links-row">
-          <a href="/privacy">Privacy</a>
-          <a href="/terms">Terms</a>
-          <a href="#" id="open-settings-footer">Cookies</a>
+          <a href="/privacy">Privacy Policy</a> |
+          <a href="/terms">Terms of Service</a> |
+          <a href="/gdpr">GDPR Compliance</a> |
+          <a href="#" id="open-settings-footer">Cookie Settings</a>
         </div>
         <p>© 2025 EveryTool.io. All rights reserved.</p>
       </div>
