@@ -1,0 +1,154 @@
+[
+  {
+    "category": "EAN Generator",
+    "slug": "ean-generator",
+    "description": "Create EAN barcodes for products or inventory directly in your browser without data uploads.",
+    "icon": "fas fa-barcode",
+    "url": "/tools/ean",
+    "tools": [
+      {
+        "name": "EAN-13 Generator",
+        "description": "Generate EAN-13 barcodes for retail products.",
+        "url": "/tools/ean/ean13"
+      },
+      {
+        "name": "EAN-8 Generator",
+        "description": "Create compact EAN-8 barcodes for small items.",
+        "url": "/tools/ean/ean8"
+      }
+    ]
+  },
+  {
+    "category": "QR Generator",
+    "slug": "qr-generator",
+    "description": "Generate QR codes for URLs, text, or contact details, processed entirely in your browser.",
+    "icon": "fas fa-qrcode",
+    "url": "/tools/qr",
+    "tools": [
+      {
+        "name": "URL QR Code",
+        "description": "Create QR codes for website links.",
+        "url": "/tools/qr/url"
+      },
+      {
+        "name": "Text QR Code",
+        "description": "Generate QR codes for plain text messages.",
+        "url": "/tools/qr/text"
+      }
+    ]
+  },
+  {
+    "category": "Image Tools",
+    "slug": "image-tools",
+    "description": "Edit, resize, or convert images in your browser without uploading to any server.",
+    "icon": "fas fa-image",
+    "url": "/tools/image",
+    "tools": [
+      {
+        "name": "Image Resizer",
+        "description": "Resize images to specific dimensions.",
+        "url": "/tools/image/resize"
+      },
+      {
+        "name": "Image Cropper",
+        "description": "Crop images to custom shapes or sizes.",
+        "url": "/tools/image/crop"
+      }
+    ]
+  },
+  {
+    "category": "Video Tools",
+    "slug": "video-tools",
+    "description": "Trim, convert, or compress videos locally, keeping your media secure and private.",
+    "icon": "fas fa-video",
+    "url": "/tools/video",
+    "tools": [
+      {
+        "name": "Video Trimmer",
+        "description": "Trim video clips to desired lengths.",
+        "url": "/tools/video/trim"
+      },
+      {
+        "name": "Video Compressor",
+        "description": "Reduce video file sizes in your browser.",
+        "url": "/tools/video/compress"
+      }
+    ]
+  },
+  {
+    "category": "Text Tools",
+    "slug": "text-tools",
+    "description": "Manipulate text with tools for formatting, counting, or generating content, all in-browser.",
+    "icon": "fas fa-font",
+    "url": "/tools/text",
+    "tools": [
+      {
+        "name": "Word Counter",
+        "description": "Count words and characters in text.",
+        "url": "/tools/text/wordcount"
+      },
+      {
+        "name": "Text Formatter",
+        "description": "Format text for consistent styling.",
+        "url": "/tools/text/format"
+      }
+    ]
+  },
+  {
+    "category": "File Converter",
+    "slug": "file-converter",
+    "description": "Convert files between formats in your browser, ensuring your data stays on your device.",
+    "icon": "fas fa-file-export",
+    "url": "/tools/converter",
+    "tools": [
+      {
+        "name": "Image Converter",
+        "description": "Convert images between PNG, JPEG, and other formats.",
+        "url": "/tools/converter/image"
+      },
+      {
+        "name": "Audio Converter",
+        "description": "Convert audio files between MP3, WAV, and more.",
+        "url": "/tools/converter/audio"
+      }
+    ]
+  },
+  {
+    "category": "PDF Tools",
+    "slug": "pdf-tools",
+    "description": "Edit, merge, or compress PDF files directly in your browser with complete privacy.",
+    "icon": "fas fa-file-pdf",
+    "url": "/tools/pdf",
+    "tools": [
+      {
+        "name": "PDF Merger",
+        "description": "Combine multiple PDFs into one file.",
+        "url": "/tools/pdf/merge"
+      },
+      {
+        "name": "PDF Compressor",
+        "description": "Reduce PDF file sizes in your browser.",
+        "url": "/tools/pdf/compress"
+      }
+    ]
+  },
+  {
+    "category": "Career Tools",
+    "slug": "career-tools",
+    "description": "Create resumes, cover letters, or prepare for interviews with private, browser-based tools.",
+    "icon": "fas fa-briefcase",
+    "url": "/tools/career",
+    "tools": [
+      {
+        "name": "Resume Builder",
+        "description": "Create professional resumes in your browser.",
+        "url": "/tools/career/resume"
+      },
+      {
+        "name": "Cover Letter Generator",
+        "description": "Generate customized cover letters locally.",
+        "url": "/tools/career/coverletter"
+      }
+    ]
+  }
+]
