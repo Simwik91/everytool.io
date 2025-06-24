@@ -474,7 +474,7 @@
       color: var(--dark);
       text-decoration: none;
       font-weight: 500;
-      border-radius: var(---border-radius);
+      border-radius: var(--border-radius);
       transition: var(--transition);
     }
     
@@ -693,7 +693,9 @@
       right: 0;
       bottom: 0;
       background-color: var(--gray);
-      transition: var(--transition);
+      transition: background-color 0.3s ease, transform 0.3s ease;
+      -webkit-transition: background-color 0.3s ease, transform 0.3s ease;
+      -moz-transition: background-color 0.3s ease, transform 0.3s ease;
       border-radius: 24px;
     }
 
@@ -705,7 +707,9 @@
       left: 4px;
       bottom: 4px;
       background-color: white;
-      transition: var(--transition);
+      transition: transform 0.3s ease;
+      -webkit-transition: transform 0.3s ease;
+      -moz-transition: transform 0.3s ease;
       border-radius: 50%;
     }
 
@@ -715,18 +719,12 @@
 
     .toggle-switch input:checked + .slider:before {
       transform: translateX(26px);
+      -webkit-transform: translateX(26px);
+      -moz-transform: translateX(26px);
     }
 
     .toggle-switch input:focus + .slider {
       box-shadow: 0 0 0 2px var(--primary-dark);
-    }
-
-    .toggle-switch input:hover:not(:disabled) + .slider {
-      background-color: #999;
-    }
-
-    .toggle-switch input:checked:hover:not(:disabled) + .slider {
-      background-color: var(--primary-dark);
     }
 
     .toggle-switch input:disabled + .slider {
@@ -737,14 +735,6 @@
 
     .toggle-switch input:disabled + .slider:before {
       background-color: #ddd;
-    }
-
-    .toggle-switch input:not(:disabled) + .slider:hover:before {
-      transform: scale(1.1);
-    }
-
-    .toggle-switch input:checked:not(:disabled) + .slider:hover:before {
-      transform: translateX(26px) scale(1.1);
     }
 
     .cookie-type p {
@@ -965,7 +955,7 @@
     <div class="settings-modal">
       <div class="settings-header">
         <h2 id="cookie-settings-title"><i class="fas fa-cookie-bite"></i> Cookie Settings</h2>
-        <button class="close-settings" id="close-settings" aria-label="Close cookie settings">×</button>
+        <button class="close-settings" aria-label="Close cookie settings">×</button>
       </div>
       <div class="settings-content">
         <p id="cookie-settings-desc">You can set your preferences for how we and our partners use cookies and similar technologies.</p>
@@ -974,11 +964,11 @@
           <div class="cookie-type-header">
             <h3>Essential Cookies</h3>
             <div class="toggle-switch">
-              <input type="checkbox" id="essential-toggle" checked disabled aria-label="Essential cookies toggle (always enabled)" aria-describedby="essential-desc">
+              <input type="checkbox" id="essential-toggle" checked disabled aria-label="Essential cookies (always enabled, cannot be disabled)" aria-describedby="essential-desc">
               <span class="slider"></span>
             </div>
           </div>
-          <p id="essential-desc">These cookies are necessary for the website to function and cannot be switched off.</p>
+          <p id="essential-desc">These cookies are necessary for the website to function and cannot be disabled.</p>
         </div>
         
         <div class="cookie-type">
@@ -1142,121 +1132,137 @@
   </footer>
 
   <script>
-    // Mobile menu toggle functionality
-    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
-    const closeMobileMenu = document.getElementById('close-mobile-menu');
-    const mobileNav = document.getElementById('mobile-nav');
-    
-    mobileMenuToggle.addEventListener('click', () => {
-      mobileNav.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    });
-    
-    closeMobileMenu.addEventListener('click', () => {
-      mobileNav.classList.remove('active');
-      document.body.style.overflow = '';
-    });
-    
-    // Close mobile menu when clicking outside
-    document.addEventListener('click', (e) => {
-      if (mobileNav.classList.contains('active') && 
-          !mobileNav.contains(e.target) && 
-          e.target !== mobileMenuToggle) {
-        mobileNav.classList.remove('active');
-        document.body.style.overflow = '';
-      }
-    });
-    
-    // Close mobile nav when clicking a link
-    document.querySelectorAll('.mobile-nav-link').forEach(link => {
-      link.addEventListener('click', () => {
-        mobileNav.classList.remove('active');
-        document.body.style.overflow = '';
-      });
-    });
-    
     // Cookie Management Functions
     const COOKIE_CONSENT_KEY = 'cookieConsent';
-    
+
     function getCookiePreferences() {
       const preferences = localStorage.getItem(COOKIE_CONSENT_KEY);
-      return preferences ? JSON.parse(preferences) : null;
+      return preferences ? JSON.parse(preferences) : { essential: true, analytics: false, advertising: false };
     }
-    
+
     function saveCookiePreferences(preferences) {
       localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(preferences));
-      document.getElementById('cookie-consent').style.display = 'none';
     }
-    
-    function checkCookieConsent() {
-      const preferences = getCookiePreferences();
-      if (!preferences) {
-        document.getElementById('cookie-consent').style.display = 'block';
-      } else {
-        if (preferences.analytics && !window.gaLoaded) loadGoogleAnalytics();
-        if (preferences.advertising && !window.adsenseLoaded) loadGoogleAdSense();
-      }
-    }
-    
+
     function loadGoogleAnalytics() {
       if (window.gaLoaded) return;
-      
-      // This is just a simulation - in a real implementation, you would load actual GA code
-      console.log('Google Analytics would be loaded now');
+
+      const gtagScript = document.createElement('script');
+      gtagScript.async = true;
+      gtagScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-LR5XP1GJFC';
+      gtagScript.onerror = () => console.warn('Failed to load Google Analytics');
+      document.head.appendChild(gtagScript);
+
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      gtag('js', new Date());
+      gtag('config', 'G-LR5XP1GJFC');
+
       window.gaLoaded = true;
+      console.log('Google Analytics loaded');
     }
-    
+
     function loadGoogleAdSense() {
       if (window.adsenseLoaded) return;
-      
-      // This is just a simulation - in a real implementation, you would load actual AdSense code
-      console.log('Google AdSense would be loaded now');
+
+      const adsenseScript = document.createElement('script');
+      adsenseScript.async = true;
+      adsenseScript.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4041775163958551';
+      adsenseScript.crossOrigin = 'anonymous';
+      adsenseScript.onerror = () => console.warn('Failed to load Google AdSense');
+      document.head.appendChild(adsenseScript);
+
       window.adsenseLoaded = true;
+      console.log('Google AdSense loaded');
     }
 
     function openCookieSettings() {
       const preferences = getCookiePreferences();
-      if (preferences) {
-        document.getElementById('analytics-toggle').checked = preferences.analytics;
-        document.getElementById('advertising-toggle').checked = preferences.advertising;
-      } else {
-        document.getElementById('analytics-toggle').checked = true;
-        document.getElementById('advertising-toggle').checked = true;
-      }
+      document.getElementById('analytics-toggle').checked = preferences.analytics;
+      document.getElementById('advertising-toggle').checked = preferences.advertising;
       document.getElementById('cookie-settings').style.display = 'flex';
-      document.getElementById('analytics-toggle').focus();
+      document.querySelector('.settings-modal').focus();
     }
-    
+
     function closeCookieSettings() {
       document.getElementById('cookie-settings').style.display = 'none';
       document.getElementById('open-settings').focus();
     }
 
-    // Initialize cookie functionality
-    document.addEventListener('DOMContentLoaded', () => {
+    // Mobile Menu Functions
+    function initMobileMenu() {
+      const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+      const closeMobileMenu = document.getElementById('close-mobile-menu');
+      const mobileNav = document.getElementById('mobile-nav');
+
+      mobileMenuToggle.addEventListener('click', () => {
+        mobileNav.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      });
+
+      closeMobileMenu.addEventListener('click', () => {
+        mobileNav.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+
+      document.addEventListener('click', (e) => {
+        if (mobileNav.classList.contains('active') && 
+            !mobileNav.contains(e.target) && 
+            e.target !== mobileMenuToggle) {
+          mobileNav.classList.remove('active');
+          document.body.style.overflow = '';
+        }
+      });
+
+      document.querySelectorAll('.mobile-nav-link').forEach(link => {
+        link.addEventListener('click', () => {
+          mobileNav.classList.remove('active');
+          document.body.style.overflow = '';
+        });
+      });
+    }
+
+    // Cookie Consent Functions
+    function initCookieConsent() {
+      function checkCookieConsent() {
+        const preferences = getCookiePreferences();
+        if (!preferences || !preferences.hasOwnProperty('essential')) {
+          document.getElementById('cookie-consent').style.display = 'block';
+        } else {
+          document.getElementById('analytics-toggle').checked = preferences.analytics;
+          document.getElementById('advertising-toggle').checked = preferences.advertising;
+          if (preferences.analytics && !window.gaLoaded) loadGoogleAnalytics();
+          if (preferences.advertising && !window.adsenseLoaded) loadGoogleAdSense();
+        }
+      }
+
       checkCookieConsent();
-      
+
       document.getElementById('accept-cookies').addEventListener('click', () => {
-        saveCookiePreferences({
+        const preferences = {
           essential: true,
           analytics: true,
           advertising: true
-        });
-        loadGoogleAnalytics();
-        loadGoogleAdSense();
+        };
+        saveCookiePreferences(preferences);
+        document.getElementById('cookie-consent').style.display = 'none';
+        if (!window.gaLoaded) loadGoogleAnalytics();
+        if (!window.adsenseLoaded) loadGoogleAdSense();
       });
-      
+
       document.getElementById('reject-cookies').addEventListener('click', () => {
-        saveCookiePreferences({
+        const preferences = {
           essential: true,
           analytics: false,
           advertising: false
-        });
+        };
+        saveCookiePreferences(preferences);
+        document.getElementById('cookie-consent').style.display = 'none';
       });
-      
+
       document.getElementById('open-settings').addEventListener('click', openCookieSettings);
-      document.getElementById('close-settings').addEventListener('click', closeCookieSettings);
-      
+      document.querySelector('.close-settings').addEventListener('click', closeCookieSettings);
+
       document.getElementById('save-settings').addEventListener('click', () => {
         const preferences = {
           essential: true,
@@ -1266,51 +1272,58 @@
         saveCookiePreferences(preferences);
         if (preferences.analytics && !window.gaLoaded) loadGoogleAnalytics();
         if (preferences.advertising && !window.adsenseLoaded) loadGoogleAdSense();
+        closeCookieSettings();
+        document.getElementById('cookie-consent').style.display = 'none';
       });
-      
+
       document.getElementById('open-settings-footer').addEventListener('click', (e) => {
         e.preventDefault();
         openCookieSettings();
       });
 
-      // Keyboard navigation for toggle switches
+      const analyticsToggle = document.getElementById('analytics-toggle');
+      const advertisingToggle = document.getElementById('advertising-toggle');
+
+      analyticsToggle.addEventListener('change', () => {
+        const preferences = getCookiePreferences();
+        preferences.analytics = analyticsToggle.checked;
+        saveCookiePreferences(preferences);
+        if (preferences.analytics && !window.gaLoaded) loadGoogleAnalytics();
+      });
+
+      advertisingToggle.addEventListener('change', () => {
+        const preferences = getCookiePreferences();
+        preferences.advertising = advertisingToggle.checked;
+        saveCookiePreferences(preferences);
+        if (preferences.advertising && !window.adsenseLoaded) loadGoogleAdSense();
+      });
+    }
+
+    // Accessibility Functions
+    function initAccessibility() {
       document.querySelectorAll('.toggle-switch input').forEach(toggle => {
         toggle.addEventListener('keydown', (e) => {
           if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
             if (!toggle.disabled) {
               toggle.checked = !toggle.checked;
+              toggle.dispatchEvent(new Event('change'));
             }
           }
         });
       });
 
-      // Click handler for toggle switches
-      document.querySelectorAll('.toggle-switch').forEach(switchElement => {
-        const input = switchElement.querySelector('input');
-        if (!input.disabled) {
-          switchElement.addEventListener('click', () => {
-            input.checked = !input.checked;
-            // Trigger change event
-            const event = new Event('change');
-            input.dispatchEvent(event);
-          });
-        }
-      });
-
-      // Focus management for accessibility
       document.querySelectorAll('a, button, input').forEach(element => {
         element.addEventListener('focus', function() {
           this.style.outline = '2px solid var(--primary)';
           this.style.outlineOffset = '2px';
         });
-        
+
         element.addEventListener('blur', function() {
           this.style.outline = 'none';
         });
       });
 
-      // Trap focus in cookie settings modal
       const settingsModal = document.querySelector('.settings-modal');
       const focusableElements = settingsModal.querySelectorAll('button, input');
       const firstFocusable = focusableElements[0];
@@ -1329,6 +1342,13 @@
           closeCookieSettings();
         }
       });
+    }
+
+    // Initialize All Features
+    document.addEventListener('DOMContentLoaded', () => {
+      initMobileMenu();
+      initCookieConsent();
+      initAccessibility();
     });
   </script>
 </body>
