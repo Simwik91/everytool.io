@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog - EveryTool.io</title>
+  <link rel="canonical" href="https://everytool.io/blog">
+  <meta name="description" content="Explore the latest articles, tips, and insights from EveryTool.io to boost your productivity with our free tools.">
+  
+  <!-- SEO Optimizations -->
+  <meta name="robots" content="index, follow">
+  <meta name="keywords" content="blog, everytool, productivity tools, software tips, tech insights">
+  <meta property="og:title" content="ToolTalk - EveryTool.io">
+  <meta property="og:description" content="Stay updated with the latest tools, tips, and insights from EveryTool.io to enhance your productivity.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://everytool.io/blog">
+  <meta property="og:image" content="https://everytool.io/social-blog.jpg">
+  <meta property="og:site_name" content="EveryTool.io">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ToolTalk - EveryTool.io">
+  <meta name="twitter:description" content="Stay updated with the latest tools, tips, and insights from EveryTool.io.">
+  <meta name="twitter:image" content="https://everytool.io/social-blog.jpg">
+  
+  <!-- Performance Tuning -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.rel='stylesheet'">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "name": "EveryTool.io Blog",
+    "url": "https://everytool.io/blog",
+    "description": "Latest articles and insights from EveryTool.io on productivity tools and tips.",
+    "inLanguage": "en",
+    "publisher": {
+      "@type": "Organization",
+      "name": "EveryTool.io",
+      "url": "https://everytool.io",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://everytool.io/logo.png"
+      }
+    },
+    "datePublished": "2025-06-24",
+    "dateModified": "2025-06-24",
+    "mainEntity": [
+      {
+        "@type": "BlogPosting",
+        "headline": "The first blogpost",
+        "url": "https://everytool.io/blog/firstblogpost",
+        "description": "Read more about the idea and progress of the Everytool.io site.",
+        "datePublished": "2025-06-24",
+        "author": {
+          "@type": "Organization",
+          "name": "EveryTool.io"
+        }
+      }
+    ]
+  }
+  </script>
+  
+  <style>
+    :root {
+      --primary: #4361ee;
+      --primary-dark: #3a56d4;
+      --secondary: #7209b7;
+      --accent: #f72585;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --gray: #6c757d;
+      --light-gray: #e9ecef;
+      --border-radius: 12px;
+      --box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+      --transition: all 0.3s ease;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(145deg, var(--light) 0%, #f0f4ff 100%);
+      color: var(--dark);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Header & Navigation */
+    header {
+      background: white;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .logo i {
+      margin-right: 10px;
+      font-size: 2.2rem;
+    }
+
+    .nav-container {
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-menu {
+      display: flex;
+      list-style: none;
+      margin-right: 20px;
+    }
+
+    .nav-item {
+      position: relative;
+      margin: 0 15px;
+    }
+
+    .nav-link {
+      padding: 10px 15px;
+      color: var(--dark);
+      text-decoration: none;
+      font-weight: 500;
+      border-radius: var(--border-radius);
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-link i {
+      margin-right: 8px;
+    }
+
+    .nav-link:hover, .nav-link:focus {
+      background: rgba(67, 97, 238, 0.1);
+      color: var(--primary);
+      outline: 2px solid var(--primary);
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--dark);
+      cursor: pointer;
+      padding: 10px;
+      border-radius: 5px;
+    }
+
+    .mobile-menu-btn:hover, .mobile-menu-btn:focus {
+      background: rgba(67, 97, 238, 0.1);
+      outline: 2px solid var(--primary);
+    }
+    
+    /* Blog Hero Section */
+    .blog-hero {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border-radius: var(--border-radius);
+      padding: 60px 40px;
+      margin: 40px 0;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--box-shadow);
+    }
+    
+    .blog-hero:before {
+      content: "";
+      position: absolute;
+      top: -50px;
+      right: -50px;
+      width: 200px;
+      height: 200px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+    }
+    
+    .blog-hero:after {
+      content: "";
+      position: absolute;
+      bottom: -80px;
+      left: -80px;
+      width: 250px;
+      height: 250px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+    }
+    
+    .blog-hero h1 {
+      font-size: 2.8rem;
+      margin-bottom: 15px;
+      font-weight: 700;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .blog-hero p {
+      font-size: 1.2rem;
+      max-width: 700px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+      opacity: 0.9;
+    }
+    
+    /* Blog Posts Section */
+    .blog-posts {
+      padding: 40px 0;
+    }
+    
+    .blog-posts h2 {
+      font-size: 2rem;
+      margin-bottom: 30px;
+      color: var(--primary);
+      text-align: center;
+    }
+    
+    .blog-post-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+    
+    .blog-post {
+      background: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      overflow: hidden;
+      transition: var(--transition);
+      padding: 20px;
+    }
+    
+    .blog-post:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+    }
+    
+    .blog-post h3 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      color: var(--dark);
+    }
+    
+    .blog-post p {
+      font-size: 1rem;
+      color: var(--gray);
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+    
+    .blog-post a {
+      display: inline-block;
+      padding: 10px 20px;
+      background: var(--primary);
+      color: white;
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: 600;
+      transition: var(--transition);
+    }
+    
+    .blog-post a:hover, .blog-post a:focus {
+      background: var(--primary-dark);
+      outline: 2px solid var(--primary);
+    }
+    
+    /* Footer */
+    footer {
+      background: linear-gradient(135deg, var(--light) 0%, #f0f4ff 100%);
+      color: #000;
+      padding: 60px 0 30px;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+      padding-top: 30px;
+      text-align: center;
+    }
+
+    .footer-bottom a {
+      color: #000;
+      text-decoration: none;
+      transition: var(--transition);
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin: 0 10px;
+    }
+
+    .footer-bottom a:hover, .footer-bottom a:focus {
+      color: var(--primary);
+      text-decoration: underline;
+      outline: none;
+    }
+
+    .footer-links-row {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    
+    .footer-bottom p {
+      color: #000;
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin: 0;
+    }
+    
+    /* Mobile Navigation */
+    .mobile-nav {
+      position: fixed;
+      top: 0;
+      left: -100%;
+      width: 280px;
+      height: 100vh;
+      background: white;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      z-index: 2000;
+      transition: var(--transition);
+      overflow-y: auto;
+      display: block;
+    }
+    
+    .mobile-nav.active {
+      left: 0;
+    }
+    
+    .mobile-nav-header {
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--light-gray);
+    }
+    
+    .close-mobile-menu {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--dark);
+      cursor: pointer;
+      padding: 5px;
+      border-radius: 5px;
+    }
+    
+    .close-mobile-menu:hover, .close-mobile-menu:focus {
+      background: rgba(0, 0, 0, 0.05);
+      outline: none;
+    }
+    
+    .mobile-nav-menu {
+      list-style: none;
+      padding: 20px;
+    }
+    
+    .mobile-nav-item {
+      margin-bottom: 10px;
+    }
+    
+    .mobile-nav-link {
+      display: block;
+      padding: 12px 15px;
+      color: var(--dark);
+      text-decoration: none;
+      font-weight: 500;
+      border-radius: var(--border-radius);
+      transition: var(--transition);
+    }
+    
+    .mobile-nav-link:hover, .mobile-nav-link:focus {
+      background: rgba(67, 97, 238, 0.1);
+      color: var(--primary);
+      outline: none;
+    }
+    
+    /* Cookie Consent Styles */
+    #cookie-consent {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 95%;
+      max-width: 800px;
+      background: var(--light);
+      border-radius: var(--border-radius);
+      box-shadow: 0 5px 30px rgba(0, 0, 0, 0.15);
+      padding: 20px;
+      z-index: 1000;
+      display: none;
+    }
+
+    .cookie-content {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .cookie-text {
+      flex: 1;
+      min-width: 300px;
+      color: var(--dark);
+    }
+
+    .cookie-text p {
+      margin-bottom: 10px;
+      font-size: 0.95rem;
+    }
+
+    .cookie-text a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .cookie-text a:hover, .cookie-text a:focus {
+      text-decoration: underline;
+      outline: none;
+    }
+
+    .cookie-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .cookie-btn {
+      padding: 10px 20px;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 0.9rem;
+      border: none;
+      min-width: 180px;
+    }
+
+    .cookie-btn:focus {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    .reject-btn {
+      background: var(--light-gray);
+      color: var(--dark);
+    }
+
+    .reject-btn:hover {
+      background: #e0e0e0;
+    }
+
+    .accept-btn {
+      background: var(--primary);
+      color: white;
+    }
+
+    .accept-btn:hover {
+      background: var(--primary-dark);
+    }
+
+    .cookie-settings-btn {
+      background: transparent;
+      color: var(--gray);
+      text-decoration: underline;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      margin-top: 10px;
+      font-size: 0.85rem;
+    }
+
+    .cookie-settings-btn:hover, .cookie-settings-btn:focus {
+      color: var(--dark);
+      outline: none;
+    }
+
+    #cookie-settings {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+    }
+
+    .settings-modal {
+      background: var(--light);
+      border-radius: var(--border-radius);
+      width: 95%;
+      max-width: 600px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 30px;
+      position: relative;
+    }
+
+    .settings-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .settings-header h2 {
+      font-size: 1.8rem;
+      margin: 0;
+    }
+
+    .close-settings {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--gray);
+      transition: var(--transition);
+      padding: 5px;
+      border-radius: 5px;
+    }
+
+    .close-settings:hover, .close-settings:focus {
+      color: var(--dark);
+      background: rgba(0, 0, 0, 0.05);
+      outline: none;
+    }
+
+    .settings-content {
+      margin-bottom: 20px;
+    }
+
+    .cookie-type {
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid var(--light-gray);
+    }
+
+    .cookie-type-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .cookie-type h3 {
+      margin: 0;
+      font-size: 1.2rem;
+    }
+
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 24px;
+    }
+
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .toggle-switch .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: var(--gray);
+      transition: var(--transition);
+      border-radius: 24px;
+    }
+
+    .toggle-switch .slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: var(--transition);
+      border-radius: 50%;
+    }
+
+    .toggle-switch input:checked + .slider {
+      background-color: var(--primary);
+    }
+
+    .toggle-switch input:checked + .slider:before {
+      transform: translateX(26px);
+    }
+
+    .toggle-switch input:focus + .slider {
+      box-shadow: 0 0 0 2px var(--primary-dark);
+    }
+
+    .toggle-switch input:hover:not(:disabled) + .slider {
+      background-color: #999;
+    }
+
+    .toggle-switch input:checked:hover:not(:disabled) + .slider {
+      background-color: var(--primary-dark);
+    }
+
+    .toggle-switch input:disabled + .slider {
+      background-color: var(--light-gray);
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .toggle-switch input:disabled + .slider:before {
+      background-color: #ddd;
+    }
+
+    .cookie-type p {
+      font-size: 0.9rem;
+      color: var(--gray);
+      margin-bottom: 10px;
+    }
+
+    .settings-buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .save-settings {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 25px;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .save-settings:hover, .save-settings:focus {
+      background: var(--primary-dark);
+      outline: none;
+    }
+    
+    /* Accessibility Improvements */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 992px) {
+      .nav-menu {
+        display: none;
+      }
+      
+      .mobile-menu-btn {
+        display: block;
+      }
+      
+      .blog-hero {
+        padding: 50px 30px;
+      }
+      
+      .blog-posts {
+        padding: 30px 0;
+      }
+    }
+
+    @media (min-width: 993px) {
+      .mobile-nav {
+        display: none !important;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .blog-hero h1 {
+        font-size: 2.2rem;
+      }
+      
+      .blog-hero p {
+        font-size: 1.1rem;
+      }
+      
+      .blog-posts h2 {
+        font-size: 1.8rem;
+      }
+      
+      .blog-post h3 {
+        font-size: 1.3rem;
+      }
+      
+      .footer-links-row {
+        flex-direction: column;
+        gap: 10px;
+      }
+      
+      .cookie-content {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .cookie-buttons {
+        width: 100%;
+      }
+      
+      .cookie-btn {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .header-container {
+        padding: 15px 0;
+      }
+      
+      .logo {
+        font-size: 1.5rem;
+      }
+      
+      .logo i {
+        font-size: 1.8rem;
+      }
+      
+      .blog-hero {
+        padding: 40px 20px;
+      }
+      
+      .blog-hero h1 {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header & Navigation -->
+  <header>
+    <div class="container">
+      <div class="header-container">
+        <a href="/" class="logo" aria-label="EveryTool.io Home">
+          <i class="fas fa-tools"></i>
+          EveryTool.io
+        </a>
+        
+        <div class="nav-container">
+          <ul class="nav-menu">
+            <li class="nav-item">
+              <a href="/" class="nav-link"><i class="fas fa-home"></i> Home</a>
+            </li>
+            <li class="nav-item">
+              <a href="/tools.html" class="nav-link"><i class="fas fa-toolbox"></i> Tools</a>
+            </li>
+            <li class="nav-item">
+              <a href="/blog" class="nav-link"><i class="fas fa-blog"></i> Blog</a>
+            </li>
+            <li class="nav-item">
+              <a href="/about" class="nav-link"><i class="fas fa-address-card"></i> About</a>
+            </li>
+            <li class="nav-item">
+              <a href="/contact" class="nav-link"><i class="fas fa-envelope"></i> Contact</a>
+            </li>
+          </ul>
+          <button class="mobile-menu-btn" id="mobile-menu-toggle" aria-label="Open mobile menu">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Navigation -->
+  <div class="mobile-nav" id="mobile-nav">
+    <div class="mobile-nav-header">
+      <a href="/" class="logo">
+        <i class="fas fa-tools"></i>
+        EveryTool.io
+      </a>
+      <button class="close-mobile-menu" id="close-mobile-menu" aria-label="Close mobile menu">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <ul class="mobile-nav-menu">
+      <li class="mobile-nav-item">
+        <a href="/" class="mobile-nav-link"><i class="fas fa-home"></i> Home</a>
+      </li>
+      <li class="mobile-nav-item">
+        <a href="/tools.html" class="mobile-nav-link"><i class="fas fa-toolbox"></i> Tools</a>
+      </li>
+      <li class="mobile-nav-item">
+        <a href="/blog" class="mobile-nav-link"><i class="fas fa-blog"></i> Blog</a>
+      </li>
+      <li class="mobile-nav-item">
+        <a href="/about" class="mobile-nav-link"><i class="fas fa-address-card"></i> About</a>
+      </li>
+      <li class="mobile-nav-item">
+        <a href="/contact" class="mobile-nav-link"><i class="fas fa-envelope"></i> Contact</a>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Cookie Consent Banner -->
+  <div id="cookie-consent">
+    <div class="cookie-content">
+      <div class="cookie-text">
+        <p>We use cookies to enhance your experience and analyze site traffic. By clicking "Accept All", you consent to our use of cookies. 
+          <a href="/privacy-policy.html">Learn more</a> in our Privacy Policy.
+        </p>
+        <button class="cookie-settings-btn" id="open-settings" aria-label="Open cookie settings">Cookie Settings</button>
+      </div>
+      <div class="cookie-buttons">
+        <button class="cookie-btn reject-btn" id="reject-cookies" aria-label="Reject non-essential cookies">Reject Non-Essential</button>
+        <button class="cookie-btn accept-btn" id="accept-cookies" aria-label="Accept all cookies">Accept All</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="cookie-settings">
+    <div class="settings-modal">
+      <div class="settings-header">
+        <h2><i class="fas fa-cookie-bite"></i> Cookie Settings</h2>
+        <button class="close-settings" aria-label="Close cookie settings">×</button>
+      </div>
+      <div class="settings-content">
+        <p>You can set your preferences for how we and our partners use cookies and similar technologies.</p>
+        
+        <div class="cookie-type">
+          <div class="cookie-type-header">
+            <h3>Essential Cookies</h3>
+            <label class="toggle-switch">
+              <input type="checkbox" id="essential-toggle" checked disabled aria-label="Essential cookies toggle (always enabled)">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <p>These cookies are necessary for the website to function and cannot be switched off.</p>
+        </div>
+        
+        <div class="cookie-type">
+          <div class="cookie-type-header">
+            <h3>Analytics Cookies</h3>
+            <label class="toggle-switch">
+              <input type="checkbox" id="analytics-toggle" aria-label="Analytics cookies toggle">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <p>These cookies allow us to count visits and traffic sources so we can measure and improve the performance of our site.</p>
+        </div>
+        
+        <div class="cookie-type">
+          <div class="cookie-type-header">
+            <h3>Advertising Cookies</h3>
+            <label class="toggle-switch">
+              <input type="checkbox" id="advertising-toggle" aria-label="Advertising cookies toggle">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <p>These cookies may be set through our site by our advertising partners to build a profile of your interests.</p>
+        </div>
+      </div>
+      <div class="settings-buttons">
+        <button class="save-settings" id="save-settings" aria-label="Save cookie settings">Save Settings</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Blog Content -->
+  <section class="blog-hero">
+    <div class="container">
+      <h1>ToolTalk: Insights & Tips</h1>
+      <p>Discover the latest tips, tricks, and insights on using our free tools to boost your productivity.</p>
+    </div>
+  </section>
+
+  <section class="blog-posts">
+    <div class="container">
+      <h2>Recent Posts</h2>
+      <div class="blog-post-grid">
+        <article class="blog-post">
+          <h3>Top 10 Tools for Remote Work</h3>
+          <p>Explore our curated list of tools to enhance your remote work experience.</p>
+          <a href="/blog/firstblogpost">Read More</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-bottom">
+        <div class="footer-links-row">
+          <a href="/privacy">Privacy Policy</a>
+          <a href="/terms">Terms of Service</a>
+          <a href="/gdpr">GDPR Compliance</a>
+          <a href="#" id="open-settings-footer">Cookie Settings</a>
+        </div>
+        <p>© 2025 EveryTool.io. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle functionality
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    const closeMobileMenu = document.getElementById('close-mobile-menu');
+    const mobileNav = document.getElementById('mobile-nav');
+    
+    mobileMenuToggle.addEventListener('click', () => {
+      mobileNav.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+    
+    closeMobileMenu.addEventListener('click', () => {
+      mobileNav.classList.remove('active');
+      document.body.style.overflow = '';
+    });
+    
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (mobileNav.classList.contains('active') && 
+          !mobileNav.contains(e.target) && 
+          e.target !== mobileMenuToggle) {
+        mobileNav.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    });
+    
+    // Close mobile nav when clicking a link
+    document.querySelectorAll('.mobile-nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileNav.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+    });
+    
+    // Cookie Management Functions
+    const COOKIE_CONSENT_KEY = 'cookieConsent';
+    
+    function getCookiePreferences() {
+      const preferences = localStorage.getItem(COOKIE_CONSENT_KEY);
+      return preferences ? JSON.parse(preferences) : null;
+    }
+    
+    function saveCookiePreferences(preferences) {
+      localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(preferences));
+    }
+    
+    function checkCookieConsent() {
+      const preferences = getCookiePreferences();
+      
+      if (!preferences) {
+        document.getElementById('cookie-consent').style.display = 'block';
+      } else {
+        if (preferences.analytics) loadGoogleAnalytics();
+        if (preferences.advertising) loadGoogleAdSense();
+      }
+    }
+    
+    function loadGoogleAnalytics() {
+      if (window.gaLoaded) return;
+      
+      const gtagScript = document.createElement('script');
+      gtagScript.async = true;
+      gtagScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-LR5XP1GJFC';
+      document.head.appendChild(gtagScript);
+      
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-LR5XP1GJFC');
+      
+      window.gaLoaded = true;
+      console.log('Google Analytics loaded');
+    }
+    
+    function loadGoogleAdSense() {
+      if (window.adsenseLoaded) return;
+      
+      const adsenseScript = document.createElement('script');
+      adsenseScript.async = true;
+      adsenseScript.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4041775163958551';
+      adsenseScript.crossOrigin = 'anonymous';
+      document.head.appendChild(adsenseScript);
+      
+      window.adsenseLoaded = true;
+      console.log('Google AdSense loaded');
+    }
+
+    function openCookieSettings() {
+      const preferences = getCookiePreferences();
+      if (preferences) {
+        document.getElementById('analytics-toggle').checked = preferences.analytics;
+        document.getElementById('advertising-toggle').checked = preferences.advertising;
+      } else {
+        document.getElementById('analytics-toggle').checked = true;
+        document.getElementById('advertising-toggle').checked = true;
+      }
+      document.getElementById('cookie-settings').style.display = 'flex';
+    }
+    
+    function closeCookieSettings() {
+      document.getElementById('cookie-settings').style.display = 'none';
+    }
+
+    // Initialize cookie functionality
+    document.addEventListener('DOMContentLoaded', () => {
+      checkCookieConsent();
+      
+      document.getElementById('accept-cookies').addEventListener('click', function() {
+        saveCookiePreferences({
+          essential: true,
+          analytics: true,
+          advertising: true
+        });
+        document.getElementById('cookie-consent').style.display = 'none';
+        loadGoogleAnalytics();
+        loadGoogleAdSense();
+      });
+      
+      document.getElementById('reject-cookies').addEventListener('click', function() {
+        saveCookiePreferences({
+          essential: true,
+          analytics: false,
+          advertising: false
+        });
+        document.getElementById('cookie-consent').style.display = 'none';
+      });
+      
+      document.getElementById('open-settings').addEventListener('click', openCookieSettings);
+      document.querySelector('.close-settings').addEventListener('click', closeCookieSettings);
+      
+      document.getElementById('save-settings').addEventListener('click', function() {
+        const preferences = {
+          essential: true,
+          analytics: document.getElementById('analytics-toggle').checked,
+          advertising: document.getElementById('advertising-toggle').checked
+        };
+        saveCookiePreferences(preferences);
+        if (preferences.analytics) loadGoogleAnalytics();
+        if (preferences.advertising) loadGoogleAdSense();
+        closeCookieSettings();
+        document.getElementById('cookie-consent').style.display = 'none';
+      });
+      
+      document.getElementById('open-settings-footer').addEventListener('click', function(e) {
+        e.preventDefault();
+        openCookieSettings();
+      });
+      
+      // Focus management for accessibility
+      document.querySelectorAll('a, button, input').forEach(element => {
+        element.addEventListener('focus', function() {
+          this.style.outline = '2px solid var(--primary)';
+          this.style.outlineOffset = '2px';
+        });
+        
+        element.addEventListener('blur', function() {
+          this.style.outline = 'none';
+        });
+      });
+    });
+  </script>
+</body>
+</html>
