@@ -680,22 +680,26 @@
     }
 
     .toggle-switch input {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       opacity: 0;
-      width: 0;
-      height: 0;
+      cursor: pointer;
+      z-index: 1;
     }
 
     .slider {
       position: absolute;
-      cursor: pointer;
       top: 0;
       left: 0;
       right: 0;
       bottom: 0;
       background-color: var(--gray);
-      transition: background-color 0.3s ease, transform 0.3s ease;
-      -webkit-transition: background-color 0.3s ease, transform 0.3s ease;
-      -moz-transition: background-color 0.3s ease, transform 0.3s ease;
+      transition: background-color 0.3s ease;
+      -webkit-transition: background-color 0.3s ease;
+      -moz-transition: background-color 0.3s ease;
       border-radius: 24px;
     }
 
@@ -963,10 +967,10 @@
         <div class="cookie-type">
           <div class="cookie-type-header">
             <h3>Essential Cookies</h3>
-            <div class="toggle-switch">
+            <label class="toggle-switch" for="essential-toggle">
               <input type="checkbox" id="essential-toggle" checked disabled aria-label="Essential cookies (always enabled, cannot be disabled)" aria-describedby="essential-desc">
               <span class="slider"></span>
-            </div>
+            </label>
           </div>
           <p id="essential-desc">These cookies are necessary for the website to function and cannot be disabled.</p>
         </div>
@@ -974,10 +978,10 @@
         <div class="cookie-type">
           <div class="cookie-type-header">
             <h3>Analytics Cookies</h3>
-            <div class="toggle-switch">
+            <label class="toggle-switch" for="analytics-toggle">
               <input type="checkbox" id="analytics-toggle" aria-label="Analytics cookies toggle" aria-describedby="analytics-desc">
               <span class="slider"></span>
-            </div>
+            </label>
           </div>
           <p id="analytics-desc">These cookies allow us to count visits and traffic sources so we can measure and improve the performance of our site.</p>
         </div>
@@ -985,10 +989,10 @@
         <div class="cookie-type">
           <div class="cookie-type-header">
             <h3>Advertising Cookies</h3>
-            <div class="toggle-switch">
+            <label class="toggle-switch" for="advertising-toggle">
               <input type="checkbox" id="advertising-toggle" aria-label="Advertising cookies toggle" aria-describedby="advertising-desc">
               <span class="slider"></span>
-            </div>
+            </label>
           </div>
           <p id="advertising-desc">These cookies may be set through our site by our advertising partners to build a profile of your interests.</p>
         </div>
