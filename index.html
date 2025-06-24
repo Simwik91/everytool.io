@@ -102,6 +102,12 @@
       position: relative;
       text-align: center;
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+      animation: fadeIn 0.3s ease-out;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
     }
     
     .notification-icon {
@@ -153,10 +159,11 @@
       box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
     }
     
-    .notification-btn:hover {
+    .notification-btn:hover, .notification-btn:focus {
       transform: translateY(-3px);
       box-shadow: 0 6px 20px rgba(67, 97, 238, 0.4);
       background: var(--primary-dark);
+      outline: 2px solid var(--primary);
     }
 
     /* Header & Navigation */
@@ -620,6 +627,7 @@
       justify-content: center;
       align-items: center;
       z-index: 2000;
+      animation: fadeIn 0.3s ease-out;
     }
 
     .settings-modal {
@@ -631,6 +639,12 @@
       overflow-y: auto;
       padding: 30px;
       position: relative;
+      animation: slideUp 0.3s ease-out;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
     }
 
     .settings-header {
@@ -659,7 +673,7 @@
     .close-settings:hover, .close-settings:focus {
       color: var(--dark);
       background: rgba(0, 0, 0, 0.05);
-      outline: none;
+      outline: 2px solid var(--primary);
     }
 
     .settings-content {
@@ -704,8 +718,8 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background-color: #ccc;
-      transition: .4s;
+      background-color: var(--gray);
+      transition: var(--transition);
       border-radius: 24px;
     }
 
@@ -717,27 +731,38 @@
       left: 4px;
       bottom: 4px;
       background-color: white;
-      transition: .4s;
+      transition: var(--transition);
       border-radius: 50%;
     }
 
-    input:checked + .slider {
+    .toggle-switch input:checked + .slider {
       background-color: var(--primary);
     }
 
-    input:checked + .slider:before {
+    .toggle-switch input:checked + .slider:before {
       transform: translateX(26px);
     }
 
-    /* FIXED: Add styles for disabled toggle state */
-    input:disabled + .slider {
-      background-color: #ccc;
+    .toggle-switch input:focus + .slider {
+      box-shadow: 0 0 0 2px var(--primary-dark);
+    }
+
+    .toggle-switch input:hover:not(:disabled) + .slider {
+      background-color: #999;
+    }
+
+    .toggle-switch input:checked:hover:not(:disabled) + .slider {
+      background-color: var(--primary-dark);
+    }
+
+    .toggle-switch input:disabled + .slider {
+      background-color: var(--light-gray);
+      opacity: 0.5;
       cursor: not-allowed;
     }
-    
-    input:checked:disabled + .slider {
-      background-color: var(--primary);
-      opacity: 0.7;
+
+    .toggle-switch input:disabled + .slider:before {
+      background-color: #ddd;
     }
 
     .cookie-type p {
@@ -765,7 +790,7 @@
 
     .save-settings:hover, .save-settings:focus {
       background: var(--primary-dark);
-      outline: none;
+      outline: 2px solid var(--primary);
     }
 
     /* Accessibility Improvements */
@@ -832,7 +857,7 @@
       
       .close-mobile-menu:hover, .close-mobile-menu:focus {
         background: rgba(0, 0, 0, 0.05);
-        outline: none;
+        outline: 2px solid var(--primary);
       }
       
       .mobile-nav-menu {
@@ -857,7 +882,7 @@
       .mobile-nav-link:hover, .mobile-nav-link:focus {
         background: rgba(67, 97, 238, 0.1);
         color: var(--primary);
-        outline: none;
+        outline: 2px solid var(--primary);
       }
       
       .features-grid {
@@ -939,6 +964,10 @@
       .cookie-btn {
         width: 100%;
       }
+
+      .settings-modal {
+        padding: 20px;
+      }
     }
   </style>
 </head>
@@ -952,18 +981,18 @@
       <h2>We're Getting Ready!</h2>
       <p>EveryTool.io is currently <span class="highlight">under active development</span>. Our team is working diligently to bring you a comprehensive suite of browser-based tools that prioritize your privacy.</p>
       <p>The site will be fully functional <span class="highlight">very soon</span>. We appreciate your patience and excitement as we prepare to launch!</p>
-      <button class="notification-btn" id="dismiss-notification">
+      <button class="notification-btn" id="dismiss-notification" aria-label="Dismiss site notification">
         <i class="fas fa-thumbs-up"></i> Got it!
       </button>
     </div>
   </div>
 
   <!-- Cookie Consent Banner -->
-  <div id="cookie-consent">
+  <div id="cookie-consent" role="dialog" aria-label="Cookie consent banner">
     <div class="cookie-content">
       <div class="cookie-text">
         <p>We use cookies to enhance your experience and analyze site traffic. By clicking "Accept All", you consent to our use of cookies. 
-          <a href="/privacy-policy.html">Learn more</a> in our Privacy Policy.
+          <a href="/privacy-policy.html" aria-label="Learn more about our Privacy Policy">Learn more</a> in our Privacy Policy.
         </p>
         <button class="cookie-settings-btn" id="open-settings" aria-label="Open cookie settings">Cookie Settings</button>
       </div>
@@ -974,46 +1003,46 @@
     </div>
   </div>
 
-  <div id="cookie-settings">
+  <div id="cookie-settings" role="dialog" aria-labelledby="cookie-settings-title" aria-describedby="cookie-settings-desc">
     <div class="settings-modal">
       <div class="settings-header">
-        <h2><i class="fas fa-cookie-bite"></i> Cookie Settings</h2>
+        <h2 id="cookie-settings-title"><i class="fas fa-cookie-bite"></i> Cookie Settings</h2>
         <button class="close-settings" aria-label="Close cookie settings">×</button>
       </div>
       <div class="settings-content">
-        <p>You can set your preferences for how we and our partners use cookies and similar technologies.</p>
+        <p id="cookie-settings-desc">You can set your preferences for how we and our partners use cookies and similar technologies.</p>
         
         <div class="cookie-type">
           <div class="cookie-type-header">
             <h3>Essential Cookies</h3>
             <div class="toggle-switch">
-              <input type="checkbox" id="essential-toggle" checked disabled aria-label="Essential cookies toggle">
+              <input type="checkbox" id="essential-toggle" checked disabled aria-label="Essential cookies toggle (always enabled)" aria-describedby="essential-desc">
               <span class="slider"></span>
             </div>
           </div>
-          <p>These cookies are necessary for the website to function and cannot be switched off.</p>
+          <p id="essential-desc">These cookies are necessary for the website to function and cannot be switched off.</p>
         </div>
         
         <div class="cookie-type">
           <div class="cookie-type-header">
             <h3>Analytics Cookies</h3>
             <div class="toggle-switch">
-              <input type="checkbox" id="analytics-toggle" aria-label="Analytics cookies toggle">
+              <input type="checkbox" id="analytics-toggle" aria-label="Analytics cookies toggle" aria-describedby="analytics-desc">
               <span class="slider"></span>
             </div>
           </div>
-          <p>These cookies allow us to count visits and traffic sources so we can measure and improve the performance of our site.</p>
+          <p id="analytics-desc">These cookies allow us to count visits and traffic sources so we can measure and improve the performance of our site.</p>
         </div>
         
         <div class="cookie-type">
           <div class="cookie-type-header">
             <h3>Advertising Cookies</h3>
             <div class="toggle-switch">
-              <input type="checkbox" id="advertising-toggle" aria-label="Advertising cookies toggle">
+              <input type="checkbox" id="advertising-toggle" aria-label="Advertising cookies toggle" aria-describedby="advertising-desc">
               <span class="slider"></span>
             </div>
           </div>
-          <p>These cookies may be set through our site by our advertising partners to build a profile of your interests.</p>
+          <p id="advertising-desc">These cookies may be set through our site by our advertising partners to build a profile of your interests.</p>
         </div>
       </div>
       <div class="settings-buttons">
@@ -1095,7 +1124,7 @@
         <p>EveryTool.io offers a collection of powerful, free tools that work entirely in your browser. Your files never leave your computer, ensuring complete privacy and security.</p>
         
         <!-- Explore Tools Button -->
-        <a href="/tools.html" class="hero-btn">
+        <a href="/tools.html" class="hero-btn" aria-label="Explore all tools">
           <i class="fas fa-toolbox"></i> Explore All Tools
         </a>
       </div>
@@ -1187,7 +1216,7 @@
     <div class="container">
       <h2>Ready to Get Started?</h2>
       <p>Join thousands of users who trust EveryTool.io for their daily tool needs without compromising their privacy.</p>
-      <a href="/tools.html" class="btn-light">
+      <a href="/tools.html" class="btn-light" aria-label="Explore all tools">
         <i class="fas fa-tools"></i> Explore All Tools
       </a>
     </div>
@@ -1198,10 +1227,10 @@
     <div class="container">
       <div class="footer-bottom">
         <div class="footer-links-row">
-          <a href="/privacy">Privacy Policy</a>
-          <a href="/terms">Terms of Service</a>
-          <a href="/gdpr">GDPR Compliance</a>
-          <a href="#" id="open-settings-footer">Cookie Settings</a>
+          <a href="/privacy" aria-label="Privacy Policy">Privacy Policy</a>
+          <a href="/terms" aria-label="Terms of Service">Terms of Service</a>
+          <a href="/gdpr" aria-label="GDPR Compliance">GDPR Compliance</a>
+          <a href="#" id="open-settings-footer" aria-label="Open cookie settings">Cookie Settings</a>
         </div>
         <p>© 2025 EveryTool.io. All rights reserved.</p>
       </div>
@@ -1216,12 +1245,15 @@
       const dismissed = localStorage.getItem(NOTIFICATION_KEY);
       if (!dismissed) {
         document.getElementById('site-notification').style.display = 'flex';
+      } else {
+        checkCookieConsent();
       }
     }
     
     function dismissNotification() {
       localStorage.setItem(NOTIFICATION_KEY, 'true');
       document.getElementById('site-notification').style.display = 'none';
+      checkCookieConsent();
     }
 
     // Cookie Management Functions
@@ -1238,15 +1270,11 @@
     
     function checkCookieConsent() {
       const preferences = getCookiePreferences();
-      
       if (!preferences) {
-        // Delay cookie consent to avoid overlapping with site notification
-        setTimeout(() => {
-          document.getElementById('cookie-consent').style.display = 'block';
-        }, 1500);
+        document.getElementById('cookie-consent').style.display = 'block';
       } else {
-        if (preferences.analytics) loadGoogleAnalytics();
-        if (preferences.advertising) loadGoogleAdSense();
+        if (preferences.analytics && !window.gaLoaded) loadGoogleAnalytics();
+        if (preferences.advertising && !window.adsenseLoaded) loadGoogleAdSense();
       }
     }
     
@@ -1256,6 +1284,7 @@
       const gtagScript = document.createElement('script');
       gtagScript.async = true;
       gtagScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-LR5XP1GJFC';
+      gtagScript.onerror = () => console.warn('Failed to load Google Analytics');
       document.head.appendChild(gtagScript);
       
       window.dataLayer = window.dataLayer || [];
@@ -1274,6 +1303,7 @@
       adsenseScript.async = true;
       adsenseScript.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4041775163958551';
       adsenseScript.crossOrigin = 'anonymous';
+      adsenseScript.onerror = () => console.warn('Failed to load Google AdSense');
       document.head.appendChild(adsenseScript);
       
       window.adsenseLoaded = true;
@@ -1290,10 +1320,12 @@
         document.getElementById('advertising-toggle').checked = true;
       }
       document.getElementById('cookie-settings').style.display = 'flex';
+      document.querySelector('.settings-modal').focus();
     }
     
     function closeCookieSettings() {
       document.getElementById('cookie-settings').style.display = 'none';
+      document.getElementById('open-settings').focus();
     }
 
     // Mobile menu toggle functionality
@@ -1321,6 +1353,18 @@
       }
     });
     
+    // Keyboard navigation for toggle switches
+    document.querySelectorAll('.toggle-switch input').forEach(toggle => {
+      toggle.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          if (!toggle.disabled) {
+            toggle.checked = !toggle.checked;
+          }
+        }
+      });
+    });
+
     // Event Listeners
     document.addEventListener('DOMContentLoaded', () => {
       // Site notification
@@ -1328,20 +1372,18 @@
       document.getElementById('dismiss-notification').addEventListener('click', dismissNotification);
       
       // Cookie consent
-      checkCookieConsent();
-      
-      document.getElementById('accept-cookies').addEventListener('click', function() {
+      document.getElementById('accept-cookies').addEventListener('click', () => {
         saveCookiePreferences({
           essential: true,
           analytics: true,
           advertising: true
         });
         document.getElementById('cookie-consent').style.display = 'none';
-        loadGoogleAnalytics();
-        loadGoogleAdSense();
+        if (!window.gaLoaded) loadGoogleAnalytics();
+        if (!window.adsenseLoaded) loadGoogleAdSense();
       });
       
-      document.getElementById('reject-cookies').addEventListener('click', function() {
+      document.getElementById('reject-cookies').addEventListener('click', () => {
         saveCookiePreferences({
           essential: true,
           analytics: false,
@@ -1353,20 +1395,20 @@
       document.getElementById('open-settings').addEventListener('click', openCookieSettings);
       document.querySelector('.close-settings').addEventListener('click', closeCookieSettings);
       
-      document.getElementById('save-settings').addEventListener('click', function() {
+      document.getElementById('save-settings').addEventListener('click', () => {
         const preferences = {
           essential: true,
           analytics: document.getElementById('analytics-toggle').checked,
           advertising: document.getElementById('advertising-toggle').checked
         };
         saveCookiePreferences(preferences);
-        if (preferences.analytics) loadGoogleAnalytics();
-        if (preferences.advertising) loadGoogleAdSense();
+        if (preferences.analytics && !window.gaLoaded) loadGoogleAnalytics();
+        if (preferences.advertising && !window.adsenseLoaded) loadGoogleAdSense();
         closeCookieSettings();
         document.getElementById('cookie-consent').style.display = 'none';
       });
       
-      document.getElementById('open-settings-footer').addEventListener('click', function(e) {
+      document.getElementById('open-settings-footer').addEventListener('click', (e) => {
         e.preventDefault();
         openCookieSettings();
       });
@@ -1380,7 +1422,7 @@
       });
       
       // Focus management for accessibility
-      document.querySelectorAll('a, button').forEach(element => {
+      document.querySelectorAll('a, button, input').forEach(element => {
         element.addEventListener('focus', function() {
           this.style.outline = '2px solid var(--primary)';
           this.style.outlineOffset = '2px';
@@ -1389,6 +1431,26 @@
         element.addEventListener('blur', function() {
           this.style.outline = 'none';
         });
+      });
+
+      // Trap focus in cookie settings modal
+      const settingsModal = document.querySelector('.settings-modal');
+      const focusableElements = settingsModal.querySelectorAll('button, input');
+      const firstFocusable = focusableElements[0];
+      const lastFocusable = focusableElements[focusableElements.length - 1];
+
+      settingsModal.addEventListener('keydown', (e) => {
+        if (e.key === 'Tab') {
+          if (e.shiftKey && document.activeElement === firstFocusable) {
+            e.preventDefault();
+            lastFocusable.focus();
+          } else if (!e.shiftKey && document.activeElement === lastFocusable) {
+            e.preventDefault();
+            firstFocusable.focus();
+          }
+        } else if (e.key === 'Escape') {
+          closeCookieSettings();
+        }
       });
     });
   </script>
