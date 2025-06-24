@@ -13,6 +13,18 @@
     <priority>0.3</priority>
   </url>
   <url>
+    <loc>https://everytool.io/blog</loc>
+    <lastmod>2025-06-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://everytool.io/blog/firstblogpost</loc>
+    <lastmod>2025-06-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://everytool.io/contact</loc>
     <lastmod>2025-06-23</lastmod>
     <changefreq>yearly</changefreq>
