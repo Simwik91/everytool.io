@@ -291,6 +291,7 @@
       transform: translateY(-3px);
       box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
       outline: 2px solid var(--primary);
+      outline-offset: 2px;
     }
     
     .feature-request {
@@ -635,20 +636,26 @@
     }
 
     .toggle-switch input {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       opacity: 0;
-      width: 0;
-      height: 0;
+      cursor: pointer;
+      z-index: 1;
     }
 
     .slider {
       position: absolute;
-      cursor: pointer;
       top: 0;
       left: 0;
       right: 0;
       bottom: 0;
       background-color: var(--gray);
-      transition: var(--transition);
+      transition: background-color 0.3s ease;
+      -webkit-transition: background-color 0.3s ease;
+      -moz-transition: background-color 0.3s ease;
       border-radius: 24px;
     }
 
@@ -660,7 +667,9 @@
       left: 4px;
       bottom: 4px;
       background-color: white;
-      transition: var(--transition);
+      transition: transform 0.3s ease;
+      -webkit-transition: transform 0.3s ease;
+      -moz-transition: transform 0.3s ease;
       border-radius: 50%;
     }
 
@@ -670,18 +679,12 @@
 
     .toggle-switch input:checked + .slider:before {
       transform: translateX(26px);
+      -webkit-transform: translateX(26px);
+      -moz-transform: translateX(26px);
     }
 
     .toggle-switch input:focus + .slider {
       box-shadow: 0 0 0 2px var(--primary-dark);
-    }
-
-    .toggle-switch input:hover:not(:disabled) + .slider {
-      background-color: #999;
-    }
-
-    .toggle-switch input:checked:hover:not(:disabled) + .slider {
-      background-color: var(--primary-dark);
     }
 
     .toggle-switch input:disabled + .slider {
@@ -692,14 +695,6 @@
 
     .toggle-switch input:disabled + .slider:before {
       background-color: #ddd;
-    }
-
-    .toggle-switch input:not(:disabled) + .slider:hover:before {
-      transform: scale(1.1);
-    }
-
-    .toggle-switch input:checked:not(:disabled) + .slider:hover:before {
-      transform: translateX(26px) scale(1.1);
     }
 
     .cookie-type p {
@@ -925,10 +920,10 @@
         <div class="cookie-type">
           <div class="cookie-type-header">
             <h3>Essential Cookies</h3>
-            <div class="toggle-switch">
-              <input type="checkbox" id="essential-toggle" checked disabled aria-label="Essential cookies toggle (always enabled)" aria-describedby="essential-desc">
+            <label class="toggle-switch" for="essential-toggle">
+              <input type="checkbox" id="essential-toggle" checked disabled aria-label="Essential cookies (always enabled, cannot be disabled)" aria-describedby="essential-desc">
               <span class="slider"></span>
-            </div>
+            </label>
           </div>
           <p id="essential-desc">These cookies are necessary for the website to function and cannot be switched off.</p>
         </div>
@@ -936,10 +931,10 @@
         <div class="cookie-type">
           <div class="cookie-type-header">
             <h3>Analytics Cookies</h3>
-            <div class="toggle-switch">
+            <label class="toggle-switch" for="analytics-toggle">
               <input type="checkbox" id="analytics-toggle" aria-label="Analytics cookies toggle" aria-describedby="analytics-desc">
               <span class="slider"></span>
-            </div>
+            </label>
           </div>
           <p id="analytics-desc">These cookies allow us to count visits and traffic sources so we can measure and improve the performance of our site.</p>
         </div>
@@ -947,10 +942,10 @@
         <div class="cookie-type">
           <div class="cookie-type-header">
             <h3>Advertising Cookies</h3>
-            <div class="toggle-switch">
+            <label class="toggle-switch" for="advertising-toggle">
               <input type="checkbox" id="advertising-toggle" aria-label="Advertising cookies toggle" aria-describedby="advertising-desc">
               <span class="slider"></span>
-            </div>
+            </label>
           </div>
           <p id="advertising-desc">These cookies may be set through our site by our advertising partners to build a profile of your interests.</p>
         </div>
@@ -982,17 +977,17 @@
         <form id="contact-form">
           <div class="form-group">
             <label for="name">Your Name</label>
-            <input type="text" id="name" name="name" placeholder="Enter your name" required aria-required="true">
+            <input type="text" id="name" name="name" placeholder="Enter your name" required aria-required="true" aria-label="Your name">
           </div>
           
           <div class="form-group">
             <label for="email">Email Address</label>
-            <input type="email" id="email" name="email" placeholder="Enter your email" required aria-required="true">
+            <input type="email" id="email" name="email" placeholder="Enter your email" required aria-required="true" aria-label="Your email address">
           </div>
           
           <div class="form-group">
             <label for="subject">Message Type</label>
-            <select id="subject" name="subject" required aria-required="true">
+            <select id="subject" name="subject" required aria-required="true" aria-label="Select message type">
               <option value="" disabled selected>Select message type</option>
               <option value="feedback">Feedback on Existing Tool</option>
               <option value="feature">Feature Request</option>
@@ -1004,7 +999,7 @@
           
           <div class="form-group">
             <label for="message">Your Message</label>
-            <textarea id="message" name="message" placeholder="Tell us what you think..." required aria-required="true"></textarea>
+            <textarea id="message" name="message" placeholder="Tell us what you think..." required aria-required="true" aria-label="Your message"></textarea>
           </div>
           
           <div class="feature-request">
@@ -1039,162 +1034,159 @@
   </footer>
 
   <script>
-    // Form submission handler
-    document.getElementById('contact-form').addEventListener('submit', function(e) {
-      e.preventDefault();
-      
-      // Show success message
-      document.getElementById('success-message').style.display = 'block';
-      
-      // Scroll to success message
-      document.getElementById('success-message').scrollIntoView({ behavior: 'smooth' });
-      
-      // Reset form after 5 seconds
-      setTimeout(function() {
-        document.getElementById('contact-form').reset();
-        document.getElementById('success-message').style.display = 'none';
-      }, 5000);
-    });
-    
-    // Auto-expand textarea as user types
-    const textarea = document.getElementById('message');
-    textarea.addEventListener('input', function() {
-      this.style.height = 'auto';
-      this.style.height = (this.scrollHeight) + 'px';
-    });
-    
-    // Mobile menu toggle functionality
-    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
-    const closeMobileMenu = document.getElementById('close-mobile-menu');
-    const mobileNav = document.getElementById('mobile-nav');
-    
-    mobileMenuToggle.addEventListener('click', () => {
-      mobileNav.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    });
-    
-    closeMobileMenu.addEventListener('click', () => {
-      mobileNav.classList.remove('active');
-      document.body.style.overflow = '';
-    });
-    
-    // Close mobile menu when clicking outside
-    document.addEventListener('click', (e) => {
-      if (mobileNav.classList.contains('active') && 
-          !mobileNav.contains(e.target) && 
-          e.target !== mobileMenuToggle) {
-        mobileNav.classList.remove('active');
-        document.body.style.overflow = '';
-      }
-    });
-    
-    // Close mobile nav when clicking a link
-    document.querySelectorAll('.mobile-nav-link').forEach(link => {
-      link.addEventListener('click', () => {
-        mobileNav.classList.remove('active');
-        document.body.style.overflow = '';
-      });
-    });
-    
     // Cookie Management Functions
     const COOKIE_CONSENT_KEY = 'cookieConsent';
-    
+
     function getCookiePreferences() {
       const preferences = localStorage.getItem(COOKIE_CONSENT_KEY);
-      return preferences ? JSON.parse(preferences) : null;
+      return preferences ? JSON.parse(preferences) : { essential: true, analytics: false, advertising: false };
     }
-    
+
     function saveCookiePreferences(preferences) {
       localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(preferences));
     }
-    
-    function checkCookieConsent() {
-      const preferences = getCookiePreferences();
-      if (!preferences) {
-        document.getElementById('cookie-consent').style.display = 'block';
-      } else {
-        if (preferences.analytics && !window.gaLoaded) loadGoogleAnalytics();
-        if (preferences.advertising && !window.adsenseLoaded) loadGoogleAdSense();
-      }
-    }
-    
+
     function loadGoogleAnalytics() {
       if (window.gaLoaded) return;
-      
+
       const gtagScript = document.createElement('script');
       gtagScript.async = true;
       gtagScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-LR5XP1GJFC';
       gtagScript.onerror = () => console.warn('Failed to load Google Analytics');
       document.head.appendChild(gtagScript);
-      
+
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
+      function gtag() { dataLayer.push(arguments); }
       gtag('js', new Date());
       gtag('config', 'G-LR5XP1GJFC');
-      
+
       window.gaLoaded = true;
       console.log('Google Analytics loaded');
     }
-    
+
     function loadGoogleAdSense() {
       if (window.adsenseLoaded) return;
-      
+
       const adsenseScript = document.createElement('script');
       adsenseScript.async = true;
       adsenseScript.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4041775163958551';
       adsenseScript.crossOrigin = 'anonymous';
       adsenseScript.onerror = () => console.warn('Failed to load Google AdSense');
       document.head.appendChild(adsenseScript);
-      
+
       window.adsenseLoaded = true;
       console.log('Google AdSense loaded');
     }
 
     function openCookieSettings() {
       const preferences = getCookiePreferences();
-      if (preferences) {
-        document.getElementById('analytics-toggle').checked = preferences.analytics;
-        document.getElementById('advertising-toggle').checked = preferences.advertising;
-      } else {
-        document.getElementById('analytics-toggle').checked = true;
-        document.getElementById('advertising-toggle').checked = true;
-      }
+      document.getElementById('analytics-toggle').checked = preferences.analytics;
+      document.getElementById('advertising-toggle').checked = preferences.advertising;
       document.getElementById('cookie-settings').style.display = 'flex';
       document.querySelector('.settings-modal').focus();
     }
-    
+
     function closeCookieSettings() {
       document.getElementById('cookie-settings').style.display = 'none';
       document.getElementById('open-settings').focus();
     }
 
-    // Initialize cookie functionality
-    document.addEventListener('DOMContentLoaded', () => {
+    // Mobile Menu Functions
+    function initMobileMenu() {
+      const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+      const closeMobileMenu = document.getElementById('close-mobile-menu');
+      const mobileNav = document.getElementById('mobile-nav');
+
+      mobileMenuToggle.addEventListener('click', () => {
+        mobileNav.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      });
+
+      closeMobileMenu.addEventListener('click', () => {
+        mobileNav.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+
+      document.addEventListener('click', (e) => {
+        if (mobileNav.classList.contains('active') && 
+            !mobileNav.contains(e.target) && 
+            e.target !== mobileMenuToggle) {
+          mobileNav.classList.remove('active');
+          document.body.style.overflow = '';
+        }
+      });
+
+      document.querySelectorAll('.mobile-nav-link').forEach(link => {
+        link.addEventListener('click', () => {
+          mobileNav.classList.remove('active');
+          document.body.style.overflow = '';
+        });
+      });
+    }
+
+    // Contact Form Functions
+    function initContactForm() {
+      const form = document.getElementById('contact-form');
+      const textarea = document.getElementById('message');
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const successMessage = document.getElementById('success-message');
+        successMessage.style.display = 'block';
+        successMessage.scrollIntoView({ behavior: 'smooth' });
+        setTimeout(() => {
+          form.reset();
+          successMessage.style.display = 'none';
+        }, 5000);
+      });
+
+      textarea.addEventListener('input', function() {
+        this.style.height = 'auto';
+        this.style.height = (this.scrollHeight) + 'px';
+      });
+    }
+
+    // Cookie Consent Functions
+    function initCookieConsent() {
+      function checkCookieConsent() {
+        const preferences = getCookiePreferences();
+        if (!preferences || !preferences.hasOwnProperty('essential')) {
+          document.getElementById('cookie-consent').style.display = 'block';
+        } else {
+          document.getElementById('analytics-toggle').checked = preferences.analytics;
+          document.getElementById('advertising-toggle').checked = preferences.advertising;
+          if (preferences.analytics && !window.gaLoaded) loadGoogleAnalytics();
+          if (preferences.advertising && !window.adsenseLoaded) loadGoogleAdSense();
+        }
+      }
+
       checkCookieConsent();
-      
+
       document.getElementById('accept-cookies').addEventListener('click', () => {
-        saveCookiePreferences({
+        const preferences = {
           essential: true,
           analytics: true,
           advertising: true
-        });
+        };
+        saveCookiePreferences(preferences);
         document.getElementById('cookie-consent').style.display = 'none';
         if (!window.gaLoaded) loadGoogleAnalytics();
         if (!window.adsenseLoaded) loadGoogleAdSense();
       });
-      
+
       document.getElementById('reject-cookies').addEventListener('click', () => {
-        saveCookiePreferences({
+        const preferences = {
           essential: true,
           analytics: false,
           advertising: false
-        });
+        };
+        saveCookiePreferences(preferences);
         document.getElementById('cookie-consent').style.display = 'none';
       });
-      
+
       document.getElementById('open-settings').addEventListener('click', openCookieSettings);
       document.querySelector('.close-settings').addEventListener('click', closeCookieSettings);
-      
+
       document.getElementById('save-settings').addEventListener('click', () => {
         const preferences = {
           essential: true,
@@ -1207,37 +1199,55 @@
         closeCookieSettings();
         document.getElementById('cookie-consent').style.display = 'none';
       });
-      
+
       document.getElementById('open-settings-footer').addEventListener('click', (e) => {
         e.preventDefault();
         openCookieSettings();
       });
 
-      // Keyboard navigation for toggle switches
+      const analyticsToggle = document.getElementById('analytics-toggle');
+      const advertisingToggle = document.getElementById('advertising-toggle');
+
+      analyticsToggle.addEventListener('change', () => {
+        const preferences = getCookiePreferences();
+        preferences.analytics = analyticsToggle.checked;
+        saveCookiePreferences(preferences);
+        if (preferences.analytics && !window.gaLoaded) loadGoogleAnalytics();
+      });
+
+      advertisingToggle.addEventListener('change', () => {
+        const preferences = getCookiePreferences();
+        preferences.advertising = advertisingToggle.checked;
+        saveCookiePreferences(preferences);
+        if (preferences.advertising && !window.adsenseLoaded) loadGoogleAdSense();
+      });
+    }
+
+    // Accessibility Functions
+    function initAccessibility() {
       document.querySelectorAll('.toggle-switch input').forEach(toggle => {
         toggle.addEventListener('keydown', (e) => {
           if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
             if (!toggle.disabled) {
               toggle.checked = !toggle.checked;
+              toggle.dispatchEvent(new Event('change'));
             }
           }
         });
       });
 
-      // Focus management for accessibility
       document.querySelectorAll('a, button, input, select, textarea').forEach(element => {
         element.addEventListener('focus', function() {
           this.style.outline = '2px solid var(--primary)';
           this.style.outlineOffset = '2px';
         });
-        
+
         element.addEventListener('blur', function() {
           this.style.outline = 'none';
         });
       });
 
-      // Trap focus in cookie settings modal
       const settingsModal = document.querySelector('.settings-modal');
       const focusableElements = settingsModal.querySelectorAll('button, input');
       const firstFocusable = focusableElements[0];
@@ -1256,6 +1266,14 @@
           closeCookieSettings();
         }
       });
+    }
+
+    // Initialize All Features
+    document.addEventListener('DOMContentLoaded', () => {
+      initMobileMenu();
+      initContactForm();
+      initCookieConsent();
+      initAccessibility();
     });
   </script>
 </body>
