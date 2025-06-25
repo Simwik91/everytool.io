@@ -213,7 +213,7 @@
     
     .close-mobile-menu:hover, .close-mobile-menu:focus {
       background: rgba(0, 0, 0, 0.05);
-      outline: none;
+      outline: 2px solid var(--primary);
     }
     
     .mobile-nav-menu {
@@ -238,7 +238,7 @@
     .mobile-nav-link:hover, .mobile-nav-link:focus {
       background: rgba(67, 97, 238, 0.1);
       color: var(--primary);
-      outline: none;
+      outline: 2px solid var(--primary);
     }
 
     /* Hero Section */
@@ -391,6 +391,7 @@
     .category-card a:hover, .category-card a:focus {
       background: var(--primary-dark);
       outline: 2px solid var(--primary);
+      outline-offset: 2px;
     }
 
     /* Search Results Section */
@@ -451,7 +452,8 @@
     .result-item a:hover, .result-item a:focus {
       color: var(--primary-dark);
       text-decoration: underline;
-      outline: none;
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
     }
 
     /* Footer */
@@ -479,7 +481,7 @@
     .footer-bottom a:hover, .footer-bottom a:focus {
       color: var(--primary);
       text-decoration: underline;
-      outline: none;
+      outline: 2px solid var(--primary);
     }
 
     .footer-links-row {
@@ -539,7 +541,7 @@
 
     .cookie-text a:hover, .cookie-text a:focus {
       text-decoration: underline;
-      outline: none;
+      outline: 2px solid var(--primary);
     }
 
     .cookie-buttons {
@@ -595,7 +597,7 @@
 
     .cookie-settings-btn:hover, .cookie-settings-btn:focus {
       color: var(--dark);
-      outline: none;
+      outline: 2px solid var(--primary);
     }
 
     #cookie-settings {
@@ -609,6 +611,7 @@
       justify-content: center;
       align-items: center;
       z-index: 2000;
+      animation: fadeIn 0.3s ease-out;
     }
 
     .settings-modal {
@@ -620,6 +623,17 @@
       overflow-y: auto;
       padding: 30px;
       position: relative;
+      animation: slideUp 0.3s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
     }
 
     .settings-header {
@@ -648,7 +662,7 @@
     .close-settings:hover, .close-settings:focus {
       color: var(--dark);
       background: rgba(0, 0, 0, 0.05);
-      outline: none;
+      outline: 2px solid var(--primary);
     }
 
     .settings-content {
@@ -681,24 +695,30 @@
     }
 
     .toggle-switch input {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       opacity: 0;
-      width: 0;
-      height: 0;
+      cursor: pointer;
+      z-index: 1;
     }
 
-    .toggle-switch .slider {
+    .slider {
       position: absolute;
-      cursor: pointer;
       top: 0;
       left: 0;
       right: 0;
       bottom: 0;
       background-color: var(--gray);
-      transition: var(--transition);
+      transition: background-color 0.3s ease;
+      -webkit-transition: background-color 0.3s ease;
+      -moz-transition: background-color 0.3s ease;
       border-radius: 24px;
     }
 
-    .toggle-switch .slider:before {
+    .slider:before {
       position: absolute;
       content: "";
       height: 16px;
@@ -706,7 +726,9 @@
       left: 4px;
       bottom: 4px;
       background-color: white;
-      transition: var(--transition);
+      transition: transform 0.3s ease;
+      -webkit-transition: transform 0.3s ease;
+      -moz-transition: transform 0.3s ease;
       border-radius: 50%;
     }
 
@@ -716,18 +738,12 @@
 
     .toggle-switch input:checked + .slider:before {
       transform: translateX(26px);
+      -webkit-transform: translateX(26px);
+      -moz-transform: translateX(26px);
     }
 
     .toggle-switch input:focus + .slider {
       box-shadow: 0 0 0 2px var(--primary-dark);
-    }
-
-    .toggle-switch input:hover:not(:disabled) + .slider {
-      background-color: #999;
-    }
-
-    .toggle-switch input:checked:hover:not(:disabled) + .slider {
-      background-color: var(--primary-dark);
     }
 
     .toggle-switch input:disabled + .slider {
@@ -765,7 +781,7 @@
 
     .save-settings:hover, .save-settings:focus {
       background: var(--primary-dark);
-      outline: none;
+      outline: 2px solid var(--primary);
     }
 
     /* Accessibility Improvements */
@@ -877,19 +893,19 @@
         <div class="nav-container">
           <ul class="nav-menu">
             <li class="nav-item">
-              <a href="/" class="nav-link"><i class="fas fa-home"></i> Home</a>
+              <a href="/" class="nav-link" aria-label="Home"><i class="fas fa-home"></i> Home</a>
             </li>
             <li class="nav-item">
-              <a href="/tools" class="nav-link"><i class="fas fa-toolbox"></i> Tools</a>
+              <a href="/tools" class="nav-link" aria-label="Tools"><i class="fas fa-toolbox"></i> Tools</a>
             </li>
             <li class="nav-item">
-              <a href="/blog" class="nav-link"><i class="fas fa-blog"></i> Blog</a>
+              <a href="/blog" class="nav-link" aria-label="Blog"><i class="fas fa-blog"></i> Blog</a>
             </li>
             <li class="nav-item">
-              <a href="/about" class="nav-link"><i class="fas fa-address-card"></i> About</a>
+              <a href="/about" class="nav-link" aria-label="About"><i class="fas fa-address-card"></i> About</a>
             </li>
             <li class="nav-item">
-              <a href="/contact" class="nav-link"><i class="fas fa-envelope"></i> Contact</a>
+              <a href="/contact" class="nav-link" aria-label="Contact"><i class="fas fa-envelope"></i> Contact</a>
             </li>
           </ul>
           <button class="mobile-menu-btn" id="mobile-menu-toggle" aria-label="Open mobile menu">
@@ -903,7 +919,7 @@
   <!-- Mobile Navigation -->
   <div class="mobile-nav" id="mobile-nav">
     <div class="mobile-nav-header">
-      <a href="/" class="logo">
+      <a href="/" class="logo" aria-label="EveryTool.io Home">
         <i class="fas fa-tools"></i>
         EveryTool.io
       </a>
@@ -913,29 +929,29 @@
     </div>
     <ul class="mobile-nav-menu">
       <li class="mobile-nav-item">
-        <a href="/" class="mobile-nav-link"><i class="fas fa-home"></i> Home</a>
+        <a href="/" class="mobile-nav-link" aria-label="Home"><i class="fas fa-home"></i> Home</a>
       </li>
       <li class="mobile-nav-item">
-        <a href="/tools" class="mobile-nav-link"><i class="fas fa-toolbox"></i> Tools</a>
+        <a href="/tools" class="mobile-nav-link" aria-label="Tools"><i class="fas fa-toolbox"></i> Tools</a>
       </li>
       <li class="mobile-nav-item">
-        <a href="/blog" class="mobile-nav-link"><i class="fas fa-blog"></i> Blog</a>
+        <a href="/blog" class="mobile-nav-link" aria-label="Blog"><i class="fas fa-blog"></i> Blog</a>
       </li>
       <li class="mobile-nav-item">
-        <a href="/about" class="mobile-nav-link"><i class="fas fa-address-card"></i> About</a>
+        <a href="/about" class="mobile-nav-link" aria-label="About"><i class="fas fa-address-card"></i> About</a>
       </li>
       <li class="mobile-nav-item">
-        <a href="/contact" class="mobile-nav-link"><i class="fas fa-envelope"></i> Contact</a>
+        <a href="/contact" class="mobile-nav-link" aria-label="Contact"><i class="fas fa-envelope"></i> Contact</a>
       </li>
     </ul>
   </div>
 
   <!-- Cookie Consent Banner -->
-  <div id="cookie-consent">
+  <div id="cookie-consent" role="dialog" aria-label="Cookie consent banner">
     <div class="cookie-content">
       <div class="cookie-text">
         <p>We use cookies to enhance your experience and analyze site traffic. By clicking "Accept All", you consent to our use of cookies. 
-          <a href="/privacy-policy.html">Learn more</a> in our Privacy Policy.
+          <a href="/privacy-policy.html" aria-label="Learn more about our Privacy Policy">Learn more</a> in our Privacy Policy.
         </p>
         <button class="cookie-settings-btn" id="open-settings" aria-label="Open cookie settings">Cookie Settings</button>
       </div>
@@ -946,46 +962,46 @@
     </div>
   </div>
 
-  <div id="cookie-settings">
+  <div id="cookie-settings" role="dialog" aria-labelledby="cookie-settings-title" aria-describedby="cookie-settings-desc">
     <div class="settings-modal">
       <div class="settings-header">
-        <h2><i class="fas fa-cookie-bite"></i> Cookie Settings</h2>
+        <h2 id="cookie-settings-title"><i class="fas fa-cookie-bite"></i> Cookie Settings</h2>
         <button class="close-settings" aria-label="Close cookie settings">×</button>
       </div>
       <div class="settings-content">
-        <p>You can set your preferences for how we and our partners use cookies and similar technologies.</p>
+        <p id="cookie-settings-desc">You can set your preferences for how we and our partners use cookies and similar technologies.</p>
         
         <div class="cookie-type">
           <div class="cookie-type-header">
             <h3>Essential Cookies</h3>
-            <label class="toggle-switch">
-              <input type="checkbox" id="essential-toggle" checked disabled aria-label="Essential cookies toggle (always enabled)">
+            <label class="toggle-switch" for="essential-toggle">
+              <input type="checkbox" id="essential-toggle" checked disabled aria-label="Essential cookies (always enabled, cannot be disabled)" aria-describedby="essential-desc">
               <span class="slider"></span>
             </label>
           </div>
-          <p>These cookies are necessary for the website to function and cannot be switched off.</p>
+          <p id="essential-desc">These cookies are necessary for the website to function and cannot be switched off.</p>
         </div>
         
         <div class="cookie-type">
           <div class="cookie-type-header">
             <h3>Analytics Cookies</h3>
-            <label class="toggle-switch">
-              <input type="checkbox" id="analytics-toggle" aria-label="Analytics cookies toggle">
+            <label class="toggle-switch" for="analytics-toggle">
+              <input type="checkbox" id="analytics-toggle" aria-label="Analytics cookies toggle" aria-describedby="analytics-desc">
               <span class="slider"></span>
             </label>
           </div>
-          <p>These cookies allow us to count visits and traffic sources so we can measure and improve the performance of our site.</p>
+          <p id="analytics-desc">These cookies allow us to count visits and traffic sources so we can measure and improve the performance of our site.</p>
         </div>
         
         <div class="cookie-type">
           <div class="cookie-type-header">
             <h3>Advertising Cookies</h3>
-            <label class="toggle-switch">
-              <input type="checkbox" id="advertising-toggle" aria-label="Advertising cookies toggle">
+            <label class="toggle-switch" for="advertising-toggle">
+              <input type="checkbox" id="advertising-toggle" aria-label="Advertising cookies toggle" aria-describedby="advertising-desc">
               <span class="slider"></span>
             </label>
           </div>
-          <p>These cookies may be set through our site by our advertising partners to build a profile of your interests.</p>
+          <p id="advertising-desc">These cookies may be set through our site by our advertising partners to build a profile of your interests.</p>
         </div>
       </div>
       <div class="settings-buttons">
@@ -1033,10 +1049,10 @@
     <div class="container">
       <div class="footer-bottom">
         <div class="footer-links-row">
-          <a href="/privacy">Privacy Policy</a>
-          <a href="/terms">Terms of Service</a>
-          <a href="/gdpr">GDPR Compliance</a>
-          <a href="#" id="open-settings-footer">Cookie Settings</a>
+          <a href="/privacy" aria-label="Privacy Policy">Privacy Policy</a>
+          <a href="/terms" aria-label="Terms of Service">Terms of Service</a>
+          <a href="/gdpr" aria-label="GDPR Compliance">GDPR Compliance</a>
+          <a href="#" id="open-settings-footer" aria-label="Open cookie settings">Cookie Settings</a>
         </div>
         <p>© 2025 EveryTool.io. All rights reserved.</p>
       </div>
@@ -1044,305 +1060,365 @@
   </footer>
 
   <script>
-    // Mobile menu toggle functionality
-    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
-    const closeMobileMenu = document.getElementById('close-mobile-menu');
-    const mobileNav = document.getElementById('mobile-nav');
-    
-    mobileMenuToggle.addEventListener('click', () => {
-      mobileNav.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    });
-    
-    closeMobileMenu.addEventListener('click', () => {
-      mobileNav.classList.remove('active');
-      document.body.style.overflow = '';
-    });
-    
-    // Close mobile menu when clicking outside
-    document.addEventListener('click', (e) => {
-      if (mobileNav.classList.contains('active') && 
-          !mobileNav.contains(e.target) && 
-          e.target !== mobileMenuToggle) {
-        mobileNav.classList.remove('active');
-        document.body.style.overflow = '';
-      }
-    });
-    
-    // Close mobile nav when clicking a link
-    document.querySelectorAll('.mobile-nav-link').forEach(link => {
-      link.addEventListener('click', () => {
-        mobileNav.classList.remove('active');
-        document.body.style.overflow = '';
-      });
-    });
-    
     // Cookie Management Functions
     const COOKIE_CONSENT_KEY = 'cookieConsent';
-    
+
     function getCookiePreferences() {
       const preferences = localStorage.getItem(COOKIE_CONSENT_KEY);
-      return preferences ? JSON.parse(preferences) : null;
+      return preferences ? JSON.parse(preferences) : { essential: true, analytics: false, advertising: false };
     }
-    
+
     function saveCookiePreferences(preferences) {
       localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(preferences));
     }
-    
-    function checkCookieConsent() {
-      const preferences = getCookiePreferences();
-      
-      if (!preferences) {
-        document.getElementById('cookie-consent').style.display = 'block';
-      } else {
-        if (preferences.analytics) loadGoogleAnalytics();
-        if (preferences.advertising) loadGoogleAdSense();
-      }
-    }
-    
+
     function loadGoogleAnalytics() {
       if (window.gaLoaded) return;
-      
+
       const gtagScript = document.createElement('script');
       gtagScript.async = true;
       gtagScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-LR5XP1GJFC';
+      gtagScript.onerror = () => console.warn('Failed to load Google Analytics');
       document.head.appendChild(gtagScript);
-      
+
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
+      function gtag() { dataLayer.push(arguments); }
       gtag('js', new Date());
       gtag('config', 'G-LR5XP1GJFC');
-      
+
       window.gaLoaded = true;
       console.log('Google Analytics loaded');
     }
-    
+
     function loadGoogleAdSense() {
       if (window.adsenseLoaded) return;
-      
+
       const adsenseScript = document.createElement('script');
       adsenseScript.async = true;
       adsenseScript.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4041775163958551';
       adsenseScript.crossOrigin = 'anonymous';
+      adsenseScript.onerror = () => console.warn('Failed to load Google AdSense');
       document.head.appendChild(adsenseScript);
-      
+
       window.adsenseLoaded = true;
       console.log('Google AdSense loaded');
     }
 
     function openCookieSettings() {
       const preferences = getCookiePreferences();
-      if (preferences) {
-        document.getElementById('analytics-toggle').checked = preferences.analytics;
-        document.getElementById('advertising-toggle').checked = preferences.advertising;
-      } else {
-        document.getElementById('analytics-toggle').checked = true;
-        document.getElementById('advertising-toggle').checked = true;
-      }
+      document.getElementById('analytics-toggle').checked = preferences.analytics;
+      document.getElementById('advertising-toggle').checked = preferences.advertising;
       document.getElementById('cookie-settings').style.display = 'flex';
+      document.querySelector('.settings-modal').focus();
     }
-    
+
     function closeCookieSettings() {
       document.getElementById('cookie-settings').style.display = 'none';
+      document.getElementById('open-settings').focus();
     }
 
-    // Search Functionality with JSON
-    let toolData = [];
+    // Mobile Menu Functions
+    function initMobileMenu() {
+      const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+      const closeMobileMenu = document.getElementById('close-mobile-menu');
+      const mobileNav = document.getElementById('mobile-nav');
 
-    async function loadToolData() {
-      try {
-        const response = await fetch('/tools/tools.json');
-        if (!response.ok) throw new Error('Failed to load tools.json');
-        toolData = await response.json();
-        renderCategories();
-      } catch (error) {
-        console.error('Error loading tools.json:', error);
-        // Fallback: Render static categories if JSON fails to load
-        renderFallbackCategories();
-      }
-    }
+      mobileMenuToggle.addEventListener('click', () => {
+        mobileNav.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      });
 
-    function renderCategories(searchTerm = '') {
-      const categoriesGrid = document.getElementById('categories-grid');
-      categoriesGrid.innerHTML = '';
+      closeMobileMenu.addEventListener('click', () => {
+        mobileNav.classList.remove('active');
+        document.body.style.overflow = '';
+      });
 
-      toolData.forEach(category => {
-        const categoryName = category.category.toLowerCase();
-        const categorySlug = category.slug.toLowerCase();
-        const categoryDescription = category.description.toLowerCase();
-
-        if (!searchTerm || 
-            categoryName.includes(searchTerm) || 
-            categorySlug.includes(searchTerm) || 
-            categoryDescription.includes(searchTerm)) {
-          const card = document.createElement('article');
-          card.className = 'category-card';
-          card.setAttribute('data-category', category.slug);
-          card.innerHTML = `
-            <div class="category-icon">
-              <i class="${category.icon}"></i>
-            </div>
-            <h3>${category.category}</h3>
-            <p>${category.description}</p>
-            <a href="${category.url}" class="btn">View Tools</a>
-          `;
-          categoriesGrid.appendChild(card);
+      document.addEventListener('click', (e) => {
+        if (mobileNav.classList.contains('active') && 
+            !mobileNav.contains(e.target) && 
+            e.target !== mobileMenuToggle) {
+          mobileNav.classList.remove('active');
+          document.body.style.overflow = '';
         }
       });
-    }
 
-    function renderSearchResults(searchTerm = '') {
-      const searchResults = document.getElementById('search-results');
-      const resultsList = document.getElementById('results-list');
-      resultsList.innerHTML = '';
-
-      if (!searchTerm) {
-        searchResults.classList.remove('active');
-        return;
-      }
-
-      let hasResults = false;
-      toolData.forEach(category => {
-        category.tools.forEach(tool => {
-          const toolName = tool.name.toLowerCase();
-          const toolDescription = tool.description.toLowerCase();
-          if (toolName.includes(searchTerm) || toolDescription.includes(searchTerm)) {
-            hasResults = true;
-            const resultItem = document.createElement('div');
-            resultItem.className = 'result-item';
-            resultItem.innerHTML = `
-              <h4>${tool.name}</h4>
-              <p>${tool.description}</p>
-              <a href="${tool.url}" aria-label="Go to ${tool.name} tool">Go to Tool</a>
-            `;
-            resultsList.appendChild(resultItem);
-          }
+      document.querySelectorAll('.mobile-nav-link').forEach(link => {
+        link.addEventListener('click', () => {
+          mobileNav.classList.remove('active');
+          document.body.style.overflow = '';
         });
       });
-
-      searchResults.classList.toggle('active', hasResults);
     }
 
-    function renderFallbackCategories() {
-      const categoriesGrid = document.getElementById('categories-grid');
-      categoriesGrid.innerHTML = `
-        <article class="category-card" data-category="ean-generator">
-          <div class="category-icon"><i class="fas fa-barcode"></i></div>
-          <h3>EAN Generator</h3>
-          <p>Create EAN barcodes for products or inventory directly in your browser without data uploads.</p>
-          <a href="/tools/ean" class="btn">View Tools</a>
-        </article>
-        <article class="category-card" data-category="qr-generator">
-          <div class="category-icon"><i class="fas fa-qrcode"></i></div>
-          <h3>QR Generator</h3>
-          <p>Generate QR codes for URLs, text, or contact details, processed entirely in your browser.</p>
-          <a href="/tools/qr" class="btn">View Tools</a>
-        </article>
-        <article class="category-card" data-category="image-tools">
-          <div class="category-icon"><i class="fas fa-image"></i></div>
-          <h3>Image Tools</h3>
-          <p>Edit, resize, or convert images in your browser without uploading to any server.</p>
-          <a href="/tools/image" class="btn">View Tools</a>
-        </article>
-        <article class="category-card" data-category="video-tools">
-          <div class="category-icon"><i class="fas fa-video"></i></div>
-          <h3>Video Tools</h3>
-          <p>Trim, convert, or compress videos locally, keeping your media secure and private.</p>
-          <a href="/tools/video" class="btn">View Tools</a>
-        </article>
-        <article class="category-card" data-category="text-tools">
-          <div class="category-icon"><i class="fas fa-font"></i></div>
-          <h3>Text Tools</h3>
-          <p>Manipulate text with tools for formatting, counting, or generating content, all in-browser.</p>
-          <a href="/tools/text" class="btn">View Tools</a>
-        </article>
-        <article class="category-card" data-category="file-converter">
-          <div class="category-icon"><i class="fas fa-file-export"></i></div>
-          <h3>File Converter</h3>
-          <p>Convert files between formats in your browser, ensuring your data stays on your device.</p>
-          <a href="/tools/converter" class="btn">View Tools</a>
-        </article>
-        <article class="category-card" data-category="pdf-tools">
-          <div class="category-icon"><i class="fas fa-file-pdf"></i></div>
-          <h3>PDF Tools</h3>
-          <p>Edit, merge, or compress PDF files directly in your browser with complete privacy.</p>
-          <a href="/tools/pdf" class="btn">View Tools</a>
-        </article>
-        <article class="category-card" data-category="career-tools">
-          <div class="category-icon"><i class="fas fa-briefcase"></i></div>
-          <h3>Career Tools</h3>
-          <p>Create resumes, cover letters, or prepare for interviews with private, browser-based tools.</p>
-          <a href="/tools/career" class="btn">View Tools</a>
-        </article>
-      `;
-    }
+    // Cookie Consent Functions
+    function initCookieConsent() {
+      function checkCookieConsent() {
+        const preferences = getCookiePreferences();
+        if (!preferences || !preferences.hasOwnProperty('essential')) {
+          document.getElementById('cookie-consent').style.display = 'block';
+        } else {
+          document.getElementById('analytics-toggle').checked = preferences.analytics;
+          document.getElementById('advertising-toggle').checked = preferences.advertising;
+          if (preferences.analytics && !window.gaLoaded) loadGoogleAnalytics();
+          if (preferences.advertising && !window.adsenseLoaded) loadGoogleAdSense();
+        }
+      }
 
-    // Search Functionality
-    const searchInput = document.getElementById('tool-search');
-
-    searchInput.addEventListener('input', () => {
-      const searchTerm = searchInput.value.toLowerCase().trim();
-      renderCategories(searchTerm);
-      renderSearchResults(searchTerm);
-    });
-
-    // Initialize functionality
-    document.addEventListener('DOMContentLoaded', () => {
       checkCookieConsent();
-      loadToolData();
-      
-      document.getElementById('accept-cookies').addEventListener('click', function() {
-        saveCookiePreferences({
+
+      document.getElementById('accept-cookies').addEventListener('click', () => {
+        const preferences = {
           essential: true,
           analytics: true,
           advertising: true
-        });
+        };
+        saveCookiePreferences(preferences);
         document.getElementById('cookie-consent').style.display = 'none';
-        loadGoogleAnalytics();
-        loadGoogleAdSense();
+        if (!window.gaLoaded) loadGoogleAnalytics();
+        if (!window.adsenseLoaded) loadGoogleAdSense();
       });
-      
-      document.getElementById('reject-cookies').addEventListener('click', function() {
-        saveCookiePreferences({
+
+      document.getElementById('reject-cookies').addEventListener('click', () => {
+        const preferences = {
           essential: true,
           analytics: false,
           advertising: false
-        });
+        };
+        saveCookiePreferences(preferences);
         document.getElementById('cookie-consent').style.display = 'none';
       });
-      
+
       document.getElementById('open-settings').addEventListener('click', openCookieSettings);
       document.querySelector('.close-settings').addEventListener('click', closeCookieSettings);
-      
-      document.getElementById('save-settings').addEventListener('click', function() {
+
+      document.getElementById('save-settings').addEventListener('click', () => {
         const preferences = {
           essential: true,
           analytics: document.getElementById('analytics-toggle').checked,
           advertising: document.getElementById('advertising-toggle').checked
         };
         saveCookiePreferences(preferences);
-        if (preferences.analytics) loadGoogleAnalytics();
-        if (preferences.advertising) loadGoogleAdSense();
+        if (preferences.analytics && !window.gaLoaded) loadGoogleAnalytics();
+        if (preferences.advertising && !window.adsenseLoaded) loadGoogleAdSense();
         closeCookieSettings();
         document.getElementById('cookie-consent').style.display = 'none';
       });
-      
-      document.getElementById('open-settings-footer').addEventListener('click', function(e) {
+
+      document.getElementById('open-settings-footer').addEventListener('click', (e) => {
         e.preventDefault();
         openCookieSettings();
       });
-      
-      // Focus management for accessibility
+
+      const analyticsToggle = document.getElementById('analytics-toggle');
+      const advertisingToggle = document.getElementById('advertising-toggle');
+
+      analyticsToggle.addEventListener('change', () => {
+        const preferences = getCookiePreferences();
+        preferences.analytics = analyticsToggle.checked;
+        saveCookiePreferences(preferences);
+        if (preferences.analytics && !window.gaLoaded) loadGoogleAnalytics();
+      });
+
+      advertisingToggle.addEventListener('change', () => {
+        const preferences = getCookiePreferences();
+        preferences.advertising = advertisingToggle.checked;
+        saveCookiePreferences(preferences);
+        if (preferences.advertising && !window.adsenseLoaded) loadGoogleAdSense();
+      });
+    }
+
+    // Search Functionality with JSON
+    function initSearch() {
+      let toolData = [];
+
+      async function loadToolData() {
+        try {
+          const response = await fetch('/tools/tools.json');
+          if (!response.ok) throw new Error('Failed to load tools.json');
+          toolData = await response.json();
+          renderCategories();
+        } catch (error) {
+          console.error('Error loading tools.json:', error);
+          renderFallbackCategories();
+        }
+      }
+
+      function renderCategories(searchTerm = '') {
+        const categoriesGrid = document.getElementById('categories-grid');
+        categoriesGrid.innerHTML = '';
+
+        toolData.forEach(category => {
+          const categoryName = category.category.toLowerCase();
+          const categorySlug = category.slug.toLowerCase();
+          const categoryDescription = category.description.toLowerCase();
+
+          if (!searchTerm || 
+              categoryName.includes(searchTerm) || 
+              categorySlug.includes(searchTerm) || 
+              categoryDescription.includes(searchTerm)) {
+            const card = document.createElement('article');
+            card.className = 'category-card';
+            card.setAttribute('data-category', category.slug);
+            card.innerHTML = `
+              <div class="category-icon">
+                <i class="${category.icon}"></i>
+              </div>
+              <h3>${category.category}</h3>
+              <p>${category.description}</p>
+              <a href="${category.url}" aria-label="View ${category.category} tools">View Tools</a>
+            `;
+            categoriesGrid.appendChild(card);
+          }
+        });
+      }
+
+      function renderSearchResults(searchTerm = '') {
+        const searchResults = document.getElementById('search-results');
+        const resultsList = document.getElementById('results-list');
+        resultsList.innerHTML = '';
+
+        if (!searchTerm) {
+          searchResults.classList.remove('active');
+          return;
+        }
+
+        let hasResults = false;
+        toolData.forEach(category => {
+          category.tools.forEach(tool => {
+            const toolName = tool.name.toLowerCase();
+            const toolDescription = tool.description.toLowerCase();
+            if (toolName.includes(searchTerm) || toolDescription.includes(searchTerm)) {
+              hasResults = true;
+              const resultItem = document.createElement('div');
+              resultItem.className = 'result-item';
+              resultItem.innerHTML = `
+                <h4>${tool.name}</h4>
+                <p>${tool.description}</p>
+                <a href="${tool.url}" aria-label="Go to ${tool.name} tool">Go to Tool</a>
+              `;
+              resultsList.appendChild(resultItem);
+            }
+          });
+        });
+
+        searchResults.classList.toggle('active', hasResults);
+      }
+
+      function renderFallbackCategories() {
+        const categoriesGrid = document.getElementById('categories-grid');
+        categoriesGrid.innerHTML = `
+          <article class="category-card" data-category="ean-generator">
+            <div class="category-icon"><i class="fas fa-barcode"></i></div>
+            <h3>EAN Generator</h3>
+            <p>Create EAN barcodes for products or inventory directly in your browser without data uploads.</p>
+            <a href="/tools/ean" aria-label="View EAN Generator tools">View Tools</a>
+          </article>
+          <article class="category-card" data-category="qr-generator">
+            <div class="category-icon"><i class="fas fa-qrcode"></i></div>
+            <h3>QR Generator</h3>
+            <p>Generate QR codes for URLs, text, or contact details, processed entirely in your browser.</p>
+            <a href="/tools/qr" aria-label="View QR Generator tools">View Tools</a>
+          </article>
+          <article class="category-card" data-category="image-tools">
+            <div class="category-icon"><i class="fas fa-image"></i></div>
+            <h3>Image Tools</h3>
+            <p>Edit, resize, or convert images in your browser without uploading to any server.</p>
+            <a href="/tools/image" aria-label="View Image Tools">View Tools</a>
+          </article>
+          <article class="category-card" data-category="video-tools">
+            <div class="category-icon"><i class="fas fa-video"></i></div>
+            <h3>Video Tools</h3>
+            <p>Trim, convert, or compress videos locally, keeping your media secure and private.</p>
+            <a href="/tools/video" aria-label="View Video Tools">View Tools</a>
+          </article>
+          <article class="category-card" data-category="text-tools">
+            <div class="category-icon"><i class="fas fa-font"></i></div>
+            <h3>Text Tools</h3>
+            <p>Manipulate text with tools for formatting, counting, or generating content, all in-browser.</p>
+            <a href="/tools/text" aria-label="View Text Tools">View Tools</a>
+          </article>
+          <article class="category-card" data-category="file-converter">
+            <div class="category-icon"><i class="fas fa-file-export"></i></div>
+            <h3>File Converter</h3>
+            <p>Convert files between formats in your browser, ensuring your data stays on your device.</p>
+            <a href="/tools/converter" aria-label="View File Converter tools">View Tools</a>
+          </article>
+          <article class="category-card" data-category="pdf-tools">
+            <div class="category-icon"><i class="fas fa-file-pdf"></i></div>
+            <h3>PDF Tools</h3>
+            <p>Edit, merge, or compress PDF files directly in your browser with complete privacy.</p>
+            <a href="/tools/pdf" aria-label="View PDF Tools">View Tools</a>
+          </article>
+          <article class="category-card" data-category="career-tools">
+            <div class="category-icon"><i class="fas fa-briefcase"></i></div>
+            <h3>Career Tools</h3>
+            <p>Create resumes, cover letters, or prepare for interviews with private, browser-based tools.</p>
+            <a href="/tools/career" aria-label="View Career Tools">View Tools</a>
+          </article>
+        `;
+      }
+
+      const searchInput = document.getElementById('tool-search');
+      searchInput.addEventListener('input', () => {
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        renderCategories(searchTerm);
+        renderSearchResults(searchTerm);
+      });
+
+      loadToolData();
+    }
+
+    // Accessibility Functions
+    function initAccessibility() {
+      document.querySelectorAll('.toggle-switch input').forEach(toggle => {
+        toggle.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            if (!toggle.disabled) {
+              toggle.checked = !toggle.checked;
+              toggle.dispatchEvent(new Event('change'));
+            }
+          }
+        });
+      });
+
       document.querySelectorAll('a, button, input').forEach(element => {
         element.addEventListener('focus', function() {
           this.style.outline = '2px solid var(--primary)';
           this.style.outlineOffset = '2px';
         });
-        
+
         element.addEventListener('blur', function() {
           this.style.outline = 'none';
         });
       });
+
+      const settingsModal = document.querySelector('.settings-modal');
+      const focusableElements = settingsModal.querySelectorAll('button, input');
+      const firstFocusable = focusableElements[0];
+      const lastFocusable = focusableElements[focusableElements.length - 1];
+
+      settingsModal.addEventListener('keydown', (e) => {
+        if (e.key === 'Tab') {
+          if (e.shiftKey && document.activeElement === firstFocusable) {
+            e.preventDefault();
+            lastFocusable.focus();
+          } else if (!e.shiftKey && document.activeElement === lastFocusable) {
+            e.preventDefault();
+            firstFocusable.focus();
+          }
+        } else if (e.key === 'Escape') {
+          closeCookieSettings();
+        }
+      });
+    }
+
+    // Initialize All Features
+    document.addEventListener('DOMContentLoaded', () => {
+      initMobileMenu();
+      initCookieConsent();
+      initSearch();
+      initAccessibility();
     });
   </script>
 </body>
