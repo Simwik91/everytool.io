@@ -8,20 +8,20 @@
   
   <!-- SEO Optimizations -->
   <meta name="robots" content="index, follow">
-  <meta name="keywords" content="about everytool, privacy tools, client-side tools, browser tools, free online tools">
+  <meta name="keywords" content="about everytool, everytool-tools tool, privacy tools, client-side tools, browser tools, free online tools">
   <meta property="og:title" content="About Us - EveryTool.io">
   <meta property="og:description" content="Learn about EveryTool.io's mission to provide free, privacy-focused online tools that work entirely in your browser.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://everytool.io/about">
-  <meta property="og:image" content="https://everytool.io/social-preview.jpg">
+  <meta property="og:image" content="https://everytool.io/images/social-preview.jpg">
   <meta name="twitter:card" content="summary_large_image">
   
   <!-- Performance Tuning -->
   <link rel="preconnect" href="https://cdnjs.cloudflare.com">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.rel='stylesheet'">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" as="style" onload="this.rel='stylesheet'">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;700&display=swap" rel="stylesheet">
   
   <!-- Structured Data -->
   <script type="application/ld+json">
@@ -36,7 +36,7 @@
       "name": "EveryTool.io",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://everytool.io/logo.png"
+        "url": "https://everytool.io/images/logo.png"
       }
     }
   }
@@ -65,7 +65,7 @@
     
     body {
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, var(--light) 0%, #f0f4ff 100%);
+      background: linear-gradient(135deg, var(--light) 0%, #f0f4ff);
       color: var(--dark);
       line-height: 1.6;
       min-height: 100vh;
@@ -192,10 +192,10 @@
       border-radius: var(--border-radius);
       padding: 80px 40px;
       margin: 40px 0 60px;
-      box-shadow: var(--box-shadow);
       text-align: center;
       position: relative;
       overflow: hidden;
+      box-shadow: var(--box-shadow);
     }
     
     .about-hero:before {
@@ -239,8 +239,8 @@
     
     .mission-section {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 40px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
       margin: 60px 0;
     }
     
@@ -248,9 +248,14 @@
       background: white;
       border-radius: var(--border-radius);
       padding: 40px 30px;
-      box-shadow: var(--box-shadow);
       text-align: center;
+      box-shadow: var(--box-shadow);
       transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
     }
     
     .mission-card:hover {
@@ -262,6 +267,14 @@
       font-size: 3.5rem;
       color: var(--primary);
       margin-bottom: 25px;
+      background: rgba(67, 97, 238, 0.1);
+      width: 90px;
+      height: 90px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      margin: 0 auto 25px;
     }
     
     .mission-card h3 {
@@ -272,39 +285,43 @@
     
     .mission-card p {
       color: var(--gray);
+      flex-grow: 1;
     }
     
     .how-it-works {
-      background: #f8f9ff;
+      padding: 70px 0;
+      background: var(--light);
       border-radius: var(--border-radius);
-      padding: 60px 40px;
-      margin: 60px 0;
-      box-shadow: var(--box-shadow);
+      margin: 0 0 60px;
     }
     
     .how-it-works h2 {
       text-align: center;
-      font-size: 2.2rem;
-      margin-bottom: 50px;
-      color: var(--primary);
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      font-weight: 700;
+      color: var(--dark);
     }
     
     .steps {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 30px;
+      counter-reset: step-counter;
     }
     
     .step {
       background: white;
       border-radius: var(--border-radius);
-      padding: 30px;
+      padding: 40px 30px 30px;
       box-shadow: var(--box-shadow);
-      text-align: center;
       position: relative;
+      counter-increment: step-counter;
+      text-align: center;
     }
     
-    .step-number {
+    .step:before {
+      content: counter(step-counter);
       position: absolute;
       top: -20px;
       left: 50%;
@@ -343,35 +360,51 @@
     
     .values-section h2 {
       text-align: center;
-      font-size: 2.2rem;
-      margin-bottom: 50px;
-      color: var(--primary);
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      font-weight: 700;
+      color: var(--dark);
     }
     
     .values-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 25px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      margin-bottom: 2rem;
     }
     
     .value-card {
       background: white;
       border-radius: var(--border-radius);
-      padding: 30px;
+      padding: 40px 30px;
       box-shadow: var(--box-shadow);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+    }
+    
+    .value-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
     }
     
     .value-card h3 {
-      font-size: 1.4rem;
-      color: var(--primary);
+      font-size: 1.5rem;
+      color: var(--dark);
       margin-bottom: 15px;
       display: flex;
       align-items: center;
+      justify-content: center;
       gap: 10px;
     }
     
     .value-card p {
       color: var(--gray);
+      flex-grow: 1;
     }
     
     /* Footer */
@@ -380,13 +413,13 @@
       color: #000;
       padding: 60px 0 30px;
     }
-
+    
     .footer-bottom {
       border-top: 1px solid rgba(0, 0, 0, 0.1);
       padding-top: 30px;
       text-align: center;
     }
-
+    
     .footer-bottom a {
       color: #000;
       text-decoration: none;
@@ -395,13 +428,14 @@
       font-size: 1.1rem;
       margin: 0 10px;
     }
-
+    
     .footer-bottom a:hover, .footer-bottom a:focus {
       color: var(--primary);
       text-decoration: underline;
       outline: 2px solid var(--primary);
+      outline-offset: 2px;
     }
-
+    
     .footer-links-row {
       display: flex;
       justify-content: center;
@@ -494,12 +528,12 @@
       max-width: 800px;
       background: var(--light);
       border-radius: var(--border-radius);
-      box-shadow: 0 5px 30px rgba(0, 0, 0, 0.15);
+      box-shadow: var(--box-shadow);
       padding: 20px;
       z-index: 1000;
       display: none;
     }
-
+    
     .cookie-content {
       display: flex;
       flex-wrap: wrap;
@@ -507,34 +541,34 @@
       align-items: center;
       justify-content: space-between;
     }
-
+    
     .cookie-text {
       flex: 1;
       min-width: 300px;
       color: var(--dark);
     }
-
+    
     .cookie-text p {
       margin-bottom: 10px;
       font-size: 0.95rem;
     }
-
+    
     .cookie-text a {
       color: var(--primary);
       text-decoration: none;
     }
-
+    
     .cookie-text a:hover, .cookie-text a:focus {
       text-decoration: underline;
       outline: 2px solid var(--primary);
     }
-
+    
     .cookie-buttons {
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
     }
-
+    
     .cookie-btn {
       padding: 10px 20px;
       border-radius: 50px;
@@ -545,30 +579,30 @@
       border: none;
       min-width: 180px;
     }
-
+    
     .cookie-btn:focus {
       outline: 2px solid var(--primary);
       outline-offset: 2px;
     }
-
+    
     .reject-btn {
       background: var(--light-gray);
       color: var(--dark);
     }
-
+    
     .reject-btn:hover {
       background: #e0e0e0;
     }
-
+    
     .accept-btn {
       background: var(--primary);
       color: white;
     }
-
+    
     .accept-btn:hover {
       background: var(--primary-dark);
     }
-
+    
     .cookie-settings-btn {
       background: transparent;
       color: var(--gray);
@@ -579,12 +613,12 @@
       margin-top: 10px;
       font-size: 0.85rem;
     }
-
+    
     .cookie-settings-btn:hover, .cookie-settings-btn:focus {
       color: var(--dark);
       outline: 2px solid var(--primary);
     }
-
+    
     #cookie-settings {
       position: fixed;
       top: 0;
@@ -598,7 +632,7 @@
       z-index: 2000;
       animation: fadeIn 0.3s ease-out;
     }
-
+    
     .settings-modal {
       background: var(--light);
       border-radius: var(--border-radius);
@@ -610,29 +644,29 @@
       position: relative;
       animation: slideUp 0.3s ease-out;
     }
-
+    
     @keyframes fadeIn {
       from { opacity: 0; }
       to { opacity: 1; }
     }
-
+    
     @keyframes slideUp {
       from { transform: translateY(20px); opacity: 0; }
       to { transform: translateY(0); opacity: 1; }
     }
-
+    
     .settings-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 20px;
     }
-
+    
     .settings-header h2 {
       font-size: 1.8rem;
       margin: 0;
     }
-
+    
     .close-settings {
       background: none;
       border: none;
@@ -643,42 +677,42 @@
       padding: 5px;
       border-radius: 5px;
     }
-
+    
     .close-settings:hover, .close-settings:focus {
       color: var(--dark);
       background: rgba(0, 0, 0, 0.05);
       outline: 2px solid var(--primary);
     }
-
+    
     .settings-content {
       margin-bottom: 20px;
     }
-
+    
     .cookie-type {
       margin-bottom: 20px;
       padding-bottom: 15px;
       border-bottom: 1px solid var(--light-gray);
     }
-
+    
     .cookie-type-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 10px;
     }
-
+    
     .cookie-type h3 {
       margin: 0;
       font-size: 1.2rem;
     }
-
+    
     .toggle-switch {
       position: relative;
       display: inline-block;
       width: 50px;
       height: 24px;
     }
-
+    
     .toggle-switch input {
       position: absolute;
       top: 0;
@@ -689,7 +723,7 @@
       cursor: pointer;
       z-index: 1;
     }
-
+    
     .slider {
       position: absolute;
       top: 0;
@@ -698,11 +732,9 @@
       bottom: 0;
       background-color: var(--gray);
       transition: background-color 0.3s ease;
-      -webkit-transition: background-color 0.3s ease;
-      -moz-transition: background-color 0.3s ease;
       border-radius: 24px;
     }
-
+    
     .slider:before {
       position: absolute;
       content: "";
@@ -712,47 +744,43 @@
       bottom: 4px;
       background-color: white;
       transition: transform 0.3s ease;
-      -webkit-transition: transform 0.3s ease;
-      -moz-transition: transform 0.3s ease;
       border-radius: 50%;
     }
-
+    
     .toggle-switch input:checked + .slider {
       background-color: var(--primary);
     }
-
+    
     .toggle-switch input:checked + .slider:before {
       transform: translateX(26px);
-      -webkit-transform: translateX(26px);
-      -moz-transform: translateX(26px);
     }
-
+    
     .toggle-switch input:focus + .slider {
       box-shadow: 0 0 0 2px var(--primary-dark);
     }
-
+    
     .toggle-switch input:disabled + .slider {
       background-color: var(--light-gray);
       opacity: 0.5;
       cursor: not-allowed;
     }
-
+    
     .toggle-switch input:disabled + .slider:before {
       background-color: #ddd;
     }
-
+    
     .cookie-type p {
       font-size: 0.9rem;
       color: var(--gray);
       margin-bottom: 10px;
     }
-
+    
     .settings-buttons {
       display: flex;
       justify-content: flex-end;
       gap: 10px;
     }
-
+    
     .save-settings {
       background: var(--primary);
       color: white;
@@ -763,12 +791,12 @@
       cursor: pointer;
       transition: var(--transition);
     }
-
+    
     .save-settings:hover, .save-settings:focus {
       background: var(--primary-dark);
       outline: 2px solid var(--primary);
     }
-
+    
     /* Accessibility Improvements */
     .sr-only {
       position: absolute;
@@ -780,7 +808,7 @@
       clip: rect(0, 0, 0, 0);
       border: 0;
     }
-
+    
     /* Responsive Design */
     @media (max-width: 992px) {
       .nav-menu {
@@ -796,7 +824,7 @@
       }
       
       .mission-card, .step, .value-card {
-        padding: 30px;
+        padding: 30px 20px;
       }
       
       .cookie-content {
@@ -811,18 +839,26 @@
       .cookie-btn {
         width: 100%;
       }
-
+    
       .settings-modal {
         padding: 20px;
       }
+    
+      .mission-section {
+        grid-template-columns: 1fr;
+      }
+    
+      .values-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
-
+    
     @media (min-width: 993px) {
       .mobile-nav {
         display: none !important;
       }
     }
-
+    
     @media (max-width: 768px) {
       .about-header h1 {
         font-size: 2.2rem;
@@ -844,8 +880,12 @@
         flex-direction: column;
         gap: 10px;
       }
+    
+      .values-grid {
+        grid-template-columns: 1fr;
+      }
     }
-
+    
     @media (max-width: 576px) {
       .header-container {
         padding: 15px 0;
@@ -959,7 +999,7 @@
     <div class="settings-modal">
       <div class="settings-header">
         <h2 id="cookie-settings-title"><i class="fas fa-cookie-bite"></i> Cookie Settings</h2>
-        <button class="close-settings" aria-label="Close cookie settings">×</button>
+        <button class="close-settings" id="close-settings" aria-label="Close cookie settings">×</button>
       </div>
       <div class="settings-content">
         <p id="cookie-settings-desc">You can set your preferences for how we and our partners use cookies and similar technologies.</p>
@@ -1055,7 +1095,6 @@
         <h2><i class="fas fa-cogs"></i> How Our Tools Work</h2>
         <div class="steps">
           <div class="step">
-            <div class="step-number">1</div>
             <div class="step-icon">
               <i class="fas fa-mouse-pointer"></i>
             </div>
@@ -1064,7 +1103,6 @@
           </div>
           
           <div class="step">
-            <div class="step-number">2</div>
             <div class="step-icon">
               <i class="fas fa-laptop-code"></i>
             </div>
@@ -1073,7 +1111,6 @@
           </div>
           
           <div class="step">
-            <div class="step-number">3</div>
             <div class="step-icon">
               <i class="fas fa-download"></i>
             </div>
@@ -1100,7 +1137,8 @@
             <h3><i class="fas fa-heart"></i> Simplicity</h3>
             <p>Our tools are designed to be intuitive and easy to use, regardless of your technical expertise.</p>
           </div>
-          
+        </div>
+        <div class="values-grid">
           <div class="value-card">
             <h3><i class="fas fa-globe"></i> Accessibility</h3>
             <p>We believe powerful tools should be available to everyone, everywhere, without barriers.</p>
@@ -1145,7 +1183,11 @@
     }
 
     function saveCookiePreferences(preferences) {
-      localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(preferences));
+      try {
+        localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(preferences));
+      } catch (e) {
+        console.warn('Failed to save cookie preferences:', e);
+      }
     }
 
     function loadGoogleAnalytics() {
@@ -1158,7 +1200,7 @@
       document.head.appendChild(gtagScript);
 
       window.dataLayer = window.dataLayer || [];
-      function gtag() { dataLayer.push(arguments); }
+      function gtag() { window.dataLayer.push(arguments); }
       gtag('js', new Date());
       gtag('config', 'G-LR5XP1GJFC');
 
@@ -1182,15 +1224,23 @@
 
     function openCookieSettings() {
       const preferences = getCookiePreferences();
-      document.getElementById('analytics-toggle').checked = preferences.analytics;
-      document.getElementById('advertising-toggle').checked = preferences.advertising;
-      document.getElementById('cookie-settings').style.display = 'flex';
-      document.querySelector('.settings-modal').focus();
+      const analyticsToggle = document.getElementById('analytics-toggle');
+      const advertisingToggle = document.getElementById('advertising-toggle');
+      if (analyticsToggle) analyticsToggle.checked = preferences.analytics;
+      if (advertisingToggle) advertisingToggle.checked = preferences.advertising;
+      const settings = document.getElementById('cookie-settings');
+      if (settings) {
+        settings.style.display = 'flex';
+        const modal = document.querySelector('.settings-modal');
+        if (modal) modal.focus();
+      }
     }
 
     function closeCookieSettings() {
-      document.getElementById('cookie-settings').style.display = 'none';
-      document.getElementById('open-settings').focus();
+      const settings = document.getElementById('cookie-settings');
+      if (settings) settings.style.display = 'none';
+      const openSettingsBtn = document.getElementById('open-settings');
+      if (openSettingsBtn) openSettingsBtn.focus();
     }
 
     // Mobile Menu Functions
@@ -1199,31 +1249,40 @@
       const closeMobileMenu = document.getElementById('close-mobile-menu');
       const mobileNav = document.getElementById('mobile-nav');
 
-      mobileMenuToggle.addEventListener('click', () => {
-        mobileNav.classList.add('active');
-        document.body.style.overflow = 'hidden';
-      });
+      if (mobileMenuToggle && mobileNav) {
+        mobileMenuToggle.addEventListener('click', () => {
+          mobileNav.classList.add('active');
+          document.body.style.overflow = 'hidden';
+        });
+      }
 
-      closeMobileMenu.addEventListener('click', () => {
-        mobileNav.classList.remove('active');
-        document.body.style.overflow = '';
-      });
-
-      document.addEventListener('click', (e) => {
-        if (mobileNav.classList.contains('active') && 
-            !mobileNav.contains(e.target) && 
-            e.target !== mobileMenuToggle) {
-          mobileNav.classList.remove('active');
-          document.body.style.overflow = '';
-        }
-      });
-
-      document.querySelectorAll('.mobile-nav-link').forEach(link => {
-        link.addEventListener('click', () => {
+      if (closeMobileMenu && mobileNav) {
+        closeMobileMenu.addEventListener('click', () => {
           mobileNav.classList.remove('active');
           document.body.style.overflow = '';
         });
-      });
+      }
+
+      if (mobileNav && mobileMenuToggle) {
+        document.addEventListener('click', (e) => {
+          if (mobileNav.classList.contains('active') && 
+              !mobileNav.contains(e.target) && 
+              e.target !== mobileMenuToggle) {
+            mobileNav.classList.remove('active');
+            document.body.style.overflow = '';
+          }
+        });
+      }
+
+      const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+      if (mobileLinks && mobileNav) {
+        mobileLinks.forEach(link => {
+          link.addEventListener('click', () => {
+            mobileNav.classList.remove('active');
+            document.body.style.overflow = '';
+          });
+        });
+      }
     }
 
     // Cookie Consent Functions
@@ -1231,10 +1290,13 @@
       function checkCookieConsent() {
         const preferences = getCookiePreferences();
         if (!preferences || !preferences.hasOwnProperty('essential')) {
-          document.getElementById('cookie-consent').style.display = 'block';
+          const consent = document.getElementById('cookie-consent');
+          if (consent) consent.style.display = 'block';
         } else {
-          document.getElementById('analytics-toggle').checked = preferences.analytics;
-          document.getElementById('advertising-toggle').checked = preferences.advertising;
+          const analyticsToggle = document.getElementById('analytics-toggle');
+          const advertisingToggle = document.getElementById('advertising-toggle');
+          if (analyticsToggle) analyticsToggle.checked = preferences.analytics;
+          if (advertisingToggle) advertisingToggle.checked = preferences.advertising;
           if (preferences.analytics && !window.gaLoaded) loadGoogleAnalytics();
           if (preferences.advertising && !window.adsenseLoaded) loadGoogleAdSense();
         }
@@ -1242,110 +1304,139 @@
 
       checkCookieConsent();
 
-      document.getElementById('accept-cookies').addEventListener('click', () => {
-        const preferences = {
-          essential: true,
-          analytics: true,
-          advertising: true
-        };
-        saveCookiePreferences(preferences);
-        document.getElementById('cookie-consent').style.display = 'none';
-        if (!window.gaLoaded) loadGoogleAnalytics();
-        if (!window.adsenseLoaded) loadGoogleAdSense();
-      });
+      const acceptBtn = document.getElementById('accept-cookies');
+      if (acceptBtn) {
+        acceptBtn.addEventListener('click', () => {
+          const preferences = {
+            essential: true,
+            analytics: true,
+            advertising: true
+          };
+          saveCookiePreferences(preferences);
+          const consent = document.getElementById('cookie-consent');
+          if (consent) consent.style.display = 'none';
+          if (!window.gaLoaded) loadGoogleAnalytics();
+          if (!window.adsenseLoaded) loadGoogleAdSense();
+        });
+      }
 
-      document.getElementById('reject-cookies').addEventListener('click', () => {
-        const preferences = {
-          essential: true,
-          analytics: false,
-          advertising: false
-        };
-        saveCookiePreferences(preferences);
-        document.getElementById('cookie-consent').style.display = 'none';
-      });
+      const rejectBtn = document.getElementById('reject-cookies');
+      if (rejectBtn) {
+        rejectBtn.addEventListener('click', () => {
+          const preferences = {
+            essential: true,
+            analytics: false,
+            advertising: false
+          };
+          saveCookiePreferences(preferences);
+          const consent = document.getElementById('cookie-consent');
+          if (consent) consent.style.display = 'none';
+        });
+      }
 
-      document.getElementById('open-settings').addEventListener('click', openCookieSettings);
-      document.querySelector('.close-settings').addEventListener('click', closeCookieSettings);
+      const openSettingsBtn = document.getElementById('open-settings');
+      if (openSettingsBtn) openSettingsBtn.addEventListener('click', openCookieSettings);
 
-      document.getElementById('save-settings').addEventListener('click', () => {
-        const preferences = {
-          essential: true,
-          analytics: document.getElementById('analytics-toggle').checked,
-          advertising: document.getElementById('advertising-toggle').checked
-        };
-        saveCookiePreferences(preferences);
-        if (preferences.analytics && !window.gaLoaded) loadGoogleAnalytics();
-        if (preferences.advertising && !window.adsenseLoaded) loadGoogleAdSense();
-        closeCookieSettings();
-        document.getElementById('cookie-consent').style.display = 'none';
-      });
+      const closeSettingsBtn = document.getElementById('close-settings');
+      if (closeSettingsBtn) closeSettingsBtn.addEventListener('click', closeCookieSettings);
 
-      document.getElementById('open-settings-footer').addEventListener('click', (e) => {
-        e.preventDefault();
-        openCookieSettings();
-      });
+      const saveSettingsBtn = document.getElementById('save-settings');
+      if (saveSettingsBtn) {
+        saveSettingsBtn.addEventListener('click', () => {
+          const preferences = {
+            essential: true,
+            analytics: document.getElementById('analytics-toggle').checked,
+            advertising: document.getElementById('advertising-toggle').checked
+          };
+          saveCookiePreferences(preferences);
+          if (preferences.analytics && !window.gaLoaded) loadGoogleAnalytics();
+          if (preferences.advertising && !window.adsenseLoaded) loadGoogleAdSense();
+          closeCookieSettings();
+          const consent = document.getElementById('cookie-consent');
+          if (consent) consent.style.display = 'none';
+        });
+      }
+
+      const openSettingsFooter = document.getElementById('open-settings-footer');
+      if (openSettingsFooter) {
+        openSettingsFooter.addEventListener('click', (e) => {
+          e.preventDefault();
+          openCookieSettings();
+        });
+      }
 
       const analyticsToggle = document.getElementById('analytics-toggle');
       const advertisingToggle = document.getElementById('advertising-toggle');
 
-      analyticsToggle.addEventListener('change', () => {
-        const preferences = getCookiePreferences();
-        preferences.analytics = analyticsToggle.checked;
-        saveCookiePreferences(preferences);
-        if (preferences.analytics && !window.gaLoaded) loadGoogleAnalytics();
-      });
+      if (analyticsToggle) {
+        analyticsToggle.addEventListener('change', () => {
+          const preferences = getCookiePreferences();
+          preferences.analytics = analyticsToggle.checked;
+          saveCookiePreferences(preferences);
+          if (preferences.analytics && !window.gaLoaded) loadGoogleAnalytics();
+        });
+      }
 
-      advertisingToggle.addEventListener('change', () => {
-        const preferences = getCookiePreferences();
-        preferences.advertising = advertisingToggle.checked;
-        saveCookiePreferences(preferences);
-        if (preferences.advertising && !window.adsenseLoaded) loadGoogleAdSense();
-      });
+      if (advertisingToggle) {
+        advertisingToggle.addEventListener('change', () => {
+          const preferences = getCookiePreferences();
+          preferences.advertising = advertisingToggle.checked;
+          saveCookiePreferences(preferences);
+          if (preferences.advertising && !window.adsenseLoaded) loadGoogleAdSense();
+        });
+      }
     }
 
     // Accessibility Functions
     function initAccessibility() {
-      document.querySelectorAll('.toggle-switch input').forEach(toggle => {
-        toggle.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            if (!toggle.disabled) {
-              toggle.checked = !toggle.checked;
-              toggle.dispatchEvent(new Event('change'));
+      const toggles = document.querySelectorAll('.toggle-switch input');
+      if (toggles) {
+        toggles.forEach(toggle => {
+          toggle.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              if (!toggle.disabled) {
+                toggle.checked = !toggle.checked;
+                toggle.dispatchEvent(new Event('change'));
+              }
             }
-          }
+          });
         });
-      });
+      }
 
-      document.querySelectorAll('a, button, input').forEach(element => {
-        element.addEventListener('focus', function() {
-          this.style.outline = '2px solid var(--primary)';
-          this.style.outlineOffset = '2px';
+      const focusableElements = document.querySelectorAll('a, button, input');
+      if (focusableElements) {
+        focusableElements.forEach(element => {
+          element.addEventListener('focus', () => {
+            element.style.outline = '2px solid var(--primary)';
+            element.style.outlineOffset = '2px';
+          });
+          element.addEventListener('blur', () => {
+            element.style.outline = 'none';
+          });
         });
-
-        element.addEventListener('blur', function() {
-          this.style.outline = 'none';
-        });
-      });
+      }
 
       const settingsModal = document.querySelector('.settings-modal');
-      const focusableElements = settingsModal.querySelectorAll('button, input');
-      const firstFocusable = focusableElements[0];
-      const lastFocusable = focusableElements[focusableElements.length - 1];
+      if (settingsModal) {
+        const focusableInModal = settingsModal.querySelectorAll('button, input');
+        const firstFocusable = focusableInModal[0];
+        const lastFocusable = focusableInModal[focusableInModal.length - 1];
 
-      settingsModal.addEventListener('keydown', (e) => {
-        if (e.key === 'Tab') {
-          if (e.shiftKey && document.activeElement === firstFocusable) {
-            e.preventDefault();
-            lastFocusable.focus();
-          } else if (!e.shiftKey && document.activeElement === lastFocusable) {
-            e.preventDefault();
-            firstFocusable.focus();
+        settingsModal.addEventListener('keydown', (e) => {
+          if (e.key === 'Tab') {
+            if (e.shiftKey && document.activeElement === firstFocusable) {
+              e.preventDefault();
+              lastFocusable.focus();
+            } else if (!e.shiftKey && document.activeElement === lastFocusable) {
+              e.preventDefault();
+              firstFocusable.focus();
+            }
+          } else if (e.key === 'Escape') {
+            closeCookieSettings();
           }
-        } else if (e.key === 'Escape') {
-          closeCookieSettings();
-        }
-      });
+        });
+      }
     }
 
     // Initialize All Features
