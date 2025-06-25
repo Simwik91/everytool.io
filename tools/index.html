@@ -3,21 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Explore EveryTool.io's free, browser-based tools including EAN Generator, QR Generator, Image Tools, and more, all designed to protect your privacy.">
+  <meta name="description" content="Explore EveryTool.io's free tools including EAN Generator, QR Generator, Image Tools, and more, designed for simplicity and efficiency.">
   <title>Tools - EveryTool.io</title>
   
   <!-- SEO Optimizations -->
   <meta name="robots" content="index, follow">
-  <meta name="keywords" content="free online tools, privacy tools, browser-based tools, EAN generator, QR generator, image tools, video tools, text tools, file converter, PDF tools, career tools">
+  <meta name="keywords" content="free online tools, EAN generator, QR generator, image tools, video tools, text tools, file converter, PDF tools, career tools">
   <meta property="og:title" content="Tools - EveryTool.io">
-  <meta property="og:description" content="Discover free, privacy-focused tools that run entirely in your browser at EveryTool.io.">
+  <meta property="og:description" content="Discover free, easy-to-use tools at EveryTool.io for all your needs.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://everytool.io/tools">
   <meta property="og:image" content="https://everytool.io/social-tools.jpg">
   <meta property="og:site_name" content="EveryTool.io">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Tools - EveryTool.io">
-  <meta name="twitter:description" content="Discover free, privacy-focused tools that run entirely in your browser.">
+  <meta name="twitter:description" content="Discover free, easy-to-use tools at EveryTool.io.">
   <meta name="twitter:image" content="https://everytool.io/social-tools.jpg">
   
   <!-- Performance Tuning -->
@@ -33,7 +33,7 @@
     "@context": "https://schema.org",
     "@type": "WebApplication",
     "name": "EveryTool.io Tools",
-    "description": "Free client-side tools that work entirely in your browser",
+    "description": "Free tools for various tasks, running directly in your browser",
     "applicationCategory": "Utilities",
     "offers": {
       "@type": "Offer",
@@ -66,7 +66,7 @@
       --gray: #6c757d;
       --light-gray: #e9ecef;
       --border-radius: 12px;
-      --box-shadow: [WORDBR]8px 30px rgba(0, 0, 0, 0.08);
+      --box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
       --transition: all 0.3s ease;
     }
     
@@ -837,7 +837,7 @@
               <a href="/tools" class="nav-link" aria-label="Tools"><i class="fas fa-toolbox"></i> Tools</a>
             </li>
             <li class="nav-item">
-              <a href="/blog" class="nav-link" aria-label="Blog"><i class="--blog"></i> Blog</a>
+              <a href="/blog" class="nav-link" aria-label="Blog"><i class="fas fa-blog"></i> Blog</a>
             </li>
             <li class="nav-item">
               <a href="/about" class="nav-link" aria-label="About"><i class="fas fa-address-card"></i> About</a>
@@ -867,7 +867,7 @@
     </div>
     <ul class="mobile-nav-menu">
       <li class="mobile-nav-item">
-        <a href="/" class="is fa-home"></i> Home</a>
+        <a href="/" class="mobile-nav-link" aria-label="Home"><i class="fas fa-home"></i> Home</a>
       </li>
       <li class="mobile-nav-item">
         <a href="/tools" class="mobile-nav-link" aria-label="Tools"><i class="fas fa-toolbox"></i> Tools</a>
@@ -952,8 +952,8 @@
   <section class="hero">
     <div class="container">
       <div class="hero-content">
-        <h1>Discover Our Free, Privacy-Focused Tools</h1>
-        <p>Explore a wide range of browser-based tools designed to keep your data secure. Find the perfect tool for your needs.</p>
+        <h1>Discover Our Free, Easy-to-Use Tools</h1>
+        <p>Explore a wide range of tools designed to simplify your tasks. Find the perfect tool for your needs.</p>
         <div class="search-container">
           <input type="text" id="tool-search" class="search-input" placeholder="Search tools..." aria-label="Search for tools">
           <i class="fas fa-search search-icon"></i>
@@ -967,7 +967,7 @@
     <div class="container">
       <div class="section-header">
         <h2 class="section-title">Our Tools</h2>
-        <p class="section-subtitle">Access our collection of privacy-first tools, all running directly in your browser.</p>
+        <p class="section-subtitle">Access our collection of straightforward tools for all your needs.</p>
       </div>
       
       <div class="tools-grid" id="tools-grid">
@@ -1166,11 +1166,15 @@
       async function loadToolData() {
         try {
           const response = await fetch('/tools/tools.json');
-          if (!response.ok) throw new Error('Failed to load tools.json');
+          if (!response.ok) {
+            console.warn('Failed to load tools.json, using fallback data');
+            renderFallbackTools();
+            return;
+          }
           toolData = await response.json();
           renderTools();
         } catch (error) {
-          console.error('Error loading tools.json:', error);
+          console.warn('Error loading tools.json:', error);
           renderFallbackTools();
         }
       }
@@ -1206,49 +1210,50 @@
           <article class="tool-card">
             <div class="tool-icon"><i class="fas fa-barcode"></i></div>
             <h3>EAN Generator</h3>
-            <p>Create EAN barcodes for products or inventory directly in your browser without data uploads.</p>
-            <a href="/tools/ean" aria-label="Go to EAN Generator tool">Go to Tool</a>
+            <p>Generate EAN barcodes for products or inventories.</p>
+            <a href="/eangenerator" aria-label="Go to EAN Generator tool">Go to Tool</a>
           </article>
           <article class="tool-card">
             <div class="tool-icon"><i class="fas fa-qrcode"></i></div>
             <h3>QR Generator</h3>
-            <p>Generate QR codes for URLs, text, or contact details, processed entirely in your browser.</p>
-            <a href="/tools/qr" aria-label="Go to QR Generator tool">Go to Tool</a>
+            <p>Create QR codes for URLs, text, or contact details.</p>
+            <a href="/qrgenerator" aria-label="Go to QR Generator tool">Go to Tool</a>
           </article>
           <article class="tool-card">
             <div class="tool-icon"><i class="fas fa-image"></i></div>
-            <h3>Image Editor</h3>
-            <p>Edit, resize, or convert images in your browser without uploading to any server.</p>
-            <a href="/tools/image" aria-label="Go to Image Editor tool">Go to Tool</a>
+            <h3>Image Tools</h3>
+            <p>Edit, resize, or convert images with ease.</p>
+            <a href="/imagetools" aria-label="Go to Image Tools">Go to Tool</a>
           </article>
           <article class="tool-card">
             <div class="tool-icon"><i class="fas fa-video"></i></div>
-            <h3>Video Compressor</h3>
-            <p>Compress videos locally, keeping your media secure and private.</p>
-            <a href="/tools/video" aria-label="Go to Video Compressor tool">Go to Tool</a>
+            <h3>Video Tools</h3>
+            <p>Trim, convert, or compress videos quickly.</p>
+            <a href="/videotools" aria-label="Go to Video Tools">Go to Tool</a>
           </article>
           <article class="tool-card">
             <div class="tool-icon"><i class="fas fa-font"></i></div>
-            <h3>Text Formatter</h3>
-            <p>Format or manipulate text content directly in your browser.</p>
-            <a href="/tools/text" aria-label="Go to Text Formatter tool">Go to Tool</a>
+            <h3>Text Tools</h3>
+            <p>Format, count, or generate text content.</p>
+            <a href="/texttools" aria-label="Go to Text Tools">Go to Tool</a>
           </article>
           <article class="tool-card">
             <div class="tool-icon"><i class="fas fa-file-export"></i></div>
             <h3>File Converter</h3>
-            <p>Convert files between formats in your browser, ensuring your data stays on your device.</p>
-            <a href="/tools/converter" aria-label="Go to File Converter tool">Go to Tool</a>
+            <p>Convert files between various formats.</p>
+            <a href="/fileconverter" aria-label="Go to File Converter tool">Go to Tool</a>
           </article>
           <article class="tool-card">
             <div class="tool-icon"><i class="fas fa-file-pdf"></i></div>
-            <p>Edit, merge, or compress PDF files directly in your browser with complete privacy.</p>
-            <a href="/tools/pdf" aria-label="Go to PDF Editor tool">Go to Tool</a>
+            <h3>PDF Tools</h3>
+            <p>Edit, merge, or compress PDF files.</p>
+            <a href="/pdftools" aria-label="Go to PDF Tools">Go to Tool</a>
           </article>
           <article class="tool-card">
             <div class="tool-icon"><i class="fas fa-briefcase"></i></div>
-            <h3>Resume Builder</h3>
-            <p>Create professional resumes in your browser with complete privacy.</p>
-            <a href="/tools/career" aria-label="Go to Resume Builder tool">Go to Tool</a>
+            <h3>Career Tools</h3>
+            <p>Build resumes or prepare for interviews.</p>
+            <a href="/careertools" aria-label="Go to Career Tools">Go to Tool</a>
           </article>
         `;
       }
