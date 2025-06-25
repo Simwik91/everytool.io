@@ -1,0 +1,2006 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Free Image Toolkit: Crop, resize, and convert images in PNG, JPEG, WEBP, BMP, GIF, or HEIC. Fast, free, no signup required.">
+  <meta name="keywords" content="image cropper, image resizer, image converter, free image toolkit, PNG, JPEG, WEBP, BMP, GIF, HEIC">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="Free Image Toolkit - EveryTool.io">
+  <meta property="og:description" content="Easily crop, resize, and convert images in multiple formats. Free, fast, and no signup required.">
+  <meta property="og:type" content="website">
+  <title>Free Image Toolkit - EveryTool.io</title>
+  
+  <!-- Performance Optimization -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.rel='stylesheet'">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary: #4361ee;
+      --primary-dark: #3a56d4;
+      --secondary: #7209b7;
+      --accent: #f72585;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --gray: #6c757d;
+      --light-gray: #e9ecef;
+      --border-radius: 12px;
+      --box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, var(--light) 0%, #f0f4ff 100%);
+      color: var(--dark);
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Header & Navigation */
+    header {
+      background: white;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .logo i {
+      margin-right: 10px;
+      font-size: 2.2rem;
+    }
+
+    .nav-container {
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-menu {
+      display: flex;
+      list-style: none;
+      margin-right: 20px;
+    }
+
+    .nav-item {
+      position: relative;
+      margin: 0 15px;
+    }
+
+    .nav-link {
+      padding: 10px 15px;
+      color: var(--dark);
+      text-decoration: none;
+      font-weight: 500;
+      border-radius: var(--border-radius);
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-link i {
+      margin-right: 8px;
+    }
+
+    .nav-link:hover, .nav-link:focus {
+      background: rgba(67, 97, 238, 0.1);
+      color: var(--primary);
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--dark);
+      cursor: pointer;
+      padding: 10px;
+      border-radius: 5px;
+    }
+
+    .mobile-menu-btn:hover, .mobile-menu-btn:focus {
+      background: rgba(67, 97, 238, 0.1);
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 60px 0 40px;
+      text-align: center;
+    }
+
+    .hero-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      font-weight: 700;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1.2;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: var(--gray);
+      margin-bottom: 40px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .card {
+      background: var(--light);
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      padding: 30px;
+      margin-bottom: 30px;
+      transition: var(--transition);
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
+    }
+    
+    h2 {
+      font-size: 1.8rem;
+      margin-bottom: 25px;
+      color: var(--dark);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: center;
+    }
+    
+    h2 i {
+      color: var(--primary);
+    }
+    
+    h3 {
+      font-size: 1.4rem;
+      margin: 20px 0 15px;
+      color: var(--dark);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      justify-content: center;
+    }
+    
+    .tabs {
+      display: flex;
+      justify-content: center;
+      margin: 0 0 30px;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    
+    .tab {
+      padding: 12px 25px;
+      cursor: pointer;
+      background: var(--light-gray);
+      border-radius: 50px;
+      font-weight: 500;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1rem;
+    }
+    
+    .tab.active {
+      background: var(--primary);
+      color: white;
+    }
+    
+    .tab:hover:not(.active) {
+      background: #dbe4ff;
+    }
+    
+    .tab-content {
+      display: none;
+    }
+    
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.4s ease;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    input, select, button, textarea {
+      margin: 0.5em auto;
+      padding: 15px;
+      width: 100%;
+      font-size: 1rem;
+      border-radius: 10px;
+      border: 1px solid var(--light-gray);
+      background: var(--light);
+      display: block;
+      transition: var(--transition);
+      font-family: 'Poppins', sans-serif;
+    }
+    
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+    }
+    
+    button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      padding: 15px 20px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    
+    button:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+    }
+    
+    button:disabled {
+      background: #9ec5e6;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    canvas {
+      margin: 1.5em auto;
+      max-width: 100%;
+      border-radius: 12px;
+      background: #f5f5f5;
+      padding: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      border: 1px solid var(--light-gray);
+      display: block;
+    }
+    
+    .loading {
+      display: none;
+      text-align: center;
+      padding: 30px;
+    }
+    
+    .spinner {
+      border: 4px solid rgba(0, 0, 0, 0.1);
+      border-left-color: var(--primary);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 20px;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .error {
+      color: #e74c3c;
+      padding: 15px;
+      background: rgba(231, 76, 60, 0.1);
+      border-radius: var(--border-radius);
+      margin: 20px 0;
+      display: none;
+      border-left: 4px solid #e74c3c;
+    }
+    
+    .success {
+      color: #27ae60;
+      padding: 15px;
+      background: rgba(39, 174, 96, 0.1);
+      border-radius: var(--border-radius);
+      margin: 20px 0;
+      display: none;
+      border-left: 4px solid #27ae60;
+    }
+
+    .drag-drop-area {
+      width: 100%;
+      max-width: 500px;
+      margin: 2em auto;
+      padding: 2em;
+      border: 2px dashed var(--light-gray);
+      border-radius: var(--border-radius);
+      background: white;
+      color: var(--gray);
+      cursor: pointer;
+      transition: var(--transition);
+      text-align: center;
+      font-size: 1rem;
+    }
+
+    .drag-drop-area.drag-over {
+      background: #e6f0fa;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+    }
+
+    .drag-drop-area p {
+      margin: 0.5em 0;
+    }
+
+    .resize-controls {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .resize-controls input {
+      width: 45%;
+      max-width: 200px;
+      display: inline-block;
+    }
+
+    .btn-group {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin: 1.5em 0;
+      flex-wrap: wrap;
+    }
+    
+    .btn-group button {
+      width: auto;
+      min-width: 180px;
+      flex: 1;
+    }
+    
+    /* Features grid - 2 cards per row */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 25px;
+      margin: 30px 0;
+    }
+    
+    .feature {
+      background: var(--light);
+      border-radius: var(--border-radius);
+      padding: 25px;
+      text-align: center;
+      box-shadow: var(--box-shadow);
+      transition: var(--transition);
+    }
+    
+    .feature:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    }
+    
+    .feature i {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      color: var(--primary);
+    }
+    
+    .guide-section {
+      background: var(--light);
+      border-radius: var(--border-radius);
+      padding: 40px;
+      margin: 40px auto;
+      box-shadow: var(--box-shadow);
+      text-align: center;
+    }
+    
+    .guide-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+      margin-top: 25px;
+    }
+    
+    .guide-item {
+      padding: 25px;
+      background: #f8f9ff;
+      border-radius: var(--border-radius);
+      text-align: center;
+      font-size: 14px;
+    }
+    
+    .guide-item h3 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: center;
+    }
+    
+    .guide-item h3 i {
+      font-size: 1.8rem;
+    }
+    
+    .guide-item p {
+      font-size: 1rem;
+      color: var(--gray);
+    }
+    
+    /* Practical Uses section - 4 cards per row, white text */
+    .uses-section {
+      background: linear-gradient(135deg, #4361ee, #7209b7);
+      color: white;
+      border-radius: var(--border-radius);
+      padding: 40px;
+      margin: 40px auto;
+      box-shadow: var(--box-shadow);
+      text-align: center;
+    }
+    
+    .uses-section, 
+    .uses-section * {
+      color: white !important;
+    }
+    
+    .uses-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-top: 25px;
+    }
+    
+    .use-item {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: var(--border-radius);
+      padding: 25px;
+      text-align: center;
+      backdrop-filter: blur(5px);
+    }
+    
+    .use-item i {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+    
+    .use-item h3 {
+      font-size: 1.3rem;
+      margin-bottom: 15px;
+    }
+    
+    /* Footer */
+    footer {
+      background: linear-gradient(135deg, var(--light) 0%, #f0f4ff 100%);
+      color: #000;
+      padding: 60px 0 30px;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+      padding-top: 30px;
+      text-align: center;
+    }
+
+    .footer-bottom a {
+      color: #000;
+      text-decoration: none;
+      transition: var(--transition);
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin: 0 10px;
+    }
+
+    .footer-bottom a:hover, .footer-bottom a:focus {
+      color: var(--primary);
+      text-decoration: underline;
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    .footer-links-row {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    
+    .footer-bottom p {
+      color: #000;
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin: 0;
+    }
+
+    /* Cookie Consent Styles */
+    #cookie-consent {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 95%;
+      max-width: 800px;
+      background: var(--light);
+      border-radius: var(--border-radius);
+      box-shadow: 0 5px 30px rgba(0, 0, 0, 0.15);
+      padding: 20px;
+      z-index: 1000;
+      display: none;
+    }
+
+    .cookie-content {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .cookie-text {
+      flex: 1;
+      min-width: 300px;
+      color: var(--dark);
+    }
+
+    .cookie-text p {
+      margin-bottom: 10px;
+      font-size: 0.95rem;
+    }
+
+    .cookie-text a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .cookie-text a:hover, .cookie-text a:focus {
+      text-decoration: underline;
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    .cookie-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .cookie-btn {
+      padding: 10px 20px;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 0.9rem;
+      border: none;
+      min-width: 180px;
+    }
+
+    .cookie-btn:focus {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    .reject-btn {
+      background: var(--light-gray);
+      color: var(--dark);
+    }
+
+    .reject-btn:hover {
+      background: #e0e0e0;
+    }
+
+    .accept-btn {
+      background: var(--primary);
+      color: white;
+    }
+
+    .accept-btn:hover {
+      background: var(--primary-dark);
+    }
+
+    .cookie-settings-btn {
+      background: transparent;
+      color: var(--gray);
+      text-decoration: underline;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      margin-top: 10px;
+      font-size: 0.85rem;
+    }
+
+    .cookie-settings-btn:hover, .cookie-settings-btn:focus {
+      color: var(--dark);
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    #cookie-settings {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    .settings-modal {
+      background: var(--light);
+      border-radius: var(--border-radius);
+      width: 95%;
+      max-width: 600px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 30px;
+      position: relative;
+      animation: slideUp 0.3s ease-out;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .settings-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .settings-header h2 {
+      font-size: 1.8rem;
+      margin: 0;
+    }
+
+    .close-settings {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--gray);
+      transition: var(--transition);
+      padding: 5px;
+      border-radius: 5px;
+    }
+
+    .close-settings:hover, .close-settings:focus {
+      color: var(--dark);
+      background: rgba(0, 0, 0, 0.05);
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    .settings-content {
+      margin-bottom: 20px;
+    }
+
+    .cookie-type {
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid var(--light-gray);
+    }
+
+    .cookie-type-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .cookie-type h3 {
+      margin: 0;
+      font-size: 1.2rem;
+    }
+
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 24px;
+    }
+
+    .toggle-switch input {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+      z-index: 1;
+    }
+
+    .slider {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: var(--gray);
+      transition: background-color 0.3s ease;
+      -webkit-transition: background-color 0.3s ease;
+      -moz-transition: background-color 0.3s ease;
+      border-radius: 24px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: transform 0.3s ease;
+      -webkit-transition: transform 0.3s ease;
+      -moz-transition: transform 0.3s ease;
+      border-radius: 50%;
+    }
+
+    .toggle-switch input:checked + .slider {
+      background-color: var(--primary);
+    }
+
+    .toggle-switch input:checked + .slider:before {
+      transform: translateX(26px);
+      -webkit-transform: translateX(26px);
+      -moz-transform: translateX(26px);
+    }
+
+    .toggle-switch input:focus + .slider {
+      box-shadow: 0 0 0 2px var(--primary-dark);
+    }
+
+    .toggle-switch input:disabled + .slider {
+      background-color: var(--light-gray);
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .toggle-switch input:disabled + .slider:before {
+      background-color: #ddd;
+    }
+
+    .cookie-type p {
+      font-size: 0.9rem;
+      color: var(--gray);
+      margin-bottom: 10px;
+    }
+
+    .settings-buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .save-settings {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 25px;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .save-settings:hover, .save-settings:focus {
+      background: var(--primary-dark);
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    /* Accessibility Improvements */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 992px) {
+      .nav-menu {
+        display: none;
+      }
+      
+      .mobile-menu-btn {
+        display: block;
+      }
+      
+      .mobile-nav {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        width: 280px;
+        height: 100vh;
+        background: white;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        z-index: 2000;
+        transition: var(--transition);
+        overflow-y: auto;
+        display: block;
+      }
+      
+      .mobile-nav.active {
+        left: 0;
+      }
+      
+      .mobile-nav-header {
+        padding: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid var(--light-gray);
+      }
+      
+      .close-mobile-menu {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        color: var(--dark);
+        cursor: pointer;
+        padding: 5px;
+        border-radius: 5px;
+      }
+      
+      .close-mobile-menu:hover, .close-mobile-menu:focus {
+        background: rgba(0, 0, 0, 0.05);
+        outline: 2px solid var(--primary);
+        outline-offset: 2px;
+      }
+      
+      .mobile-nav-menu {
+        list-style: none;
+        padding: 20px;
+      }
+      
+      .mobile-nav-item {
+        margin-bottom: 10px;
+      }
+      
+      .mobile-nav-link {
+        display: block;
+        padding: 12px 15px;
+        color: var(--dark);
+        text-decoration: none;
+        font-weight: 500;
+        border-radius: var(--border-radius);
+        transition: var(--transition);
+      }
+      
+      .mobile-nav-link:hover, .mobile-nav-link:focus {
+        background: rgba(67, 97, 238, 0.1);
+        color: var(--primary);
+        outline: 2px solid var(--primary);
+        outline-offset: 2px;
+      }
+      
+      .guide-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .features {
+        grid-template-columns: 1fr;
+      }
+      
+      .uses-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 993px) {
+      .mobile-nav {
+        display: none !important;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+      
+      .section-title {
+        font-size: 2rem;
+      }
+      
+      .footer-links-row {
+        flex-direction: column;
+        gap: 10px;
+      }
+      
+      .cookie-content {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .cookie-buttons {
+        width: 100%;
+      }
+      
+      .cookie-btn {
+        width: 100%;
+      }
+      
+      .tab {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+      }
+      
+      .guide-section, .uses-section {
+        padding: 25px;
+      }
+      
+      .uses-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 576px) {
+      .header-container {
+        padding: 15px 0;
+      }
+      
+      .logo {
+        font-size: 1.5rem;
+      }
+      
+      .logo i {
+        font-size: 1.8rem;
+      }
+      
+      .hero {
+        padding: 40px 0 20px;
+      }
+      
+      .hero h1 {
+        font-size: 1.8rem;
+      }
+      
+      .card {
+        padding: 20px;
+      }
+      
+      h2 {
+        font-size: 1.5rem;
+      }
+      
+      h3 {
+        font-size: 1.2rem;
+      }
+      
+      .uses-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Cookie Consent Banner -->
+  <div id="cookie-consent" role="dialog" aria-labelledby="cookie-consent-banner" aria-describedby="cookie-consent-desc">
+    <div class="sr-only" id="cookie-consent-banner">Cookie Consent</div>
+    <div class="cookie-content" id="cookie-consent-desc">
+      <div class="cookie-text">
+        <p>We use cookies to enhance your experience and analyze site traffic. By clicking "Accept All", you consent to our use of cookies. 
+          <a href="/privacy-policy.html" aria-label="Learn more about our Privacy Policy">Learn more</a> in our Privacy Policy.
+        </p>
+        <button class="cookie-settings-btn" id="open-settings" aria-label="Open cookie settings">Cookie Settings</button>
+      </div>
+      <div class="cookie-buttons">
+        <button class="cookie-btn reject-btn" id="reject-cookies" aria-label="Reject non-essential cookies">Reject Non-Essential</button>
+        <button class="cookie-btn accept-btn" id="accept-cookies" aria-label="Accept all cookies">Accept All</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="cookie-settings" role="dialog" aria-labelledby="cookie-settings-title" aria-describedby="cookie-settings-desc">
+    <div class="settings-modal">
+      <div class="settings-header">
+        <h2 id="cookie-settings-title"><i class="fas fa-cookie-bite"></i> Cookie Settings</h2>
+        <button class="close-settings" aria-label="Close cookie settings">×</button>
+      </div>
+      <div class="settings-content">
+        <p id="cookie-settings-desc">You can set your preferences for how we and our partners use cookies and similar technologies.</p>
+        
+        <div class="cookie-type">
+          <div class="cookie-type-header">
+            <h3>Essential Cookies</h3>
+            <label class="toggle-switch" for="essential-toggle">
+              <input type="checkbox" id="essential-toggle" checked disabled aria-label="Essential cookies (always enabled, cannot be disabled)" aria-describedby="essential-desc">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <p id="essential-desc">These cookies are necessary for the website to function and cannot be switched off.</p>
+        </div>
+        
+        <div class="cookie-type">
+          <div class="cookie-type-header">
+            <h3>Analytics Cookies</h3>
+            <label class="toggle-switch" for="analytics-toggle">
+              <input type="checkbox" id="analytics-toggle" aria-label="Analytics cookies toggle" aria-describedby="analytics-desc">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <p id="analytics-desc">These cookies allow us to count visits and traffic sources so we can measure and improve the performance of our site.</p>
+        </div>
+        
+        <div class="cookie-type">
+          <div class="cookie-type-header">
+            <h3>Advertising Cookies</h3>
+            <label class="toggle-switch" for="advertising-toggle">
+              <input type="checkbox" id="advertising-toggle" aria-label="Advertising cookies toggle" aria-describedby="advertising-desc">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <p id="advertising-desc">These cookies may be set through our site by our advertising partners to build a profile of your interests.</p>
+        </div>
+      </div>
+      <div class="settings-buttons">
+        <button class="save-settings" id="save-settings" aria-label="Save cookie settings">Save Settings</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header & Navigation -->
+  <header>
+    <div class="container">
+      <div class="header-container">
+        <a href="index.html" class="logo" aria-label="EveryTool.io Home">
+          <i class="fas fa-tools"></i>
+          EveryTool.io
+        </a>
+        
+        <div class="nav-container">
+          <ul class="nav-menu">
+            <li class="nav-item">
+              <a href="#" class="nav-link" aria-label="Home"><i class="fas fa-home"></i> Home</a>
+            </li>
+            <li class="nav-item">
+              <a href="/tools" class="nav-link" aria-label="Tools"><i class="fas fa-toolbox"></i> Tools</a>
+            </li>
+            <li class="nav-item">
+              <a href="/blog" class="nav-link" aria-label="Blog"><i class="fas fa-blog"></i> Blog</a>
+            </li>
+            <li class="nav-item">
+              <a href="/about" class="nav-link" aria-label="About"><i class="fas fa-address-card"></i> About</a>
+            </li>
+            <li class="nav-item">
+              <a href="/contact" class="nav-link" aria-label="Contact"><i class="fas fa-envelope"></i> Contact</a>
+            </li>
+          </ul>
+          <button class="mobile-menu-btn" id="mobile-menu-toggle" aria-label="Open mobile menu">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Navigation -->
+  <div class="mobile-nav" id="mobile-nav">
+    <div class="mobile-nav-header">
+      <a href="index.html" class="logo" aria-label="EveryTool.io Home">
+        <i class="fas fa-tools"></i>
+        EveryTool.io
+      </a>
+      <button class="close-mobile-menu" id="close-mobile-menu" aria-label="Close mobile menu">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <ul class="mobile-nav-menu">
+      <li class="mobile-nav-item">
+        <a href="#" class="mobile-nav-link" aria-label="Home"><i class="fas fa-home"></i> Home</a>
+      </li>
+      <li class="mobile-nav-item">
+        <a href="/tools" class="mobile-nav-link" aria-label="Tools"><i class="fas fa-toolbox"></i> Tools</a>
+      </li>
+      <li class="mobile-nav-item">
+        <a href="/blog" class="mobile-nav-link" aria-label="Blog"><i class="fas fa-blog"></i> Blog</a>
+      </li>
+      <li class="mobile-nav-item">
+        <a href="/about" class="mobile-nav-link" aria-label="About"><i class="fas fa-address-card"></i> About</a>
+      </li>
+      <li class="mobile-nav-item">
+        <a href="/contact" class="mobile-nav-link" aria-label="Contact"><i class="fas fa-envelope"></i> Contact</a>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <h1>Image Tools</h1>
+        <p>Crop, resize, and convert images in PNG, JPEG, WEBP, BMP, GIF, or HEIC. All processing happens in your browser - your images never leave your device.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features section - 2 cards per row -->
+  <div class="container">
+    <div class="features">
+      <div class="feature">
+        <i class="fas fa-exchange-alt"></i>
+        <h3>Multiple Formats</h3>
+        <p>Convert between PNG, JPEG, WEBP, BMP, GIF, and HEIC formats</p>
+      </div>
+      <div class="feature">
+        <i class="fas fa-sliders-h"></i>
+        <h3>Custom Editing</h3>
+        <p>Crop and resize images with precision to your exact requirements</p>
+      </div>
+      <div class="feature">
+        <i class="fas fa-bolt"></i>
+        <h3>Fast Processing</h3>
+        <p>Edit images instantly in your browser with no server uploads</p>
+      </div>
+      <div class="feature">
+        <i class="fas fa-shield-alt"></i>
+        <h3>Privacy First</h3>
+        <p>All processing happens in your browser - no data is uploaded to servers</p>
+      </div>
+    </div>
+
+    <!-- Image Editing Guide -->
+    <div class="guide-section">
+      <h2><i class="fas fa-book"></i> Image Tools Guide</h2>
+      <p>Follow these steps to edit your images:</p>
+      <div class="guide-grid">
+        <div class="guide-item">
+          <h3><i class="fas fa-upload"></i> Upload Image</h3>
+          <p>Drag or browse to upload your image (PNG, JPEG, WEBP, BMP, GIF, HEIC).</p>
+        </div>
+        <div class="guide-item">
+          <h3><i class="fas fa-sliders-h"></i> Choose Tool</h3>
+          <p>Select crop, resize, or convert based on your editing needs.</p>
+        </div>
+        <div class="guide-item">
+          <h3><i class="fas fa-edit"></i> Edit Image</h3>
+          <p>Adjust dimensions, draw crop areas, or select output formats.</p>
+        </div>
+        <div class="guide-item">
+          <h3><i class="fas fa-download"></i> Download</h3>
+          <p>Save your edited image instantly to your device.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="tabs">
+        <div class="tab active" data-tab="crop">
+          <i class="fas fa-crop"></i> Crop
+        </div>
+        <div class="tab" data-tab="resize">
+          <i class="fas fa-expand"></i> Resize
+        </div>
+        <div class="tab" data-tab="convert">
+          <i class="fas fa-exchange-alt"></i> Convert
+        </div>
+      </div>
+
+      <div class="tab-content active" id="crop-tab">
+        <h2><i class="fas fa-crop"></i> Image Cropper</h2>
+        <p><i>Draw a rectangle on the image to crop it.</i></p>
+        <div class="drag-drop-area" id="cropDragArea">
+          <p><i class="fas fa-upload"></i> Choose file or drag and drop here</p>
+          <p>Supported formats: PNG, JPEG, WEBP, BMP, GIF, HEIC</p>
+          <p>Max file size: 10MB</p>
+        </div>
+        <input type="file" id="cropUpload" accept="image/*,.heic,.heif" style="display: none;" aria-label="Upload image for cropping" />
+        <div class="error" id="crop-error"></div>
+        <div class="success" id="crop-success"></div>
+        <div class="loading" id="crop-loading">
+          <div class="spinner"></div>
+          Processing Image...
+        </div>
+        <canvas id="cropCanvas" width="300" height="200"></canvas>
+        <div class="btn-group">
+          <button id="cropBtn" style="display: none;">
+            <i class="fas fa-crop"></i> Crop Image
+          </button>
+          <button id="resetCrop" style="display: none;">
+            <i class="fas fa-undo"></i> Reset
+          </button>
+          <button id="downloadCrop" style="display: none;">
+            <i class="fas fa-download"></i> Download
+          </button>
+        </div>
+      </div>
+
+      <div class="tab-content" id="resize-tab">
+        <h2><i class="fas fa-expand"></i> Image Resizer</h2>
+        <p><i>Resize your image to specified dimensions.</i></p>
+        <div class="drag-drop-area" id="resizeDragArea">
+          <p><i class="fas fa-upload"></i> Choose file or drag and drop here</p>
+          <p>Supported formats: PNG, JPEG, WEBP, BMP, GIF, HEIC</p>
+          <p>Max file size: 10MB</p>
+        </div>
+        <input type="file" id="resizeUpload" accept="image/*,.heic,.heif" style="display: none;" aria-label="Upload image for resizing" />
+        <div class="resize-controls">
+          <div>
+            <label for="resizeWidth">Width (px):</label>
+            <input type="number" id="resizeWidth" min="1" placeholder="Width (px)" aria-label="Width in pixels">
+          </div>
+          <div>
+            <label for="resizeHeight">Height (px):</label>
+            <input type="number" id="resizeHeight" min="1" placeholder="Height (px)" aria-label="Height in pixels">
+          </div>
+        </div>
+        <div class="error" id="resize-error"></div>
+        <div class="success" id="resize-success"></div>
+        <div class="loading" id="resize-loading">
+          <div class="spinner"></div>
+          Processing Image...
+        </div>
+        <canvas id="resizeCanvas" width="300" height="200"></canvas>
+        <div class="btn-group">
+          <button id="resizeBtn" style="display: none;">
+            <i class="fas fa-expand"></i> Resize Image
+          </button>
+          <button id="resetResize" style="display: none;">
+            <i class="fas fa-undo"></i> Reset
+          </button>
+          <button id="downloadResize" style="display: none;">
+            <i class="fas fa-download"></i> Download
+          </button>
+        </div>
+      </div>
+
+      <div class="tab-content" id="convert-tab">
+        <h2><i class="fas fa-exchange-alt"></i> Image Converter</h2>
+        <p><i>Convert your image to a different format.</i></p>
+        <div class="drag-drop-area" id="convertDragArea">
+          <p><i class="fas fa-upload"></i> Choose file or drag and drop here</p>
+          <p>Supported formats: PNG, JPEG, WEBP, BMP, GIF, HEIC</p>
+          <p>Max file size: 10MB</p>
+        </div>
+        <input type="file" id="convertUpload" accept="image/*,.heic,.heif" style="display: none;" aria-label="Upload image for conversion" />
+        <label for="outputFormat">Output Format:</label>
+        <select id="outputFormat" aria-label="Output format">
+          <option value="png">PNG</option>
+          <option value="jpeg">JPEG</option>
+          <option value="webp">WEBP</option>
+          <option value="bmp">BMP</option>
+          <option value="gif">GIF</option>
+        </select>
+        <div class="error" id="convert-error"></div>
+        <div class="success" id="convert-success"></div>
+        <div class="loading" id="convert-loading">
+          <div class="spinner"></div>
+          Processing Image...
+        </div>
+        <canvas id="convertCanvas" width="300" height="200"></canvas>
+        <div class="btn-group">
+          <button id="convertBtn" style="display: none;">
+            <i class="fas fa-exchange-alt"></i> Convert & Download
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Practical Uses section - 4 cards per row, white text -->
+    <div class="uses-section">
+      <h2><i class="fas fa-lightbulb"></i> Practical Uses for Image Editing</h2>
+      <p>Image editing has countless applications across industries. Here are some popular uses:</p>
+      
+      <div class="uses-grid">
+        <div class="use-item">
+          <i class="fas fa-share-alt"></i>
+          <h3>Social Media</h3>
+          <p>Resize and crop images for Instagram, Twitter, or Facebook</p>
+        </div>
+        
+        <div class="use-item">
+          <i class="fas fa-shopping-cart"></i>
+          <h3>E-commerce</h3>
+          <p>Optimize product images with cropping and format conversion</p>
+        </div>
+        
+        <div class="use-item">
+          <i class="fas fa-globe"></i>
+          <h3>Website Optimization</h3>
+          <p>Convert images to WEBP for faster loading times</p>
+        </div>
+        
+        <div class="use-item">
+          <i class="fas fa-image"></i>
+          <h3>Content Creation</h3>
+          <p>Prepare images for blogs, portfolios, or digital marketing</p>
+        </div>
+        
+        <div class="use-item">
+          <i class="fas fa-blog"></i>
+          <h3>Blogging</h3>
+          <p>Resize and compress images for faster blog loading</p>
+        </div>
+        
+        <div class="use-item">
+          <i class="fas fa-envelope"></i>
+          <h3>Email Marketing</h3>
+          <p>Crop images to fit email campaign templates</p>
+        </div>
+        
+        <div class="use-item">
+          <i class="fas fa-file-powerpoint"></i>
+          <h3>Presentations</h3>
+          <p>Resize images to fit PowerPoint or Keynote slides</p>
+        </div>
+        
+        <div class="use-item">
+          <i class="fas fa-film"></i>
+          <h3>Format Conversion</h3>
+          <p>Change image formats to ensure compatibility with various devices</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-bottom">
+        <div class="footer-links-row">
+          <a href="/privacy" aria-label="Privacy Policy">Privacy Policy</a>
+          <a href="/terms" aria-label="Terms of Service">Terms of Service</a>
+          <a href="/gdpr" aria-label="GDPR Compliance">GDPR Compliance</a>
+          <a href="#" id="open-settings-footer" aria-label="Open cookie settings">Cookie Settings</a>
+        </div>
+        <p>© 2025 EveryTool.io. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Constants
+    const COOKIE_CONSENT_KEY = 'cookieConsent';
+    const elements = {
+      mobileMenuToggle: document.getElementById('mobile-menu-toggle'),
+      closeMobileMenu: document.getElementById('close-mobile-menu'),
+      mobileNav: document.getElementById('mobile-nav'),
+      acceptCookies: document.getElementById('accept-cookies'),
+      rejectCookies: document.getElementById('reject-cookies'),
+      openSettings: document.getElementById('open-settings'),
+      openSettingsFooter: document.getElementById('open-settings-footer'),
+      closeSettings: document.querySelector('.close-settings'),
+      saveSettings: document.getElementById('save-settings'),
+      cookieConsent: document.getElementById('cookie-consent'),
+      cookieSettings: document.getElementById('cookie-settings'),
+      analyticsToggle: document.getElementById('analytics-toggle'),
+      advertisingToggle: document.getElementById('advertising-toggle'),
+      cropDragArea: document.getElementById('cropDragArea'),
+      resizeDragArea: document.getElementById('resizeDragArea'),
+      convertDragArea: document.getElementById('convertDragArea'),
+      cropUpload: document.getElementById('cropUpload'),
+      resizeUpload: document.getElementById('resizeUpload'),
+      convertUpload: document.getElementById('convertUpload'),
+      cropCanvas: document.getElementById('cropCanvas'),
+      resizeCanvas: document.getElementById('resizeCanvas'),
+      convertCanvas: document.getElementById('convertCanvas'),
+      cropBtn: document.getElementById('cropBtn'),
+      resetCrop: document.getElementById('resetCrop'),
+      downloadCrop: document.getElementById('downloadCrop'),
+      resizeBtn: document.getElementById('resizeBtn'),
+      resetResize: document.getElementById('resetResize'),
+      downloadResize: document.getElementById('downloadResize'),
+      convertBtn: document.getElementById('convertBtn'),
+      resizeWidth: document.getElementById('resizeWidth'),
+      resizeHeight: document.getElementById('resizeHeight'),
+      outputFormat: document.getElementById('outputFormat'),
+      cropError: document.getElementById('crop-error'),
+      resizeError: document.getElementById('resize-error'),
+      convertError: document.getElementById('convert-error'),
+      cropSuccess: document.getElementById('crop-success'),
+      resizeSuccess: document.getElementById('resize-success'),
+      convertSuccess: document.getElementById('convert-success'),
+      cropLoading: document.getElementById('crop-loading'),
+      resizeLoading: document.getElementById('resize-loading'),
+      convertLoading: document.getElementById('convert-loading')
+    };
+
+    // State
+    let state = {
+      cropStart: null,
+      cropRect: null,
+      isDrawing: false,
+      originalCropImage: null,
+      croppedImage: null,
+      originalResizeImage: null,
+      resizedImage: null,
+      convertImage: null
+    };
+
+    // Helper Functions
+    function showError(element, message) {
+      if (element) {
+        element.textContent = message;
+        element.style.display = 'block';
+      }
+    }
+
+    function showSuccess(element, message) {
+      if (element) {
+        element.textContent = message;
+        element.style.display = 'block';
+      }
+    }
+
+    function hideElements(section = null) {
+      const errors = section ? [document.getElementById(`${section}-error`)] : document.querySelectorAll('.error');
+      const successes = section ? [document.getElementById(`${section}-success`)] : document.querySelectorAll('.success');
+      errors.forEach(el => { if (el) { el.style.display = 'none'; el.textContent = ''; } });
+      successes.forEach(s => { if (s) { s.style.display = 'none'; s.textContent = ''; } });
+    }
+
+    function showLoading(section) {
+      const loading = document.getElementById(`${section}-loading`);
+      if (loading) loading.style.display = 'block';
+    }
+
+    function hideLoading(section) {
+      const loading = document.getElementById(`${section}-loading`);
+      if (loading) loading.style.display = 'none';
+    }
+
+    async function loadImage(file) {
+      return new Promise((resolve, reject) => {
+        const fileType = file.type.toLowerCase();
+        if (!fileType.match(/image\/(png|jpeg|jpg|webp|bmp|gif|heic|heif)/)) {
+          reject(new Error('Invalid file type. Please upload a valid image (PNG, JPEG, WEBP, BMP, GIF, or HEIC).'));
+          return;
+        }
+
+        if (file.size > 10 * 1024 * 1024) {
+          reject(new Error('File size exceeds 10MB limit. Please select a smaller file.'));
+          return;
+        }
+
+        if (fileType === 'image/heic' || fileType === 'image/heif') {
+          if (!window.heic2anyAvailable) {
+            reject(new Error('HEIC/HEIF support is not available. Please try a different file format.'));
+            return;
+          }
+        }
+
+        if (fileType === 'image/heic' || fileType === 'image/heif') {
+          const reader = new FileReader();
+          reader.onload = async (e) => {
+            try {
+              const blob = new Blob([e.target.result], { type: fileType });
+              const convertedBlob = await heic2any({ blob, toType: 'image/jpeg' });
+              const img = new Image();
+              img.onload = () => {
+                resolve(img);
+                URL.revokeObjectURL(img.src);
+              };
+              img.onerror = () => reject(new Error('Failed to load HEIC/HEIF image'));
+              img.src = URL.createObjectURL(convertedBlob);
+            } catch (err) {
+              reject(new Error('Error processing HEIC/HEIF image: ' + err.message));
+            }
+          };
+          reader.onerror = () => reject(new Error('Failed to read HEIC/HEIF file'));
+          reader.readAsArrayBuffer(file);
+        } else {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            const img = new Image();
+            img.onload = () => {
+              resolve(img);
+              URL.revokeObjectURL(img.src);
+            };
+            img.onerror = () => reject(new Error('Failed to load image'));
+            img.src = e.target.result;
+          };
+          reader.onerror = () => reject(new Error('Failed to read image file'));
+          reader.readAsDataURL(file);
+        }
+      });
+    }
+
+    function drawImageOnCanvas(image, canvasId) {
+      const canvas = document.getElementById(canvasId);
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const maxWidth = 500;
+      const scale = Math.min(maxWidth / image.width, 1);
+      const pixelRatio = window.devicePixelRatio || 1;
+
+      canvas.style.width = `${image.width * scale}px`;
+      canvas.style.height = `${image.height * scale}px`;
+      canvas.width = image.width * scale * pixelRatio;
+      canvas.height = image.height * scale * pixelRatio;
+      ctx.scale(pixelRatio, pixelRatio);
+
+      ctx.clearRect(0, 0, canvas.width / pixelRatio, canvas.height / pixelRatio);
+      ctx.drawImage(image, 0, 0, canvas.width / pixelRatio, canvas.height / pixelRatio);
+    }
+
+    function resetCanvas(canvasId) {
+      const canvas = document.getElementById(canvasId);
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      canvas.style.width = '300px';
+      canvas.style.height = '200px';
+      canvas.width = 300;
+      canvas.height = 200;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    // Tab Switching
+    function switchTab(tabName) {
+      document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+      const tab = document.querySelector(`.tab[data-tab="${tabName}"]`);
+      const content = document.getElementById(`${tabName}-tab`);
+      if (tab) tab.classList.add('active');
+      if (content) content.classList.add('active');
+
+      // Reset states
+      if (tabName === 'crop') {
+        if (state.originalCropImage) {
+          drawImageOnCanvas(state.originalCropImage, 'cropCanvas');
+          elements.cropBtn.style.display = 'inline-block';
+        } else {
+          resetCanvas('cropCanvas');
+          elements.cropBtn.style.display = 'none';
+        }
+        elements.cropUpload.value = '';
+        elements.downloadCrop.style.display = 'none';
+        elements.resetCrop.style.display = 'none';
+        hideElements('crop');
+        hideLoading('crop');
+      } else if (tabName === 'resize') {
+        if (state.originalResizeImage) {
+          drawImageOnCanvas(state.originalResizeImage, 'resizeCanvas');
+          elements.resizeBtn.style.display = 'inline-block';
+        } else {
+          resetCanvas('resizeCanvas');
+          elements.resizeBtn.style.display = 'none';
+        }
+        elements.resizeUpload.value = '';
+        elements.resizeWidth.value = '';
+        elements.resizeHeight.value = '';
+        elements.downloadResize.style.display = 'none';
+        elements.resetResize.style.display = 'none';
+        hideElements('resize');
+        hideLoading('resize');
+      } else if (tabName === 'convert') {
+        if (state.convertImage) {
+          drawImageOnCanvas(state.convertImage, 'convertCanvas');
+          elements.convertBtn.style.display = 'inline-block';
+        } else {
+          resetCanvas('convertCanvas');
+          elements.convertBtn.style.display = 'none';
+        }
+        elements.convertUpload.value = '';
+        hideElements('convert');
+        hideLoading('convert');
+      }
+    }
+
+    // Cookie Management
+    function getCookiePreferences() {
+      const preferences = localStorage.getItem(COOKIE_CONSENT_KEY);
+      return preferences ? JSON.parse(preferences) : null;
+    }
+
+    function saveCookiePreferences(preferences) {
+      localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(preferences));
+    }
+
+    function loadGoogleAnalytics() {
+      if (window.gaLoaded) return;
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-LR5XP1GJFC');
+      window.gaLoaded = true;
+    }
+
+    function checkCookieConsent() {
+      const preferences = getCookiePreferences();
+      if (!preferences) {
+        elements.cookieConsent.style.display = 'block';
+      } else {
+        if (preferences.analytics) loadGoogleAnalytics();
+      }
+    }
+
+    function openCookieSettings() {
+      const preferences = getCookiePreferences();
+      elements.analyticsToggle.checked = preferences ? preferences.analytics : true;
+      elements.advertisingToggle.checked = preferences ? preferences.advertising : true;
+      elements.cookieSettings.style.display = 'flex';
+    }
+
+    function closeCookieSettings() {
+      elements.cookieSettings.style.display = 'none';
+    }
+
+    function initialize() {
+      checkCookieConsent();
+
+      // Mobile menu toggle
+      elements.mobileMenuToggle.addEventListener('click', () => {
+        elements.mobileNav.classList.add('active');
+      });
+      
+      elements.closeMobileMenu.addEventListener('click', () => {
+        elements.mobileNav.classList.remove('active');
+      });
+
+      // Tabs
+      document.querySelectorAll('.tab').forEach(tab => {
+        tab.addEventListener('click', () => switchTab(tab.dataset.tab));
+      });
+
+      // Drag and Drop Setup
+      function setupDragAndDrop(dragArea, fileInput, section) {
+        dragArea.addEventListener('click', () => fileInput.click());
+        dragArea.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          dragArea.classList.add('drag-over');
+        });
+        dragArea.addEventListener('dragenter', (e) => {
+          e.preventDefault();
+          dragArea.classList.add('drag-over');
+        });
+        dragArea.addEventListener('dragleave', () => {
+          dragArea.classList.remove('drag-over');
+        });
+        dragArea.addEventListener('drop', (e) => {
+          e.preventDefault();
+          dragArea.classList.remove('drag-over');
+          const files = e.dataTransfer.files;
+          if (files.length > 0) {
+            fileInput.files = files;
+            fileInput.dispatchEvent(new Event('change'));
+          }
+        });
+      }
+
+      setupDragAndDrop(elements.cropDragArea, elements.cropUpload, 'crop');
+      setupDragAndDrop(elements.resizeDragArea, elements.resizeUpload, 'resize');
+      setupDragAndDrop(elements.convertDragArea, elements.convertUpload, 'convert');
+
+      // Crop Functionality
+      elements.cropUpload.addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        hideElements('crop');
+        showLoading('crop');
+        try {
+          state.originalCropImage = await loadImage(file);
+          drawImageOnCanvas(state.originalCropImage, 'cropCanvas');
+          elements.cropBtn.style.display = 'inline-block';
+          showSuccess(elements.cropSuccess, 'Image loaded successfully!');
+        } catch (err) {
+          resetCanvas('cropCanvas');
+          showError(elements.cropError, err.message);
+        } finally {
+          hideLoading('crop');
+        }
+      });
+
+      elements.cropCanvas.addEventListener('mousedown', (e) => {
+        if (!state.originalCropImage) {
+          showError(elements.cropError, 'Please upload an image first.');
+          return;
+        }
+        state.isDrawing = true;
+        const rect = elements.cropCanvas.getBoundingClientRect();
+        const pixelRatio = window.devicePixelRatio || 1;
+        state.cropStart = { x: (e.clientX - rect.left) * pixelRatio, y: (e.clientY - rect.top) * pixelRatio };
+      });
+
+      elements.cropCanvas.addEventListener('mousemove', (e) => {
+        if (!state.isDrawing || !state.originalCropImage) return;
+        const rect = elements.cropCanvas.getBoundingClientRect();
+        const pixelRatio = window.devicePixelRatio || 1;
+        const currentX = (e.clientX - rect.left) * pixelRatio;
+        const currentY = (e.clientY - rect.top) * pixelRatio;
+        state.cropRect = {
+          x: Math.min(state.cropStart.x, currentX),
+          y: Math.min(state.cropStart.y, currentY),
+          width: Math.abs(currentX - state.cropStart.x),
+          height: Math.abs(currentY - state.cropStart.y),
+        };
+        const ctx = elements.cropCanvas.getContext('2d');
+        ctx.clearRect(0, 0, elements.cropCanvas.width / pixelRatio, elements.cropCanvas.height / pixelRatio);
+        ctx.drawImage(state.originalCropImage, 0, 0, elements.cropCanvas.width / pixelRatio, elements.cropCanvas.height / pixelRatio);
+        ctx.strokeStyle = 'red';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(state.cropRect.x / pixelRatio, state.cropRect.y / pixelRatio, state.cropRect.width / pixelRatio, state.cropRect.height / pixelRatio);
+      });
+
+      elements.cropCanvas.addEventListener('mouseup', () => {
+        state.isDrawing = false;
+      });
+
+      elements.cropBtn.addEventListener('click', () => {
+        hideElements('crop');
+        if (!state.cropRect || !state.originalCropImage) {
+          showError(elements.cropError, 'Please draw a crop area on an uploaded image.');
+          return;
+        }
+        showLoading('crop');
+        setTimeout(() => {
+          try {
+            const pixelRatio = window.devicePixelRatio || 1;
+            const scale = state.originalCropImage.width / (elements.cropCanvas.width / pixelRatio);
+            const sx = state.cropRect.x * scale / pixelRatio;
+            const sy = state.cropRect.y * scale / pixelRatio;
+            const sWidth = state.cropRect.width * scale / pixelRatio;
+            const sHeight = state.cropRect.height * scale / pixelRatio;
+            const croppedCanvas = document.createElement('canvas');
+            croppedCanvas.width = sWidth;
+            croppedCanvas.height = sHeight;
+            const ctx = croppedCanvas.getContext('2d');
+            ctx.drawImage(state.originalCropImage, sx, sy, sWidth, sHeight, 0, 0, sWidth, sHeight);
+            state.croppedImage = croppedCanvas;
+            drawImageOnCanvas(croppedCanvas, 'cropCanvas');
+            elements.downloadCrop.style.display = 'inline-block';
+            elements.resetCrop.style.display = 'inline-block';
+            showSuccess(elements.cropSuccess, 'Image cropped successfully!');
+          } catch (err) {
+            showError(elements.cropError, 'Error cropping image: ' + err.message);
+          } finally {
+            hideLoading('crop');
+          }
+        }, 300);
+      });
+
+      elements.resetCrop.addEventListener('click', () => {
+        if (confirm('Reset the image? This will clear the current crop.')) {
+          hideElements('crop');
+          if (state.originalCropImage) {
+            drawImageOnCanvas(state.originalCropImage, 'cropCanvas');
+            state.croppedImage = null;
+            state.cropRect = null;
+            elements.downloadCrop.style.display = 'none';
+            elements.resetCrop.style.display = 'none';
+            elements.cropBtn.style.display = 'inline-block';
+            showSuccess(elements.cropSuccess, 'Image reset successfully!');
+          } else {
+            resetCanvas('cropCanvas');
+          }
+        }
+      });
+
+      elements.downloadCrop.addEventListener('click', () => {
+        if (state.croppedImage) {
+          const link = document.createElement('a');
+          link.download = 'cropped-image.png';
+          link.href = state.croppedImage.toDataURL('image/png');
+          link.click();
+          URL.revokeObjectURL(link.href);
+          showSuccess(elements.cropSuccess, 'Image downloaded successfully!');
+        } else {
+          showError(elements.cropError, 'No cropped image available for download.');
+        }
+      });
+
+      // Resize Functionality
+      elements.resizeUpload.addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        hideElements('resize');
+        showLoading('resize');
+        try {
+          state.originalResizeImage = await loadImage(file);
+          drawImageOnCanvas(state.originalResizeImage, 'resizeCanvas');
+          elements.resizeBtn.style.display = 'inline-block';
+          showSuccess(elements.resizeSuccess, 'Image loaded successfully!');
+        } catch (err) {
+          showError(elements.resizeError, err.message);
+          resetCanvas('resizeCanvas');
+        } finally {
+          hideLoading('resize');
+        }
+      });
+
+      elements.resizeBtn.addEventListener('click', () => {
+        hideElements('resize');
+        if (!state.originalResizeImage) {
+          showError(elements.resizeError, 'Please upload an image first.');
+          return;
+        }
+        const targetWidth = parseInt(elements.resizeWidth.value);
+        const targetHeight = parseInt(elements.resizeHeight.value);
+        if (isNaN(targetWidth) || isNaN(targetHeight) || targetWidth <= 0 || targetHeight <= 0) {
+          showError(elements.resizeError, 'Please enter valid width and height values.');
+          return;
+        }
+        showLoading('resize');
+        setTimeout(() => {
+          try {
+            const canvas = document.createElement('canvas');
+            canvas.width = targetWidth;
+            canvas.height = targetHeight;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(state.originalResizeImage, 0, 0, state.originalResizeImage.width, state.originalResizeImage.height, 0, 0, targetWidth, targetHeight);
+            state.resizedImage = canvas;
+            drawImageOnCanvas(state.resizedImage, 'resizeCanvas');
+            elements.downloadResize.style.display = 'inline-block';
+            elements.resetResize.style.display = 'inline-block';
+            showSuccess(elements.resizeSuccess, 'Image resized successfully!');
+          } catch (err) {
+            showError(elements.resizeError, 'Error resizing image: ' + err.message);
+          } finally {
+            hideLoading('resize');
+          }
+        }, 300);
+      });
+
+      elements.resetResize.addEventListener('click', () => {
+        if (confirm('Reset the image? This will clear the current resize.')) {
+          hideElements('resize');
+          if (state.originalResizeImage) {
+            drawImageOnCanvas(state.originalResizeImage, 'resizeCanvas');
+            state.resizedImage = null;
+            elements.downloadResize.style.display = 'none';
+            elements.resetResize.style.display = 'none';
+            elements.resizeBtn.style.display = 'inline-block';
+            showSuccess(elements.resizeSuccess, 'Image reset successfully!');
+          } else {
+            resetCanvas('resizeCanvas');
+          }
+        }
+      });
+
+      elements.downloadResize.addEventListener('click', () => {
+        if (state.resizedImage) {
+          const link = document.createElement('a');
+          link.download = 'resized-image.png';
+          link.href = state.resizedImage.toDataURL('image/png');
+          link.click();
+          URL.revokeObjectURL(link.href);
+          showSuccess(elements.resizeSuccess, 'Image downloaded successfully!');
+        } else {
+          showError(elements.resizeError, 'No resized image available for download.');
+        }
+      });
+
+      // Convert Functionality
+      elements.convertUpload.addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        hideElements('convert');
+        showLoading('convert');
+        try {
+          state.convertImage = await loadImage(file);
+          drawImageOnCanvas(state.convertImage, 'convertCanvas');
+          elements.convertBtn.style.display = 'inline-block';
+          showSuccess(elements.convertSuccess, 'Image loaded successfully!');
+        } catch (err) {
+          showError(elements.convertError, err.message);
+          resetCanvas('convertCanvas');
+        } finally {
+          hideLoading('convert');
+        }
+      });
+
+      elements.convertBtn.addEventListener('click', async () => {
+        hideElements('convert');
+        if (!state.convertImage && !elements.convertUpload.files[0]) {
+          showError(elements.convertError, 'Please upload an image first.');
+          return;
+        }
+        showLoading('convert');
+        try {
+          const img = state.convertImage || await loadImage(elements.convertUpload.files[0]);
+          const canvas = document.createElement('canvas');
+          canvas.width = img.width;
+          canvas.height = img.height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, img.width, img.height);
+          const format = elements.outputFormat.value;
+          const link = document.createElement('a');
+          link.href = canvas.toDataURL(`image/${format}`, format === 'jpeg' ? 0.9 : 1);
+          link.download = `converted.${format}`;
+          link.click();
+          URL.revokeObjectURL(link.href);
+          showSuccess(elements.convertSuccess, `Image converted to ${format.toUpperCase()} successfully!`);
+        } catch (err) {
+          showError(elements.convertError, 'Error converting image: ' + err.message);
+        } finally {
+          hideLoading('convert');
+        }
+      });
+
+      // Cookie consent handlers
+      elements.acceptCookies.addEventListener('click', () => {
+        saveCookiePreferences({ essential: true, analytics: true, advertising: true });
+        elements.cookieConsent.style.display = 'none';
+        loadGoogleAnalytics();
+      });
+
+      elements.rejectCookies.addEventListener('click', () => {
+        saveCookiePreferences({ essential: true, analytics: false, advertising: false });
+        elements.cookieConsent.style.display = 'none';
+      });
+
+      elements.openSettings.addEventListener('click', openCookieSettings);
+      elements.openSettingsFooter.addEventListener('click', e => {
+        e.preventDefault();
+        openCookieSettings();
+      });
+
+      elements.closeSettings.addEventListener('click', closeCookieSettings);
+
+      elements.saveSettings.addEventListener('click', () => {
+        const preferences = {
+          essential: true,
+          analytics: elements.analyticsToggle.checked,
+          advertising: elements.advertisingToggle.checked
+        };
+        saveCookiePreferences(preferences);
+        if (preferences.analytics) loadGoogleAnalytics();
+        closeCookieSettings();
+        elements.cookieConsent.style.display = 'none';
+      });
+    }
+
+    // Initialize the page
+    document.addEventListener('DOMContentLoaded', initialize);
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js" onload="window.heic2anyAvailable = true;" onerror="console.error('Failed to load heic2any'); window.heic2anyAvailable = false;"></script>
+</body>
+</html>
