@@ -66,7 +66,7 @@
       --gray: #6c757d;
       --light-gray: #e9ecef;
       --border-radius: 12px;
-      --box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+      --box-shadow: [WORDBR]8px 30px rgba(0, 0, 0, 0.08);
       --transition: all 0.3s ease;
     }
     
@@ -301,8 +301,8 @@
       font-size: 1.2rem;
     }
 
-    /* Categories Section */
-    .categories {
+    /* Tools Section */
+    .tools {
       padding: 70px 0;
     }
 
@@ -325,13 +325,13 @@
       margin: 0 auto;
     }
 
-    .categories-grid {
+    .tools-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 30px;
     }
 
-    .category-card {
+    .tool-card {
       background: white;
       border-radius: var(--border-radius);
       padding: 30px;
@@ -345,12 +345,12 @@
       justify-content: space-between;
     }
 
-    .category-card:hover {
+    .tool-card:hover {
       transform: translateY(-10px);
       box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
     }
 
-    .category-icon {
+    .tool-icon {
       font-size: 3rem;
       color: var(--primary);
       margin-bottom: 20px;
@@ -364,19 +364,19 @@
       margin: 0 auto 20px;
     }
 
-    .category-card h3 {
+    .tool-card h3 {
       font-size: 1.4rem;
       margin-bottom: 15px;
       color: var(--dark);
     }
 
-    .category-card p {
+    .tool-card p {
       color: var(--gray);
       margin-bottom: 20px;
       flex-grow: 1;
     }
 
-    .category-card a {
+    .tool-card a {
       display: inline-block;
       background: var(--primary);
       color: white;
@@ -388,70 +388,8 @@
       transition: var(--transition);
     }
 
-    .category-card a:hover, .category-card a:focus {
+    .tool-card a:hover, .tool-card a:focus {
       background: var(--primary-dark);
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-
-    /* Search Results Section */
-    .search-results {
-      margin-top: 40px;
-      display: none;
-    }
-
-    .search-results.active {
-      display: block;
-    }
-
-    .search-results h3 {
-      font-size: 1.8rem;
-      margin-bottom: 20px;
-      color: var(--dark);
-    }
-
-    .results-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-    }
-
-    .result-item {
-      background: white;
-      border-radius: var(--border-radius);
-      padding: 20px;
-      box-shadow: var(--box-shadow);
-      transition: var(--transition);
-    }
-
-    .result-item:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    }
-
-    .result-item h4 {
-      font-size: 1.2rem;
-      margin-bottom: 10px;
-      color: var(--dark);
-    }
-
-    .result-item p {
-      color: var(--gray);
-      font-size: 0.95rem;
-      margin-bottom: 15px;
-    }
-
-    .result-item a {
-      display: inline-block;
-      color: var(--primary);
-      font-weight: 600;
-      text-decoration: none;
-      transition: var(--transition);
-    }
-
-    .result-item a:hover, .result-item a:focus {
-      color: var(--primary-dark);
-      text-decoration: underline;
       outline: 2px solid var(--primary);
       outline-offset: 2px;
     }
@@ -810,7 +748,7 @@
         font-size: 2.8rem;
       }
       
-      .categories-grid, .results-list {
+      .tools-grid {
         grid-template-columns: 1fr;
       }
     }
@@ -874,7 +812,7 @@
         font-size: 2rem;
       }
       
-      .category-card, .result-item {
+      .tool-card {
         padding: 20px;
       }
     }
@@ -899,7 +837,7 @@
               <a href="/tools" class="nav-link" aria-label="Tools"><i class="fas fa-toolbox"></i> Tools</a>
             </li>
             <li class="nav-item">
-              <a href="/blog" class="nav-link" aria-label="Blog"><i class="fas fa-blog"></i> Blog</a>
+              <a href="/blog" class="nav-link" aria-label="Blog"><i class="--blog"></i> Blog</a>
             </li>
             <li class="nav-item">
               <a href="/about" class="nav-link" aria-label="About"><i class="fas fa-address-card"></i> About</a>
@@ -929,7 +867,7 @@
     </div>
     <ul class="mobile-nav-menu">
       <li class="mobile-nav-item">
-        <a href="/" class="mobile-nav-link" aria-label="Home"><i class="fas fa-home"></i> Home</a>
+        <a href="/" class="is fa-home"></i> Home</a>
       </li>
       <li class="mobile-nav-item">
         <a href="/tools" class="mobile-nav-link" aria-label="Tools"><i class="fas fa-toolbox"></i> Tools</a>
@@ -1024,22 +962,16 @@
     </div>
   </section>
 
-  <!-- Categories Section -->
-  <section class="categories" id="categories">
+  <!-- Tools Section -->
+  <section class="tools" id="tools">
     <div class="container">
       <div class="section-header">
-        <h2 class="section-title">Tool Categories</h2>
-        <p class="section-subtitle">Browse our collection of tools by category, all running in your browser for maximum privacy.</p>
+        <h2 class="section-title">Our Tools</h2>
+        <p class="section-subtitle">Access our collection of privacy-first tools, all running directly in your browser.</p>
       </div>
       
-      <div class="categories-grid" id="categories-grid">
-        <!-- Category cards will be dynamically generated -->
-      </div>
-
-      <!-- Search Results Section -->
-      <div class="search-results" id="search-results" aria-live="polite">
-        <h3>Search Results</h3>
-        <div class="results-list" id="results-list"></div>
+      <div class="tools-grid" id="tools-grid">
+        <!-- Tools will be dynamically generated -->
       </div>
     </div>
   </section>
@@ -1236,124 +1168,87 @@
           const response = await fetch('/tools/tools.json');
           if (!response.ok) throw new Error('Failed to load tools.json');
           toolData = await response.json();
-          renderCategories();
+          renderTools();
         } catch (error) {
           console.error('Error loading tools.json:', error);
-          renderFallbackCategories();
+          renderFallbackTools();
         }
       }
 
-      function renderCategories(searchTerm = '') {
-        const categoriesGrid = document.getElementById('categories-grid');
-        categoriesGrid.innerHTML = '';
+      function renderTools(searchTerm = '') {
+        const toolsGrid = document.getElementById('tools-grid');
+        toolsGrid.innerHTML = '';
 
-        toolData.forEach(category => {
-          const categoryName = category.category.toLowerCase();
-          const categorySlug = category.slug.toLowerCase();
-          const categoryDescription = category.description.toLowerCase();
-
-          if (!searchTerm || 
-              categoryName.includes(searchTerm) || 
-              categorySlug.includes(searchTerm) || 
-              categoryDescription.includes(searchTerm)) {
-            const card = document.createElement('article');
-            card.className = 'category-card';
-            card.setAttribute('data-category', category.slug);
-            card.innerHTML = `
-              <div class="category-icon">
-                <i class="${category.icon}"></i>
-              </div>
-              <h3>${category.category}</h3>
-              <p>${category.description}</p>
-              <a href="${category.url}" aria-label="View ${category.category} tools">View Tools</a>
-            `;
-            categoriesGrid.appendChild(card);
-          }
-        });
-      }
-
-      function renderSearchResults(searchTerm = '') {
-        const searchResults = document.getElementById('search-results');
-        const resultsList = document.getElementById('results-list');
-        resultsList.innerHTML = '';
-
-        if (!searchTerm) {
-          searchResults.classList.remove('active');
-          return;
-        }
-
-        let hasResults = false;
         toolData.forEach(category => {
           category.tools.forEach(tool => {
             const toolName = tool.name.toLowerCase();
             const toolDescription = tool.description.toLowerCase();
-            if (toolName.includes(searchTerm) || toolDescription.includes(searchTerm)) {
-              hasResults = true;
-              const resultItem = document.createElement('div');
-              resultItem.className = 'result-item';
-              resultItem.innerHTML = `
-                <h4>${tool.name}</h4>
+            if (!searchTerm || toolName.includes(searchTerm) || toolDescription.includes(searchTerm)) {
+              const card = document.createElement('article');
+              card.className = 'tool-card';
+              card.innerHTML = `
+                <div class="tool-icon">
+                  <i class="${tool.icon || category.icon}"></i>
+                </div>
+                <h3>${tool.name}</h3>
                 <p>${tool.description}</p>
                 <a href="${tool.url}" aria-label="Go to ${tool.name} tool">Go to Tool</a>
               `;
-              resultsList.appendChild(resultItem);
+              toolsGrid.appendChild(card);
             }
           });
         });
-
-        searchResults.classList.toggle('active', hasResults);
       }
 
-      function renderFallbackCategories() {
-        const categoriesGrid = document.getElementById('categories-grid');
-        categoriesGrid.innerHTML = `
-          <article class="category-card" data-category="ean-generator">
-            <div class="category-icon"><i class="fas fa-barcode"></i></div>
+      function renderFallbackTools() {
+        const toolsGrid = document.getElementById('tools-grid');
+        toolsGrid.innerHTML = `
+          <article class="tool-card">
+            <div class="tool-icon"><i class="fas fa-barcode"></i></div>
             <h3>EAN Generator</h3>
             <p>Create EAN barcodes for products or inventory directly in your browser without data uploads.</p>
-            <a href="/tools/ean" aria-label="View EAN Generator tools">View Tools</a>
+            <a href="/tools/ean" aria-label="Go to EAN Generator tool">Go to Tool</a>
           </article>
-          <article class="category-card" data-category="qr-generator">
-            <div class="category-icon"><i class="fas fa-qrcode"></i></div>
+          <article class="tool-card">
+            <div class="tool-icon"><i class="fas fa-qrcode"></i></div>
             <h3>QR Generator</h3>
             <p>Generate QR codes for URLs, text, or contact details, processed entirely in your browser.</p>
-            <a href="/tools/qr" aria-label="View QR Generator tools">View Tools</a>
+            <a href="/tools/qr" aria-label="Go to QR Generator tool">Go to Tool</a>
           </article>
-          <article class="category-card" data-category="image-tools">
-            <div class="category-icon"><i class="fas fa-image"></i></div>
-            <h3>Image Tools</h3>
+          <article class="tool-card">
+            <div class="tool-icon"><i class="fas fa-image"></i></div>
+            <h3>Image Editor</h3>
             <p>Edit, resize, or convert images in your browser without uploading to any server.</p>
-            <a href="/tools/image" aria-label="View Image Tools">View Tools</a>
+            <a href="/tools/image" aria-label="Go to Image Editor tool">Go to Tool</a>
           </article>
-          <article class="category-card" data-category="video-tools">
-            <div class="category-icon"><i class="fas fa-video"></i></div>
-            <h3>Video Tools</h3>
-            <p>Trim, convert, or compress videos locally, keeping your media secure and private.</p>
-            <a href="/tools/video" aria-label="View Video Tools">View Tools</a>
+          <article class="tool-card">
+            <div class="tool-icon"><i class="fas fa-video"></i></div>
+            <h3>Video Compressor</h3>
+            <p>Compress videos locally, keeping your media secure and private.</p>
+            <a href="/tools/video" aria-label="Go to Video Compressor tool">Go to Tool</a>
           </article>
-          <article class="category-card" data-category="text-tools">
-            <div class="category-icon"><i class="fas fa-font"></i></div>
-            <h3>Text Tools</h3>
-            <p>Manipulate text with tools for formatting, counting, or generating content, all in-browser.</p>
-            <a href="/tools/text" aria-label="View Text Tools">View Tools</a>
+          <article class="tool-card">
+            <div class="tool-icon"><i class="fas fa-font"></i></div>
+            <h3>Text Formatter</h3>
+            <p>Format or manipulate text content directly in your browser.</p>
+            <a href="/tools/text" aria-label="Go to Text Formatter tool">Go to Tool</a>
           </article>
-          <article class="category-card" data-category="file-converter">
-            <div class="category-icon"><i class="fas fa-file-export"></i></div>
+          <article class="tool-card">
+            <div class="tool-icon"><i class="fas fa-file-export"></i></div>
             <h3>File Converter</h3>
             <p>Convert files between formats in your browser, ensuring your data stays on your device.</p>
-            <a href="/tools/converter" aria-label="View File Converter tools">View Tools</a>
+            <a href="/tools/converter" aria-label="Go to File Converter tool">Go to Tool</a>
           </article>
-          <article class="category-card" data-category="pdf-tools">
-            <div class="category-icon"><i class="fas fa-file-pdf"></i></div>
-            <h3>PDF Tools</h3>
+          <article class="tool-card">
+            <div class="tool-icon"><i class="fas fa-file-pdf"></i></div>
             <p>Edit, merge, or compress PDF files directly in your browser with complete privacy.</p>
-            <a href="/tools/pdf" aria-label="View PDF Tools">View Tools</a>
+            <a href="/tools/pdf" aria-label="Go to PDF Editor tool">Go to Tool</a>
           </article>
-          <article class="category-card" data-category="career-tools">
-            <div class="category-icon"><i class="fas fa-briefcase"></i></div>
-            <h3>Career Tools</h3>
-            <p>Create resumes, cover letters, or prepare for interviews with private, browser-based tools.</p>
-            <a href="/tools/career" aria-label="View Career Tools">View Tools</a>
+          <article class="tool-card">
+            <div class="tool-icon"><i class="fas fa-briefcase"></i></div>
+            <h3>Resume Builder</h3>
+            <p>Create professional resumes in your browser with complete privacy.</p>
+            <a href="/tools/career" aria-label="Go to Resume Builder tool">Go to Tool</a>
           </article>
         `;
       }
@@ -1361,8 +1256,7 @@
       const searchInput = document.getElementById('tool-search');
       searchInput.addEventListener('input', () => {
         const searchTerm = searchInput.value.toLowerCase().trim();
-        renderCategories(searchTerm);
-        renderSearchResults(searchTerm);
+        renderTools(searchTerm);
       });
 
       loadToolData();
