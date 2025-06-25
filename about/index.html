@@ -21,7 +21,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" as="style" onload="this.rel='stylesheet'">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
   <!-- Structured Data -->
   <script type="application/ld+json">
@@ -65,8 +65,7 @@
     
     body {
       font-family: 'Poppins', sans-serif;
-      font-weight: 300;  /* Add this line */
-      background: linear-gradient(135deg, var(--light) 0%, #f0f4ff);
+      background: linear-gradient(135deg, var(--light) 0%, #f0f4ff 100%);
       color: var(--dark);
       line-height: 1.6;
       min-height: 100vh;
@@ -172,11 +171,14 @@
       margin-bottom: 40px;
     }
     
+    /* Updated header style to match Terms page */
     .about-header h1 {
       font-size: 2.8rem;
       margin-bottom: 15px;
       font-weight: 700;
-      color: var(--primary);
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
     
     .about-header p {
@@ -186,16 +188,17 @@
       margin: 0 auto;
     }
     
+    /* Updated hero style to match Terms page */
     .about-hero {
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      background: linear-gradient(135deg, var(--secondary), var(--primary));
       color: white;
       border-radius: var(--border-radius);
-      padding: 80px 40px;
-      margin: 40px 0 60px;
+      padding: 60px 40px;
+      margin: 40px 0;
+      box-shadow: var(--box-shadow);
       text-align: center;
       position: relative;
       overflow: hidden;
-      box-shadow: var(--box-shadow);
     }
     
     .about-hero:before {
@@ -221,7 +224,7 @@
     }
     
     .about-hero h2 {
-      font-size: 2.5rem;
+      font-size: 2.2rem;
       margin-bottom: 20px;
       position: relative;
       z-index: 2;
@@ -234,7 +237,6 @@
       position: relative;
       z-index: 2;
       line-height: 1.8;
-      opacity: 0.9;
     }
     
     .mission-section {
@@ -415,7 +417,7 @@
     }
     
     .footer-bottom {
-      border-top: 1px solid rgba0, 0, 0, 0.1);
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
       padding-top: 30px;
       text-align: center;
     }
@@ -869,11 +871,7 @@
       }
       
       .about-hero h2 {
-        font-size: 2rem;
-      }
-      
-      .about-hero p {
-        font-size: 1rem;
+        font-size: 1.8rem;
       }
       
       .footer-links-row {
@@ -904,7 +902,7 @@
       }
       
       .about-hero h2 {
-        font-size: 1.8rem;
+        font-size: 1.6rem;
       }
       
       .mission-card, .step, .value-card {
@@ -926,19 +924,19 @@
         <div class="nav-container">
           <ul class="nav-menu">
             <li class="nav-item">
-              <a href="/" class="nav-link"><i class="fas fa-home"></i> Home</a>
+              <a href="/" class="nav-link" aria-label="Home"><i class="fas fa-home"></i> Home</a>
             </li>
             <li class="nav-item">
-              <a href="/tools" class="nav-link"><i class="fas fa-toolbox"></i> Tools</a>
+              <a href="/tools" class="nav-link" aria-label="Tools"><i class="fas fa-toolbox"></i> Tools</a>
             </li>
             <li class="nav-item">
-              <a href="/blog" class="nav-link"><i class="fas fa-blog"></i> Blog</a>
+              <a href="/blog" class="nav-link" aria-label="Blog"><i class="fas fa-blog"></i> Blog</a>
             </li>
             <li class="nav-item">
-              <a href="/about" class="nav-link"><i class="fas fa-address-card"></i> About</a>
+              <a href="/about" class="nav-link" aria-label="About"><i class="fas fa-address-card"></i> About</a>
             </li>
             <li class="nav-item">
-              <a href="/contact" class="nav-link"><i class="fas fa-envelope"></i> Contact</a>
+              <a href="/contact" class="nav-link" aria-label="Contact"><i class="fas fa-envelope"></i> Contact</a>
             </li>
           </ul>
           <button class="mobile-menu-btn" id="mobile-menu-toggle" aria-label="Open mobile menu">
@@ -962,19 +960,19 @@
     </div>
     <ul class="mobile-nav-menu">
       <li class="mobile-nav-item">
-        <a href="/" class="mobile-nav-link"><i class="fas fa-home"></i> Home</a>
+        <a href="/" class="mobile-nav-link" aria-label="Home"><i class="fas fa-home"></i> Home</a>
       </li>
       <li class="mobile-nav-item">
-        <a href="/tools" class="mobile-nav-link"><i class="fas fa-toolbox"></i> Tools</a>
+        <a href="/tools" class="mobile-nav-link" aria-label="Tools"><i class="fas fa-toolbox"></i> Tools</a>
       </li>
       <li class="mobile-nav-item">
-        <a href="/blog" class="mobile-nav-link"><i class="fas fa-blog"></i> Blog</a>
+        <a href="/blog" class="mobile-nav-link" aria-label="Blog"><i class="fas fa-blog"></i> Blog</a>
       </li>
       <li class="mobile-nav-item">
-        <a href="/about" class="mobile-nav-link"><i class="fas fa-address-card"></i> About</a>
+        <a href="/about" class="mobile-nav-link" aria-label="About"><i class="fas fa-address-card"></i> About</a>
       </li>
       <li class="mobile-nav-item">
-        <a href="/contact" class="mobile-nav-link"><i class="fas fa-envelope"></i> Contact</a>
+        <a href="/contact" class="mobile-nav-link" aria-label="Contact"><i class="fas fa-envelope"></i> Contact</a>
       </li>
     </ul>
   </div>
