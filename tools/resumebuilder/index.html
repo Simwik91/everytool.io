@@ -1,0 +1,1629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resume Builder - EveryTool.io</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #4361ee;
+      --primary-dark: #3a56d4;
+      --secondary: #7209b7;
+      --accent: #f72585;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --gray: #6c757d;
+      --light-gray: #e9ecef;
+      --border-radius: 12px;
+      --box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f5f7ff 0%, #f0f4ff 100%);
+      color: var(--dark);
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Header & Navigation */
+    header {
+      background: white;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .logo i {
+      margin-right: 10px;
+      font-size: 2.2rem;
+    }
+
+    .nav-container {
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-menu {
+      display: flex;
+      list-style: none;
+      margin-right: 20px;
+    }
+
+    .nav-item {
+      position: relative;
+      margin: 0 15px;
+    }
+
+    .nav-link {
+      padding: 10px 15px;
+      color: var(--dark);
+      text-decoration: none;
+      font-weight: 500;
+      border-radius: var(--border-radius);
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-link i {
+      margin-right: 8px;
+    }
+
+    .nav-link:hover, .nav-link:focus {
+      background: rgba(67, 97, 238, 0.1);
+      color: var(--primary);
+      outline: 2px solid var(--primary);
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--dark);
+      cursor: pointer;
+      padding: 10px;
+      border-radius: 5px;
+    }
+
+    .mobile-menu-btn:hover, .mobile-menu-btn:focus {
+      background: rgba(67, 97, 238, 0.1);
+      outline: 2px solid var(--primary);
+    }
+
+    /* Mobile Navigation */
+    .mobile-nav {
+      position: fixed;
+      top: 0;
+      left: -100%;
+      width: 280px;
+      height: 100vh;
+      background: white;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      z-index: 2000;
+      transition: var(--transition);
+      overflow-y: auto;
+      display: block;
+    }
+    
+    .mobile-nav.active {
+      left: 0;
+    }
+    
+    .mobile-nav-header {
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--light-gray);
+    }
+    
+    .close-mobile-menu {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--dark);
+      cursor: pointer;
+      padding: 5px;
+      border-radius: 5px;
+    }
+    
+    .close-mobile-menu:hover, .close-mobile-menu:focus {
+      background: rgba(0, 0, 0, 0.05);
+      outline: 2px solid var(--primary);
+    }
+    
+    .mobile-nav-menu {
+      list-style: none;
+      padding: 20px;
+    }
+    
+    .mobile-nav-item {
+      margin-bottom: 10px;
+    }
+    
+    .mobile-nav-link {
+      display: block;
+      padding: 12px 15px;
+      color: var(--dark);
+      text-decoration: none;
+      font-weight: 500;
+      border-radius: var(--border-radius);
+      transition: var(--transition);
+    }
+    
+    .mobile-nav-link:hover, .mobile-nav-link:focus {
+      background: rgba(67, 97, 238, 0.1);
+      color: var(--primary);
+      outline: 2px solid var(--primary);
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 60px 0 40px;
+      text-align: center;
+    }
+
+    .hero-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      font-weight: 700;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1.2;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: var(--gray);
+      margin-bottom: 40px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .card {
+      background: var(--light);
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      padding: 30px;
+      margin-bottom: 30px;
+      transition: var(--transition);
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
+    }
+    
+    h2 {
+      font-size: 1.8rem;
+      margin-bottom: 25px;
+      color: var(--dark);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: center;
+    }
+    
+    h2 i {
+      color: var(--primary);
+    }
+    
+    h3 {
+      font-size: 1.4rem;
+      margin: 20px 0 15px;
+      color: var(--dark);
+      font-weight: 600;
+    }
+    
+    .tabs {
+      display: flex;
+      justify-content: center;
+      margin: 0 0 30px;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    
+    .tab {
+      padding: 12px 25px;
+      cursor: pointer;
+      background: var(--light-gray);
+      border-radius: 50px;
+      font-weight: 500;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1rem;
+    }
+    
+    .tab.active {
+      background: var(--primary);
+      color: white;
+    }
+    
+    .tab:hover:not(.active) {
+      background: #dbe4ff;
+    }
+    
+    .tab-content {
+      display: none;
+    }
+    
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.4s ease;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: var(--dark);
+    }
+    
+    textarea, input, select, button {
+      margin: 0.5em auto;
+      padding: 15px;
+      width: 100%;
+      font-size: 1rem;
+      border-radius: 10px;
+      border: 1px solid var(--light-gray);
+      background: white;
+      display: block;
+      transition: var(--transition);
+      font-family: inherit;
+      resize: vertical;
+    }
+    
+    textarea {
+      min-height: 150px;
+    }
+    
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+    }
+    
+    button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      padding: 15px 20px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: var(--transition);
+    }
+    
+    button:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+    }
+    
+    .btn-secondary {
+      background: var(--secondary);
+    }
+    
+    .btn-secondary:hover {
+      background: #6517a0;
+    }
+    
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+    }
+    
+    .btn-outline:hover {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-group {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin: 1.5em 0;
+      flex-wrap: wrap;
+    }
+
+    .btn-group button {
+      width: auto;
+      min-width: 180px;
+      flex: 1;
+    }
+
+    .tool-row {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    
+    .tool-col {
+      flex: 1;
+    }
+    
+    .template-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+
+    .template-card {
+      background: white;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      box-shadow: var(--box-shadow);
+      transition: var(--transition);
+    }
+
+    .template-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .template-preview {
+      height: 350px;
+      background: linear-gradient(45deg, #f0f9ff, #e0f2fe);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .template-preview::before {
+      content: 'RESUME TEMPLATE PREVIEW';
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      color: rgba(30, 41, 59, 0.1);
+      font-size: 1.8rem;
+      font-weight: 800;
+      text-align: center;
+      transform: rotate(-30deg);
+    }
+
+    .template-details {
+      padding: 20px;
+      text-align: center;
+    }
+
+    .template-details h3 {
+      font-size: 1.3rem;
+      margin-bottom: 10px;
+    }
+
+    .template-details p {
+      color: var(--gray);
+      margin-bottom: 15px;
+    }
+
+    .use-template-btn {
+      width: 100%;
+      padding: 12px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: var(--border-radius);
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .use-template-btn:hover {
+      background: var(--primary-dark);
+    }
+
+    .resume-preview {
+      background: #f8f9ff;
+      border: 1px solid #e9ecef;
+      border-radius: var(--border-radius);
+      padding: 25px;
+      min-height: 400px;
+      margin-top: 30px;
+      position: relative;
+    }
+
+    .resume-header {
+      text-align: center;
+      margin-bottom: 30px;
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 20px;
+    }
+
+    .resume-name {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 5px;
+    }
+
+    .resume-title {
+      font-size: 1.2rem;
+      color: var(--gray);
+    }
+
+    .resume-contact {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    .resume-section {
+      margin-bottom: 25px;
+    }
+
+    .resume-section h3 {
+      font-size: 1.3rem;
+      border-bottom: 1px solid var(--light-gray);
+      padding-bottom: 5px;
+      margin-bottom: 15px;
+      color: var(--primary);
+    }
+
+    .resume-item {
+      margin-bottom: 15px;
+    }
+
+    .resume-item-header {
+      display: flex;
+      justify-content: space-between;
+      font-weight: 600;
+    }
+
+    .resume-item-title {
+      font-size: 1.1rem;
+    }
+
+    .resume-item-subtitle {
+      color: var(--gray);
+      font-style: italic;
+      margin-bottom: 5px;
+    }
+
+    .resume-item-desc {
+      color: var(--dark);
+      line-height: 1.5;
+    }
+
+    .resume-skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .skill-tag {
+      background: #f0f4ff;
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+    }
+
+    .action-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 30px;
+    }
+
+    .features-section {
+      margin: 40px auto;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      margin-top: 25px;
+    }
+
+    .feature-card {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 30px;
+      text-align: center;
+      box-shadow: var(--box-shadow);
+      transition: var(--transition);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    }
+
+    .feature-card i {
+      font-size: 3rem;
+      color: var(--primary);
+      margin-bottom: 20px;
+      background: #f0f4ff;
+      width: 90px;
+      height: 90px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      margin: 0 auto 20px;
+    }
+
+    .feature-card h3 {
+      font-size: 1.6rem;
+      margin-bottom: 15px;
+      color: var(--dark);
+    }
+
+    .feature-card p {
+      margin-bottom: 20px;
+      color: var(--gray);
+      font-size: 1.1rem;
+    }
+
+    .uses-section {
+      background: linear-gradient(135deg, #4361ee, #7209b7);
+      color: white;
+      border-radius: var(--border-radius);
+      padding: 40px;
+      margin: 40px auto;
+      box-shadow: var(--box-shadow);
+    }
+
+    .uses-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin-top: 25px;
+    }
+
+    .use-card {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: var(--border-radius);
+      padding: 25px;
+      text-align: center;
+      backdrop-filter: blur(5px);
+    }
+
+    .use-card i {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+
+    .use-card h3 {
+      font-size: 1.3rem;
+      margin-bottom: 15px;
+      color: white;
+    }
+
+    .sister-tools-section {
+      margin: 40px auto;
+    }
+
+    .sister-tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+      margin-top: 25px;
+    }
+
+    .sister-tool {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 25px;
+      text-align: center;
+      box-shadow: var(--box-shadow);
+      transition: var(--transition);
+    }
+
+    .sister-tool:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    }
+
+    .sister-tool i {
+      font-size: 2.5rem;
+      color: var(--primary);
+      margin-bottom: 20px;
+      background: #f0f4ff;
+      width: 80px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      margin: 0 auto 20px;
+    }
+
+    .sister-tool h3 {
+      font-size: 1.4rem;
+      margin-bottom: 15px;
+      color: var(--dark);
+    }
+
+    .sister-tool p {
+      margin-bottom: 20px;
+      color: var(--gray);
+    }
+
+    .sister-tool-btn {
+      display: inline-block;
+      background: var(--primary);
+      color: white;
+      padding: 12px 25px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: var(--transition);
+    }
+
+    .sister-tool-btn:hover {
+      background: var(--primary-dark);
+      transform: translateY(-3px);
+      box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+    }
+
+    .error {
+      color: #e74c3c;
+      padding: 15px;
+      background: rgba(231, 76, 60, 0.1);
+      border-radius: var(--border-radius);
+      margin: 20px 0;
+      border-left: 4px solid #e74c3c;
+      display: none;
+    }
+
+    .success {
+      color: #27ae60;
+      padding: 15px;
+      background: rgba(39, 174, 96, 0.1);
+      border-radius: var(--border-radius);
+      margin: 20px 0;
+      border-left: 4px solid #27ae60;
+      display: none;
+    }
+
+    /* Footer */
+    footer {
+      background: linear-gradient(135deg, var(--light) 0%, #f0f4ff 100%);
+      color: #000;
+      padding: 60px 0 30px;
+      margin-top: 40px;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+      padding-top: 30px;
+      text-align: center;
+    }
+
+    .footer-bottom a {
+      color: #000;
+      text-decoration: none;
+      transition: var(--transition);
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin: 0 10px;
+    }
+
+    .footer-bottom a:hover, .footer-bottom a:focus {
+      color: var(--primary);
+      text-decoration: underline;
+      outline: 2px solid var(--primary);
+    }
+
+    .footer-links-row {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    
+    .footer-bottom p {
+      color: #000;
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin: 0;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 992px) {
+      .nav-menu {
+        display: none;
+      }
+      
+      .mobile-menu-btn {
+        display: block;
+      }
+      
+      .hero h1 {
+        font-size: 2rem;
+      }
+      
+      h2 {
+        font-size: 1.5rem;
+      }
+      
+      .tool-row {
+        flex-direction: column;
+      }
+    }
+
+    @media (min-width: 993px) {
+      .mobile-nav {
+        display: none !important;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .btn-group {
+        flex-direction: column;
+      }
+      
+      .btn-group button {
+        width: 100%;
+      }
+      
+      .action-buttons {
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .hero {
+        padding: 40px 0 20px;
+      }
+      
+      .hero h1 {
+        font-size: 1.8rem;
+      }
+      
+      .card {
+        padding: 20px;
+      }
+      
+      .tab {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header & Navigation -->
+  <header>
+    <div class="container">
+      <div class="header-container">
+        <a href="/" class="logo" aria-label="EveryTool.io Home">
+          <i class="fas fa-tools"></i>
+          EveryTool.io
+        </a>
+        
+        <div class="nav-container">
+          <ul class="nav-menu">
+            <li class="nav-item">
+              <a href="/" class="nav-link" aria-label="Home"><i class="fas fa-home"></i> Home</a>
+            </li>
+            <li class="nav-item">
+              <a href="/tools" class="nav-link" aria-label="Tools"><i class="fas fa-toolbox"></i> Tools</a>
+            </li>
+            <li class="nav-item">
+              <a href="/blog" class="nav-link" aria-label="Blog"><i class="fas fa-blog"></i> Blog</a>
+            </li>
+            <li class="nav-item">
+              <a href="/about" class="nav-link" aria-label="About"><i class="fas fa-address-card"></i> About</a>
+            </li>
+            <li class="nav-item">
+              <a href="/contact" class="nav-link" aria-label="Contact"><i class="fas fa-envelope"></i> Contact</a>
+            </li>
+          </ul>
+          <button class="mobile-menu-btn" id="mobile-menu-toggle" aria-label="Open mobile menu">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Navigation -->
+  <div class="mobile-nav" id="mobile-nav">
+    <div class="mobile-nav-header">
+      <a href="/" class="logo" aria-label="EveryTool.io Home">
+        <i class="fas fa-tools"></i>
+        EveryTool.io
+      </a>
+      <button class="close-mobile-menu" id="close-mobile-menu" aria-label="Close mobile menu">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <ul class="mobile-nav-menu">
+      <li class="mobile-nav-item">
+        <a href="/" class="mobile-nav-link" aria-label="Home"><i class="fas fa-home"></i> Home</a>
+      </li>
+      <li class="mobile-nav-item">
+        <a href="/tools" class="mobile-nav-link" aria-label="Tools"><i class="fas fa-toolbox"></i> Tools</a>
+      </li>
+      <li class="mobile-nav-item">
+        <a href="/blog" class="mobile-nav-link" aria-label="Blog"><i class="fas fa-blog"></i> Blog</a>
+      </li>
+      <li class="mobile-nav-item">
+        <a href="/about" class="mobile-nav-link" aria-label="About"><i class="fas fa-address-card"></i> About</a>
+      </li>
+      <li class="mobile-nav-item">
+        <a href="/contact" class="mobile-nav-link" aria-label="Contact"><i class="fas fa-envelope"></i> Contact</a>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <h1>Resume Builder</h1>
+        <p>Create professional resumes in minutes with our easy-to-use builder. ATS-friendly templates, no sign-up required.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <div class="container">
+    <div class="features-section">
+      <div class="features-grid">
+        <div class="feature-card">
+          <i class="fas fa-layer-group"></i>
+          <h3>Professional Templates</h3>
+          <p>Choose from ATS-friendly templates designed to get you noticed</p>
+        </div>
+        <div class="feature-card">
+          <i class="fas fa-magic"></i>
+          <h3>Easy Customization</h3>
+          <p>Fill in your details and watch your resume update in real-time</p>
+        </div>
+        <div class="feature-card">
+          <i class="fas fa-lock"></i>
+          <h3>Privacy First</h3>
+          <p>Your data never leaves your browser - completely secure</p>
+        </div>
+        <div class="feature-card">
+          <i class="fas fa-file-download"></i>
+          <h3>Download PDF</h3>
+          <p>Export your resume as a professional PDF with one click</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Resume Builder Card -->
+    <div class="card">
+      <div class="tabs">
+        <div class="tab active" data-tab="personal">
+          <i class="fas fa-user"></i> Personal
+        </div>
+        <div class="tab" data-tab="experience">
+          <i class="fas fa-briefcase"></i> Experience
+        </div>
+        <div class="tab" data-tab="education">
+          <i class="fas fa-graduation-cap"></i> Education
+        </div>
+        <div class="tab" data-tab="skills">
+          <i class="fas fa-star"></i> Skills
+        </div>
+        <div class="tab" data-tab="preview">
+          <i class="fas fa-eye"></i> Preview
+        </div>
+      </div>
+
+      <!-- Personal Information -->
+      <div class="tab-content active" id="personal-tab">
+        <h2><i class="fas fa-user"></i> Personal Information</h2>
+        <p>Add your contact details and professional summary.</p>
+        
+        <div class="tool-row">
+          <div class="tool-col">
+            <label for="fullName">Full Name</label>
+            <input type="text" id="fullName" placeholder="John Doe">
+          </div>
+          <div class="tool-col">
+            <label for="jobTitle">Professional Title</label>
+            <input type="text" id="jobTitle" placeholder="e.g. Software Engineer">
+          </div>
+        </div>
+        
+        <div class="tool-row">
+          <div class="tool-col">
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="john@example.com">
+          </div>
+          <div class="tool-col">
+            <label for="phone">Phone</label>
+            <input type="tel" id="phone" placeholder="(123) 456-7890">
+          </div>
+        </div>
+        
+        <div class="tool-row">
+          <div class="tool-col">
+            <label for="location">Location</label>
+            <input type="text" id="location" placeholder="City, State">
+          </div>
+          <div class="tool-col">
+            <label for="website">Website/Portfolio</label>
+            <input type="url" id="website" placeholder="https://yourportfolio.com">
+          </div>
+        </div>
+        
+        <label for="summary">Professional Summary</label>
+        <textarea id="summary" placeholder="Experienced professional with 5+ years in..."></textarea>
+        
+        <div class="btn-group">
+          <button id="nextExperienceBtn">
+            Next: Experience <i class="fas fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Work Experience -->
+      <div class="tab-content" id="experience-tab">
+        <h2><i class="fas fa-briefcase"></i> Work Experience</h2>
+        <p>Add your work history, starting with your most recent position.</p>
+        
+        <div id="experienceContainer">
+          <div class="experience-item">
+            <div class="tool-row">
+              <div class="tool-col">
+                <label for="jobTitle1">Job Title</label>
+                <input type="text" id="jobTitle1" placeholder="Senior Developer">
+              </div>
+              <div class="tool-col">
+                <label for="company1">Company</label>
+                <input type="text" id="company1" placeholder="Tech Solutions Inc.">
+              </div>
+            </div>
+            
+            <div class="tool-row">
+              <div class="tool-col">
+                <label for="startDate1">Start Date</label>
+                <input type="month" id="startDate1">
+              </div>
+              <div class="tool-col">
+                <label for="endDate1">End Date</label>
+                <input type="month" id="endDate1">
+                <div style="margin-top: 5px;">
+                  <input type="checkbox" id="currentJob1">
+                  <label for="currentJob1">I currently work here</label>
+                </div>
+              </div>
+            </div>
+            
+            <label for="jobDescription1">Description</label>
+            <textarea id="jobDescription1" placeholder="Describe your responsibilities and achievements..."></textarea>
+          </div>
+        </div>
+        
+        <button id="addExperienceBtn" style="margin: 15px 0;">
+          <i class="fas fa-plus"></i> Add Another Position
+        </button>
+        
+        <div class="btn-group">
+          <button class="btn-outline" id="backPersonalBtn">
+            <i class="fas fa-arrow-left"></i> Back
+          </button>
+          <button id="nextEducationBtn">
+            Next: Education <i class="fas fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Education -->
+      <div class="tab-content" id="education-tab">
+        <h2><i class="fas fa-graduation-cap"></i> Education</h2>
+        <p>Add your educational background.</p>
+        
+        <div id="educationContainer">
+          <div class="education-item">
+            <div class="tool-row">
+              <div class="tool-col">
+                <label for="degree1">Degree/Certificate</label>
+                <input type="text" id="degree1" placeholder="e.g. Bachelor of Science">
+              </div>
+              <div class="tool-col">
+                <label for="institution1">Institution</label>
+                <input type="text" id="institution1" placeholder="University Name">
+              </div>
+            </div>
+            
+            <div class="tool-row">
+              <div class="tool-col">
+                <label for="eduStartDate1">Start Date</label>
+                <input type="month" id="eduStartDate1">
+              </div>
+              <div class="tool-col">
+                <label for="eduEndDate1">End Date</label>
+                <input type="month" id="eduEndDate1">
+                <div style="margin-top: 5px;">
+                  <input type="checkbox" id="currentEducation1">
+                  <label for="currentEducation1">Currently studying</label>
+                </div>
+              </div>
+            </div>
+            
+            <div class="tool-row">
+              <div class="tool-col">
+                <label for="gpa1">GPA (optional)</label>
+                <input type="text" id="gpa1" placeholder="e.g. 3.8">
+              </div>
+              <div class="tool-col">
+                <label for="location1">Location</label>
+                <input type="text" id="location1" placeholder="City, State">
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <button id="addEducationBtn" style="margin: 15px 0;">
+          <i class="fas fa-plus"></i> Add Another Education
+        </button>
+        
+        <div class="btn-group">
+          <button class="btn-outline" id="backExperienceBtn">
+            <i class="fas fa-arrow-left"></i> Back
+          </button>
+          <button id="nextSkillsBtn">
+            Next: Skills <i class="fas fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Skills -->
+      <div class="tab-content" id="skills-tab">
+        <h2><i class="fas fa-star"></i> Skills</h2>
+        <p>Add your professional skills and expertise.</p>
+        
+        <div id="skillsContainer">
+          <div class="tool-row">
+            <div class="tool-col">
+              <label for="skill1">Skill</label>
+              <input type="text" id="skill1" placeholder="e.g. JavaScript">
+            </div>
+            <div class="tool-col">
+              <label for="skillLevel1">Proficiency Level</label>
+              <select id="skillLevel1">
+                <option value="beginner">Beginner</option>
+                <option value="intermediate">Intermediate</option>
+                <option value="advanced">Advanced</option>
+                <option value="expert">Expert</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        
+        <button id="addSkillBtn" style="margin: 15px 0;">
+          <i class="fas fa-plus"></i> Add Another Skill
+        </button>
+        
+        <label for="additionalSkills">Additional Skills (comma separated)</label>
+        <textarea id="additionalSkills" placeholder="e.g. Project Management, Communication, Leadership"></textarea>
+        
+        <div class="btn-group">
+          <button class="btn-outline" id="backEducationBtn">
+            <i class="fas fa-arrow-left"></i> Back
+          </button>
+          <button id="previewResumeBtn">
+            Preview Resume <i class="fas fa-eye"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Preview -->
+      <div class="tab-content" id="preview-tab">
+        <h2><i class="fas fa-eye"></i> Resume Preview</h2>
+        <p>Review your resume before downloading.</p>
+        
+        <div class="template-grid">
+          <div class="template-card">
+            <div class="template-preview">
+              <div class="template-design" style="background: linear-gradient(45deg, #f0f9ff, #e0f2fe);"></div>
+            </div>
+            <div class="template-details">
+              <h3>Modern Professional</h3>
+              <p>Clean design perfect for tech and creative industries</p>
+              <button class="use-template-btn">Select Template</button>
+            </div>
+          </div>
+          
+          <div class="template-card">
+            <div class="template-preview">
+              <div class="template-design" style="background: linear-gradient(45deg, #f0fdf4, #dcfce7);"></div>
+            </div>
+            <div class="template-details">
+              <h3>Executive Minimalist</h3>
+              <p>Sophisticated layout for management positions</p>
+              <button class="use-template-btn">Select Template</button>
+            </div>
+          </div>
+          
+          <div class="template-card">
+            <div class="template-preview">
+              <div class="template-design" style="background: linear-gradient(45deg, #fef2f2, #fee2e2);"></div>
+            </div>
+            <div class="template-details">
+              <h3>Creative Portfolio</h3>
+              <p>Showcase your work with this visual design</p>
+              <button class="use-template-btn">Select Template</button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="resume-preview" id="resumePreview">
+          <div class="resume-header">
+            <div class="resume-name" id="previewName">John Doe</div>
+            <div class="resume-title" id="previewTitle">Software Engineer</div>
+            <div class="resume-contact">
+              <div id="previewEmail">john@example.com</div>
+              <div id="previewPhone">(123) 456-7890</div>
+              <div id="previewLocation">San Francisco, CA</div>
+              <div id="previewWebsite">portfolio.com</div>
+            </div>
+          </div>
+          
+          <div class="resume-section">
+            <h3>Summary</h3>
+            <div id="previewSummary">Experienced software engineer with 5+ years in developing web applications...</div>
+          </div>
+          
+          <div class="resume-section">
+            <h3>Work Experience</h3>
+            <div class="resume-item">
+              <div class="resume-item-header">
+                <div class="resume-item-title">Senior Developer</div>
+                <div>Jan 2020 - Present</div>
+              </div>
+              <div class="resume-item-subtitle">Tech Solutions Inc., San Francisco, CA</div>
+              <div class="resume-item-desc">Lead development team in creating innovative web applications...</div>
+            </div>
+          </div>
+          
+          <div class="resume-section">
+            <h3>Education</h3>
+            <div class="resume-item">
+              <div class="resume-item-header">
+                <div class="resume-item-title">Bachelor of Computer Science</div>
+                <div>2015 - 2019</div>
+              </div>
+              <div class="resume-item-subtitle">University of Technology, San Francisco, CA</div>
+              <div class="resume-item-desc">GPA: 3.8</div>
+            </div>
+          </div>
+          
+          <div class="resume-section">
+            <h3>Skills</h3>
+            <div class="resume-skills" id="previewSkills">
+              <div class="skill-tag">JavaScript</div>
+              <div class="skill-tag">React</div>
+              <div class="skill-tag">Node.js</div>
+              <div class="skill-tag">Python</div>
+              <div class="skill-tag">Project Management</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="action-buttons">
+          <button class="btn-outline" id="backSkillsBtn">
+            <i class="fas fa-edit"></i> Edit Resume
+          </button>
+          <button id="downloadPdfBtn">
+            <i class="fas fa-download"></i> Download PDF
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="uses-section">
+      <h2><i class="fas fa-lightbulb"></i> Practical Uses for Our Resume Builder</h2>
+      <p>Create professional resumes for every stage of your career journey.</p>
+      <div class="uses-grid">
+        <div class="use-card">
+          <i class="fas fa-briefcase"></i>
+          <h3>Job Applications</h3>
+          <p>Create tailored resumes for specific job positions</p>
+        </div>
+        <div class="use-card">
+          <i class="fas fa-graduation-cap"></i>
+          <h3>College Applications</h3>
+          <p>Build impressive resumes for academic admissions</p>
+        </div>
+        <div class="use-card">
+          <i class="fas fa-file-contract"></i>
+          <h3>Freelance Profiles</h3>
+          <p>Showcase your skills to potential clients</p>
+        </div>
+        <div class="use-card">
+          <i class="fas fa-network-wired"></i>
+          <h3>Networking</h3>
+          <p>Have a professional resume ready for career events</p>
+        </div>
+        <div class="use-card">
+          <i class="fas fa-chart-line"></i>
+          <h3>Career Advancement</h3>
+          <p>Document your achievements for promotions</p>
+        </div>
+        <div class="use-card">
+          <i class="fas fa-globe"></i>
+          <h3>International Opportunities</h3>
+          <p>Create region-specific resume formats</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="sister-tools-section">
+      <h2><i class="fas fa-tools"></i> Explore Our Free Tools</h2>
+      <p>All our tools process your data entirely in your browser, ensuring your files are never stored or uploaded.</p>
+      <div class="sister-tools-grid">
+        <div class="sister-tool">
+          <i class="fas fa-text-height"></i>
+          <h3>Free Text Tools</h3>
+          <p>Convert, count, and manipulate text online</p>
+          <a href="#" class="sister-tool-btn">Try Now</a>
+        </div>
+        <div class="sister-tool">
+          <i class="fas fa-file-pdf"></i>
+          <h3>Free PDF Tools</h3>
+          <p>Merge, split, and convert PDF files</p>
+          <a href="#" class="sister-tool-btn">Try Now</a>
+        </div>
+        <div class="sister-tool">
+          <i class="fas fa-qrcode"></i>
+          <h3>Free QR Generator</h3>
+          <p>Create custom QR codes in seconds</p>
+          <a href="#" class="sister-tool-btn">Try Now</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-bottom">
+        <div class="footer-links-row">
+          <a href="/privacy">Privacy Policy</a>
+          <a href="/terms">Terms of Service</a>
+          <a href="/gdpr">GDPR Compliance</a>
+          <a href="#">Cookie Settings</a>
+        </div>
+        <p>© 2025 EveryTool.io. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile Menu Functions
+    function initMobileMenu() {
+      const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+      const closeMobileMenu = document.getElementById('close-mobile-menu');
+      const mobileNav = document.getElementById('mobile-nav');
+
+      mobileMenuToggle.addEventListener('click', () => {
+        mobileNav.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      });
+
+      closeMobileMenu.addEventListener('click', () => {
+        mobileNav.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+
+      document.addEventListener('click', (e) => {
+        if (mobileNav.classList.contains('active') && 
+            !mobileNav.contains(e.target) && 
+            e.target !== mobileMenuToggle) {
+          mobileNav.classList.remove('active');
+          document.body.style.overflow = '';
+        }
+      });
+
+      document.querySelectorAll('.mobile-nav-link').forEach(link => {
+        link.addEventListener('click', () => {
+          mobileNav.classList.remove('active');
+          document.body.style.overflow = '';
+        });
+      });
+    }
+
+    // Resume Builder Functionality
+    function initializeResumeBuilder() {
+      // Tab Switching
+      function switchTab(tabName) {
+        document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+        
+        document.querySelector(`.tab[data-tab="${tabName}"]`).classList.add('active');
+        document.getElementById(`${tabName}-tab`).classList.add('active');
+        
+        // Update preview when switching to preview tab
+        if (tabName === 'preview') {
+          updateResumePreview();
+        }
+      }
+      
+      // Initialize Tabs
+      document.querySelectorAll('.tab').forEach(tab => {
+        tab.addEventListener('click', () => switchTab(tab.dataset.tab));
+      });
+      
+      // Navigation buttons
+      document.getElementById('nextExperienceBtn').addEventListener('click', () => switchTab('experience'));
+      document.getElementById('nextEducationBtn').addEventListener('click', () => switchTab('education'));
+      document.getElementById('nextSkillsBtn').addEventListener('click', () => switchTab('skills'));
+      document.getElementById('previewResumeBtn').addEventListener('click', () => switchTab('preview'));
+      
+      document.getElementById('backPersonalBtn').addEventListener('click', () => switchTab('personal'));
+      document.getElementById('backExperienceBtn').addEventListener('click', () => switchTab('experience'));
+      document.getElementById('backEducationBtn').addEventListener('click', () => switchTab('education'));
+      document.getElementById('backSkillsBtn').addEventListener('click', () => switchTab('skills'));
+      
+      // Template selection
+      document.querySelectorAll('.use-template-btn').forEach(button => {
+        button.addEventListener('click', function() {
+          document.querySelectorAll('.use-template-btn').forEach(btn => btn.textContent = 'Select Template');
+          this.textContent = 'Selected ✓';
+          this.style.background = '#27ae60';
+          
+          // In a real implementation, this would change the preview styling
+          alert('Template selected! Your resume preview will update accordingly.');
+        });
+      });
+      
+      // Download button
+      document.getElementById('downloadPdfBtn').addEventListener('click', function() {
+        alert('In a real implementation, this would download your resume as a PDF. All processing happens in your browser!');
+      });
+      
+      // Add experience button
+      document.getElementById('addExperienceBtn').addEventListener('click', function() {
+        const container = document.getElementById('experienceContainer');
+        const count = container.querySelectorAll('.experience-item').length + 1;
+        
+        const experienceItem = document.createElement('div');
+        experienceItem.className = 'experience-item';
+        experienceItem.style.marginTop = '20px';
+        experienceItem.style.paddingTop = '20px';
+        experienceItem.style.borderTop = '1px solid #eee';
+        experienceItem.innerHTML = `
+          <div class="tool-row">
+            <div class="tool-col">
+              <label for="jobTitle${count}">Job Title</label>
+              <input type="text" id="jobTitle${count}" placeholder="Senior Developer">
+            </div>
+            <div class="tool-col">
+              <label for="company${count}">Company</label>
+              <input type="text" id="company${count}" placeholder="Tech Solutions Inc.">
+            </div>
+          </div>
+          
+          <div class="tool-row">
+            <div class="tool-col">
+              <label for="startDate${count}">Start Date</label>
+              <input type="month" id="startDate${count}">
+            </div>
+            <div class="tool-col">
+              <label for="endDate${count}">End Date</label>
+              <input type="month" id="endDate${count}">
+              <div style="margin-top: 5px;">
+                <input type="checkbox" id="currentJob${count}">
+                <label for="currentJob${count}">I currently work here</label>
+              </div>
+            </div>
+          </div>
+          
+          <label for="jobDescription${count}">Description</label>
+          <textarea id="jobDescription${count}" placeholder="Describe your responsibilities and achievements..."></textarea>
+        `;
+        
+        container.appendChild(experienceItem);
+      });
+      
+      // Add education button
+      document.getElementById('addEducationBtn').addEventListener('click', function() {
+        const container = document.getElementById('educationContainer');
+        const count = container.querySelectorAll('.education-item').length + 1;
+        
+        const educationItem = document.createElement('div');
+        educationItem.className = 'education-item';
+        educationItem.style.marginTop = '20px';
+        educationItem.style.paddingTop = '20px';
+        educationItem.style.borderTop = '1px solid #eee';
+        educationItem.innerHTML = `
+          <div class="tool-row">
+            <div class="tool-col">
+              <label for="degree${count}">Degree/Certificate</label>
+              <input type="text" id="degree${count}" placeholder="e.g. Bachelor of Science">
+            </div>
+            <div class="tool-col">
+              <label for="institution${count}">Institution</label>
+              <input type="text" id="institution${count}" placeholder="University Name">
+            </div>
+          </div>
+          
+          <div class="tool-row">
+            <div class="tool-col">
+              <label for="eduStartDate${count}">Start Date</label>
+              <input type="month" id="eduStartDate${count}">
+            </div>
+            <div class="tool-col">
+              <label for="eduEndDate${count}">End Date</label>
+              <input type="month" id="eduEndDate${count}">
+              <div style="margin-top: 5px;">
+                <input type="checkbox" id="currentEducation${count}">
+                <label for="currentEducation${count}">Currently studying</label>
+              </div>
+            </div>
+          </div>
+          
+          <div class="tool-row">
+            <div class="tool-col">
+              <label for="gpa${count}">GPA (optional)</label>
+              <input type="text" id="gpa${count}" placeholder="e.g. 3.8">
+            </div>
+            <div class="tool-col">
+              <label for="location${count}">Location</label>
+              <input type="text" id="location${count}" placeholder="City, State">
+            </div>
+          </div>
+        `;
+        
+        container.appendChild(educationItem);
+      });
+      
+      // Add skill button
+      document.getElementById('addSkillBtn').addEventListener('click', function() {
+        const container = document.getElementById('skillsContainer');
+        const count = container.querySelectorAll('.tool-row').length + 1;
+        
+        // Limit to 5 skills in this section
+        if (count > 5) {
+          alert('You can add additional skills in the "Additional Skills" field below');
+          return;
+        }
+        
+        const skillRow = document.createElement('div');
+        skillRow.className = 'tool-row';
+        skillRow.innerHTML = `
+          <div class="tool-col">
+            <label for="skill${count}">Skill</label>
+            <input type="text" id="skill${count}" placeholder="e.g. JavaScript">
+          </div>
+          <div class="tool-col">
+            <label for="skillLevel${count}">Proficiency Level</label>
+            <select id="skillLevel${count}">
+              <option value="beginner">Beginner</option>
+              <option value="intermediate">Intermediate</option>
+              <option value="advanced">Advanced</option>
+              <option value="expert">Expert</option>
+            </select>
+          </div>
+        `;
+        
+        container.appendChild(skillRow);
+      });
+      
+      // Initialize with today's date for date fields
+      function setCurrentDate(elementId) {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        document.getElementById(elementId).value = `${year}-${month}`;
+      }
+      
+      // Set initial dates
+      setCurrentDate('startDate1');
+      setCurrentDate('endDate1');
+      setCurrentDate('eduStartDate1');
+      setCurrentDate('eduEndDate1');
+    }
+
+    // Update resume preview
+    function updateResumePreview() {
+      // Personal info
+      document.getElementById('previewName').textContent = document.getElementById('fullName').value || 'John Doe';
+      document.getElementById('previewTitle').textContent = document.getElementById('jobTitle').value || 'Professional Title';
+      document.getElementById('previewEmail').textContent = document.getElementById('email').value || 'email@example.com';
+      document.getElementById('previewPhone').textContent = document.getElementById('phone').value || '(123) 456-7890';
+      document.getElementById('previewLocation').textContent = document.getElementById('location').value || 'City, State';
+      document.getElementById('previewWebsite').textContent = document.getElementById('website').value || 'yourwebsite.com';
+      document.getElementById('previewSummary').textContent = document.getElementById('summary').value || 'Experienced professional with 5+ years in...';
+      
+      // Update skills preview
+      const skillsContainer = document.getElementById('previewSkills');
+      skillsContainer.innerHTML = '';
+      
+      // Add skills from the skills section
+      for (let i = 1; i <= 3; i++) {
+        const skill = document.getElementById(`skill${i}`)?.value;
+        if (skill) {
+          const skillTag = document.createElement('div');
+          skillTag.className = 'skill-tag';
+          skillTag.textContent = skill;
+          skillsContainer.appendChild(skillTag);
+        }
+      }
+      
+      // Add additional skills
+      const additionalSkills = document.getElementById('additionalSkills').value;
+      if (additionalSkills) {
+        additionalSkills.split(',').forEach(skill => {
+          if (skill.trim()) {
+            const skillTag = document.createElement('div');
+            skillTag.className = 'skill-tag';
+            skillTag.textContent = skill.trim();
+            skillsContainer.appendChild(skillTag);
+          }
+        });
+      }
+      
+      // If no skills added, show placeholder
+      if (skillsContainer.children.length === 0) {
+        skillsContainer.innerHTML = '<div class="skill-tag">JavaScript</div><div class="skill-tag">React</div><div class="skill-tag">Node.js</div>';
+      }
+    }
+
+    // Initialize when DOM is loaded
+    document.addEventListener('DOMContentLoaded', () => {
+      initMobileMenu();
+      initializeResumeBuilder();
+    });
+  </script>
+</body>
+</html>
