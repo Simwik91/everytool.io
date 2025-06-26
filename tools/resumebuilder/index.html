@@ -567,9 +567,10 @@
       margin: 40px auto;
     }
 
+    /* FIXED: Features grid layout - 2 cards per row */
     .features-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      grid-template-columns: repeat(2, 1fr);
       gap: 30px;
       margin-top: 25px;
     }
@@ -581,6 +582,7 @@
       text-align: center;
       box-shadow: var(--box-shadow);
       transition: var(--transition);
+      height: 100%;
     }
 
     .feature-card:hover {
@@ -766,6 +768,10 @@
     }
 
     @media (max-width: 768px) {
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+      
       .btn-group {
         flex-direction: column;
       }
