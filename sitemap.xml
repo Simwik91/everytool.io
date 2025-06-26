@@ -48,39 +48,57 @@
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
-    <url>
+  <url>
     <loc>https://everytool.io/tools</loc>
     <lastmod>2025-06-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
   </url>
-    <url>
+   <url>
     <loc>https://everytool.io/tools/barcodegenerator</loc>
     <lastmod>2025-06-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
   </url>
-    <url>
+  <url>
     <loc>https://everytool.io/tools/qrgenerator</loc>
     <lastmod>2025-06-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
   </url>
-    <url>
+   <url>
     <loc>https://everytool.io/tools/videotools</loc>
     <lastmod>2025-06-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
   </url>
-    <url>
+   <url>
     <loc>https://everytool.io/tools/imagetools</loc>
     <lastmod>2025-06-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
   </url>
-      <url>
+   <url>
     <loc>https://everytool.io/tools/texttools</loc>
     <lastmod>2025-06-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1</priority>
+  </url>
+   <url>
+    <loc>https://everytool.io/tools/fileconverter</loc>
+    <lastmod>2025-06-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1</priority>
+  </url>
+   <url>
+    <loc>https://everytool.io/tools/pdftools</loc>
+    <lastmod>2025-06-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1</priority>
+  </url>
+   <url>
+    <loc>https://everytool.io/tools/resumebuilder</loc>
+    <lastmod>2025-06-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
   </url>
