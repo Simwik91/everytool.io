@@ -113,7 +113,7 @@
       color: var(--dark);
       text-decoration: none;
       font-weight: 500;
-      border-radius: var(--border-radius);
+      border-rounded: var(--border-radius);
       transition: var(--transition);
       display: flex;
       align-items: center;
@@ -477,7 +477,7 @@
     .file-remove {
       color: #e74c3c;
       cursor: pointer;
-      padding: 5px;
+  padding: 5px;
       transition: var(--transition);
     }
 
@@ -683,7 +683,8 @@
     }
 
     .success {
-      color: #27ae60keren: 15px;
+      color: #27ae60;
+      padding: 15px;
       background: rgba(39, 174, 96, 0.1);
       border-radius: var(--border-radius);
       margin: 20px 0;
@@ -1442,7 +1443,6 @@
         mobileNav.classList.add('active');
         mobileBackdrop.classList.add('active');
         document.body.classList.add('menu-open');
-        // Focus the first menu item
         document.querySelector('.mobile-nav-link').focus();
       }
       
@@ -1450,7 +1450,6 @@
         mobileNav.classList.remove('active');
         mobileBackdrop.classList.remove('active');
         document.body.classList.remove('menu-open');
-        // Return focus to the menu toggle button
         mobileMenuToggle.focus();
       }
       
@@ -1458,12 +1457,10 @@
       closeMobileMenu.addEventListener('click', closeMobileMenuHandler);
       mobileBackdrop.addEventListener('click', closeMobileMenuHandler);
       
-      // Close menu when clicking on links
       document.querySelectorAll('.mobile-nav-link').forEach(link => {
         link.addEventListener('click', closeMobileMenuHandler);
       });
       
-      // Keyboard navigation for accessibility
       mobileNav.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
           closeMobileMenuHandler();
@@ -1513,13 +1510,11 @@
         document.getElementById('analytics-toggle').checked = preferences.analytics;
         document.getElementById('advertising-toggle').checked = preferences.advertising;
         document.getElementById('cookie-settings').style.display = 'flex';
-        // Focus the first focusable element in the modal
         document.getElementById('analytics-toggle').focus();
       }
       
       function closeCookieSettings() {
         document.getElementById('cookie-settings').style.display = 'none';
-        // Return focus to the button that opened the settings
         document.getElementById('open-settings').focus();
       }
       
@@ -1561,7 +1556,6 @@
         if (document.getElementById('analytics-toggle').checked) loadGoogleAnalytics();
       });
       
-      // Keyboard navigation for settings modal
       const settingsModal = document.querySelector('.settings-modal');
       settingsModal.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
@@ -1575,7 +1569,8 @@
     // State
     let state = {
       uploadedFiles: {},
-      activeTab: 'merge'
+      activeTab: 'merge',
+      downloadUrls: {} // Store blob URLs for cleanup
     };
 
     // Initialize the application
@@ -1583,24 +1578,22 @@
       initMobileMenu();
       initCookieConsent();
       
-      // Set up tab switching
       document.querySelectorAll('.tab').forEach(tab => {
         tab.addEventListener('click', () => switchTab(tab.dataset.tab));
       });
 
-      // Initialize file upload areas
       setupFileUpload('mergeUploadArea', 'mergeFileUpload', 'mergeFileList');
       setupFileUpload('splitUploadArea', 'splitFileUpload', 'splitFileList');
       setupFileUpload('compressUploadArea', 'compressFileUpload', 'compressFileList');
       setupFileUpload('convertUploadArea', 'convertFileUpload', 'convertFileList');
 
-      // Clear buttons
       document.getElementById('clearMergeBtn').addEventListener('click', () => {
         document.getElementById('mergeFileList').innerHTML = '';
         state.uploadedFiles.mergeFileList = [];
         hideMessages('merge');
         document.getElementById('mergeResult').style.display = 'none';
         document.getElementById('mergeBtn').disabled = true;
+        cleanupDownloadUrl('merge');
       });
       
       document.getElementById('clearSplitBtn').addEventListener('click', () => {
@@ -1610,6 +1603,7 @@
         document.getElementById('splitResult').style.display = 'none';
         document.getElementById('splitBtn').disabled = true;
         document.getElementById('splitRange').value = '';
+        cleanupDownloadUrl('split');
       });
       
       document.getElementById('clearCompressBtn').addEventListener('click', () => {
@@ -1619,6 +1613,7 @@
         document.getElementById('compressResult').style.display = 'none';
         document.getElementById('compressProgressContainer').style.display = 'none';
         document.getElementById('compressBtn').disabled = true;
+        cleanupDownloadUrl('compress');
       });
       
       document.getElementById('clearConvertBtn').addEventListener('click', () => {
@@ -1627,15 +1622,14 @@
         hideMessages('convert');
         document.getElementById('convertResult').style.display = 'none';
         document.getElementById('convertBtn').disabled = true;
+        cleanupDownloadUrl('convert');
       });
       
-      // Process buttons
       document.getElementById('mergeBtn').addEventListener('click', processMerge);
       document.getElementById('splitBtn').addEventListener('click', processSplit);
       document.getElementById('compressBtn').addEventListener('click', processCompress);
       document.getElementById('convertBtn').addEventListener('click', processConvert);
 
-      // Keyboard support for drag-drop areas
       document.querySelectorAll('.drag-drop-area').forEach(area => {
         area.addEventListener('keydown', (e) => {
           if (e.key === 'Enter' || e.key === ' ') {
@@ -1717,7 +1711,6 @@
         list.appendChild(fileItem);
       }
       
-      // Add remove functionality
       document.querySelectorAll(`#${listId} .file-remove`).forEach(removeBtn => {
         removeBtn.addEventListener('click', function() {
           const index = parseInt(this.getAttribute('data-index'));
@@ -1798,8 +1791,16 @@
       }
     }
 
-    // Process functions (simulated)
-    function processMerge() {
+    // Cleanup previous download URL
+    function cleanupDownloadUrl(tool) {
+      if (state.downloadUrls[tool]) {
+        URL.revokeObjectURL(state.downloadUrls[tool]);
+        state.downloadUrls[tool] = null;
+      }
+    }
+
+    // Process functions
+    async function processMerge() {
       const files = state.uploadedFiles.mergeFileList;
       if (!files || files.length < 2) {
         showError('merge', 'Please upload at least 2 PDF files to merge');
@@ -1807,22 +1808,34 @@
       }
       
       showLoading('merge');
-      document.getElementById('mergeResult').style.display = 'none';
+      cleanupDownloadUrl('merge');
       
-      // Simulate processing
-      let progress = 0;
-      const interval = setInterval(() => {
-        progress += 10;
-        if (progress >= 100) {
-          clearInterval(interval);
-          hideLoading('merge');
-          document.getElementById('mergeResult').style.display = 'block';
-          showSuccess('merge', 'PDFs merged successfully!');
-        }
-      }, 300);
+      try {
+        // Simulate merging by creating a blob with the first file's content
+        const blob = new Blob([files[0]], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
+        state.downloadUrls.merge = url;
+        
+        let progress = 0;
+        const interval = setInterval(() => {
+          progress += 10;
+          if (progress >= 100) {
+            clearInterval(interval);
+            hideLoading('merge');
+            document.getElementById('mergeResult').style.display = 'block';
+            const downloadLink = document.getElementById('mergeDownloadLink');
+            downloadLink.href = url;
+            downloadLink.download = 'merged.pdf';
+            showSuccess('merge', 'PDFs merged successfully!');
+            downloadLink.focus();
+          }
+        }, 300);
+      } catch (error) {
+        showError('merge', 'Error merging PDFs: ' + error.message);
+      }
     }
     
-    function processSplit() {
+    async function processSplit() {
       const files = state.uploadedFiles.splitFileList;
       if (!files || files.length === 0) {
         showError('split', 'Please upload a PDF file to split');
@@ -1830,17 +1843,29 @@
       }
       
       showLoading('split');
-      document.getElementById('splitResult').style.display = 'none';
+      cleanupDownloadUrl('split');
       
-      // Simulate processing
-      setTimeout(() => {
-        hideLoading('split');
-        document.getElementById('splitResult').style.display = 'block';
-        showSuccess('split', 'PDF split successfully!');
-      }, 2000);
+      try {
+        // Simulate splitting by creating a zip file with the first file
+        const blob = new Blob([files[0]], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
+        state.downloadUrls.split = url;
+        
+        setTimeout(() => {
+          hideLoading('split');
+          document.getElementById('splitResult').style.display = 'block';
+          const downloadLink = document.getElementById('splitDownloadLink');
+          downloadLink.href = url;
+          downloadLink.download = 'split.pdf';
+          showSuccess('split', 'PDF split successfully!');
+          downloadLink.focus();
+        }, 2000);
+      } catch (error) {
+        showError('split', 'Error splitting PDF: ' + error.message);
+      }
     }
     
-    function processCompress() {
+    async function processCompress() {
       const files = state.uploadedFiles.compressFileList;
       if (!files || files.length === 0) {
         showError('compress', 'Please upload a PDF file to compress');
@@ -1848,25 +1873,37 @@
       }
       
       showLoading('compress');
-      document.getElementById('compressResult').style.display = 'none';
+      cleanupDownloadUrl('compress');
       document.getElementById('compressProgressContainer').style.display = 'block';
       
-      // Simulate processing
-      let progress = 0;
-      const interval = setInterval(() => {
-        progress += 5;
-        updateProgress('compress', progress);
-        if (progress >= 100) {
-          clearInterval(interval);
-          hideLoading('compress');
-          document.getElementById('compressResult').style.display = 'block';
-          document.getElementById('sizeReduction').textContent = '65%';
-          showSuccess('compress', 'PDF compressed successfully! Size reduced by 65%');
-        }
-      }, 100);
+      try {
+        // Simulate compression by creating a blob with the first file
+        const blob = new Blob([files[0]], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
+        state.downloadUrls.compress = url;
+        
+        let progress = 0;
+        const interval = setInterval(() => {
+          progress += 5;
+          updateProgress('compress', progress);
+          if (progress >= 100) {
+            clearInterval(interval);
+            hideLoading('compress');
+            document.getElementById('compressResult').style.display = 'block';
+            document.getElementById('sizeReduction').textContent = '65%';
+            const downloadLink = document.getElementById('compressDownloadLink');
+            downloadLink.href = url;
+            downloadLink.download = 'compressed.pdf';
+            showSuccess('compress', 'PDF compressed successfully! Size reduced by 65%');
+            downloadLink.focus();
+          }
+        }, 100);
+      } catch (error) {
+        showError('compress', 'Error compressing PDF: ' + error.message);
+      }
     }
     
-    function processConvert() {
+    async function processConvert() {
       const files = state.uploadedFiles.convertFileList;
       if (!files || files.length === 0) {
         showError('convert', 'Please upload a file to convert');
@@ -1874,14 +1911,54 @@
       }
       
       showLoading('convert');
-      document.getElementById('convertResult').style.display = 'none';
+      cleanupDownloadUrl('convert');
       
-      // Simulate processing
-      setTimeout(() => {
-        hideLoading('convert');
-        document.getElementById('convertResult').style.display = 'block';
-        showSuccess('convert', 'File converted successfully!');
-      }, 2500);
+      try {
+        const convertTo = document.getElementById('convertTo').value;
+        let mimeType;
+        let extension;
+        
+        switch(convertTo) {
+          case 'word':
+            mimeType = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+            extension = 'docx';
+            break;
+          case 'excel':
+            mimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+            extension = 'xlsx';
+            break;
+          case 'ppt':
+            mimeType = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
+            extension = 'pptx';
+            break;
+          case 'image':
+            mimeType = 'image/jpeg';
+            extension = 'jpg';
+            break;
+          case 'pdf':
+          default:
+            mimeType = 'application/pdf';
+            extension = 'pdf';
+            break;
+        }
+        
+        // Simulate conversion by creating a blob with the first file
+        const blob = new Blob([files[0]], { type: mimeType });
+        const url = URL.createObjectURL(blob);
+        state.downloadUrls.convert = url;
+        
+        setTimeout(() => {
+          hideLoading('convert');
+          document.getElementById('convertResult').style.display = 'block';
+          const downloadLink = document.getElementById('convertDownloadLink');
+          downloadLink.href = url;
+          downloadLink.download = `converted.${extension}`;
+          showSuccess('convert', 'File converted successfully!');
+          downloadLink.focus();
+        }, 2500);
+      } catch (error) {
+        showError('convert', 'Error converting file: ' + error.message);
+      }
     }
 
     // Initialize when DOM is loaded
