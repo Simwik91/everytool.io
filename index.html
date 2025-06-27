@@ -6,40 +6,12 @@
   <meta name="description" content="EveryTool.io - Free online tools that work entirely in your browser. Protect your privacy while getting things done.">
   <title>EveryTool.io - Free Client-Side Tools</title>
   
-  <!-- SEO Optimizations -->
-  <meta name="robots" content="index, follow">
-  <meta name="keywords" content="free online tools, privacy tools, client-side tools, browser tools, no upload tools">
-  <meta property="og:title" content="EveryTool.io - Free Client-Side Tools">
-  <meta property="og:description" content="Free online tools that work entirely in your browser. Your files never leave your computer.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://everytool.io">
-  <meta property="og:image" content="https://everytool.io/social-preview.jpg">
-  <meta name="twitter:card" content="summary_large_image">
-  
   <!-- Performance Optimization -->
   <link rel="preconnect" href="https://cdnjs.cloudflare.com">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.rel='stylesheet'">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  
-  <!-- Structured Data -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "EveryTool.io",
-    "description": "Free client-side tools that work entirely in your browser",
-    "applicationCategory": "Utilities",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "USD"
-    },
-    "operatingSystem": "All",
-    "screenshot": "https://everytool.io/screenshot.jpg"
-  }
-  </script>
   
   <style>
     :root {
@@ -727,6 +699,104 @@
       border: 0;
     }
 
+    /* Mobile Menu Improvements */
+    .mobile-nav {
+      position: fixed;
+      top: 0;
+      left: -100%;
+      width: 280px;
+      height: 100vh;
+      background: white;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      z-index: 2000;
+      transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+      overflow-y: auto;
+      display: block;
+    }
+    
+    .mobile-nav.active {
+      transform: translateX(100%);
+      left: 0;
+    }
+    
+    .mobile-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1999;
+      display: none;
+      transition: opacity 0.3s ease;
+    }
+    
+    .mobile-backdrop.active {
+      display: block;
+      opacity: 1;
+    }
+    
+    .mobile-nav-header {
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--light-gray);
+    }
+    
+    .close-mobile-menu {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--dark);
+      cursor: pointer;
+      padding: 5px;
+      border-radius: 5px;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .close-mobile-menu:hover, .close-mobile-menu:focus {
+      background: rgba(0, 0, 0, 0.05);
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+    
+    .mobile-nav-menu {
+      list-style: none;
+      padding: 20px;
+    }
+    
+    .mobile-nav-item {
+      margin-bottom: 10px;
+    }
+    
+    .mobile-nav-link {
+      display: block;
+      padding: 12px 15px;
+      color: var(--dark);
+      text-decoration: none;
+      font-weight: 500;
+      border-radius: var(--border-radius);
+      transition: var(--transition);
+    }
+    
+    .mobile-nav-link:hover, .mobile-nav-link:focus {
+      background: rgba(67, 97, 238, 0.1);
+      color: var(--primary);
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+    
+    .mobile-nav-link i {
+      width: 24px;
+      text-align: center;
+      margin-right: 10px;
+    }
+
     /* Responsive Design */
     @media (max-width: 992px) {
       .hero h1 {
@@ -741,74 +811,6 @@
         display: block;
       }
       
-      .mobile-nav {
-        position: fixed;
-        top: 0;
-        left: -100%;
-        width: 280px;
-        height: 100vh;
-        background: white;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-        z-index: 2000;
-        transition: var(--transition);
-        overflow-y: auto;
-        display: block;
-      }
-      
-      .mobile-nav.active {
-        left: 0;
-      }
-      
-      .mobile-nav-header {
-        padding: 20px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 1px solid var(--light-gray);
-      }
-      
-      .close-mobile-menu {
-        background: none;
-        border: none;
-        font-size: 1.5rem;
-        color: var(--dark);
-        cursor: pointer;
-        padding: 5px;
-        border-radius: 5px;
-      }
-      
-      .close-mobile-menu:hover, .close-mobile-menu:focus {
-        background: rgba(0, 0, 0, 0.05);
-        outline: 2px solid var(--primary);
-        outline-offset: 2px;
-      }
-      
-      .mobile-nav-menu {
-        list-style: none;
-        padding: 20px;
-      }
-      
-      .mobile-nav-item {
-        margin-bottom: 10px;
-      }
-      
-      .mobile-nav-link {
-        display: block;
-        padding: 12px 15px;
-        color: var(--dark);
-        text-decoration: none;
-        font-weight: 500;
-        border-radius: var(--border-radius);
-        transition: var(--transition);
-      }
-      
-      .mobile-nav-link:hover, .mobile-nav-link:focus {
-        background: rgba(67, 97, 238, 0.1);
-        color: var(--primary);
-        outline: 2px solid var(--primary);
-        outline-offset: 2px;
-      }
-      
       .features-grid {
         grid-template-columns: 1fr;
       }
@@ -816,6 +818,9 @@
 
     @media (min-width: 993px) {
       .mobile-nav {
+        display: none !important;
+      }
+      .mobile-backdrop {
         display: none !important;
       }
     }
@@ -849,6 +854,16 @@
       
       .cookie-btn {
         width: 100%;
+      }
+      
+      /* Mobile menu full width on small screens */
+      .mobile-nav {
+        width: 100%;
+        left: -100%;
+      }
+      .mobile-nav.active {
+        transform: translateX(100%);
+        left: 0;
       }
     }
 
@@ -983,6 +998,9 @@
       </div>
     </div>
   </header>
+
+  <!-- Mobile Menu Backdrop -->
+  <div class="mobile-backdrop" id="mobile-backdrop"></div>
 
   <!-- Mobile Navigation -->
   <div class="mobile-nav" id="mobile-nav">
@@ -1136,72 +1154,74 @@
   </footer>
 
   <script>
-    // Constants
-    const COOKIE_CONSENT_KEY = 'cookieConsent';
-
-    // Shared Cookie Functions
-    function getCookiePreferences() {
-      const preferences = localStorage.getItem(COOKIE_CONSENT_KEY);
-      return preferences ? JSON.parse(preferences) : { essential: true, analytics: false, advertising: false };
-    }
-
-    function saveCookiePreferences(preferences) {
-      try {
-        localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(preferences));
-      } catch (e) {
-        console.warn('Failed to save cookie preferences:', e);
+    // Mobile Menu Functionality
+    function initMobileMenu() {
+      const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+      const closeMobileMenu = document.getElementById('close-mobile-menu');
+      const mobileNav = document.getElementById('mobile-nav');
+      const mobileBackdrop = document.getElementById('mobile-backdrop');
+      
+      function openMobileMenu() {
+        mobileNav.classList.add('active');
+        mobileBackdrop.classList.add('active');
+        document.body.style.overflow = 'hidden';
       }
-    }
-
-    function loadGoogleAnalytics() {
-      if (window.gaLoaded) return;
-
-      const gtagScript = document.createElement('script');
-      gtagScript.async = true;
-      gtagScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-LR5XP1GJFC';
-      gtagScript.onerror = () => console.warn('Failed to load Google Analytics');
-      document.head.appendChild(gtagScript);
-
-      window.dataLayer = window.dataLayer || [];
-      function gtag() { dataLayer.push(arguments); }
-      gtag('js', new Date());
-      gtag('config', 'G-LR5XP1GJFC');
-
-      window.gaLoaded = true;
-      console.log('Google Analytics loaded');
-    }
-
-    function loadGoogleAdSense() {
-      if (window.adsenseLoaded) return;
-
-      const adsenseScript = document.createElement('script');
-      adsenseScript.async = true;
-      adsenseScript.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4041775163958551';
-      adsenseScript.crossOrigin = 'anonymous';
-      adsenseScript.onerror = () => console.warn('Failed to load Google AdSense');
-      document.head.appendChild(adsenseScript);
-
-      window.adsenseLoaded = true;
-      console.log('Google AdSense loaded');
-    }
-
-    function checkCookieConsent() {
-      const preferences = getCookiePreferences();
-      if (!preferences || !preferences.hasOwnProperty('essential')) {
-        const consent = document.getElementById('cookie-consent');
-        if (consent) consent.style.display = 'block';
-      } else {
-        const analyticsToggle = document.getElementById('analytics-toggle');
-        const advertisingToggle = document.getElementById('advertising-toggle');
-        if (analyticsToggle) analyticsToggle.checked = preferences.analytics;
-        if (advertisingToggle) advertisingToggle.checked = preferences.advertising;
-        if (preferences.analytics && !window.gaLoaded) loadGoogleAnalytics();
-        if (preferences.advertising && !window.adsenseLoaded) loadGoogleAdSense();
+      
+      function closeMobileMenuHandler() {
+        mobileNav.classList.remove('active');
+        mobileBackdrop.classList.remove('active');
+        document.body.style.overflow = '';
       }
+      
+      if (mobileMenuToggle) {
+        mobileMenuToggle.addEventListener('click', openMobileMenu);
+      }
+      
+      if (closeMobileMenu) {
+        closeMobileMenu.addEventListener('click', closeMobileMenuHandler);
+      }
+      
+      if (mobileBackdrop) {
+        mobileBackdrop.addEventListener('click', closeMobileMenuHandler);
+      }
+      
+      // Close menu when clicking on links
+      const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+      mobileLinks.forEach(link => {
+        link.addEventListener('click', closeMobileMenuHandler);
+      });
     }
 
-    // Cookie Management Functions
+    // Cookie Consent Functionality
     function initCookieConsent() {
+      const COOKIE_CONSENT_KEY = 'cookieConsent';
+      
+      function getCookiePreferences() {
+        const preferences = localStorage.getItem(COOKIE_CONSENT_KEY);
+        return preferences ? JSON.parse(preferences) : { essential: true, analytics: false, advertising: false };
+      }
+      
+      function saveCookiePreferences(preferences) {
+        try {
+          localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(preferences));
+        } catch (e) {
+          console.warn('Failed to save cookie preferences:', e);
+        }
+      }
+      
+      function checkCookieConsent() {
+        const preferences = getCookiePreferences();
+        if (!preferences || !preferences.hasOwnProperty('essential')) {
+          const consent = document.getElementById('cookie-consent');
+          if (consent) consent.style.display = 'block';
+        } else {
+          const analyticsToggle = document.getElementById('analytics-toggle');
+          const advertisingToggle = document.getElementById('advertising-toggle');
+          if (analyticsToggle) analyticsToggle.checked = preferences.analytics;
+          if (advertisingToggle) advertisingToggle.checked = preferences.advertising;
+        }
+      }
+      
       function openCookieSettings() {
         const preferences = getCookiePreferences();
         const analyticsToggle = document.getElementById('analytics-toggle');
@@ -1209,73 +1229,58 @@
         if (analyticsToggle) analyticsToggle.checked = preferences.analytics;
         if (advertisingToggle) advertisingToggle.checked = preferences.advertising;
         const settings = document.getElementById('cookie-settings');
-        if (settings) {
-          settings.style.display = 'flex';
-          const modal = document.querySelector('.settings-modal');
-          if (modal) modal.focus();
-        }
+        if (settings) settings.style.display = 'flex';
       }
-
+      
       function closeCookieSettings() {
         const settings = document.getElementById('cookie-settings');
         if (settings) settings.style.display = 'none';
-        const openSettingsBtn = document.getElementById('open-settings');
-        if (openSettingsBtn) openSettingsBtn.focus();
       }
-
+      
+      // Set up event listeners
       const acceptBtn = document.getElementById('accept-cookies');
       if (acceptBtn) {
         acceptBtn.addEventListener('click', () => {
-          const preferences = {
+          saveCookiePreferences({
             essential: true,
             analytics: true,
             advertising: true
-          };
-          saveCookiePreferences(preferences);
-          const consent = document.getElementById('cookie-consent');
-          if (consent) consent.style.display = 'none';
-          if (!window.gaLoaded) loadGoogleAnalytics();
-          if (!window.adsenseLoaded) loadGoogleAdSense();
+          });
+          document.getElementById('cookie-consent').style.display = 'none';
         });
       }
-
+      
       const rejectBtn = document.getElementById('reject-cookies');
       if (rejectBtn) {
         rejectBtn.addEventListener('click', () => {
-          const preferences = {
+          saveCookiePreferences({
             essential: true,
             analytics: false,
             advertising: false
-          };
-          saveCookiePreferences(preferences);
-          const consent = document.getElementById('cookie-consent');
-          if (consent) consent.style.display = 'none';
+          });
+          document.getElementById('cookie-consent').style.display = 'none';
         });
       }
-
+      
       const openSettingsBtn = document.getElementById('open-settings');
       if (openSettingsBtn) openSettingsBtn.addEventListener('click', openCookieSettings);
-
+      
       const closeSettingsBtn = document.querySelector('.close-settings');
       if (closeSettingsBtn) closeSettingsBtn.addEventListener('click', closeCookieSettings);
-
+      
       const saveSettingsBtn = document.getElementById('save-settings');
       if (saveSettingsBtn) {
         saveSettingsBtn.addEventListener('click', () => {
-          const preferences = {
+          saveCookiePreferences({
             essential: true,
             analytics: document.getElementById('analytics-toggle').checked,
             advertising: document.getElementById('advertising-toggle').checked
-          };
-          saveCookiePreferences(preferences);
-          if (preferences.analytics && !window.gaLoaded) loadGoogleAnalytics();
-          if (preferences.advertising && !window.adsenseLoaded) loadGoogleAdSense();
+          });
           closeCookieSettings();
-          const consent = document.getElementById('cookie-consent');
-          if (consent) consent.style.display = 'none';
+          document.getElementById('cookie-consent').style.display = 'none';
         });
       }
-
+      
       const openSettingsFooter = document.getElementById('open-settings-footer');
       if (openSettingsFooter) {
         openSettingsFooter.addEventListener('click', (e) => {
@@ -1283,130 +1288,18 @@
           openCookieSettings();
         });
       }
-
-      const analyticsToggle = document.getElementById('analytics-toggle');
-      const advertisingToggle = document.getElementById('advertising-toggle');
-
-      if (analyticsToggle) {
-        analyticsToggle.addEventListener('change', () => {
-          const preferences = getCookiePreferences();
-          preferences.analytics = analyticsToggle.checked;
-          saveCookiePreferences(preferences);
-          if (preferences.analytics && !window.gaLoaded) loadGoogleAnalytics();
-        });
-      }
-
-      if (advertisingToggle) {
-        advertisingToggle.addEventListener('change', () => {
-          const preferences = getCookiePreferences();
-          preferences.advertising = advertisingToggle.checked;
-          saveCookiePreferences(preferences);
-          if (preferences.advertising && !window.adsenseLoaded) loadGoogleAdSense();
-        });
-      }
     }
 
-    // Mobile Menu Functions
-    function initMobileMenu() {
-      const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
-      const closeMobileMenu = document.getElementById('close-mobile-menu');
-      const mobileNav = document.getElementById('mobile-nav');
-
-      if (mobileMenuToggle && mobileNav) {
-        mobileMenuToggle.addEventListener('click', () => {
-          mobileNav.classList.add('active');
-          document.body.style.overflow = 'hidden';
-        });
-      }
-
-      if (closeMobileMenu && mobileNav) {
-        closeMobileMenu.addEventListener('click', () => {
-          mobileNav.classList.remove('active');
-          document.body.style.overflow = '';
-        });
-      }
-
-      if (mobileNav && mobileMenuToggle) {
-        document.addEventListener('click', (e) => {
-          if (mobileNav.classList.contains('active') && 
-              !mobileNav.contains(e.target) && 
-              e.target !== mobileMenuToggle) {
-            mobileNav.classList.remove('active');
-            document.body.style.overflow = '';
-          }
-        });
-      }
-
-      const mobileLinks = document.querySelectorAll('.mobile-nav-link');
-      if (mobileLinks && mobileNav) {
-        mobileLinks.forEach(link => {
-          link.addEventListener('click', () => {
-            mobileNav.classList.remove('active');
-            document.body.style.overflow = '';
-          });
-        });
-      }
-    }
-
-    // Accessibility Functions
-    function initAccessibility() {
-      const toggles = document.querySelectorAll('.toggle-switch input');
-      if (toggles) {
-        toggles.forEach(toggle => {
-          toggle.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-              e.preventDefault();
-              if (!toggle.disabled) {
-                toggle.checked = !toggle.checked;
-                toggle.dispatchEvent(new Event('change'));
-              }
-            }
-          });
-        });
-      }
-
-      const focusableElements = document.querySelectorAll('a, button, input');
-      if (focusableElements) {
-        focusableElements.forEach(element => {
-          element.addEventListener('focus', () => {
-            element.style.outline = '2px solid var(--primary)';
-            element.style.outlineOffset = '2px';
-          });
-          element.addEventListener('blur', () => {
-            element.style.outline = 'none';
-          });
-        });
-      }
-
-      const settingsModal = document.querySelector('.settings-modal');
-      if (settingsModal) {
-        const focusableInModal = settingsModal.querySelectorAll('button, input, a');
-        const firstFocusable = focusableInModal[0];
-        const lastFocusable = focusableInModal[focusableInModal.length - 1];
-
-        settingsModal.addEventListener('keydown', (e) => {
-          if (e.key === 'Tab') {
-            if (e.shiftKey && document.activeElement === firstFocusable) {
-              e.preventDefault();
-              lastFocusable.focus();
-            } else if (!e.shiftKey && document.activeElement === lastFocusable) {
-              e.preventDefault();
-              firstFocusable.focus();
-            }
-          } else if (e.key === 'Escape') {
-            const closeSettings = document.querySelector('.close-settings');
-            if (closeSettings) closeSettings.click();
-          }
-        });
-      }
-    }
-
-    // Initialize All Features
+    // Initialize everything when DOM is loaded
     document.addEventListener('DOMContentLoaded', () => {
-      checkCookieConsent();
-      initCookieConsent();
       initMobileMenu();
-      initAccessibility();
+      initCookieConsent();
+      
+      // Check cookie consent status
+      const preferences = localStorage.getItem('cookieConsent');
+      if (!preferences) {
+        document.getElementById('cookie-consent').style.display = 'block';
+      }
     });
   </script>
 </body>
