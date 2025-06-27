@@ -55,7 +55,11 @@
       color: var(--dark);
       line-height: 1.6;
       min-height: 100vh;
-      overflow-x: hidden;
+      transition: transform 0.4s ease;
+    }
+    
+    body.menu-open {
+      overflow: hidden;
     }
 
     .container {
@@ -87,6 +91,7 @@
       font-weight: 700;
       color: var(--primary);
       text-decoration: none;
+      z-index: 2001;
     }
 
     .logo i {
@@ -141,12 +146,112 @@
       cursor: pointer;
       padding: 10px;
       border-radius: 5px;
+      z-index: 2001;
     }
 
     .mobile-menu-btn:hover, .mobile-menu-btn:focus {
       background: rgba(67, 97, 238, 0.1);
       outline: 2px solid var(--primary);
       outline-offset: 2px;
+    }
+    
+    /* Mobile Menu Backdrop */
+    .mobile-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1999;
+      display: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .mobile-backdrop.active {
+      display: block;
+      opacity: 1;
+    }
+    
+    /* Mobile Navigation */
+    .mobile-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 280px;
+      height: 100vh;
+      background: white;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      z-index: 2000;
+      transform: translateX(-100%);
+      transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+      overflow-y: auto;
+    }
+    
+    .mobile-nav.active {
+      transform: translateX(0);
+    }
+    
+    .mobile-nav-header {
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--light-gray);
+    }
+    
+    .close-mobile-menu {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--dark);
+      cursor: pointer;
+      padding: 5px;
+      border-radius: 5px;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .close-mobile-menu:hover, .close-mobile-menu:focus {
+      background: rgba(0, 0, 0, 0.05);
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+    
+    .mobile-nav-menu {
+      list-style: none;
+      padding: 20px;
+    }
+    
+    .mobile-nav-item {
+      margin-bottom: 10px;
+    }
+    
+    .mobile-nav-link {
+      display: block;
+      padding: 15px 20px;
+      color: var(--dark);
+      text-decoration: none;
+      font-weight: 500;
+      border-radius: var(--border-radius);
+      transition: var(--transition);
+    }
+    
+    .mobile-nav-link:hover, .mobile-nav-link:focus {
+      background: rgba(67, 97, 238, 0.1);
+      color: var(--primary);
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+    
+    .mobile-nav-link i {
+      width: 24px;
+      text-align: center;
+      margin-right: 10px;
     }
 
     /* Barcode Generator Specific Styles */
@@ -172,7 +277,7 @@
 
     .hero p {
       font-size: 1.2rem;
-      color: var(--gray);
+      color: #444;
       margin-bottom: 40px;
       max-width: 700px;
       margin-left: auto;
@@ -274,6 +379,7 @@
       display: block;
       transition: var(--transition);
       font-family: 'Poppins', sans-serif;
+      color: #444;
     }
     
     input:focus, select:focus, textarea:focus {
@@ -295,10 +401,12 @@
       gap: 10px;
     }
     
-    button:hover {
+    button:hover, button:focus {
       background: var(--primary-dark);
       transform: translateY(-2px);
       box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
     }
     
     button.secondary {
@@ -307,8 +415,10 @@
       border: 2px solid var(--primary);
     }
     
-    button.secondary:hover {
+    button.secondary:hover, button.secondary:focus {
       background: #f0f4ff;
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
     }
     
     canvas {
@@ -429,7 +539,7 @@
     
     .format-info li {
       margin-bottom: 8px;
-      color: var(--gray);
+      color: #444;
     }
     
     .btn-group {
@@ -514,7 +624,7 @@
     
     .guide-item p {
       font-size: 1rem;
-      color: var(--gray);
+      color: #444;
     }
     
     /* Practical Uses section - 4 cards per row, white text */
@@ -612,7 +722,7 @@
       max-width: 800px;
       background: var(--light);
       border-radius: var(--border-radius);
-      box-shadow: 0 5px 30px rgba(0, 0, 0, 0.15);
+      box-shadow: var(--box-shadow);
       padding: 20px;
       z-index: 1000;
       display: none;
@@ -635,6 +745,7 @@
     .cookie-text p {
       margin-bottom: 10px;
       font-size: 0.95rem;
+      color: #444;
     }
 
     .cookie-text a {
@@ -731,6 +842,11 @@
       animation: slideUp 0.3s ease-out;
     }
 
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
     @keyframes slideUp {
       from { transform: translateY(20px); opacity: 0; }
       to { transform: translateY(0); opacity: 1; }
@@ -814,8 +930,6 @@
       bottom: 0;
       background-color: var(--gray);
       transition: background-color 0.3s ease;
-      -webkit-transition: background-color 0.3s ease;
-      -moz-transition: background-color 0.3s ease;
       border-radius: 24px;
     }
 
@@ -828,8 +942,6 @@
       bottom: 4px;
       background-color: white;
       transition: transform 0.3s ease;
-      -webkit-transition: transform 0.3s ease;
-      -moz-transition: transform 0.3s ease;
       border-radius: 50%;
     }
 
@@ -839,8 +951,6 @@
 
     .toggle-switch input:checked + .slider:before {
       transform: translateX(26px);
-      -webkit-transform: translateX(26px);
-      -moz-transform: translateX(26px);
     }
 
     .toggle-switch input:focus + .slider {
@@ -859,7 +969,7 @@
 
     .cookie-type p {
       font-size: 0.9rem;
-      color: var(--gray);
+      color: #444;
       margin-bottom: 10px;
     }
 
@@ -885,7 +995,7 @@
       outline: 2px solid var(--primary);
       outline-offset: 2px;
     }
-
+    
     /* Accessibility Improvements */
     .sr-only {
       position: absolute;
@@ -908,84 +1018,14 @@
         display: block;
       }
       
-      .mobile-nav {
-        position: fixed;
-        top: 0;
-        left: -100%;
-        width: 280px;
-        height: 100vh;
-        background: white;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-        z-index: 2000;
-        transition: var(--transition);
-        overflow-y: auto;
-        display: block;
-      }
-      
-      .mobile-nav.active {
-        left: 0;
-      }
-      
-      .mobile-nav-header {
-        padding: 20px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 1px solid var(--light-gray);
-      }
-      
-      .close-mobile-menu {
-        background: none;
-        border: none;
-        font-size: 1.5rem;
-        color: var(--dark);
-        cursor: pointer;
-        padding: 5px;
-        border-radius: 5px;
-      }
-      
-      .close-mobile-menu:hover, .close-mobile-menu:focus {
-        background: rgba(0, 0, 0, 0.05);
-        outline: 2px solid var(--primary);
-        outline-offset: 2px;
-      }
-      
-      .mobile-nav-menu {
-        list-style: none;
-        padding: 20px;
-      }
-      
-      .mobile-nav-item {
-        margin-bottom: 10px;
-      }
-      
-      .mobile-nav-link {
-        display: block;
-        padding: 12px 15px;
-        color: var(--dark);
-        text-decoration: none;
-        font-weight: 500;
-        border-radius: var(--border-radius);
-        transition: var(--transition);
-      }
-      
-      .mobile-nav-link:hover, .mobile-nav-link:focus {
-        background: rgba(67, 97, 238, 0.1);
-        color: var(--primary);
-        outline: 2px solid var(--primary);
-        outline-offset: 2px;
-      }
-      
       .guide-grid {
         grid-template-columns: 1fr;
       }
       
-      /* Updated for features grid */
       .features {
         grid-template-columns: 1fr;
       }
       
-      /* Updated for uses grid */
       .uses-grid {
         grid-template-columns: repeat(2, 1fr);
       }
@@ -993,6 +1033,9 @@
 
     @media (min-width: 993px) {
       .mobile-nav {
+        display: none !important;
+      }
+      .mobile-backdrop {
         display: none !important;
       }
     }
@@ -1041,7 +1084,6 @@
         width: 100%;
       }
       
-      /* Updated for uses grid */
       .uses-grid {
         grid-template-columns: 1fr;
       }
@@ -1083,6 +1125,74 @@
   </style>
 </head>
 <body>
+  <!-- Header & Navigation -->
+  <header>
+    <div class="container">
+      <div class="header-container">
+        <a href="index.html" class="logo" aria-label="EveryTool.io Home">
+          <i class="fas fa-tools"></i>
+          EveryTool.io
+        </a>
+        
+        <div class="nav-container">
+          <ul class="nav-menu">
+            <li class="nav-item">
+              <a href="#" class="nav-link" aria-label="Home"><i class="fas fa-home"></i> Home</a>
+            </li>
+            <li class="nav-item">
+              <a href="/tools" class="nav-link" aria-label="Tools"><i class="fas fa-toolbox"></i> Tools</a>
+            </li>
+            <li class="nav-item">
+              <a href="/blog" class="nav-link" aria-label="Blog"><i class="fas fa-blog"></i> Blog</a>
+            </li>
+            <li class="nav-item">
+              <a href="/about" class="nav-link" aria-label="About"><i class="fas fa-address-card"></i> About</a>
+            </li>
+            <li class="nav-item">
+              <a href="/contact" class="nav-link" aria-label="Contact"><i class="fas fa-envelope"></i> Contact</a>
+            </li>
+          </ul>
+          <button class="mobile-menu-btn" id="mobile-menu-toggle" aria-label="Open mobile menu">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Menu Backdrop -->
+  <div class="mobile-backdrop" id="mobile-backdrop"></div>
+
+  <!-- Mobile Navigation -->
+  <div class="mobile-nav" id="mobile-nav">
+    <div class="mobile-nav-header">
+      <a href="index.html" class="logo" aria-label="EveryTool.io Home">
+        <i class="fas fa-tools"></i>
+        EveryTool.io
+      </a>
+      <button class="close-mobile-menu" id="close-mobile-menu" aria-label="Close mobile menu">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <ul class="mobile-nav-menu">
+      <li class="mobile-nav-item">
+        <a href="#" class="mobile-nav-link" aria-label="Home"><i class="fas fa-home"></i> Home</a>
+      </li>
+      <li class="mobile-nav-item">
+        <a href="/tools" class="mobile-nav-link" aria-label="Tools"><i class="fas fa-toolbox"></i> Tools</a>
+      </li>
+      <li class="mobile-nav-item">
+        <a href="/blog" class="mobile-nav-link" aria-label="Blog"><i class="fas fa-blog"></i> Blog</a>
+      </li>
+      <li class="mobile-nav-item">
+        <a href="/about" class="mobile-nav-link" aria-label="About"><i class="fas fa-address-card"></i> About</a>
+      </li>
+      <li class="mobile-nav-item">
+        <a href="/contact" class="mobile-nav-link" aria-label="Contact"><i class="fas fa-envelope"></i> Contact</a>
+      </li>
+    </ul>
+  </div>
+
   <!-- Cookie Consent Banner -->
   <div id="cookie-consent" role="dialog" aria-labelledby="cookie-consent-banner" aria-describedby="cookie-consent-desc">
     <div class="sr-only" id="cookie-consent-banner">Cookie Consent</div>
@@ -1104,7 +1214,7 @@
     <div class="settings-modal">
       <div class="settings-header">
         <h2 id="cookie-settings-title"><i class="fas fa-cookie-bite"></i> Cookie Settings</h2>
-        <button class="close-settings" aria-label="Close cookie settings">×</button>
+        <button class="close-settings" id="close-settings" aria-label="Close cookie settings">×</button>
       </div>
       <div class="settings-content">
         <p id="cookie-settings-desc">You can set your preferences for how we and our partners use cookies and similar technologies.</p>
@@ -1146,71 +1256,6 @@
         <button class="save-settings" id="save-settings" aria-label="Save cookie settings">Save Settings</button>
       </div>
     </div>
-  </div>
-
-  <!-- Header & Navigation -->
-  <header>
-    <div class="container">
-      <div class="header-container">
-        <a href="index.html" class="logo" aria-label="EveryTool.io Home">
-          <i class="fas fa-tools"></i>
-          EveryTool.io
-        </a>
-        
-        <div class="nav-container">
-          <ul class="nav-menu">
-            <li class="nav-item">
-              <a href="#" class="nav-link" aria-label="Home"><i class="fas fa-home"></i> Home</a>
-            </li>
-            <li class="nav-item">
-              <a href="/tools" class="nav-link" aria-label="Tools"><i class="fas fa-toolbox"></i> Tools</a>
-            </li>
-            <li class="nav-item">
-              <a href="/blog" class="nav-link" aria-label="Blog"><i class="fas fa-blog"></i> Blog</a>
-            </li>
-            <li class="nav-item">
-              <a href="/about" class="nav-link" aria-label="About"><i class="fas fa-address-card"></i> About</a>
-            </li>
-            <li class="nav-item">
-              <a href="/contact" class="nav-link" aria-label="Contact"><i class="fas fa-envelope"></i> Contact</a>
-            </li>
-          </ul>
-          <button class="mobile-menu-btn" id="mobile-menu-toggle" aria-label="Open mobile menu">
-            <i class="fas fa-bars"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <!-- Mobile Navigation -->
-  <div class="mobile-nav" id="mobile-nav">
-    <div class="mobile-nav-header">
-      <a href="index.html" class="logo" aria-label="EveryTool.io Home">
-        <i class="fas fa-tools"></i>
-        EveryTool.io
-      </a>
-      <button class="close-mobile-menu" id="close-mobile-menu" aria-label="Close mobile menu">
-        <i class="fas fa-times"></i>
-      </button>
-    </div>
-    <ul class="mobile-nav-menu">
-      <li class="mobile-nav-item">
-        <a href="#" class="mobile-nav-link" aria-label="Home"><i class="fas fa-home"></i> Home</a>
-      </li>
-      <li class="mobile-nav-item">
-        <a href="/tools" class="mobile-nav-link" aria-label="Tools"><i class="fas fa-toolbox"></i> Tools</a>
-      </li>
-      <li class="mobile-nav-item">
-        <a href="/blog" class="mobile-nav-link" aria-label="Blog"><i class="fas fa-blog"></i> Blog</a>
-      </li>
-      <li class="mobile-nav-item">
-        <a href="/about" class="mobile-nav-link" aria-label="About"><i class="fas fa-address-card"></i> About</a>
-      </li>
-      <li class="mobile-nav-item">
-        <a href="/contact" class="mobile-nav-link" aria-label="Contact"><i class="fas fa-envelope"></i> Contact</a>
-      </li>
-    </ul>
   </div>
 
   <!-- Hero Section -->
@@ -1457,373 +1502,434 @@
   </footer>
 
   <script>
-    // Constants
-    const COOKIE_CONSENT_KEY = 'cookieConsent';
-    const elements = {
-      tabs: document.querySelectorAll('.tab'),
-      tabContents: document.querySelectorAll('.tab-content'),
-      singleCanvas: document.getElementById('ean-canvas'),
-      customCanvas: document.getElementById('custom-canvas'),
-      downloadBtn: document.getElementById('download-btn'),
-      customDownloadBtn: document.getElementById('custom-download'),
-      singleLoading: document.getElementById('single-loading'),
-      batchLoading: document.getElementById('batch-loading'),
-      customLoading: document.getElementById('custom-loading'),
-      batchProgress: document.getElementById('batch-progress'),
-      singleError: document.getElementById('single-error'),
-      batchError: document.getElementById('batch-error'),
-      customError: document.getElementById('custom-error'),
-      singleSuccess: document.getElementById('single-success'),
-      batchSuccess: document.getElementById('batch-success'),
-      customSuccess: document.getElementById('custom-success'),
-      eanType: document.getElementById('ean-type'),
-      eanInput: document.getElementById('ean-input'),
-      batchEanType: document.getElementById('batch-ean-type'),
-      batchAmount: document.getElementById('batch-amount'),
-      customType: document.getElementById('custom-type'),
-      customInput: document.getElementById('custom-input'),
-      generateSingleBtn: document.getElementById('generate-single-btn'),
-      generateBatchBtn: document.getElementById('generate-batch-btn'),
-      generateCustomBtn: document.getElementById('generate-custom-btn'),
-      acceptCookies: document.getElementById('accept-cookies'),
-      rejectCookies: document.getElementById('reject-cookies'),
-      openSettings: document.getElementById('open-settings'),
-      openSettingsFooter: document.getElementById('open-settings-footer'),
-      closeSettings: document.querySelector('.close-settings'),
-      saveSettings: document.getElementById('save-settings'),
-      cookieConsent: document.getElementById('cookie-consent'),
-      cookieSettings: document.getElementById('cookie-settings'),
-      analyticsToggle: document.getElementById('analytics-toggle'),
-      advertisingToggle: document.getElementById('advertising-toggle'),
-      mobileMenuToggle: document.getElementById('mobile-menu-toggle'),
-      closeMobileMenu: document.getElementById('close-mobile-menu'),
-      mobileNav: document.getElementById('mobile-nav')
-    };
-
-    const barcodeConfig = {
-      ean13: { length: 12, regex: /^\d{12,13}$/, format: 'ean13' },
-      ean8: { length: 7, regex: /^\d{7,8}$/, format: 'ean8' },
-      upc: { length: 11, regex: /^\d{11,12}$/, format: 'UPC' },
-      itf14: { length: 13, regex: /^\d{13,14}$/, format: 'itf14' },
-      code128: { regex: /^[\w\s-]+$/, format: 'code128' },
-      code39: { regex: /^[0-9A-Z\s-.%*+$/]+$/, format: 'code39' },
-      codabar: { regex: /^[A-D][0-9-:$/.+]*[A-D]$/, format: 'codabar' },
-      pharmacode: { min: 3, max: 131070, regex: /^\d+$/, format: 'pharmacode' }
-    };
-
-    function getCookiePreferences() {
-      const preferences = localStorage.getItem(COOKIE_CONSENT_KEY);
-      return preferences ? JSON.parse(preferences) : null;
-    }
-
-    function saveCookiePreferences(preferences) {
-      localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(preferences));
-    }
-
-    function loadGoogleAnalytics() {
-      if (window.gaLoaded) return;
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-LR5XP1GJFC');
-      window.gaLoaded = true;
-    }
-
-    function checkCookieConsent() {
-      const preferences = getCookiePreferences();
-      if (!preferences) {
-        elements.cookieConsent.style.display = 'block';
-      } else {
-        if (preferences.analytics) loadGoogleAnalytics();
-      }
-    }
-
-    function openCookieSettings() {
-      const preferences = getCookiePreferences();
-      elements.analyticsToggle.checked = preferences ? preferences.analytics : true;
-      elements.advertisingToggle.checked = preferences ? preferences.advertising : true;
-      elements.cookieSettings.style.display = 'flex';
-    }
-
-    function closeCookieSettings() {
-      elements.cookieSettings.style.display = 'none';
-    }
-
-    function showError(element, message) {
-      element.textContent = message;
-      element.style.display = 'block';
-    }
-
-    function showSuccess(element, message) {
-      element.textContent = message;
-      element.style.display = 'block';
-    }
-
-    function hideElements() {
-      [elements.singleError, elements.batchError, elements.customError,
-       elements.singleSuccess, elements.batchSuccess, elements.customSuccess]
-        .forEach(el => el.style.display = 'none');
-    }
-
-    function calculateChecksum(code, type) {
-      let sum = 0;
-      if (type === 'ean8') {
-        const weights = [3, 1, 3, 1, 3, 1, 3];
-        for (let i = 0; i < code.length; i++) sum += parseInt(code[i]) * weights[i];
-      } else if (type === 'upc' || type === 'itf14') {
-        for (let i = 0; i < code.length; i++) sum += parseInt(code[i]) * (i % 2 === 0 ? 3 : 1);
-      } else {
-        const weights = [1, 3];
-        for (let i = 0; i < code.length; i++) sum += parseInt(code[i]) * weights[i % 2];
-      }
-      return (10 - (sum % 10)) % 10;
-    }
-
-    function generateRandomEAN(type) {
-      const { length } = barcodeConfig[type];
-      let base = Array.from({ length }, () => Math.floor(Math.random() * 10)).join('');
-      return base + calculateChecksum(base, type);
-    }
-
-    function validateInput(code, type) {
-      const config = barcodeConfig[type];
-      if (!code) return true;
-      if (type === 'pharmacode') {
-        const num = parseInt(code);
-        return !isNaN(num) && num >= config.min && num <= config.max;
-      }
-      return config.regex.test(code);
-    }
-
-    function generateRandomBarcode(type) {
-      if (['ean13', 'ean8', 'upc', 'itf14'].includes(type)) {
-        return generateRandomEAN(type);
-      }
-      switch (type) {
-        case 'code128':
-        case 'code39':
-          return Math.random().toString(36).slice(2, 12).toUpperCase();
-        case 'codabar':
-          return `A${Math.floor(Math.random() * 100000).toString().padStart(5, '0')}B`;
-        case 'pharmacode':
-          return Math.floor(Math.random() * (barcodeConfig.pharmacode.max - barcodeConfig.pharmacode.min + 1) + barcodeConfig.pharmacode.min).toString();
-        default:
-          return '123456';
-      }
-    }
-
-    function sanitizeFilename(str) {
-      return str.replace(/[^a-zA-Z0-9-]+/g, '_').slice(0, 50) || 'barcode';
-    }
-
-    function generateBarcode({ canvas, code, type, errorElement, successElement, downloadButton, loadingElement }) {
-      const ctx = canvas.getContext('2d');
-      hideElements();
-      loadingElement.style.display = 'block';
-      downloadButton.style.display = 'none';
-      canvas.style.display = 'none';
-
-      if (!validateInput(code, type)) {
-        showError(errorElement, 'Invalid input format for selected barcode type');
-        loadingElement.style.display = 'none';
-        return;
-      }
-
-      const finalCode = code || generateRandomBarcode(type);
-      const isPharmacode = type === 'pharmacode';
-      canvas.width = 320;
-      canvas.height = isPharmacode ? 100 : 150;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      canvas.dataset.code = finalCode;
-
-      try {
-        JsBarcode(canvas, finalCode, {
-          format: barcodeConfig[type].format,
-          displayValue: true,
-          width: isPharmacode ? 2 : 2,
-          height: isPharmacode ? 50 : 100
-        });
-        downloadButton.style.display = 'inline-block';
-        canvas.style.display = 'block';
-        showSuccess(successElement, 'Barcode generated successfully!');
-      } catch (error) {
-        showError(errorElement, `Failed to generate barcode: ${error.message}`);
-      } finally {
-        loadingElement.style.display = 'none';
-      }
-    }
-
-    function downloadBarcode(canvas, errorElement) {
-      try {
-        const code = canvas.dataset.code;
-        const link = document.createElement('a');
-        link.download = `${sanitizeFilename(code)}.png`;
-        link.href = canvas.toDataURL('image/png');
-        link.click();
-      } catch (error) {
-        showError(errorElement, 'Error downloading barcode');
-      }
-    }
-
-    async function generateBatchEANs() {
-      const type = elements.batchEanType.value;
-      const amount = parseInt(elements.batchAmount.value);
-
-      if (isNaN(amount) || amount < 1 || amount > 100) {
-        showError(elements.batchError, 'Please enter a number between 1 and 100');
-        return;
-      }
-
-      hideElements();
-      elements.batchLoading.style.display = 'block';
-
-      try {
-        const zip = new JSZip();
-        const canvas = document.createElement('canvas');
-        const isPharmacode = type === 'pharmacode';
-
-        for (let i = 0; i < amount; i++) {
-          elements.batchProgress.textContent = `Generating barcodes: ${i + 1}/${amount}`;
-          const code = generateRandomBarcode(type);
-          canvas.width = 320;
-          canvas.height = isPharmacode ? 100 : 150;
-
-          try {
-            JsBarcode(canvas, code, {
-              format: barcodeConfig[type].format,
-              displayValue: true,
-              width: isPharmacode ? 2 : 2,
-              height: isPharmacode ? 50 : 100
-            });
-            const dataUrl = canvas.toDataURL('image/png');
-            const imgData = dataUrl.replace(/^data:image\/png;base64,/, '');
-            zip.file(`${sanitizeFilename(code)}.png`, imgData, { base64: true });
-          } catch (err) {
-            console.warn(`Error generating barcode for code ${code}: ${err.message}`);
-          }
-
-          await new Promise(resolve => setTimeout(resolve, 10));
-        }
-
-        const blob = await zip.generateAsync({ type: 'blob' });
-        saveAs(blob, `batch-${sanitizeFilename(type)}.zip`);
-        showSuccess(elements.batchSuccess, `Successfully generated and downloaded ${amount} barcodes!`);
-      } catch (error) {
-        showError(elements.batchError, `Error creating ZIP file: ${error.message}`);
-      } finally {
-        elements.batchLoading.style.display = 'none';
-      }
-    }
-
-    function initialize() {
-      checkCookieConsent();
-
-      // Mobile menu toggle
-      elements.mobileMenuToggle.addEventListener('click', () => {
-        elements.mobileNav.classList.add('active');
-      });
+    // Mobile Menu Functionality - Fixed Implementation
+    function initMobileMenu() {
+      const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+      const closeMobileMenu = document.getElementById('close-mobile-menu');
+      const mobileNav = document.getElementById('mobile-nav');
+      const mobileBackdrop = document.getElementById('mobile-backdrop');
       
-      elements.closeMobileMenu.addEventListener('click', () => {
-        elements.mobileNav.classList.remove('active');
+      function openMobileMenu() {
+        mobileNav.classList.add('active');
+        mobileBackdrop.classList.add('active');
+        document.body.classList.add('menu-open');
+      }
+      
+      function closeMobileMenuHandler() {
+        mobileNav.classList.remove('active');
+        mobileBackdrop.classList.remove('active');
+        document.body.classList.remove('menu-open');
+      }
+      
+      if (mobileMenuToggle) {
+        mobileMenuToggle.addEventListener('click', openMobileMenu);
+      }
+      
+      if (closeMobileMenu) {
+        closeMobileMenu.addEventListener('click', closeMobileMenuHandler);
+      }
+      
+      if (mobileBackdrop) {
+        mobileBackdrop.addEventListener('click', closeMobileMenuHandler);
+      }
+      
+      // Close menu when clicking on links
+      const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+      mobileLinks.forEach(link => {
+        link.addEventListener('click', closeMobileMenuHandler);
       });
+    }
 
-      // Tabs functionality
-      elements.tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-          elements.tabs.forEach(t => {
-            t.classList.remove('active');
-            t.setAttribute('aria-selected', 'false');
+    // Cookie Consent Functionality
+    function initCookieConsent() {
+      const COOKIE_CONSENT_KEY = 'cookieConsent';
+      
+      function getCookiePreferences() {
+        const preferences = localStorage.getItem(COOKIE_CONSENT_KEY);
+        return preferences ? JSON.parse(preferences) : { essential: true, analytics: false, advertising: false };
+      }
+      
+      function saveCookiePreferences(preferences) {
+        try {
+          localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(preferences));
+        } catch (e) {
+          console.warn('Failed to save cookie preferences:', e);
+        }
+      }
+      
+      function checkCookieConsent() {
+        const preferences = getCookiePreferences();
+        if (!preferences || !preferences.hasOwnProperty('essential')) {
+          const consent = document.getElementById('cookie-consent');
+          if (consent) consent.style.display = 'block';
+        } else {
+          const analyticsToggle = document.getElementById('analytics-toggle');
+          const advertisingToggle = document.getElementById('advertising-toggle');
+          if (analyticsToggle) analyticsToggle.checked = preferences.analytics;
+          if (advertisingToggle) advertisingToggle.checked = preferences.advertising;
+        }
+      }
+      
+      function openCookieSettings() {
+        const preferences = getCookiePreferences();
+        const analyticsToggle = document.getElementById('analytics-toggle');
+        const advertisingToggle = document.getElementById('advertising-toggle');
+        if (analyticsToggle) analyticsToggle.checked = preferences.analytics;
+        if (advertisingToggle) advertisingToggle.checked = preferences.advertising;
+        const settings = document.getElementById('cookie-settings');
+        if (settings) settings.style.display = 'flex';
+        // Focus the first focusable element in the modal
+        document.getElementById('analytics-toggle').focus();
+      }
+      
+      function closeCookieSettings() {
+        const settings = document.getElementById('cookie-settings');
+        if (settings) settings.style.display = 'none';
+        // Return focus to the button that opened the settings
+        document.getElementById('open-settings').focus();
+      }
+      
+      // Set up event listeners
+      const acceptBtn = document.getElementById('accept-cookies');
+      if (acceptBtn) {
+        acceptBtn.addEventListener('click', () => {
+          saveCookiePreferences({
+            essential: true,
+            analytics: true,
+            advertising: true
           });
-          elements.tabContents.forEach(c => c.classList.remove('active'));
-          tab.classList.add('active');
-          tab.setAttribute('aria-selected', 'true');
-          document.getElementById(`${tab.dataset.tab}-tab`).classList.add('active');
+          document.getElementById('cookie-consent').style.display = 'none';
         });
-        tab.addEventListener('keydown', e => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            tab.click();
-          }
+      }
+      
+      const rejectBtn = document.getElementById('reject-cookies');
+      if (rejectBtn) {
+        rejectBtn.addEventListener('click', () => {
+          saveCookiePreferences({
+            essential: true,
+            analytics: false,
+            advertising: false
+          });
+          document.getElementById('cookie-consent').style.display = 'none';
         });
-      });
+      }
+      
+      const openSettingsBtn = document.getElementById('open-settings');
+      if (openSettingsBtn) openSettingsBtn.addEventListener('click', openCookieSettings);
+      
+      const closeSettingsBtn = document.getElementById('close-settings');
+      if (closeSettingsBtn) closeSettingsBtn.addEventListener('click', closeCookieSettings);
+      
+      const saveSettingsBtn = document.getElementById('save-settings');
+      if (saveSettingsBtn) {
+        saveSettingsBtn.addEventListener('click', () => {
+          saveCookiePreferences({
+            essential: true,
+            analytics: document.getElementById('analytics-toggle').checked,
+            advertising: document.getElementById('advertising-toggle').checked
+          });
+          closeCookieSettings();
+          document.getElementById('cookie-consent').style.display = 'none';
+        });
+      }
+      
+      const openSettingsFooter = document.getElementById('open-settings-footer');
+      if (openSettingsFooter) {
+        openSettingsFooter.addEventListener('click', (e) => {
+          e.preventDefault();
+          openCookieSettings();
+        });
+      }
+    }
 
-      // Input events
-      elements.eanInput.addEventListener('keypress', e => {
-        if (e.key === 'Enter') elements.generateSingleBtn.click();
-      });
+    // Barcode Generator Functionality
+    function initBarcodeGenerator() {
+      // Constants
+      const elements = {
+        tabs: document.querySelectorAll('.tab'),
+        tabContents: document.querySelectorAll('.tab-content'),
+        singleCanvas: document.getElementById('ean-canvas'),
+        customCanvas: document.getElementById('custom-canvas'),
+        downloadBtn: document.getElementById('download-btn'),
+        customDownloadBtn: document.getElementById('custom-download'),
+        singleLoading: document.getElementById('single-loading'),
+        batchLoading: document.getElementById('batch-loading'),
+        customLoading: document.getElementById('custom-loading'),
+        batchProgress: document.getElementById('batch-progress'),
+        singleError: document.getElementById('single-error'),
+        batchError: document.getElementById('batch-error'),
+        customError: document.getElementById('custom-error'),
+        singleSuccess: document.getElementById('single-success'),
+        batchSuccess: document.getElementById('batch-success'),
+        customSuccess: document.getElementById('custom-success'),
+        eanType: document.getElementById('ean-type'),
+        eanInput: document.getElementById('ean-input'),
+        batchEanType: document.getElementById('batch-ean-type'),
+        batchAmount: document.getElementById('batch-amount'),
+        customType: document.getElementById('custom-type'),
+        customInput: document.getElementById('custom-input'),
+        generateSingleBtn: document.getElementById('generate-single-btn'),
+        generateBatchBtn: document.getElementById('generate-batch-btn'),
+        generateCustomBtn: document.getElementById('generate-custom-btn'),
+      };
 
-      elements.customInput.addEventListener('keypress', e => {
-        if (e.key === 'Enter') elements.generateCustomBtn.click();
-      });
+      const barcodeConfig = {
+        ean13: { length: 12, regex: /^\d{12,13}$/, format: 'ean13' },
+        ean8: { length: 7, regex: /^\d{7,8}$/, format: 'ean8' },
+        upc: { length: 11, regex: /^\d{11,12}$/, format: 'UPC' },
+        itf14: { length: 13, regex: /^\d{13,14}$/, format: 'itf14' },
+        code128: { regex: /^[\w\s-]+$/, format: 'code128' },
+        code39: { regex: /^[0-9A-Z\s-.%*+$/]+$/, format: 'code39' },
+        codabar: { regex: /^[A-D][0-9-:$/.+]*[A-D]$/, format: 'codabar' },
+        pharmacode: { min: 3, max: 131070, regex: /^\d+$/, format: 'pharmacode' }
+      };
 
-      // Button click handlers
-      elements.generateSingleBtn.addEventListener('click', () => generateBarcode({
-        canvas: elements.singleCanvas,
-        code: elements.eanInput.value.trim(),
-        type: elements.eanType.value,
-        errorElement: elements.singleError,
-        successElement: elements.singleSuccess,
-        downloadButton: elements.downloadBtn,
-        loadingElement: elements.singleLoading
-      }));
+      function showError(element, message) {
+        element.textContent = message;
+        element.style.display = 'block';
+      }
 
-      elements.downloadBtn.addEventListener('click', () => downloadBarcode(elements.singleCanvas, elements.singleError));
+      function showSuccess(element, message) {
+        element.textContent = message;
+        element.style.display = 'block';
+      }
 
-      elements.generateBatchBtn.addEventListener('click', generateBatchEANs);
+      function hideElements() {
+        [elements.singleError, elements.batchError, elements.customError,
+         elements.singleSuccess, elements.batchSuccess, elements.customSuccess]
+          .forEach(el => el.style.display = 'none');
+      }
 
-      elements.generateCustomBtn.addEventListener('click', () => {
-        const code = elements.customInput.value.trim();
-        if (!code) {
-          showError(elements.customError, 'Please enter custom text for the barcode');
+      function calculateChecksum(code, type) {
+        let sum = 0;
+        if (type === 'ean8') {
+          const weights = [3, 1, 3, 1, 3, 1, 3];
+          for (let i = 0; i < code.length; i++) sum += parseInt(code[i]) * weights[i];
+        } else if (type === 'upc' || type === 'itf14') {
+          for (let i = 0; i < code.length; i++) sum += parseInt(code[i]) * (i % 2 === 0 ? 3 : 1);
+        } else {
+          const weights = [1, 3];
+          for (let i = 0; i < code.length; i++) sum += parseInt(code[i]) * weights[i % 2];
+        }
+        return (10 - (sum % 10)) % 10;
+      }
+
+      function generateRandomEAN(type) {
+        const { length } = barcodeConfig[type];
+        let base = Array.from({ length }, () => Math.floor(Math.random() * 10)).join('');
+        return base + calculateChecksum(base, type);
+      }
+
+      function validateInput(code, type) {
+        const config = barcodeConfig[type];
+        if (!code) return true;
+        if (type === 'pharmacode') {
+          const num = parseInt(code);
+          return !isNaN(num) && num >= config.min && num <= config.max;
+        }
+        return config.regex.test(code);
+      }
+
+      function generateRandomBarcode(type) {
+        if (['ean13', 'ean8', 'upc', 'itf14'].includes(type)) {
+          return generateRandomEAN(type);
+        }
+        switch (type) {
+          case 'code128':
+          case 'code39':
+            return Math.random().toString(36).slice(2, 12).toUpperCase();
+          case 'codabar':
+            return `A${Math.floor(Math.random() * 100000).toString().padStart(5, '0')}B`;
+          case 'pharmacode':
+            return Math.floor(Math.random() * (barcodeConfig.pharmacode.max - barcodeConfig.pharmacode.min + 1) + barcodeConfig.pharmacode.min).toString();
+          default:
+            return '123456';
+        }
+      }
+
+      function sanitizeFilename(str) {
+        return str.replace(/[^a-zA-Z0-9-]+/g, '_').slice(0, 50) || 'barcode';
+      }
+
+      function generateBarcode({ canvas, code, type, errorElement, successElement, downloadButton, loadingElement }) {
+        const ctx = canvas.getContext('2d');
+        hideElements();
+        loadingElement.style.display = 'block';
+        downloadButton.style.display = 'none';
+        canvas.style.display = 'none';
+
+        if (!validateInput(code, type)) {
+          showError(errorElement, 'Invalid input format for selected barcode type');
+          loadingElement.style.display = 'none';
           return;
         }
-        generateBarcode({
-          canvas: elements.customCanvas,
-          code,
-          type: elements.customType.value,
-          errorElement: elements.customError,
-          successElement: elements.customSuccess,
-          downloadButton: elements.customDownloadBtn,
-          loadingElement: elements.customLoading
+
+        const finalCode = code || generateRandomBarcode(type);
+        const isPharmacode = type === 'pharmacode';
+        canvas.width = 320;
+        canvas.height = isPharmacode ? 100 : 150;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        canvas.dataset.code = finalCode;
+
+        try {
+          JsBarcode(canvas, finalCode, {
+            format: barcodeConfig[type].format,
+            displayValue: true,
+            width: isPharmacode ? 2 : 2,
+            height: isPharmacode ? 50 : 100
+          });
+          downloadButton.style.display = 'inline-block';
+          canvas.style.display = 'block';
+          showSuccess(successElement, 'Barcode generated successfully!');
+        } catch (error) {
+          showError(errorElement, `Failed to generate barcode: ${error.message}`);
+        } finally {
+          loadingElement.style.display = 'none';
+        }
+      }
+
+      function downloadBarcode(canvas, errorElement) {
+        try {
+          const code = canvas.dataset.code;
+          const link = document.createElement('a');
+          link.download = `${sanitizeFilename(code)}.png`;
+          link.href = canvas.toDataURL('image/png');
+          link.click();
+        } catch (error) {
+          showError(errorElement, 'Error downloading barcode');
+        }
+      }
+
+      async function generateBatchEANs() {
+        const type = elements.batchEanType.value;
+        const amount = parseInt(elements.batchAmount.value);
+
+        if (isNaN(amount) || amount < 1 || amount > 100) {
+          showError(elements.batchError, 'Please enter a number between 1 and 100');
+          return;
+        }
+
+        hideElements();
+        elements.batchLoading.style.display = 'block';
+
+        try {
+          const zip = new JSZip();
+          const canvas = document.createElement('canvas');
+          const isPharmacode = type === 'pharmacode';
+
+          for (let i = 0; i < amount; i++) {
+            elements.batchProgress.textContent = `Generating barcodes: ${i + 1}/${amount}`;
+            const code = generateRandomBarcode(type);
+            canvas.width = 320;
+            canvas.height = isPharmacode ? 100 : 150;
+
+            try {
+              JsBarcode(canvas, code, {
+                format: barcodeConfig[type].format,
+                displayValue: true,
+                width: isPharmacode ? 2 : 2,
+                height: isPharmacode ? 50 : 100
+              });
+              const dataUrl = canvas.toDataURL('image/png');
+              const imgData = dataUrl.replace(/^data:image\/png;base64,/, '');
+              zip.file(`${sanitizeFilename(code)}.png`, imgData, { base64: true });
+            } catch (err) {
+              console.warn(`Error generating barcode for code ${code}: ${err.message}`);
+            }
+
+            await new Promise(resolve => setTimeout(resolve, 10));
+          }
+
+          const blob = await zip.generateAsync({ type: 'blob' });
+          saveAs(blob, `batch-${sanitizeFilename(type)}.zip`);
+          showSuccess(elements.batchSuccess, `Successfully generated and downloaded ${amount} barcodes!`);
+        } catch (error) {
+          showError(elements.batchError, `Error creating ZIP file: ${error.message}`);
+        } finally {
+          elements.batchLoading.style.display = 'none';
+        }
+      }
+
+      function initializeBarcodeGenerator() {
+        // Tabs functionality
+        elements.tabs.forEach(tab => {
+          tab.addEventListener('click', () => {
+            elements.tabs.forEach(t => {
+              t.classList.remove('active');
+              t.setAttribute('aria-selected', 'false');
+            });
+            elements.tabContents.forEach(c => c.classList.remove('active'));
+            tab.classList.add('active');
+            tab.setAttribute('aria-selected', 'true');
+            document.getElementById(`${tab.dataset.tab}-tab`).classList.add('active');
+          });
+          tab.addEventListener('keydown', e => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              tab.click();
+            }
+          });
         });
-      });
 
-      elements.customDownloadBtn.addEventListener('click', () => downloadBarcode(elements.customCanvas, elements.customError));
+        // Input events
+        elements.eanInput.addEventListener('keypress', e => {
+          if (e.key === 'Enter') elements.generateSingleBtn.click();
+        });
 
-      // Cookie consent handlers
-      elements.acceptCookies.addEventListener('click', () => {
-        saveCookiePreferences({ essential: true, analytics: true, advertising: true });
-        elements.cookieConsent.style.display = 'none';
-        loadGoogleAnalytics();
-      });
+        elements.customInput.addEventListener('keypress', e => {
+          if (e.key === 'Enter') elements.generateCustomBtn.click();
+        });
 
-      elements.rejectCookies.addEventListener('click', () => {
-        saveCookiePreferences({ essential: true, analytics: false, advertising: false });
-        elements.cookieConsent.style.display = 'none';
-      });
+        // Button click handlers
+        elements.generateSingleBtn.addEventListener('click', () => generateBarcode({
+          canvas: elements.singleCanvas,
+          code: elements.eanInput.value.trim(),
+          type: elements.eanType.value,
+          errorElement: elements.singleError,
+          successElement: elements.singleSuccess,
+          downloadButton: elements.downloadBtn,
+          loadingElement: elements.singleLoading
+        }));
 
-      elements.openSettings.addEventListener('click', openCookieSettings);
-      elements.openSettingsFooter.addEventListener('click', e => {
-        e.preventDefault();
-        openCookieSettings();
-      });
+        elements.downloadBtn.addEventListener('click', () => downloadBarcode(elements.singleCanvas, elements.singleError));
 
-      elements.closeSettings.addEventListener('click', closeCookieSettings);
+        elements.generateBatchBtn.addEventListener('click', generateBatchEANs);
 
-      elements.saveSettings.addEventListener('click', () => {
-        const preferences = {
-          essential: true,
-          analytics: elements.analyticsToggle.checked,
-          advertising: elements.advertisingToggle.checked
-        };
-        saveCookiePreferences(preferences);
-        if (preferences.analytics) loadGoogleAnalytics();
-        closeCookieSettings();
-        elements.cookieConsent.style.display = 'none';
-      });
+        elements.generateCustomBtn.addEventListener('click', () => {
+          const code = elements.customInput.value.trim();
+          if (!code) {
+            showError(elements.customError, 'Please enter custom text for the barcode');
+            return;
+          }
+          generateBarcode({
+            canvas: elements.customCanvas,
+            code,
+            type: elements.customType.value,
+            errorElement: elements.customError,
+            successElement: elements.customSuccess,
+            downloadButton: elements.customDownloadBtn,
+            loadingElement: elements.customLoading
+          });
+        });
+
+        elements.customDownloadBtn.addEventListener('click', () => downloadBarcode(elements.customCanvas, elements.customError));
+      }
+      
+      initializeBarcodeGenerator();
     }
 
-    document.addEventListener('DOMContentLoaded', initialize);
+    // Initialize everything when DOM is loaded
+    document.addEventListener('DOMContentLoaded', () => {
+      initMobileMenu();
+      initCookieConsent();
+      initBarcodeGenerator();
+      
+      // Check cookie consent status
+      const preferences = localStorage.getItem('cookieConsent');
+      if (!preferences) {
+        document.getElementById('cookie-consent').style.display = 'block';
+      }
+    });
   </script>
 </body>
 </html>
