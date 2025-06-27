@@ -85,8 +85,13 @@
       color: var(--dark);
       line-height: 1.6;
       min-height: 100vh;
+      transition: transform 0.4s ease;
     }
     
+    body.menu-open {
+      overflow: hidden;
+    }
+
     .container {
       max-width: 1200px;
       margin: 0 auto;
@@ -116,6 +121,7 @@
       font-weight: 700;
       color: var(--primary);
       text-decoration: none;
+      z-index: 2001;
     }
 
     .logo i {
@@ -158,6 +164,7 @@
       background: rgba(67, 97, 238, 0.1);
       color: var(--primary);
       outline: 2px solid var(--primary);
+      outline-offset: 2px;
     }
 
     .mobile-menu-btn {
@@ -169,11 +176,13 @@
       cursor: pointer;
       padding: 10px;
       border-radius: 5px;
+      z-index: 2001;
     }
 
     .mobile-menu-btn:hover, .mobile-menu-btn:focus {
       background: rgba(67, 97, 238, 0.1);
       outline: 2px solid var(--primary);
+      outline-offset: 2px;
     }
     
     /* Blog Post Content */
@@ -200,6 +209,7 @@
     .blog-post-content p {
       font-size: 1.1rem;
       margin-bottom: 20px;
+      color: #444; /* Improved contrast */
     }
     
     .blog-post-content h2 {
@@ -217,6 +227,7 @@
     .blog-post-content ul li {
       margin-bottom: 10px;
       font-size: 1.1rem;
+      color: #444; /* Improved contrast */
     }
     
     .blog-post-content a {
@@ -227,6 +238,7 @@
     .blog-post-content a:hover, .blog-post-content a:focus {
       text-decoration: underline;
       outline: 2px solid var(--primary);
+      outline-offset: 2px;
     }
     
     /* Footer */
@@ -255,6 +267,7 @@
       color: var(--primary);
       text-decoration: underline;
       outline: 2px solid var(--primary);
+      outline-offset: 2px;
     }
 
     .footer-links-row {
@@ -272,23 +285,42 @@
       margin: 0;
     }
     
+    /* Mobile Menu Backdrop */
+    .mobile-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1999;
+      display: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .mobile-backdrop.active {
+      display: block;
+      opacity: 1;
+    }
+    
     /* Mobile Navigation */
     .mobile-nav {
       position: fixed;
       top: 0;
-      left: -100%;
+      left: 0;
       width: 280px;
       height: 100vh;
       background: white;
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
       z-index: 2000;
-      transition: var(--transition);
+      transform: translateX(-100%);
+      transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
       overflow-y: auto;
-      display: block;
     }
     
     .mobile-nav.active {
-      left: 0;
+      transform: translateX(0);
     }
     
     .mobile-nav-header {
@@ -307,11 +339,17 @@
       cursor: pointer;
       padding: 5px;
       border-radius: 5px;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     
     .close-mobile-menu:hover, .close-mobile-menu:focus {
       background: rgba(0, 0, 0, 0.05);
       outline: 2px solid var(--primary);
+      outline-offset: 2px;
     }
     
     .mobile-nav-menu {
@@ -325,7 +363,7 @@
     
     .mobile-nav-link {
       display: block;
-      padding: 12px 15px;
+      padding: 15px 20px; /* Larger touch targets */
       color: var(--dark);
       text-decoration: none;
       font-weight: 500;
@@ -337,6 +375,13 @@
       background: rgba(67, 97, 238, 0.1);
       color: var(--primary);
       outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+    
+    .mobile-nav-link i {
+      width: 24px;
+      text-align: center;
+      margin-right: 10px;
     }
     
     /* Cookie Consent Styles */
@@ -349,7 +394,7 @@
       max-width: 800px;
       background: var(--light);
       border-radius: var(--border-radius);
-      box-shadow: 0 5px 30px rgba(0, 0, 0, 0.15);
+      box-shadow: var(--box-shadow);
       padding: 20px;
       z-index: 1000;
       display: none;
@@ -382,6 +427,7 @@
     .cookie-text a:hover, .cookie-text a:focus {
       text-decoration: underline;
       outline: 2px solid var(--primary);
+      outline-offset: 2px;
     }
 
     .cookie-buttons {
@@ -438,6 +484,7 @@
     .cookie-settings-btn:hover, .cookie-settings-btn:focus {
       color: var(--dark);
       outline: 2px solid var(--primary);
+      outline-offset: 2px;
     }
 
     #cookie-settings {
@@ -503,6 +550,7 @@
       color: var(--dark);
       background: rgba(0, 0, 0, 0.05);
       outline: 2px solid var(--primary);
+      outline-offset: 2px;
     }
 
     .settings-content {
@@ -553,8 +601,6 @@
       bottom: 0;
       background-color: var(--gray);
       transition: background-color 0.3s ease;
-      -webkit-transition: background-color 0.3s ease;
-      -moz-transition: background-color 0.3s ease;
       border-radius: 24px;
     }
 
@@ -567,8 +613,6 @@
       bottom: 4px;
       background-color: white;
       transition: transform 0.3s ease;
-      -webkit-transition: transform 0.3s ease;
-      -moz-transition: transform 0.3s ease;
       border-radius: 50%;
     }
 
@@ -578,8 +622,6 @@
 
     .toggle-switch input:checked + .slider:before {
       transform: translateX(26px);
-      -webkit-transform: translateX(26px);
-      -moz-transform: translateX(26px);
     }
 
     .toggle-switch input:focus + .slider {
@@ -622,6 +664,7 @@
     .save-settings:hover, .save-settings:focus {
       background: var(--primary-dark);
       outline: 2px solid var(--primary);
+      outline-offset: 2px;
     }
 
     /* Accessibility Improvements */
@@ -670,6 +713,9 @@
 
     @media (min-width: 993px) {
       .mobile-nav {
+        display: none !important;
+      }
+      .mobile-backdrop {
         display: none !important;
       }
     }
@@ -729,19 +775,19 @@
         <div class="nav-container">
           <ul class="nav-menu">
             <li class="nav-item">
-              <a href="/" class="nav-link"><i class="fas fa-home"></i> Home</a>
+              <a href="/" class="nav-link" aria-label="Home"><i class="fas fa-home"></i> Home</a>
             </li>
             <li class="nav-item">
-              <a href="/tools" class="nav-link"><i class="fas fa-toolbox"></i> Tools</a>
+              <a href="/tools" class="nav-link" aria-label="Tools"><i class="fas fa-toolbox"></i> Tools</a>
             </li>
             <li class="nav-item">
-              <a href="/blog" class="nav-link"><i class="fas fa-blog"></i> Blog</a>
+              <a href="/blog" class="nav-link" aria-label="Blog"><i class="fas fa-blog"></i> Blog</a>
             </li>
             <li class="nav-item">
-              <a href="/about" class="nav-link"><i class="fas fa-address-card"></i> About</a>
+              <a href="/about" class="nav-link" aria-label="About"><i class="fas fa-address-card"></i> About</a>
             </li>
             <li class="nav-item">
-              <a href="/contact" class="nav-link"><i class="fas fa-envelope"></i> Contact</a>
+              <a href="/contact" class="nav-link" aria-label="Contact"><i class="fas fa-envelope"></i> Contact</a>
             </li>
           </ul>
           <button class="mobile-menu-btn" id="mobile-menu-toggle" aria-label="Open mobile menu">
@@ -751,6 +797,9 @@
       </div>
     </div>
   </header>
+
+  <!-- Mobile Menu Backdrop -->
+  <div class="mobile-backdrop" id="mobile-backdrop"></div>
 
   <!-- Mobile Navigation -->
   <div class="mobile-nav" id="mobile-nav">
@@ -765,26 +814,27 @@
     </div>
     <ul class="mobile-nav-menu">
       <li class="mobile-nav-item">
-        <a href="/" class="mobile-nav-link"><i class="fas fa-home"></i> Home</a>
+        <a href="/" class="mobile-nav-link" aria-label="Home"><i class="fas fa-home"></i> Home</a>
       </li>
       <li class="mobile-nav-item">
-        <a href="/tools" class="mobile-nav-link"><i class="fas fa-toolbox"></i> Tools</a>
+        <a href="/tools" class="mobile-nav-link" aria-label="Tools"><i class="fas fa-toolbox"></i> Tools</a>
       </li>
       <li class="mobile-nav-item">
-        <a href="/blog" class="mobile-nav-link"><i class="fas fa-blog"></i> Blog</a>
+        <a href="/blog" class="mobile-nav-link" aria-label="Blog"><i class="fas fa-blog"></i> Blog</a>
       </li>
       <li class="mobile-nav-item">
-        <a href="/about" class="mobile-nav-link"><i class="fas fa-address-card"></i> About</a>
+        <a href="/about" class="mobile-nav-link" aria-label="About"><i class="fas fa-address-card"></i> About</a>
       </li>
       <li class="mobile-nav-item">
-        <a href="/contact" class="mobile-nav-link"><i class="fas fa-envelope"></i> Contact</a>
+        <a href="/contact" class="mobile-nav-link" aria-label="Contact"><i class="fas fa-envelope"></i> Contact</a>
       </li>
     </ul>
   </div>
 
   <!-- Cookie Consent Banner -->
-  <div id="cookie-consent" role="dialog" aria-label="Cookie consent banner">
-    <div class="cookie-content">
+  <div id="cookie-consent" role="dialog" aria-labelledby="cookie-consent-banner" aria-describedby="cookie-consent-desc">
+    <div class="sr-only" id="cookie-consent-banner">Cookie Consent</div>
+    <div class="cookie-content" id="cookie-consent-desc">
       <div class="cookie-text">
         <p>We use cookies to enhance your experience and analyze site traffic. By clicking "Accept All", you consent to our use of cookies. 
           <a href="/privacy-policy.html" aria-label="Learn more about our Privacy Policy">Learn more</a> in our Privacy Policy.
@@ -802,7 +852,7 @@
     <div class="settings-modal">
       <div class="settings-header">
         <h2 id="cookie-settings-title"><i class="fas fa-cookie-bite"></i> Cookie Settings</h2>
-        <button class="close-settings" aria-label="Close cookie settings">×</button>
+        <button class="close-settings" id="close-settings" aria-label="Close cookie settings">×</button>
       </div>
       <div class="settings-content">
         <p id="cookie-settings-desc">You can set your preferences for how we and our partners use cookies and similar technologies.</p>
@@ -892,175 +942,149 @@
   </footer>
 
   <script>
-    // Cookie Management Functions
-    const COOKIE_CONSENT_KEY = 'cookieConsent';
-
-    function getCookiePreferences() {
-      const preferences = localStorage.getItem(COOKIE_CONSENT_KEY);
-      return preferences ? JSON.parse(preferences) : { essential: true, analytics: false, advertising: false };
-    }
-
-    function saveCookiePreferences(preferences) {
-      localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(preferences));
-    }
-
-    function loadGoogleAnalytics() {
-      if (window.gaLoaded) return;
-
-      const gtagScript = document.createElement('script');
-      gtagScript.async = true;
-      gtagScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-LR5XP1GJFC';
-      gtagScript.onerror = () => console.warn('Failed to load Google Analytics');
-      document.head.appendChild(gtagScript);
-
-      window.dataLayer = window.dataLayer || [];
-      function gtag() { dataLayer.push(arguments); }
-      gtag('js', new Date());
-      gtag('config', 'G-LR5XP1GJFC');
-
-      window.gaLoaded = true;
-      console.log('Google Analytics loaded');
-    }
-
-    function loadGoogleAdSense() {
-      if (window.adsenseLoaded) return;
-
-      const adsenseScript = document.createElement('script');
-      adsenseScript.async = true;
-      adsenseScript.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4041775163958551';
-      adsenseScript.crossOrigin = 'anonymous';
-      adsenseScript.onerror = () => console.warn('Failed to load Google AdSense');
-      document.head.appendChild(adsenseScript);
-
-      window.adsenseLoaded = true;
-      console.log('Google AdSense loaded');
-    }
-
-    function openCookieSettings() {
-      const preferences = getCookiePreferences();
-      document.getElementById('analytics-toggle').checked = preferences.analytics;
-      document.getElementById('advertising-toggle').checked = preferences.advertising;
-      document.getElementById('cookie-settings').style.display = 'flex';
-      document.querySelector('.settings-modal').focus();
-    }
-
-    function closeCookieSettings() {
-      document.getElementById('cookie-settings').style.display = 'none';
-      document.getElementById('open-settings').focus();
-    }
-
-    // Mobile Menu Functions
+    // Mobile Menu Functionality - Fixed Implementation
     function initMobileMenu() {
       const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
       const closeMobileMenu = document.getElementById('close-mobile-menu');
       const mobileNav = document.getElementById('mobile-nav');
-
-      mobileMenuToggle.addEventListener('click', () => {
+      const mobileBackdrop = document.getElementById('mobile-backdrop');
+      
+      function openMobileMenu() {
         mobileNav.classList.add('active');
-        document.body.style.overflow = 'hidden';
-      });
-
-      closeMobileMenu.addEventListener('click', () => {
+        mobileBackdrop.classList.add('active');
+        document.body.classList.add('menu-open');
+      }
+      
+      function closeMobileMenuHandler() {
         mobileNav.classList.remove('active');
-        document.body.style.overflow = '';
-      });
-
-      document.addEventListener('click', (e) => {
-        if (mobileNav.classList.contains('active') && 
-            !mobileNav.contains(e.target) && 
-            e.target !== mobileMenuToggle) {
-          mobileNav.classList.remove('active');
-          document.body.style.overflow = '';
-        }
-      });
-
-      document.querySelectorAll('.mobile-nav-link').forEach(link => {
-        link.addEventListener('click', () => {
-          mobileNav.classList.remove('active');
-          document.body.style.overflow = '';
-        });
+        mobileBackdrop.classList.remove('active');
+        document.body.classList.remove('menu-open');
+      }
+      
+      if (mobileMenuToggle) {
+        mobileMenuToggle.addEventListener('click', openMobileMenu);
+      }
+      
+      if (closeMobileMenu) {
+        closeMobileMenu.addEventListener('click', closeMobileMenuHandler);
+      }
+      
+      if (mobileBackdrop) {
+        mobileBackdrop.addEventListener('click', closeMobileMenuHandler);
+      }
+      
+      // Close menu when clicking on links
+      const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+      mobileLinks.forEach(link => {
+        link.addEventListener('click', closeMobileMenuHandler);
       });
     }
 
-    // Cookie Consent Functions
+    // Cookie Consent Functionality
     function initCookieConsent() {
+      const COOKIE_CONSENT_KEY = 'cookieConsent';
+      
+      function getCookiePreferences() {
+        const preferences = localStorage.getItem(COOKIE_CONSENT_KEY);
+        return preferences ? JSON.parse(preferences) : { essential: true, analytics: false, advertising: false };
+      }
+      
+      function saveCookiePreferences(preferences) {
+        try {
+          localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(preferences));
+        } catch (e) {
+          console.warn('Failed to save cookie preferences:', e);
+        }
+      }
+      
       function checkCookieConsent() {
         const preferences = getCookiePreferences();
         if (!preferences || !preferences.hasOwnProperty('essential')) {
-          document.getElementById('cookie-consent').style.display = 'block';
+          const consent = document.getElementById('cookie-consent');
+          if (consent) consent.style.display = 'block';
         } else {
-          document.getElementById('analytics-toggle').checked = preferences.analytics;
-          document.getElementById('advertising-toggle').checked = preferences.advertising;
-          if (preferences.analytics && !window.gaLoaded) loadGoogleAnalytics();
-          if (preferences.advertising && !window.adsenseLoaded) loadGoogleAdSense();
+          const analyticsToggle = document.getElementById('analytics-toggle');
+          const advertisingToggle = document.getElementById('advertising-toggle');
+          if (analyticsToggle) analyticsToggle.checked = preferences.analytics;
+          if (advertisingToggle) advertisingToggle.checked = preferences.advertising;
         }
       }
-
-      checkCookieConsent();
-
-      document.getElementById('accept-cookies').addEventListener('click', () => {
-        const preferences = {
-          essential: true,
-          analytics: true,
-          advertising: true
-        };
-        saveCookiePreferences(preferences);
-        document.getElementById('cookie-consent').style.display = 'none';
-        if (!window.gaLoaded) loadGoogleAnalytics();
-        if (!window.adsenseLoaded) loadGoogleAdSense();
-      });
-
-      document.getElementById('reject-cookies').addEventListener('click', () => {
-        const preferences = {
-          essential: true,
-          analytics: false,
-          advertising: false
-        };
-        saveCookiePreferences(preferences);
-        document.getElementById('cookie-consent').style.display = 'none';
-      });
-
-      document.getElementById('open-settings').addEventListener('click', openCookieSettings);
-      document.querySelector('.close-settings').addEventListener('click', closeCookieSettings);
-
-      document.getElementById('save-settings').addEventListener('click', () => {
-        const preferences = {
-          essential: true,
-          analytics: document.getElementById('analytics-toggle').checked,
-          advertising: document.getElementById('advertising-toggle').checked
-        };
-        saveCookiePreferences(preferences);
-        if (preferences.analytics && !window.gaLoaded) loadGoogleAnalytics();
-        if (preferences.advertising && !window.adsenseLoaded) loadGoogleAdSense();
-        closeCookieSettings();
-        document.getElementById('cookie-consent').style.display = 'none';
-      });
-
-      document.getElementById('open-settings-footer').addEventListener('click', (e) => {
-        e.preventDefault();
-        openCookieSettings();
-      });
-
-      const analyticsToggle = document.getElementById('analytics-toggle');
-      const advertisingToggle = document.getElementById('advertising-toggle');
-
-      analyticsToggle.addEventListener('change', () => {
+      
+      function openCookieSettings() {
         const preferences = getCookiePreferences();
-        preferences.analytics = analyticsToggle.checked;
-        saveCookiePreferences(preferences);
-        if (preferences.analytics && !window.gaLoaded) loadGoogleAnalytics();
-      });
-
-      advertisingToggle.addEventListener('change', () => {
-        const preferences = getCookiePreferences();
-        preferences.advertising = advertisingToggle.checked;
-        saveCookiePreferences(preferences);
-        if (preferences.advertising && !window.adsenseLoaded) loadGoogleAdSense();
-      });
+        const analyticsToggle = document.getElementById('analytics-toggle');
+        const advertisingToggle = document.getElementById('advertising-toggle');
+        if (analyticsToggle) analyticsToggle.checked = preferences.analytics;
+        if (advertisingToggle) advertisingToggle.checked = preferences.advertising;
+        const settings = document.getElementById('cookie-settings');
+        if (settings) settings.style.display = 'flex';
+        // Focus the first focusable element in the modal
+        document.getElementById('analytics-toggle').focus();
+      }
+      
+      function closeCookieSettings() {
+        const settings = document.getElementById('cookie-settings');
+        if (settings) settings.style.display = 'none';
+        // Return focus to the button that opened the settings
+        document.getElementById('open-settings').focus();
+      }
+      
+      // Set up event listeners
+      const acceptBtn = document.getElementById('accept-cookies');
+      if (acceptBtn) {
+        acceptBtn.addEventListener('click', () => {
+          saveCookiePreferences({
+            essential: true,
+            analytics: true,
+            advertising: true
+          });
+          document.getElementById('cookie-consent').style.display = 'none';
+        });
+      }
+      
+      const rejectBtn = document.getElementById('reject-cookies');
+      if (rejectBtn) {
+        rejectBtn.addEventListener('click', () => {
+          saveCookiePreferences({
+            essential: true,
+            analytics: false,
+            advertising: false
+          });
+          document.getElementById('cookie-consent').style.display = 'none';
+        });
+      }
+      
+      const openSettingsBtn = document.getElementById('open-settings');
+      if (openSettingsBtn) openSettingsBtn.addEventListener('click', openCookieSettings);
+      
+      const closeSettingsBtn = document.getElementById('close-settings');
+      if (closeSettingsBtn) closeSettingsBtn.addEventListener('click', closeCookieSettings);
+      
+      const saveSettingsBtn = document.getElementById('save-settings');
+      if (saveSettingsBtn) {
+        saveSettingsBtn.addEventListener('click', () => {
+          saveCookiePreferences({
+            essential: true,
+            analytics: document.getElementById('analytics-toggle').checked,
+            advertising: document.getElementById('advertising-toggle').checked
+          });
+          closeCookieSettings();
+          document.getElementById('cookie-consent').style.display = 'none';
+        });
+      }
+      
+      const openSettingsFooter = document.getElementById('open-settings-footer');
+      if (openSettingsFooter) {
+        openSettingsFooter.addEventListener('click', (e) => {
+          e.preventDefault();
+          openCookieSettings();
+        });
+      }
     }
 
     // Accessibility Functions
     function initAccessibility() {
+      // Keyboard navigation for toggle switches
       document.querySelectorAll('.toggle-switch input').forEach(toggle => {
         toggle.addEventListener('keydown', (e) => {
           if (e.key === 'Enter' || e.key === ' ') {
@@ -1073,42 +1097,47 @@
         });
       });
 
-      document.querySelectorAll('a, button, input').forEach(element => {
-        element.addEventListener('focus', function() {
-          this.style.outline = '2px solid var(--primary)';
-          this.style.outlineOffset = '2px';
-        });
-
-        element.addEventListener('blur', function() {
-          this.style.outline = 'none';
-        });
-      });
-
+      // Focus management for modals
       const settingsModal = document.querySelector('.settings-modal');
-      const focusableElements = settingsModal.querySelectorAll('button, input');
-      const firstFocusable = focusableElements[0];
-      const lastFocusable = focusableElements[focusableElements.length - 1];
-
-      settingsModal.addEventListener('keydown', (e) => {
-        if (e.key === 'Tab') {
-          if (e.shiftKey && document.activeElement === firstFocusable) {
+      if (settingsModal) {
+        const focusableElements = settingsModal.querySelectorAll('button, input');
+        const firstFocusable = focusableElements[0];
+        const lastFocusable = focusableElements[focusableElements.length - 1];
+        
+        document.querySelector('.close-settings').addEventListener('keydown', (e) => {
+          if (e.key === 'Tab' && e.shiftKey) {
             e.preventDefault();
             lastFocusable.focus();
-          } else if (!e.shiftKey && document.activeElement === lastFocusable) {
-            e.preventDefault();
-            firstFocusable.focus();
           }
-        } else if (e.key === 'Escape') {
-          closeCookieSettings();
-        }
-      });
+        });
+        
+        settingsModal.addEventListener('keydown', (e) => {
+          if (e.key === 'Tab') {
+            if (e.shiftKey && document.activeElement === firstFocusable) {
+              e.preventDefault();
+              lastFocusable.focus();
+            } else if (!e.shiftKey && document.activeElement === lastFocusable) {
+              e.preventDefault();
+              firstFocusable.focus();
+            }
+          } else if (e.key === 'Escape') {
+            closeCookieSettings();
+          }
+        });
+      }
     }
 
-    // Initialize All Features
+    // Initialize everything when DOM is loaded
     document.addEventListener('DOMContentLoaded', () => {
       initMobileMenu();
       initCookieConsent();
       initAccessibility();
+      
+      // Check cookie consent status
+      const preferences = localStorage.getItem('cookieConsent');
+      if (!preferences) {
+        document.getElementById('cookie-consent').style.display = 'block';
+      }
     });
   </script>
 </body>
