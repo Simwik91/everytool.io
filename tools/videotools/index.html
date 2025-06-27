@@ -9,6 +9,9 @@
   <meta property="og:title" content="Free Video Converter - EveryTool.io">
   <meta property="og:description" content="Convert videos to MP4, WEBM, or GIF with customizable settings. Free, fast, and secure in-browser processing.">
   <meta property="og:type" content="website">
+  <meta property="og:url" content="https://everytool.io/videoconverter">
+  <meta property="og:image" content="https://everytool.io/social-preview.jpg">
+  <meta name="twitter:card" content="summary_large_image">
   <title>Free Video Converter - EveryTool.io</title>
   
   <!-- Performance Optimization -->
@@ -45,7 +48,11 @@
       color: var(--dark);
       line-height: 1.6;
       min-height: 100vh;
-      overflow-x: hidden;
+      transition: transform 0.4s ease;
+    }
+    
+    body.menu-open {
+      overflow: hidden;
     }
 
     .container {
@@ -77,6 +84,7 @@
       font-weight: 700;
       color: var(--primary);
       text-decoration: none;
+      z-index: 2001;
     }
 
     .logo i {
@@ -131,12 +139,112 @@
       cursor: pointer;
       padding: 10px;
       border-radius: 5px;
+      z-index: 2001;
     }
 
     .mobile-menu-btn:hover, .mobile-menu-btn:focus {
       background: rgba(67, 97, 238, 0.1);
       outline: 2px solid var(--primary);
       outline-offset: 2px;
+    }
+    
+    /* Mobile Menu Backdrop */
+    .mobile-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1999;
+      display: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .mobile-backdrop.active {
+      display: block;
+      opacity: 1;
+    }
+    
+    /* Mobile Navigation */
+    .mobile-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 280px;
+      height: 100vh;
+      background: white;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      z-index: 2000;
+      transform: translateX(-100%);
+      transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+      overflow-y: auto;
+    }
+    
+    .mobile-nav.active {
+      transform: translateX(0);
+    }
+    
+    .mobile-nav-header {
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--light-gray);
+    }
+    
+    .close-mobile-menu {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--dark);
+      cursor: pointer;
+      padding: 5px;
+      border-radius: 5px;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .close-mobile-menu:hover, .close-mobile-menu:focus {
+      background: rgba(0, 0, 0, 0.05);
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+    
+    .mobile-nav-menu {
+      list-style: none;
+      padding: 20px;
+    }
+    
+    .mobile-nav-item {
+      margin-bottom: 10px;
+    }
+    
+    .mobile-nav-link {
+      display: block;
+      padding: 15px 20px;
+      color: var(--dark);
+      text-decoration: none;
+      font-weight: 500;
+      border-radius: var(--border-radius);
+      transition: var(--transition);
+    }
+    
+    .mobile-nav-link:hover, .mobile-nav-link:focus {
+      background: rgba(67, 97, 238, 0.1);
+      color: var(--primary);
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+    
+    .mobile-nav-link i {
+      width: 24px;
+      text-align: center;
+      margin-right: 10px;
     }
 
     /* Hero Section */
@@ -204,7 +312,7 @@
       color: var(--dark);
       font-weight: 600;
       display: flex;
-      align-items: center;
+      alignChen-items: center;
       gap: 8px;
       justify-content: center;
     }
@@ -220,7 +328,7 @@
     .tab {
       padding: 12px 25px;
       cursor: pointer;
-      background: var(--light-gray);
+ title="Click to switch tabs"      background: var(--light-gray);
       border-radius: 50px;
       font-weight: 500;
       transition: var(--transition);
@@ -285,10 +393,12 @@
       gap: 10px;
     }
     
-    button:hover {
+    button:hover, button:focus {
       background: var(--primary-dark);
       transform: translateY(-2px);
       box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
     }
     
     button:disabled {
@@ -406,37 +516,41 @@
     .toggle-switch {
       position: relative;
       width: 50px;
-      height: 26px;
+      height: 24px;
     }
 
     .toggle-switch input {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       opacity: 0;
-      width: 0;
-      height: 0;
+      cursor: pointer;
+      z-index: 1;
     }
 
     .slider {
       position: absolute;
-      cursor: pointer;
       top: 0;
       left: 0;
       right: 0;
       bottom: 0;
       background-color: var(--gray);
-      border-radius: 26px;
-      transition: var(--transition);
+      transition: background-color 0.3s ease;
+      border-radius: 24px;
     }
 
     .slider:before {
       position: absolute;
       content: "";
-      height: 20px;
-      width: 20px;
-      left: 3px;
-      bottom: 3px;
+      height: 16px;
+      width: 16px;
+      left: 4px;
+      bottom: 4px;
       background-color: white;
+      transition: transform 0.3s ease;
       border-radius: 50%;
-      transition: var(--transition);
     }
 
     .toggle-switch input:checked + .slider {
@@ -444,7 +558,21 @@
     }
 
     .toggle-switch input:checked + .slider:before {
-      transform: translateX(24px);
+      transform: translateX(26px);
+    }
+
+    .toggle-switch input:focus + .slider {
+      box-shadow: 0 0 0 2px var(--primary-dark);
+    }
+
+    .toggle-switch input:disabled + .slider {
+      background-color: var(--light-gray);
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .toggle-switch input:disabled + .slider:before {
+      background-color: #ddd;
     }
 
     .progress-container {
@@ -503,10 +631,12 @@
       transition: var(--transition);
     }
 
-    .download-btn:hover {
+    .download-btn:hover, .download-btn:focus {
       background: #219653;
       transform: translateY(-2px);
       box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+      outline: 2px solid #27ae60;
+      outline-offset: 2px;
     }
     
     /* Features grid - 2 cards per row */
@@ -675,7 +805,7 @@
       max-width: 800px;
       background: var(--light);
       border-radius: var(--border-radius);
-      box-shadow: 0 5px 30px rgba(0, 0, 0, 0.15);
+      box-shadow: var(--box-shadow);
       padding: 20px;
       z-index: 1000;
       display: none;
@@ -698,6 +828,7 @@
     .cookie-text p {
       margin-bottom: 10px;
       font-size: 0.95rem;
+      color: #444;
     }
 
     .cookie-text a {
@@ -794,6 +925,11 @@
       animation: slideUp 0.3s ease-out;
     }
 
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
     @keyframes slideUp {
       from { transform: translateY(20px); opacity: 0; }
       to { transform: translateY(0); opacity: 1; }
@@ -851,78 +987,9 @@
       font-size: 1.2rem;
     }
 
-    .toggle-switch {
-      position: relative;
-      display: inline-block;
-      width: 50px;
-      height: 24px;
-    }
-
-    .toggle-switch input {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      opacity: 0;
-      cursor: pointer;
-      z-index: 1;
-    }
-
-    .slider {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: var(--gray);
-      transition: background-color 0.3s ease;
-      -webkit-transition: background-color 0.3s ease;
-      -moz-transition: background-color 0.3s ease;
-      border-radius: 24px;
-    }
-
-    .slider:before {
-      position: absolute;
-      content: "";
-      height: 16px;
-      width: 16px;
-      left: 4px;
-      bottom: 4px;
-      background-color: white;
-      transition: transform 0.3s ease;
-      -webkit-transition: transform 0.3s ease;
-      -moz-transition: transform 0.3s ease;
-      border-radius: 50%;
-    }
-
-    .toggle-switch input:checked + .slider {
-      background-color: var(--primary);
-    }
-
-    .toggle-switch input:checked + .slider:before {
-      transform: translateX(26px);
-      -webkit-transform: translateX(26px);
-      -moz-transform: translateX(26px);
-    }
-
-    .toggle-switch input:focus + .slider {
-      box-shadow: 0 0 0 2px var(--primary-dark);
-    }
-
-    .toggle-switch input:disabled + .slider {
-      background-color: var(--light-gray);
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    .toggle-switch input:disabled + .slider:before {
-      background-color: #ddd;
-    }
-
     .cookie-type p {
       font-size: 0.9rem;
-      color: var(--gray);
+      color: #444;
       margin-bottom: 10px;
     }
 
@@ -971,74 +1038,6 @@
         display: block;
       }
       
-      .mobile-nav {
-        position: fixed;
-        top: 0;
-        left: -100%;
-        width: 280px;
-        height: 100vh;
-        background: white;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-        z-index: 2000;
-        transition: var(--transition);
-        overflow-y: auto;
-        display: block;
-      }
-      
-      .mobile-nav.active {
-        left: 0;
-      }
-      
-      .mobile-nav-header {
-        padding: 20px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 1px solid var(--light-gray);
-      }
-      
-      .close-mobile-menu {
-        background: none;
-        border: none;
-        font-size: 1.5rem;
-        color: var(--dark);
-        cursor: pointer;
-        padding: 5px;
-        border-radius: 5px;
-      }
-      
-      .close-mobile-menu:hover, .close-mobile-menu:focus {
-        background: rgba(0, 0, 0, 0.05);
-        outline: 2px solid var(--primary);
-        outline-offset: 2px;
-      }
-      
-      .mobile-nav-menu {
-        list-style: none;
-        padding: 20px;
-      }
-      
-      .mobile-nav-item {
-        margin-bottom: 10px;
-      }
-      
-      .mobile-nav-link {
-        display: block;
-        padding: 12px 15px;
-        color: var(--dark);
-        text-decoration: none;
-        font-weight: 500;
-        border-radius: var(--border-radius);
-        transition: var(--transition);
-      }
-      
-      .mobile-nav-link:hover, .mobile-nav-link:focus {
-        background: rgba(67, 97, 238, 0.1);
-        color: var(--primary);
-        outline: 2px solid var(--primary);
-        outline-offset: 2px;
-      }
-      
       .guide-grid {
         grid-template-columns: 1fr;
       }
@@ -1054,6 +1053,9 @@
 
     @media (min-width: 993px) {
       .mobile-nav {
+        display: none !important;
+      }
+      .mobile-backdrop {
         display: none !important;
       }
     }
@@ -1160,7 +1162,7 @@
     <div class="settings-modal">
       <div class="settings-header">
         <h2 id="cookie-settings-title"><i class="fas fa-cookie-bite"></i> Cookie Settings</h2>
-        <button class="close-settings" aria-label="Close cookie settings">×</button>
+        <button class="close-settings" id="close-settings" aria-label="Close cookie settings">×</button>
       </div>
       <div class="settings-content">
         <p id="cookie-settings-desc">You can set your preferences for how we and our partners use cookies and similar technologies.</p>
@@ -1238,6 +1240,9 @@
       </div>
     </div>
   </header>
+
+  <!-- Mobile Menu Backdrop -->
+  <div class="mobile-backdrop" id="mobile-backdrop"></div>
 
   <!-- Mobile Navigation -->
   <div class="mobile-nav" id="mobile-nav">
@@ -1331,14 +1336,14 @@
     <div class="card">
       <h2><i class="fas fa-exchange-alt"></i> Video Converter</h2>
       <p><i>Convert videos to MP4, WEBM, or GIF with customizable settings.</i></p>
-      <div class="drag-drop-area" id="dropZone">
+      <div class="drag-drop-area" id="dropZone" role="button" aria-label="Choose or drag and drop video file">
         <p id="dropZoneText"><i class="fas fa-upload"></i> Choose file or drag and drop here</p>
         <p>Supported formats: MP4, WEBM, MOV, AVI, MKV</p>
         <p>Max file size: 100MB</p>
       </div>
       <input type="file" id="videoInput" accept="video/mp4,video/webm,video/quicktime,video/x-msvideo,video/x-matroska" style="display: none;" aria-label="Upload video for conversion" />
-      <div class="error" id="convert-error"></div>
-      <div class="success" id="convert-success"></div>
+      <div class="error" id="convert-error" role="alert"></div>
+      <div class="success" id="convert-success" role="alert"></div>
       <div class="loading" id="convert-loading">
         <div class="spinner"></div>
         Processing Video...
@@ -1352,13 +1357,13 @@
       <div class="settings-grid">
         <div class="setting-group">
           <p class="description">Input format is automatically detected from your uploaded video file.</p>
-          <select id="inputFormat" disabled aria-label="Input format">
+          <select id="inputFormat" disabled aria-label="Input format (auto-detected)">
             <option value="auto">Auto Detect</option>
           </select>
         </div>
         <div class="setting-group">
           <p class="description">Choose the output format for your converted video.</p>
-          <select id="outputFormat" aria-label="Output format">
+          <select id="outputFormat" aria-label="Select output format">
             <option value="mp4">MP4</option>
             <option value="webm">WEBM</option>
             <option value="gif">GIF</option>
@@ -1366,7 +1371,7 @@
         </div>
         <div class="setting-group">
           <p class="description">Select video quality to balance file size and clarity.</p>
-          <select id="quality" aria-label="Video quality">
+          <select id="quality" aria-label="Select video quality">
             <option value="high">High</option>
             <option value="medium" selected>Medium</option>
             <option value="low">Low</option>
@@ -1374,7 +1379,7 @@
         </div>
         <div class="setting-group">
           <p class="description">Set the frame rate for your video or keep the original.</p>
-          <select id="framerate" aria-label="Framerate">
+          <select id="framerate" aria-label="Select framerate">
             <option value="original">Original</option>
             <option value="30">30 fps</option>
             <option value="25">25 fps</option>
@@ -1384,7 +1389,7 @@
         </div>
         <div class="setting-group">
           <p class="description">Choose a resolution for your video or maintain the original size.</p>
-          <select id="resolution" aria-label="Resolution">
+          <select id="resolution" aria-label="Select resolution">
             <option value="original">Original</option>
             <option value="1080p">1080p (Full HD)</option>
             <option value="720p">720p (HD)</option>
@@ -1394,7 +1399,7 @@
         </div>
         <div class="setting-group">
           <p class="description">Select an aspect ratio to adjust the video's dimensions.</p>
-          <select id="aspectRatio" aria-label="Aspect ratio">
+          <select id="aspectRatio" aria-label="Select aspect ratio">
             <option value="original">Original</option>
             <option value="16:9">16:9 (Widescreen)</option>
             <option value="4:3">4:3 (Standard)</option>
@@ -1407,20 +1412,20 @@
           <div class="toggle-container">
             <label for="mute-audio">Mute Audio</label>
             <label class="toggle-switch">
-              <input type="checkbox" id="mute-audio" aria-label="Mute audio">
+              <input type="checkbox" id="mute-audio" aria-label="Toggle mute audio">
               <span class="slider"></span>
             </label>
           </div>
           <div class="toggle-container">
             <label for="normalize-audio">Normalize Audio</label>
             <label class="toggle-switch">
-              <input type="checkbox" id="normalize-audio" aria-label="Normalize audio">
+              <input type="checkbox" id="normalize-audio" aria-label="Toggle normalize audio">
               <span class="slider"></span>
             </label>
           </div>
         </div>
       </div>
-      <button id="convertBtn" disabled>
+      <button id="convertBtn" disabled aria-label="Convert video with selected settings">
         <i class="fas fa-exchange-alt"></i> Convert Video
       </button>
       <div id="progressContainer" class="progress-container">
@@ -1435,7 +1440,7 @@
       </div>
       <div id="resultContainer" class="result-container">
         <p>Conversion Complete!</p>
-        <a id="downloadLink" class="download-btn"><i class="fas fa-download"></i> Download Converted Video</a>
+        <a id="downloadLink" class="download-btn" aria-label="Download converted video"><i class="fas fa-download"></i> Download Converted Video</a>
       </div>
     </div>
 
@@ -1512,282 +1517,387 @@
   </footer>
 
   <script>
-    // Constants
-    const COOKIE_CONSENT_KEY = 'cookieConsent';
-    const elements = {
-      mobileMenuToggle: document.getElementById('mobile-menu-toggle'),
-      closeMobileMenu: document.getElementById('close-mobile-menu'),
-      mobileNav: document.getElementById('mobile-nav'),
-      acceptCookies: document.getElementById('accept-cookies'),
-      rejectCookies: document.getElementById('reject-cookies'),
-      openSettings: document.getElementById('open-settings'),
-      openSettingsFooter: document.getElementById('open-settings-footer'),
-      closeSettings: document.querySelector('.close-settings'),
-      saveSettings: document.getElementById('save-settings'),
-      cookieConsent: document.getElementById('cookie-consent'),
-      cookieSettings: document.getElementById('cookie-settings'),
-      analyticsToggle: document.getElementById('analytics-toggle'),
-      advertisingToggle: document.getElementById('advertising-toggle'),
-      dropZone: document.getElementById('dropZone'),
-      videoInput: document.getElementById('videoInput'),
-      dropZoneText: document.getElementById('dropZoneText'),
-      fileInfo: document.getElementById('fileInfo'),
-      fileName: document.getElementById('fileName'),
-      fileSize: document.getElementById('fileSize'),
-      fileType: document.getElementById('fileType'),
-      fileDimensions: document.getElementById('fileDimensions'),
-      convertBtn: document.getElementById('convertBtn'),
-      progressContainer: document.getElementById('progressContainer'),
-      progressMessage: document.getElementById('progressMessage'),
-      progressFill: document.getElementById('progressFill'),
-      progressPercent: document.getElementById('progressPercent'),
-      resultContainer: document.getElementById('resultContainer'),
-      downloadLink: document.getElementById('downloadLink'),
-      convertError: document.getElementById('convert-error'),
-      convertSuccess: document.getElementById('convert-success'),
-      convertLoading: document.getElementById('convert-loading')
-    };
-
-    // State
-    let state = {
-      uploadedFile: null
-    };
-
-    // Helper Functions
-    function showError(message) {
-      elements.convertError.textContent = message;
-      elements.convertError.style.display = 'block';
-    }
-
-    function showSuccess(message) {
-      elements.convertSuccess.textContent = message;
-      elements.convertSuccess.style.display = 'block';
-    }
-
-    function hideMessages() {
-      elements.convertError.style.display = 'none';
-      elements.convertSuccess.style.display = 'none';
-    }
-
-    function showLoading() {
-      elements.convertLoading.style.display = 'block';
-    }
-
-    function hideLoading() {
-      elements.convertLoading.style.display = 'none';
-    }
-
-    function updateProgress(percent, msg) {
-      const percentValue = Math.min(100, Math.max(0, percent));
-      elements.progressFill.style.width = `${percentValue}%`;
-      elements.progressMessage.textContent = msg;
-      elements.progressPercent.textContent = `${Math.round(percentValue)}%`;
-    }
-
-    function getCookiePreferences() {
-      const preferences = localStorage.getItem(COOKIE_CONSENT_KEY);
-      return preferences ? JSON.parse(preferences) : null;
-    }
-
-    function saveCookiePreferences(preferences) {
-      localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(preferences));
-    }
-
-    function loadGoogleAnalytics() {
-      if (window.gaLoaded) return;
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-LR5XP1GJFC');
-      window.gaLoaded = true;
-    }
-
-    function checkCookieConsent() {
-      const preferences = getCookiePreferences();
-      if (!preferences) {
-        elements.cookieConsent.style.display = 'block';
-      } else {
-        if (preferences.analytics) loadGoogleAnalytics();
+    // Mobile Menu Functionality
+    function initMobileMenu() {
+      const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+      const closeMobileMenu = document.getElementById('close-mobile-menu');
+      const mobileNav = document.getElementById('mobile-nav');
+      const mobileBackdrop = document.getElementById('mobile-backdrop');
+      
+      function openMobileMenu() {
+        mobileNav.classList.add('active');
+        mobileBackdrop.classList.add('active');
+        document.body.classList.add('menu-open');
+        // Focus the first menu item
+        document.querySelector('.mobile-nav-link').focus();
       }
-    }
-
-    function openCookieSettings() {
-      const preferences = getCookiePreferences();
-      elements.analyticsToggle.checked = preferences ? preferences.analytics : true;
-      elements.advertisingToggle.checked = preferences ? preferences.advertising : true;
-      elements.cookieSettings.style.display = 'flex';
-    }
-
-    function closeCookieSettings() {
-      elements.cookieSettings.style.display = 'none';
-    }
-
-    function initialize() {
-      checkCookieConsent();
-
-      // Mobile menu toggle
-      elements.mobileMenuToggle.addEventListener('click', () => {
-        elements.mobileNav.classList.add('active');
+      
+      function closeMobileMenuHandler() {
+        mobileNav.classList.remove('active');
+        mobileBackdrop.classList.remove('active');
+        document.body.classList.remove('menu-open');
+        // Return focus to the menu toggle button
+        mobileMenuToggle.focus();
+      }
+      
+      if (mobileMenuToggle) {
+        mobileMenuToggle.addEventListener('click', openMobileMenu);
+      }
+      
+      if (closeMobileMenu) {
+        closeMobileMenu.addEventListener('click', closeMobileMenuHandler);
+      }
+      
+      if (mobileBackdrop) {
+        mobileBackdrop.addEventListener('click', closeMobileMenuHandler);
+      }
+      
+      // Close menu when clicking on links
+      const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+      mobileLinks.forEach(link => {
+        link.addEventListener('click', closeMobileMenuHandler);
       });
       
-      elements.closeMobileMenu.addEventListener('click', () => {
-        elements.mobileNav.classList.remove('active');
-      });
-
-      // Drag and Drop Setup
-      elements.dropZone.addEventListener('click', () => elements.videoInput.click());
-      elements.dropZone.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        elements.dropZone.classList.add('drag-over');
-      });
-      elements.dropZone.addEventListener('dragenter', (e) => {
-        e.preventDefault();
-        elements.dropZone.classList.add('drag-over');
-      });
-      elements.dropZone.addEventListener('dragleave', () => {
-        elements.dropZone.classList.remove('drag-over');
-      });
-      elements.dropZone.addEventListener('drop', (e) => {
-        e.preventDefault();
-        elements.dropZone.classList.remove('drag-over');
-        const files = e.dataTransfer.files;
-        if (files.length > 0) {
-          elements.videoInput.files = files;
-          elements.videoInput.dispatchEvent(new Event('change'));
+      // Keyboard navigation for accessibility
+      mobileNav.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          closeMobileMenuHandler();
         }
-      });
-
-      // File Input
-      elements.videoInput.addEventListener('change', processFile);
-
-      // Convert Button
-      elements.convertBtn.addEventListener('click', startConversion);
-
-      // Cookie consent handlers
-      elements.acceptCookies.addEventListener('click', () => {
-        saveCookiePreferences({ essential: true, analytics: true, advertising: true });
-        elements.cookieConsent.style.display = 'none';
-        loadGoogleAnalytics();
-      });
-
-      elements.rejectCookies.addEventListener('click', () => {
-        saveCookiePreferences({ essential: true, analytics: false, advertising: false });
-        elements.cookieConsent.style.display = 'none';
-      });
-
-      elements.openSettings.addEventListener('click', openCookieSettings);
-      elements.openSettingsFooter.addEventListener('click', e => {
-        e.preventDefault();
-        openCookieSettings();
-      });
-
-      elements.closeSettings.addEventListener('click', closeCookieSettings);
-
-      elements.saveSettings.addEventListener('click', () => {
-        const preferences = {
-          essential: true,
-          analytics: elements.analyticsToggle.checked,
-          advertising: elements.advertisingToggle.checked
-        };
-        saveCookiePreferences(preferences);
-        if (preferences.analytics) loadGoogleAnalytics();
-        closeCookieSettings();
-        elements.cookieConsent.style.display = 'none';
       });
     }
 
-    async function processFile(e) {
-      const file = e.target.files[0];
-      if (!file) return;
+    // Cookie Consent Functionality
+    function initCookieConsent() {
+      const COOKIE_CONSENT_KEY = 'cookieConsent';
+      
+      function getCookiePreferences() {
+        const preferences = localStorage.getItem(COOKIE_CONSENT_KEY);
+        return preferences ? JSON.parse(preferences) : { essential: true, analytics: false, advertising: false };
+      }
+      
+      function saveCookiePreferences(preferences) {
+        try {
+          localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(preferences));
+        } catch (e) {
+          console.warn('Failed to save cookie preferences:', e);
+        }
+      }
+      
+      function loadGoogleAnalytics() {
+        if (window.gaLoaded) return;
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-LR5XP1GJFC');
+        window.gaLoaded = true;
+      }
+      
+      function checkCookieConsent() {
+        const preferences = getCookiePreferences();
+        if (!preferences || !preferences.hasOwnProperty('essential')) {
+          const consent = document.getElementById('cookie-consent');
+          if (consent) consent.style.display = 'block';
+        } else {
+          const analyticsToggle = document.getElementById('analytics-toggle');
+          const advertisingToggle = document.getElementById('advertising-toggle');
+          if (analyticsToggle) analyticsToggle.checked = preferences.analytics;
+          if (advertisingToggle) advertisingToggle.checked = preferences.advertising;
+          if (preferences.analytics) loadGoogleAnalytics();
+        }
+      }
+      
+      function openCookieSettings() {
+        const preferences = getCookiePreferences();
+        const analyticsToggle = document.getElementById('analytics-toggle');
+        const advertisingToggle = document.getElementById('advertising-toggle');
+        if (analyticsToggle) analyticsToggle.checked = preferences.analytics;
+        if (advertisingToggle) advertisingToggle.checked = preferences.advertising;
+        const settings = document.getElementById('cookie-settings');
+        if (settings) settings.style.display = 'flex';
+        // Focus the first focusable element in the modal
+        document.getElementById('analytics-toggle').focus();
+      }
+      
+      function closeCookieSettings() {
+        const settings = document.getElementById('cookie-settings');
+        if (settings) settings.style.display = 'none';
+        // Return focus to the button that opened the settings
+        document.getElementById('open-settings').focus();
+      }
+      
+      const acceptBtn = document.getElementById('accept-cookies');
+      if (acceptBtn) {
+        acceptBtn.addEventListener('click', () => {
+          saveCookiePreferences({
+            essential: true,
+            analytics: true,
+            advertising: true
+          });
+          document.getElementById('cookie-consent').style.display = 'none';
+          loadGoogleAnalytics();
+        });
+      }
+      
+      const rejectBtn = document.getElementById('reject-cookies');
+      if (rejectBtn) {
+        rejectBtn.addEventListener('click', () => {
+          saveCookiePreferences({
+            essential: true,
+            analytics: false,
+            advertising: false
+          });
+          document.getElementById('cookie-consent').style.display = 'none';
+        });
+      }
+      
+      const openSettingsBtn = document.getElementById('open-settings');
+      if (openSettingsBtn) openSettingsBtn.addEventListener('click', openCookieSettings);
+      
+      const closeSettingsBtn = document.getElementById('close-settings');
+      if (closeSettingsBtn) closeSettingsBtn.addEventListener('click', closeCookieSettings);
+      
+      const saveSettingsBtn = document.getElementById('save-settings');
+      if (saveSettingsBtn) {
+        saveSettingsBtn.addEventListener('click', () => {
+          saveCookiePreferences({
+            essential: true,
+            analytics: document.getElementById('analytics-toggle').checked,
+            advertising: document.getElementById('advertising-toggle').checked
+          });
+          closeCookieSettings();
+          document.getElementById('cookie-consent').style.display = 'none';
+          if (document.getElementById('analytics-toggle').checked) loadGoogleAnalytics();
+        });
+      }
+      
+      const openSettingsFooter = document.getElementById('open-settings-footer');
+      if (openSettingsFooter) {
+        openSettingsFooter.addEventListener('click', (e) => {
+          e.preventDefault();
+          openCookieSettings();
+        });
+      }
+      
+      // Keyboard navigation for settings modal
+      const settingsModal = document.querySelector('.settings-modal');
+      if (settingsModal) {
+        settingsModal.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') {
+            closeCookieSettings();
+          }
+        });
+      }
+    }
 
-      hideMessages();
-      showLoading();
+    // Video Converter Functionality
+    function initVideoConverter() {
+      const elements = {
+        dropZone: document.getElementById('dropZone'),
+        videoInput: document.getElementById('videoInput'),
+        dropZoneText: document.getElementById('dropZoneText'),
+        fileInfo: document.getElementById('fileInfo'),
+        fileName: document.getElementById('fileName'),
+        fileSize: document.getElementById('fileSize'),
+        fileType: document.getElementById('fileType'),
+        fileDimensions: document.getElementById('fileDimensions'),
+        convertBtn: document.getElementById('convertBtn'),
+        progressContainer: document.getElementById('progressContainer'),
+        progressMessage: document.getElementById('progressMessage'),
+        progressFill: document.getElementById('progressFill'),
+        progressPercent: document.getElementById('progressPercent'),
+        resultContainer: document.getElementById('resultContainer'),
+        downloadLink: document.getElementById('downloadLink'),
+        convertError: document.getElementById('convert-error'),
+        convertSuccess: document.getElementById('convert-success'),
+        convertLoading: document.getElementById('convert-loading'),
+        outputFormat: document.getElementById('outputFormat'),
+        quality: document.getElementById('quality'),
+        framerate: document.getElementById('framerate'),
+        resolution: document.getElementById('resolution'),
+        aspectRatio: document.getElementById('aspectRatio'),
+        muteAudio: document.getElementById('mute-audio'),
+        normalizeAudio: document.getElementById('normalize-audio')
+      };
 
-      const allowedTypes = [
-        'video/mp4', 'video/webm', 'video/quicktime',
-        'video/x-msvideo', 'video/x-matroska'
-      ];
-      const allowedExtensions = ['.mp4', '.webm', '.mov', '.avi', '.mkv'];
-      const ext = '.' + file.name.split('.').pop().toLowerCase();
+      let state = {
+        uploadedFile: null
+      };
 
-      if (!allowedTypes.includes(file.type) && !allowedExtensions.includes(ext)) {
-        showError('Invalid file type. Please select a supported format (MP4, WEBM, MOV, AVI, or MKV).');
-        hideLoading();
-        return;
+      function showError(message) {
+        elements.convertError.textContent = message;
+        elements.convertError.style.display = 'block';
       }
 
-      if (file.size > 100 * 1024 * 1024) {
-        showError('File size exceeds 100MB limit. Please select a smaller file.');
-        hideLoading();
-        return;
+      function showSuccess(message) {
+        elements.convertSuccess.textContent = message;
+        elements.convertSuccess.style.display = 'block';
       }
 
-      try {
-        state.uploadedFile = file;
-        elements.dropZoneText.innerHTML = `Ready to convert:<br><strong>${file.name}</strong>`;
-        elements.fileInfo.style.display = 'block';
-        elements.fileName.textContent = file.name;
-        elements.fileSize.textContent = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
-        elements.fileType.textContent = file.type || 'Unknown';
+      function hideMessages() {
+        elements.convertError.style.display = 'none';
+        elements.convertSuccess.style.display = 'none';
+      }
 
-        const video = document.createElement('video');
-        video.src = URL.createObjectURL(file);
-        video.style.display = 'none';
-        document.body.appendChild(video);
+      function showLoading() {
+        elements.convertLoading.style.display = 'block';
+      }
 
-        await new Promise((resolve, reject) => {
-          video.onloadedmetadata = () => {
-            const width = video.videoWidth;
-            const height = video.videoHeight;
-            elements.fileDimensions.textContent = `${width}×${height}`;
-            document.body.removeChild(video);
-            URL.revokeObjectURL(video.src);
-            resolve();
-          };
-          video.onerror = () => reject(new Error('Failed to load video metadata'));
+      function hideLoading() {
+        elements.convertLoading.style.display = 'none';
+      }
+
+      function updateProgress(percent, msg) {
+        const percentValue = Math.min(100, Math.max(0, percent));
+        elements.progressFill.style.width = `${percentValue}%`;
+        elements.progressMessage.textContent = msg;
+        elements.progressPercent.textContent = `${Math.round(percentValue)}%`;
+      }
+
+      async function processFile(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        hideMessages();
+        showLoading();
+
+        const allowedTypes = [
+          'video/mp4', 'video/webm', 'video/quicktime',
+          'video/x-msvideo', 'video/x-matroska'
+        ];
+        const allowedExtensions = ['.mp4', '.webm', '.mov', '.avi', '.mkv'];
+        const ext = '.' + file.name.split('.').pop().toLowerCase();
+
+        if (!allowedTypes.includes(file.type) && !allowedExtensions.includes(ext)) {
+          showError('Invalid file type. Please select a supported format (MP4, WEBM, MOV, AVI, or MKV).');
+          hideLoading();
+          return;
+        }
+
+        if (file.size > 100 * 1024 * 1024) {
+          showError('File size exceeds 100MB limit. Please select a smaller file.');
+          hideLoading();
+          return;
+        }
+
+        try {
+          state.uploadedFile = file;
+          elements.dropZoneText.innerHTML = `Ready to convert:<br><strong>${file.name}</strong>`;
+          elements.fileInfo.style.display = 'block';
+          elements.fileName.textContent = file.name;
+          elements.fileSize.textContent = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
+          elements.fileType.textContent = file.type || 'Unknown';
+
+          const video = document.createElement('video');
+          video.src = URL.createObjectURL(file);
+          video.style.display = 'none';
+          document.body.appendChild(video);
+
+          await new Promise((resolve, reject) => {
+            video.onloadedmetadata = () => {
+              const width = video.videoWidth;
+              const height = video.videoHeight;
+              elements.fileDimensions.textContent = `${width}×${height}`;
+              document.body.removeChild(video);
+              URL.revokeObjectURL(video.src);
+              resolve();
+            };
+            video.onerror = () => reject(new Error('Failed to load video metadata'));
+          });
+
+          elements.convertBtn.disabled = false;
+          showSuccess('Video loaded successfully!');
+        } catch (error) {
+          showError('Error processing video: ' + error.message);
+          elements.convertBtn.disabled = true;
+        } finally {
+          hideLoading();
+        }
+      }
+
+      function startConversion() {
+        if (!state.uploadedFile) return;
+
+        hideMessages();
+        showLoading();
+        elements.progressContainer.style.display = 'block';
+        elements.resultContainer.style.display = 'none';
+        elements.convertBtn.disabled = true;
+
+        updateProgress(10, 'Starting conversion...');
+        
+        // Simulate conversion process
+        let progress = 10;
+        const interval = setInterval(() => {
+          progress += Math.floor(Math.random() * 15);
+          if (progress >= 100) {
+            clearInterval(interval);
+            updateProgress(100, 'Conversion complete!');
+            hideLoading();
+            elements.resultContainer.style.display = 'block';
+            elements.downloadLink.href = URL.createObjectURL(state.uploadedFile);
+            elements.downloadLink.download = `converted.${elements.outputFormat.value}`;
+            elements.convertBtn.disabled = false;
+            showSuccess('Video converted successfully!');
+          } else {
+            updateProgress(progress, `Processing video... ${progress}% complete`);
+          }
+        }, 500);
+      }
+
+      function initializeConverter() {
+        // Drag and Drop Setup
+        elements.dropZone.addEventListener('click', () => elements.videoInput.click());
+        elements.dropZone.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          elements.dropZone.classList.add('drag-over');
+        });
+        elements.dropZone.addEventListener('dragenter', (e) => {
+          e.preventDefault();
+          elements.dropZone.classList.add('drag-over');
+        });
+        elements.dropZone.addEventListener('dragleave', () => {
+          elements.dropZone.classList.remove('drag-over');
+        });
+        elements.dropZone.addEventListener('drop', (e) => {
+          e.preventDefault();
+          elements.dropZone.classList.remove('drag-over');
+          const files = e.dataTransfer.files;
+          if (files.length > 0) {
+            elements.videoInput.files = files;
+            elements.videoInput.dispatchEvent(new Event('change'));
+          }
         });
 
-        elements.convertBtn.disabled = false;
-        showSuccess('Video loaded successfully!');
-      } catch (error) {
-        showError('Error processing video: ' + error.message);
-        elements.convertBtn.disabled = true;
-      } finally {
-        hideLoading();
+        // File Input
+        elements.videoInput.addEventListener('change', processFile);
+
+        // Convert Button
+        elements.convertBtn.addEventListener('click', startConversion);
+
+        // Keyboard accessibility for drag zone
+        elements.dropZone.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            elements.videoInput.click();
+          }
+        });
       }
+
+      initializeConverter();
     }
 
-    function startConversion() {
-      if (!state.uploadedFile) return;
-
-      hideMessages();
-      showLoading();
-      elements.progressContainer.style.display = 'block';
-      elements.resultContainer.style.display = 'none';
-      elements.convertBtn.disabled = true;
-
-      updateProgress(10, 'Starting conversion...');
+    // Initialize everything when DOM is loaded
+    document.addEventListener('DOMContentLoaded', () => {
+      initMobileMenu();
+      initCookieConsent();
+      initVideoConverter();
       
-      // Simulate conversion process
-      let progress = 10;
-      const interval = setInterval(() => {
-        progress += Math.floor(Math.random() * 15);
-        if (progress >= 100) {
-          clearInterval(interval);
-          updateProgress(100, 'Conversion complete!');
-          hideLoading();
-          elements.resultContainer.style.display = 'block';
-          elements.downloadLink.href = URL.createObjectURL(state.uploadedFile);
-          elements.downloadLink.download = `converted.${document.getElementById('outputFormat').value}`;
-          elements.convertBtn.disabled = false;
-          showSuccess('Video converted successfully!');
-        } else {
-          updateProgress(progress, `Processing video... ${progress}% complete`);
-        }
-      }, 500);
-    }
-
-    document.addEventListener('DOMContentLoaded', initialize);
+      // Check cookie consent status
+      const preferences = localStorage.getItem('cookieConsent');
+      if (!preferences) {
+        document.getElementById('cookie-consent').style.display = 'block';
+      }
+    });
   </script>
 </body>
 </html>
