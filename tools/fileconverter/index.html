@@ -377,10 +377,12 @@
       transition: var(--transition);
     }
 
-    button:hover {
+    button:hover, button:focus {
       background: var(--primary-dark);
       transform: translateY(-2px);
       box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
     }
 
     .btn-group {
@@ -650,10 +652,12 @@
       transition: var(--transition);
     }
 
-    .download-btn:hover {
+    .download-btn:hover, .download-btn:focus {
       background: var(--primary-dark);
       transform: translateY(-3px);
       box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
     }
 
     .loading {
@@ -696,7 +700,7 @@
       display: none;
     }
 
-    /* Cookie Consent Styles - Updated */
+    /* Cookie Consent Styles */
     #cookie-consent {
       position: fixed;
       bottom: 20px;
@@ -802,7 +806,7 @@
       outline-offset: 2px;
     }
 
-    /* Cookie Settings Modal - Updated */
+    /* Cookie Settings Modal */
     #cookie-settings {
       position: fixed;
       top: 0;
