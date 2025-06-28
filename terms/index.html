@@ -834,6 +834,11 @@
       .cookie-btn {
         width: 100%;
       }
+
+      /* Mobile menu full width on small screens */
+      .mobile-nav {
+        width: 100%;
+      }
     }
 
     @media (min-width: 993px) {
@@ -1321,10 +1326,10 @@
         settingsModal.addEventListener('keydown', (e) => {
           if (e.key === 'Tab') {
             if (e.shiftKey && document.activeElement === firstFocusable) {
-              e.preventDefault();
+              e.preventDefault;
               lastFocusable.focus();
             } else if (!e.shiftKey && document.activeElement === lastFocusable) {
-              e.preventDefault();
+              e.preventDefault;
               firstFocusable.focus();
             }
           } else if (e.key === 'Escape') {
