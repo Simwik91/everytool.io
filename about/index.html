@@ -509,7 +509,7 @@
     
     .mobile-nav-link {
       display: block;
-      padding: 12px 15px;
+      padding: 15px 20px; /* Larger touch targets */
       color: var(--dark);
       text-decoration: none;
       font-weight: 500;
@@ -1197,7 +1197,7 @@
   </footer>
 
   <script>
-    // Mobile Menu Functionality - Fixed Implementation
+    // Mobile Menu Functionality
     function initMobileMenu() {
       const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
       const closeMobileMenu = document.getElementById('close-mobile-menu');
@@ -1273,11 +1273,15 @@
         if (advertisingToggle) advertisingToggle.checked = preferences.advertising;
         const settings = document.getElementById('cookie-settings');
         if (settings) settings.style.display = 'flex';
+        // Focus the first focusable element in the modal
+        document.getElementById('analytics-toggle').focus();
       }
       
       function closeCookieSettings() {
         const settings = document.getElementById('cookie-settings');
         if (settings) settings.style.display = 'none';
+        // Return focus to the button that opened the settings
+        document.getElementById('open-settings').focus();
       }
       
       // Set up event listeners
@@ -1333,10 +1337,72 @@
       }
     }
 
+    // Accessibility Functions
+    function initAccessibility() {
+      // Keyboard navigation for toggle switches
+      document.querySelectorAll('.toggle-switch input').forEach(toggle => {
+        toggle.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            if (!toggle.disabled) {
+              toggle.checked = !toggle.checked;
+              toggle.dispatchEvent(new Event('change'));
+            }
+          }
+        });
+      });
+
+      // Focus management for modals
+      const settingsModal = document.querySelector('.settings-modal');
+      if (settingsModal) {
+        const focusableElements = settingsModal.querySelectorAll('button, input');
+        const firstFocusable = focusableElements[0];
+        const lastFocusable = focusableElements[focusableElements.length - 1];
+        
+        document.querySelector('.close-settings').addEventListener('keydown', (e) => {
+          if (e.key === 'Tab' && e.shiftKey) {
+            e.preventDefault();
+            lastFocusable.focus();
+          }
+        });
+        
+        settingsModal.addEventListener('keydown', (e) => {
+          if (e.key === 'Tab') {
+            if (e.shiftKey && document.activeElement === firstFocusable) {
+              e.preventDefault();
+              lastFocusable.focus();
+            } else if (!e.shiftKey && document.activeElement === lastFocusable) {
+              e.preventDefault();
+              firstFocusable.focus();
+            }
+          } else if (e.key === 'Escape') {
+            closeCookieSettings();
+          }
+        });
+      }
+      
+      // Focus styles for all interactive elements
+      const focusableElements = document.querySelectorAll(
+        'a, button, input, textarea, select, [tabindex]:not([tabindex="-1"])'
+      );
+      
+      focusableElements.forEach(el => {
+        el.addEventListener('focus', () => {
+          el.style.outline = '2px solid var(--primary)';
+          el.style.outlineOffset = '2px';
+        });
+        
+        el.addEventListener('blur', () => {
+          el.style.outline = 'none';
+        });
+      });
+    }
+
     // Initialize everything when DOM is loaded
     document.addEventListener('DOMContentLoaded', () => {
       initMobileMenu();
       initCookieConsent();
+      initAccessibility();
       
       // Check cookie consent status
       const preferences = localStorage.getItem('cookieConsent');
