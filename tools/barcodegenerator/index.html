@@ -179,14 +179,15 @@
       position: fixed;
       top: 0;
       left: 0;
-      width: 280px;
+      width: 100%;
       height: 100vh;
       background: white;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
       z-index: 2000;
       transform: translateX(-100%);
       transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
       overflow-y: auto;
+      display: flex;
+      flex-direction: column;
     }
     
     .mobile-nav.active {
@@ -225,6 +226,7 @@
     .mobile-nav-menu {
       list-style: none;
       padding: 20px;
+      flex: 1;
     }
     
     .mobile-nav-item {
@@ -239,6 +241,7 @@
       font-weight: 500;
       border-radius: var(--border-radius);
       transition: var(--transition);
+      font-size: 1.1rem;
     }
     
     .mobile-nav-link:hover, .mobile-nav-link:focus {
@@ -1129,7 +1132,7 @@
   <header>
     <div class="container">
       <div class="header-container">
-        <a href="index.html" class="logo" aria-label="EveryTool.io Home">
+        <a href="https://everytool.io/" class="logo" aria-label="EveryTool.io Home">
           <i class="fas fa-tools"></i>
           EveryTool.io
         </a>
@@ -1137,7 +1140,7 @@
         <div class="nav-container">
           <ul class="nav-menu">
             <li class="nav-item">
-              <a href="#" class="nav-link" aria-label="Home"><i class="fas fa-home"></i> Home</a>
+              <a href="https://everytool.io/" class="nav-link" aria-label="Home"><i class="fas fa-home"></i> Home</a>
             </li>
             <li class="nav-item">
               <a href="/tools" class="nav-link" aria-label="Tools"><i class="fas fa-toolbox"></i> Tools</a>
@@ -1166,7 +1169,7 @@
   <!-- Mobile Navigation -->
   <div class="mobile-nav" id="mobile-nav">
     <div class="mobile-nav-header">
-      <a href="index.html" class="logo" aria-label="EveryTool.io Home">
+      <a href="https://everytool.io/" class="logo" aria-label="EveryTool.io Home">
         <i class="fas fa-tools"></i>
         EveryTool.io
       </a>
@@ -1176,7 +1179,7 @@
     </div>
     <ul class="mobile-nav-menu">
       <li class="mobile-nav-item">
-        <a href="#" class="mobile-nav-link" aria-label="Home"><i class="fas fa-home"></i> Home</a>
+        <a href="https://everytool.io/" class="mobile-nav-link" aria-label="Home"><i class="fas fa-home"></i> Home</a>
       </li>
       <li class="mobile-nav-item">
         <a href="/tools" class="mobile-nav-link" aria-label="Tools"><i class="fas fa-toolbox"></i> Tools</a>
@@ -1513,12 +1516,14 @@
         mobileNav.classList.add('active');
         mobileBackdrop.classList.add('active');
         document.body.classList.add('menu-open');
+        document.body.style.overflow = 'hidden';
       }
       
       function closeMobileMenuHandler() {
         mobileNav.classList.remove('active');
         mobileBackdrop.classList.remove('active');
         document.body.classList.remove('menu-open');
+        document.body.style.overflow = '';
       }
       
       if (mobileMenuToggle) {
@@ -1537,6 +1542,13 @@
       const mobileLinks = document.querySelectorAll('.mobile-nav-link');
       mobileLinks.forEach(link => {
         link.addEventListener('click', closeMobileMenuHandler);
+      });
+      
+      // Close menu when pressing Escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && mobileNav.classList.contains('active')) {
+          closeMobileMenuHandler();
+        }
       });
     }
 
@@ -1640,6 +1652,9 @@
           openCookieSettings();
         });
       }
+      
+      // Initialize cookie preferences
+      checkCookieConsent();
     }
 
     // Barcode Generator Functionality
