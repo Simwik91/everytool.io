@@ -145,6 +145,91 @@
       outline-offset: 2px;
     }
 
+    /* Main Header Section */
+    .main-header {
+      text-align: center;
+      padding: 50px 0 30px;
+    }
+
+    .main-header .logo {
+      font-size: 4rem;
+      margin-bottom: 15px;
+      color: var(--primary);
+      display: inline-block;
+      animation: pulse 2s infinite;
+      justify-content: center;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    .main-header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      font-weight: 700;
+      color: var(--dark);
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .tagline {
+      font-size: 1.2rem;
+      color: var(--gray);
+      max-width: 700px;
+      margin: 0 auto 25px;
+    }
+
+    /* Features Grid */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+      margin: 40px auto;
+    }
+
+    .feature-card {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 25px;
+      text-align: center;
+      box-shadow: var(--box-shadow);
+      transition: var(--transition);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    }
+
+    .feature-card i {
+      font-size: 2.5rem;
+      color: var(--primary);
+      margin-bottom: 20px;
+      background: #f0f4ff;
+      width: 80px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      margin: 0 auto 20px;
+    }
+
+    .feature-card h3 {
+      font-size: 1.4rem;
+      margin-bottom: 15px;
+      color: var(--dark);
+    }
+
+    .feature-card p {
+      margin-bottom: 20px;
+      color: var(--gray);
+    }
+
     /* PDF Editing Guide Section */
     .guide-section {
       background: white;
@@ -984,6 +1069,10 @@
       .guide-grid {
         grid-template-columns: 1fr;
       }
+      
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
     }
 
     @media (min-width: 993px) {
@@ -1039,6 +1128,14 @@
       
       .guide-section, .uses-section {
         padding: 30px;
+      }
+      
+      .main-header .logo {
+        font-size: 3rem;
+      }
+      
+      .main-header h1 {
+        font-size: 2rem;
       }
     }
   </style>
@@ -1177,6 +1274,46 @@
     </ul>
   </div>
 
+  <!-- Main Header Section -->
+  <section class="main-header">
+    <div class="container">
+      <div class="logo">
+        <i class="fas fa-file-pdf"></i>
+      </div>
+      <h1>Free PDF Tools</h1>
+      <p class="tagline">Merge, split, compress, and convert PDFs with our free online tools.</p>
+      <p class="tagline">100% secure and browser-based, no sign-up required.</p>
+    </div>
+  </section>
+
+  <!-- Features Grid Section -->
+  <section class="features-section">
+    <div class="container">
+      <div class="features-grid">
+        <div class="feature-card">
+          <i class="fas fa-object-group"></i>
+          <h3>Merge PDFs</h3>
+          <p>Combine multiple PDF files into one document in seconds</p>
+        </div>
+        <div class="feature-card">
+          <i class="fas fa-cut"></i>
+          <h3>Split PDF</h3>
+          <p>Extract specific pages or split by page ranges</p>
+        </div>
+        <div class="feature-card">
+          <i class="fas fa-compress-alt"></i>
+          <h3>Compress PDF</h3>
+          <p>Reduce file size while maintaining quality</p>
+        </div>
+        <div class="feature-card">
+          <i class="fas fa-exchange-alt"></i>
+          <h3>Convert PDF</h3>
+          <p>Convert between PDF and image formats</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- PDF Editing Guide Section -->
   <section class="guide-section">
     <div class="container">
@@ -1189,11 +1326,11 @@
         </div>
         <div class="guide-card">
           <h3><i class="fas fa-sliders-h"></i> Choose Tool</h3>
-          <p>Select merge, compress, or convert options.</p>
+          <p>Select merge, split, compress, or convert options.</p>
         </div>
         <div class="guide-card">
           <h3><i class="fas fa-cog"></i> Customize Settings</h3>
-          <p>Adjust compression levels or output formats.</p>
+          <p>Adjust page ranges, compression levels, or output formats.</p>
         </div>
         <div class="guide-card">
           <h3><i class="fas fa-download"></i> Download Result</h3>
