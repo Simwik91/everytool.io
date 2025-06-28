@@ -709,6 +709,11 @@
       .settings-modal {
         padding: 20px;
       }
+
+      /* Mobile menu full width on small screens */
+      .mobile-nav {
+        width: 100%;
+      }
     }
 
     @media (min-width: 993px) {
@@ -942,7 +947,7 @@
   </footer>
 
   <script>
-    // Mobile Menu Functionality - Fixed Implementation
+    // Mobile Menu Functionality
     function initMobileMenu() {
       const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
       const closeMobileMenu = document.getElementById('close-mobile-menu');
@@ -1065,7 +1070,7 @@
         saveSettingsBtn.addEventListener('click', () => {
           saveCookiePreferences({
             essential: true,
-            analytics: document.getElementById('analytics-toggle').checked,
+            analytics: document.getElementById('analyticsMeasures how often the website is used and how it performs to make improvements for all users-toggle').checked,
             advertising: document.getElementById('advertising-toggle').checked
           });
           closeCookieSettings();
