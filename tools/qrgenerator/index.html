@@ -57,6 +57,11 @@
       line-height: 1.6;
       min-height: 100vh;
       overflow-x: hidden;
+      transition: transform 0.4s ease;
+    }
+    
+    body.menu-open {
+      overflow: hidden;
     }
 
     .container {
@@ -88,6 +93,7 @@
       font-weight: 700;
       color: var(--primary);
       text-decoration: none;
+      z-index: 2001;
     }
 
     .logo i {
@@ -142,12 +148,115 @@
       cursor: pointer;
       padding: 10px;
       border-radius: 5px;
+      z-index: 2001;
     }
 
     .mobile-menu-btn:hover, .mobile-menu-btn:focus {
       background: rgba(67, 97, 238, 0.1);
       outline: 2px solid var(--primary);
       outline-offset: 2px;
+    }
+    
+    /* Mobile Menu Backdrop */
+    .mobile-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1999;
+      display: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .mobile-backdrop.active {
+      display: block;
+      opacity: 1;
+    }
+    
+    /* Mobile Navigation */
+    .mobile-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: white;
+      z-index: 2000;
+      transform: translateX(-100%);
+      transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .mobile-nav.active {
+      transform: translateX(0);
+    }
+    
+    .mobile-nav-header {
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--light-gray);
+    }
+    
+    .close-mobile-menu {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--dark);
+      cursor: pointer;
+      padding: 5px;
+      border-radius: 5px;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .close-mobile-menu:hover, .close-mobile-menu:focus {
+      background: rgba(0, 0, 0, 0.05);
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+    
+    .mobile-nav-menu {
+      list-style: none;
+      padding: 20px;
+      flex: 1;
+    }
+    
+    .mobile-nav-item {
+      margin-bottom: 10px;
+    }
+    
+    .mobile-nav-link {
+      display: block;
+      padding: 15px 20px;
+      color: var(--dark);
+      text-decoration: none;
+      font-weight: 500;
+      border-radius: var(--border-radius);
+      transition: var(--transition);
+      font-size: 1.1rem;
+    }
+    
+    .mobile-nav-link:hover, .mobile-nav-link:focus {
+      background: rgba(67, 97, 238, 0.1);
+      color: var(--primary);
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+    
+    .mobile-nav-link i {
+      width: 24px;
+      text-align: center;
+      margin-right: 10px;
     }
 
     /* QR Generator Specific Styles */
@@ -296,10 +405,12 @@
       gap: 10px;
     }
     
-    button:hover {
+    button:hover, button:focus {
       background: var(--primary-dark);
       transform: translateY(-2px);
       box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
     }
     
     button.secondary {
@@ -308,8 +419,10 @@
       border: 2px solid var(--primary);
     }
     
-    button.secondary:hover {
+    button.secondary:hover, button.secondary:focus {
       background: #f0f4ff;
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
     }
     
     canvas {
@@ -1270,84 +1383,14 @@
         display: block;
       }
       
-      .mobile-nav {
-        position: fixed;
-        top: 0;
-        left: -100%;
-        width: 280px;
-        height: 100vh;
-        background: white;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-        z-index: 2000;
-        transition: var(--transition);
-        overflow-y: auto;
-        display: block;
-      }
-      
-      .mobile-nav.active {
-        left: 0;
-      }
-      
-      .mobile-nav-header {
-        padding: 20px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 1px solid var(--light-gray);
-      }
-      
-      .close-mobile-menu {
-        background: none;
-        border: none;
-        font-size: 1.5rem;
-        color: var(--dark);
-        cursor: pointer;
-        padding: 5px;
-        border-radius: 5px;
-      }
-      
-      .close-mobile-menu:hover, .close-mobile-menu:focus {
-        background: rgba(0, 0, 0, 0.05);
-        outline: 2px solid var(--primary);
-        outline-offset: 2px;
-      }
-      
-      .mobile-nav-menu {
-        list-style: none;
-        padding: 20px;
-      }
-      
-      .mobile-nav-item {
-        margin-bottom: 10px;
-      }
-      
-      .mobile-nav-link {
-        display: block;
-        padding: 12px 15px;
-        color: var(--dark);
-        text-decoration: none;
-        font-weight: 500;
-        border-radius: var(--border-radius);
-        transition: var(--transition);
-      }
-      
-      .mobile-nav-link:hover, .mobile-nav-link:focus {
-        background: rgba(67, 97, 238, 0.1);
-        color: var(--primary);
-        outline: 2px solid var(--primary);
-        outline-offset: 2px;
-      }
-      
       .guide-grid {
         grid-template-columns: 1fr;
       }
       
-      /* Updated for features grid */
       .features {
         grid-template-columns: 1fr;
       }
       
-      /* Updated for uses grid */
       .uses-grid {
         grid-template-columns: repeat(2, 1fr);
       }
@@ -1355,6 +1398,9 @@
 
     @media (min-width: 993px) {
       .mobile-nav {
+        display: none !important;
+      }
+      .mobile-backdrop {
         display: none !important;
       }
     }
@@ -1423,7 +1469,6 @@
         flex-direction: column;
       }
       
-      /* Updated for uses grid */
       .uses-grid {
         grid-template-columns: 1fr;
       }
@@ -1486,7 +1531,7 @@
     <div class="settings-modal">
       <div class="settings-header">
         <h2 id="cookie-settings-title"><i class="fas fa-cookie-bite"></i> Cookie Settings</h2>
-        <button class="close-settings" aria-label="Close cookie settings">×</button>
+        <button class="close-settings" id="close-settings" aria-label="Close cookie settings">×</button>
       </div>
       <div class="settings-content">
         <p id="cookie-settings-desc">You can set your preferences for how we and our partners use cookies and similar technologies.</p>
@@ -1534,7 +1579,7 @@
   <header>
     <div class="container">
       <div class="header-container">
-        <a href="index.html" class="logo" aria-label="EveryTool.io Home">
+        <a href="https://everytool.io/" class="logo" aria-label="EveryTool.io Home">
           <i class="fas fa-tools"></i>
           EveryTool.io
         </a>
@@ -1542,7 +1587,7 @@
         <div class="nav-container">
           <ul class="nav-menu">
             <li class="nav-item">
-              <a href="#" class="nav-link" aria-label="Home"><i class="fas fa-home"></i> Home</a>
+              <a href="https://everytool.io/" class="nav-link" aria-label="Home"><i class="fas fa-home"></i> Home</a>
             </li>
             <li class="nav-item">
               <a href="/tools" class="nav-link" aria-label="Tools"><i class="fas fa-toolbox"></i> Tools</a>
@@ -1565,10 +1610,13 @@
     </div>
   </header>
 
+  <!-- Mobile Menu Backdrop -->
+  <div class="mobile-backdrop" id="mobile-backdrop"></div>
+
   <!-- Mobile Navigation -->
   <div class="mobile-nav" id="mobile-nav">
     <div class="mobile-nav-header">
-      <a href="index.html" class="logo" aria-label="EveryTool.io Home">
+      <a href="https://everytool.io/" class="logo" aria-label="EveryTool.io Home">
         <i class="fas fa-tools"></i>
         EveryTool.io
       </a>
@@ -1578,7 +1626,7 @@
     </div>
     <ul class="mobile-nav-menu">
       <li class="mobile-nav-item">
-        <a href="#" class="mobile-nav-link" aria-label="Home"><i class="fas fa-home"></i> Home</a>
+        <a href="https://everytool.io/" class="mobile-nav-link" aria-label="Home"><i class="fas fa-home"></i> Home</a>
       </li>
       <li class="mobile-nav-item">
         <a href="/tools" class="mobile-nav-link" aria-label="Tools"><i class="fas fa-toolbox"></i> Tools</a>
@@ -2045,8 +2093,6 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
         </div>
       </div>
     </div>
-
-    <!-- Call to Action REMOVED -->
   </div>
 
   <!-- Footer -->
@@ -2084,38 +2130,6 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
       }
     }
 
-    function loadGoogleAnalytics() {
-      if (window.gaLoaded) return;
-
-      const gtagScript = document.createElement('script');
-      gtagScript.async = true;
-      gtagScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-LR5XP1GJFC';
-      gtagScript.onerror = () => console.warn('Failed to load Google Analytics');
-      document.head.appendChild(gtagScript);
-
-      window.dataLayer = window.dataLayer || [];
-      function gtag() { dataLayer.push(arguments); }
-      gtag('js', new Date());
-      gtag('config', 'G-LR5XP1GJFC');
-
-      window.gaLoaded = true;
-      console.log('Google Analytics loaded');
-    }
-
-    function loadGoogleAdSense() {
-      if (window.adsenseLoaded) return;
-
-      const adsenseScript = document.createElement('script');
-      adsenseScript.async = true;
-      adsenseScript.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4041775163958551';
-      adsenseScript.crossOrigin = 'anonymous';
-      adsenseScript.onerror = () => console.warn('Failed to load Google AdSense');
-      document.head.appendChild(adsenseScript);
-
-      window.adsenseLoaded = true;
-      console.log('Google AdSense loaded');
-    }
-
     function checkCookieConsent() {
       const preferences = getCookiePreferences();
       if (!preferences || !preferences.hasOwnProperty('essential')) {
@@ -2126,36 +2140,6 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
         const advertisingToggle = document.getElementById('advertising-toggle');
         if (analyticsToggle) analyticsToggle.checked = preferences.analytics;
         if (advertisingToggle) advertisingToggle.checked = preferences.advertising;
-        if (preferences.analytics && !window.gaLoaded) loadGoogleAnalytics();
-        if (preferences.advertising && !window.adsenseLoaded) loadGoogleAdSense();
-      }
-    }
-
-    // Save and load QR preferences
-    function saveQRPreferences() {
-      const preferences = {
-        fgColor: fgColor.value,
-        bgColor: bgColor.value,
-        size: sizeSlider.value,
-        borderSize: borderSize.value,
-        borderColor: borderColor.value
-      };
-      localStorage.setItem(PREFERENCES_KEY, JSON.stringify(preferences));
-    }
-
-    function loadQRPreferences() {
-      const preferences = localStorage.getItem(PREFERENCES_KEY);
-      if (preferences) {
-        const { fgColor, bgColor, size, borderSize, borderColor } = JSON.parse(preferences);
-        document.getElementById('fg-color').value = fgColor || '#000000';
-        document.getElementById('bg-color').value = bgColor || '#FFFFFF';
-        sizeSlider.value = size || '256';
-        borderSize.value = borderSize || '5';
-        borderColor.value = borderColor || '#FFFFFF';
-        updateSizeValue();
-        updateBorderSizeValue();
-        updateBorderPreview();
-        updateBulkBorderPreview();
       }
     }
 
@@ -2224,6 +2208,18 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
     const rangeSuffix = document.getElementById('range-suffix');
     const borderPreview = document.getElementById('border-preview');
     const bulkBorderPreview = document.getElementById('bulk-border-preview');
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    const closeMobileMenu = document.getElementById('close-mobile-menu');
+    const mobileNav = document.getElementById('mobile-nav');
+    const mobileBackdrop = document.getElementById('mobile-backdrop');
+    const acceptBtn = document.getElementById('accept-cookies');
+    const rejectBtn = document.getElementById('reject-cookies');
+    const openSettingsBtn = document.getElementById('open-settings');
+    const closeSettingsBtn = document.getElementById('close-settings');
+    const saveSettingsBtn = document.getElementById('save-settings');
+    const openSettingsFooter = document.getElementById('open-settings-footer');
+    const analyticsToggle = document.getElementById('analytics-toggle');
+    const advertisingToggle = document.getElementById('advertising-toggle');
 
     // Global variables
     let currentStream = null;
@@ -2250,26 +2246,17 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
     function initCookieConsent() {
       function openCookieSettings() {
         const preferences = getCookiePreferences();
-        const analyticsToggle = document.getElementById('analytics-toggle');
-        const advertisingToggle = document.getElementById('advertising-toggle');
         if (analyticsToggle) analyticsToggle.checked = preferences.analytics;
         if (advertisingToggle) advertisingToggle.checked = preferences.advertising;
         const settings = document.getElementById('cookie-settings');
-        if (settings) {
-          settings.style.display = 'flex';
-          const modal = document.querySelector('.settings-modal');
-          if (modal) modal.focus();
-        }
+        if (settings) settings.style.display = 'flex';
       }
 
       function closeCookieSettings() {
         const settings = document.getElementById('cookie-settings');
         if (settings) settings.style.display = 'none';
-        const openSettingsBtn = document.getElementById('open-settings');
-        if (openSettingsBtn) openSettingsBtn.focus();
       }
 
-      const acceptBtn = document.getElementById('accept-cookies');
       if (acceptBtn) {
         acceptBtn.addEventListener('click', () => {
           const preferences = {
@@ -2280,12 +2267,9 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
           saveCookiePreferences(preferences);
           const consent = document.getElementById('cookie-consent');
           if (consent) consent.style.display = 'none';
-          if (!window.gaLoaded) loadGoogleAnalytics();
-          if (!window.adsenseLoaded) loadGoogleAdSense();
         });
       }
 
-      const rejectBtn = document.getElementById('reject-cookies');
       if (rejectBtn) {
         rejectBtn.addEventListener('click', () => {
           const preferences = {
@@ -2299,30 +2283,24 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
         });
       }
 
-      const openSettingsBtn = document.getElementById('open-settings');
       if (openSettingsBtn) openSettingsBtn.addEventListener('click', openCookieSettings);
 
-      const closeSettingsBtn = document.querySelector('.close-settings');
       if (closeSettingsBtn) closeSettingsBtn.addEventListener('click', closeCookieSettings);
 
-      const saveSettingsBtn = document.getElementById('save-settings');
       if (saveSettingsBtn) {
         saveSettingsBtn.addEventListener('click', () => {
           const preferences = {
             essential: true,
-            analytics: document.getElementById('analytics-toggle').checked,
-            advertising: document.getElementById('advertising-toggle').checked
+            analytics: analyticsToggle.checked,
+            advertising: advertisingToggle.checked
           };
           saveCookiePreferences(preferences);
-          if (preferences.analytics && !window.gaLoaded) loadGoogleAnalytics();
-          if (preferences.advertising && !window.adsenseLoaded) loadGoogleAdSense();
           closeCookieSettings();
           const consent = document.getElementById('cookie-consent');
           if (consent) consent.style.display = 'none';
         });
       }
 
-      const openSettingsFooter = document.getElementById('open-settings-footer');
       if (openSettingsFooter) {
         openSettingsFooter.addEventListener('click', (e) => {
           e.preventDefault();
@@ -2330,15 +2308,11 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
         });
       }
 
-      const analyticsToggle = document.getElementById('analytics-toggle');
-      const advertisingToggle = document.getElementById('advertising-toggle');
-
       if (analyticsToggle) {
         analyticsToggle.addEventListener('change', () => {
           const preferences = getCookiePreferences();
           preferences.analytics = analyticsToggle.checked;
           saveCookiePreferences(preferences);
-          if (preferences.analytics && !window.gaLoaded) loadGoogleAnalytics();
         });
       }
 
@@ -2347,51 +2321,48 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
           const preferences = getCookiePreferences();
           preferences.advertising = advertisingToggle.checked;
           saveCookiePreferences(preferences);
-          if (preferences.advertising && !window.adsenseLoaded) loadGoogleAdSense();
         });
       }
     }
 
     // Mobile Menu Functions
     function initMobileMenu() {
-      const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
-      const closeMobileMenu = document.getElementById('close-mobile-menu');
-      const mobileNav = document.getElementById('mobile-nav');
-
-      if (mobileMenuToggle && mobileNav) {
-        mobileMenuToggle.addEventListener('click', () => {
-          mobileNav.classList.add('active');
-          document.body.style.overflow = 'hidden';
-        });
+      function openMobileMenu() {
+        mobileNav.classList.add('active');
+        mobileBackdrop.classList.add('active');
+        document.body.classList.add('menu-open');
       }
-
-      if (closeMobileMenu && mobileNav) {
-        closeMobileMenu.addEventListener('click', () => {
-          mobileNav.classList.remove('active');
-          document.body.style.overflow = '';
-        });
+      
+      function closeMobileMenuHandler() {
+        mobileNav.classList.remove('active');
+        mobileBackdrop.classList.remove('active');
+        document.body.classList.remove('menu-open');
       }
-
-      if (mobileNav && mobileMenuToggle) {
-        document.addEventListener('click', (e) => {
-          if (mobileNav.classList.contains('active') && 
-              !mobileNav.contains(e.target) && 
-              e.target !== mobileMenuToggle) {
-            mobileNav.classList.remove('active');
-            document.body.style.overflow = '';
-          }
-        });
+      
+      if (mobileMenuToggle) {
+        mobileMenuToggle.addEventListener('click', openMobileMenu);
       }
-
+      
+      if (closeMobileMenu) {
+        closeMobileMenu.addEventListener('click', closeMobileMenuHandler);
+      }
+      
+      if (mobileBackdrop) {
+        mobileBackdrop.addEventListener('click', closeMobileMenuHandler);
+      }
+      
+      // Close menu when clicking on links
       const mobileLinks = document.querySelectorAll('.mobile-nav-link');
-      if (mobileLinks && mobileNav) {
-        mobileLinks.forEach(link => {
-          link.addEventListener('click', () => {
-            mobileNav.classList.remove('active');
-            document.body.style.overflow = '';
-          });
-        });
-      }
+      mobileLinks.forEach(link => {
+        link.addEventListener('click', closeMobileMenuHandler);
+      });
+      
+      // Close menu when pressing Escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && mobileNav.classList.contains('active')) {
+          closeMobileMenuHandler();
+        }
+      });
     }
 
     // Accessibility Functions
@@ -2440,8 +2411,7 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
               firstFocusable.focus();
             }
           } else if (e.key === 'Escape') {
-            const closeSettings = document.querySelector('.close-settings');
-            if (closeSettings) closeSettings.click();
+            closeSettingsBtn.click();
           }
         });
       }
@@ -2538,6 +2508,9 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
 
       fileUpload.addEventListener('change', handleFileUpload);
       bulkFileUpload.addEventListener('change', handleBulkFileUpload);
+      
+      // Initialize cookie consent
+      checkCookieConsent();
     }
     
     function updateBorderPreview() {
@@ -3101,6 +3074,33 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
     function showError(element, message) {
       element.textContent = message;
       element.style.display = 'block';
+    }
+    
+    function saveQRPreferences() {
+      const preferences = {
+        fgColor: fgColor.value,
+        bgColor: bgColor.value,
+        size: sizeSlider.value,
+        borderSize: borderSize.value,
+        borderColor: borderColor.value
+      };
+      localStorage.setItem(PREFERENCES_KEY, JSON.stringify(preferences));
+    }
+
+    function loadQRPreferences() {
+      const preferences = localStorage.getItem(PREFERENCES_KEY);
+      if (preferences) {
+        const { fgColor, bgColor, size, borderSize, borderColor } = JSON.parse(preferences);
+        document.getElementById('fg-color').value = fgColor || '#000000';
+        document.getElementById('bg-color').value = bgColor || '#FFFFFF';
+        sizeSlider.value = size || '256';
+        borderSize.value = borderSize || '5';
+        borderColor.value = borderColor || '#FFFFFF';
+        updateSizeValue();
+        updateBorderSizeValue();
+        updateBorderPreview();
+        updateBulkBorderPreview();
+      }
     }
   </script>
 </body>
