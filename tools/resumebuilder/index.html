@@ -35,6 +35,10 @@
       min-height: 100vh;
       overflow-x: hidden;
     }
+    
+    body.menu-open {
+      overflow: hidden;
+    }
 
     .container {
       max-width: 1200px;
@@ -65,6 +69,7 @@
       font-weight: 700;
       color: var(--primary);
       text-decoration: none;
+      z-index: 2001;
     }
 
     .logo i {
@@ -107,6 +112,7 @@
       background: rgba(67, 97, 238, 0.1);
       color: var(--primary);
       outline: 2px solid var(--primary);
+      outline-offset: 2px;
     }
 
     .mobile-menu-btn {
@@ -118,30 +124,52 @@
       cursor: pointer;
       padding: 10px;
       border-radius: 5px;
+      z-index: 2001;
     }
 
     .mobile-menu-btn:hover, .mobile-menu-btn:focus {
       background: rgba(67, 97, 238, 0.1);
       outline: 2px solid var(--primary);
+      outline-offset: 2px;
     }
-
+    
+    /* Mobile Menu Backdrop */
+    .mobile-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1999;
+      display: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .mobile-backdrop.active {
+      display: block;
+      opacity: 1;
+    }
+    
     /* Mobile Navigation */
     .mobile-nav {
       position: fixed;
       top: 0;
-      left: -100%;
-      width: 280px;
+      left: 0;
+      width: 100%;
       height: 100vh;
       background: white;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
       z-index: 2000;
-      transition: var(--transition);
+      transform: translateX(-100%);
+      transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
       overflow-y: auto;
-      display: block;
+      display: flex;
+      flex-direction: column;
     }
     
     .mobile-nav.active {
-      left: 0;
+      transform: translateX(0);
     }
     
     .mobile-nav-header {
@@ -160,16 +188,23 @@
       cursor: pointer;
       padding: 5px;
       border-radius: 5px;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     
     .close-mobile-menu:hover, .close-mobile-menu:focus {
       background: rgba(0, 0, 0, 0.05);
       outline: 2px solid var(--primary);
+      outline-offset: 2px;
     }
     
     .mobile-nav-menu {
       list-style: none;
       padding: 20px;
+      flex: 1;
     }
     
     .mobile-nav-item {
@@ -178,18 +213,26 @@
     
     .mobile-nav-link {
       display: block;
-      padding: 12px 15px;
+      padding: 15px 20px;
       color: var(--dark);
       text-decoration: none;
       font-weight: 500;
       border-radius: var(--border-radius);
       transition: var(--transition);
+      font-size: 1.1rem;
     }
     
     .mobile-nav-link:hover, .mobile-nav-link:focus {
       background: rgba(67, 97, 238, 0.1);
       color: var(--primary);
       outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+    
+    .mobile-nav-link i {
+      width: 24px;
+      text-align: center;
+      margin-right: 10px;
     }
 
     /* Hero Section */
@@ -256,6 +299,10 @@
       margin: 20px 0 15px;
       color: var(--dark);
       font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      justify-content: center;
     }
     
     .tabs {
@@ -347,10 +394,12 @@
       transition: var(--transition);
     }
     
-    button:hover {
+    button:hover, button:focus {
       background: var(--primary-dark);
       transform: translateY(-2px);
       box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
     }
     
     .btn-secondary {
@@ -367,9 +416,11 @@
       color: var(--primary);
     }
     
-    .btn-outline:hover {
+    .btn-outline:hover, .btn-outline:focus {
       background: var(--primary);
       color: white;
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
     }
 
     .btn-group {
@@ -465,8 +516,10 @@
       transition: var(--transition);
     }
 
-    .use-template-btn:hover {
+    .use-template-btn:hover, .use-template-btn:focus {
       background: var(--primary-dark);
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
     }
 
     .resume-preview {
@@ -567,7 +620,7 @@
       margin: 40px auto;
     }
 
-    /* FIXED: Features grid layout - 2 cards per row */
+    /* Features grid layout - 2 cards per row */
     .features-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -614,6 +667,50 @@
       margin-bottom: 20px;
       color: var(--gray);
       font-size: 1.1rem;
+    }
+
+    /* Resume Creation Guide */
+    .guide-section {
+      background: var(--light);
+      border-radius: var(--border-radius);
+      padding: 40px;
+      margin: 40px auto;
+      box-shadow: var(--box-shadow);
+      text-align: center;
+    }
+    
+    .guide-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+      margin-top: 25px;
+    }
+    
+    .guide-item {
+      padding: 25px;
+      background: #f8f9ff;
+      border-radius: var(--border-radius);
+      text-align: center;
+      font-size: 14px;
+    }
+    
+    .guide-item h3 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: center;
+    }
+    
+    .guide-item h3 i {
+      font-size: 1.8rem;
+    }
+    
+    .guide-item p {
+      font-size: 1rem;
+      color: #444;
     }
 
     /* Updated Uses Section - All White */
@@ -721,6 +818,7 @@
       color: var(--primary);
       text-decoration: underline;
       outline: 2px solid var(--primary);
+      outline-offset: 2px;
     }
 
     .footer-links-row {
@@ -738,6 +836,302 @@
       margin: 0;
     }
 
+    /* Cookie Consent Styles */
+    #cookie-consent {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 95%;
+      max-width: 800px;
+      background: var(--light);
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      padding: 20px;
+      z-index: 1000;
+      display: none;
+    }
+
+    .cookie-content {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .cookie-text {
+      flex: 1;
+      min-width: 300px;
+      color: var(--dark);
+    }
+
+    .cookie-text p {
+      margin-bottom: 10px;
+      font-size: 0.95rem;
+      color: #444;
+    }
+
+    .cookie-text a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .cookie-text a:hover, .cookie-text a:focus {
+      text-decoration: underline;
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    .cookie-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .cookie-btn {
+      padding: 10px 20px;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 0.9rem;
+      border: none;
+      min-width: 180px;
+    }
+
+    .cookie-btn:focus {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    .reject-btn {
+      background: var(--light-gray);
+      color: var(--dark);
+    }
+
+    .reject-btn:hover {
+      background: #e0e0e0;
+    }
+
+    .accept-btn {
+      background: var(--primary);
+      color: white;
+    }
+
+    .accept-btn:hover {
+      background: var(--primary-dark);
+    }
+
+    .cookie-settings-btn {
+      background: transparent;
+      color: var(--gray);
+      text-decoration: underline;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      margin-top: 10px;
+      font-size: 0.85rem;
+    }
+
+    .cookie-settings-btn:hover, .cookie-settings-btn:focus {
+      color: var(--dark);
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    #cookie-settings {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    .settings-modal {
+      background: var(--light);
+      border-radius: var(--border-radius);
+      width: 95%;
+      max-width: 600px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 30px;
+      position: relative;
+      animation: slideUp 0.3s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .settings-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .settings-header h2 {
+      font-size: 1.8rem;
+      margin: 0;
+    }
+
+    .close-settings {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--gray);
+      transition: var(--transition);
+      padding: 5px;
+      border-radius: 5px;
+    }
+
+    .close-settings:hover, .close-settings:focus {
+      color: var(--dark);
+      background: rgba(0, 0, 0, 0.05);
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    .settings-content {
+      margin-bottom: 20px;
+    }
+
+    .cookie-type {
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid var(--light-gray);
+    }
+
+    .cookie-type-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .cookie-type h3 {
+      margin: 0;
+      font-size: 1.2rem;
+    }
+
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 24px;
+    }
+
+    .toggle-switch input {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+      z-index: 1;
+    }
+
+    .slider {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: var(--gray);
+      transition: background-color 0.3s ease;
+      border-radius: 24px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: transform 0.3s ease;
+      border-radius: 50%;
+    }
+
+    .toggle-switch input:checked + .slider {
+      background-color: var(--primary);
+    }
+
+    .toggle-switch input:checked + .slider:before {
+      transform: translateX(26px);
+    }
+
+    .toggle-switch input:focus + .slider {
+      box-shadow: 0 0 0 2px var(--primary-dark);
+    }
+
+    .toggle-switch input:disabled + .slider {
+      background-color: var(--light-gray);
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .toggle-switch input:disabled + .slider:before {
+      background-color: #ddd;
+    }
+
+    .cookie-type p {
+      font-size: 0.9rem;
+      color: #444;
+      margin-bottom: 10px;
+    }
+
+    .settings-buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .save-settings {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 25px;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .save-settings:hover, .save-settings:focus {
+      background: var(--primary-dark);
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+    
+    /* Accessibility Improvements */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+
     /* Responsive Design */
     @media (max-width: 992px) {
       .nav-menu {
@@ -748,16 +1142,16 @@
         display: block;
       }
       
-      .hero h1 {
-        font-size: 2rem;
-      }
-      
-      h2 {
-        font-size: 1.5rem;
-      }
-      
       .tool-row {
         flex-direction: column;
+      }
+      
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .guide-grid {
+        grid-template-columns: 1fr;
       }
     }
 
@@ -765,11 +1159,18 @@
       .mobile-nav {
         display: none !important;
       }
+      .mobile-backdrop {
+        display: none !important;
+      }
     }
 
     @media (max-width: 768px) {
-      .features-grid {
-        grid-template-columns: 1fr;
+      .hero h1 {
+        font-size: 2rem;
+      }
+      
+      .section-title {
+        font-size: 2rem;
       }
       
       .btn-group {
@@ -787,9 +1188,25 @@
       .uses-grid {
         grid-template-columns: 1fr;
       }
+      
+      .template-grid {
+        grid-template-columns: 1fr;
+      }
     }
 
     @media (max-width: 576px) {
+      .header-container {
+        padding: 15px 0;
+      }
+      
+      .logo {
+        font-size: 1.5rem;
+      }
+      
+      .logo i {
+        font-size: 1.8rem;
+      }
+      
       .hero {
         padding: 40px 0 20px;
       }
@@ -802,13 +1219,21 @@
         padding: 20px;
       }
       
-      .tab {
-        padding: 10px 15px;
-        font-size: 0.9rem;
+      h2 {
+        font-size: 1.5rem;
+      }
+      
+      h3 {
+        font-size: 1.2rem;
       }
       
       .uses-section {
         padding: 25px;
+      }
+      
+      .tab {
+        padding: 10px 15px;
+        font-size: 0.9rem;
       }
     }
   </style>
@@ -818,7 +1243,7 @@
   <header>
     <div class="container">
       <div class="header-container">
-        <a href="/" class="logo" aria-label="EveryTool.io Home">
+        <a href="https://everytool.io/" class="logo" aria-label="EveryTool.io Home">
           <i class="fas fa-tools"></i>
           EveryTool.io
         </a>
@@ -826,7 +1251,7 @@
         <div class="nav-container">
           <ul class="nav-menu">
             <li class="nav-item">
-              <a href="/" class="nav-link" aria-label="Home"><i class="fas fa-home"></i> Home</a>
+              <a href="https://everytool.io/" class="nav-link" aria-label="Home"><i class="fas fa-home"></i> Home</a>
             </li>
             <li class="nav-item">
               <a href="/tools" class="nav-link" aria-label="Tools"><i class="fas fa-toolbox"></i> Tools</a>
@@ -849,10 +1274,13 @@
     </div>
   </header>
 
+  <!-- Mobile Menu Backdrop -->
+  <div class="mobile-backdrop" id="mobile-backdrop"></div>
+
   <!-- Mobile Navigation -->
   <div class="mobile-nav" id="mobile-nav">
     <div class="mobile-nav-header">
-      <a href="/" class="logo" aria-label="EveryTool.io Home">
+      <a href="https://everytool.io/" class="logo" aria-label="EveryTool.io Home">
         <i class="fas fa-tools"></i>
         EveryTool.io
       </a>
@@ -862,7 +1290,7 @@
     </div>
     <ul class="mobile-nav-menu">
       <li class="mobile-nav-item">
-        <a href="/" class="mobile-nav-link" aria-label="Home"><i class="fas fa-home"></i> Home</a>
+        <a href="https://everytool.io/" class="mobile-nav-link" aria-label="Home"><i class="fas fa-home"></i> Home</a>
       </li>
       <li class="mobile-nav-item">
         <a href="/tools" class="mobile-nav-link" aria-label="Tools"><i class="fas fa-toolbox"></i> Tools</a>
@@ -877,6 +1305,71 @@
         <a href="/contact" class="mobile-nav-link" aria-label="Contact"><i class="fas fa-envelope"></i> Contact</a>
       </li>
     </ul>
+  </div>
+
+  <!-- Cookie Consent Banner -->
+  <div id="cookie-consent" role="dialog" aria-labelledby="cookie-consent-banner" aria-describedby="cookie-consent-desc">
+    <div class="sr-only" id="cookie-consent-banner">Cookie Consent</div>
+    <div class="cookie-content" id="cookie-consent-desc">
+      <div class="cookie-text">
+        <p>We use cookies to enhance your experience and analyze site traffic. By clicking "Accept All", you consent to our use of cookies. 
+          <a href="/privacy-policy.html" aria-label="Learn more about our Privacy Policy">Learn more</a> in our Privacy Policy.
+        </p>
+        <button class="cookie-settings-btn" id="open-settings" aria-label="Open cookie settings">Cookie Settings</button>
+      </div>
+      <div class="cookie-buttons">
+        <button class="cookie-btn reject-btn" id="reject-cookies" aria-label="Reject non-essential cookies">Reject Non-Essential</button>
+        <button class="cookie-btn accept-btn" id="accept-cookies" aria-label="Accept all cookies">Accept All</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="cookie-settings" role="dialog" aria-labelledby="cookie-settings-title" aria-describedby="cookie-settings-desc">
+    <div class="settings-modal">
+      <div class="settings-header">
+        <h2 id="cookie-settings-title"><i class="fas fa-cookie-bite"></i> Cookie Settings</h2>
+        <button class="close-settings" id="close-settings" aria-label="Close cookie settings">×</button>
+      </div>
+      <div class="settings-content">
+        <p id="cookie-settings-desc">You can set your preferences for how we and our partners use cookies and similar technologies.</p>
+        
+        <div class="cookie-type">
+          <div class="cookie-type-header">
+            <h3>Essential Cookies</h3>
+            <label class="toggle-switch" for="essential-toggle">
+              <input type="checkbox" id="essential-toggle" checked disabled aria-label="Essential cookies (always enabled, cannot be disabled)" aria-describedby="essential-desc">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <p id="essential-desc">These cookies are necessary for the website to function and cannot be switched off.</p>
+        </div>
+        
+        <div class="cookie-type">
+          <div class="cookie-type-header">
+            <h3>Analytics Cookies</h3>
+            <label class="toggle-switch" for="analytics-toggle">
+              <input type="checkbox" id="analytics-toggle" aria-label="Analytics cookies toggle" aria-describedby="analytics-desc">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <p id="analytics-desc">These cookies allow us to count visits and traffic sources so we can measure and improve the performance of our site.</p>
+        </div>
+        
+        <div class="cookie-type">
+          <div class="cookie-type-header">
+            <h3>Advertising Cookies</h3>
+            <label class="toggle-switch" for="advertising-toggle">
+              <input type="checkbox" id="advertising-toggle" aria-label="Advertising cookies toggle" aria-describedby="advertising-desc">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <p id="advertising-desc">These cookies may be set through our site by our advertising partners to build a profile of your interests.</p>
+        </div>
+      </div>
+      <div class="settings-buttons">
+        <button class="save-settings" id="save-settings" aria-label="Save cookie settings">Save Settings</button>
+      </div>
+    </div>
   </div>
 
   <!-- Hero Section -->
@@ -916,76 +1409,100 @@
       </div>
     </div>
 
+    <!-- Resume Creation Guide -->
+    <div class="guide-section">
+      <h2><i class="fas fa-book"></i> Resume Creation Guide</h2>
+      <p>Follow these steps to create your perfect resume:</p>
+      <div class="guide-grid">
+        <div class="guide-item">
+          <h3><i class="fas fa-user"></i> Personal Details</h3>
+          <p>Start with your name, contact information, and professional summary</p>
+        </div>
+        <div class="guide-item">
+          <h3><i class="fas fa-briefcase"></i> Work Experience</h3>
+          <p>List your relevant work history, starting with your most recent position</p>
+        </div>
+        <div class="guide-item">
+          <h3><i class="fas fa-graduation-cap"></i> Education</h3>
+          <p>Add your degrees, certifications, and educational achievements</p>
+        </div>
+        <div class="guide-item">
+          <h3><i class="fas fa-star"></i> Skills & Expertise</h3>
+          <p>Highlight your professional skills and areas of expertise</p>
+        </div>
+      </div>
+    </div>
+
     <!-- Main Resume Builder Card -->
     <div class="card">
-      <div class="tabs">
-        <div class="tab active" data-tab="personal">
+      <div class="tabs" role="tablist">
+        <div class="tab active" data-tab="personal" role="tab" aria-selected="true" tabindex="0">
           <i class="fas fa-user"></i> Personal
         </div>
-        <div class="tab" data-tab="experience">
+        <div class="tab" data-tab="experience" role="tab" aria-selected="false" tabindex="0">
           <i class="fas fa-briefcase"></i> Experience
         </div>
-        <div class="tab" data-tab="education">
+        <div class="tab" data-tab="education" role="tab" aria-selected="false" tabindex="0">
           <i class="fas fa-graduation-cap"></i> Education
         </div>
-        <div class="tab" data-tab="skills">
+        <div class="tab" data-tab="skills" role="tab" aria-selected="false" tabindex="0">
           <i class="fas fa-star"></i> Skills
         </div>
-        <div class="tab" data-tab="preview">
+        <div class="tab" data-tab="preview" role="tab" aria-selected="false" tabindex="0">
           <i class="fas fa-eye"></i> Preview
         </div>
       </div>
 
       <!-- Personal Information -->
-      <div class="tab-content active" id="personal-tab">
+      <div class="tab-content active" id="personal-tab" role="tabpanel">
         <h2><i class="fas fa-user"></i> Personal Information</h2>
         <p>Add your contact details and professional summary.</p>
         
         <div class="tool-row">
           <div class="tool-col">
             <label for="fullName">Full Name</label>
-            <input type="text" id="fullName" placeholder="John Doe">
+            <input type="text" id="fullName" placeholder="John Doe" aria-label="Enter your full name">
           </div>
           <div class="tool-col">
             <label for="jobTitle">Professional Title</label>
-            <input type="text" id="jobTitle" placeholder="e.g. Software Engineer">
+            <input type="text" id="jobTitle" placeholder="e.g. Software Engineer" aria-label="Enter your professional title">
           </div>
         </div>
         
         <div class="tool-row">
           <div class="tool-col">
             <label for="email">Email</label>
-            <input type="email" id="email" placeholder="john@example.com">
+            <input type="email" id="email" placeholder="john@example.com" aria-label="Enter your email">
           </div>
           <div class="tool-col">
             <label for="phone">Phone</label>
-            <input type="tel" id="phone" placeholder="(123) 456-7890">
+            <input type="tel" id="phone" placeholder="(123) 456-7890" aria-label="Enter your phone number">
           </div>
         </div>
         
         <div class="tool-row">
           <div class="tool-col">
             <label for="location">Location</label>
-            <input type="text" id="location" placeholder="City, State">
+            <input type="text" id="location" placeholder="City, State" aria-label="Enter your location">
           </div>
           <div class="tool-col">
             <label for="website">Website/Portfolio</label>
-            <input type="url" id="website" placeholder="https://yourportfolio.com">
+            <input type="url" id="website" placeholder="https://yourportfolio.com" aria-label="Enter your website or portfolio">
           </div>
         </div>
         
         <label for="summary">Professional Summary</label>
-        <textarea id="summary" placeholder="Experienced professional with 5+ years in..."></textarea>
+        <textarea id="summary" placeholder="Experienced professional with 5+ years in..." aria-label="Enter your professional summary"></textarea>
         
         <div class="btn-group">
-          <button id="nextExperienceBtn">
+          <button id="nextExperienceBtn" aria-label="Go to experience section">
             Next: Experience <i class="fas fa-arrow-right"></i>
           </button>
         </div>
       </div>
 
       <!-- Work Experience -->
-      <div class="tab-content" id="experience-tab">
+      <div class="tab-content" id="experience-tab" role="tabpanel">
         <h2><i class="fas fa-briefcase"></i> Work Experience</h2>
         <p>Add your work history, starting with your most recent position.</p>
         
@@ -994,50 +1511,50 @@
             <div class="tool-row">
               <div class="tool-col">
                 <label for="jobTitle1">Job Title</label>
-                <input type="text" id="jobTitle1" placeholder="Senior Developer">
+                <input type="text" id="jobTitle1" placeholder="Senior Developer" aria-label="Enter job title">
               </div>
               <div class="tool-col">
                 <label for="company1">Company</label>
-                <input type="text" id="company1" placeholder="Tech Solutions Inc.">
+                <input type="text" id="company1" placeholder="Tech Solutions Inc." aria-label="Enter company name">
               </div>
             </div>
             
             <div class="tool-row">
               <div class="tool-col">
                 <label for="startDate1">Start Date</label>
-                <input type="month" id="startDate1">
+                <input type="month" id="startDate1" aria-label="Enter start date">
               </div>
               <div class="tool-col">
                 <label for="endDate1">End Date</label>
-                <input type="month" id="endDate1">
+                <input type="month" id="endDate1" aria-label="Enter end date">
                 <div style="margin-top: 5px;">
-                  <input type="checkbox" id="currentJob1">
+                  <input type="checkbox" id="currentJob1" aria-label="I currently work here">
                   <label for="currentJob1">I currently work here</label>
                 </div>
               </div>
             </div>
             
             <label for="jobDescription1">Description</label>
-            <textarea id="jobDescription1" placeholder="Describe your responsibilities and achievements..."></textarea>
+            <textarea id="jobDescription1" placeholder="Describe your responsibilities and achievements..." aria-label="Enter job description"></textarea>
           </div>
         </div>
         
-        <button id="addExperienceBtn" style="margin: 15px 0;">
+        <button id="addExperienceBtn" style="margin: 15px 0;" aria-label="Add another position">
           <i class="fas fa-plus"></i> Add Another Position
         </button>
         
         <div class="btn-group">
-          <button class="btn-outline" id="backPersonalBtn">
+          <button class="btn-outline" id="backPersonalBtn" aria-label="Go back to personal section">
             <i class="fas fa-arrow-left"></i> Back
           </button>
-          <button id="nextEducationBtn">
+          <button id="nextEducationBtn" aria-label="Go to education section">
             Next: Education <i class="fas fa-arrow-right"></i>
           </button>
         </div>
       </div>
 
       <!-- Education -->
-      <div class="tab-content" id="education-tab">
+      <div class="tab-content" id="education-tab" role="tabpanel">
         <h2><i class="fas fa-graduation-cap"></i> Education</h2>
         <p>Add your educational background.</p>
         
@@ -1046,24 +1563,24 @@
             <div class="tool-row">
               <div class="tool-col">
                 <label for="degree1">Degree/Certificate</label>
-                <input type="text" id="degree1" placeholder="e.g. Bachelor of Science">
+                <input type="text" id="degree1" placeholder="e.g. Bachelor of Science" aria-label="Enter degree or certificate">
               </div>
               <div class="tool-col">
                 <label for="institution1">Institution</label>
-                <input type="text" id="institution1" placeholder="University Name">
+                <input type="text" id="institution1" placeholder="University Name" aria-label="Enter institution name">
               </div>
             </div>
             
             <div class="tool-row">
               <div class="tool-col">
                 <label for="eduStartDate1">Start Date</label>
-                <input type="month" id="eduStartDate1">
+                <input type="month" id="eduStartDate1" aria-label="Enter education start date">
               </div>
               <div class="tool-col">
                 <label for="eduEndDate1">End Date</label>
-                <input type="month" id="eduEndDate1">
+                <input type="month" id="eduEndDate1" aria-label="Enter education end date">
                 <div style="margin-top: 5px;">
-                  <input type="checkbox" id="currentEducation1">
+                  <input type="checkbox" id="currentEducation1" aria-label="Currently studying">
                   <label for="currentEducation1">Currently studying</label>
                 </div>
               </div>
@@ -1072,32 +1589,32 @@
             <div class="tool-row">
               <div class="tool-col">
                 <label for="gpa1">GPA (optional)</label>
-                <input type="text" id="gpa1" placeholder="e.g. 3.8">
+                <input type="text" id="gpa1" placeholder="e.g. 3.8" aria-label="Enter GPA">
               </div>
               <div class="tool-col">
                 <label for="location1">Location</label>
-                <input type="text" id="location1" placeholder="City, State">
+                <input type="text" id="location1" placeholder="City, State" aria-label="Enter institution location">
               </div>
             </div>
           </div>
         </div>
         
-        <button id="addEducationBtn" style="margin: 15px 0;">
+        <button id="addEducationBtn" style="margin: 15px 0;" aria-label="Add another education entry">
           <i class="fas fa-plus"></i> Add Another Education
         </button>
         
         <div class="btn-group">
-          <button class="btn-outline" id="backExperienceBtn">
+          <button class="btn-outline" id="backExperienceBtn" aria-label="Go back to experience section">
             <i class="fas fa-arrow-left"></i> Back
           </button>
-          <button id="nextSkillsBtn">
+          <button id="nextSkillsBtn" aria-label="Go to skills section">
             Next: Skills <i class="fas fa-arrow-right"></i>
           </button>
         </div>
       </div>
 
       <!-- Skills -->
-      <div class="tab-content" id="skills-tab">
+      <div class="tab-content" id="skills-tab" role="tabpanel">
         <h2><i class="fas fa-star"></i> Skills</h2>
         <p>Add your professional skills and expertise.</p>
         
@@ -1105,11 +1622,11 @@
           <div class="tool-row">
             <div class="tool-col">
               <label for="skill1">Skill</label>
-              <input type="text" id="skill1" placeholder="e.g. JavaScript">
+              <input type="text" id="skill1" placeholder="e.g. JavaScript" aria-label="Enter skill">
             </div>
             <div class="tool-col">
               <label for="skillLevel1">Proficiency Level</label>
-              <select id="skillLevel1">
+              <select id="skillLevel1" aria-label="Select proficiency level">
                 <option value="beginner">Beginner</option>
                 <option value="intermediate">Intermediate</option>
                 <option value="advanced">Advanced</option>
@@ -1119,25 +1636,25 @@
           </div>
         </div>
         
-        <button id="addSkillBtn" style="margin: 15px 0;">
+        <button id="addSkillBtn" style="margin: 15px 0;" aria-label="Add another skill">
           <i class="fas fa-plus"></i> Add Another Skill
         </button>
         
         <label for="additionalSkills">Additional Skills (comma separated)</label>
-        <textarea id="additionalSkills" placeholder="e.g. Project Management, Communication, Leadership"></textarea>
+        <textarea id="additionalSkills" placeholder="e.g. Project Management, Communication, Leadership" aria-label="Enter additional skills"></textarea>
         
         <div class="btn-group">
-          <button class="btn-outline" id="backEducationBtn">
+          <button class="btn-outline" id="backEducationBtn" aria-label="Go back to education section">
             <i class="fas fa-arrow-left"></i> Back
           </button>
-          <button id="previewResumeBtn">
+          <button id="previewResumeBtn" aria-label="Preview resume">
             Preview Resume <i class="fas fa-eye"></i>
           </button>
         </div>
       </div>
 
       <!-- Preview -->
-      <div class="tab-content" id="preview-tab">
+      <div class="tab-content" id="preview-tab" role="tabpanel">
         <h2><i class="fas fa-eye"></i> Resume Preview</h2>
         <p>Review your resume before downloading.</p>
         
@@ -1149,7 +1666,7 @@
             <div class="template-details">
               <h3>Modern Professional</h3>
               <p>Clean design perfect for tech and creative industries</p>
-              <button class="use-template-btn">Select Template</button>
+              <button class="use-template-btn" aria-label="Select modern professional template">Select Template</button>
             </div>
           </div>
           
@@ -1160,7 +1677,7 @@
             <div class="template-details">
               <h3>Executive Minimalist</h3>
               <p>Sophisticated layout for management positions</p>
-              <button class="use-template-btn">Select Template</button>
+              <button class="use-template-btn" aria-label="Select executive minimalist template">Select Template</button>
             </div>
           </div>
           
@@ -1171,7 +1688,7 @@
             <div class="template-details">
               <h3>Creative Portfolio</h3>
               <p>Showcase your work with this visual design</p>
-              <button class="use-template-btn">Select Template</button>
+              <button class="use-template-btn" aria-label="Select creative portfolio template">Select Template</button>
             </div>
           </div>
         </div>
@@ -1230,10 +1747,10 @@
         </div>
         
         <div class="action-buttons">
-          <button class="btn-outline" id="backSkillsBtn">
+          <button class="btn-outline" id="backSkillsBtn" aria-label="Edit resume">
             <i class="fas fa-edit"></i> Edit Resume
           </button>
-          <button id="downloadPdfBtn">
+          <button id="downloadPdfBtn" aria-label="Download resume as PDF">
             <i class="fas fa-download"></i> Download PDF
           </button>
         </div>
@@ -1275,6 +1792,16 @@
           <h3>International Opportunities</h3>
           <p>Create region-specific resume formats</p>
         </div>
+        <div class="use-card">
+          <i class="fas fa-award"></i>
+          <h3>Award Applications</h3>
+          <p>Prepare resumes for professional awards and recognitions</p>
+        </div>
+        <div class="use-card">
+          <i class="fas fa-chalkboard-teacher"></i>
+          <h3>Teaching Positions</h3>
+          <p>Create academic CVs for education roles</p>
+        </div>
       </div>
     </div>
   </div>
@@ -1284,10 +1811,10 @@
     <div class="container">
       <div class="footer-bottom">
         <div class="footer-links-row">
-          <a href="/privacy">Privacy Policy</a>
-          <a href="/terms">Terms of Service</a>
-          <a href="/gdpr">GDPR Compliance</a>
-          <a href="#">Cookie Settings</a>
+          <a href="/privacy" aria-label="Privacy Policy">Privacy Policy</a>
+          <a href="/terms" aria-label="Terms of Service">Terms of Service</a>
+          <a href="/gdpr" aria-label="GDPR Compliance">GDPR Compliance</a>
+          <a href="#" id="open-settings-footer" aria-label="Open cookie settings">Cookie Settings</a>
         </div>
         <p>© 2025 EveryTool.io. All rights reserved.</p>
       </div>
@@ -1295,37 +1822,156 @@
   </footer>
 
   <script>
-    // Mobile Menu Functions
+    // Mobile Menu Functionality - Fixed Implementation
     function initMobileMenu() {
       const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
       const closeMobileMenu = document.getElementById('close-mobile-menu');
       const mobileNav = document.getElementById('mobile-nav');
-
-      mobileMenuToggle.addEventListener('click', () => {
+      const mobileBackdrop = document.getElementById('mobile-backdrop');
+      
+      function openMobileMenu() {
         mobileNav.classList.add('active');
+        mobileBackdrop.classList.add('active');
+        document.body.classList.add('menu-open');
         document.body.style.overflow = 'hidden';
-      });
-
-      closeMobileMenu.addEventListener('click', () => {
+      }
+      
+      function closeMobileMenuHandler() {
         mobileNav.classList.remove('active');
+        mobileBackdrop.classList.remove('active');
+        document.body.classList.remove('menu-open');
         document.body.style.overflow = '';
+      }
+      
+      if (mobileMenuToggle) {
+        mobileMenuToggle.addEventListener('click', openMobileMenu);
+      }
+      
+      if (closeMobileMenu) {
+        closeMobileMenu.addEventListener('click', closeMobileMenuHandler);
+      }
+      
+      if (mobileBackdrop) {
+        mobileBackdrop.addEventListener('click', closeMobileMenuHandler);
+      }
+      
+      // Close menu when clicking on links
+      const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+      mobileLinks.forEach(link => {
+        link.addEventListener('click', closeMobileMenuHandler);
       });
-
-      document.addEventListener('click', (e) => {
-        if (mobileNav.classList.contains('active') && 
-            !mobileNav.contains(e.target) && 
-            e.target !== mobileMenuToggle) {
-          mobileNav.classList.remove('active');
-          document.body.style.overflow = '';
+      
+      // Close menu when pressing Escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && mobileNav.classList.contains('active')) {
+          closeMobileMenuHandler();
         }
       });
+    }
 
-      document.querySelectorAll('.mobile-nav-link').forEach(link => {
-        link.addEventListener('click', () => {
-          mobileNav.classList.remove('active');
-          document.body.style.overflow = '';
+    // Cookie Consent Functionality
+    function initCookieConsent() {
+      const COOKIE_CONSENT_KEY = 'cookieConsent';
+      
+      function getCookiePreferences() {
+        const preferences = localStorage.getItem(COOKIE_CONSENT_KEY);
+        return preferences ? JSON.parse(preferences) : { essential: true, analytics: false, advertising: false };
+      }
+      
+      function saveCookiePreferences(preferences) {
+        try {
+          localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(preferences));
+        } catch (e) {
+          console.warn('Failed to save cookie preferences:', e);
+        }
+      }
+      
+      function checkCookieConsent() {
+        const preferences = getCookiePreferences();
+        if (!preferences || !preferences.hasOwnProperty('essential')) {
+          const consent = document.getElementById('cookie-consent');
+          if (consent) consent.style.display = 'block';
+        } else {
+          const analyticsToggle = document.getElementById('analytics-toggle');
+          const advertisingToggle = document.getElementById('advertising-toggle');
+          if (analyticsToggle) analyticsToggle.checked = preferences.analytics;
+          if (advertisingToggle) advertisingToggle.checked = preferences.advertising;
+        }
+      }
+      
+      function openCookieSettings() {
+        const preferences = getCookiePreferences();
+        const analyticsToggle = document.getElementById('analytics-toggle');
+        const advertisingToggle = document.getElementById('advertising-toggle');
+        if (analyticsToggle) analyticsToggle.checked = preferences.analytics;
+        if (advertisingToggle) advertisingToggle.checked = preferences.advertising;
+        const settings = document.getElementById('cookie-settings');
+        if (settings) settings.style.display = 'flex';
+        // Focus the first focusable element in the modal
+        document.getElementById('analytics-toggle').focus();
+      }
+      
+      function closeCookieSettings() {
+        const settings = document.getElementById('cookie-settings');
+        if (settings) settings.style.display = 'none';
+        // Return focus to the button that opened the settings
+        document.getElementById('open-settings').focus();
+      }
+      
+      // Set up event listeners
+      const acceptBtn = document.getElementById('accept-cookies');
+      if (acceptBtn) {
+        acceptBtn.addEventListener('click', () => {
+          saveCookiePreferences({
+            essential: true,
+            analytics: true,
+            advertising: true
+          });
+          document.getElementById('cookie-consent').style.display = 'none';
         });
-      });
+      }
+      
+      const rejectBtn = document.getElementById('reject-cookies');
+      if (rejectBtn) {
+        rejectBtn.addEventListener('click', () => {
+          saveCookiePreferences({
+            essential: true,
+            analytics: false,
+            advertising: false
+          });
+          document.getElementById('cookie-consent').style.display = 'none';
+        });
+      }
+      
+      const openSettingsBtn = document.getElementById('open-settings');
+      if (openSettingsBtn) openSettingsBtn.addEventListener('click', openCookieSettings);
+      
+      const closeSettingsBtn = document.getElementById('close-settings');
+      if (closeSettingsBtn) closeSettingsBtn.addEventListener('click', closeCookieSettings);
+      
+      const saveSettingsBtn = document.getElementById('save-settings');
+      if (saveSettingsBtn) {
+        saveSettingsBtn.addEventListener('click', () => {
+          saveCookiePreferences({
+            essential: true,
+            analytics: document.getElementById('analytics-toggle').checked,
+            advertising: document.getElementById('advertising-toggle').checked
+          });
+          closeCookieSettings();
+          document.getElementById('cookie-consent').style.display = 'none';
+        });
+      }
+      
+      const openSettingsFooter = document.getElementById('open-settings-footer');
+      if (openSettingsFooter) {
+        openSettingsFooter.addEventListener('click', (e) => {
+          e.preventDefault();
+          openCookieSettings();
+        });
+      }
+      
+      // Initialize cookie preferences
+      checkCookieConsent();
     }
 
     // Resume Builder Functionality
@@ -1347,6 +1993,12 @@
       // Initialize Tabs
       document.querySelectorAll('.tab').forEach(tab => {
         tab.addEventListener('click', () => switchTab(tab.dataset.tab));
+        tab.addEventListener('keydown', e => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            tab.click();
+          }
+        });
       });
       
       // Navigation buttons
@@ -1391,31 +2043,31 @@
           <div class="tool-row">
             <div class="tool-col">
               <label for="jobTitle${count}">Job Title</label>
-              <input type="text" id="jobTitle${count}" placeholder="Senior Developer">
+              <input type="text" id="jobTitle${count}" placeholder="Senior Developer" aria-label="Enter job title">
             </div>
             <div class="tool-col">
               <label for="company${count}">Company</label>
-              <input type="text" id="company${count}" placeholder="Tech Solutions Inc.">
+              <input type="text" id="company${count}" placeholder="Tech Solutions Inc." aria-label="Enter company name">
             </div>
           </div>
           
           <div class="tool-row">
             <div class="tool-col">
               <label for="startDate${count}">Start Date</label>
-              <input type="month" id="startDate${count}">
+              <input type="month" id="startDate${count}" aria-label="Enter start date">
             </div>
             <div class="tool-col">
               <label for="endDate${count}">End Date</label>
-              <input type="month" id="endDate${count}">
+              <input type="month" id="endDate${count}" aria-label="Enter end date">
               <div style="margin-top: 5px;">
-                <input type="checkbox" id="currentJob${count}">
+                <input type="checkbox" id="currentJob${count}" aria-label="I currently work here">
                 <label for="currentJob${count}">I currently work here</label>
               </div>
             </div>
           </div>
           
           <label for="jobDescription${count}">Description</label>
-          <textarea id="jobDescription${count}" placeholder="Describe your responsibilities and achievements..."></textarea>
+          <textarea id="jobDescription${count}" placeholder="Describe your responsibilities and achievements..." aria-label="Enter job description"></textarea>
         `;
         
         container.appendChild(experienceItem);
@@ -1435,24 +2087,24 @@
           <div class="tool-row">
             <div class="tool-col">
               <label for="degree${count}">Degree/Certificate</label>
-              <input type="text" id="degree${count}" placeholder="e.g. Bachelor of Science">
+              <input type="text" id="degree${count}" placeholder="e.g. Bachelor of Science" aria-label="Enter degree or certificate">
             </div>
             <div class="tool-col">
               <label for="institution${count}">Institution</label>
-              <input type="text" id="institution${count}" placeholder="University Name">
+              <input type="text" id="institution${count}" placeholder="University Name" aria-label="Enter institution name">
             </div>
           </div>
           
           <div class="tool-row">
             <div class="tool-col">
               <label for="eduStartDate${count}">Start Date</label>
-              <input type="month" id="eduStartDate${count}">
+              <input type="month" id="eduStartDate${count}" aria-label="Enter education start date">
             </div>
             <div class="tool-col">
               <label for="eduEndDate${count}">End Date</label>
-              <input type="month" id="eduEndDate${count}">
+              <input type="month" id="eduEndDate${count}" aria-label="Enter education end date">
               <div style="margin-top: 5px;">
-                <input type="checkbox" id="currentEducation${count}">
+                <input type="checkbox" id="currentEducation${count}" aria-label="Currently studying">
                 <label for="currentEducation${count}">Currently studying</label>
               </div>
             </div>
@@ -1461,11 +2113,11 @@
           <div class="tool-row">
             <div class="tool-col">
               <label for="gpa${count}">GPA (optional)</label>
-              <input type="text" id="gpa${count}" placeholder="e.g. 3.8">
+              <input type="text" id="gpa${count}" placeholder="e.g. 3.8" aria-label="Enter GPA">
             </div>
             <div class="tool-col">
               <label for="location${count}">Location</label>
-              <input type="text" id="location${count}" placeholder="City, State">
+              <input type="text" id="location${count}" placeholder="City, State" aria-label="Enter institution location">
             </div>
           </div>
         `;
@@ -1489,11 +2141,11 @@
         skillRow.innerHTML = `
           <div class="tool-col">
             <label for="skill${count}">Skill</label>
-            <input type="text" id="skill${count}" placeholder="e.g. JavaScript">
+            <input type="text" id="skill${count}" placeholder="e.g. JavaScript" aria-label="Enter skill">
           </div>
           <div class="tool-col">
             <label for="skillLevel${count}">Proficiency Level</label>
-            <select id="skillLevel${count}">
+            <select id="skillLevel${count}" aria-label="Select proficiency level">
               <option value="beginner">Beginner</option>
               <option value="intermediate">Intermediate</option>
               <option value="advanced">Advanced</option>
@@ -1568,7 +2220,14 @@
     // Initialize when DOM is loaded
     document.addEventListener('DOMContentLoaded', () => {
       initMobileMenu();
+      initCookieConsent();
       initializeResumeBuilder();
+      
+      // Check cookie consent status
+      const preferences = localStorage.getItem('cookieConsent');
+      if (!preferences) {
+        document.getElementById('cookie-consent').style.display = 'block';
+      }
     });
   </script>
 </body>
