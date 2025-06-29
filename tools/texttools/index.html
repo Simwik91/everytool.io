@@ -45,7 +45,11 @@
       color: var(--dark);
       line-height: 1.6;
       min-height: 100vh;
-      overflow-x: hidden;
+      transition: transform 0.4s ease;
+    }
+    
+    body.menu-open {
+      overflow: hidden;
     }
 
     .container {
@@ -77,6 +81,7 @@
       font-weight: 700;
       color: var(--primary);
       text-decoration: none;
+      z-index: 2001;
     }
 
     .logo i {
@@ -131,12 +136,115 @@
       cursor: pointer;
       padding: 10px;
       border-radius: 5px;
+      z-index: 2001;
     }
 
     .mobile-menu-btn:hover, .mobile-menu-btn:focus {
       background: rgba(67, 97, 238, 0.1);
       outline: 2px solid var(--primary);
       outline-offset: 2px;
+    }
+    
+    /* Mobile Menu Backdrop */
+    .mobile-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1999;
+      display: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .mobile-backdrop.active {
+      display: block;
+      opacity: 1;
+    }
+    
+    /* Mobile Navigation */
+    .mobile-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: white;
+      z-index: 2000;
+      transform: translateX(-100%);
+      transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .mobile-nav.active {
+      transform: translateX(0);
+    }
+    
+    .mobile-nav-header {
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--light-gray);
+    }
+    
+    .close-mobile-menu {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--dark);
+      cursor: pointer;
+      padding: 5px;
+      border-radius: 5px;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .close-mobile-menu:hover, .close-mobile-menu:focus {
+      background: rgba(0, 0, 0, 0.05);
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+    
+    .mobile-nav-menu {
+      list-style: none;
+      padding: 20px;
+      flex: 1;
+    }
+    
+    .mobile-nav-item {
+      margin-bottom: 10px;
+    }
+    
+    .mobile-nav-link {
+      display: block;
+      padding: 15px 20px;
+      color: var(--dark);
+      text-decoration: none;
+      font-weight: 500;
+      border-radius: var(--border-radius);
+      transition: var(--transition);
+      font-size: 1.1rem;
+    }
+    
+    .mobile-nav-link:hover, .mobile-nav-link:focus {
+      background: rgba(67, 97, 238, 0.1);
+      color: var(--primary);
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+    
+    .mobile-nav-link i {
+      width: 24px;
+      text-align: center;
+      margin-right: 10px;
     }
 
     /* Hero Section */
@@ -300,10 +408,12 @@
       transition: var(--transition);
     }
     
-    button:hover {
+    button:hover, button:focus {
       background: var(--primary-dark);
       transform: translateY(-2px);
       box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
     }
     
     button:disabled {
@@ -646,7 +756,7 @@
       max-width: 800px;
       background: var(--light);
       border-radius: var(--border-radius);
-      box-shadow: 0 5px 30px rgba(0, 0, 0, 0.15);
+      box-shadow: var(--box-shadow);
       padding: 20px;
       z-index: 1000;
       display: none;
@@ -669,6 +779,7 @@
     .cookie-text p {
       margin-bottom: 10px;
       font-size: 0.95rem;
+      color: #444;
     }
 
     .cookie-text a {
@@ -765,6 +876,11 @@
       animation: slideUp 0.3s ease-out;
     }
 
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
     @keyframes slideUp {
       from { transform: translateY(20px); opacity: 0; }
       to { transform: translateY(0); opacity: 1; }
@@ -848,8 +964,6 @@
       bottom: 0;
       background-color: var(--gray);
       transition: background-color 0.3s ease;
-      -webkit-transition: background-color 0.3s ease;
-      -moz-transition: background-color 0.3s ease;
       border-radius: 24px;
     }
 
@@ -862,8 +976,6 @@
       bottom: 4px;
       background-color: white;
       transition: transform 0.3s ease;
-      -webkit-transition: transform 0.3s ease;
-      -moz-transition: transform 0.3s ease;
       border-radius: 50%;
     }
 
@@ -873,8 +985,6 @@
 
     .toggle-switch input:checked + .slider:before {
       transform: translateX(26px);
-      -webkit-transform: translateX(26px);
-      -moz-transform: translateX(26px);
     }
 
     .toggle-switch input:focus + .slider {
@@ -893,7 +1003,7 @@
 
     .cookie-type p {
       font-size: 0.9rem;
-      color: var(--gray);
+      color: #444;
       margin-bottom: 10px;
     }
 
@@ -919,7 +1029,7 @@
       outline: 2px solid var(--primary);
       outline-offset: 2px;
     }
-
+    
     /* Accessibility Improvements */
     .sr-only {
       position: absolute;
@@ -940,74 +1050,6 @@
       
       .mobile-menu-btn {
         display: block;
-      }
-      
-      .mobile-nav {
-        position: fixed;
-        top: 0;
-        left: -100%;
-        width: 280px;
-        height: 100vh;
-        background: white;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-        z-index: 2000;
-        transition: var(--transition);
-        overflow-y: auto;
-        display: block;
-      }
-      
-      .mobile-nav.active {
-        left: 0;
-      }
-      
-      .mobile-nav-header {
-        padding: 20px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 1px solid var(--light-gray);
-      }
-      
-      .close-mobile-menu {
-        background: none;
-        border: none;
-        font-size: 1.5rem;
-        color: var(--dark);
-        cursor: pointer;
-        padding: 5px;
-        border-radius: 5px;
-      }
-      
-      .close-mobile-menu:hover, .close-mobile-menu:focus {
-        background: rgba(0, 0, 0, 0.05);
-        outline: 2px solid var(--primary);
-        outline-offset: 2px;
-      }
-      
-      .mobile-nav-menu {
-        list-style: none;
-        padding: 20px;
-      }
-      
-      .mobile-nav-item {
-        margin-bottom: 10px;
-      }
-      
-      .mobile-nav-link {
-        display: block;
-        padding: 12px 15px;
-        color: var(--dark);
-        text-decoration: none;
-        font-weight: 500;
-        border-radius: var(--border-radius);
-        transition: var(--transition);
-      }
-      
-      .mobile-nav-link:hover, .mobile-nav-link:focus {
-        background: rgba(67, 97, 238, 0.1);
-        color: var(--primary);
-        outline: 2px solid var(--primary);
-        outline-offset: 2px;
       }
       
       .guide-grid {
@@ -1033,6 +1075,9 @@
 
     @media (min-width: 993px) {
       .mobile-nav {
+        display: none !important;
+      }
+      .mobile-backdrop {
         display: none !important;
       }
     }
@@ -1073,8 +1118,16 @@
         padding: 25px;
       }
       
+      .btn-group {
+        flex-direction: column;
+      }
+      
+      .btn-group button {
+        width: 100%;
+      }
+      
       .uses-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: 1fr;
       }
     }
 
@@ -1110,23 +1163,78 @@
       h3 {
         font-size: 1.2rem;
       }
-      
-      .uses-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .stat-card {
-        min-width: 120px;
-        padding: 10px 15px;
-      }
-      
-      .stat-value {
-        font-size: 1.5rem;
-      }
     }
   </style>
 </head>
 <body>
+  <!-- Mobile Menu Backdrop -->
+  <div class="mobile-backdrop" id="mobile-backdrop"></div>
+
+  <!-- Header & Navigation -->
+  <header>
+    <div class="container">
+      <div class="header-container">
+        <a href="https://everytool.io/" class="logo" aria-label="EveryTool.io Home">
+          <i class="fas fa-tools"></i>
+          EveryTool.io
+        </a>
+        
+        <div class="nav-container">
+          <ul class="nav-menu">
+            <li class="nav-item">
+              <a href="https://everytool.io/" class="nav-link" aria-label="Home"><i class="fas fa-home"></i> Home</a>
+            </li>
+            <li class="nav-item">
+              <a href="/tools" class="nav-link" aria-label="Tools"><i class="fas fa-toolbox"></i> Tools</a>
+            </li>
+            <li class="nav-item">
+              <a href="/blog" class="nav-link" aria-label="Blog"><i class="fas fa-blog"></i> Blog</a>
+            </li>
+            <li class="nav-item">
+              <a href="/about" class="nav-link" aria-label="About"><i class="fas fa-address-card"></i> About</a>
+            </li>
+            <li class="nav-item">
+              <a href="/contact" class="nav-link" aria-label="Contact"><i class="fas fa-envelope"></i> Contact</a>
+            </li>
+          </ul>
+          <button class="mobile-menu-btn" id="mobile-menu-toggle" aria-label="Open mobile menu">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Navigation -->
+  <div class="mobile-nav" id="mobile-nav">
+    <div class="mobile-nav-header">
+      <a href="https://everytool.io/" class="logo" aria-label="EveryTool.io Home">
+        <i class="fas fa-tools"></i>
+        EveryTool.io
+      </a>
+      <button class="close-mobile-menu" id="close-mobile-menu" aria-label="Close mobile menu">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <ul class="mobile-nav-menu">
+      <li class="mobile-nav-item">
+        <a href="https://everytool.io/" class="mobile-nav-link" aria-label="Home"><i class="fas fa-home"></i> Home</a>
+      </li>
+      <li class="mobile-nav-item">
+        <a href="/tools" class="mobile-nav-link" aria-label="Tools"><i class="fas fa-toolbox"></i> Tools</a>
+      </li>
+      <li class="mobile-nav-item">
+        <a href="/blog" class="mobile-nav-link" aria-label="Blog"><i class="fas fa-blog"></i> Blog</a>
+      </li>
+      <li class="mobile-nav-item">
+        <a href="/about" class="mobile-nav-link" aria-label="About"><i class="fas fa-address-card"></i> About</a>
+      </li>
+      <li class="mobile-nav-item">
+        <a href="/contact" class="mobile-nav-link" aria-label="Contact"><i class="fas fa-envelope"></i> Contact</a>
+      </li>
+    </ul>
+  </div>
+
   <!-- Cookie Consent Banner -->
   <div id="cookie-consent" role="dialog" aria-labelledby="cookie-consent-banner" aria-describedby="cookie-consent-desc">
     <div class="sr-only" id="cookie-consent-banner">Cookie Consent</div>
@@ -1148,7 +1256,7 @@
     <div class="settings-modal">
       <div class="settings-header">
         <h2 id="cookie-settings-title"><i class="fas fa-cookie-bite"></i> Cookie Settings</h2>
-        <button class="close-settings" aria-label="Close cookie settings">×</button>
+        <button class="close-settings" id="close-settings" aria-label="Close cookie settings">×</button>
       </div>
       <div class="settings-content">
         <p id="cookie-settings-desc">You can set your preferences for how we and our partners use cookies and similar technologies.</p>
@@ -1190,71 +1298,6 @@
         <button class="save-settings" id="save-settings" aria-label="Save cookie settings">Save Settings</button>
       </div>
     </div>
-  </div>
-
-  <!-- Header & Navigation -->
-  <header>
-    <div class="container">
-      <div class="header-container">
-        <a href="index.html" class="logo" aria-label="EveryTool.io Home">
-          <i class="fas fa-tools"></i>
-          EveryTool.io
-        </a>
-        
-        <div class="nav-container">
-          <ul class="nav-menu">
-            <li class="nav-item">
-              <a href="#" class="nav-link" aria-label="Home"><i class="fas fa-home"></i> Home</a>
-            </li>
-            <li class="nav-item">
-              <a href="/tools" class="nav-link" aria-label="Tools"><i class="fas fa-toolbox"></i> Tools</a>
-            </li>
-            <li class="nav-item">
-              <a href="/blog" class="nav-link" aria-label="Blog"><i class="fas fa-blog"></i> Blog</a>
-            </li>
-            <li class="nav-item">
-              <a href="/about" class="nav-link" aria-label="About"><i class="fas fa-address-card"></i> About</a>
-            </li>
-            <li class="nav-item">
-              <a href="/contact" class="nav-link" aria-label="Contact"><i class="fas fa-envelope"></i> Contact</a>
-            </li>
-          </ul>
-          <button class="mobile-menu-btn" id="mobile-menu-toggle" aria-label="Open mobile menu">
-            <i class="fas fa-bars"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <!-- Mobile Navigation -->
-  <div class="mobile-nav" id="mobile-nav">
-    <div class="mobile-nav-header">
-      <a href="index.html" class="logo" aria-label="EveryTool.io Home">
-        <i class="fas fa-tools"></i>
-        EveryTool.io
-      </a>
-      <button class="close-mobile-menu" id="close-mobile-menu" aria-label="Close mobile menu">
-        <i class="fas fa-times"></i>
-      </button>
-    </div>
-    <ul class="mobile-nav-menu">
-      <li class="mobile-nav-item">
-        <a href="#" class="mobile-nav-link" aria-label="Home"><i class="fas fa-home"></i> Home</a>
-      </li>
-      <li class="mobile-nav-item">
-        <a href="/tools" class="mobile-nav-link" aria-label="Tools"><i class="fas fa-toolbox"></i> Tools</a>
-      </li>
-      <li class="mobile-nav-item">
-        <a href="/blog" class="mobile-nav-link" aria-label="Blog"><i class="fas fa-blog"></i> Blog</a>
-      </li>
-      <li class="mobile-nav-item">
-        <a href="/about" class="mobile-nav-link" aria-label="About"><i class="fas fa-address-card"></i> About</a>
-      </li>
-      <li class="mobile-nav-item">
-        <a href="/contact" class="mobile-nav-link" aria-label="Contact"><i class="fas fa-envelope"></i> Contact</a>
-      </li>
-    </ul>
   </div>
 
   <!-- Hero Section -->
@@ -1317,32 +1360,32 @@
     </div>
 
     <div class="card">
-      <div class="tabs">
-        <div class="tab active" data-tab="case">
+      <div class="tabs" role="tablist">
+        <div class="tab active" data-tab="case" role="tab" aria-selected="true" tabindex="0">
           <i class="fas fa-font"></i> Case
         </div>
-        <div class="tab" data-tab="reverse">
+        <div class="tab" data-tab="reverse" role="tab" aria-selected="false" tabindex="0">
           <i class="fas fa-exchange-alt"></i> Reverse
         </div>
-        <div class="tab" data-tab="counter">
+        <div class="tab" data-tab="counter" role="tab" aria-selected="false" tabindex="0">
           <i class="fas fa-calculator"></i> Counter
         </div>
-        <div class="tab" data-tab="encoder">
+        <div class="tab" data-tab="encoder" role="tab" aria-selected="false" tabindex="0">
           <i class="fas fa-code"></i> Encoder
         </div>
-        <div class="tab" data-tab="formatter">
+        <div class="tab" data-tab="formatter" role="tab" aria-selected="false" tabindex="0">
           <i class="fas fa-eraser"></i> Formatter
         </div>
-        <div class="tab" data-tab="password">
+        <div class="tab" data-tab="password" role="tab" aria-selected="false" tabindex="0">
           <i class="fas fa-key"></i> Password
         </div>
-        <div class="tab" data-tab="slug">
+        <div class="tab" data-tab="slug" role="tab" aria-selected="false" tabindex="0">
           <i class="fas fa-link"></i> Slug
         </div>
       </div>
 
       <!-- Case Converter -->
-      <div class="tab-content active" id="case-tab">
+      <div class="tab-content active" id="case-tab" role="tabpanel">
         <h2><i class="fas fa-font"></i> Text Case Converter</h2>
         <p><i>Convert text to uppercase, lowercase, title case, or sentence case.</i></p>
         
@@ -1378,7 +1421,7 @@
       </div>
 
       <!-- Text Reverser -->
-      <div class="tab-content" id="reverse-tab">
+      <div class="tab-content" id="reverse-tab" role="tabpanel">
         <h2><i class="fas fa-exchange-alt"></i> Text Reverser</h2>
         <p><i>Reverse your text character by character or word by word.</i></p>
         
@@ -1408,7 +1451,7 @@
       </div>
 
       <!-- Character Counter -->
-      <div class="tab-content" id="counter-tab">
+      <div class="tab-content" id="counter-tab" role="tabpanel">
         <h2><i class="fas fa-calculator"></i> Character & Word Counter</h2>
         <p><i>Count characters, words, sentences, lines, and more in your text.</i></p>
         
@@ -1450,7 +1493,7 @@
       </div>
 
       <!-- URL Encoder/Decoder -->
-      <div class="tab-content" id="encoder-tab">
+      <div class="tab-content" id="encoder-tab" role="tabpanel">
         <h2><i class="fas fa-code"></i> URL Encoder/Decoder</h2>
         <p><i>Encode text for safe URLs or decode encoded URLs back to normal text.</i></p>
         
@@ -1486,7 +1529,7 @@
       </div>
       
       <!-- Text Formatter -->
-      <div class="tab-content" id="formatter-tab">
+      <div class="tab-content" id="formatter-tab" role="tabpanel">
         <h2><i class="fas fa-eraser"></i> Text Formatter</h2>
         <p><i>Clean and format your text by removing extra spaces and line breaks.</i></p>
         
@@ -1526,7 +1569,7 @@
       </div>
       
       <!-- Password Generator -->
-      <div class="tab-content" id="password-tab">
+      <div class="tab-content" id="password-tab" role="tabpanel">
         <h2><i class="fas fa-key"></i> Password Generator</h2>
         <p><i>Create strong, secure passwords with customizable options.</i></p>
         
@@ -1580,7 +1623,7 @@
       </div>
       
       <!-- Text to Slug -->
-      <div class="tab-content" id="slug-tab">
+      <div class="tab-content" id="slug-tab" role="tabpanel">
         <h2><i class="fas fa-link"></i> Text to Slug Converter</h2>
         <p><i>Convert text to URL-friendly slugs for SEO and web addresses.</i></p>
         
@@ -1678,87 +1721,189 @@
   </footer>
 
   <script>
-    // Constants
-    const COOKIE_CONSENT_KEY = 'cookieConsent';
-    const elements = {
-      mobileMenuToggle: document.getElementById('mobile-menu-toggle'),
-      closeMobileMenu: document.getElementById('close-mobile-menu'),
-      mobileNav: document.getElementById('mobile-nav'),
-      acceptCookies: document.getElementById('accept-cookies'),
-      rejectCookies: document.getElementById('reject-cookies'),
-      openSettings: document.getElementById('open-settings'),
-      openSettingsFooter: document.getElementById('open-settings-footer'),
-      closeSettings: document.querySelector('.close-settings'),
-      saveSettings: document.getElementById('save-settings'),
-      cookieConsent: document.getElementById('cookie-consent'),
-      cookieSettings: document.getElementById('cookie-settings'),
-      analyticsToggle: document.getElementById('analytics-toggle'),
-      advertisingToggle: document.getElementById('advertising-toggle')
-    };
-
-    // Helper Functions
-    function getCookiePreferences() {
-      const preferences = localStorage.getItem(COOKIE_CONSENT_KEY);
-      return preferences ? JSON.parse(preferences) : null;
-    }
-
-    function saveCookiePreferences(preferences) {
-      localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(preferences));
-    }
-
-    function loadGoogleAnalytics() {
-      if (window.gaLoaded) return;
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-LR5XP1GJFC');
-      window.gaLoaded = true;
-    }
-
-    function checkCookieConsent() {
-      const preferences = getCookiePreferences();
-      if (!preferences) {
-        elements.cookieConsent.style.display = 'block';
-      } else {
-        if (preferences.analytics) loadGoogleAnalytics();
+    // Mobile Menu Functionality
+    function initMobileMenu() {
+      const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+      const closeMobileMenu = document.getElementById('close-mobile-menu');
+      const mobileNav = document.getElementById('mobile-nav');
+      const mobileBackdrop = document.getElementById('mobile-backdrop');
+      
+      function openMobileMenu() {
+        mobileNav.classList.add('active');
+        mobileBackdrop.classList.add('active');
+        document.body.classList.add('menu-open');
+        document.body.style.overflow = 'hidden';
       }
-    }
-
-    function openCookieSettings() {
-      const preferences = getCookiePreferences();
-      elements.analyticsToggle.checked = preferences ? preferences.analytics : true;
-      elements.advertisingToggle.checked = preferences ? preferences.advertising : true;
-      elements.cookieSettings.style.display = 'flex';
-    }
-
-    function closeCookieSettings() {
-      elements.cookieSettings.style.display = 'none';
-    }
-
-    function initialize() {
-      checkCookieConsent();
-
-      // Mobile menu toggle
-      elements.mobileMenuToggle.addEventListener('click', () => {
-        elements.mobileNav.classList.add('active');
+      
+      function closeMobileMenuHandler() {
+        mobileNav.classList.remove('active');
+        mobileBackdrop.classList.remove('active');
+        document.body.classList.remove('menu-open');
+        document.body.style.overflow = '';
+      }
+      
+      if (mobileMenuToggle) {
+        mobileMenuToggle.addEventListener('click', openMobileMenu);
+      }
+      
+      if (closeMobileMenu) {
+        closeMobileMenu.addEventListener('click', closeMobileMenuHandler);
+      }
+      
+      if (mobileBackdrop) {
+        mobileBackdrop.addEventListener('click', closeMobileMenuHandler);
+      }
+      
+      // Close menu when clicking on links
+      const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+      mobileLinks.forEach(link => {
+        link.addEventListener('click', closeMobileMenuHandler);
       });
       
-      elements.closeMobileMenu.addEventListener('click', () => {
-        elements.mobileNav.classList.remove('active');
+      // Close menu when pressing Escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && mobileNav.classList.contains('active')) {
+          closeMobileMenuHandler();
+        }
       });
+    }
 
+    // Cookie Consent Functionality
+    function initCookieConsent() {
+      const COOKIE_CONSENT_KEY = 'cookieConsent';
+      
+      function getCookiePreferences() {
+        const preferences = localStorage.getItem(COOKIE_CONSENT_KEY);
+        return preferences ? JSON.parse(preferences) : { essential: true, analytics: false, advertising: false };
+      }
+      
+      function saveCookiePreferences(preferences) {
+        try {
+          localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(preferences));
+        } catch (e) {
+          console.warn('Failed to save cookie preferences:', e);
+        }
+      }
+      
+      function checkCookieConsent() {
+        const preferences = getCookiePreferences();
+        if (!preferences || !preferences.hasOwnProperty('essential')) {
+          const consent = document.getElementById('cookie-consent');
+          if (consent) consent.style.display = 'block';
+        } else {
+          const analyticsToggle = document.getElementById('analytics-toggle');
+          const advertisingToggle = document.getElementById('advertising-toggle');
+          if (analyticsToggle) analyticsToggle.checked = preferences.analytics;
+          if (advertisingToggle) advertisingToggle.checked = preferences.advertising;
+        }
+      }
+      
+      function openCookieSettings() {
+        const preferences = getCookiePreferences();
+        const analyticsToggle = document.getElementById('analytics-toggle');
+        const advertisingToggle = document.getElementById('advertising-toggle');
+        if (analyticsToggle) analyticsToggle.checked = preferences.analytics;
+        if (advertisingToggle) advertisingToggle.checked = preferences.advertising;
+        const settings = document.getElementById('cookie-settings');
+        if (settings) settings.style.display = 'flex';
+        // Focus the first focusable element in the modal
+        document.getElementById('analytics-toggle').focus();
+      }
+      
+      function closeCookieSettings() {
+        const settings = document.getElementById('cookie-settings');
+        if (settings) settings.style.display = 'none';
+        // Return focus to the button that opened the settings
+        document.getElementById('open-settings').focus();
+      }
+      
+      // Set up event listeners
+      const acceptBtn = document.getElementById('accept-cookies');
+      if (acceptBtn) {
+        acceptBtn.addEventListener('click', () => {
+          saveCookiePreferences({
+            essential: true,
+            analytics: true,
+            advertising: true
+          });
+          document.getElementById('cookie-consent').style.display = 'none';
+        });
+      }
+      
+      const rejectBtn = document.getElementById('reject-cookies');
+      if (rejectBtn) {
+        rejectBtn.addEventListener('click', () => {
+          saveCookiePreferences({
+            essential: true,
+            analytics: false,
+            advertising: false
+          });
+          document.getElementById('cookie-consent').style.display = 'none';
+        });
+      }
+      
+      const openSettingsBtn = document.getElementById('open-settings');
+      if (openSettingsBtn) openSettingsBtn.addEventListener('click', openCookieSettings);
+      
+      const closeSettingsBtn = document.getElementById('close-settings');
+      if (closeSettingsBtn) closeSettingsBtn.addEventListener('click', closeCookieSettings);
+      
+      const saveSettingsBtn = document.getElementById('save-settings');
+      if (saveSettingsBtn) {
+        saveSettingsBtn.addEventListener('click', () => {
+          saveCookiePreferences({
+            essential: true,
+            analytics: document.getElementById('analytics-toggle').checked,
+            advertising: document.getElementById('advertising-toggle').checked
+          });
+          closeCookieSettings();
+          document.getElementById('cookie-consent').style.display = 'none';
+        });
+      }
+      
+      const openSettingsFooter = document.getElementById('open-settings-footer');
+      if (openSettingsFooter) {
+        openSettingsFooter.addEventListener('click', (e) => {
+          e.preventDefault();
+          openCookieSettings();
+        });
+      }
+      
+      // Initialize cookie preferences
+      checkCookieConsent();
+    }
+
+    // Text Tools Functionality
+    function initTextTools() {
       // Tab Switching
       function switchTab(tabName) {
-        document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
-        document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+        document.querySelectorAll('.tab').forEach(tab => {
+          tab.classList.remove('active');
+          tab.setAttribute('aria-selected', 'false');
+        });
+        document.querySelectorAll('.tab-content').forEach(content => {
+          content.classList.remove('active');
+        });
         
-        document.querySelector(`.tab[data-tab="${tabName}"]`).classList.add('active');
-        document.getElementById(`${tabName}-tab`).classList.add('active');
+        const activeTab = document.querySelector(`.tab[data-tab="${tabName}"]`);
+        const activeContent = document.getElementById(`${tabName}-tab`);
+        
+        if (activeTab && activeContent) {
+          activeTab.classList.add('active');
+          activeTab.setAttribute('aria-selected', 'true');
+          activeContent.classList.add('active');
+        }
       }
       
       // Initialize Tabs
       document.querySelectorAll('.tab').forEach(tab => {
         tab.addEventListener('click', () => switchTab(tab.dataset.tab));
+        tab.addEventListener('keydown', e => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            switchTab(tab.dataset.tab);
+          }
+        });
       });
       
       // Initialize with first tab active
@@ -1784,38 +1929,6 @@
         });
       });
       
-      // Cookie consent handlers
-      elements.acceptCookies.addEventListener('click', () => {
-        saveCookiePreferences({ essential: true, analytics: true, advertising: true });
-        elements.cookieConsent.style.display = 'none';
-        loadGoogleAnalytics();
-      });
-
-      elements.rejectCookies.addEventListener('click', () => {
-        saveCookiePreferences({ essential: true, analytics: false, advertising: false });
-        elements.cookieConsent.style.display = 'none';
-      });
-
-      elements.openSettings.addEventListener('click', openCookieSettings);
-      elements.openSettingsFooter.addEventListener('click', e => {
-        e.preventDefault();
-        openCookieSettings();
-      });
-
-      elements.closeSettings.addEventListener('click', closeCookieSettings);
-
-      elements.saveSettings.addEventListener('click', () => {
-        const preferences = {
-          essential: true,
-          analytics: elements.analyticsToggle.checked,
-          advertising: elements.advertisingToggle.checked
-        };
-        saveCookiePreferences(preferences);
-        if (preferences.analytics) loadGoogleAnalytics();
-        closeCookieSettings();
-        elements.cookieConsent.style.display = 'none';
-      });
-
       // Case Converter Functions
       document.getElementById('upperCaseBtn').addEventListener('click', () => {
         const input = document.getElementById('caseInput').value;
@@ -2081,8 +2194,18 @@
       });
     }
 
-    // Initialize the page
-    document.addEventListener('DOMContentLoaded', initialize);
+    // Initialize everything when DOM is loaded
+    document.addEventListener('DOMContentLoaded', () => {
+      initMobileMenu();
+      initCookieConsent();
+      initTextTools();
+      
+      // Check cookie consent status
+      const preferences = localStorage.getItem('cookieConsent');
+      if (!preferences) {
+        document.getElementById('cookie-consent').style.display = 'block';
+      }
+    });
   </script>
 </body>
 </html>
