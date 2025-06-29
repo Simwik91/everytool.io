@@ -47,6 +47,10 @@
       min-height: 100vh;
       overflow-x: hidden;
     }
+    
+    body.menu-open {
+      overflow: hidden;
+    }
 
     .container {
       max-width: 1200px;
@@ -77,6 +81,7 @@
       font-weight: 700;
       color: var(--primary);
       text-decoration: none;
+      z-index: 2001;
     }
 
     .logo i {
@@ -137,6 +142,108 @@
       background: rgba(67, 97, 238, 0.1);
       outline: 2px solid var(--primary);
       outline-offset: 2px;
+    }
+
+    /* Mobile Menu Backdrop */
+    .mobile-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1999;
+      display: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .mobile-backdrop.active {
+      display: block;
+      opacity: 1;
+    }
+    
+    /* Mobile Navigation */
+    .mobile-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: white;
+      z-index: 2000;
+      transform: translateX(-100%);
+      transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .mobile-nav.active {
+      transform: translateX(0);
+    }
+    
+    .mobile-nav-header {
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--light-gray);
+    }
+    
+    .close-mobile-menu {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--dark);
+      cursor: pointer;
+      padding: 5px;
+      border-radius: 5px;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .close-mobile-menu:hover, .close-mobile-menu:focus {
+      background: rgba(0, 0, 0, 0.05);
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+    
+    .mobile-nav-menu {
+      list-style: none;
+      padding: 20px;
+      flex: 1;
+    }
+    
+    .mobile-nav-item {
+      margin-bottom: 10px;
+    }
+    
+    .mobile-nav-link {
+      display: block;
+      padding: 15px 20px;
+      color: var(--dark);
+      text-decoration: none;
+      font-weight: 500;
+      border-radius: var(--border-radius);
+      transition: var(--transition);
+      font-size: 1.1rem;
+    }
+    
+    .mobile-nav-link:hover, .mobile-nav-link:focus {
+      background: rgba(67, 97, 238, 0.1);
+      color: var(--primary);
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+    
+    .mobile-nav-link i {
+      width: 24px;
+      text-align: center;
+      margin-right: 10px;
     }
 
     /* Hero Section */
@@ -285,10 +392,12 @@
       gap: 10px;
     }
     
-    button:hover {
+    button:hover, button:focus {
       background: var(--primary-dark);
       transform: translateY(-2px);
       box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
     }
     
     button:disabled {
@@ -770,8 +879,6 @@
       bottom: 0;
       background-color: var(--gray);
       transition: background-color 0.3s ease;
-      -webkit-transition: background-color 0.3s ease;
-      -moz-transition: background-color 0.3s ease;
       border-radius: 24px;
     }
 
@@ -784,8 +891,6 @@
       bottom: 4px;
       background-color: white;
       transition: transform 0.3s ease;
-      -webkit-transition: transform 0.3s ease;
-      -moz-transition: transform 0.3s ease;
       border-radius: 50%;
     }
 
@@ -795,8 +900,6 @@
 
     .toggle-switch input:checked + .slider:before {
       transform: translateX(26px);
-      -webkit-transform: translateX(26px);
-      -moz-transform: translateX(26px);
     }
 
     .toggle-switch input:focus + .slider {
@@ -864,74 +967,6 @@
         display: block;
       }
       
-      .mobile-nav {
-        position: fixed;
-        top: 0;
-        left: -100%;
-        width: 280px;
-        height: 100vh;
-        background: white;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-        z-index: 2000;
-        transition: var(--transition);
-        overflow-y: auto;
-        display: block;
-      }
-      
-      .mobile-nav.active {
-        left: 0;
-      }
-      
-      .mobile-nav-header {
-        padding: 20px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 1px solid var(--light-gray);
-      }
-      
-      .close-mobile-menu {
-        background: none;
-        border: none;
-        font-size: 1.5rem;
-        color: var(--dark);
-        cursor: pointer;
-        padding: 5px;
-        border-radius: 5px;
-      }
-      
-      .close-mobile-menu:hover, .close-mobile-menu:focus {
-        background: rgba(0, 0, 0, 0.05);
-        outline: 2px solid var(--primary);
-        outline-offset: 2px;
-      }
-      
-      .mobile-nav-menu {
-        list-style: none;
-        padding: 20px;
-      }
-      
-      .mobile-nav-item {
-        margin-bottom: 10px;
-      }
-      
-      .mobile-nav-link {
-        display: block;
-        padding: 12px 15px;
-        color: var(--dark);
-        text-decoration: none;
-        font-weight: 500;
-        border-radius: var(--border-radius);
-        transition: var(--transition);
-      }
-      
-      .mobile-nav-link:hover, .mobile-nav-link:focus {
-        background: rgba(67, 97, 238, 0.1);
-        color: var(--primary);
-        outline: 2px solid var(--primary);
-        outline-offset: 2px;
-      }
-      
       .guide-grid {
         grid-template-columns: 1fr;
       }
@@ -947,6 +982,9 @@
 
     @media (min-width: 993px) {
       .mobile-nav {
+        display: none !important;
+      }
+      .mobile-backdrop {
         display: none !important;
       }
     }
@@ -990,6 +1028,14 @@
       .uses-grid {
         grid-template-columns: repeat(2, 1fr);
       }
+      
+      .btn-group {
+        flex-direction: column;
+      }
+      
+      .btn-group button {
+        width: 100%;
+      }
     }
 
     @media (max-width: 576px) {
@@ -1032,6 +1078,9 @@
   </style>
 </head>
 <body>
+  <!-- Mobile Menu Backdrop -->
+  <div class="mobile-backdrop" id="mobile-backdrop"></div>
+  
   <!-- Cookie Consent Banner -->
   <div id="cookie-consent" role="dialog" aria-labelledby="cookie-consent-banner" aria-describedby="cookie-consent-desc">
     <div class="sr-only" id="cookie-consent-banner">Cookie Consent</div>
@@ -1053,7 +1102,7 @@
     <div class="settings-modal">
       <div class="settings-header">
         <h2 id="cookie-settings-title"><i class="fas fa-cookie-bite"></i> Cookie Settings</h2>
-        <button class="close-settings" aria-label="Close cookie settings">×</button>
+        <button class="close-settings" id="close-settings" aria-label="Close cookie settings">×</button>
       </div>
       <div class="settings-content">
         <p id="cookie-settings-desc">You can set your preferences for how we and our partners use cookies and similar technologies.</p>
@@ -1101,7 +1150,7 @@
   <header>
     <div class="container">
       <div class="header-container">
-        <a href="index.html" class="logo" aria-label="EveryTool.io Home">
+        <a href="https://everytool.io/" class="logo" aria-label="EveryTool.io Home">
           <i class="fas fa-tools"></i>
           EveryTool.io
         </a>
@@ -1109,7 +1158,7 @@
         <div class="nav-container">
           <ul class="nav-menu">
             <li class="nav-item">
-              <a href="#" class="nav-link" aria-label="Home"><i class="fas fa-home"></i> Home</a>
+              <a href="https://everytool.io/" class="nav-link" aria-label="Home"><i class="fas fa-home"></i> Home</a>
             </li>
             <li class="nav-item">
               <a href="/tools" class="nav-link" aria-label="Tools"><i class="fas fa-toolbox"></i> Tools</a>
@@ -1135,7 +1184,7 @@
   <!-- Mobile Navigation -->
   <div class="mobile-nav" id="mobile-nav">
     <div class="mobile-nav-header">
-      <a href="index.html" class="logo" aria-label="EveryTool.io Home">
+      <a href="https://everytool.io/" class="logo" aria-label="EveryTool.io Home">
         <i class="fas fa-tools"></i>
         EveryTool.io
       </a>
@@ -1145,7 +1194,7 @@
     </div>
     <ul class="mobile-nav-menu">
       <li class="mobile-nav-item">
-        <a href="#" class="mobile-nav-link" aria-label="Home"><i class="fas fa-home"></i> Home</a>
+        <a href="https://everytool.io/" class="mobile-nav-link" aria-label="Home"><i class="fas fa-home"></i> Home</a>
       </li>
       <li class="mobile-nav-item">
         <a href="/tools" class="mobile-nav-link" aria-label="Tools"><i class="fas fa-toolbox"></i> Tools</a>
@@ -1223,18 +1272,18 @@
 
     <div class="card">
       <div class="tabs">
-        <div class="tab active" data-tab="crop">
+        <div class="tab active" data-tab="crop" role="tab" aria-selected="true" tabindex="0">
           <i class="fas fa-crop"></i> Crop
         </div>
-        <div class="tab" data-tab="resize">
+        <div class="tab" data-tab="resize" role="tab" aria-selected="false" tabindex="0">
           <i class="fas fa-expand"></i> Resize
         </div>
-        <div class="tab" data-tab="convert">
+        <div class="tab" data-tab="convert" role="tab" aria-selected="false" tabindex="0">
           <i class="fas fa-exchange-alt"></i> Convert
         </div>
       </div>
 
-      <div class="tab-content active" id="crop-tab">
+      <div class="tab-content active" id="crop-tab" role="tabpanel">
         <h2><i class="fas fa-crop"></i> Image Cropper</h2>
         <p><i>Draw a rectangle on the image to crop it.</i></p>
         <div class="drag-drop-area" id="cropDragArea">
@@ -1263,7 +1312,7 @@
         </div>
       </div>
 
-      <div class="tab-content" id="resize-tab">
+      <div class="tab-content" id="resize-tab" role="tabpanel">
         <h2><i class="fas fa-expand"></i> Image Resizer</h2>
         <p><i>Resize your image to specified dimensions.</i></p>
         <div class="drag-drop-area" id="resizeDragArea">
@@ -1302,7 +1351,7 @@
         </div>
       </div>
 
-      <div class="tab-content" id="convert-tab">
+      <div class="tab-content" id="convert-tab" role="tabpanel">
         <h2><i class="fas fa-exchange-alt"></i> Image Converter</h2>
         <p><i>Convert your image to a different format.</i></p>
         <div class="drag-drop-area" id="convertDragArea">
@@ -1407,599 +1456,683 @@
   </footer>
 
   <script>
-    // Constants
-    const COOKIE_CONSENT_KEY = 'cookieConsent';
-    const elements = {
-      mobileMenuToggle: document.getElementById('mobile-menu-toggle'),
-      closeMobileMenu: document.getElementById('close-mobile-menu'),
-      mobileNav: document.getElementById('mobile-nav'),
-      acceptCookies: document.getElementById('accept-cookies'),
-      rejectCookies: document.getElementById('reject-cookies'),
-      openSettings: document.getElementById('open-settings'),
-      openSettingsFooter: document.getElementById('open-settings-footer'),
-      closeSettings: document.querySelector('.close-settings'),
-      saveSettings: document.getElementById('save-settings'),
-      cookieConsent: document.getElementById('cookie-consent'),
-      cookieSettings: document.getElementById('cookie-settings'),
-      analyticsToggle: document.getElementById('analytics-toggle'),
-      advertisingToggle: document.getElementById('advertising-toggle'),
-      cropDragArea: document.getElementById('cropDragArea'),
-      resizeDragArea: document.getElementById('resizeDragArea'),
-      convertDragArea: document.getElementById('convertDragArea'),
-      cropUpload: document.getElementById('cropUpload'),
-      resizeUpload: document.getElementById('resizeUpload'),
-      convertUpload: document.getElementById('convertUpload'),
-      cropCanvas: document.getElementById('cropCanvas'),
-      resizeCanvas: document.getElementById('resizeCanvas'),
-      convertCanvas: document.getElementById('convertCanvas'),
-      cropBtn: document.getElementById('cropBtn'),
-      resetCrop: document.getElementById('resetCrop'),
-      downloadCrop: document.getElementById('downloadCrop'),
-      resizeBtn: document.getElementById('resizeBtn'),
-      resetResize: document.getElementById('resetResize'),
-      downloadResize: document.getElementById('downloadResize'),
-      convertBtn: document.getElementById('convertBtn'),
-      resizeWidth: document.getElementById('resizeWidth'),
-      resizeHeight: document.getElementById('resizeHeight'),
-      outputFormat: document.getElementById('outputFormat'),
-      cropError: document.getElementById('crop-error'),
-      resizeError: document.getElementById('resize-error'),
-      convertError: document.getElementById('convert-error'),
-      cropSuccess: document.getElementById('crop-success'),
-      resizeSuccess: document.getElementById('resize-success'),
-      convertSuccess: document.getElementById('convert-success'),
-      cropLoading: document.getElementById('crop-loading'),
-      resizeLoading: document.getElementById('resize-loading'),
-      convertLoading: document.getElementById('convert-loading')
-    };
-
-    // State
-    let state = {
-      cropStart: null,
-      cropRect: null,
-      isDrawing: false,
-      originalCropImage: null,
-      croppedImage: null,
-      originalResizeImage: null,
-      resizedImage: null,
-      convertImage: null
-    };
-
-    // Helper Functions
-    function showError(element, message) {
-      if (element) {
-        element.textContent = message;
-        element.style.display = 'block';
+    // Mobile Menu Functionality
+    function initMobileMenu() {
+      const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+      const closeMobileMenu = document.getElementById('close-mobile-menu');
+      const mobileNav = document.getElementById('mobile-nav');
+      const mobileBackdrop = document.getElementById('mobile-backdrop');
+      
+      function openMobileMenu() {
+        mobileNav.classList.add('active');
+        mobileBackdrop.classList.add('active');
+        document.body.classList.add('menu-open');
+        document.body.style.overflow = 'hidden';
       }
-    }
-
-    function showSuccess(element, message) {
-      if (element) {
-        element.textContent = message;
-        element.style.display = 'block';
+      
+      function closeMobileMenuHandler() {
+        mobileNav.classList.remove('active');
+        mobileBackdrop.classList.remove('active');
+        document.body.classList.remove('menu-open');
+        document.body.style.overflow = '';
       }
-    }
-
-    function hideElements(section = null) {
-      const errors = section ? [document.getElementById(`${section}-error`)] : document.querySelectorAll('.error');
-      const successes = section ? [document.getElementById(`${section}-success`)] : document.querySelectorAll('.success');
-      errors.forEach(el => { if (el) { el.style.display = 'none'; el.textContent = ''; } });
-      successes.forEach(s => { if (s) { s.style.display = 'none'; s.textContent = ''; } });
-    }
-
-    function showLoading(section) {
-      const loading = document.getElementById(`${section}-loading`);
-      if (loading) loading.style.display = 'block';
-    }
-
-    function hideLoading(section) {
-      const loading = document.getElementById(`${section}-loading`);
-      if (loading) loading.style.display = 'none';
-    }
-
-    async function loadImage(file) {
-      return new Promise((resolve, reject) => {
-        const fileType = file.type.toLowerCase();
-        if (!fileType.match(/image\/(png|jpeg|jpg|webp|bmp|gif|heic|heif)/)) {
-          reject(new Error('Invalid file type. Please upload a valid image (PNG, JPEG, WEBP, BMP, GIF, or HEIC).'));
-          return;
+      
+      if (mobileMenuToggle) {
+        mobileMenuToggle.addEventListener('click', openMobileMenu);
+      }
+      
+      if (closeMobileMenu) {
+        closeMobileMenu.addEventListener('click', closeMobileMenuHandler);
+      }
+      
+      if (mobileBackdrop) {
+        mobileBackdrop.addEventListener('click', closeMobileMenuHandler);
+      }
+      
+      // Close menu when clicking on links
+      const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+      mobileLinks.forEach(link => {
+        link.addEventListener('click', closeMobileMenuHandler);
+      });
+      
+      // Close menu when pressing Escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && mobileNav.classList.contains('active')) {
+          closeMobileMenuHandler();
         }
+      });
+    }
 
-        if (file.size > 10 * 1024 * 1024) {
-          reject(new Error('File size exceeds 10MB limit. Please select a smaller file.'));
-          return;
+    // Cookie Consent Functionality
+    function initCookieConsent() {
+      const COOKIE_CONSENT_KEY = 'cookieConsent';
+      
+      function getCookiePreferences() {
+        const preferences = localStorage.getItem(COOKIE_CONSENT_KEY);
+        return preferences ? JSON.parse(preferences) : { essential: true, analytics: false, advertising: false };
+      }
+      
+      function saveCookiePreferences(preferences) {
+        try {
+          localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(preferences));
+        } catch (e) {
+          console.warn('Failed to save cookie preferences:', e);
         }
+      }
+      
+      function checkCookieConsent() {
+        const preferences = getCookiePreferences();
+        if (!preferences || !preferences.hasOwnProperty('essential')) {
+          const consent = document.getElementById('cookie-consent');
+          if (consent) consent.style.display = 'block';
+        } else {
+          const analyticsToggle = document.getElementById('analytics-toggle');
+          const advertisingToggle = document.getElementById('advertising-toggle');
+          if (analyticsToggle) analyticsToggle.checked = preferences.analytics;
+          if (advertisingToggle) advertisingToggle.checked = preferences.advertising;
+        }
+      }
+      
+      function openCookieSettings() {
+        const preferences = getCookiePreferences();
+        const analyticsToggle = document.getElementById('analytics-toggle');
+        const advertisingToggle = document.getElementById('advertising-toggle');
+        if (analyticsToggle) analyticsToggle.checked = preferences.analytics;
+        if (advertisingToggle) advertisingToggle.checked = preferences.advertising;
+        const settings = document.getElementById('cookie-settings');
+        if (settings) settings.style.display = 'flex';
+        // Focus the first focusable element in the modal
+        document.getElementById('analytics-toggle').focus();
+      }
+      
+      function closeCookieSettings() {
+        const settings = document.getElementById('cookie-settings');
+        if (settings) settings.style.display = 'none';
+        // Return focus to the button that opened the settings
+        document.getElementById('open-settings').focus();
+      }
+      
+      // Set up event listeners
+      const acceptBtn = document.getElementById('accept-cookies');
+      if (acceptBtn) {
+        acceptBtn.addEventListener('click', () => {
+          saveCookiePreferences({
+            essential: true,
+            analytics: true,
+            advertising: true
+          });
+          document.getElementById('cookie-consent').style.display = 'none';
+        });
+      }
+      
+      const rejectBtn = document.getElementById('reject-cookies');
+      if (rejectBtn) {
+        rejectBtn.addEventListener('click', () => {
+          saveCookiePreferences({
+            essential: true,
+            analytics: false,
+            advertising: false
+          });
+          document.getElementById('cookie-consent').style.display = 'none';
+        });
+      }
+      
+      const openSettingsBtn = document.getElementById('open-settings');
+      if (openSettingsBtn) openSettingsBtn.addEventListener('click', openCookieSettings);
+      
+      const closeSettingsBtn = document.getElementById('close-settings');
+      if (closeSettingsBtn) closeSettingsBtn.addEventListener('click', closeCookieSettings);
+      
+      const saveSettingsBtn = document.getElementById('save-settings');
+      if (saveSettingsBtn) {
+        saveSettingsBtn.addEventListener('click', () => {
+          saveCookiePreferences({
+            essential: true,
+            analytics: document.getElementById('analytics-toggle').checked,
+            advertising: document.getElementById('advertising-toggle').checked
+          });
+          closeCookieSettings();
+          document.getElementById('cookie-consent').style.display = 'none';
+        });
+      }
+      
+      const openSettingsFooter = document.getElementById('open-settings-footer');
+      if (openSettingsFooter) {
+        openSettingsFooter.addEventListener('click', (e) => {
+          e.preventDefault();
+          openCookieSettings();
+        });
+      }
+      
+      // Initialize cookie preferences
+      checkCookieConsent();
+    }
 
-        if (fileType === 'image/heic' || fileType === 'image/heif') {
-          if (!window.heic2anyAvailable) {
-            reject(new Error('HEIC/HEIF support is not available. Please try a different file format.'));
+    // Image Tools Functionality
+    function initImageTools() {
+      // Constants
+      const elements = {
+        cropDragArea: document.getElementById('cropDragArea'),
+        resizeDragArea: document.getElementById('resizeDragArea'),
+        convertDragArea: document.getElementById('convertDragArea'),
+        cropUpload: document.getElementById('cropUpload'),
+        resizeUpload: document.getElementById('resizeUpload'),
+        convertUpload: document.getElementById('convertUpload'),
+        cropCanvas: document.getElementById('cropCanvas'),
+        resizeCanvas: document.getElementById('resizeCanvas'),
+        convertCanvas: document.getElementById('convertCanvas'),
+        cropBtn: document.getElementById('cropBtn'),
+        resetCrop: document.getElementById('resetCrop'),
+        downloadCrop: document.getElementById('downloadCrop'),
+        resizeBtn: document.getElementById('resizeBtn'),
+        resetResize: document.getElementById('resetResize'),
+        downloadResize: document.getElementById('downloadResize'),
+        convertBtn: document.getElementById('convertBtn'),
+        resizeWidth: document.getElementById('resizeWidth'),
+        resizeHeight: document.getElementById('resizeHeight'),
+        outputFormat: document.getElementById('outputFormat'),
+        cropError: document.getElementById('crop-error'),
+        resizeError: document.getElementById('resize-error'),
+        convertError: document.getElementById('convert-error'),
+        cropSuccess: document.getElementById('crop-success'),
+        resizeSuccess: document.getElementById('resize-success'),
+        convertSuccess: document.getElementById('convert-success'),
+        cropLoading: document.getElementById('crop-loading'),
+        resizeLoading: document.getElementById('resize-loading'),
+        convertLoading: document.getElementById('convert-loading')
+      };
+
+      // State
+      let state = {
+        cropStart: null,
+        cropRect: null,
+        isDrawing: false,
+        originalCropImage: null,
+        croppedImage: null,
+        originalResizeImage: null,
+        resizedImage: null,
+        convertImage: null
+      };
+
+      // Helper Functions
+      function showError(element, message) {
+        if (element) {
+          element.textContent = message;
+          element.style.display = 'block';
+        }
+      }
+
+      function showSuccess(element, message) {
+        if (element) {
+          element.textContent = message;
+          element.style.display = 'block';
+        }
+      }
+
+      function hideElements(section = null) {
+        const errors = section ? [document.getElementById(`${section}-error`)] : document.querySelectorAll('.error');
+        const successes = section ? [document.getElementById(`${section}-success`)] : document.querySelectorAll('.success');
+        errors.forEach(el => { if (el) { el.style.display = 'none'; el.textContent = ''; } });
+        successes.forEach(s => { if (s) { s.style.display = 'none'; s.textContent = ''; } });
+      }
+
+      function showLoading(section) {
+        const loading = document.getElementById(`${section}-loading`);
+        if (loading) loading.style.display = 'block';
+      }
+
+      function hideLoading(section) {
+        const loading = document.getElementById(`${section}-loading`);
+        if (loading) loading.style.display = 'none';
+      }
+
+      async function loadImage(file) {
+        return new Promise((resolve, reject) => {
+          const fileType = file.type.toLowerCase();
+          if (!fileType.match(/image\/(png|jpeg|jpg|webp|bmp|gif|heic|heif)/)) {
+            reject(new Error('Invalid file type. Please upload a valid image (PNG, JPEG, WEBP, BMP, GIF, or HEIC).'));
             return;
           }
-        }
 
-        if (fileType === 'image/heic' || fileType === 'image/heif') {
-          const reader = new FileReader();
-          reader.onload = async (e) => {
-            try {
-              const blob = new Blob([e.target.result], { type: fileType });
-              const convertedBlob = await heic2any({ blob, toType: 'image/jpeg' });
+          if (file.size > 10 * 1024 * 1024) {
+            reject(new Error('File size exceeds 10MB limit. Please select a smaller file.'));
+            return;
+          }
+
+          if (fileType === 'image/heic' || fileType === 'image/heif') {
+            if (!window.heic2anyAvailable) {
+              reject(new Error('HEIC/HEIF support is not available. Please try a different file format.'));
+              return;
+            }
+          }
+
+          if (fileType === 'image/heic' || fileType === 'image/heif') {
+            const reader = new FileReader();
+            reader.onload = async (e) => {
+              try {
+                const blob = new Blob([e.target.result], { type: fileType });
+                const convertedBlob = await heic2any({ blob, toType: 'image/jpeg' });
+                const img = new Image();
+                img.onload = () => {
+                  resolve(img);
+                  URL.revokeObjectURL(img.src);
+                };
+                img.onerror = () => reject(new Error('Failed to load HEIC/HEIF image'));
+                img.src = URL.createObjectURL(convertedBlob);
+              } catch (err) {
+                reject(new Error('Error processing HEIC/HEIF image: ' + err.message));
+              }
+            };
+            reader.onerror = () => reject(new Error('Failed to read HEIC/HEIF file'));
+            reader.readAsArrayBuffer(file);
+          } else {
+            const reader = new FileReader();
+            reader.onload = (e) => {
               const img = new Image();
               img.onload = () => {
                 resolve(img);
                 URL.revokeObjectURL(img.src);
               };
-              img.onerror = () => reject(new Error('Failed to load HEIC/HEIF image'));
-              img.src = URL.createObjectURL(convertedBlob);
-            } catch (err) {
-              reject(new Error('Error processing HEIC/HEIF image: ' + err.message));
-            }
-          };
-          reader.onerror = () => reject(new Error('Failed to read HEIC/HEIF file'));
-          reader.readAsArrayBuffer(file);
-        } else {
-          const reader = new FileReader();
-          reader.onload = (e) => {
-            const img = new Image();
-            img.onload = () => {
-              resolve(img);
-              URL.revokeObjectURL(img.src);
+              img.onerror = () => reject(new Error('Failed to load image'));
+              img.src = e.target.result;
             };
-            img.onerror = () => reject(new Error('Failed to load image'));
-            img.src = e.target.result;
-          };
-          reader.onerror = () => reject(new Error('Failed to read image file'));
-          reader.readAsDataURL(file);
-        }
-      });
-    }
-
-    function drawImageOnCanvas(image, canvasId) {
-      const canvas = document.getElementById(canvasId);
-      if (!canvas) return;
-      const ctx = canvas.getContext('2d');
-      const maxWidth = 500;
-      const scale = Math.min(maxWidth / image.width, 1);
-      const pixelRatio = window.devicePixelRatio || 1;
-
-      canvas.style.width = `${image.width * scale}px`;
-      canvas.style.height = `${image.height * scale}px`;
-      canvas.width = image.width * scale * pixelRatio;
-      canvas.height = image.height * scale * pixelRatio;
-      ctx.scale(pixelRatio, pixelRatio);
-
-      ctx.clearRect(0, 0, canvas.width / pixelRatio, canvas.height / pixelRatio);
-      ctx.drawImage(image, 0, 0, canvas.width / pixelRatio, canvas.height / pixelRatio);
-    }
-
-    function resetCanvas(canvasId) {
-      const canvas = document.getElementById(canvasId);
-      if (!canvas) return;
-      const ctx = canvas.getContext('2d');
-      canvas.style.width = '300px';
-      canvas.style.height = '200px';
-      canvas.width = 300;
-      canvas.height = 200;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-    }
-
-    // Tab Switching
-    function switchTab(tabName) {
-      document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
-      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-
-      const tab = document.querySelector(`.tab[data-tab="${tabName}"]`);
-      const content = document.getElementById(`${tabName}-tab`);
-      if (tab) tab.classList.add('active');
-      if (content) content.classList.add('active');
-
-      // Reset states
-      if (tabName === 'crop') {
-        if (state.originalCropImage) {
-          drawImageOnCanvas(state.originalCropImage, 'cropCanvas');
-          elements.cropBtn.style.display = 'inline-block';
-        } else {
-          resetCanvas('cropCanvas');
-          elements.cropBtn.style.display = 'none';
-        }
-        elements.cropUpload.value = '';
-        elements.downloadCrop.style.display = 'none';
-        elements.resetCrop.style.display = 'none';
-        hideElements('crop');
-        hideLoading('crop');
-      } else if (tabName === 'resize') {
-        if (state.originalResizeImage) {
-          drawImageOnCanvas(state.originalResizeImage, 'resizeCanvas');
-          elements.resizeBtn.style.display = 'inline-block';
-        } else {
-          resetCanvas('resizeCanvas');
-          elements.resizeBtn.style.display = 'none';
-        }
-        elements.resizeUpload.value = '';
-        elements.resizeWidth.value = '';
-        elements.resizeHeight.value = '';
-        elements.downloadResize.style.display = 'none';
-        elements.resetResize.style.display = 'none';
-        hideElements('resize');
-        hideLoading('resize');
-      } else if (tabName === 'convert') {
-        if (state.convertImage) {
-          drawImageOnCanvas(state.convertImage, 'convertCanvas');
-          elements.convertBtn.style.display = 'inline-block';
-        } else {
-          resetCanvas('convertCanvas');
-          elements.convertBtn.style.display = 'none';
-        }
-        elements.convertUpload.value = '';
-        hideElements('convert');
-        hideLoading('convert');
-      }
-    }
-
-    // Cookie Management
-    function getCookiePreferences() {
-      const preferences = localStorage.getItem(COOKIE_CONSENT_KEY);
-      return preferences ? JSON.parse(preferences) : null;
-    }
-
-    function saveCookiePreferences(preferences) {
-      localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(preferences));
-    }
-
-    function loadGoogleAnalytics() {
-      if (window.gaLoaded) return;
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-LR5XP1GJFC');
-      window.gaLoaded = true;
-    }
-
-    function checkCookieConsent() {
-      const preferences = getCookiePreferences();
-      if (!preferences) {
-        elements.cookieConsent.style.display = 'block';
-      } else {
-        if (preferences.analytics) loadGoogleAnalytics();
-      }
-    }
-
-    function openCookieSettings() {
-      const preferences = getCookiePreferences();
-      elements.analyticsToggle.checked = preferences ? preferences.analytics : true;
-      elements.advertisingToggle.checked = preferences ? preferences.advertising : true;
-      elements.cookieSettings.style.display = 'flex';
-    }
-
-    function closeCookieSettings() {
-      elements.cookieSettings.style.display = 'none';
-    }
-
-    function initialize() {
-      checkCookieConsent();
-
-      // Mobile menu toggle
-      elements.mobileMenuToggle.addEventListener('click', () => {
-        elements.mobileNav.classList.add('active');
-      });
-      
-      elements.closeMobileMenu.addEventListener('click', () => {
-        elements.mobileNav.classList.remove('active');
-      });
-
-      // Tabs
-      document.querySelectorAll('.tab').forEach(tab => {
-        tab.addEventListener('click', () => switchTab(tab.dataset.tab));
-      });
-
-      // Drag and Drop Setup
-      function setupDragAndDrop(dragArea, fileInput, section) {
-        dragArea.addEventListener('click', () => fileInput.click());
-        dragArea.addEventListener('dragover', (e) => {
-          e.preventDefault();
-          dragArea.classList.add('drag-over');
-        });
-        dragArea.addEventListener('dragenter', (e) => {
-          e.preventDefault();
-          dragArea.classList.add('drag-over');
-        });
-        dragArea.addEventListener('dragleave', () => {
-          dragArea.classList.remove('drag-over');
-        });
-        dragArea.addEventListener('drop', (e) => {
-          e.preventDefault();
-          dragArea.classList.remove('drag-over');
-          const files = e.dataTransfer.files;
-          if (files.length > 0) {
-            fileInput.files = files;
-            fileInput.dispatchEvent(new Event('change'));
+            reader.onerror = () => reject(new Error('Failed to read image file'));
+            reader.readAsDataURL(file);
           }
         });
       }
 
-      setupDragAndDrop(elements.cropDragArea, elements.cropUpload, 'crop');
-      setupDragAndDrop(elements.resizeDragArea, elements.resizeUpload, 'resize');
-      setupDragAndDrop(elements.convertDragArea, elements.convertUpload, 'convert');
+      function drawImageOnCanvas(image, canvasId) {
+        const canvas = document.getElementById(canvasId);
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        const maxWidth = 500;
+        const scale = Math.min(maxWidth / image.width, 1);
+        const pixelRatio = window.devicePixelRatio || 1;
 
-      // Crop Functionality
-      elements.cropUpload.addEventListener('change', async (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-        hideElements('crop');
-        showLoading('crop');
-        try {
-          state.originalCropImage = await loadImage(file);
-          drawImageOnCanvas(state.originalCropImage, 'cropCanvas');
-          elements.cropBtn.style.display = 'inline-block';
-          showSuccess(elements.cropSuccess, 'Image loaded successfully!');
-        } catch (err) {
-          resetCanvas('cropCanvas');
-          showError(elements.cropError, err.message);
-        } finally {
+        canvas.style.width = `${image.width * scale}px`;
+        canvas.style.height = `${image.height * scale}px`;
+        canvas.width = image.width * scale * pixelRatio;
+        canvas.height = image.height * scale * pixelRatio;
+        ctx.scale(pixelRatio, pixelRatio);
+
+        ctx.clearRect(0, 0, canvas.width / pixelRatio, canvas.height / pixelRatio);
+        ctx.drawImage(image, 0, 0, canvas.width / pixelRatio, canvas.height / pixelRatio);
+      }
+
+      function resetCanvas(canvasId) {
+        const canvas = document.getElementById(canvasId);
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        canvas.style.width = '300px';
+        canvas.style.height = '200px';
+        canvas.width = 300;
+        canvas.height = 200;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+
+      // Tab Switching
+      function switchTab(tabName) {
+        document.querySelectorAll('.tab').forEach(tab => {
+          tab.classList.remove('active');
+          tab.setAttribute('aria-selected', 'false');
+        });
+        document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+        const tab = document.querySelector(`.tab[data-tab="${tabName}"]`);
+        const content = document.getElementById(`${tabName}-tab`);
+        if (tab) {
+          tab.classList.add('active');
+          tab.setAttribute('aria-selected', 'true');
+        }
+        if (content) content.classList.add('active');
+
+        // Reset states
+        if (tabName === 'crop') {
+          if (state.originalCropImage) {
+            drawImageOnCanvas(state.originalCropImage, 'cropCanvas');
+            elements.cropBtn.style.display = 'inline-block';
+          } else {
+            resetCanvas('cropCanvas');
+            elements.cropBtn.style.display = 'none';
+          }
+          elements.cropUpload.value = '';
+          elements.downloadCrop.style.display = 'none';
+          elements.resetCrop.style.display = 'none';
+          hideElements('crop');
           hideLoading('crop');
+        } else if (tabName === 'resize') {
+          if (state.originalResizeImage) {
+            drawImageOnCanvas(state.originalResizeImage, 'resizeCanvas');
+            elements.resizeBtn.style.display = 'inline-block';
+          } else {
+            resetCanvas('resizeCanvas');
+            elements.resizeBtn.style.display = 'none';
+          }
+          elements.resizeUpload.value = '';
+          elements.resizeWidth.value = '';
+          elements.resizeHeight.value = '';
+          elements.downloadResize.style.display = 'none';
+          elements.resetResize.style.display = 'none';
+          hideElements('resize');
+          hideLoading('resize');
+        } else if (tabName === 'convert') {
+          if (state.convertImage) {
+            drawImageOnCanvas(state.convertImage, 'convertCanvas');
+            elements.convertBtn.style.display = 'inline-block';
+          } else {
+            resetCanvas('convertCanvas');
+            elements.convertBtn.style.display = 'none';
+          }
+          elements.convertUpload.value = '';
+          hideElements('convert');
+          hideLoading('convert');
         }
-      });
+      }
 
-      elements.cropCanvas.addEventListener('mousedown', (e) => {
-        if (!state.originalCropImage) {
-          showError(elements.cropError, 'Please upload an image first.');
-          return;
+      // Initialize Image Tools
+      function initializeImageTools() {
+        // Tabs
+        document.querySelectorAll('.tab').forEach(tab => {
+          tab.addEventListener('click', () => switchTab(tab.dataset.tab));
+          tab.addEventListener('keydown', e => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              tab.click();
+            }
+          });
+        });
+
+        // Drag and Drop Setup
+        function setupDragAndDrop(dragArea, fileInput, section) {
+          dragArea.addEventListener('click', () => fileInput.click());
+          dragArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dragArea.classList.add('drag-over');
+          });
+          dragArea.addEventListener('dragenter', (e) => {
+            e.preventDefault();
+            dragArea.classList.add('drag-over');
+          });
+          dragArea.addEventListener('dragleave', () => {
+            dragArea.classList.remove('drag-over');
+          });
+          dragArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dragArea.classList.remove('drag-over');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+              fileInput.files = files;
+              fileInput.dispatchEvent(new Event('change'));
+            }
+          });
         }
-        state.isDrawing = true;
-        const rect = elements.cropCanvas.getBoundingClientRect();
-        const pixelRatio = window.devicePixelRatio || 1;
-        state.cropStart = { x: (e.clientX - rect.left) * pixelRatio, y: (e.clientY - rect.top) * pixelRatio };
-      });
 
-      elements.cropCanvas.addEventListener('mousemove', (e) => {
-        if (!state.isDrawing || !state.originalCropImage) return;
-        const rect = elements.cropCanvas.getBoundingClientRect();
-        const pixelRatio = window.devicePixelRatio || 1;
-        const currentX = (e.clientX - rect.left) * pixelRatio;
-        const currentY = (e.clientY - rect.top) * pixelRatio;
-        state.cropRect = {
-          x: Math.min(state.cropStart.x, currentX),
-          y: Math.min(state.cropStart.y, currentY),
-          width: Math.abs(currentX - state.cropStart.x),
-          height: Math.abs(currentY - state.cropStart.y),
-        };
-        const ctx = elements.cropCanvas.getContext('2d');
-        ctx.clearRect(0, 0, elements.cropCanvas.width / pixelRatio, elements.cropCanvas.height / pixelRatio);
-        ctx.drawImage(state.originalCropImage, 0, 0, elements.cropCanvas.width / pixelRatio, elements.cropCanvas.height / pixelRatio);
-        ctx.strokeStyle = 'red';
-        ctx.lineWidth = 2;
-        ctx.strokeRect(state.cropRect.x / pixelRatio, state.cropRect.y / pixelRatio, state.cropRect.width / pixelRatio, state.cropRect.height / pixelRatio);
-      });
+        setupDragAndDrop(elements.cropDragArea, elements.cropUpload, 'crop');
+        setupDragAndDrop(elements.resizeDragArea, elements.resizeUpload, 'resize');
+        setupDragAndDrop(elements.convertDragArea, elements.convertUpload, 'convert');
 
-      elements.cropCanvas.addEventListener('mouseup', () => {
-        state.isDrawing = false;
-      });
-
-      elements.cropBtn.addEventListener('click', () => {
-        hideElements('crop');
-        if (!state.cropRect || !state.originalCropImage) {
-          showError(elements.cropError, 'Please draw a crop area on an uploaded image.');
-          return;
-        }
-        showLoading('crop');
-        setTimeout(() => {
+        // Crop Functionality
+        elements.cropUpload.addEventListener('change', async (e) => {
+          const file = e.target.files[0];
+          if (!file) return;
+          hideElements('crop');
+          showLoading('crop');
           try {
-            const pixelRatio = window.devicePixelRatio || 1;
-            const scale = state.originalCropImage.width / (elements.cropCanvas.width / pixelRatio);
-            const sx = state.cropRect.x * scale / pixelRatio;
-            const sy = state.cropRect.y * scale / pixelRatio;
-            const sWidth = state.cropRect.width * scale / pixelRatio;
-            const sHeight = state.cropRect.height * scale / pixelRatio;
-            const croppedCanvas = document.createElement('canvas');
-            croppedCanvas.width = sWidth;
-            croppedCanvas.height = sHeight;
-            const ctx = croppedCanvas.getContext('2d');
-            ctx.drawImage(state.originalCropImage, sx, sy, sWidth, sHeight, 0, 0, sWidth, sHeight);
-            state.croppedImage = croppedCanvas;
-            drawImageOnCanvas(croppedCanvas, 'cropCanvas');
-            elements.downloadCrop.style.display = 'inline-block';
-            elements.resetCrop.style.display = 'inline-block';
-            showSuccess(elements.cropSuccess, 'Image cropped successfully!');
+            state.originalCropImage = await loadImage(file);
+            drawImageOnCanvas(state.originalCropImage, 'cropCanvas');
+            elements.cropBtn.style.display = 'inline-block';
+            showSuccess(elements.cropSuccess, 'Image loaded successfully!');
           } catch (err) {
-            showError(elements.cropError, 'Error cropping image: ' + err.message);
+            resetCanvas('cropCanvas');
+            showError(elements.cropError, err.message);
           } finally {
             hideLoading('crop');
           }
-        }, 300);
-      });
+        });
 
-      elements.resetCrop.addEventListener('click', () => {
-        if (confirm('Reset the image? This will clear the current crop.')) {
-          hideElements('crop');
-          if (state.originalCropImage) {
-            drawImageOnCanvas(state.originalCropImage, 'cropCanvas');
-            state.croppedImage = null;
-            state.cropRect = null;
-            elements.downloadCrop.style.display = 'none';
-            elements.resetCrop.style.display = 'none';
-            elements.cropBtn.style.display = 'inline-block';
-            showSuccess(elements.cropSuccess, 'Image reset successfully!');
-          } else {
-            resetCanvas('cropCanvas');
+        elements.cropCanvas.addEventListener('mousedown', (e) => {
+          if (!state.originalCropImage) {
+            showError(elements.cropError, 'Please upload an image first.');
+            return;
           }
-        }
-      });
+          state.isDrawing = true;
+          const rect = elements.cropCanvas.getBoundingClientRect();
+          const pixelRatio = window.devicePixelRatio || 1;
+          state.cropStart = { x: (e.clientX - rect.left) * pixelRatio, y: (e.clientY - rect.top) * pixelRatio };
+        });
 
-      elements.downloadCrop.addEventListener('click', () => {
-        if (state.croppedImage) {
-          const link = document.createElement('a');
-          link.download = 'cropped-image.png';
-          link.href = state.croppedImage.toDataURL('image/png');
-          link.click();
-          URL.revokeObjectURL(link.href);
-          showSuccess(elements.cropSuccess, 'Image downloaded successfully!');
-        } else {
-          showError(elements.cropError, 'No cropped image available for download.');
-        }
-      });
+        elements.cropCanvas.addEventListener('mousemove', (e) => {
+          if (!state.isDrawing || !state.originalCropImage) return;
+          const rect = elements.cropCanvas.getBoundingClientRect();
+          const pixelRatio = window.devicePixelRatio || 1;
+          const currentX = (e.clientX - rect.left) * pixelRatio;
+          const currentY = (e.clientY - rect.top) * pixelRatio;
+          state.cropRect = {
+            x: Math.min(state.cropStart.x, currentX),
+            y: Math.min(state.cropStart.y, currentY),
+            width: Math.abs(currentX - state.cropStart.x),
+            height: Math.abs(currentY - state.cropStart.y),
+          };
+          const ctx = elements.cropCanvas.getContext('2d');
+          ctx.clearRect(0, 0, elements.cropCanvas.width / pixelRatio, elements.cropCanvas.height / pixelRatio);
+          ctx.drawImage(state.originalCropImage, 0, 0, elements.cropCanvas.width / pixelRatio, elements.cropCanvas.height / pixelRatio);
+          ctx.strokeStyle = 'red';
+          ctx.lineWidth = 2;
+          ctx.strokeRect(state.cropRect.x / pixelRatio, state.cropRect.y / pixelRatio, state.cropRect.width / pixelRatio, state.cropRect.height / pixelRatio);
+        });
 
-      // Resize Functionality
-      elements.resizeUpload.addEventListener('change', async (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-        hideElements('resize');
-        showLoading('resize');
-        try {
-          state.originalResizeImage = await loadImage(file);
-          drawImageOnCanvas(state.originalResizeImage, 'resizeCanvas');
-          elements.resizeBtn.style.display = 'inline-block';
-          showSuccess(elements.resizeSuccess, 'Image loaded successfully!');
-        } catch (err) {
-          showError(elements.resizeError, err.message);
-          resetCanvas('resizeCanvas');
-        } finally {
-          hideLoading('resize');
-        }
-      });
+        elements.cropCanvas.addEventListener('mouseup', () => {
+          state.isDrawing = false;
+        });
 
-      elements.resizeBtn.addEventListener('click', () => {
-        hideElements('resize');
-        if (!state.originalResizeImage) {
-          showError(elements.resizeError, 'Please upload an image first.');
-          return;
-        }
-        const targetWidth = parseInt(elements.resizeWidth.value);
-        const targetHeight = parseInt(elements.resizeHeight.value);
-        if (isNaN(targetWidth) || isNaN(targetHeight) || targetWidth <= 0 || targetHeight <= 0) {
-          showError(elements.resizeError, 'Please enter valid width and height values.');
-          return;
-        }
-        showLoading('resize');
-        setTimeout(() => {
+        elements.cropBtn.addEventListener('click', () => {
+          hideElements('crop');
+          if (!state.cropRect || !state.originalCropImage) {
+            showError(elements.cropError, 'Please draw a crop area on an uploaded image.');
+            return;
+          }
+          showLoading('crop');
+          setTimeout(() => {
+            try {
+              const pixelRatio = window.devicePixelRatio || 1;
+              const scale = state.originalCropImage.width / (elements.cropCanvas.width / pixelRatio);
+              const sx = state.cropRect.x * scale / pixelRatio;
+              const sy = state.cropRect.y * scale / pixelRatio;
+              const sWidth = state.cropRect.width * scale / pixelRatio;
+              const sHeight = state.cropRect.height * scale / pixelRatio;
+              const croppedCanvas = document.createElement('canvas');
+              croppedCanvas.width = sWidth;
+              croppedCanvas.height = sHeight;
+              const ctx = croppedCanvas.getContext('2d');
+              ctx.drawImage(state.originalCropImage, sx, sy, sWidth, sHeight, 0, 0, sWidth, sHeight);
+              state.croppedImage = croppedCanvas;
+              drawImageOnCanvas(croppedCanvas, 'cropCanvas');
+              elements.downloadCrop.style.display = 'inline-block';
+              elements.resetCrop.style.display = 'inline-block';
+              showSuccess(elements.cropSuccess, 'Image cropped successfully!');
+            } catch (err) {
+              showError(elements.cropError, 'Error cropping image: ' + err.message);
+            } finally {
+              hideLoading('crop');
+            }
+          }, 300);
+        });
+
+        elements.resetCrop.addEventListener('click', () => {
+          if (confirm('Reset the image? This will clear the current crop.')) {
+            hideElements('crop');
+            if (state.originalCropImage) {
+              drawImageOnCanvas(state.originalCropImage, 'cropCanvas');
+              state.croppedImage = null;
+              state.cropRect = null;
+              elements.downloadCrop.style.display = 'none';
+              elements.resetCrop.style.display = 'none';
+              elements.cropBtn.style.display = 'inline-block';
+              showSuccess(elements.cropSuccess, 'Image reset successfully!');
+            } else {
+              resetCanvas('cropCanvas');
+            }
+          }
+        });
+
+        elements.downloadCrop.addEventListener('click', () => {
+          if (state.croppedImage) {
+            const link = document.createElement('a');
+            link.download = 'cropped-image.png';
+            link.href = state.croppedImage.toDataURL('image/png');
+            link.click();
+            URL.revokeObjectURL(link.href);
+            showSuccess(elements.cropSuccess, 'Image downloaded successfully!');
+          } else {
+            showError(elements.cropError, 'No cropped image available for download.');
+          }
+        });
+
+        // Resize Functionality
+        elements.resizeUpload.addEventListener('change', async (e) => {
+          const file = e.target.files[0];
+          if (!file) return;
+          hideElements('resize');
+          showLoading('resize');
           try {
-            const canvas = document.createElement('canvas');
-            canvas.width = targetWidth;
-            canvas.height = targetHeight;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(state.originalResizeImage, 0, 0, state.originalResizeImage.width, state.originalResizeImage.height, 0, 0, targetWidth, targetHeight);
-            state.resizedImage = canvas;
-            drawImageOnCanvas(state.resizedImage, 'resizeCanvas');
-            elements.downloadResize.style.display = 'inline-block';
-            elements.resetResize.style.display = 'inline-block';
-            showSuccess(elements.resizeSuccess, 'Image resized successfully!');
+            state.originalResizeImage = await loadImage(file);
+            drawImageOnCanvas(state.originalResizeImage, 'resizeCanvas');
+            elements.resizeBtn.style.display = 'inline-block';
+            showSuccess(elements.resizeSuccess, 'Image loaded successfully!');
           } catch (err) {
-            showError(elements.resizeError, 'Error resizing image: ' + err.message);
+            showError(elements.resizeError, err.message);
+            resetCanvas('resizeCanvas');
           } finally {
             hideLoading('resize');
           }
-        }, 300);
-      });
+        });
 
-      elements.resetResize.addEventListener('click', () => {
-        if (confirm('Reset the image? This will clear the current resize.')) {
+        elements.resizeBtn.addEventListener('click', () => {
           hideElements('resize');
-          if (state.originalResizeImage) {
-            drawImageOnCanvas(state.originalResizeImage, 'resizeCanvas');
-            state.resizedImage = null;
-            elements.downloadResize.style.display = 'none';
-            elements.resetResize.style.display = 'none';
-            elements.resizeBtn.style.display = 'inline-block';
-            showSuccess(elements.resizeSuccess, 'Image reset successfully!');
-          } else {
-            resetCanvas('resizeCanvas');
+          if (!state.originalResizeImage) {
+            showError(elements.resizeError, 'Please upload an image first.');
+            return;
           }
-        }
-      });
+          const targetWidth = parseInt(elements.resizeWidth.value);
+          const targetHeight = parseInt(elements.resizeHeight.value);
+          if (isNaN(targetWidth) || isNaN(targetHeight) || targetWidth <= 0 || targetHeight <= 0) {
+            showError(elements.resizeError, 'Please enter valid width and height values.');
+            return;
+          }
+          showLoading('resize');
+          setTimeout(() => {
+            try {
+              const canvas = document.createElement('canvas');
+              canvas.width = targetWidth;
+              canvas.height = targetHeight;
+              const ctx = canvas.getContext('2d');
+              ctx.drawImage(state.originalResizeImage, 0, 0, state.originalResizeImage.width, state.originalResizeImage.height, 0, 0, targetWidth, targetHeight);
+              state.resizedImage = canvas;
+              drawImageOnCanvas(state.resizedImage, 'resizeCanvas');
+              elements.downloadResize.style.display = 'inline-block';
+              elements.resetResize.style.display = 'inline-block';
+              showSuccess(elements.resizeSuccess, 'Image resized successfully!');
+            } catch (err) {
+              showError(elements.resizeError, 'Error resizing image: ' + err.message);
+            } finally {
+              hideLoading('resize');
+            }
+          }, 300);
+        });
 
-      elements.downloadResize.addEventListener('click', () => {
-        if (state.resizedImage) {
-          const link = document.createElement('a');
-          link.download = 'resized-image.png';
-          link.href = state.resizedImage.toDataURL('image/png');
-          link.click();
-          URL.revokeObjectURL(link.href);
-          showSuccess(elements.resizeSuccess, 'Image downloaded successfully!');
-        } else {
-          showError(elements.resizeError, 'No resized image available for download.');
-        }
-      });
+        elements.resetResize.addEventListener('click', () => {
+          if (confirm('Reset the image? This will clear the current resize.')) {
+            hideElements('resize');
+            if (state.originalResizeImage) {
+              drawImageOnCanvas(state.originalResizeImage, 'resizeCanvas');
+              state.resizedImage = null;
+              elements.downloadResize.style.display = 'none';
+              elements.resetResize.style.display = 'none';
+              elements.resizeBtn.style.display = 'inline-block';
+              showSuccess(elements.resizeSuccess, 'Image reset successfully!');
+            } else {
+              resetCanvas('resizeCanvas');
+            }
+          }
+        });
 
-      // Convert Functionality
-      elements.convertUpload.addEventListener('change', async (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-        hideElements('convert');
-        showLoading('convert');
-        try {
-          state.convertImage = await loadImage(file);
-          drawImageOnCanvas(state.convertImage, 'convertCanvas');
-          elements.convertBtn.style.display = 'inline-block';
-          showSuccess(elements.convertSuccess, 'Image loaded successfully!');
-        } catch (err) {
-          showError(elements.convertError, err.message);
-          resetCanvas('convertCanvas');
-        } finally {
-          hideLoading('convert');
-        }
-      });
+        elements.downloadResize.addEventListener('click', () => {
+          if (state.resizedImage) {
+            const link = document.createElement('a');
+            link.download = 'resized-image.png';
+            link.href = state.resizedImage.toDataURL('image/png');
+            link.click();
+            URL.revokeObjectURL(link.href);
+            showSuccess(elements.resizeSuccess, 'Image downloaded successfully!');
+          } else {
+            showError(elements.resizeError, 'No resized image available for download.');
+          }
+        });
 
-      elements.convertBtn.addEventListener('click', async () => {
-        hideElements('convert');
-        if (!state.convertImage && !elements.convertUpload.files[0]) {
-          showError(elements.convertError, 'Please upload an image first.');
-          return;
-        }
-        showLoading('convert');
-        try {
-          const img = state.convertImage || await loadImage(elements.convertUpload.files[0]);
-          const canvas = document.createElement('canvas');
-          canvas.width = img.width;
-          canvas.height = img.height;
-          const ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0, img.width, img.height);
-          const format = elements.outputFormat.value;
-          const link = document.createElement('a');
-          link.href = canvas.toDataURL(`image/${format}`, format === 'jpeg' ? 0.9 : 1);
-          link.download = `converted.${format}`;
-          link.click();
-          URL.revokeObjectURL(link.href);
-          showSuccess(elements.convertSuccess, `Image converted to ${format.toUpperCase()} successfully!`);
-        } catch (err) {
-          showError(elements.convertError, 'Error converting image: ' + err.message);
-        } finally {
-          hideLoading('convert');
-        }
-      });
+        // Convert Functionality
+        elements.convertUpload.addEventListener('change', async (e) => {
+          const file = e.target.files[0];
+          if (!file) return;
+          hideElements('convert');
+          showLoading('convert');
+          try {
+            state.convertImage = await loadImage(file);
+            drawImageOnCanvas(state.convertImage, 'convertCanvas');
+            elements.convertBtn.style.display = 'inline-block';
+            showSuccess(elements.convertSuccess, 'Image loaded successfully!');
+          } catch (err) {
+            showError(elements.convertError, err.message);
+            resetCanvas('convertCanvas');
+          } finally {
+            hideLoading('convert');
+          }
+        });
 
-      // Cookie consent handlers
-      elements.acceptCookies.addEventListener('click', () => {
-        saveCookiePreferences({ essential: true, analytics: true, advertising: true });
-        elements.cookieConsent.style.display = 'none';
-        loadGoogleAnalytics();
-      });
-
-      elements.rejectCookies.addEventListener('click', () => {
-        saveCookiePreferences({ essential: true, analytics: false, advertising: false });
-        elements.cookieConsent.style.display = 'none';
-      });
-
-      elements.openSettings.addEventListener('click', openCookieSettings);
-      elements.openSettingsFooter.addEventListener('click', e => {
-        e.preventDefault();
-        openCookieSettings();
-      });
-
-      elements.closeSettings.addEventListener('click', closeCookieSettings);
-
-      elements.saveSettings.addEventListener('click', () => {
-        const preferences = {
-          essential: true,
-          analytics: elements.analyticsToggle.checked,
-          advertising: elements.advertisingToggle.checked
-        };
-        saveCookiePreferences(preferences);
-        if (preferences.analytics) loadGoogleAnalytics();
-        closeCookieSettings();
-        elements.cookieConsent.style.display = 'none';
-      });
+        elements.convertBtn.addEventListener('click', async () => {
+          hideElements('convert');
+          if (!state.convertImage && !elements.convertUpload.files[0]) {
+            showError(elements.convertError, 'Please upload an image first.');
+            return;
+          }
+          showLoading('convert');
+          try {
+            const img = state.convertImage || await loadImage(elements.convertUpload.files[0]);
+            const canvas = document.createElement('canvas');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, img.width, img.height);
+            const format = elements.outputFormat.value;
+            const link = document.createElement('a');
+            link.href = canvas.toDataURL(`image/${format}`, format === 'jpeg' ? 0.9 : 1);
+            link.download = `converted.${format}`;
+            link.click();
+            URL.revokeObjectURL(link.href);
+            showSuccess(elements.convertSuccess, `Image converted to ${format.toUpperCase()} successfully!`);
+          } catch (err) {
+            showError(elements.convertError, 'Error converting image: ' + err.message);
+          } finally {
+            hideLoading('convert');
+          }
+        });
+      }
+      
+      initializeImageTools();
     }
 
-    // Initialize the page
-    document.addEventListener('DOMContentLoaded', initialize);
+    // Initialize everything when DOM is loaded
+    document.addEventListener('DOMContentLoaded', () => {
+      initMobileMenu();
+      initCookieConsent();
+      initImageTools();
+      
+      // Check cookie consent status
+      const preferences = localStorage.getItem('cookieConsent');
+      if (!preferences) {
+        document.getElementById('cookie-consent').style.display = 'block';
+      }
+    });
   </script>
   <script defer src="https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js" onload="window.heic2anyAvailable = true;" onerror="console.error('Failed to load heic2any'); window.heic2anyAvailable = false;"></script>
 </body>
