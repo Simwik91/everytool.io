@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Free Barcode Generator - Create custom EAN-13, EAN-8, UPC, and other barcodes for products, inventory, and retail.">
-  <title>Barcode Generator - EveryTool.io</title>
+  <title>Enhanced Barcode Generator - EveryTool.io</title>
   
   <!-- SEO Optimizations -->
   <meta name="robots" content="index, follow">
@@ -1010,7 +1010,99 @@
       clip: rect(0, 0, 0, 0);
       border: 0;
     }
-
+    
+    /* NEW: Simplified Customization Panel */
+    .customization-panel {
+      background: #f8f9ff;
+      border-radius: var(--border-radius);
+      padding: 25px;
+      margin-bottom: 30px;
+      border: 1px solid #e9ecef;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    }
+    
+    .customization-panel h2 {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: center;
+    }
+    
+    .customization-panel h2 i {
+      color: var(--primary);
+    }
+    
+    .customization-options {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+    
+    .color-options {
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      flex-wrap: wrap;
+    }
+    
+    .color-option {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .color-option label {
+      font-weight: 500;
+      font-size: 1rem;
+    }
+    
+    .transparent-bg-container {
+      background: #f8f9fa;
+      border-radius: 10px;
+      padding: 15px;
+      margin-top: 15px;
+      border: 1px dashed var(--light-gray);
+      display: flex;
+      justify-content: center;
+    }
+    
+    .size-controls-row {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+    
+    .size-control {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 200px;
+    }
+    
+    .size-control label {
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+    
+    .size-controls {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      width: 100%;
+    }
+    
+    .reset-btn {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    
     /* Responsive Design */
     @media (max-width: 992px) {
       .nav-menu {
@@ -1089,6 +1181,11 @@
       
       .uses-grid {
         grid-template-columns: 1fr;
+      }
+      
+      .size-controls-row {
+        flex-direction: column;
+        gap: 20px;
       }
     }
 
@@ -1265,7 +1362,7 @@
   <section class="hero">
     <div class="container">
       <div class="hero-content">
-        <h1>Barcode Generator</h1>
+        <h1>Enhanced Barcode Generator</h1>
         <p>Create custom EAN-13, EAN-8, UPC, and other barcodes for products, inventory, and retail applications. All processing happens in your browser.</p>
       </div>
     </div>
@@ -1311,13 +1408,74 @@
           <p>Input your code or leave blank for a random, valid Barcode.</p>
         </div>
         <div class="guide-item">
+          <h3><i class="fas fa-sliders-h"></i> Customize Appearance</h3>
+          <p>Adjust colors, size, and other visual properties as needed.</p>
+        </div>
+        <div class="guide-item">
           <h3><i class="fas fa-bolt"></i> Generate Barcode</h3>
           <p>Click "Generate Barcode" to create your Barcode instantly.</p>
         </div>
         <div class="guide-item">
           <h3><i class="fas fa-download"></i> Download</h3>
-          <p>Download your barcode as a PNG file or ZIP for batch generation.</p>
+          <p>Download your barcode as PNG, SVG, or ZIP for batch generation.</p>
         </div>
+      </div>
+    </div>
+
+    <!-- Simplified Customization Panel -->
+    <div class="customization-panel">
+      <h2><i class="fas fa-sliders-h"></i> Customization Settings</h2>
+      <p style="text-align: center; margin-bottom: 20px; color: var(--gray);">These settings apply to all generated barcodes</p>
+      
+      <div class="customization-options">
+        <!-- Color Options -->
+        <div>
+          <h3><i class="fas fa-palette"></i> Colors</h3>
+          <div class="color-options">
+            <div class="color-option">
+              <label for="bar-color">Bar Color:</label>
+              <input type="color" id="bar-color" value="#000000">
+            </div>
+            <div class="color-option">
+              <label for="text-color">Text Color:</label>
+              <input type="color" id="text-color" value="#000000">
+            </div>
+          </div>
+          
+          <div class="transparent-bg-container">
+            <label>
+              <input type="checkbox" id="transparent-bg">
+              Transparent Background
+            </label>
+          </div>
+        </div>
+        
+        <!-- Size Options -->
+        <div>
+          <h3><i class="fas fa-expand-arrows-alt"></i> Adjust Size</h3>
+          <div class="size-controls-row">
+            <div class="size-control">
+              <label>Width:</label>
+              <div class="size-controls">
+                <input type="range" id="barcode-width" min="200" max="800" value="320" class="size-slider">
+                <span class="size-value" id="barcode-width-value">320px</span>
+              </div>
+            </div>
+            <div class="size-control">
+              <label>Height:</label>
+              <div class="size-controls">
+                <input type="range" id="barcode-height" min="50" max="300" value="150" class="size-slider">
+                <span class="size-value" id="barcode-height-value">150px</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="reset-btn">
+        <button id="reset-customization" class="secondary">
+          <i class="fas fa-redo"></i> Reset Customization
+        </button>
       </div>
     </div>
 
@@ -1349,6 +1507,7 @@
         </select>
         <label for="ean-input">Barcode Value:</label>
         <input id="ean-input" type="text" placeholder="Enter barcode or leave blank to auto-generate" autofocus aria-label="Enter barcode value">
+        
         <div class="error" id="single-error"></div>
         <div class="success" id="single-success"></div>
         <div class="btn-group">
@@ -1356,7 +1515,10 @@
             <i class="fas fa-bolt"></i> Generate Barcode
           </button>
           <button id="download-btn" style="display:none" aria-label="Download barcode">
-            <i class="fas fa-download"></i> Download
+            <i class="fas fa-download"></i> Download PNG
+          </button>
+          <button id="download-svg-btn" style="display:none" aria-label="Download SVG">
+            <i class="fas fa-file-code"></i> Download SVG
           </button>
         </div>
         <div class="loading" id="single-loading">
@@ -1381,6 +1543,7 @@
         </select>
         <label for="batch-amount">Number of Barcodes:</label>
         <input id="batch-amount" type="number" min="1" max="100" value="10" placeholder="Enter number of codes (1–100)" aria-label="Enter number of barcodes">
+        
         <div class="btn-group">
           <button id="generate-batch-btn" aria-label="Generate and download batch barcodes as ZIP">
             <i class="fas fa-file-archive"></i> Generate & Download as ZIP
@@ -1414,12 +1577,16 @@
             <li><strong>Pharmacode:</strong> Numbers 3-131070 (e.g., 1234)</li>
           </ul>
         </div>
+        
         <div class="btn-group">
           <button id="generate-custom-btn" aria-label="Generate custom barcode">
             <i class="fas fa-bolt"></i> Generate Custom Barcode
           </button>
           <button id="custom-download" style="display:none" aria-label="Download custom barcode">
-            <i class="fas fa-download"></i> Download
+            <i class="fas fa-download"></i> Download PNG
+          </button>
+          <button id="custom-svg-download" style="display:none" aria-label="Download SVG">
+            <i class="fas fa-file-code"></i> Download SVG
           </button>
         </div>
         <div class="loading" id="custom-loading">
@@ -1505,7 +1672,7 @@
   </footer>
 
   <script>
-    // Mobile Menu Functionality - Fixed Implementation
+    // Mobile Menu Functionality
     function initMobileMenu() {
       const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
       const closeMobileMenu = document.getElementById('close-mobile-menu');
@@ -1590,14 +1757,12 @@
         if (advertisingToggle) advertisingToggle.checked = preferences.advertising;
         const settings = document.getElementById('cookie-settings');
         if (settings) settings.style.display = 'flex';
-        // Focus the first focusable element in the modal
         document.getElementById('analytics-toggle').focus();
       }
       
       function closeCookieSettings() {
         const settings = document.getElementById('cookie-settings');
         if (settings) settings.style.display = 'none';
-        // Return focus to the button that opened the settings
         document.getElementById('open-settings').focus();
       }
       
@@ -1666,7 +1831,9 @@
         singleCanvas: document.getElementById('ean-canvas'),
         customCanvas: document.getElementById('custom-canvas'),
         downloadBtn: document.getElementById('download-btn'),
+        downloadSvgBtn: document.getElementById('download-svg-btn'),
         customDownloadBtn: document.getElementById('custom-download'),
+        customSvgDownloadBtn: document.getElementById('custom-svg-download'),
         singleLoading: document.getElementById('single-loading'),
         batchLoading: document.getElementById('batch-loading'),
         customLoading: document.getElementById('custom-loading'),
@@ -1686,6 +1853,16 @@
         generateSingleBtn: document.getElementById('generate-single-btn'),
         generateBatchBtn: document.getElementById('generate-batch-btn'),
         generateCustomBtn: document.getElementById('generate-custom-btn'),
+        resetCustomizationBtn: document.getElementById('reset-customization'),
+        
+        // Customization elements
+        barColor: document.getElementById('bar-color'),
+        textColor: document.getElementById('text-color'),
+        transparentBg: document.getElementById('transparent-bg'),
+        barcodeWidth: document.getElementById('barcode-width'),
+        barcodeWidthValue: document.getElementById('barcode-width-value'),
+        barcodeHeight: document.getElementById('barcode-height'),
+        barcodeHeightValue: document.getElementById('barcode-height-value'),
       };
 
       const barcodeConfig = {
@@ -1698,6 +1875,31 @@
         codabar: { regex: /^[A-D][0-9-:$/.+]*[A-D]$/, format: 'codabar' },
         pharmacode: { min: 3, max: 131070, regex: /^\d+$/, format: 'pharmacode' }
       };
+
+      // Update slider displays
+      elements.barcodeWidth.addEventListener('input', function() {
+        elements.barcodeWidthValue.textContent = this.value + 'px';
+      });
+      
+      elements.barcodeHeight.addEventListener('input', function() {
+        elements.barcodeHeightValue.textContent = this.value + 'px';
+      });
+      
+      // Reset customization
+      elements.resetCustomizationBtn.addEventListener('click', function() {
+        // Reset color pickers
+        elements.barColor.value = '#000000';
+        elements.textColor.value = '#000000';
+        
+        // Reset background
+        elements.transparentBg.checked = false;
+        
+        // Reset barcode size
+        elements.barcodeWidth.value = '320';
+        elements.barcodeWidthValue.textContent = '320px';
+        elements.barcodeHeight.value = '150';
+        elements.barcodeHeightValue.textContent = '150px';
+      });
 
       function showError(element, message) {
         element.textContent = message;
@@ -1766,11 +1968,12 @@
         return str.replace(/[^a-zA-Z0-9-]+/g, '_').slice(0, 50) || 'barcode';
       }
 
-      function generateBarcode({ canvas, code, type, errorElement, successElement, downloadButton, loadingElement }) {
+      function generateBarcode({ canvas, code, type, errorElement, successElement, downloadButton, svgDownloadButton, loadingElement }) {
         const ctx = canvas.getContext('2d');
         hideElements();
         loadingElement.style.display = 'block';
         downloadButton.style.display = 'none';
+        svgDownloadButton.style.display = 'none';
         canvas.style.display = 'none';
 
         if (!validateInput(code, type)) {
@@ -1781,19 +1984,30 @@
 
         const finalCode = code || generateRandomBarcode(type);
         const isPharmacode = type === 'pharmacode';
-        canvas.width = 320;
-        canvas.height = isPharmacode ? 100 : 150;
+        const width = parseInt(elements.barcodeWidth.value);
+        const height = parseInt(elements.barcodeHeight.value);
+        
+        // Set canvas dimensions
+        canvas.width = width;
+        canvas.height = height;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         canvas.dataset.code = finalCode;
+        canvas.dataset.type = type;
 
         try {
+          // Generate the barcode with custom colors and background
           JsBarcode(canvas, finalCode, {
             format: barcodeConfig[type].format,
             displayValue: true,
-            width: isPharmacode ? 2 : 2,
-            height: isPharmacode ? 50 : 100
+            width: 2,
+            height: isPharmacode ? height * 0.5 : height * 0.7,
+            lineColor: elements.barColor.value,
+            textColor: elements.textColor.value,
+            background: elements.transparentBg.checked ? 'transparent' : '#ffffff'
           });
+
           downloadButton.style.display = 'inline-block';
+          svgDownloadButton.style.display = 'inline-block';
           canvas.style.display = 'block';
           showSuccess(successElement, 'Barcode generated successfully!');
         } catch (error) {
@@ -1808,16 +2022,60 @@
           const code = canvas.dataset.code;
           const link = document.createElement('a');
           link.download = `${sanitizeFilename(code)}.png`;
-          link.href = canvas.toDataURL('image/png');
+          link.href = canvas.toDataURL('image/png', 1.0);
           link.click();
         } catch (error) {
           showError(errorElement, 'Error downloading barcode');
         }
       }
 
+      function downloadSVG(canvas, errorElement) {
+        try {
+          const code = canvas.dataset.code;
+          const type = canvas.dataset.type;
+          const svgNS = "http://www.w3.org/2000/svg";
+          const svg = document.createElementNS(svgNS, "svg");
+          svg.setAttribute("xmlns", svgNS);
+          svg.setAttribute("version", "1.1");
+          svg.setAttribute("width", canvas.width);
+          svg.setAttribute("height", canvas.height);
+          
+          // Create SVG barcode
+          JsBarcode(svg, code, {
+            format: barcodeConfig[type].format,
+            displayValue: true,
+            width: 2,
+            height: canvas.height * 0.7,
+            lineColor: elements.barColor.value,
+            textColor: elements.textColor.value,
+            background: elements.transparentBg.checked ? 'transparent' : '#ffffff'
+          });
+
+          // Serialize SVG
+          const serializer = new XMLSerializer();
+          let svgString = serializer.serializeToString(svg);
+          if (!svgString.includes('xmlns')) {
+            svgString = svgString.replace(/<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
+          }
+
+          // Create blob and download
+          const blob = new Blob([svgString], {type: "image/svg+xml;charset=utf-8"});
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement("a");
+          link.href = url;
+          link.download = `${sanitizeFilename(code)}.svg`;
+          link.click();
+          URL.revokeObjectURL(url);
+        } catch (error) {
+          showError(errorElement, 'Error generating SVG: ' + error.message);
+        }
+      }
+
       async function generateBatchEANs() {
         const type = elements.batchEanType.value;
         const amount = parseInt(elements.batchAmount.value);
+        const width = parseInt(elements.barcodeWidth.value);
+        const height = parseInt(elements.barcodeHeight.value);
 
         if (isNaN(amount) || amount < 1 || amount > 100) {
           showError(elements.batchError, 'Please enter a number between 1 and 100');
@@ -1835,17 +2093,25 @@
           for (let i = 0; i < amount; i++) {
             elements.batchProgress.textContent = `Generating barcodes: ${i + 1}/${amount}`;
             const code = generateRandomBarcode(type);
-            canvas.width = 320;
-            canvas.height = isPharmacode ? 100 : 150;
+            canvas.width = width;
+            canvas.height = height;
 
             try {
+              // Generate the barcode with customization
+              const ctx = canvas.getContext('2d');
+              ctx.clearRect(0, 0, canvas.width, canvas.height);
+              
               JsBarcode(canvas, code, {
                 format: barcodeConfig[type].format,
                 displayValue: true,
-                width: isPharmacode ? 2 : 2,
-                height: isPharmacode ? 50 : 100
+                width: 2,
+                height: isPharmacode ? height * 0.5 : height * 0.7,
+                lineColor: elements.barColor.value,
+                textColor: elements.textColor.value,
+                background: elements.transparentBg.checked ? 'transparent' : '#ffffff'
               });
-              const dataUrl = canvas.toDataURL('image/png');
+
+              const dataUrl = canvas.toDataURL('image/png', 1.0);
               const imgData = dataUrl.replace(/^data:image\/png;base64,/, '');
               zip.file(`${sanitizeFilename(code)}.png`, imgData, { base64: true });
             } catch (err) {
@@ -1903,10 +2169,12 @@
           errorElement: elements.singleError,
           successElement: elements.singleSuccess,
           downloadButton: elements.downloadBtn,
+          svgDownloadButton: elements.downloadSvgBtn,
           loadingElement: elements.singleLoading
         }));
 
         elements.downloadBtn.addEventListener('click', () => downloadBarcode(elements.singleCanvas, elements.singleError));
+        elements.downloadSvgBtn.addEventListener('click', () => downloadSVG(elements.singleCanvas, elements.singleError));
 
         elements.generateBatchBtn.addEventListener('click', generateBatchEANs);
 
@@ -1923,12 +2191,18 @@
             errorElement: elements.customError,
             successElement: elements.customSuccess,
             downloadButton: elements.customDownloadBtn,
+            svgDownloadButton: elements.customSvgDownloadBtn,
             loadingElement: elements.customLoading
           });
         });
 
         elements.customDownloadBtn.addEventListener('click', () => downloadBarcode(elements.customCanvas, elements.customError));
+        elements.customSvgDownloadBtn.addEventListener('click', () => downloadSVG(elements.customCanvas, elements.customError));
       }
+      
+      // Initialize slider values
+      elements.barcodeWidthValue.textContent = elements.barcodeWidth.value + 'px';
+      elements.barcodeHeightValue.textContent = elements.barcodeHeight.value + 'px';
       
       initializeBarcodeGenerator();
     }
