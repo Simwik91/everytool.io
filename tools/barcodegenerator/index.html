@@ -1010,139 +1010,7 @@
       clip: rect(0, 0, 0, 0);
       border: 0;
     }
-    
-    /* NEW: Customization Panel - Vertical layout */
-    .customization-panel {
-      background: #f8f9ff;
-      border-radius: var(--border-radius);
-      padding: 25px;
-      margin-bottom: 30px;
-      border: 1px solid #e9ecef;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-    }
-    
-    .customization-panel h2 {
-      font-size: 1.5rem;
-      margin-bottom: 20px;
-      color: var(--primary);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      justify-content: center;
-    }
-    
-    .customization-panel h2 i {
-      color: var(--primary);
-    }
-    
-    .customization-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 20px;
-    }
-    
-    .customization-group {
-      padding: 15px;
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    }
-    
-    .customization-group h3 {
-      font-size: 1.2rem;
-      margin: 0 0 15px;
-      justify-content: flex-start;
-      color: var(--secondary);
-    }
-    
-    .customization-group h3 i {
-      font-size: 1.4rem;
-      color: var(--primary);
-    }
-    
-    .option-label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    
-    .optional-badge {
-      background: var(--light-gray);
-      color: var(--gray);
-      font-size: 0.75rem;
-      padding: 3px 8px;
-      border-radius: 20px;
-      font-weight: 500;
-    }
-    
-    .color-options {
-      display: flex;
-      gap: 15px;
-    }
-    
-    .color-option {
-      flex: 1;
-    }
-    
-    .color-option label {
-      display: block;
-      margin-bottom: 5px;
-      font-size: 0.9rem;
-    }
-    
-    .logo-preview {
-      max-width: 80px;
-      max-height: 50px;
-      margin-top: 10px;
-      border-radius: 6px;
-      border: 1px solid var(--light-gray);
-      display: none;
-    }
-    
-    .warning {
-      color: #e67e22;
-      font-size: 0.85rem;
-      margin-top: 5px;
-      display: none;
-    }
-    
-    .text-options-row {
-      display: flex;
-      gap: 15px;
-    }
-    
-    .text-options-row > div {
-      flex: 1;
-    }
-    
-    .reset-btn {
-      display: flex;
-      justify-content: center;
-      margin-top: 20px;
-    }
-    
-    /* Format selector for download */
-    .format-selector {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-top: 15px;
-      justify-content: center;
-    }
-    
-    .format-selector label {
-      font-weight: 500;
-    }
-    
-    .format-selector select {
-      width: auto;
-      min-width: 100px;
-      padding: 8px 12px;
-    }
-    
+
     /* Responsive Design */
     @media (max-width: 992px) {
       .nav-menu {
@@ -1163,11 +1031,6 @@
       
       .uses-grid {
         grid-template-columns: repeat(2, 1fr);
-      }
-      
-      .text-options-row {
-        flex-direction: column;
-        gap: 10px;
       }
     }
 
@@ -1260,10 +1123,6 @@
       
       h3 {
         font-size: 1.2rem;
-      }
-      
-      .customization-grid {
-        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -1452,152 +1311,13 @@
           <p>Input your code or leave blank for a random, valid Barcode.</p>
         </div>
         <div class="guide-item">
-          <h3><i class="fas fa-sliders-h"></i> Customize Appearance</h3>
-          <p>Add logos, text, adjust colors, and set size as needed.</p>
-        </div>
-        <div class="guide-item">
           <h3><i class="fas fa-bolt"></i> Generate Barcode</h3>
           <p>Click "Generate Barcode" to create your Barcode instantly.</p>
         </div>
         <div class="guide-item">
           <h3><i class="fas fa-download"></i> Download</h3>
-          <p>Download your barcode as PNG, SVG, or ZIP for batch generation.</p>
+          <p>Download your barcode as a PNG file or ZIP for batch generation.</p>
         </div>
-      </div>
-    </div>
-
-    <!-- Customization Panel - Vertical layout -->
-    <div class="customization-panel">
-      <h2><i class="fas fa-sliders-h"></i> Customization Settings</h2>
-      <p style="text-align: center; margin-bottom: 20px; color: var(--gray);">These settings apply to all generated barcodes</p>
-      
-      <div class="customization-grid">
-        <!-- Logo Options -->
-        <div class="customization-group">
-          <h3><i class="fas fa-image"></i> Logo <span class="optional-badge">Optional</span></h3>
-          <label class="option-label">
-            Upload Logo:
-          </label>
-          <input type="file" id="logo-input" accept="image/png,image/jpeg">
-          <img id="logo-preview" class="logo-preview" alt="Logo preview">
-          <p class="warning" id="logo-warning">Note: Large logos may affect scannability</p>
-          
-          <label class="option-label">
-            Position:
-          </label>
-          <select id="logo-position">
-            <option value="center">Center</option>
-            <option value="top">Top</option>
-            <option value="bottom">Bottom</option>
-          </select>
-          
-          <div class="size-group">
-            <label class="option-label">
-              Size:
-            </label>
-            <div class="size-controls">
-              <input type="range" id="logo-size" min="20" max="100" value="50" class="size-slider">
-              <span class="size-value" id="logo-size-value">50%</span>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Color Options -->
-        <div class="customization-group">
-          <h3><i class="fas fa-palette"></i> Colors</h3>
-          <div class="color-options">
-            <div class="color-option">
-              <label class="option-label">
-                Bar Color:
-              </label>
-              <input type="color" id="bar-color" value="#000000">
-            </div>
-            <div class="color-option">
-              <label class="option-label">
-                Text Color:
-              </label>
-              <input type="color" id="text-color" value="#000000">
-            </div>
-          </div>
-          
-          <div style="margin-top: 15px;">
-            <label class="option-label">
-              <input type="checkbox" id="transparent-bg">
-              Transparent Background
-            </label>
-          </div>
-        </div>
-        
-        <!-- Text Options -->
-        <div class="customization-group">
-          <h3><i class="fas fa-font"></i> Product Text <span class="optional-badge">Optional</span></h3>
-          <label class="option-label">
-            Description:
-          </label>
-          <input type="text" id="product-text" placeholder="Enter product name or description">
-          
-          <div class="text-options-row">
-            <div>
-              <label class="option-label">
-                Position:
-              </label>
-              <select id="text-position">
-                <option value="top">Top</option>
-                <option value="bottom">Bottom</option>
-              </select>
-            </div>
-            <div>
-              <label class="option-label">
-                Alignment:
-              </label>
-              <select id="text-align">
-                <option value="center">Center</option>
-                <option value="left">Left</option>
-                <option value="right">Right</option>
-              </select>
-            </div>
-          </div>
-          
-          <div class="size-group">
-            <label class="option-label">
-              Text Size:
-            </label>
-            <div class="size-controls">
-              <input type="range" id="text-size" min="12" max="24" value="16" class="size-slider">
-              <span class="size-value" id="text-size-value">16px</span>
-            </div>
-          </div>
-        </div>
-        
-        <!-- NEW: Barcode Size Options -->
-        <div class="customization-group">
-          <h3><i class="fas fa-expand-arrows-alt"></i> Barcode Size</h3>
-          <div class="size-group">
-            <label class="option-label">
-              Width:
-            </label>
-            <div class="size-controls">
-              <input type="range" id="barcode-width" min="200" max="800" value="320" class="size-slider">
-              <span class="size-value" id="barcode-width-value">320px</span>
-            </div>
-          </div>
-          
-          <div class="size-group">
-            <label class="option-label">
-              Height:
-            </label>
-            <div class="size-controls">
-              <input type="range" id="barcode-height" min="50" max="300" value="150" class="size-slider">
-              <span class="size-value" id="barcode-height-value">150px</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <div class="reset-btn">
-        <button id="reset-customization" class="secondary">
-          <i class="fas fa-redo"></i> Reset Customization
-        </button>
       </div>
     </div>
 
@@ -1629,7 +1349,6 @@
         </select>
         <label for="ean-input">Barcode Value:</label>
         <input id="ean-input" type="text" placeholder="Enter barcode or leave blank to auto-generate" autofocus aria-label="Enter barcode value">
-        
         <div class="error" id="single-error"></div>
         <div class="success" id="single-success"></div>
         <div class="btn-group">
@@ -1637,10 +1356,7 @@
             <i class="fas fa-bolt"></i> Generate Barcode
           </button>
           <button id="download-btn" style="display:none" aria-label="Download barcode">
-            <i class="fas fa-download"></i> Download PNG
-          </button>
-          <button id="download-svg-btn" style="display:none" aria-label="Download SVG">
-            <i class="fas fa-file-code"></i> Download SVG
+            <i class="fas fa-download"></i> Download
           </button>
         </div>
         <div class="loading" id="single-loading">
@@ -1665,7 +1381,6 @@
         </select>
         <label for="batch-amount">Number of Barcodes:</label>
         <input id="batch-amount" type="number" min="1" max="100" value="10" placeholder="Enter number of codes (1–100)" aria-label="Enter number of barcodes">
-        
         <div class="btn-group">
           <button id="generate-batch-btn" aria-label="Generate and download batch barcodes as ZIP">
             <i class="fas fa-file-archive"></i> Generate & Download as ZIP
@@ -1704,10 +1419,7 @@
             <i class="fas fa-bolt"></i> Generate Custom Barcode
           </button>
           <button id="custom-download" style="display:none" aria-label="Download custom barcode">
-            <i class="fas fa-download"></i> Download PNG
-          </button>
-          <button id="custom-svg-download" style="display:none" aria-label="Download SVG">
-            <i class="fas fa-file-code"></i> Download SVG
+            <i class="fas fa-download"></i> Download
           </button>
         </div>
         <div class="loading" id="custom-loading">
@@ -1793,7 +1505,7 @@
   </footer>
 
   <script>
-    // Mobile Menu Functionality
+    // Mobile Menu Functionality - Fixed Implementation
     function initMobileMenu() {
       const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
       const closeMobileMenu = document.getElementById('close-mobile-menu');
@@ -1878,12 +1590,14 @@
         if (advertisingToggle) advertisingToggle.checked = preferences.advertising;
         const settings = document.getElementById('cookie-settings');
         if (settings) settings.style.display = 'flex';
+        // Focus the first focusable element in the modal
         document.getElementById('analytics-toggle').focus();
       }
       
       function closeCookieSettings() {
         const settings = document.getElementById('cookie-settings');
         if (settings) settings.style.display = 'none';
+        // Return focus to the button that opened the settings
         document.getElementById('open-settings').focus();
       }
       
@@ -1952,9 +1666,7 @@
         singleCanvas: document.getElementById('ean-canvas'),
         customCanvas: document.getElementById('custom-canvas'),
         downloadBtn: document.getElementById('download-btn'),
-        downloadSvgBtn: document.getElementById('download-svg-btn'),
         customDownloadBtn: document.getElementById('custom-download'),
-        customSvgDownloadBtn: document.getElementById('custom-svg-download'),
         singleLoading: document.getElementById('single-loading'),
         batchLoading: document.getElementById('batch-loading'),
         customLoading: document.getElementById('custom-loading'),
@@ -1974,27 +1686,6 @@
         generateSingleBtn: document.getElementById('generate-single-btn'),
         generateBatchBtn: document.getElementById('generate-batch-btn'),
         generateCustomBtn: document.getElementById('generate-custom-btn'),
-        resetCustomizationBtn: document.getElementById('reset-customization'),
-        
-        // Customization elements
-        logoInput: document.getElementById('logo-input'),
-        logoPreview: document.getElementById('logo-preview'),
-        logoWarning: document.getElementById('logo-warning'),
-        logoPosition: document.getElementById('logo-position'),
-        logoSize: document.getElementById('logo-size'),
-        logoSizeValue: document.getElementById('logo-size-value'),
-        barColor: document.getElementById('bar-color'),
-        textColor: document.getElementById('text-color'),
-        transparentBg: document.getElementById('transparent-bg'),
-        productText: document.getElementById('product-text'),
-        textPosition: document.getElementById('text-position'),
-        textAlign: document.getElementById('text-align'),
-        textSize: document.getElementById('text-size'),
-        textSizeValue: document.getElementById('text-size-value'),
-        barcodeWidth: document.getElementById('barcode-width'),
-        barcodeWidthValue: document.getElementById('barcode-width-value'),
-        barcodeHeight: document.getElementById('barcode-height'),
-        barcodeHeightValue: document.getElementById('barcode-height-value')
       };
 
       const barcodeConfig = {
@@ -2007,81 +1698,6 @@
         codabar: { regex: /^[A-D][0-9-:$/.+]*[A-D]$/, format: 'codabar' },
         pharmacode: { min: 3, max: 131070, regex: /^\d+$/, format: 'pharmacode' }
       };
-
-      // Logo handling
-      let logoImage = null;
-      elements.logoInput.addEventListener('change', function(e) {
-        if (e.target.files && e.target.files[0]) {
-          const file = e.target.files[0];
-          
-          // Check file size
-          if (file.size > 500000) {
-            elements.logoWarning.style.display = 'block';
-          } else {
-            elements.logoWarning.style.display = 'none';
-          }
-          
-          const reader = new FileReader();
-          reader.onload = function(event) {
-            logoImage = new Image();
-            logoImage.onload = function() {
-              elements.logoPreview.src = event.target.result;
-              elements.logoPreview.style.display = 'block';
-            };
-            logoImage.src = event.target.result;
-          };
-          reader.readAsDataURL(file);
-        }
-      });
-      
-      // Update slider displays
-      elements.logoSize.addEventListener('input', function() {
-        elements.logoSizeValue.textContent = this.value + '%';
-      });
-      
-      elements.textSize.addEventListener('input', function() {
-        elements.textSizeValue.textContent = this.value + 'px';
-      });
-      
-      elements.barcodeWidth.addEventListener('input', function() {
-        elements.barcodeWidthValue.textContent = this.value + 'px';
-      });
-      
-      elements.barcodeHeight.addEventListener('input', function() {
-        elements.barcodeHeightValue.textContent = this.value + 'px';
-      });
-      
-      // Reset customization
-      elements.resetCustomizationBtn.addEventListener('click', function() {
-        // Reset color pickers
-        elements.barColor.value = '#000000';
-        elements.textColor.value = '#000000';
-        
-        // Reset logo
-        elements.logoInput.value = '';
-        elements.logoPreview.style.display = 'none';
-        logoImage = null;
-        
-        // Reset text options
-        elements.productText.value = '';
-        elements.textPosition.value = 'top';
-        elements.textAlign.value = 'center';
-        elements.textSize.value = '16';
-        elements.textSizeValue.textContent = '16px';
-        
-        // Reset background
-        elements.transparentBg.checked = false;
-        
-        // Reset logo size
-        elements.logoSize.value = '50';
-        elements.logoSizeValue.textContent = '50%';
-        
-        // Reset barcode size
-        elements.barcodeWidth.value = '320';
-        elements.barcodeWidthValue.textContent = '320px';
-        elements.barcodeHeight.value = '150';
-        elements.barcodeHeightValue.textContent = '150px';
-      });
 
       function showError(element, message) {
         element.textContent = message;
@@ -2150,12 +1766,11 @@
         return str.replace(/[^a-zA-Z0-9-]+/g, '_').slice(0, 50) || 'barcode';
       }
 
-      function generateBarcode({ canvas, code, type, errorElement, successElement, downloadButton, svgDownloadButton, loadingElement }) {
+      function generateBarcode({ canvas, code, type, errorElement, successElement, downloadButton, loadingElement }) {
         const ctx = canvas.getContext('2d');
         hideElements();
         loadingElement.style.display = 'block';
         downloadButton.style.display = 'none';
-        svgDownloadButton.style.display = 'none';
         canvas.style.display = 'none';
 
         if (!validateInput(code, type)) {
@@ -2166,79 +1781,19 @@
 
         const finalCode = code || generateRandomBarcode(type);
         const isPharmacode = type === 'pharmacode';
-        
-        // Get custom dimensions
-        const width = parseInt(elements.barcodeWidth.value);
-        const height = parseInt(elements.barcodeHeight.value);
-        canvas.width = width;
-        canvas.height = height;
+        canvas.width = 320;
+        canvas.height = isPharmacode ? 100 : 150;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         canvas.dataset.code = finalCode;
-        canvas.dataset.type = type;
 
         try {
-          // Generate the barcode with custom colors and background
           JsBarcode(canvas, finalCode, {
             format: barcodeConfig[type].format,
             displayValue: true,
-            width: 2,
-            height: isPharmacode ? height * 0.5 : height * 0.7,
-            lineColor: elements.barColor.value,
-            textColor: elements.textColor.value,
-            background: elements.transparentBg.checked ? 'transparent' : '#ffffff'
+            width: isPharmacode ? 2 : 2,
+            height: isPharmacode ? 50 : 100
           });
-
-          // Add product text if provided
-          const productText = elements.productText.value.trim();
-          if (productText) {
-            const textSize = parseInt(elements.textSize.value);
-            ctx.font = `${textSize}px Poppins, sans-serif`;
-            ctx.fillStyle = elements.textColor.value;
-            ctx.textAlign = elements.textAlign.value;
-            
-            const textX = elements.textAlign.value === 'center' ? canvas.width / 2 : 
-                         elements.textAlign.value === 'left' ? 10 : canvas.width - 10;
-            const textY = elements.textPosition.value === 'top' ? textSize + 5 : canvas.height - 5;
-            
-            ctx.fillText(productText, textX, textY);
-          }
-
-          // Add logo if uploaded and loaded
-          if (logoImage && logoImage.complete && logoImage.naturalHeight !== 0) {
-            const maxLogoSize = Math.min(canvas.width, canvas.height) * (parseInt(elements.logoSize.value) / 100);
-            let logoWidth = logoImage.width;
-            let logoHeight = logoImage.height;
-            
-            // Scale logo proportionally
-            if (logoWidth > maxLogoSize || logoHeight > maxLogoSize) {
-              const ratio = Math.min(maxLogoSize / logoWidth, maxLogoSize / logoHeight);
-              logoWidth = logoWidth * ratio;
-              logoHeight = logoHeight * ratio;
-            }
-            
-            // Position logo
-            let logoX, logoY;
-            switch (elements.logoPosition.value) {
-              case 'top':
-                logoX = (canvas.width - logoWidth) / 2;
-                logoY = 5;
-                break;
-              case 'bottom':
-                logoX = (canvas.width - logoWidth) / 2;
-                logoY = canvas.height - logoHeight - 5;
-                break;
-              case 'center':
-              default:
-                logoX = (canvas.width - logoWidth) / 2;
-                logoY = (canvas.height - logoHeight) / 2;
-            }
-            
-            // Draw logo
-            ctx.drawImage(logoImage, logoX, logoY, logoWidth, logoHeight);
-          }
-
           downloadButton.style.display = 'inline-block';
-          svgDownloadButton.style.display = 'inline-block';
           canvas.style.display = 'block';
           showSuccess(successElement, 'Barcode generated successfully!');
         } catch (error) {
@@ -2260,47 +1815,6 @@
         }
       }
 
-      function downloadSVG(canvas, errorElement) {
-        try {
-          const code = canvas.dataset.code;
-          const type = canvas.dataset.type;
-          const svgNS = "http://www.w3.org/2000/svg";
-          const svg = document.createElementNS(svgNS, "svg");
-          svg.setAttribute("xmlns", svgNS);
-          svg.setAttribute("version", "1.1");
-          svg.setAttribute("width", canvas.width);
-          svg.setAttribute("height", canvas.height);
-          
-          // Create SVG barcode
-          JsBarcode(svg, code, {
-            format: barcodeConfig[type].format,
-            displayValue: true,
-            width: 2,
-            height: canvas.height * 0.7,
-            lineColor: elements.barColor.value,
-            textColor: elements.textColor.value,
-            background: elements.transparentBg.checked ? 'transparent' : '#ffffff'
-          });
-
-          // Serialize SVG
-          const serializer = new XMLSerializer();
-          let svgString = serializer.serializeToString(svg);
-          if (!svgString.includes('xmlns')) {
-            svgString = svgString.replace(/<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
-          }
-
-          // Create blob and download
-          const blob = new Blob([svgString], {type: "image/svg+xml;charset=utf-8"});
-          const url = URL.createObjectURL(blob);
-          const link = document.createElement("a");
-          link.href = url;
-          link.download = `${sanitizeFilename(code)}.svg`;
-          link.click();
-        } catch (error) {
-          showError(errorElement, 'Error generating SVG: ' + error.message);
-        }
-      }
-
       async function generateBatchEANs() {
         const type = elements.batchEanType.value;
         const amount = parseInt(elements.batchAmount.value);
@@ -2317,79 +1831,20 @@
           const zip = new JSZip();
           const canvas = document.createElement('canvas');
           const isPharmacode = type === 'pharmacode';
-          const width = parseInt(elements.barcodeWidth.value);
-          const height = parseInt(elements.barcodeHeight.value);
 
           for (let i = 0; i < amount; i++) {
             elements.batchProgress.textContent = `Generating barcodes: ${i + 1}/${amount}`;
             const code = generateRandomBarcode(type);
-            canvas.width = width;
-            canvas.height = height;
+            canvas.width = 320;
+            canvas.height = isPharmacode ? 100 : 150;
 
             try {
-              // Generate the barcode with customization
-              const ctx = canvas.getContext('2d');
-              ctx.clearRect(0, 0, canvas.width, canvas.height);
-              
               JsBarcode(canvas, code, {
                 format: barcodeConfig[type].format,
                 displayValue: true,
-                width: 2,
-                height: isPharmacode ? height * 0.5 : height * 0.7,
-                lineColor: elements.barColor.value,
-                textColor: elements.textColor.value,
-                background: elements.transparentBg.checked ? 'transparent' : '#ffffff'
+                width: isPharmacode ? 2 : 2,
+                height: isPharmacode ? 50 : 100
               });
-
-              // Add product text if provided
-              const productText = elements.productText.value.trim();
-              if (productText) {
-                const textSize = parseInt(elements.textSize.value);
-                ctx.font = `${textSize}px Poppins, sans-serif`;
-                ctx.fillStyle = elements.textColor.value;
-                ctx.textAlign = elements.textAlign.value;
-                
-                const textX = elements.textAlign.value === 'center' ? canvas.width / 2 : 
-                            elements.textAlign.value === 'left' ? 10 : canvas.width - 10;
-                const textY = elements.textPosition.value === 'top' ? textSize + 5 : canvas.height - 5;
-                
-                ctx.fillText(productText, textX, textY);
-              }
-
-              // Add logo if uploaded
-              if (logoImage && logoImage.complete && logoImage.naturalHeight !== 0) {
-                const maxLogoSize = Math.min(canvas.width, canvas.height) * (parseInt(elements.logoSize.value) / 100);
-                let logoWidth = logoImage.width;
-                let logoHeight = logoImage.height;
-                
-                // Scale logo proportionally
-                if (logoWidth > maxLogoSize || logoHeight > maxLogoSize) {
-                  const ratio = Math.min(maxLogoSize / logoWidth, maxLogoSize / logoHeight);
-                  logoWidth = logoWidth * ratio;
-                  logoHeight = logoHeight * ratio;
-                }
-                
-                // Position logo
-                let logoX, logoY;
-                switch (elements.logoPosition.value) {
-                  case 'top':
-                    logoX = (canvas.width - logoWidth) / 2;
-                    logoY = 5;
-                    break;
-                  case 'bottom':
-                    logoX = (canvas.width - logoWidth) / 2;
-                    logoY = canvas.height - logoHeight - 5;
-                    break;
-                  case 'center':
-                  default:
-                    logoX = (canvas.width - logoWidth) / 2;
-                    logoY = (canvas.height - logoHeight) / 2;
-                }
-                
-                // Draw logo
-                ctx.drawImage(logoImage, logoX, logoY, logoWidth, logoHeight);
-              }
-
               const dataUrl = canvas.toDataURL('image/png');
               const imgData = dataUrl.replace(/^data:image\/png;base64,/, '');
               zip.file(`${sanitizeFilename(code)}.png`, imgData, { base64: true });
@@ -2448,12 +1903,10 @@
           errorElement: elements.singleError,
           successElement: elements.singleSuccess,
           downloadButton: elements.downloadBtn,
-          svgDownloadButton: elements.downloadSvgBtn,
           loadingElement: elements.singleLoading
         }));
 
         elements.downloadBtn.addEventListener('click', () => downloadBarcode(elements.singleCanvas, elements.singleError));
-        elements.downloadSvgBtn.addEventListener('click', () => downloadSVG(elements.singleCanvas, elements.singleError));
 
         elements.generateBatchBtn.addEventListener('click', generateBatchEANs);
 
@@ -2470,20 +1923,12 @@
             errorElement: elements.customError,
             successElement: elements.customSuccess,
             downloadButton: elements.customDownloadBtn,
-            svgDownloadButton: elements.customSvgDownloadBtn,
             loadingElement: elements.customLoading
           });
         });
 
         elements.customDownloadBtn.addEventListener('click', () => downloadBarcode(elements.customCanvas, elements.customError));
-        elements.customSvgDownloadBtn.addEventListener('click', () => downloadSVG(elements.customCanvas, elements.customError));
       }
-      
-      // Initialize slider values
-      elements.logoSizeValue.textContent = elements.logoSize.value + '%';
-      elements.textSizeValue.textContent = elements.textSize.value + 'px';
-      elements.barcodeWidthValue.textContent = elements.barcodeWidth.value + 'px';
-      elements.barcodeHeightValue.textContent = elements.barcodeHeight.value + 'px';
       
       initializeBarcodeGenerator();
     }
