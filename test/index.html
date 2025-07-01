@@ -1242,6 +1242,42 @@
                 display: none !important;
             }
         }
+        
+        /* Debugging console */
+        .debug-console {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 300px;
+            height: 200px;
+            background: rgba(0,0,0,0.8);
+            border-radius: 8px;
+            padding: 15px;
+            color: white;
+            font-family: monospace;
+            font-size: 14px;
+            overflow-y: auto;
+            z-index: 9999;
+            display: none;
+        }
+        
+        .debug-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #4361ee;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10000;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
     </style>
 </head>
 <body>
@@ -2004,9 +2040,25 @@
         </div>
     </div>
 
+    <!-- Debugging console -->
+    <div class="debug-console" id="debug-console">
+        <div>Debug Console:</div>
+        <div id="debug-output"></div>
+    </div>
+    <button class="debug-toggle" id="debug-toggle">
+        <i class="fas fa-bug"></i>
+    </button>
+
     <script>
         // Constants
         const MAX_FILE_SIZE = 500 * 1024 * 1024; // 500MB
+        
+        // Debugging functions
+        function debugLog(message) {
+            const debugOutput = document.getElementById('debug-output');
+            debugOutput.innerHTML += `<div>${new Date().toLocaleTimeString()}: ${message}</div>`;
+            debugOutput.scrollTop = debugOutput.scrollHeight;
+        }
         
         // Mobile Menu Functionality
         function initMobileMenu() {
@@ -2021,6 +2073,7 @@
                 document.body.classList.add('menu-open');
                 document.body.style.overflow = 'hidden';
                 document.querySelector('.mobile-nav-link').focus();
+                debugLog('Mobile menu opened');
             }
             
             function closeMobileMenuHandler() {
@@ -2029,6 +2082,7 @@
                 document.body.classList.remove('menu-open');
                 document.body.style.overflow = '';
                 mobileMenuToggle.focus();
+                debugLog('Mobile menu closed');
             }
             
             if (mobileMenuToggle) {
@@ -2171,16 +2225,19 @@
                     btn.classList.add('active');
                     currentFilter = btn.dataset.filter;
                     applyFilter();
+                    debugLog(`Image filter changed to: ${currentFilter}`);
                 });
             });
             
             // Zoom functionality
             zoomInBtn.addEventListener('click', () => {
                 imagePreviewImg.classList.add('zoomed');
+                debugLog('Image zoomed in');
             });
             
             zoomOutBtn.addEventListener('click', () => {
                 imagePreviewImg.classList.remove('zoomed');
+                debugLog('Image zoomed out');
             });
             
             // Rotation buttons
@@ -2188,18 +2245,21 @@
                 rotation -= 90;
                 if (rotation < 0) rotation = 270;
                 applyFilter();
+                debugLog(`Image rotated left. Current rotation: ${rotation}°`);
             });
             
             rotateRightBtn.addEventListener('click', () => {
                 rotation += 90;
                 if (rotation >= 360) rotation = 0;
                 applyFilter();
+                debugLog(`Image rotated right. Current rotation: ${rotation}°`);
             });
             
             // Flip button
             flipHorizontalBtn.addEventListener('click', () => {
                 flipHorizontal = flipHorizontal === 1 ? -1 : 1;
                 applyFilter();
+                debugLog(`Image flipped horizontally. Flip: ${flipHorizontal}`);
             });
             
             // Crop button
@@ -2208,8 +2268,10 @@
                 cropBtn.classList.toggle('active', isCropping);
                 if (isCropping) {
                     canvas.style.cursor = 'crosshair';
+                    debugLog('Crop mode activated');
                 } else {
                     canvas.style.cursor = 'default';
+                    debugLog('Crop mode deactivated');
                 }
             });
             
@@ -2223,6 +2285,7 @@
                 const rect = canvas.getBoundingClientRect();
                 cropStartX = e.clientX - rect.left;
                 cropStartY = e.clientY - rect.top;
+                debugLog(`Crop started at (${cropStartX}, ${cropStartY})`);
             }
             
             function drawCrop(e) {
@@ -2281,6 +2344,8 @@
                 cropBtn.classList.remove('active');
                 canvas.style.cursor = 'default';
                 cropStartX = cropStartY = cropEndX = cropEndY = null;
+                
+                debugLog(`Image cropped to ${width}x${height}`);
             }
             
             // Apply filter to canvas
@@ -2404,11 +2469,14 @@
                     if (!validation.valid) {
                         imageError.textContent = validation.message;
                         imageError.style.display = 'block';
+                        debugLog(`Image conversion error: ${validation.message}`);
                         return;
                     }
                     
                     imageProgressContainer.style.display = 'block';
                     imageError.style.display = 'none';
+                    
+                    debugLog('Starting single image conversion...');
                     
                     // Show progress
                     await simulateProgress('imageProgressBar', 'imageTimeRemaining');
@@ -2427,9 +2495,12 @@
                     
                     imageSuccess.textContent = 'Image converted successfully!';
                     imageSuccess.style.display = 'block';
+                    
+                    debugLog('Image conversion completed successfully');
                 } catch (error) {
                     imageError.textContent = `Conversion failed: ${error.message || 'Unknown error'}`;
                     imageError.style.display = 'block';
+                    debugLog(`Image conversion failed: ${error.message}`);
                 } finally {
                     imageProgressContainer.style.display = 'none';
                 }
@@ -2442,6 +2513,8 @@
                 try {
                     imageProgressContainer.style.display = 'block';
                     imageError.style.display = 'none';
+                    
+                    debugLog('Starting batch image conversion...');
                     
                     // Show progress
                     await simulateProgress('imageProgressBar', 'imageTimeRemaining', 5000);
@@ -2460,6 +2533,7 @@
                         if (!validation.valid) {
                             imageError.textContent = validation.message;
                             imageError.style.display = 'block';
+                            debugLog(`Skipping file: ${file.name} - ${validation.message}`);
                             continue;
                         }
                         
@@ -2472,9 +2546,12 @@
                     
                     imageSuccess.textContent = 'Batch conversion completed successfully!';
                     imageSuccess.style.display = 'block';
+                    
+                    debugLog('Batch image conversion completed');
                 } catch (error) {
                     imageError.textContent = `Batch conversion failed: ${error.message || 'Unknown error'}`;
                     imageError.style.display = 'block';
+                    debugLog(`Batch conversion failed: ${error.message}`);
                 } finally {
                     imageProgressContainer.style.display = 'none';
                 }
@@ -2492,6 +2569,7 @@
                     if (!validation.valid) {
                         imageError.textContent = validation.message;
                         imageError.style.display = 'block';
+                        debugLog(`Image upload error: ${validation.message}`);
                         return;
                     }
                     
@@ -2536,11 +2614,16 @@
                             // Trigger change event to update UI
                             const event = new Event('change');
                             imageUpload.dispatchEvent(event);
+                            
+                            debugLog(`Removed image: ${file.name}`);
                         });
                     }
+                    
+                    debugLog(`Uploaded ${imageUpload.files.length} image(s)`);
                 } catch (error) {
                     imageError.textContent = `Error loading image: ${error.message || 'Unknown error'}`;
                     imageError.style.display = 'block';
+                    debugLog(`Image loading error: ${error.message}`);
                 }
             });
             
@@ -2580,684 +2663,15 @@
                 
                 const event = new Event('change');
                 imageUpload.dispatchEvent(event);
+                
+                debugLog(`Dropped ${files.length} file(s) on image upload area`);
             }
         }
         
-        // Document Conversion Functions
-        function initDocumentConverter() {
-            const docUpload = document.getElementById('docFileUpload');
-            const docFileList = document.getElementById('docFileList');
-            const convertDocBtn = document.getElementById('convertDocBtn');
-            const batchConvertDocBtn = document.getElementById('batchConvertDocBtn');
-            const downloadDocBtn = document.getElementById('downloadDocBtn');
-            const docPreviewContent = document.getElementById('docPreviewContent');
-            const docPreview = document.getElementById('docPreview');
-            const pdfPagesInput = document.getElementById('pdfPages');
-            const docProgressContainer = document.getElementById('docProgressContainer');
-            const docProgressBar = document.getElementById('docProgressBar');
-            const docTimeRemaining = document.getElementById('docTimeRemaining');
-            const docError = document.getElementById('docError');
-            const docSuccess = document.getElementById('docSuccess');
-            
-            // Set PDF.js worker
-            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
-            
-            // Convert document
-            convertDocBtn.addEventListener('click', async () => {
-                if (!docUpload.files.length) return;
-                
-                try {
-                    const file = docUpload.files[0];
-                    
-                    // Validate file size
-                    const validation = validateFileSize(file);
-                    if (!validation.valid) {
-                        docError.textContent = validation.message;
-                        docError.style.display = 'block';
-                        return;
-                    }
-                    
-                    docProgressContainer.style.display = 'block';
-                    docError.style.display = 'none';
-                    
-                    // Show progress
-                    await simulateProgress('docProgressBar', 'docTimeRemaining', 4000);
-                    
-                    const fromFormat = document.getElementById('docFrom').value;
-                    const toFormat = document.getElementById('docTo').value;
-                    
-                    if (fromFormat === 'pdf') {
-                        await convertPdfToText(file, pdfPagesInput.value);
-                        docPreview.style.display = 'block';
-                    } else if (fromFormat === 'xlsx') {
-                        await convertXlsxToCsv(file);
-                        docPreview.style.display = 'block';
-                    } else {
-                        // For text to text conversion
-                        const text = await file.text();
-                        docPreviewContent.innerHTML = `<pre>${text}</pre>`;
-                        const blob = new Blob([text], {type: 'text/plain'});
-                        downloadDocBtn.href = URL.createObjectURL(blob);
-                        downloadDocBtn.download = 'converted.txt';
-                        docPreview.style.display = 'block';
-                    }
-                    
-                    docSuccess.textContent = 'Document converted successfully!';
-                    docSuccess.style.display = 'block';
-                } catch (error) {
-                    docError.textContent = `Conversion failed: ${error.message || 'Unknown error'}`;
-                    docError.style.display = 'block';
-                } finally {
-                    docProgressContainer.style.display = 'none';
-                }
-            });
-            
-            // Batch convert documents
-            batchConvertDocBtn.addEventListener('click', async () => {
-                if (!docUpload.files.length) return;
-                
-                try {
-                    docProgressContainer.style.display = 'block';
-                    docError.style.display = 'none';
-                    
-                    // Show progress
-                    await simulateProgress('docProgressBar', 'docTimeRemaining', 5000);
-                    
-                    const zip = new JSZip();
-                    const fromFormat = document.getElementById('docFrom').value;
-                    const toFormat = document.getElementById('docTo').value;
-                    
-                    for (let i = 0; i < docUpload.files.length; i++) {
-                        const file = docUpload.files[i];
-                        
-                        // Validate file size
-                        const validation = validateFileSize(file);
-                        if (!validation.valid) {
-                            docError.textContent = validation.message;
-                            docError.style.display = 'block';
-                            continue;
-                        }
-                        
-                        if (fromFormat === 'pdf') {
-                            const text = await convertPdfToText(file, pdfPagesInput.value);
-                            zip.file(`converted-${i+1}.txt`, text);
-                        } else if (fromFormat === 'xlsx') {
-                            const csv = await convertXlsxToCsv(file);
-                            zip.file(`converted-${i+1}.csv`, csv);
-                        } else {
-                            const text = await file.text();
-                            zip.file(`converted-${i+1}.txt`, text);
-                        }
-                    }
-                    
-                    const zipBlob = await zip.generateAsync({type: 'blob'});
-                    saveAs(zipBlob, 'converted-documents.zip');
-                    
-                    docSuccess.textContent = 'Batch conversion completed successfully!';
-                    docSuccess.style.display = 'block';
-                } catch (error) {
-                    docError.textContent = `Batch conversion failed: ${error.message || 'Unknown error'}`;
-                    docError.style.display = 'block';
-                } finally {
-                    docProgressContainer.style.display = 'none';
-                }
-            });
-            
-            // Convert PDF to text
-            async function convertPdfToText(file, pages) {
-                const arrayBuffer = await file.arrayBuffer();
-                const pdf = await pdfjsLib.getDocument({data: arrayBuffer}).promise;
-                
-                let text = '';
-                const numPages = pdf.numPages;
-                
-                for (let i = 1; i <= numPages; i++) {
-                    if (pages && !pageInRange(i, pages)) continue;
-                    
-                    const page = await pdf.getPage(i);
-                    const content = await page.getTextContent();
-                    text += content.items.map(item => item.str).join(' ') + '\n\n';
-                }
-                
-                docPreviewContent.innerHTML = `<pre>${text}</pre>`;
-                
-                const blob = new Blob([text], {type: 'text/plain'});
-                downloadDocBtn.href = URL.createObjectURL(blob);
-                downloadDocBtn.download = 'converted.txt';
-                return text;
-            }
-            
-            // Convert XLSX to CSV
-            async function convertXlsxToCsv(file) {
-                const arrayBuffer = await file.arrayBuffer();
-                const workbook = XLSX.read(arrayBuffer, {type: 'array'});
-                const firstSheetName = workbook.SheetNames[0];
-                const worksheet = workbook.Sheets[firstSheetName];
-                const csv = XLSX.utils.sheet_to_csv(worksheet);
-                
-                docPreviewContent.innerHTML = `<pre>${csv}</pre>`;
-                
-                const blob = new Blob([csv], {type: 'text/csv'});
-                downloadDocBtn.href = URL.createObjectURL(blob);
-                downloadDocBtn.download = 'converted.csv';
-                return csv;
-            }
-            
-            // Check if page is in range
-            function pageInRange(pageNum, rangeStr) {
-                if (!rangeStr.trim()) return true;
-                
-                const ranges = rangeStr.split(',');
-                for (const range of ranges) {
-                    if (range.includes('-')) {
-                        const [start, end] = range.split('-').map(Number);
-                        if (pageNum >= start && pageNum <= (end || start)) return true;
-                    } else {
-                        if (pageNum === parseInt(range)) return true;
-                    }
-                }
-                return false;
-            }
-            
-            // Handle file upload
-            docUpload.addEventListener('change', () => {
-                docFileList.innerHTML = '';
-                
-                for (let i = 0; i < docUpload.files.length; i++) {
-                    const file = docUpload.files[i];
-                    
-                    const fileItem = document.createElement('div');
-                    fileItem.className = 'file-item';
-                    fileItem.innerHTML = `
-                        <div class="file-info">
-                            <i class="fas fa-file-alt file-icon"></i>
-                            <div class="file-details">
-                                <div class="file-name">${file.name}</div>
-                                <div class="file-size">${formatFileSize(file.size)}</div>
-                            </div>
-                        </div>
-                        <div class="file-remove" data-index="${i}">
-                            <i class="fas fa-times"></i>
-                        </div>
-                    `;
-                    docFileList.appendChild(fileItem);
-                    
-                    // Add remove functionality
-                    fileItem.querySelector('.file-remove').addEventListener('click', function() {
-                        const index = parseInt(this.getAttribute('data-index'));
-                        const newFiles = Array.from(docUpload.files);
-                        newFiles.splice(index, 1);
-                        
-                        // Create new FileList
-                        const dataTransfer = new DataTransfer();
-                        newFiles.forEach(file => dataTransfer.items.add(file));
-                        docUpload.files = dataTransfer.files;
-                        
-                        // Trigger change event to update UI
-                        const event = new Event('change');
-                        docUpload.dispatchEvent(event);
-                    });
-                }
-            });
-        }
-        
-        // Audio Conversion Functions
-        function initAudioConverter() {
-            const audioUpload = document.getElementById('audioFileUpload');
-            const audioFileList = document.getElementById('audioFileList');
-            const convertAudioBtn = document.getElementById('convertAudioBtn');
-            const downloadAudioBtn = document.getElementById('downloadAudioBtn');
-            const audioPlayer = document.getElementById('audioPlayer');
-            const audioPreview = document.getElementById('audioPreview');
-            const audioProgressContainer = document.getElementById('audioProgressContainer');
-            const audioProgressBar = document.getElementById('audioProgressBar');
-            const audioTimeRemaining = document.getElementById('audioTimeRemaining');
-            const audioError = document.getElementById('audioError');
-            const audioSuccess = document.getElementById('audioSuccess');
-            
-            // Convert audio
-            convertAudioBtn.addEventListener('click', async () => {
-                if (!audioUpload.files.length) return;
-                
-                try {
-                    const file = audioUpload.files[0];
-                    
-                    // Validate file size
-                    const validation = validateFileSize(file);
-                    if (!validation.valid) {
-                        audioError.textContent = validation.message;
-                        audioError.style.display = 'block';
-                        return;
-                    }
-                    
-                    audioProgressContainer.style.display = 'block';
-                    audioError.style.display = 'none';
-                    
-                    // Show progress
-                    await simulateProgress('audioProgressBar', 'audioTimeRemaining', 3500);
-                    
-                    const format = document.getElementById('audioFormat').value;
-                    
-                    // For demo purposes, we'll use the original file
-                    downloadAudioBtn.href = URL.createObjectURL(file);
-                    downloadAudioBtn.download = `converted.${format}`;
-                    audioPlayer.src = downloadAudioBtn.href;
-                    audioPreview.style.display = 'block';
-                    
-                    audioSuccess.textContent = 'Audio converted successfully!';
-                    audioSuccess.style.display = 'block';
-                } catch (error) {
-                    audioError.textContent = `Conversion failed: ${error.message || 'Unknown error'}`;
-                    audioError.style.display = 'block';
-                } finally {
-                    audioProgressContainer.style.display = 'none';
-                }
-            });
-            
-            // Handle file upload
-            audioUpload.addEventListener('change', () => {
-                audioFileList.innerHTML = '';
-                
-                for (let i = 0; i < audioUpload.files.length; i++) {
-                    const file = audioUpload.files[i];
-                    
-                    const fileItem = document.createElement('div');
-                    fileItem.className = 'file-item';
-                    fileItem.innerHTML = `
-                        <div class="file-info">
-                            <i class="fas fa-file-audio file-icon"></i>
-                            <div class="file-details">
-                                <div class="file-name">${file.name}</div>
-                                <div class="file-size">${formatFileSize(file.size)}</div>
-                            </div>
-                        </div>
-                        <div class="file-remove" data-index="${i}">
-                            <i class="fas fa-times"></i>
-                        </div>
-                    `;
-                    audioFileList.appendChild(fileItem);
-                    
-                    // Add remove functionality
-                    fileItem.querySelector('.file-remove').addEventListener('click', function() {
-                        const index = parseInt(this.getAttribute('data-index'));
-                        const newFiles = Array.from(audioUpload.files);
-                        newFiles.splice(index, 1);
-                        
-                        // Create new FileList
-                        const dataTransfer = new DataTransfer();
-                        newFiles.forEach(file => dataTransfer.items.add(file));
-                        audioUpload.files = dataTransfer.files;
-                        
-                        // Trigger change event to update UI
-                        const event = new Event('change');
-                        audioUpload.dispatchEvent(event);
-                    });
-                }
-            });
-        }
-        
-        // Video Conversion Functions
-        function initVideoConverter() {
-            const videoUpload = document.getElementById('videoFileUpload');
-            const videoFileList = document.getElementById('videoFileList');
-            const convertVideoBtn = document.getElementById('convertVideoBtn');
-            const downloadVideoBtn = document.getElementById('downloadVideoBtn');
-            const videoPlayer = document.getElementById('videoPlayer');
-            const videoPreview = document.getElementById('videoPreview');
-            const videoProgressContainer = document.getElementById('videoProgressContainer');
-            const videoProgressBar = document.getElementById('videoProgressBar');
-            const videoTimeRemaining = document.getElementById('videoTimeRemaining');
-            const videoError = document.getElementById('videoError');
-            const videoSuccess = document.getElementById('videoSuccess");
-            
-            // Convert video
-            convertVideoBtn.addEventListener('click', async () => {
-                if (!videoUpload.files.length) return;
-                
-                try {
-                    const file = videoUpload.files[0];
-                    
-                    // Validate file size
-                    const validation = validateFileSize(file);
-                    if (!validation.valid) {
-                        videoError.textContent = validation.message;
-                        videoError.style.display = 'block';
-                        return;
-                    }
-                    
-                    videoProgressContainer.style.display = 'block';
-                    videoError.style.display = 'none';
-                    
-                    // Show progress
-                    await simulateProgress('videoProgressBar', 'videoTimeRemaining', 6000);
-                    
-                    const format = document.getElementById('videoFormat').value;
-                    
-                    // For demo purposes, we'll use the original file
-                    downloadVideoBtn.href = URL.createObjectURL(file);
-                    downloadVideoBtn.download = `converted.${format}`;
-                    videoPlayer.src = downloadVideoBtn.href;
-                    videoPreview.style.display = 'block';
-                    
-                    videoSuccess.textContent = 'Video converted successfully!';
-                    videoSuccess.style.display = 'block';
-                } catch (error) {
-                    videoError.textContent = `Conversion failed: ${error.message || 'Unknown error'}`;
-                    videoError.style.display = 'block';
-                } finally {
-                    videoProgressContainer.style.display = 'none';
-                }
-            });
-            
-            // Handle file upload
-            videoUpload.addEventListener('change', () => {
-                videoFileList.innerHTML = '';
-                
-                for (let i = 0; i < videoUpload.files.length; i++) {
-                    const file = videoUpload.files[i];
-                    
-                    const fileItem = document.createElement('div');
-                    fileItem.className = 'file-item';
-                    fileItem.innerHTML = `
-                        <div class="file-info">
-                            <i class="fas fa-file-video file-icon"></i>
-                            <div class="file-details">
-                                <div class="file-name">${file.name}</div>
-                                <div class="file-size">${formatFileSize(file.size)}</div>
-                            </div>
-                        </div>
-                        <div class="file-remove" data-index="${i}">
-                            <i class="fas fa-times"></i>
-                        </div>
-                    `;
-                    videoFileList.appendChild(fileItem);
-                    
-                    // Add remove functionality
-                    fileItem.querySelector('.file-remove').addEventListener('click', function() {
-                        const index = parseInt(this.getAttribute('data-index'));
-                        const newFiles = Array.from(videoUpload.files);
-                        newFiles.splice(index, 1);
-                        
-                        // Create new FileList
-                        const dataTransfer = new DataTransfer();
-                        newFiles.forEach(file => dataTransfer.items.add(file));
-                        videoUpload.files = dataTransfer.files;
-                        
-                        // Trigger change event to update UI
-                        const event = new Event('change');
-                        videoUpload.dispatchEvent(event);
-                    });
-                }
-            });
-        }
-        
-        // OCR Functions
-        function initOcrTool() {
-            const ocrUpload = document.getElementById('ocrFileUpload');
-            const ocrFileList = document.getElementById('ocrFileList');
-            const startOcrBtn = document.getElementById('startOcrBtn');
-            const downloadOcrBtn = document.getElementById('downloadOcrBtn');
-            const ocrPreviewContent = document.getElementById('ocrPreviewContent');
-            const ocrPreview = document.getElementById('ocrPreview');
-            const ocrProgressContainer = document.getElementById('ocrProgressContainer');
-            const ocrProgressBar = document.getElementById('ocrProgressBar');
-            const ocrTimeRemaining = document.getElementById('ocrTimeRemaining');
-            const ocrError = document.getElementById('ocrError');
-            const ocrSuccess = document.getElementById('ocrSuccess');
-            const ocrLanguages = document.querySelectorAll('.ocr-language');
-            
-            let selectedLanguage = 'eng';
-            
-            // Language selection
-            ocrLanguages.forEach(lang => {
-                lang.addEventListener('click', () => {
-                    ocrLanguages.forEach(l => l.classList.remove('active'));
-                    lang.classList.add('active');
-                    selectedLanguage = lang.dataset.lang;
-                });
-            });
-            
-            // Start OCR
-            startOcrBtn.addEventListener('click', async () => {
-                if (!ocrUpload.files.length) return;
-                
-                try {
-                    const file = ocrUpload.files[0];
-                    
-                    // Validate file size
-                    const validation = validateFileSize(file);
-                    if (!validation.valid) {
-                        ocrError.textContent = validation.message;
-                        ocrError.style.display = 'block';
-                        return;
-                    }
-                    
-                    ocrProgressContainer.style.display = 'block';
-                    ocrError.style.display = 'none';
-                    
-                    // Show progress
-                    await simulateProgress('ocrProgressBar', 'ocrTimeRemaining', 10000);
-                    
-                    const worker = await Tesseract.createWorker(selectedLanguage);
-                    const { data: { text } } = await worker.recognize(file);
-                    worker.terminate();
-                    
-                    ocrPreviewContent.innerHTML = `<pre>${text}</pre>`;
-                    
-                    const blob = new Blob([text], {type: 'text/plain'});
-                    downloadOcrBtn.href = URL.createObjectURL(blob);
-                    downloadOcrBtn.download = 'extracted-text.txt';
-                    ocrPreview.style.display = 'block';
-                    
-                    ocrSuccess.textContent = 'Text extracted successfully!';
-                    ocrSuccess.style.display = 'block';
-                } catch (error) {
-                    ocrError.textContent = `OCR failed: ${error.message || 'Unknown error'}`;
-                    ocrError.style.display = 'block';
-                } finally {
-                    ocrProgressContainer.style.display = 'none';
-                }
-            });
-            
-            // Handle file upload
-            ocrUpload.addEventListener('change', () => {
-                ocrFileList.innerHTML = '';
-                
-                for (let i = 0; i < ocrUpload.files.length; i++) {
-                    const file = ocrUpload.files[i];
-                    
-                    const fileItem = document.createElement('div');
-                    fileItem.className = 'file-item';
-                    fileItem.innerHTML = `
-                        <div class="file-info">
-                            <i class="fas fa-file-image file-icon"></i>
-                            <div class="file-details">
-                                <div class="file-name">${file.name}</div>
-                                <div class="file-size">${formatFileSize(file.size)}</div>
-                            </div>
-                        </div>
-                        <div class="file-remove" data-index="${i}">
-                            <i class="fas fa-times"></i>
-                        </div>
-                    `;
-                    ocrFileList.appendChild(fileItem);
-                    
-                    // Add remove functionality
-                    fileItem.querySelector('.file-remove').addEventListener('click', function() {
-                        const index = parseInt(this.getAttribute('data-index'));
-                        const newFiles = Array.from(ocrUpload.files);
-                        newFiles.splice(index, 1);
-                        
-                        // Create new FileList
-                        const dataTransfer = new DataTransfer();
-                        newFiles.forEach(file => dataTransfer.items.add(file));
-                        ocrUpload.files = dataTransfer.files;
-                        
-                        // Trigger change event to update UI
-                        const event = new Event('change');
-                        ocrUpload.dispatchEvent(event);
-                    });
-                }
-            });
-        }
-        
-        // PDF Tools Functions
-        function initPdfTools() {
-            const pdfToolsUpload = document.getElementById('pdfToolsFileUpload');
-            const pdfToolsFileList = document.getElementById('pdfToolsFileList');
-            const processPdfBtn = document.getElementById('processPdfBtn');
-            const downloadPdfToolsBtn = document.getElementById('downloadPdfToolsBtn');
-            const pdfToolsPreview = document.getElementById('pdfToolsPreview');
-            const pdfToolsProgressContainer = document.getElementById('pdfToolsProgressContainer');
-            const pdfToolsProgressBar = document.getElementById('pdfToolsProgressBar');
-            const pdfToolsTimeRemaining = document.getElementById('pdfToolsTimeRemaining');
-            const pdfToolsError = document.getElementById('pdfToolsError');
-            const pdfToolsSuccess = document.getElementById('pdfToolsSuccess');
-            const pdfAction = document.getElementById('pdfAction');
-            const splitPages = document.getElementById('splitPages');
-            const splitPagesLabel = document.getElementById('splitPagesLabel');
-            
-            // Show/hide split options
-            pdfAction.addEventListener('change', () => {
-                if (pdfAction.value === 'split') {
-                    splitPages.style.display = 'block';
-                    splitPagesLabel.style.display = 'block';
-                } else {
-                    splitPages.style.display = 'none';
-                    splitPagesLabel.style.display = 'none';
-                }
-            });
-            
-            // Process PDFs
-            processPdfBtn.addEventListener('click', async () => {
-                if (!pdfToolsUpload.files.length) return;
-                
-                try {
-                    const action = pdfAction.value;
-                    
-                    if (action === 'merge' && pdfToolsUpload.files.length < 2) {
-                        pdfToolsError.textContent = 'Please select at least 2 PDFs to merge';
-                        pdfToolsError.style.display = 'block';
-                        return;
-                    }
-                    
-                    if (action === 'split' && pdfToolsUpload.files.length > 1) {
-                        pdfToolsError.textContent = 'Please select only one PDF to split';
-                        pdfToolsError.style.display = 'block';
-                        return;
-                    }
-                    
-                    pdfToolsProgressContainer.style.display = 'block';
-                    pdfToolsError.style.display = 'none';
-                    
-                    // Show progress
-                    await simulateProgress('pdfToolsProgressBar', 'pdfToolsTimeRemaining', 5000);
-                    
-                    if (action === 'merge') {
-                        await mergePdfs();
-                    } else {
-                        await splitPdf();
-                    }
-                    
-                    pdfToolsPreview.style.display = 'block';
-                    pdfToolsSuccess.textContent = 'PDF processed successfully!';
-                    pdfToolsSuccess.style.display = 'block';
-                } catch (error) {
-                    pdfToolsError.textContent = `PDF processing failed: ${error.message || 'Unknown error'}`;
-                    pdfToolsError.style.display = 'block';
-                } finally {
-                    pdfToolsProgressContainer.style.display = 'none';
-                }
-            });
-            
-            // Merge PDFs
-            async function mergePdfs() {
-                const mergedPdf = await PDFLib.PDFDocument.create();
-                
-                for (let i = 0; i < pdfToolsUpload.files.length; i++) {
-                    const file = pdfToolsUpload.files[i];
-                    const arrayBuffer = await file.arrayBuffer();
-                    const pdf = await PDFLib.PDFDocument.load(arrayBuffer);
-                    const pages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
-                    pages.forEach(page => mergedPdf.addPage(page));
-                }
-                
-                const mergedPdfBytes = await mergedPdf.save();
-                const blob = new Blob([mergedPdfBytes], {type: 'application/pdf'});
-                downloadPdfToolsBtn.href = URL.createObjectURL(blob);
-                downloadPdfToolsBtn.download = 'merged.pdf';
-            }
-            
-            // Split PDF
-            async function splitPdf() {
-                const file = pdfToolsUpload.files[0];
-                const arrayBuffer = await file.arrayBuffer();
-                const pdf = await PDFLib.PDFDocument.load(arrayBuffer);
-                const pagesPerSplit = parseInt(splitPages.value) || 1;
-                const totalPages = pdf.getPageCount();
-                
-                // For demo, we'll just split into one file
-                const splitPdf = await PDFLib.PDFDocument.create();
-                const pages = await splitPdf.copyPages(pdf, [0]);
-                pages.forEach(page => splitPdf.addPage(page));
-                
-                const splitPdfBytes = await splitPdf.save();
-                const blob = new Blob([splitPdfBytes], {type: 'application/pdf'});
-                downloadPdfToolsBtn.href = URL.createObjectURL(blob);
-                downloadPdfToolsBtn.download = 'split-page-1.pdf';
-            }
-            
-            // Handle file upload
-            pdfToolsUpload.addEventListener('change', () => {
-                pdfToolsFileList.innerHTML = '';
-                
-                for (let i = 0; i < pdfToolsUpload.files.length; i++) {
-                    const file = pdfToolsUpload.files[i];
-                    
-                    const fileItem = document.createElement('div');
-                    fileItem.className = 'file-item';
-                    fileItem.innerHTML = `
-                        <div class="file-info">
-                            <i class="fas fa-file-pdf file-icon"></i>
-                            <div class="file-details">
-                                <div class="file-name">${file.name}</div>
-                                <div class="file-size">${formatFileSize(file.size)}</div>
-                            </div>
-                        </div>
-                        <div class="file-remove" data-index="${i}">
-                            <i class="fas fa-times"></i>
-                        </div>
-                    `;
-                    pdfToolsFileList.appendChild(fileItem);
-                    
-                    // Add remove functionality
-                    fileItem.querySelector('.file-remove').addEventListener('click', function() {
-                        const index = parseInt(this.getAttribute('data-index'));
-                        const newFiles = Array.from(pdfToolsUpload.files);
-                        newFiles.splice(index, 1);
-                        
-                        // Create new FileList
-                        const dataTransfer = new DataTransfer();
-                        newFiles.forEach(file => dataTransfer.items.add(file));
-                        pdfToolsUpload.files = dataTransfer.files;
-                        
-                        // Trigger change event to update UI
-                        const event = new Event('change');
-                        pdfToolsUpload.dispatchEvent(event);
-                    });
-                }
-            });
-        }
-
         // Initialize everything when DOM is loaded
         document.addEventListener('DOMContentLoaded', () => {
             initMobileMenu();
             initImageConverter();
-            initDocumentConverter();
-            initAudioConverter();
-            initVideoConverter();
-            initOcrTool();
-            initPdfTools();
             
             // Tab Switching
             document.querySelectorAll('.tab').forEach(tab => {
@@ -3265,7 +2679,10 @@
                     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
                     document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
                     tab.classList.add('active');
-                    document.getElementById(`${tab.dataset.tab}-tab`).classList.add('active');
+                    const contentId = `${tab.dataset.tab}-tab`;
+                    document.getElementById(contentId).classList.add('active');
+                    
+                    debugLog(`Switched to tab: ${tab.dataset.tab}`);
                 });
             });
             
@@ -3297,8 +2714,19 @@
                 });
             });
             
+            // Debug console toggle
+            const debugToggle = document.getElementById('debug-toggle');
+            const debugConsole = document.getElementById('debug-console');
+            debugToggle.addEventListener('click', () => {
+                debugConsole.style.display = debugConsole.style.display === 'block' ? 'none' : 'block';
+            });
+            
             // Set PDF.js worker
             pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+            
+            // Initial debug message
+            debugLog('File converter initialized');
+            debugLog('Debug console active - all operations will be logged here');
         });
     </script>
 </body>
