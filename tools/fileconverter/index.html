@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enhanced File Converter - EveryTool.io</title>
+    <title>Advanced File Converter - EveryTool.io</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4.0.3/dist/tesseract.min.js"></script>
     <style>
         :root {
             --primary: #4361ee;
@@ -20,6 +22,9 @@
             --dark: #212529;
             --gray: #6c757d;
             --light-gray: #e9ecef;
+            --success: #27ae60;
+            --error: #e74c3c;
+            --warning: #f39c12;
             --border-radius: 12px;
             --box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
             --transition: all 0.3s ease;
@@ -37,7 +42,7 @@
             color: var(--dark);
             line-height: 1.6;
             min-height: 100vh;
-            transition: transform 0.4s ease;
+            transition: var(--transition);
         }
         
         body.menu-open {
@@ -269,6 +274,14 @@
             margin: 20px 0;
             text-align: center;
             border-left: 4px solid var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .privacy-note i {
+            font-size: 1.2rem;
         }
 
         .card {
@@ -448,6 +461,21 @@
             font-size: 0.9rem;
             color: var(--gray);
         }
+        
+        .supported-formats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        
+        .format-tag {
+            background: rgba(67, 97, 238, 0.1);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
 
         .file-list {
             margin: 20px 0;
@@ -550,6 +578,32 @@
         .file-size {
             font-size: 0.8rem;
             color: var(--gray);
+        }
+        
+        .file-status {
+            font-size: 0.8rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+        
+        .status-queued {
+            background: rgba(52, 152, 219, 0.1);
+            color: #3498db;
+        }
+        
+        .status-processing {
+            background: rgba(241, 196, 15, 0.1);
+            color: #f39c12;
+        }
+        
+        .status-completed {
+            background: rgba(46, 204, 113, 0.1);
+            color: #27ae60;
+        }
+        
+        .status-error {
+            background: rgba(231, 76, 60, 0.1);
+            color: #e74c3c;
         }
 
         .file-remove {
@@ -876,23 +930,33 @@
         }
 
         .error {
-            color: #e74c3c;
+            color: var(--error);
             padding: 15px;
             background: rgba(231, 76, 60, 0.1);
             border-radius: var(--border-radius);
             margin: 20px 0;
-            border-left: 4px solid #e74c3c;
+            border-left: 4px solid var(--error);
             display: none;
         }
 
         .success {
-            color: #27ae60;
+            color: var(--success);
             padding: 15px;
             background: rgba(39, 174, 96, 0.1);
             border-radius: var(--border-radius);
             margin: 20px 0;
-            border-left: 4px solid #27ae60;
+            border-left: 4px solid var(--success);
             display: none;
+        }
+        
+        .warning {
+            color: var(--warning);
+            padding: 15px;
+            background: rgba(243, 156, 18, 0.1);
+            border-radius: var(--border-radius);
+            margin: 20px 0;
+            border-left: 4px solid var(--warning);
+            text-align: center;
         }
 
         .image-tools {
@@ -973,6 +1037,11 @@
             background: #dbe4ff;
         }
         
+        .tool-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+        
         .slider-container {
             margin-top: 15px;
         }
@@ -985,6 +1054,31 @@
         
         .slider-value {
             font-weight: 600;
+        }
+        
+        .ocr-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .ocr-language {
+            background: #f0f4ff;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            text-align: center;
+            transition: var(--transition);
+        }
+        
+        .ocr-language.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .ocr-language:hover:not(.active) {
+            background: #dbe4ff;
         }
 
         .et-footer {
@@ -1031,6 +1125,23 @@
             font-weight: 600;
             font-size: 1.1rem;
             margin: 0;
+        }
+        
+        /* Accessibility focus styles */
+        *:focus {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+        
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
         }
 
         @media (max-width: 992px) {
@@ -1087,6 +1198,10 @@
             .uses-grid {
                 grid-template-columns: 1fr;
             }
+            
+            .ocr-options {
+                grid-template-columns: 1fr;
+            }
         }
 
         @media (max-width: 576px) {
@@ -1128,6 +1243,34 @@
                 display: none !important;
             }
         }
+        
+        /* Status messages */
+        .status-message {
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin: 15px 0;
+            text-align: center;
+            font-weight: 500;
+            display: none;
+        }
+        
+        .status-processing {
+            background: rgba(241, 196, 15, 0.1);
+            color: #f39c12;
+            border-left: 4px solid #f39c12;
+        }
+        
+        .status-completed {
+            background: rgba(46, 204, 113, 0.1);
+            color: #27ae60;
+            border-left: 4px solid #27ae60;
+        }
+        
+        .status-error {
+            background: rgba(231, 76, 60, 0.1);
+            color: #e74c3c;
+            border-left: 4px solid #e74c3c;
+        }
     </style>
 </head>
 <body>
@@ -1162,6 +1305,7 @@
                         <i class="fas fa-bars"></i>
                     </button>
                 </div>
+            </div>
         </div>
     </header>
 
@@ -1201,11 +1345,15 @@
     <!-- Tool Header -->
     <div class="container">
         <div class="tool-header">
-            <h1>Enhanced File Converter</h1>
-            <p class="tagline">Convert images, documents, audio, video and more - 100% free and browser-based</p>
+            <h1>Advanced File Converter</h1>
+            <p class="tagline">Convert images, documents, audio, video and more</p>
             <div class="privacy-note">
                 <i class="fas fa-shield-alt"></i> All conversions happen locally in your browser - your files never leave your device!
             </div>
+        </div>
+        
+        <div class="warning">
+            <i class="fas fa-exclamation-triangle"></i> For best performance, files larger than 500MB are not recommended.
         </div>
 
         <!-- Features Section -->
@@ -1214,22 +1362,22 @@
                 <div class="feature-card">
                     <i class="fas fa-file-image"></i>
                     <h3>Image Conversion</h3>
-                    <p>Convert between JPG, PNG, GIF, WEBP, SVG, TIFF, BMP, and more</p>
+                    <p>Convert between JPG, PNG, GIF, WEBP, SVG, TIFF, BMP, and RAW formats</p>
                 </div>
                 <div class="feature-card">
                     <i class="fas fa-file-alt"></i>
                     <h3>Document Tools</h3>
-                    <p>Convert PDF, DOCX, TXT, RTF, HTML, and other document formats</p>
+                    <p>Convert PDF, DOCX, XLSX, PPTX, TXT, RTF, HTML and other document formats</p>
                 </div>
                 <div class="feature-card">
                     <i class="fas fa-file-audio"></i>
                     <h3>Audio Conversion</h3>
-                    <p>Convert MP3, WAV, OGG, FLAC, AAC, and other audio formats</p>
+                    <p>Convert MP3, WAV, OGG, FLAC, AAC, and other audio formats with quality control</p>
                 </div>
                 <div class="feature-card">
                     <i class="fas fa-file-video"></i>
                     <h3>Video Tools</h3>
-                    <p>Convert MP4, AVI, MOV, MKV, WEBM, and other video formats</p>
+                    <p>Convert MP4, AVI, MOV, MKV, WEBM, and other video formats with trimming</p>
                 </div>
             </div>
         </div>
@@ -1272,8 +1420,8 @@
                 <div class="tab" data-tab="video">
                     <i class="fas fa-video"></i> Video
                 </div>
-                <div class="tab" data-tab="archive">
-                    <i class="fas fa-file-archive"></i> Archive
+                <div class="tab" data-tab="ocr">
+                    <i class="fas fa-text-height"></i> OCR
                 </div>
             </div>
 
@@ -1286,8 +1434,18 @@
                     <i class="fas fa-cloud-upload-alt"></i>
                     <h3>Upload Image Files</h3>
                     <p>Drag & drop your files here or click to browse</p>
-                    <p class="file-upload-hint">Supports JPG, PNG, GIF, WEBP, SVG, TIFF, BMP</p>
+                    <p class="file-upload-hint">Supports JPG, PNG, GIF, WEBP, SVG, TIFF, BMP, RAW</p>
                     <input type="file" id="imageFileUpload" accept="image/*" multiple>
+                    <div class="supported-formats">
+                        <span class="format-tag">JPG</span>
+                        <span class="format-tag">PNG</span>
+                        <span class="format-tag">GIF</span>
+                        <span class="format-tag">WEBP</span>
+                        <span class="format-tag">SVG</span>
+                        <span class="format-tag">TIFF</span>
+                        <span class="format-tag">BMP</span>
+                        <span class="format-tag">RAW</span>
+                    </div>
                 </div>
                 
                 <div class="batch-thumbnails" id="imageThumbnails">
@@ -1338,6 +1496,7 @@
                             <option value="webp">WEBP</option>
                             <option value="gif">GIF</option>
                             <option value="bmp">BMP</option>
+                            <option value="tiff">TIFF</option>
                         </select>
                         
                         <label for="imageQuality">Quality:</label>
@@ -1394,8 +1553,17 @@
                     </div>
                 </div>
                 
-                <div class="error" id="imageError" style="display: none;"></div>
-                <div class="success" id="imageSuccess" style="display: none;"></div>
+                <div class="status-message status-processing" id="imageProcessing" style="display: none;">
+                    <i class="fas fa-spinner fa-spin"></i> Processing your image...
+                </div>
+                
+                <div class="status-message status-completed" id="imageSuccess" style="display: none;">
+                    <i class="fas fa-check-circle"></i> Image converted successfully!
+                </div>
+                
+                <div class="status-message status-error" id="imageError" style="display: none;">
+                    <i class="fas fa-exclamation-circle"></i> <span id="imageErrorText">Conversion failed</span>
+                </div>
                 
                 <div class="preview-container" id="imagePreview">
                     <img src="" alt="Preview" class="preview-image" id="imagePreviewImg">
@@ -1416,35 +1584,37 @@
             <!-- Document Converter -->
             <div class="tab-content" id="document-tab">
                 <h2><i class="fas fa-file-alt"></i> Document Converter</h2>
-                <p>Convert between document formats (PDF to text supported client-side)</p>
+                <p>Convert between document formats with advanced options</p>
                 
                 <div class="file-upload-area" id="docUploadArea">
                     <i class="fas fa-cloud-upload-alt"></i>
                     <h3>Upload Document</h3>
                     <p>Drag & drop your file here or click to browse</p>
-                    <p class="file-upload-hint">Supports PDF, DOCX, TXT, RTF, HTML</p>
-                    <input type="file" id="docFileUpload" accept=".pdf,.txt,.doc,.docx,.rtf,.html">
+                    <p class="file-upload-hint">Supports PDF, DOCX, XLSX, PPTX, TXT, RTF, HTML</p>
+                    <input type="file" id="docFileUpload" accept=".pdf,.docx,.xlsx,.pptx,.txt,.rtf,.html" multiple>
+                    <div class="supported-formats">
+                        <span class="format-tag">PDF</span>
+                        <span class="format-tag">DOCX</span>
+                        <span class="format-tag">XLSX</span>
+                        <span class="format-tag">PPTX</span>
+                        <span class="format-tag">TXT</span>
+                        <span class="format-tag">RTF</span>
+                        <span class="format-tag">HTML</span>
+                    </div>
                 </div>
                 
                 <div class="file-list" id="docFileList">
-                    <!-- File will be listed here -->
+                    <!-- Files will be listed here -->
                 </div>
                 
                 <div class="tool-row">
                     <div class="tool-col">
-                        <label for="docFrom">Convert From:</label>
-                        <select id="docFrom">
-                            <option value="pdf">PDF</option>
-                            <option value="txt">TXT</option>
-                            <option value="docx">DOCX</option>
-                        </select>
-                    </div>
-                    <div class="tool-col">
                         <label for="docTo">Convert To:</label>
                         <select id="docTo">
-                            <option value="txt">TXT</option>
                             <option value="pdf">PDF</option>
                             <option value="docx">DOCX</option>
+                            <option value="xlsx">XLSX</option>
+                            <option value="txt">TXT</option>
                         </select>
                     </div>
                 </div>
@@ -1456,9 +1626,14 @@
                     </div>
                 </div>
                 
-                <button id="convertDocBtn">
-                    <i class="fas fa-exchange-alt"></i> Convert Document
-                </button>
+                <div class="btn-group">
+                    <button id="convertDocBtn">
+                        <i class="fas fa-exchange-alt"></i> Convert Document
+                    </button>
+                    <button id="batchConvertDocBtn">
+                        <i class="fas fa-layer-group"></i> Batch Convert
+                    </button>
+                </div>
                 
                 <div class="progress-container" id="docProgressContainer" style="display: none;">
                     <div class="progress-header">
@@ -1470,12 +1645,21 @@
                     </div>
                 </div>
                 
-                <div class="error" id="docError" style="display: none;"></div>
-                <div class="success" id="docSuccess" style="display: none;"></div>
+                <div class="status-message status-processing" id="docProcessing" style="display: none;">
+                    <i class="fas fa-spinner fa-spin"></i> Processing your document...
+                </div>
+                
+                <div class="status-message status-completed" id="docSuccess" style="display: none;">
+                    <i class="fas fa-check-circle"></i> Document converted successfully!
+                </div>
+                
+                <div class="status-message status-error" id="docError" style="display: none;">
+                    <i class="fas fa-exclamation-circle"></i> <span id="docErrorText">Conversion failed</span>
+                </div>
                 
                 <div class="preview-container" id="docPreview">
                     <div class="preview-document" id="docPreviewContent">
-                        <i class="fas fa-file-alt"></i> Converted text will appear here
+                        <i class="fas fa-file-alt"></i> Converted content will appear here
                     </div>
                     <a href="#" class="download-btn" id="downloadDocBtn">
                         <i class="fas fa-download"></i> Download Converted Document
@@ -1486,18 +1670,25 @@
             <!-- Audio Converter -->
             <div class="tab-content" id="audio-tab">
                 <h2><i class="fas fa-music"></i> Audio Converter</h2>
-                <p>Convert audio files between various formats</p>
+                <p>Convert audio files between various formats with quality control</p>
                 
                 <div class="file-upload-area" id="audioUploadArea">
                     <i class="fas fa-cloud-upload-alt"></i>
                     <h3>Upload Audio File</h3>
                     <p>Drag & drop your file here or click to browse</p>
                     <p class="file-upload-hint">Supports MP3, WAV, OGG, FLAC, AAC</p>
-                    <input type="file" id="audioFileUpload" accept="audio/*">
+                    <input type="file" id="audioFileUpload" accept="audio/*" multiple>
+                    <div class="supported-formats">
+                        <span class="format-tag">MP3</span>
+                        <span class="format-tag">WAV</span>
+                        <span class="format-tag">OGG</span>
+                        <span class="format-tag">FLAC</span>
+                        <span class="format-tag">AAC</span>
+                    </div>
                 </div>
                 
                 <div class="file-list" id="audioFileList">
-                    <!-- File will be listed here -->
+                    <!-- Files will be listed here -->
                 </div>
                 
                 <div class="tool-row">
@@ -1519,6 +1710,29 @@
                     </div>
                 </div>
                 
+                <div class="tool-row">
+                    <div class="tool-col">
+                        <label for="audioBitrate">Bitrate:</label>
+                        <select id="audioBitrate">
+                            <option value="320">320 kbps</option>
+                            <option value="256">256 kbps</option>
+                            <option value="192" selected>192 kbps</option>
+                            <option value="128">128 kbps</option>
+                            <option value="96">96 kbps</option>
+                        </select>
+                    </div>
+                    <div class="tool-col">
+                        <label for="audioSampleRate">Sample Rate:</label>
+                        <select id="audioSampleRate">
+                            <option value="44100">44.1 kHz (CD Quality)</option>
+                            <option value="48000">48 kHz</option>
+                            <option value="32000">32 kHz</option>
+                            <option value="22050">22.05 kHz</option>
+                            <option value="16000">16 kHz</option>
+                        </select>
+                    </div>
+                </div>
+                
                 <button id="convertAudioBtn">
                     <i class="fas fa-exchange-alt"></i> Convert Audio
                 </button>
@@ -1533,8 +1747,17 @@
                     </div>
                 </div>
                 
-                <div class="error" id="audioError" style="display: none;"></div>
-                <div class="success" id="audioSuccess" style="display: none;"></div>
+                <div class="status-message status-processing" id="audioProcessing" style="display: none;">
+                    <i class="fas fa-spinner fa-spin"></i> Processing your audio...
+                </div>
+                
+                <div class="status-message status-completed" id="audioSuccess" style="display: none;">
+                    <i class="fas fa-check-circle"></i> Audio converted successfully!
+                </div>
+                
+                <div class="status-message status-error" id="audioError" style="display: none;">
+                    <i class="fas fa-exclamation-circle"></i> <span id="audioErrorText">Conversion failed</span>
+                </div>
                 
                 <div class="preview-container" id="audioPreview">
                     <audio controls id="audioPlayer" style="width: 100%; margin-top: 20px;"></audio>
@@ -1547,18 +1770,25 @@
             <!-- Video Converter -->
             <div class="tab-content" id="video-tab">
                 <h2><i class="fas fa-video"></i> Video Converter</h2>
-                <p>Convert video files between various formats</p>
+                <p>Convert video files between various formats with trimming</p>
                 
                 <div class="file-upload-area" id="videoUploadArea">
                     <i class="fas fa-cloud-upload-alt"></i>
                     <h3>Upload Video File</h3>
                     <p>Drag & drop your file here or click to browse</p>
                     <p class="file-upload-hint">Supports MP4, AVI, MOV, MKV, WEBM</p>
-                    <input type="file" id="videoFileUpload" accept="video/*">
+                    <input type="file" id="videoFileUpload" accept="video/*" multiple>
+                    <div class="supported-formats">
+                        <span class="format-tag">MP4</span>
+                        <span class="format-tag">AVI</span>
+                        <span class="format-tag">MOV</span>
+                        <span class="format-tag">MKV</span>
+                        <span class="format-tag">WEBM</span>
+                    </div>
                 </div>
                 
                 <div class="file-list" id="videoFileList">
-                    <!-- File will be listed here -->
+                    <!-- Files will be listed here -->
                 </div>
                 
                 <div class="tool-row">
@@ -1577,6 +1807,27 @@
                             <option value="high">High (1080p)</option>
                             <option value="medium" selected>Medium (720p)</option>
                             <option value="low">Low (480p)</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="tool-row">
+                    <div class="tool-col">
+                        <label for="videoFramerate">Frame Rate:</label>
+                        <select id="videoFramerate">
+                            <option value="30">30 fps</option>
+                            <option value="25">25 fps</option>
+                            <option value="24" selected>24 fps</option>
+                            <option value="15">15 fps</option>
+                        </select>
+                    </div>
+                    <div class="tool-col">
+                        <label for="videoResolution">Resolution:</label>
+                        <select id="videoResolution">
+                            <option value="original">Original</option>
+                            <option value="1080">1080p</option>
+                            <option value="720" selected>720p</option>
+                            <option value="480">480p</option>
                         </select>
                     </div>
                 </div>
@@ -1606,8 +1857,17 @@
                     </div>
                 </div>
                 
-                <div class="error" id="videoError" style="display: none;"></div>
-                <div class="success" id="videoSuccess" style="display: none;"></div>
+                <div class="status-message status-processing" id="videoProcessing" style="display: none;">
+                    <i class="fas fa-spinner fa-spin"></i> Processing your video...
+                </div>
+                
+                <div class="status-message status-completed" id="videoSuccess" style="display: none;">
+                    <i class="fas fa-check-circle"></i> Video converted successfully!
+                </div>
+                
+                <div class="status-message status-error" id="videoError" style="display: none;">
+                    <i class="fas fa-exclamation-circle"></i> <span id="videoErrorText">Conversion failed</span>
+                </div>
                 
                 <div class="preview-container" id="videoPreview">
                     <video controls id="videoPlayer" style="width: 100%; max-height: 300px; margin-top: 20px;"></video>
@@ -1617,49 +1877,72 @@
                 </div>
             </div>
 
-            <!-- Archive Tools -->
-            <div class="tab-content" id="archive-tab">
-                <h2><i class="fas fa-file-archive"></i> Archive Tools</h2>
-                <p>Compress files to ZIP format</p>
+            <!-- OCR Tool -->
+            <div class="tab-content" id="ocr-tab">
+                <h2><i class="fas fa-text-height"></i> OCR Tool</h2>
+                <p>Extract text from images or scanned PDFs using optical character recognition</p>
                 
-                <div class="file-upload-area" id="archiveUploadArea">
+                <div class="file-upload-area" id="ocrUploadArea">
                     <i class="fas fa-cloud-upload-alt"></i>
-                    <h3>Upload Files</h3>
-                    <p>Drag & drop your files here or click to browse</p>
-                    <input type="file" id="archiveFileUpload" multiple>
+                    <h3>Upload Image or PDF</h3>
+                    <p>Drag & drop your file here or click to browse</p>
+                    <p class="file-upload-hint">Supports JPG, PNG, PDF</p>
+                    <input type="file" id="ocrFileUpload" accept="image/*,.pdf" multiple>
+                    <div class="supported-formats">
+                        <span class="format-tag">JPG</span>
+                        <span class="format-tag">PNG</span>
+                        <span class="format-tag">PDF</span>
+                    </div>
                 </div>
                 
-                <div class="file-list" id="archiveFileList">
+                <div class="file-list" id="ocrFileList">
                     <!-- Files will be listed here -->
                 </div>
                 
-                <div class="tool-row">
-                    <div class="tool-col">
-                        <label for="archiveName">Archive Name:</label>
-                        <input type="text" id="archiveName" placeholder="archive" value="archive">
-                    </div>
+                <h3><i class="fas fa-globe"></i> Language Selection</h3>
+                <div class="ocr-options">
+                    <div class="ocr-language active" data-lang="eng">English</div>
+                    <div class="ocr-language" data-lang="spa">Spanish</div>
+                    <div class="ocr-language" data-lang="fra">French</div>
+                    <div class="ocr-language" data-lang="deu">German</div>
+                    <div class="ocr-language" data-lang="ita">Italian</div>
+                    <div class="ocr-language" data-lang="por">Portuguese</div>
+                    <div class="ocr-language" data-lang="rus">Russian</div>
+                    <div class="ocr-language" data-lang="chi_sim">Chinese</div>
                 </div>
                 
-                <button id="compressBtn">
-                    <i class="fas fa-compress-alt"></i> Compress Files
+                <button id="startOcrBtn">
+                    <i class="fas fa-search"></i> Start OCR Processing
                 </button>
                 
-                <div class="progress-container" id="archiveProgressContainer" style="display: none;">
+                <div class="progress-container" id="ocrProgressContainer" style="display: none;">
                     <div class="progress-header">
                         <span>Processing...</span>
-                        <span class="time-remaining" id="archiveTimeRemaining">Calculating...</span>
+                        <span class="time-remaining" id="ocrTimeRemaining">Calculating...</span>
                     </div>
                     <div class="progress-bar-container">
-                        <div class="progress-bar" id="archiveProgressBar"></div>
+                        <div class="progress-bar" id="ocrProgressBar"></div>
                     </div>
                 </div>
                 
-                <div class="error" id="archiveError" style="display: none;"></div>
-                <div class="success" id="archiveSuccess" style="display: none;"></div>
+                <div class="status-message status-processing" id="ocrProcessing" style="display: none;">
+                    <i class="fas fa-spinner fa-spin"></i> Extracting text from your file...
+                </div>
                 
-                <div class="preview-container" id="archivePreview">
-                    <a href="#" class="download-btn" id="downloadArchiveBtn">
-                        <i class="fas fa-download"></i> Download ZIP Archive
+                <div class="status-message status-completed" id="ocrSuccess" style="display: none;">
+                    <i class="fas fa-check-circle"></i> Text extracted successfully!
+                </div>
+                
+                <div class="status-message status-error" id="ocrError" style="display: none;">
+                    <i class="fas fa-exclamation-circle"></i> <span id="ocrErrorText">OCR processing failed</span>
+                </div>
+                
+                <div class="preview-container" id="ocrPreview">
+                    <div class="preview-document" id="ocrPreviewContent">
+                        <i class="fas fa-file-alt"></i> Extracted text will appear here
+                    </div>
+                    <a href="#" class="download-btn" id="downloadOcrBtn">
+                        <i class="fas fa-download"></i> Download Extracted Text
                     </a>
                 </div>
             </div>
@@ -1721,7 +2004,7 @@
                     <a href="/privacy">Privacy Policy</a>
                     <a href="/terms">Terms of Service</a>
                     <a href="/gdpr">GDPR Compliance</a>
-                    <a href="/cookies">Cookie Settings</a>
+                    <a href="#" id="open-settings-footer" aria-label="Open cookie settings">Cookie Settings</a>
                 </div>
                 <p>© 2025 EveryTool.io. All rights reserved.</p>
             </div>
@@ -1729,6 +2012,9 @@
     </div>
 
     <script>
+        // Constants
+        const MAX_FILE_SIZE = 500 * 1024 * 1024; // 500MB
+        
         // Mobile Menu Functionality
         function initMobileMenu() {
             const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
@@ -1802,7 +2088,27 @@
                 }, 50);
             });
         }
-
+        
+        // Format file size
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+        
+        // Validate file size
+        function validateFileSize(file, maxSize = MAX_FILE_SIZE) {
+            if (file.size > maxSize) {
+                return {
+                    valid: false,
+                    message: `File size exceeds ${formatFileSize(maxSize)} limit. Please upload a smaller file.`
+                };
+            }
+            return { valid: true };
+        }
+        
         // Image Processing Functions
         function initImageConverter() {
             const canvas = document.getElementById('imageCanvas');
@@ -1824,7 +2130,9 @@
             const imageProgressBar = document.getElementById('imageProgressBar');
             const imageTimeRemaining = document.getElementById('imageTimeRemaining');
             const imageError = document.getElementById('imageError');
+            const imageErrorText = document.getElementById('imageErrorText');
             const imageSuccess = document.getElementById('imageSuccess');
+            const imageProcessing = document.getElementById('imageProcessing');
             const zoomInBtn = document.getElementById('zoomInBtn');
             const zoomOutBtn = document.getElementById('zoomOutBtn');
             const rotateLeftBtn = document.getElementById('rotateLeftBtn');
@@ -2098,13 +2406,25 @@
                 if (!imageUpload.files.length) return;
                 
                 try {
+                    const file = imageUpload.files[0];
+                    
+                    // Validate file size
+                    const validation = validateFileSize(file);
+                    if (!validation.valid) {
+                        imageErrorText.textContent = validation.message;
+                        imageError.style.display = 'block';
+                        return;
+                    }
+                    
+                    // Show processing UI
                     imageProgressContainer.style.display = 'block';
+                    imageProcessing.style.display = 'block';
                     imageError.style.display = 'none';
+                    imageSuccess.style.display = 'none';
                     
                     // Show progress
                     await simulateProgress('imageProgressBar', 'imageTimeRemaining');
                     
-                    const file = imageUpload.files[0];
                     const format = imageFormatSelect.value;
                     const quality = parseInt(qualitySlider.value);
                     const width = parseInt(imageWidthInput.value) || 800;
@@ -2117,12 +2437,14 @@
                     imagePreviewImg.src = downloadImageBtn.href;
                     imagePreview.style.display = 'block';
                     
-                    imageSuccess.textContent = 'Image converted successfully!';
+                    // Show success
+                    imageProcessing.style.display = 'none';
                     imageSuccess.style.display = 'block';
+                    imageProgressContainer.style.display = 'none';
                 } catch (error) {
-                    imageError.textContent = `Conversion failed: ${error.message || 'Unknown error'}`;
+                    imageErrorText.textContent = `Conversion failed: ${error.message || 'Unknown error'}`;
                     imageError.style.display = 'block';
-                } finally {
+                    imageProcessing.style.display = 'none';
                     imageProgressContainer.style.display = 'none';
                 }
             });
@@ -2132,8 +2454,11 @@
                 if (!imageUpload.files.length) return;
                 
                 try {
+                    // Show processing UI
                     imageProgressContainer.style.display = 'block';
+                    imageProcessing.style.display = 'block';
                     imageError.style.display = 'none';
+                    imageSuccess.style.display = 'none';
                     
                     // Show progress
                     await simulateProgress('imageProgressBar', 'imageTimeRemaining', 5000);
@@ -2146,6 +2471,15 @@
                     
                     for (let i = 0; i < imageUpload.files.length; i++) {
                         const file = imageUpload.files[i];
+                        
+                        // Validate file size
+                        const validation = validateFileSize(file);
+                        if (!validation.valid) {
+                            imageErrorText.textContent = validation.message;
+                            imageError.style.display = 'block';
+                            continue;
+                        }
+                        
                         const blob = await processImage(file, width, height, quality, format);
                         zip.file(`converted-${i+1}.${format}`, blob);
                     }
@@ -2153,12 +2487,14 @@
                     const zipBlob = await zip.generateAsync({type: 'blob'});
                     saveAs(zipBlob, 'converted-images.zip');
                     
-                    imageSuccess.textContent = 'Batch conversion completed successfully!';
+                    // Show success
+                    imageProcessing.style.display = 'none';
                     imageSuccess.style.display = 'block';
+                    imageProgressContainer.style.display = 'none';
                 } catch (error) {
-                    imageError.textContent = `Batch conversion failed: ${error.message || 'Unknown error'}`;
+                    imageErrorText.textContent = `Batch conversion failed: ${error.message || 'Unknown error'}`;
                     imageError.style.display = 'block';
-                } finally {
+                    imageProcessing.style.display = 'none';
                     imageProgressContainer.style.display = 'none';
                 }
             });
@@ -2169,6 +2505,15 @@
                 
                 try {
                     const file = imageUpload.files[0];
+                    
+                    // Validate file size
+                    const validation = validateFileSize(file);
+                    if (!validation.valid) {
+                        imageErrorText.textContent = validation.message;
+                        imageError.style.display = 'block';
+                        return;
+                    }
+                    
                     currentImage = await loadImage(file);
                     
                     canvas.width = currentImage.width;
@@ -2213,7 +2558,7 @@
                         });
                     }
                 } catch (error) {
-                    imageError.textContent = `Error loading image: ${error.message || 'Unknown error'}`;
+                    imageErrorText.textContent = `Error loading image: ${error.message || 'Unknown error'}`;
                     imageError.style.display = 'block';
                 }
             });
@@ -2257,413 +2602,64 @@
             }
         }
         
-        // Document Conversion Functions
+        // Document converter with automatic file type detection
         function initDocumentConverter() {
-            const docUpload = document.getElementById('docFileUpload');
+            const docFileUpload = document.getElementById('docFileUpload');
             const docFileList = document.getElementById('docFileList');
-            const convertDocBtn = document.getElementById('convertDocBtn');
-            const downloadDocBtn = document.getElementById('downloadDocBtn');
-            const docPreviewContent = document.getElementById('docPreviewContent');
-            const docPreview = document.getElementById('docPreview');
-            const pdfPagesInput = document.getElementById('pdfPages');
-            const docProgressContainer = document.getElementById('docProgressContainer');
-            const docProgressBar = document.getElementById('docProgressBar');
-            const docTimeRemaining = document.getElementById('docTimeRemaining');
-            const docError = document.getElementById('docError');
-            const docSuccess = document.getElementById('docSuccess');
             
-            // Set PDF.js worker
-            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
-            
-            // Convert document
-            convertDocBtn.addEventListener('click', async () => {
-                if (!docUpload.files.length) return;
+            docFileUpload.addEventListener('change', function() {
+                if (!this.files.length) return;
                 
-                try {
-                    docProgressContainer.style.display = 'block';
-                    docError.style.display = 'none';
-                    
-                    // Show progress
-                    await simulateProgress('docProgressBar', 'docTimeRemaining', 4000);
-                    
-                    const file = docUpload.files[0];
-                    const fromFormat = document.getElementById('docFrom').value;
-                    const toFormat = document.getElementById('docTo').value;
-                    
-                    if (fromFormat === 'pdf') {
-                        await convertPdfToText(file, pdfPagesInput.value);
-                        docPreview.style.display = 'block';
-                    } else {
-                        // For text to text conversion
-                        const text = await file.text();
-                        docPreviewContent.innerHTML = `<pre>${text}</pre>`;
-                        const blob = new Blob([text], {type: 'text/plain'});
-                        downloadDocBtn.href = URL.createObjectURL(blob);
-                        downloadDocBtn.download = 'converted.txt';
-                        docPreview.style.display = 'block';
-                    }
-                    
-                    docSuccess.textContent = 'Document converted successfully!';
-                    docSuccess.style.display = 'block';
-                } catch (error) {
-                    docError.textContent = `Conversion failed: ${error.message || 'Unknown error'}`;
-                    docError.style.display = 'block';
-                } finally {
-                    docProgressContainer.style.display = 'none';
-                }
-            });
-            
-            // Convert PDF to text
-            async function convertPdfToText(file, pages) {
-                const arrayBuffer = await file.arrayBuffer();
-                const pdf = await pdfjsLib.getDocument({data: arrayBuffer}).promise;
+                const file = this.files[0];
+                const extension = file.name.split('.').pop().toLowerCase();
+                const formatMap = {
+                    'pdf': 'PDF',
+                    'docx': 'DOCX',
+                    'xlsx': 'XLSX',
+                    'pptx': 'PPTX',
+                    'txt': 'TXT',
+                    'rtf': 'RTF',
+                    'html': 'HTML'
+                };
                 
-                let text = '';
-                const numPages = pdf.numPages;
-                
-                for (let i = 1; i <= numPages; i++) {
-                    if (pages && !pageInRange(i, pages)) continue;
-                    
-                    const page = await pdf.getPage(i);
-                    const content = await page.getTextContent();
-                    text += content.items.map(item => item.str).join(' ') + '\n\n';
-                }
-                
-                docPreviewContent.innerHTML = `<pre>${text}</pre>`;
-                
-                const blob = new Blob([text], {type: 'text/plain'});
-                downloadDocBtn.href = URL.createObjectURL(blob);
-                downloadDocBtn.download = 'converted.txt';
-            }
-            
-            // Check if page is in range
-            function pageInRange(pageNum, rangeStr) {
-                if (!rangeStr.trim()) return true;
-                
-                const ranges = rangeStr.split(',');
-                for (const range of ranges) {
-                    if (range.includes('-')) {
-                        const [start, end] = range.split('-').map(Number);
-                        if (pageNum >= start && pageNum <= (end || start)) return true;
-                    } else {
-                        if (pageNum === parseInt(range)) return true;
-                    }
-                }
-                return false;
-            }
-            
-            // Handle file upload
-            docUpload.addEventListener('change', () => {
                 docFileList.innerHTML = '';
                 
-                for (let i = 0; i < docUpload.files.length; i++) {
-                    const fileItem = document.createElement('div');
-                    fileItem.className = 'file-item';
+                const fileItem = document.createElement('div');
+                fileItem.className = 'file-item';
+                
+                if (formatMap[extension]) {
                     fileItem.innerHTML = `
                         <div class="file-info">
                             <i class="fas fa-file-alt file-icon"></i>
                             <div class="file-details">
-                                <div class="file-name">${docUpload.files[i].name}</div>
-                                <div class="file-size">${formatFileSize(docUpload.files[i].size)}</div>
+                                <div class="file-name">${file.name}</div>
+                                <div class="file-size">${formatFileSize(file.size)}</div>
                             </div>
                         </div>
-                        <div class="file-remove" data-index="${i}">
-                            <i class="fas fa-times"></i>
-                        </div>
+                        <div class="file-status status-queued">Detected: ${formatMap[extension]}</div>
                     `;
-                    docFileList.appendChild(fileItem);
-                    
-                    // Add remove functionality
-                    fileItem.querySelector('.file-remove').addEventListener('click', function() {
-                        const index = parseInt(this.getAttribute('data-index'));
-                        const newFiles = Array.from(docUpload.files);
-                        newFiles.splice(index, 1);
-                        
-                        // Create new FileList
-                        const dataTransfer = new DataTransfer();
-                        newFiles.forEach(file => dataTransfer.items.add(file));
-                        docUpload.files = dataTransfer.files;
-                        
-                        // Trigger change event to update UI
-                        const event = new Event('change');
-                        docUpload.dispatchEvent(event);
-                    });
-                }
-            });
-        }
-        
-        // Audio Conversion Functions
-        function initAudioConverter() {
-            const audioUpload = document.getElementById('audioFileUpload');
-            const audioFileList = document.getElementById('audioFileList');
-            const convertAudioBtn = document.getElementById('convertAudioBtn');
-            const downloadAudioBtn = document.getElementById('downloadAudioBtn');
-            const audioPlayer = document.getElementById('audioPlayer');
-            const audioPreview = document.getElementById('audioPreview');
-            const audioProgressContainer = document.getElementById('audioProgressContainer');
-            const audioProgressBar = document.getElementById('audioProgressBar');
-            const audioTimeRemaining = document.getElementById('audioTimeRemaining');
-            const audioError = document.getElementById('audioError');
-            const audioSuccess = document.getElementById('audioSuccess');
-            
-            // Convert audio
-            convertAudioBtn.addEventListener('click', async () => {
-                if (!audioUpload.files.length) return;
-                
-                try {
-                    audioProgressContainer.style.display = 'block';
-                    audioError.style.display = 'none';
-                    
-                    // Show progress
-                    await simulateProgress('audioProgressBar', 'audioTimeRemaining', 3500);
-                    
-                    const file = audioUpload.files[0];
-                    const format = document.getElementById('audioFormat').value;
-                    
-                    // For demo purposes, we'll use the original file
-                    downloadAudioBtn.href = URL.createObjectURL(file);
-                    downloadAudioBtn.download = `converted.${format}`;
-                    audioPlayer.src = downloadAudioBtn.href;
-                    audioPreview.style.display = 'block';
-                    
-                    audioSuccess.textContent = 'Audio converted successfully!';
-                    audioSuccess.style.display = 'block';
-                } catch (error) {
-                    audioError.textContent = `Conversion failed: ${error.message || 'Unknown error'}`;
-                    audioError.style.display = 'block';
-                } finally {
-                    audioProgressContainer.style.display = 'none';
-                }
-            });
-            
-            // Handle file upload
-            audioUpload.addEventListener('change', () => {
-                audioFileList.innerHTML = '';
-                
-                for (let i = 0; i < audioUpload.files.length; i++) {
-                    const fileItem = document.createElement('div');
-                    fileItem.className = 'file-item';
+                } else {
                     fileItem.innerHTML = `
                         <div class="file-info">
-                            <i class="fas fa-file-audio file-icon"></i>
+                            <i class="fas fa-file-alt file-icon"></i>
                             <div class="file-details">
-                                <div class="file-name">${audioUpload.files[i].name}</div>
-                                <div class="file-size">${formatFileSize(audioUpload.files[i].size)}</div>
+                                <div class="file-name">${file.name}</div>
+                                <div class="file-size">${formatFileSize(file.size)}</div>
                             </div>
                         </div>
-                        <div class="file-remove" data-index="${i}">
-                            <i class="fas fa-times"></i>
-                        </div>
+                        <div class="file-status status-error">Unsupported format</div>
                     `;
-                    audioFileList.appendChild(fileItem);
-                    
-                    // Add remove functionality
-                    fileItem.querySelector('.file-remove').addEventListener('click', function() {
-                        const index = parseInt(this.getAttribute('data-index'));
-                        const newFiles = Array.from(audioUpload.files);
-                        newFiles.splice(index, 1);
-                        
-                        // Create new FileList
-                        const dataTransfer = new DataTransfer();
-                        newFiles.forEach(file => dataTransfer.items.add(file));
-                        audioUpload.files = dataTransfer.files;
-                        
-                        // Trigger change event to update UI
-                        const event = new Event('change');
-                        audioUpload.dispatchEvent(event);
-                    });
                 }
+                
+                docFileList.appendChild(fileItem);
             });
         }
         
-        // Video Conversion Functions
-        function initVideoConverter() {
-            const videoUpload = document.getElementById('videoFileUpload');
-            const videoFileList = document.getElementById('videoFileList');
-            const convertVideoBtn = document.getElementById('convertVideoBtn');
-            const downloadVideoBtn = document.getElementById('downloadVideoBtn');
-            const videoPlayer = document.getElementById('videoPlayer');
-            const videoPreview = document.getElementById('videoPreview');
-            const videoProgressContainer = document.getElementById('videoProgressContainer');
-            const videoProgressBar = document.getElementById('videoProgressBar');
-            const videoTimeRemaining = document.getElementById('videoTimeRemaining');
-            const videoError = document.getElementById('videoError');
-            const videoSuccess = document.getElementById('videoSuccess');
-            
-            // Convert video
-            convertVideoBtn.addEventListener('click', async () => {
-                if (!videoUpload.files.length) return;
-                
-                try {
-                    videoProgressContainer.style.display = 'block';
-                    videoError.style.display = 'none';
-                    
-                    // Show progress
-                    await simulateProgress('videoProgressBar', 'videoTimeRemaining', 6000);
-                    
-                    const file = videoUpload.files[0];
-                    const format = document.getElementById('videoFormat').value;
-                    
-                    // For demo purposes, we'll use the original file
-                    downloadVideoBtn.href = URL.createObjectURL(file);
-                    downloadVideoBtn.download = `converted.${format}`;
-                    videoPlayer.src = downloadVideoBtn.href;
-                    videoPreview.style.display = 'block';
-                    
-                    videoSuccess.textContent = 'Video converted successfully!';
-                    videoSuccess.style.display = 'block';
-                } catch (error) {
-                    videoError.textContent = `Conversion failed: ${error.message || 'Unknown error'}`;
-                    videoError.style.display = 'block';
-                } finally {
-                    videoProgressContainer.style.display = 'none';
-                }
-            });
-            
-            // Handle file upload
-            videoUpload.addEventListener('change', () => {
-                videoFileList.innerHTML = '';
-                
-                for (let i = 0; i < videoUpload.files.length; i++) {
-                    const fileItem = document.createElement('div');
-                    fileItem.className = 'file-item';
-                    fileItem.innerHTML = `
-                        <div class="file-info">
-                            <i class="fas fa-file-video file-icon"></i>
-                            <div class="file-details">
-                                <div class="file-name">${videoUpload.files[i].name}</div>
-                                <div class="file-size">${formatFileSize(videoUpload.files[i].size)}</div>
-                            </div>
-                        </div>
-                        <div class="file-remove" data-index="${i}">
-                            <i class="fas fa-times"></i>
-                        </div>
-                    `;
-                    videoFileList.appendChild(fileItem);
-                    
-                    // Add remove functionality
-                    fileItem.querySelector('.file-remove').addEventListener('click', function() {
-                        const index = parseInt(this.getAttribute('data-index'));
-                        const newFiles = Array.from(videoUpload.files);
-                        newFiles.splice(index, 1);
-                        
-                        // Create new FileList
-                        const dataTransfer = new DataTransfer();
-                        newFiles.forEach(file => dataTransfer.items.add(file));
-                        videoUpload.files = dataTransfer.files;
-                        
-                        // Trigger change event to update UI
-                        const event = new Event('change');
-                        videoUpload.dispatchEvent(event);
-                    });
-                }
-            });
-        }
-        
-        // Archive Tools Functions
-        function initArchiveTools() {
-            const archiveUpload = document.getElementById('archiveFileUpload');
-            const archiveFileList = document.getElementById('archiveFileList');
-            const compressBtn = document.getElementById('compressBtn');
-            const downloadArchiveBtn = document.getElementById('downloadArchiveBtn');
-            const archivePreview = document.getElementById('archivePreview');
-            const archiveNameInput = document.getElementById('archiveName');
-            const archiveProgressContainer = document.getElementById('archiveProgressContainer');
-            const archiveProgressBar = document.getElementById('archiveProgressBar');
-            const archiveTimeRemaining = document.getElementById('archiveTimeRemaining');
-            const archiveError = document.getElementById('archiveError');
-            const archiveSuccess = document.getElementById('archiveSuccess');
-            
-            // Compress files
-            compressBtn.addEventListener('click', async () => {
-                if (!archiveUpload.files.length) return;
-                
-                try {
-                    archiveProgressContainer.style.display = 'block';
-                    archiveError.style.display = 'none';
-                    
-                    // Show progress
-                    await simulateProgress('archiveProgressBar', 'archiveTimeRemaining', 3000);
-                    
-                    const zip = new JSZip();
-                    
-                    for (let i = 0; i < archiveUpload.files.length; i++) {
-                        const file = archiveUpload.files[i];
-                        zip.file(file.name, file);
-                    }
-                    
-                    const zipBlob = await zip.generateAsync({type: 'blob'});
-                    downloadArchiveBtn.href = URL.createObjectURL(zipBlob);
-                    downloadArchiveBtn.download = `${archiveNameInput.value || 'archive'}.zip`;
-                    archivePreview.style.display = 'block';
-                    
-                    archiveSuccess.textContent = 'Files compressed successfully!';
-                    archiveSuccess.style.display = 'block';
-                } catch (error) {
-                    archiveError.textContent = `Compression failed: ${error.message || 'Unknown error'}`;
-                    archiveError.style.display = 'block';
-                } finally {
-                    archiveProgressContainer.style.display = 'none';
-                }
-            });
-            
-            // Handle file upload
-            archiveUpload.addEventListener('change', () => {
-                archiveFileList.innerHTML = '';
-                
-                for (let i = 0; i < archiveUpload.files.length; i++) {
-                    const fileItem = document.createElement('div');
-                    fileItem.className = 'file-item';
-                    fileItem.innerHTML = `
-                        <div class="file-info">
-                            <i class="fas fa-file file-icon"></i>
-                            <div class="file-details">
-                                <div class="file-name">${archiveUpload.files[i].name}</div>
-                                <div class="file-size">${formatFileSize(archiveUpload.files[i].size)}</div>
-                            </div>
-                        </div>
-                        <div class="file-remove" data-index="${i}">
-                            <i class="fas fa-times"></i>
-                        </div>
-                    `;
-                    archiveFileList.appendChild(fileItem);
-                    
-                    // Add remove functionality
-                    fileItem.querySelector('.file-remove').addEventListener('click', function() {
-                        const index = parseInt(this.getAttribute('data-index'));
-                        const newFiles = Array.from(archiveUpload.files);
-                        newFiles.splice(index, 1);
-                        
-                        // Create new FileList
-                        const dataTransfer = new DataTransfer();
-                        newFiles.forEach(file => dataTransfer.items.add(file));
-                        archiveUpload.files = dataTransfer.files;
-                        
-                        // Trigger change event to update UI
-                        const event = new Event('change');
-                        archiveUpload.dispatchEvent(event);
-                    });
-                }
-            });
-        }
-        
-        // Format file size
-        function formatFileSize(bytes) {
-            if (bytes === 0) return '0 Bytes';
-            const k = 1024;
-            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-            const i = Math.floor(Math.log(bytes) / Math.log(k));
-            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-        }
-
         // Initialize everything when DOM is loaded
         document.addEventListener('DOMContentLoaded', () => {
             initMobileMenu();
             initImageConverter();
             initDocumentConverter();
-            initAudioConverter();
-            initVideoConverter();
-            initArchiveTools();
             
             // Tab Switching
             document.querySelectorAll('.tab').forEach(tab => {
@@ -2671,7 +2667,8 @@
                     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
                     document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
                     tab.classList.add('active');
-                    document.getElementById(`${tab.dataset.tab}-tab`).classList.add('active');
+                    const contentId = `${tab.dataset.tab}-tab`;
+                    document.getElementById(contentId).classList.add('active');
                 });
             });
             
@@ -2702,6 +2699,9 @@
                     }
                 });
             });
+            
+            // Set PDF.js worker
+            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
         });
     </script>
 </body>
