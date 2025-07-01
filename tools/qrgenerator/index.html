@@ -28,6 +28,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
   
   <style>
     :root {
@@ -1873,26 +1874,22 @@
             <input type="radio" name="bulk-type" value="range">
             <i class="fas fa-sort-numeric-up"></i> Number Range
           </label>
+          <label>
+            <input type="radio" name="bulk-type" value="csv">
+            <i class="fas fa-file-csv"></i> CSV Upload
+          </label>
         </div>
         
         <!-- List Input Fields -->
-        <div id="bulk-list-fields">
+        <div id="bulk-list-fields" class="bulk-format-content" style="display: block;">
           <label for="bulk-input">Enter URLs or text (one per line):</label>
           <textarea id="bulk-input" rows="5" placeholder="https://example.com/page1
 https://example.com/page2
 Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
-
-          <div class="file-upload-container">
-            <label for="bulk-file-upload" class="file-upload-label">
-              <i class="fas fa-cloud-upload-alt"></i>
-              <p>Upload a CSV file with URLs or text<br>(one per row)</p>
-            </label>
-            <input type="file" id="bulk-file-upload" class="file-upload-input" accept=".csv" aria-label="Upload CSV file for bulk QR codes">
-          </div>
         </div>
         
-        <!-- Range Input Fields -->
-        <div id="bulk-range-fields" style="display: none;">
+        <!-- Number Range Input Fields -->
+        <div id="bulk-range-fields" class="bulk-format-content" style="display: none;">
           <div class="range-controls">
             <div>
               <label for="range-start">Start Number:</label>
@@ -1912,13 +1909,22 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
             </div>
           </div>
         </div>
+        
+        <!-- CSV Upload Format -->
+        <div id="bulk-csv-fields" class="bulk-format-content" style="display: none;">
+          <div class="file-upload-container">
+            <label for="bulk-file-upload" class="file-upload-label">
+              <i class="fas fa-cloud-upload-alt"></i>
+              <p>Upload a CSV file with URLs or text<br>(one per row)</p>
+            </label>
+            <input type="file" id="bulk-file-upload" class="file-upload-input" accept=".csv" aria-label="Upload CSV file for bulk QR codes">
+          </div>
+        </div>
 
         <label for="bulk-filename">File Name Prefix:</label>
         <input type="text" id="bulk-filename" value="qr-codes" aria-label="Enter file name prefix for bulk QR codes">
 
         <!-- Bulk QR design options -->
-        <h3 style="margin-top: 30px;">Design Options for All Codes</h3>
-        
         <div class="logo-options-container">
           <div class="logo-options-header">
             <i class="fas fa-image"></i>
@@ -2116,33 +2122,6 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
     const COOKIE_CONSENT_KEY = 'cookieConsent';
     const PREFERENCES_KEY = 'qrPreferences';
 
-    // Shared Cookie Functions
-    function getCookiePreferences() {
-      const preferences = localStorage.getItem(COOKIE_CONSENT_KEY);
-      return preferences ? JSON.parse(preferences) : { essential: true, analytics: false, advertising: false };
-    }
-
-    function saveCookiePreferences(preferences) {
-      try {
-        localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(preferences));
-      } catch (e) {
-        console.warn('Failed to save cookie preferences:', e);
-      }
-    }
-
-    function checkCookieConsent() {
-      const preferences = getCookiePreferences();
-      if (!preferences || !preferences.hasOwnProperty('essential')) {
-        const consent = document.getElementById('cookie-consent');
-        if (consent) consent.style.display = 'block';
-      } else {
-        const analyticsToggle = document.getElementById('analytics-toggle');
-        const advertisingToggle = document.getElementById('advertising-toggle');
-        if (analyticsToggle) analyticsToggle.checked = preferences.analytics;
-        if (advertisingToggle) advertisingToggle.checked = preferences.advertising;
-      }
-    }
-
     // DOM Elements
     const qrType = document.getElementById('qr-type');
     const qrInput = document.getElementById('qr-input');
@@ -2202,6 +2181,7 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
     const bulkInputType = document.getElementById('bulk-input-type');
     const bulkListFields = document.getElementById('bulk-list-fields');
     const bulkRangeFields = document.getElementById('bulk-range-fields');
+    const bulkCsvFields = document.getElementById('bulk-csv-fields');
     const rangeStart = document.getElementById('range-start');
     const rangeEnd = document.getElementById('range-end');
     const rangePrefix = document.getElementById('range-prefix');
@@ -2241,7 +2221,27 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
       updateBulkBorderPreview();
       setupEventListeners();
       toggleQRTypeFields();
+      initBulkInputType();
     });
+
+    function initBulkInputType() {
+      const bulkTypeRadios = document.querySelectorAll('input[name="bulk-type"]');
+      bulkTypeRadios.forEach(radio => {
+        radio.addEventListener('change', () => {
+          bulkListFields.style.display = 'none';
+          bulkRangeFields.style.display = 'none';
+          bulkCsvFields.style.display = 'none';
+          
+          if (radio.value === 'list') {
+            bulkListFields.style.display = 'block';
+          } else if (radio.value === 'range') {
+            bulkRangeFields.style.display = 'block';
+          } else if (radio.value === 'csv') {
+            bulkCsvFields.style.display = 'block';
+          }
+        });
+      });
+    }
 
     function initCookieConsent() {
       function openCookieSettings() {
@@ -2679,126 +2679,291 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
       return str.replace(/[^a-zA-Z0-9-]+$/g, '_').slice(0, 50);
     }
 
-    function generateQRContent() {
-      const type = qrType.value;
-      switch (type) {
+    // New modular functions
+    function getQRContent(type) {
+      switch(type) {
+        case 'url':
+          const url = qrInput.value.trim();
+          if (!url) throw new Error('URL is required');
+          if (!url.startsWith('http://') && !url.startsWith('https://')) {
+            return 'http://' + url;
+          }
+          return url;
+          
         case 'vcard':
           const name = vcardName.value.trim();
           const phone = vcardPhone.value.trim();
           const email = vcardEmail.value.trim();
-          if (!name || !phone || !email) {
-            showError(qrError, 'Please fill in all vCard fields');
-            return null;
-          }
+          
+          if (!name || !phone || !email) throw new Error('All vCard fields are required');
+          if (!isValidEmail(email)) throw new Error('Invalid email format');
+          
           return `BEGIN:VCARD\nVERSION:3.0\nFN:${name}\nTEL:${phone}\nEMAIL:${email}\nEND:VCARD`;
+          
         case 'wifi':
           const ssid = wifiSsid.value.trim();
           const password = wifiPassword.value.trim();
           const encryption = wifiType.value;
-          if (!ssid) {
-            showError(qrError, 'Please enter Wi-Fi SSID');
-            return null;
-          }
+          
+          if (!ssid) throw new Error('Network name is required');
+          if (encryption !== 'nopass' && !password) throw new Error('Password is required');
+          
           return `WIFI:S:${ssid};T:${encryption};P:${password};;`;
-        case 'sms':
-          const smsNum = smsPhone.value.trim();
-          const message = smsMessage.value.trim();
-          if (!smsNum || !message) {
-            showError(qrError, 'Please fill in all SMS fields');
-            return null;
-          }
-          return `SMSTO:${smsNum}:${message}`;
+          
         case 'email':
           const emailAddr = emailAddress.value.trim();
           const subject = emailSubject.value.trim();
           const body = emailBody.value.trim();
-          if (!emailAddr) {
-            showError(qrError, 'Please enter recipient email');
-            return null;
-          }
+          
+          if (!emailAddr) throw new Error('Email address is required');
+          if (!isValidEmail(emailAddr)) throw new Error('Invalid email format');
+          
           return `mailto:${emailAddr}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+          
         default:
           const input = qrInput.value.trim();
-          if (!input) {
-            showError(qrError, 'Please enter some content for the QR code');
-            return null;
-          }
+          if (!input) throw new Error('Content is required');
           return input;
       }
     }
 
-    function generateQR() {
-      const input = generateQRContent();
-      if (!input) return;
+    function createQRCanvas(content, options) {
+      return new Promise((resolve) => {
+        const tempDiv = document.createElement('div');
+        tempDiv.style.position = 'absolute';
+        tempDiv.style.left = '-9999px';
+        document.body.appendChild(tempDiv);
+        
+        new QRCode(tempDiv, {
+          text: content,
+          width: options.size,
+          height: options.size,
+          colorDark: options.fgColor,
+          colorLight: options.bgColor,
+          correctLevel: QRCode.CorrectLevel.H
+        });
+        
+        const canvas = tempDiv.querySelector('canvas');
+        
+        setTimeout(() => {
+          document.body.removeChild(tempDiv);
+          resolve(canvas);
+        }, 100);
+      });
+    }
 
-      qrLoading.style.display = 'block';
-      qrError.style.display = 'none';
-      qrSuccess.style.display = 'none';
-      downloadBtn.style.display = 'none';
-      qrCanvas.style.display = 'none';
+    function addLogoToQR(qrCanvas, logo, borderSize, borderColor) {
+      return new Promise((resolve) => {
+        if (!logo || !borderSize) {
+          resolve(qrCanvas);
+          return;
+        }
+        
+        const logoSize = qrCanvas.width * 0.2;
+        const ctx = qrCanvas.getContext('2d');
+        
+        // Draw border
+        ctx.fillStyle = borderColor;
+        const centerX = qrCanvas.width / 2;
+        const centerY = qrCanvas.height / 2;
+        const borderWidth = logoSize + borderSize * 2;
+        
+        ctx.fillRect(
+          centerX - borderWidth/2,
+          centerY - borderWidth/2,
+          borderWidth,
+          borderWidth
+        );
+        
+        // Draw logo
+        ctx.drawImage(
+          logo,
+          (qrCanvas.width - logoSize) / 2,
+          (qrCanvas.height - logoSize) / 2,
+          logoSize,
+          logoSize
+        );
+        
+        resolve(qrCanvas);
+      });
+    }
 
-      setTimeout(() => {
+    // Updated generateQR function
+    async function generateQR() {
+      try {
+        const type = qrType.value;
+        const content = getQRContent(type);
+        
+        const qrOptions = {
+          size: parseInt(sizeSlider.value),
+          fgColor: fgColor.value,
+          bgColor: transparentBg.checked ? '#00000000' : bgColor.value
+        };
+        
+        qrLoading.style.display = 'block';
+        qrError.style.display = 'none';
+        
+        // Create QR canvas
+        const qrCanvas = await createQRCanvas(content, qrOptions);
+        
+        // Add logo and border
+        const finalCanvas = await addLogoToQR(
+          qrCanvas, 
+          logoImage, 
+          parseInt(borderSize.value), 
+          borderColor.value
+        );
+        
+        // Display results
+        qrCanvas.width = finalCanvas.width;
+        qrCanvas.height = finalCanvas.height;
+        const ctx = qrCanvas.getContext('2d');
+        ctx.drawImage(finalCanvas, 0, 0);
+        
+        generatedQR = { data: qrCanvas.toDataURL('image/png'), content };
+        
+        qrLoading.style.display = 'none';
+        qrSuccess.style.display = 'block';
+        qrSuccess.textContent = 'QR Code generated successfully!';
+        downloadBtn.style.display = 'block';
+        qrCanvas.style.display = 'block';
+      } catch (error) {
+        qrLoading.style.display = 'none';
+        showError(qrError, error.message);
+      }
+    }
+
+    // Updated bulk generation
+    async function generateBulkQR() {
+      try {
+        let inputs = [];
+        const bulkType = document.querySelector('input[name="bulk-type"]:checked').value;
+        
+        if (bulkType === 'list') {
+          inputs = bulkInput.value.trim().split('\n').filter(line => line.trim() !== '');
+        } 
+        else if (bulkType === 'range') {
+          const start = parseInt(rangeStart.value);
+          const end = parseInt(rangeEnd.value);
+          const prefix = rangePrefix.value.trim();
+          const suffix = rangeSuffix.value.trim();
+          
+          if (isNaN(start) || isNaN(end) || start > end) {
+            throw new Error('Please enter valid start and end numbers');
+          }
+          
+          if (end - start > 1000) {
+            throw new Error('Range is too large (max 1000 items)');
+          }
+          
+          for (let i = start; i <= end; i++) {
+            inputs.push(`${prefix}${i}${suffix}`);
+          }
+        }
+        else if (bulkType === 'csv') {
+          const fileInput = document.getElementById('bulk-file-upload');
+          if (!fileInput.files.length) throw new Error('Please select a CSV file');
+          
+          const file = fileInput.files[0];
+          const text = await new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = () => reject(reader.error);
+            reader.readAsText(file);
+          });
+          
+          const results = Papa.parse(text, { header: true });
+          if (results.errors.length) throw new Error('Error parsing CSV file');
+          
+          inputs = results.data.map(row => {
+            // Get the first non-empty value in the row
+            return Object.values(row).find(val => val && val.trim() !== '') || '';
+          }).filter(val => val.trim() !== '');
+        }
+
+        if (inputs.length === 0) throw new Error('Please enter at least one item');
+        if (inputs.length > 1000) throw new Error('For performance, limit to 1000 items at a time');
+
+        bulkQRs = [];
+        bulkSuccess.style.display = 'none';
+        bulkError.style.display = 'none';
+        bulkLoading.style.display = 'block';
+
+        // Process in batches
+        const batchSize = 5;
+        for (let i = 0; i < inputs.length; i += batchSize) {
+          const batch = inputs.slice(i, i + batchSize);
+          await processBatch(batch, i, inputs.length);
+        }
+
+        createBulkZip();
+      } catch (error) {
+        bulkLoading.style.display = 'none';
+        showError(bulkError, error.message);
+      }
+    }
+
+    async function processBatch(batch, startIndex, total) {
+      for (let j = 0; j < batch.length; j++) {
+        const index = startIndex + j;
+        const input = batch[j];
+        bulkProgress.textContent = `Generating QR codes: ${index + 1}/${total}`;
+        
         try {
-          const size = parseInt(sizeSlider.value);
-          qrCanvas.width = size;
-          qrCanvas.height = size;
-
-          const ctx = qrCanvas.getContext('2d');
-          ctx.clearRect(0, 0, size, size);
-
-          // Handle transparent background
-          const bgColorValue = transparentBg.checked ? '#00000000' : bgColor.value;
-
-          QRCode.toCanvas(qrCanvas, input, {
-            width: size,
-            margin: 1,
-            color: {
-              dark: fgColor.value,
-              light: bgColorValue
-            }
-          }, function(error) {
-            if (error) {
-              showError(qrError, 'Error generating QR code: ' + error.message);
-              qrLoading.style.display = 'none';
-              return;
-            }
-
-            if (logoImage) {
-              const logoSize = size / 4;
-              const logoX = (size - logoSize) / 2;
-              const logoY = (size - logoSize) / 2;
-              
-              // Draw border if border size > 0
-              const borderSizeVal = parseInt(borderSize.value);
-              const borderColorVal = borderColor.value;
-              
-              if (borderSizeVal > 0) {
-                ctx.fillStyle = borderColorVal;
-                ctx.fillRect(
-                  logoX - borderSizeVal, 
-                  logoY - borderSizeVal, 
-                  logoSize + borderSizeVal * 2, 
-                  logoSize + borderSizeVal * 2
-                );
-              }
-              
-              // Draw logo
-              ctx.drawImage(logoImage, logoX, logoY, logoSize, logoSize);
-            }
-
-            generatedQR = { data: qrCanvas.toDataURL('image/png'), content: input };
-
-            qrLoading.style.display = 'none';
-            qrSuccess.style.display = 'block';
-            qrSuccess.textContent = 'QR Code generated successfully!';
-            downloadBtn.style.display = 'block';
-            qrCanvas.style.display = 'block';
+          const qrOptions = {
+            size: parseInt(bulkSizeSlider.value),
+            fgColor: bulkFgColor.value,
+            bgColor: bulkTransparentBg.checked ? '#00000000' : bulkBgColor.value
+          };
+          
+          // Create QR canvas
+          const qrCanvas = await createQRCanvas(input, qrOptions);
+          
+          // Add logo and border
+          const finalCanvas = await addLogoToQR(
+            qrCanvas, 
+            bulkLogoImage, 
+            parseInt(bulkBorderSize.value), 
+            bulkBorderColor.value
+          );
+          
+          bulkQRs.push({
+            content: input,
+            dataURL: finalCanvas.toDataURL('image/png')
           });
         } catch (error) {
-          showError(qrError, 'Error: ' + error.message);
-          qrLoading.style.display = 'none';
+          console.error('Error generating QR code for: ' + input, error);
         }
-      }, 300);
+      }
+    }
+
+    function createBulkZip() {
+      try {
+        const zip = new JSZip();
+        const prefix = bulkFilename.value.trim() || 'qr-code';
+
+        bulkQRs.forEach((item, index) => {
+          const filename = `${sanitizeFilename(item.content)}.png`;
+          const data = item.dataURL.split(',')[1];
+          zip.file(filename, data, { base64: true });
+        });
+
+        zip.generateAsync({ type: 'blob' }).then(content => {
+          saveAs(content, `${prefix}.zip`);
+          bulkLoading.style.display = 'none';
+          bulkSuccess.style.display = 'block';
+          bulkSuccess.textContent = `Successfully generated and downloaded ${bulkQRs.length} QR codes!`;
+        });
+      } catch (error) {
+        showError(bulkError, 'Error creating ZIP file: ' + error.message);
+        bulkLoading.style.display = 'none';
+      }
+    }
+
+    // Email validation function
+    function isValidEmail(email) {
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return re.test(email);
     }
 
     function downloadQR() {
@@ -2932,145 +3097,6 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
       reader.readAsText(file);
     }
 
-    function generateBulkQR() {
-      let inputs = [];
-      const bulkType = document.querySelector('input[name="bulk-type"]:checked').value;
-      
-      if (bulkType === 'list') {
-        inputs = bulkInput.value.trim().split('\n').filter(line => line.trim() !== '');
-      } else {
-        // Range generation
-        const start = parseInt(rangeStart.value);
-        const end = parseInt(rangeEnd.value);
-        const prefix = rangePrefix.value.trim();
-        const suffix = rangeSuffix.value.trim();
-        
-        if (isNaN(start) || isNaN(end) || start > end) {
-          showError(bulkError, 'Please enter valid start and end numbers');
-          return;
-        }
-        
-        if (end - start > 1000) {
-          showError(bulkError, 'Range is too large (max 1000 items)');
-          return;
-        }
-        
-        for (let i = start; i <= end; i++) {
-          inputs.push(`${prefix}${i}${suffix}`);
-        }
-      }
-
-      if (inputs.length === 0) {
-        showError(bulkError, 'Please enter at least one item');
-        return;
-      }
-
-      if (inputs.length > 1000) {
-        showError(bulkError, 'For performance reasons, please limit to 1000 items at a time');
-        return;
-      }
-
-      bulkQRs = [];
-      bulkSuccess.style.display = 'none';
-      bulkError.style.display = 'none';
-      bulkLoading.style.display = 'block';
-
-      processBulkBatch(inputs, 0, inputs.length);
-    }
-
-    function processBulkBatch(inputs, index, total) {
-      if (index >= inputs.length) {
-        bulkProgress.textContent = 'Creating ZIP file...';
-        createBulkZip();
-        return;
-      }
-
-      bulkProgress.textContent = `Generating QR codes: ${index + 1}/${total}`;
-
-      const input = inputs[index];
-      const canvas = document.createElement('canvas');
-      const size = parseInt(bulkSizeSlider.value);
-      canvas.width = size;
-      canvas.height = size;
-
-      try {
-        // Handle transparent background for bulk
-        const bgColorValue = bulkTransparentBg.checked ? '#00000000' : bulkBgColor.value;
-        
-        QRCode.toCanvas(canvas, input, {
-          width: size,
-          margin: 1,
-          color: {
-            dark: bulkFgColor.value,
-            light: bgColorValue
-          }
-        }, function(error) {
-          if (error) {
-            console.error('Error generating QR code for: ' + input, error);
-          } else {
-            const ctx = canvas.getContext('2d');
-            
-            // Add logo and border if logo is uploaded
-            if (bulkLogoImage) {
-              const logoSize = size / 4;
-              const logoX = (size - logoSize) / 2;
-              const logoY = (size - logoSize) / 2;
-              
-              // Draw border if border size > 0
-              const borderSizeVal = parseInt(bulkBorderSize.value);
-              const borderColorVal = bulkBorderColor.value;
-              
-              if (borderSizeVal > 0) {
-                ctx.fillStyle = borderColorVal;
-                ctx.fillRect(
-                  logoX - borderSizeVal, 
-                  logoY - borderSizeVal, 
-                  logoSize + borderSizeVal * 2, 
-                  logoSize + borderSizeVal * 2
-                );
-              }
-              
-              // Draw logo
-              ctx.drawImage(bulkLogoImage, logoX, logoY, logoSize, logoSize);
-            }
-            
-            bulkQRs.push({
-              content: input,
-              dataURL: canvas.toDataURL('image/png')
-            });
-          }
-
-          setTimeout(() => processBulkBatch(inputs, index + 1, total), 50);
-        });
-      } catch (error) {
-        console.error('Error generating QR code for: ' + input, error);
-        setTimeout(() => processBulkBatch(inputs, index + 1, total), 50);
-      }
-    }
-
-    function createBulkZip() {
-      try {
-        const zip = new JSZip();
-        const prefix = bulkFilename.value.trim() || 'qr-code';
-
-        bulkQRs.forEach((item, index) => {
-          const filename = `${sanitizeFilename(item.content)}.png`;
-          const data = item.dataURL.split(',')[1];
-          zip.file(filename, data, { base64: true });
-        });
-
-        zip.generateAsync({ type: 'blob' }).then(content => {
-          saveAs(content, `${prefix}.zip`);
-          bulkLoading.style.display = 'none';
-          bulkSuccess.style.display = 'block';
-          bulkSuccess.textContent = `Successfully generated and downloaded ${bulkQRs.length} QR codes!`;
-        });
-      } catch (error) {
-        showError(bulkError, 'Error creating ZIP file: ' + error.message);
-        bulkLoading.style.display = 'none';
-      }
-    }
-
     function showError(element, message) {
       element.textContent = message;
       element.style.display = 'block';
@@ -3100,6 +3126,33 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
         updateBorderSizeValue();
         updateBorderPreview();
         updateBulkBorderPreview();
+      }
+    }
+    
+    // Cookie functions
+    function getCookiePreferences() {
+      const preferences = localStorage.getItem(COOKIE_CONSENT_KEY);
+      return preferences ? JSON.parse(preferences) : { essential: true, analytics: false, advertising: false };
+    }
+
+    function saveCookiePreferences(preferences) {
+      try {
+        localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(preferences));
+      } catch (e) {
+        console.warn('Failed to save cookie preferences:', e);
+      }
+    }
+
+    function checkCookieConsent() {
+      const preferences = getCookiePreferences();
+      if (!preferences || !preferences.hasOwnProperty('essential')) {
+        const consent = document.getElementById('cookie-consent');
+        if (consent) consent.style.display = 'block';
+      } else {
+        const analyticsToggle = document.getElementById('analytics-toggle');
+        const advertisingToggle = document.getElementById('advertising-toggle');
+        if (analyticsToggle) analyticsToggle.checked = preferences.analytics;
+        if (advertisingToggle) advertisingToggle.checked = preferences.advertising;
       }
     }
   </script>
