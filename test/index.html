@@ -1116,14 +1116,6 @@
       height: 100%;
       top: 0;
     }
-    
-    .logo-warning {
-      color: #eab308;
-      font-size: 0.85rem;
-      text-align: center;
-      margin-top: 5px;
-      font-weight: 500;
-    }
 
     /* Responsive Design */
     @media (max-width: 992px) {
@@ -1498,8 +1490,8 @@
                 <div class="border-control">
                   <label for="logo-size">Logo Size:</label>
                   <div class="size-controls">
-                    <input type="range" id="logo-size" class="size-slider" min="10" max="30" value="20" step="1" aria-label="Adjust logo size">
-                    <div class="size-value" id="logo-size-value">20%</div>
+                    <input type="range" id="logo-size" class="size-slider" min="5" max="25" value="15" step="1" aria-label="Adjust logo size">
+                    <div class="size-value" id="logo-size-value">15%</div>
                   </div>
                 </div>
               </div>
@@ -1658,8 +1650,8 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
                 <div class="border-control">
                   <label for="bulk-logo-size">Logo Size:</label>
                   <div class="size-controls">
-                    <input type="range" id="bulk-logo-size" class="size-slider" min="10" max="30" value="20" step="1" aria-label="Adjust logo size for bulk">
-                    <div class="size-value" id="bulk-logo-size-value">20%</div>
+                    <input type="range" id="bulk-logo-size" class="size-slider" min="5" max="25" value="15" step="1" aria-label="Adjust logo size for bulk">
+                    <div class="size-value" id="bulk-logo-size-value">15%</div>
                   </div>
                 </div>
               </div>
@@ -1920,8 +1912,6 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
       setupEventListeners();
       toggleQRTypeFields();
       initBulkInputType();
-      updateLogoWarning();
-      updateBulkLogoWarning();
     });
 
     function initBulkInputType() {
@@ -2035,15 +2025,9 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
       
       if (borderColor) borderColor.addEventListener('input', updateBorderPreview);
       
-      if (logoSize) logoSize.addEventListener('input', () => {
-        updateLogoSizeValue();
-        updateLogoWarning();
-      });
+      if (logoSize) logoSize.addEventListener('input', updateLogoSizeValue);
       
-      if (bulkLogoSize) bulkLogoSize.addEventListener('input', () => {
-        updateBulkLogoSizeValue();
-        updateBulkLogoWarning();
-      });
+      if (bulkLogoSize) bulkLogoSize.addEventListener('input', updateBulkLogoSizeValue);
       
       if (bulkSizeSlider) bulkSizeSlider.addEventListener('input', () => {
         bulkSizeValue.textContent = `${bulkSizeSlider.value}px`;
@@ -2181,40 +2165,6 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
     function updateBulkLogoSizeValue() {
       if (bulkLogoSizeValue && bulkLogoSize) {
         bulkLogoSizeValue.textContent = `${bulkLogoSize.value}%`;
-      }
-    }
-    
-    function updateLogoWarning() {
-      const warning = document.getElementById('logo-warning');
-      if (!warning) {
-        const warningElem = document.createElement('div');
-        warningElem.className = 'logo-warning';
-        warningElem.id = 'logo-warning';
-        warningElem.innerHTML = '<i class="fas fa-exclamation-triangle"></i> For best scannability, keep logo size under 25%';
-        logoSize.parentNode.appendChild(warningElem);
-      }
-      
-      if (parseInt(logoSize.value) > 25) {
-        document.getElementById('logo-warning').style.display = 'block';
-      } else {
-        document.getElementById('logo-warning').style.display = 'none';
-      }
-    }
-    
-    function updateBulkLogoWarning() {
-      const warning = document.getElementById('bulk-logo-warning');
-      if (!warning) {
-        const warningElem = document.createElement('div');
-        warningElem.className = 'logo-warning';
-        warningElem.id = 'bulk-logo-warning';
-        warningElem.innerHTML = '<i class="fas fa-exclamation-triangle"></i> For best scannability, keep logo size under 25%';
-        bulkLogoSize.parentNode.appendChild(warningElem);
-      }
-      
-      if (parseInt(bulkLogoSize.value) > 25) {
-        document.getElementById('bulk-logo-warning').style.display = 'block';
-      } else {
-        document.getElementById('bulk-logo-warning').style.display = 'none';
       }
     }
 
@@ -2398,7 +2348,7 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
         
         try {
           // Ensure logo doesn't break QR code scannability
-          const maxSafeSize = qrCanvas.width * 0.3; // Max 30% of QR size
+          const maxSafeSize = qrCanvas.width * 0.25; // Max 25% of QR size
           const actualLogoSize = Math.min(
             qrCanvas.width * (logoSizePercent / 100), 
             maxSafeSize
@@ -2873,7 +2823,7 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
           if (borderColor) borderColor.value = preferences.borderColor || '#FFFFFF';
           
           if (logoSize) {
-            logoSize.value = preferences.logoSize || '20';
+            logoSize.value = preferences.logoSize || '15';
           }
         } catch (e) {
           console.error('Failed to parse QR preferences:', e);
