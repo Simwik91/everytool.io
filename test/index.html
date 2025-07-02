@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>QR Code Generator - EveryTool.io</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
@@ -2728,27 +2728,32 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
     }
 
     function createQRCanvas(content, options) {
-      return new Promise((resolve) => {
-        const tempDiv = document.createElement('div');
-        tempDiv.style.position = 'absolute';
-        tempDiv.style.left = '-9999px';
-        document.body.appendChild(tempDiv);
-        
-        new QRCode(tempDiv, {
-          text: content,
-          width: options.size,
-          height: options.size,
-          colorDark: options.fgColor,
-          colorLight: options.bgColor,
-          correctLevel: QRCode.CorrectLevel.H
-        });
-        
-        const canvas = tempDiv.querySelector('canvas');
-        
-        setTimeout(() => {
-          document.body.removeChild(tempDiv);
-          resolve(canvas);
-        }, 100);
+      return new Promise((resolve, reject) => {
+        try {
+          const tempDiv = document.createElement('div');
+          tempDiv.style.position = 'absolute';
+          tempDiv.style.left = '-9999px';
+          document.body.appendChild(tempDiv);
+          
+          // FIX: Use the numeric value for high error correction (2)
+          new QRCode(tempDiv, {
+            text: content,
+            width: options.size,
+            height: options.size,
+            colorDark: options.fgColor,
+            colorLight: options.bgColor,
+            correctLevel: 2 // High error correction
+          });
+          
+          const canvas = tempDiv.querySelector('canvas');
+          
+          setTimeout(() => {
+            document.body.removeChild(tempDiv);
+            resolve(canvas);
+          }, 100);
+        } catch (error) {
+          reject(error);
+        }
       });
     }
 
@@ -2759,32 +2764,37 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
           return;
         }
         
-        const logoSize = qrCanvas.width * 0.2;
-        const ctx = qrCanvas.getContext('2d');
-        
-        // Draw border
-        ctx.fillStyle = borderColor;
-        const centerX = qrCanvas.width / 2;
-        const centerY = qrCanvas.height / 2;
-        const borderWidth = logoSize + borderSize * 2;
-        
-        ctx.fillRect(
-          centerX - borderWidth/2,
-          centerY - borderWidth/2,
-          borderWidth,
-          borderWidth
-        );
-        
-        // Draw logo
-        ctx.drawImage(
-          logo,
-          (qrCanvas.width - logoSize) / 2,
-          (qrCanvas.height - logoSize) / 2,
-          logoSize,
-          logoSize
-        );
-        
-        resolve(qrCanvas);
+        try {
+          const logoSize = qrCanvas.width * 0.2;
+          const ctx = qrCanvas.getContext('2d');
+          
+          // Draw border
+          ctx.fillStyle = borderColor;
+          const centerX = qrCanvas.width / 2;
+          const centerY = qrCanvas.height / 2;
+          const borderWidth = logoSize + borderSize * 2;
+          
+          ctx.fillRect(
+            centerX - borderWidth/2,
+            centerY - borderWidth/2,
+            borderWidth,
+            borderWidth
+          );
+          
+          // Draw logo
+          ctx.drawImage(
+            logo,
+            (qrCanvas.width - logoSize) / 2,
+            (qrCanvas.height - logoSize) / 2,
+            logoSize,
+            logoSize
+          );
+          
+          resolve(qrCanvas);
+        } catch (error) {
+          console.error('Error adding logo to QR:', error);
+          resolve(qrCanvas); // Resolve without logo if error occurs
+        }
       });
     }
 
@@ -2802,6 +2812,7 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
         
         qrLoading.style.display = 'block';
         qrError.style.display = 'none';
+        qrSuccess.style.display = 'none';
         
         // Create QR canvas
         const qrCanvas = await createQRCanvas(content, qrOptions);
@@ -2829,7 +2840,8 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
         qrCanvas.style.display = 'block';
       } catch (error) {
         qrLoading.style.display = 'none';
-        showError(qrError, error.message);
+        showError(qrError, error.message || 'Error generating QR code');
+        console.error('QR generation error:', error);
       }
     }
 
@@ -2899,7 +2911,8 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
         createBulkZip();
       } catch (error) {
         bulkLoading.style.display = 'none';
-        showError(bulkError, error.message);
+        showError(bulkError, error.message || 'Error generating bulk QR codes');
+        console.error('Bulk QR error:', error);
       }
     }
 
@@ -2933,6 +2946,12 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
           });
         } catch (error) {
           console.error('Error generating QR code for: ' + input, error);
+          // Add placeholder for failed generation
+          bulkQRs.push({
+            content: input,
+            error: true,
+            message: error.message || 'Failed to generate QR code'
+          });
         }
       }
     }
@@ -2940,23 +2959,36 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
     function createBulkZip() {
       try {
         const zip = new JSZip();
-        const prefix = bulkFilename.value.trim() || 'qr-code';
+        const prefix = bulkFilename.value.trim() || 'qr-codes';
+        let successCount = 0;
 
-        bulkQRs.forEach((item, index) => {
-          const filename = `${sanitizeFilename(item.content)}.png`;
-          const data = item.dataURL.split(',')[1];
-          zip.file(filename, data, { base64: true });
-        });
+        for (const item of bulkQRs) {
+          if (!item.error) {
+            const filename = `${sanitizeFilename(item.content)}.png`;
+            const data = item.dataURL.split(',')[1];
+            zip.file(filename, data, { base64: true });
+            successCount++;
+          }
+        }
+
+        if (successCount === 0) {
+          throw new Error('No QR codes were generated successfully');
+        }
 
         zip.generateAsync({ type: 'blob' }).then(content => {
           saveAs(content, `${prefix}.zip`);
           bulkLoading.style.display = 'none';
           bulkSuccess.style.display = 'block';
-          bulkSuccess.textContent = `Successfully generated and downloaded ${bulkQRs.length} QR codes!`;
+          bulkSuccess.textContent = `Successfully generated and downloaded ${successCount} QR codes!`;
+          
+          if (successCount < bulkQRs.length) {
+            bulkSuccess.textContent += ` (${bulkQRs.length - successCount} failed)`;
+          }
         });
       } catch (error) {
-        showError(bulkError, 'Error creating ZIP file: ' + error.message);
         bulkLoading.style.display = 'none';
+        showError(bulkError, error.message || 'Error creating ZIP file');
+        console.error('ZIP creation error:', error);
       }
     }
 
