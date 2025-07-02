@@ -2730,27 +2730,21 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
     function createQRCanvas(content, options) {
       return new Promise((resolve, reject) => {
         try {
-          const tempDiv = document.createElement('div');
-          tempDiv.style.position = 'absolute';
-          tempDiv.style.left = '-9999px';
-          document.body.appendChild(tempDiv);
-          
-          // FIX: Use the numeric value for high error correction (2)
-          new QRCode(tempDiv, {
-            text: content,
+          QRCode.toCanvas(content, {
             width: options.size,
-            height: options.size,
-            colorDark: options.fgColor,
-            colorLight: options.bgColor,
-            correctLevel: 2 // High error correction
+            margin: 1,
+            color: {
+              dark: options.fgColor,
+              light: options.bgColor
+            },
+            errorCorrectionLevel: 'H'
+          }, (error, canvas) => {
+            if (error) {
+              reject(error);
+            } else {
+              resolve(canvas);
+            }
           });
-          
-          const canvas = tempDiv.querySelector('canvas');
-          
-          setTimeout(() => {
-            document.body.removeChild(tempDiv);
-            resolve(canvas);
-          }, 100);
         } catch (error) {
           reject(error);
         }
@@ -2815,11 +2809,11 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
         qrSuccess.style.display = 'none';
         
         // Create QR canvas
-        const qrCanvas = await createQRCanvas(content, qrOptions);
+        const generatedCanvas = await createQRCanvas(content, qrOptions);
         
         // Add logo and border
         const finalCanvas = await addLogoToQR(
-          qrCanvas, 
+          generatedCanvas, 
           logoImage, 
           parseInt(borderSize.value), 
           borderColor.value
@@ -2930,11 +2924,11 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
           };
           
           // Create QR canvas
-          const qrCanvas = await createQRCanvas(input, qrOptions);
+          const generatedCanvas = await createQRCanvas(input, qrOptions);
           
           // Add logo and border
           const finalCanvas = await addLogoToQR(
-            qrCanvas, 
+            generatedCanvas, 
             bulkLogoImage, 
             parseInt(bulkBorderSize.value), 
             bulkBorderColor.value
