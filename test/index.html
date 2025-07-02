@@ -2462,115 +2462,101 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
         });
       });
 
-      sizeSlider.addEventListener('input', () => {
-        updateSizeValue();
-        saveQRPreferences();
-      });
+      if (sizeSlider) sizeSlider.addEventListener('input', updateSizeValue);
       
-      borderSize.addEventListener('input', () => {
+      if (borderSize) borderSize.addEventListener('input', () => {
         updateBorderSizeValue();
-        saveQRPreferences();
         updateBorderPreview();
       });
       
-      borderColor.addEventListener('input', () => {
-        saveQRPreferences();
-        updateBorderPreview();
-      });
+      if (borderColor) borderColor.addEventListener('input', updateBorderPreview);
       
-      logoSize.addEventListener('input', () => {
-        updateLogoSizeValue();
-        saveQRPreferences();
-      });
+      if (logoSize) logoSize.addEventListener('input', updateLogoSizeValue);
       
-      bulkLogoSize.addEventListener('input', () => {
-        updateBulkLogoSizeValue();
-      });
+      if (bulkLogoSize) bulkLogoSize.addEventListener('input', updateBulkLogoSizeValue);
       
-      bulkSizeSlider.addEventListener('input', () => {
+      if (bulkSizeSlider) bulkSizeSlider.addEventListener('input', () => {
         bulkSizeValue.textContent = `${bulkSizeSlider.value}px`;
       });
       
-      bulkBorderSize.addEventListener('input', () => {
+      if (bulkBorderSize) bulkBorderSize.addEventListener('input', () => {
         bulkBorderSizeValue.textContent = `${bulkBorderSize.value}px`;
         updateBulkBorderPreview();
       });
       
-      bulkBorderColor.addEventListener('input', () => {
-        updateBulkBorderPreview();
-      });
+      if (bulkBorderColor) bulkBorderColor.addEventListener('input', updateBulkBorderPreview);
 
-      fgColor.addEventListener('change', saveQRPreferences);
-      bgColor.addEventListener('change', saveQRPreferences);
+      if (fgColor) fgColor.addEventListener('change', saveQRPreferences);
+      if (bgColor) bgColor.addEventListener('change', saveQRPreferences);
 
-      logoUploadArea.addEventListener('click', () => logoUpload.click());
-      logoUpload.addEventListener('change', handleLogoUpload);
+      if (logoUploadArea) logoUploadArea.addEventListener('click', () => logoUpload.click());
+      if (logoUpload) logoUpload.addEventListener('change', handleLogoUpload);
       
-      bulkLogoUploadArea.addEventListener('click', () => bulkLogoUpload.click());
-      bulkLogoUpload.addEventListener('change', handleBulkLogoUpload);
+      if (bulkLogoUploadArea) bulkLogoUploadArea.addEventListener('click', () => bulkLogoUpload.click());
+      if (bulkLogoUpload) bulkLogoUpload.addEventListener('change', handleBulkLogoUpload);
 
       ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-        logoUploadArea.addEventListener(eventName, preventDefaults, false);
-        bulkLogoUploadArea.addEventListener(eventName, preventDefaults, false);
+        if (logoUploadArea) logoUploadArea.addEventListener(eventName, preventDefaults, false);
+        if (bulkLogoUploadArea) bulkLogoUploadArea.addEventListener(eventName, preventDefaults, false);
       });
 
       ['dragenter', 'dragover'].forEach(eventName => {
-        logoUploadArea.addEventListener(eventName, highlight, false);
-        bulkLogoUploadArea.addEventListener(eventName, highlight, false);
+        if (logoUploadArea) logoUploadArea.addEventListener(eventName, highlight, false);
+        if (bulkLogoUploadArea) bulkLogoUploadArea.addEventListener(eventName, highlight, false);
       });
 
       ['dragleave', 'drop'].forEach(eventName => {
-        logoUploadArea.addEventListener(eventName, unhighlight, false);
-        bulkLogoUploadArea.addEventListener(eventName, unhighlight, false);
+        if (logoUploadArea) logoUploadArea.addEventListener(eventName, unhighlight, false);
+        if (bulkLogoUploadArea) bulkLogoUploadArea.addEventListener(eventName, unhighlight, false);
       });
 
-      logoUploadArea.addEventListener('drop', handleDrop, false);
-      bulkLogoUploadArea.addEventListener('drop', handleBulkDrop, false);
+      if (logoUploadArea) logoUploadArea.addEventListener('drop', handleDrop, false);
+      if (bulkLogoUploadArea) bulkLogoUploadArea.addEventListener('drop', handleBulkDrop, false);
 
-      qrInput.addEventListener('blur', autoFormatURL);
-      qrInput.addEventListener('keypress', function(e) {
+      if (qrInput) qrInput.addEventListener('blur', autoFormatURL);
+      if (qrInput) qrInput.addEventListener('keypress', function(e) {
         if (e.key === 'Enter') generateQR();
       });
 
-      qrType.addEventListener('change', toggleQRTypeFields);
+      if (qrType) qrType.addEventListener('change', toggleQRTypeFields);
 
-      startScanBtn.addEventListener('click', startScanner);
-      stopScanBtn.addEventListener('click', stopScanner);
+      if (startScanBtn) startScanBtn.addEventListener('click', startScanner);
+      if (stopScanBtn) stopScanBtn.addEventListener('click', stopScanner);
 
-      fileUpload.addEventListener('change', handleFileUpload);
-      bulkFileUpload.addEventListener('change', handleBulkFileUpload);
+      if (fileUpload) fileUpload.addEventListener('change', handleFileUpload);
+      if (bulkFileUpload) bulkFileUpload.addEventListener('change', handleBulkFileUpload);
       
       // Initialize cookie consent
       checkCookieConsent();
     }
     
     function updateBorderPreview() {
+      if (!borderPreview) return;
+      
       const borderSizeVal = parseInt(borderSize.value);
       const borderColorVal = borderColor.value;
       
-      if (borderPreview) {
-        if (borderSizeVal > 0) {
-          borderPreview.style.border = `${borderSizeVal}px solid ${borderColorVal}`;
-          logoUploadArea.classList.add('border-active');
-        } else {
-          borderPreview.style.border = 'none';
-          logoUploadArea.classList.remove('border-active');
-        }
+      if (borderSizeVal > 0) {
+        borderPreview.style.border = `${borderSizeVal}px solid ${borderColorVal}`;
+        if (logoUploadArea) logoUploadArea.classList.add('border-active');
+      } else {
+        borderPreview.style.border = 'none';
+        if (logoUploadArea) logoUploadArea.classList.remove('border-active');
       }
     }
     
     function updateBulkBorderPreview() {
+      if (!bulkBorderPreview) return;
+      
       const borderSizeVal = parseInt(bulkBorderSize.value);
       const borderColorVal = bulkBorderColor.value;
       
-      if (bulkBorderPreview) {
-        if (borderSizeVal > 0) {
-          bulkBorderPreview.style.border = `${borderSizeVal}px solid ${borderColorVal}`;
-          bulkLogoUploadArea.classList.add('border-active');
-        } else {
-          bulkBorderPreview.style.border = 'none';
-          bulkLogoUploadArea.classList.remove('border-active');
-        }
+      if (borderSizeVal > 0) {
+        bulkBorderPreview.style.border = `${borderSizeVal}px solid ${borderColorVal}`;
+        if (bulkLogoUploadArea) bulkLogoUploadArea.classList.add('border-active');
+      } else {
+        bulkBorderPreview.style.border = 'none';
+        if (bulkLogoUploadArea) bulkLogoUploadArea.classList.remove('border-active');
       }
     }
 
@@ -2608,19 +2594,27 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
     }
 
     function updateSizeValue() {
-      sizeValue.textContent = `${sizeSlider.value}px`;
+      if (sizeValue && sizeSlider) {
+        sizeValue.textContent = `${sizeSlider.value}px`;
+      }
     }
     
     function updateBorderSizeValue() {
-      borderSizeValue.textContent = `${borderSize.value}px`;
+      if (borderSizeValue && borderSize) {
+        borderSizeValue.textContent = `${borderSize.value}px`;
+      }
     }
     
     function updateLogoSizeValue() {
-      logoSizeValue.textContent = `${logoSize.value}%`;
+      if (logoSizeValue && logoSize) {
+        logoSizeValue.textContent = `${logoSize.value}%`;
+      }
     }
     
     function updateBulkLogoSizeValue() {
-      bulkLogoSizeValue.textContent = `${bulkLogoSize.value}%`;
+      if (bulkLogoSizeValue && bulkLogoSize) {
+        bulkLogoSizeValue.textContent = `${bulkLogoSize.value}%`;
+      }
     }
 
     function handleLogoUpload(e) {
@@ -2635,24 +2629,26 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
       reader.onload = function(event) {
         logoImage = new Image();
         logoImage.onload = function() {
-          logoPreview.innerHTML = '';
-          const previewContainer = document.createElement('div');
-          previewContainer.className = 'border-preview';
-          
-          const img = document.createElement('img');
-          img.src = event.target.result;
-          img.alt = 'Uploaded logo';
-          img.style.maxWidth = '100%';
-          img.style.maxHeight = '100%';
-          img.style.objectFit = 'contain';
-          
-          const borderIndicator = document.createElement('div');
-          borderIndicator.className = 'border-indicator';
-          borderIndicator.id = 'border-preview';
-          
-          previewContainer.appendChild(img);
-          previewContainer.appendChild(borderIndicator);
-          logoPreview.appendChild(previewContainer);
+          if (logoPreview) {
+            logoPreview.innerHTML = '';
+            const previewContainer = document.createElement('div');
+            previewContainer.className = 'border-preview';
+            
+            const img = document.createElement('img');
+            img.src = event.target.result;
+            img.alt = 'Uploaded logo';
+            img.style.maxWidth = '100%';
+            img.style.maxHeight = '100%';
+            img.style.objectFit = 'contain';
+            
+            const borderIndicator = document.createElement('div');
+            borderIndicator.className = 'border-indicator';
+            borderIndicator.id = 'border-preview';
+            
+            previewContainer.appendChild(img);
+            previewContainer.appendChild(borderIndicator);
+            logoPreview.appendChild(previewContainer);
+          }
           
           updateBorderPreview();
         };
@@ -2673,24 +2669,26 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
       reader.onload = function(event) {
         bulkLogoImage = new Image();
         bulkLogoImage.onload = function() {
-          bulkLogoPreview.innerHTML = '';
-          const previewContainer = document.createElement('div');
-          previewContainer.className = 'border-preview';
-          
-          const img = document.createElement('img');
-          img.src = event.target.result;
-          img.alt = 'Uploaded logo for bulk';
-          img.style.maxWidth = '100%';
-          img.style.maxHeight = '100%';
-          img.style.objectFit = 'contain';
-          
-          const borderIndicator = document.createElement('div');
-          borderIndicator.className = 'border-indicator';
-          borderIndicator.id = 'bulk-border-preview';
-          
-          previewContainer.appendChild(img);
-          previewContainer.appendChild(borderIndicator);
-          bulkLogoPreview.appendChild(previewContainer);
+          if (bulkLogoPreview) {
+            bulkLogoPreview.innerHTML = '';
+            const previewContainer = document.createElement('div');
+            previewContainer.className = 'border-preview';
+            
+            const img = document.createElement('img');
+            img.src = event.target.result;
+            img.alt = 'Uploaded logo for bulk';
+            img.style.maxWidth = '100%';
+            img.style.maxHeight = '100%';
+            img.style.objectFit = 'contain';
+            
+            const borderIndicator = document.createElement('div');
+            borderIndicator.className = 'border-indicator';
+            borderIndicator.id = 'bulk-border-preview';
+            
+            previewContainer.appendChild(img);
+            previewContainer.appendChild(borderIndicator);
+            bulkLogoPreview.appendChild(previewContainer);
+          }
           
           updateBulkBorderPreview();
         };
@@ -3184,20 +3182,30 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
     }
 
     function loadQRPreferences() {
-      const preferences = localStorage.getItem(PREFERENCES_KEY);
-      if (preferences) {
-        const { fgColor, bgColor, size, borderSize, borderColor, logoSize } = JSON.parse(preferences);
-        document.getElementById('fg-color').value = fgColor || '#000000';
-        document.getElementById('bg-color').value = bgColor || '#FFFFFF';
-        sizeSlider.value = size || '256';
-        borderSize.value = borderSize || '5';
-        borderColor.value = borderColor || '#FFFFFF';
-        logoSize.value = logoSize || '20';
-        updateSizeValue();
-        updateBorderSizeValue();
-        updateLogoSizeValue();
-        updateBorderPreview();
-        updateBulkBorderPreview();
+      const preferencesStr = localStorage.getItem(PREFERENCES_KEY);
+      if (preferencesStr) {
+        try {
+          const preferences = JSON.parse(preferencesStr);
+          
+          if (fgColor) fgColor.value = preferences.fgColor || '#000000';
+          if (bgColor) bgColor.value = preferences.bgColor || '#FFFFFF';
+          
+          if (sizeSlider) {
+            sizeSlider.value = preferences.size || '256';
+          }
+          
+          if (borderSize) {
+            borderSize.value = preferences.borderSize || '5';
+          }
+          
+          if (borderColor) borderColor.value = preferences.borderColor || '#FFFFFF';
+          
+          if (logoSize) {
+            logoSize.value = preferences.logoSize || '20';
+          }
+        } catch (e) {
+          console.error('Failed to parse QR preferences:', e);
+        }
       }
     }
     
