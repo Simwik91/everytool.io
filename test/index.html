@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>QR Code Generator - EveryTool.io</title>
+  <title>QR Code Generator with Logo Size Control - EveryTool.io</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
@@ -1654,9 +1654,9 @@
         <p>Scan any QR code using your device's camera or upload an image</p>
       </div>
       <div class="feature">
-        <i class="fas fa-shield-alt"></i>
-        <h3>Privacy First</h3>
-        <p>All processing happens in your browser - no data is uploaded to servers</p>
+        <i class="fas fa-ruler-combined"></i>
+        <h3>Logo Size Control</h3>
+        <p>Adjust logo size precisely within your QR codes</p>
       </div>
     </div>
 
@@ -1787,6 +1787,14 @@
                 <div class="border-control">
                   <label for="border-color">Border Color:</label>
                   <input type="color" id="border-color" value="#FFFFFF" aria-label="Select logo border color">
+                </div>
+                <!-- New Logo Size Control -->
+                <div class="border-control">
+                  <label for="logo-size">Logo Size:</label>
+                  <div class="size-controls">
+                    <input type="range" id="logo-size" class="size-slider" min="10" max="40" value="20" step="1" aria-label="Adjust logo size">
+                    <div class="size-value" id="logo-size-value">20%</div>
+                  </div>
                 </div>
               </div>
               <div class="border-note" id="border-note">
@@ -1939,6 +1947,14 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
                 <div class="border-control">
                   <label for="bulk-border-color">Border Color:</label>
                   <input type="color" id="bulk-border-color" value="#FFFFFF" aria-label="Select logo border color for bulk">
+                </div>
+                <!-- New Logo Size Control for Bulk -->
+                <div class="border-control">
+                  <label for="bulk-logo-size">Logo Size:</label>
+                  <div class="size-controls">
+                    <input type="range" id="bulk-logo-size" class="size-slider" min="10" max="40" value="20" step="1" aria-label="Adjust logo size for bulk">
+                    <div class="size-value" id="bulk-logo-size-value">20%</div>
+                  </div>
                 </div>
               </div>
               <div class="border-note" id="bulk-border-note">
@@ -2126,6 +2142,10 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
     const borderSize = document.getElementById('border-size');
     const borderSizeValue = document.getElementById('border-size-value');
     const borderColor = document.getElementById('border-color');
+    const logoSize = document.getElementById('logo-size');
+    const logoSizeValue = document.getElementById('logo-size-value');
+    const bulkLogoSize = document.getElementById('bulk-logo-size');
+    const bulkLogoSizeValue = document.getElementById('bulk-logo-size-value');
     const logoUpload = document.getElementById('logo-upload');
     const logoUploadArea = document.getElementById('logo-upload-area');
     const logoPreview = document.getElementById('logo-preview');
@@ -2197,6 +2217,8 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
       loadQRPreferences();
       updateSizeValue();
       updateBorderSizeValue();
+      updateLogoSizeValue();
+      updateBulkLogoSizeValue();
       updateBorderPreview();
       updateBulkBorderPreview();
       setupEventListeners();
@@ -2456,6 +2478,15 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
         updateBorderPreview();
       });
       
+      logoSize.addEventListener('input', () => {
+        updateLogoSizeValue();
+        saveQRPreferences();
+      });
+      
+      bulkLogoSize.addEventListener('input', () => {
+        updateBulkLogoSizeValue();
+      });
+      
       bulkSizeSlider.addEventListener('input', () => {
         bulkSizeValue.textContent = `${bulkSizeSlider.value}px`;
       });
@@ -2582,6 +2613,14 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
     
     function updateBorderSizeValue() {
       borderSizeValue.textContent = `${borderSize.value}px`;
+    }
+    
+    function updateLogoSizeValue() {
+      logoSizeValue.textContent = `${logoSize.value}%`;
+    }
+    
+    function updateBulkLogoSizeValue() {
+      bulkLogoSizeValue.textContent = `${bulkLogoSize.value}%`;
     }
 
     function handleLogoUpload(e) {
@@ -2751,29 +2790,31 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
       });
     }
 
-    function addLogoToQR(qrCanvas, logo, borderSize, borderColor) {
+    function addLogoToQR(qrCanvas, logo, borderSize, borderColor, logoSizePercent) {
       return new Promise((resolve) => {
-        if (!logo || !borderSize) {
+        if (!logo) {
           resolve(qrCanvas);
           return;
         }
         
         try {
-          const logoSize = qrCanvas.width * 0.2;
+          const logoSize = qrCanvas.width * (logoSizePercent / 100);
           const ctx = qrCanvas.getContext('2d');
           
-          // Draw border
-          ctx.fillStyle = borderColor;
-          const centerX = qrCanvas.width / 2;
-          const centerY = qrCanvas.height / 2;
-          const borderWidth = logoSize + borderSize * 2;
-          
-          ctx.fillRect(
-            centerX - borderWidth/2,
-            centerY - borderWidth/2,
-            borderWidth,
-            borderWidth
-          );
+          // Draw border if border size is greater than 0
+          if (borderSize > 0) {
+            ctx.fillStyle = borderColor;
+            const centerX = qrCanvas.width / 2;
+            const centerY = qrCanvas.height / 2;
+            const borderWidth = logoSize + borderSize * 2;
+            
+            ctx.fillRect(
+              centerX - borderWidth/2,
+              centerY - borderWidth/2,
+              borderWidth,
+              borderWidth
+            );
+          }
           
           // Draw logo
           ctx.drawImage(
@@ -2816,7 +2857,8 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
           generatedCanvas, 
           logoImage, 
           parseInt(borderSize.value), 
-          borderColor.value
+          borderColor.value,
+          parseInt(logoSize.value)
         );
         
         // Display results
@@ -2931,7 +2973,8 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
             generatedCanvas, 
             bulkLogoImage, 
             parseInt(bulkBorderSize.value), 
-            bulkBorderColor.value
+            bulkBorderColor.value,
+            parseInt(bulkLogoSize.value)
           );
           
           bulkQRs.push({
@@ -3134,7 +3177,8 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
         bgColor: bgColor.value,
         size: sizeSlider.value,
         borderSize: borderSize.value,
-        borderColor: borderColor.value
+        borderColor: borderColor.value,
+        logoSize: logoSize.value
       };
       localStorage.setItem(PREFERENCES_KEY, JSON.stringify(preferences));
     }
@@ -3142,14 +3186,16 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
     function loadQRPreferences() {
       const preferences = localStorage.getItem(PREFERENCES_KEY);
       if (preferences) {
-        const { fgColor, bgColor, size, borderSize, borderColor } = JSON.parse(preferences);
+        const { fgColor, bgColor, size, borderSize, borderColor, logoSize } = JSON.parse(preferences);
         document.getElementById('fg-color').value = fgColor || '#000000';
         document.getElementById('bg-color').value = bgColor || '#FFFFFF';
         sizeSlider.value = size || '256';
         borderSize.value = borderSize || '5';
         borderColor.value = borderColor || '#FFFFFF';
+        logoSize.value = logoSize || '20';
         updateSizeValue();
         updateBorderSizeValue();
+        updateLogoSizeValue();
         updateBorderPreview();
         updateBulkBorderPreview();
       }
