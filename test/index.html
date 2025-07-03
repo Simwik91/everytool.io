@@ -3,13 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>QR Code Generator with Logo Size Control - EveryTool.io</title>
+  <meta name="description" content="Advanced Image Toolkit: Edit, enhance, and transform images with powerful tools - all in your browser.">
+  <meta name="keywords" content="image editor, photo editor, crop image, resize image, image filters, drawing tools, collage maker">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="Advanced Image Toolkit - EveryTool.io">
+  <meta property="og:description" content="Edit, enhance, and transform images with powerful tools. All processing happens in your browser.">
+  <meta property="og:type" content="website">
+  <title>Advanced Image Toolkit - EveryTool.io</title>
+  
+  <!-- Performance Optimization -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
   <style>
     :root {
       --primary: #4361ee;
@@ -38,7 +46,6 @@
       line-height: 1.6;
       min-height: 100vh;
       overflow-x: hidden;
-      transition: transform 0.4s ease;
     }
     
     body.menu-open {
@@ -129,7 +136,6 @@
       cursor: pointer;
       padding: 10px;
       border-radius: 5px;
-      z-index: 2001;
     }
 
     .mobile-menu-btn:hover, .mobile-menu-btn:focus {
@@ -137,7 +143,7 @@
       outline: 2px solid var(--primary);
       outline-offset: 2px;
     }
-    
+
     /* Mobile Menu Backdrop */
     .mobile-backdrop {
       position: fixed;
@@ -240,7 +246,7 @@
       margin-right: 10px;
     }
 
-    /* QR Generator Specific Styles */
+    /* Hero Section */
     .hero {
       padding: 60px 0 40px;
       text-align: center;
@@ -394,107 +400,22 @@
       outline-offset: 2px;
     }
     
-    button.secondary {
-      background: var(--light);
-      color: var(--primary);
-      border: 2px solid var(--primary);
+    button:disabled {
+      background: #9ec5e6;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
     }
-    
-    button.secondary:hover, button.secondary:focus {
-      background: #f0f4ff;
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-    
+
     canvas {
       margin: 1.5em auto;
-      display: block;
       max-width: 100%;
       border-radius: 12px;
-      background: var(--light);
+      background: #f5f5f5;
       padding: 15px;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
       border: 1px solid var(--light-gray);
-    }
-    
-    .color-group {
-      display: flex;
-      justify-content: center;
-      gap: 25px;
-      margin: 1.5em 0;
-      flex-wrap: wrap;
-    }
-    
-    .color-input {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      flex: 1;
-      max-width: 200px;
-    }
-    
-    .color-input label {
-      font-weight: 500;
-      color: var(--dark);
-    }
-    
-    .color-input input[type="color"] {
-      width: 60px;
-      height: 60px;
-      padding: 5px;
-      cursor: pointer;
-      border-radius: 12px;
-      border: 2px solid var(--light-gray);
-      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-    }
-    
-    .color-input input[type="color"]::-webkit-color-swatch {
-      border: none;
-      border-radius: 8px;
-    }
-    
-    .logo-upload-area {
-      border: 2px dashed var(--light-gray);
-      border-radius: var(--border-radius);
-      padding: 30px;
-      margin: 1.5em auto;
-      cursor: pointer;
-      transition: var(--transition);
-      background: #fafbff;
-      text-align: center;
-      position: relative;
-    }
-    
-    .logo-upload-area:hover, .logo-upload-area.drag-over {
-      border-color: var(--primary);
-      background: #f0f4ff;
-    }
-    
-    .logo-upload-area i {
-      font-size: 3rem;
-      color: var(--primary);
-      margin-bottom: 15px;
-    }
-    
-    .logo-preview {
-      width: 120px;
-      height: 120px;
-      margin: 1em auto;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      border-radius: 12px;
-      border: 1px solid var(--light-gray);
-      background: var(--light);
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-    }
-    
-    .logo-preview img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
+      display: block;
     }
     
     .loading {
@@ -536,182 +457,61 @@
       display: none;
       border-left: 4px solid #27ae60;
     }
-    
-    .scanner-container {
-      position: relative;
-      width: 100%;
-      height: 350px;
-      border-radius: var(--border-radius);
-      overflow: hidden;
-      margin: 1.5em auto;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-      background: #000;
-    }
-    
-    #scanner-video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    
-    .scanner-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: rgba(0, 0, 0, 0.4);
-    }
-    
-    .scanner-box {
-      width: 250px;
-      height: 250px;
-      border: 3px solid white;
-      box-shadow: 0 0 0 1000px rgba(0, 0, 0, 0.4);
-    }
-    
-    .size-group {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin: 1.5em 0;
-    }
-    
-    .size-controls {
-      display: flex;
-      align-items: center;
-      gap: 20px;
+
+    .drag-drop-area {
       width: 100%;
       max-width: 500px;
-      margin: 0.5em auto;
-    }
-    
-    .size-slider {
-      flex: 1;
-      height: 8px;
-      border-radius: 4px;
-      background: var(--light-gray);
-      outline: none;
-      -webkit-appearance: none;
-    }
-    
-    .size-slider::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      background: var(--primary);
+      margin: 2em auto;
+      padding: 2em;
+      border: 2px dashed var(--light-gray);
+      border-radius: var(--border-radius);
+      background: white;
+      color: var(--gray);
       cursor: pointer;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
       transition: var(--transition);
-    }
-    
-    .size-slider::-webkit-slider-thumb:hover {
-      transform: scale(1.2);
-    }
-    
-    .size-value {
-      min-width: 80px;
       text-align: center;
-      font-weight: 600;
-      font-size: 1.1rem;
-      color: var(--primary);
+      font-size: 1rem;
     }
-    
-    .border-controls {
+
+    .drag-drop-area.drag-over {
+      background: #e6f0fa;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+    }
+
+    .drag-drop-area p {
+      margin: 0.5em 0;
+    }
+
+    .resize-controls {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .resize-controls input {
+      width: 45%;
+      max-width: 200px;
+      display: inline-block;
+    }
+
+    .btn-group {
       display: flex;
       justify-content: center;
-      gap: 25px;
+      gap: 15px;
       margin: 1.5em 0;
       flex-wrap: wrap;
     }
     
-    .border-control {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
+    .btn-group button {
+      width: auto;
+      min-width: 180px;
       flex: 1;
-      max-width: 200px;
     }
     
-    .border-control label {
-      font-weight: 500;
-      color: var(--dark);
-    }
-    
-    .border-control input[type="range"] {
-      width: 100%;
-    }
-    
-    .border-control input[type="color"] {
-      width: 60px;
-      height: 60px;
-      padding: 5px;
-      cursor: pointer;
-      border-radius: 12px;
-      border: 2px solid var(--light-gray);
-      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-    }
-    
-    .border-control input[type="color"]::-webkit-color-swatch {
-      border: none;
-      border-radius: 8px;
-    }
-    
-    .file-upload-container {
-      position: relative;
-      width: 100%;
-      margin: 1.5em auto;
-    }
-    
-    .file-upload-label {
-      display: block;
-      padding: 25px;
-      background: #fafbff;
-      border: 2px dashed var(--light-gray);
-      border-radius: var(--border-radius);
-      cursor: pointer;
-      transition: var(--transition);
-      text-align: center;
-    }
-    
-    .file-upload-label:hover {
-      border-color: var(--primary);
-      background: #f0f4ff;
-    }
-    
-    .file-upload-label i {
-      color: var(--primary);
-      font-size: 2.5rem;
-      margin-bottom: 15px;
-    }
-    
-    .file-upload-input {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      opacity: 0;
-      cursor: pointer;
-    }
-    
-    .visually-hidden {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      border: 0;
-    }
-    
-    /* Updated features grid - 2 cards per row */
+    /* Features grid - 2 cards per row */
     .features {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -823,197 +623,6 @@
       margin-bottom: 15px;
     }
     
-    .qr-type-fields {
-      display: none;
-      margin: 1em 0;
-    }
-    
-    .qr-type-fields.active {
-      display: block;
-    }
-    
-    .input-type-toggle {
-      display: flex;
-      gap: 15px;
-      margin: 20px 0;
-      justify-content: center;
-    }
-    
-    .input-type-toggle label {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      cursor: pointer;
-      padding: 10px 20px;
-      background: var(--light-gray);
-      border-radius: 50px;
-      transition: var(--transition);
-    }
-    
-    .input-type-toggle label.active {
-      background: var(--primary);
-      color: white;
-    }
-    
-    .input-type-toggle input[type="radio"] {
-      display: none;
-    }
-    
-    .range-controls {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 15px;
-      margin: 20px 0;
-    }
-    
-    .border-preview {
-      position: relative;
-      width: 120px;
-      height: 120px;
-      margin: 0 auto;
-      border-radius: 12px;
-      background: var(--light);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      border: 1px solid var(--light-gray);
-    }
-    
-    .border-preview .logo-placeholder {
-      width: 70%;
-      height: 70%;
-      background: #4361ee;
-      border-radius: 8px;
-    }
-    
-    .border-preview .border-indicator {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border: 0px solid #000;
-      box-sizing: border-box;
-      pointer-events: none;
-    }
-    
-    .border-note {
-      font-size: 0.85rem;
-      color: var(--gray);
-      text-align: center;
-      margin-top: 10px;
-      font-style: italic;
-    }
-    
-    .border-active {
-      background: rgba(67, 97, 238, 0.05);
-      border: 2px dashed var(--primary);
-    }
-    
-    .toggle-container {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 15px;
-      margin: 1em 0;
-      padding: 10px;
-      border-radius: 50px;
-      background: #f0f4ff;
-      max-width: 300px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    
-    .toggle-label {
-      font-weight: 500;
-      color: var(--dark);
-      font-size: 1rem;
-    }
-    
-    .toggle-switch-visual {
-      position: relative;
-      display: inline-block;
-      width: 60px;
-      height: 30px;
-    }
-    
-    .toggle-switch-visual input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-    
-    .toggle-slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: #ccc;
-      transition: .4s;
-      border-radius: 34px;
-    }
-    
-    .toggle-slider:before {
-      position: absolute;
-      content: "";
-      height: 22px;
-      width: 22px;
-      left: 4px;
-      bottom: 4px;
-      background-color: white;
-      transition: .4s;
-      border-radius: 50%;
-    }
-    
-    input:checked + .toggle-slider {
-      background-color: var(--primary);
-    }
-    
-    input:checked + .toggle-slider:before {
-      transform: translateX(30px);
-    }
-    
-    .logo-options-container {
-      margin: 1.5em 0;
-      border: 1px solid var(--light-gray);
-      border-radius: var(--border-radius);
-      padding: 20px;
-      background: #fafbff;
-    }
-    
-    .logo-options-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 15px;
-      justify-content: center;
-    }
-    
-    .logo-options-header i {
-      color: var(--primary);
-      font-size: 1.5rem;
-    }
-    
-    .logo-options-content {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      justify-content: center;
-    }
-    
-    .logo-upload-container {
-      flex: 1;
-      min-width: 300px;
-    }
-    
-    .border-controls-container {
-      flex: 1;
-      min-width: 300px;
-    }
-
     /* Footer */
     footer {
       background: linear-gradient(135deg, var(--light) 0%, #f0f4ff 100%);
@@ -1058,63 +667,660 @@
       margin: 0;
     }
 
-    /* New scanner status styles */
-    .scanner-status {
-      position: absolute;
-      top: 10px;
-      left: 0;
-      width: 100%;
-      text-align: center;
+    /* Cookie Consent Styles */
+    #cookie-consent {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 95%;
+      max-width: 800px;
+      background: var(--light);
+      border-radius: var(--border-radius);
+      box-shadow: 0 5px 30px rgba(0, 0, 0, 0.15);
+      padding: 20px;
+      z-index: 1000;
+      display: none;
+    }
+
+    .cookie-content {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .cookie-text {
+      flex: 1;
+      min-width: 300px;
+      color: var(--dark);
+    }
+
+    .cookie-text p {
+      margin-bottom: 10px;
+      font-size: 0.95rem;
+    }
+
+    .cookie-text a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .cookie-text a:hover, .cookie-text a:focus {
+      text-decoration: underline;
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    .cookie-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .cookie-btn {
+      padding: 10px 20px;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 0.9rem;
+      border: none;
+      min-width: 180px;
+    }
+
+    .cookie-btn:focus {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    .reject-btn {
+      background: var(--light-gray);
+      color: var(--dark);
+    }
+
+    .reject-btn:hover {
+      background: #e0e0e0;
+    }
+
+    .accept-btn {
+      background: var(--primary);
       color: white;
-      font-weight: bold;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
-      z-index: 10;
     }
-    
-    .scanner-success {
-      color: #4ade80;
+
+    .accept-btn:hover {
+      background: var(--primary-dark);
     }
-    
-    .scanner-error {
-      color: #f87171;
+
+    .cookie-settings-btn {
+      background: transparent;
+      color: var(--gray);
+      text-decoration: underline;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      margin-top: 10px;
+      font-size: 0.85rem;
     }
-    
-    .scanner-loading {
-      color: #60a5fa;
+
+    .cookie-settings-btn:hover, .cookie-settings-btn:focus {
+      color: var(--dark);
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
     }
-    
-    .scanner-box {
+
+    #cookie-settings {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    .settings-modal {
+      background: var(--light);
+      border-radius: var(--border-radius);
+      width: 95%;
+      max-width: 600px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 30px;
       position: relative;
-      width: 250px;
-      height: 250px;
-      border: 3px solid white;
-      box-shadow: 0 0 0 1000px rgba(0, 0, 0, 0.4);
+      animation: slideUp 0.3s ease-out;
     }
-    
-    .scanner-guides {
+
+    @keyframes slideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .settings-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .settings-header h2 {
+      font-size: 1.8rem;
+      margin: 0;
+    }
+
+    .close-settings {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--gray);
+      transition: var(--transition);
+      padding: 5px;
+      border-radius: 5px;
+    }
+
+    .close-settings:hover, .close-settings:focus {
+      color: var(--dark);
+      background: rgba(0, 0, 0, 0.05);
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    .settings-content {
+      margin-bottom: 20px;
+    }
+
+    .cookie-type {
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid var(--light-gray);
+    }
+
+    .cookie-type-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .cookie-type h3 {
+      margin: 0;
+      font-size: 1.2rem;
+    }
+
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 24px;
+    }
+
+    .toggle-switch input {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      pointer-events: none;
+      opacity: 0;
+      cursor: pointer;
+      z-index: 1;
     }
-    
-    .guide-line {
+
+    .slider {
       position: absolute;
-      background: rgba(255, 255, 255, 0.5);
-    }
-    
-    .guide-line.horizontal {
-      width: 100%;
-      height: 1px;
+      top: 0;
       left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: var(--gray);
+      transition: background-color 0.3s ease;
+      border-radius: 24px;
     }
-    
-    .guide-line.vertical {
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: transform 0.3s ease;
+      border-radius: 50%;
+    }
+
+    .toggle-switch input:checked + .slider {
+      background-color: var(--primary);
+    }
+
+    .toggle-switch input:checked + .slider:before {
+      transform: translateX(26px);
+    }
+
+    .toggle-switch input:focus + .slider {
+      box-shadow: 0 0 0 2px var(--primary-dark);
+    }
+
+    .toggle-switch input:disabled + .slider {
+      background-color: var(--light-gray);
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .toggle-switch input:disabled + .slider:before {
+      background-color: #ddd;
+    }
+
+    .cookie-type p {
+      font-size: 0.9rem;
+      color: var(--gray);
+      margin-bottom: 10px;
+    }
+
+    .settings-buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .save-settings {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 25px;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .save-settings:hover, .save-settings:focus {
+      background: var(--primary-dark);
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    /* Accessibility Improvements */
+    .sr-only {
+      position: absolute;
       width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+    
+    /* New Styles for Enhanced Features */
+    .tool-options {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .option-card {
+      background: white;
+      border-radius: 12px;
+      padding: 15px;
+      width: 150px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
+    
+    .option-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      border-color: var(--primary);
+    }
+    
+    .option-card.active {
+      border-color: var(--primary);
+      background: rgba(67, 97, 238, 0.1);
+    }
+    
+    .option-card i {
+      font-size: 2rem;
+      margin-bottom: 10px;
+      color: var(--primary);
+    }
+    
+    .adjustment-controls {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin: 20px 0;
+    }
+    
+    .adjustment-control {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .adjustment-control label {
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+    
+    .watermark-controls {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin: 20px 0;
+    }
+    
+    .text-preview {
+      margin: 15px 0;
+      padding: 15px;
+      background: white;
+      border-radius: 8px;
+      text-align: center;
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px dashed var(--light-gray);
+    }
+    
+    .collage-layouts {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 20px 0;
+    }
+    
+    .layout-option {
+      width: 120px;
+      height: 120px;
+      border: 2px solid var(--light-gray);
+      border-radius: 8px;
+      cursor: pointer;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2px;
+      padding: 2px;
+    }
+    
+    .layout-option.active {
+      border-color: var(--primary);
+    }
+    
+    .layout-cell {
+      background-color: var(--light-gray);
+      border-radius: 4px;
+    }
+    
+    /* Layout specific styles */
+    .layout-option[data-layout="2h"] {
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr 1fr;
+    }
+    
+    .layout-option[data-layout="2v"] {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr;
+    }
+    
+    .layout-option[data-layout="3h"] {
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr 1fr 1fr;
+    }
+    
+    .layout-option[data-layout="3v"] {
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: 1fr;
+    }
+    
+    .layout-option[data-layout="4grid"] {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+    }
+    
+    .collage-preview {
+      display: grid;
+      gap: 5px;
+      margin: 20px auto;
+      max-width: 500px;
+    }
+    
+    .preview-cell {
+      background-size: cover;
+      background-position: center;
+      border-radius: 4px;
+      min-height: 100px;
+    }
+    
+    .batch-section {
+      margin: 20px 0;
+      padding: 20px;
+      background: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+    }
+    
+    .batch-toggle {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+      justify-content: center;
+    }
+    
+    .batch-toggle button {
+      padding: 8px 15px;
+      border-radius: 50px;
+      background: var(--light-gray);
+      border: none;
+      cursor: pointer;
+      font-weight: 500;
+    }
+    
+    .batch-toggle button.active {
+      background: var(--primary);
+      color: white;
+    }
+    
+    .batch-controls {
+      display: none;
+    }
+    
+    .batch-controls.active {
+      display: block;
+    }
+    
+    .batch-list {
+      max-height: 200px;
+      overflow-y: auto;
+      margin: 10px 0;
+      padding: 10px;
+      background: var(--light);
+      border-radius: 8px;
+    }
+    
+    .batch-item {
+      display: flex;
+      align-items: center;
+      padding: 8px;
+      border-bottom: 1px solid var(--light-gray);
+    }
+    
+    .batch-item img {
+      width: 40px;
+      height: 40px;
+      object-fit: cover;
+      margin-right: 10px;
+      border-radius: 4px;
+    }
+    
+    .batch-item .name {
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    .batch-actions {
+      display: flex;
+      justify-content: center;
+      margin-top: 15px;
+    }
+    
+    .progress-container {
+      margin: 20px 0;
+      background: var(--light-gray);
+      border-radius: 50px;
+      height: 10px;
+      overflow: hidden;
+    }
+    
+    .progress-bar {
       height: 100%;
-      top: 0;
+      background: var(--primary);
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+    
+    .quality-info {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9rem;
+      color: var(--gray);
+      margin-top: 5px;
+    }
+    
+    .file-info {
+      display: flex;
+      justify-content: space-around;
+      margin: 15px 0;
+      font-weight: 500;
+    }
+    
+    .filter-options {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 20px 0;
+    }
+    
+    .filter-btn {
+      padding: 8px 15px;
+      border-radius: 50px;
+      background: var(--light-gray);
+      border: none;
+      cursor: pointer;
+      font-weight: 500;
+    }
+    
+    .filter-btn.active {
+      background: var(--primary);
+      color: white;
+    }
+    
+    .position-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 5px;
+      max-width: 300px;
+      margin: 10px auto;
+    }
+    
+    .position-grid button {
+      padding: 8px;
+      background: var(--light-gray);
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    .position-grid button.active {
+      background: var(--primary);
+      color: white;
+    }
+    
+    .transform-controls {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin: 15px 0;
+      flex-wrap: wrap;
+    }
+    
+    .transform-btn {
+      padding: 10px 15px;
+      border-radius: 50px;
+      background: var(--light-gray);
+      border: none;
+      cursor: pointer;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .transform-btn:hover {
+      background: #dbe4ff;
+    }
+    
+    .drawing-tools {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin: 15px 0;
+      flex-wrap: wrap;
+    }
+    
+    .drawing-tool {
+      padding: 10px 15px;
+      border-radius: 50px;
+      background: var(--light-gray);
+      border: none;
+      cursor: pointer;
+      font-weight: 500;
+    }
+    
+    .drawing-tool.active {
+      background: var(--primary);
+      color: white;
+    }
+    
+    .history-controls {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin: 15px 0;
+    }
+    
+    .history-btn {
+      padding: 10px 20px;
+      border-radius: 50px;
+      background: var(--light-gray);
+      border: none;
+      cursor: pointer;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .history-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    
+    .history-btn.active {
+      background: var(--primary);
+      color: white;
     }
 
     /* Responsive Design */
@@ -1176,20 +1382,6 @@
         width: 100%;
       }
       
-      .color-group {
-        flex-direction: column;
-        align-items: center;
-      }
-      
-      .border-controls {
-        flex-direction: column;
-        align-items: center;
-      }
-      
-      .scanner-container {
-        height: 280px;
-      }
-      
       .tab {
         padding: 10px 15px;
         font-size: 0.9rem;
@@ -1199,22 +1391,39 @@
         padding: 25px;
       }
       
-      .input-type-toggle {
+      .uses-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .btn-group {
         flex-direction: column;
+      }
+      
+      .btn-group button {
+        width: 100%;
+      }
+      
+      .tool-options {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .option-card {
+        width: 100%;
+        max-width: 300px;
+      }
+      
+      .collage-layouts {
         gap: 8px;
       }
       
-      .input-type-toggle label {
-        width: 100%;
-        justify-content: center;
-      }
-      
-      .logo-options-content {
-        flex-direction: column;
+      .layout-option {
+        width: 90px;
+        height: 90px;
       }
       
       .uses-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
       }
     }
 
@@ -1250,10 +1459,86 @@
       h3 {
         font-size: 1.2rem;
       }
+      
+      .uses-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .position-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
     }
   </style>
 </head>
 <body>
+  <!-- Mobile Menu Backdrop -->
+  <div class="mobile-backdrop" id="mobile-backdrop"></div>
+  
+  <!-- Cookie Consent Banner -->
+  <div id="cookie-consent" role="dialog" aria-labelledby="cookie-consent-banner" aria-describedby="cookie-consent-desc">
+    <div class="sr-only" id="cookie-consent-banner">Cookie Consent</div>
+    <div class="cookie-content" id="cookie-consent-desc">
+      <div class="cookie-text">
+        <p>We use cookies to enhance your experience and analyze site traffic. By clicking "Accept All", you consent to our use of cookies. 
+          <a href="/privacy-policy.html" aria-label="Learn more about our Privacy Policy">Learn more</a> in our Privacy Policy.
+        </p>
+        <button class="cookie-settings-btn" id="open-settings" aria-label="Open cookie settings">Cookie Settings</button>
+      </div>
+      <div class="cookie-buttons">
+        <button class="cookie-btn reject-btn" id="reject-cookies" aria-label="Reject non-essential cookies">Reject Non-Essential</button>
+        <button class="cookie-btn accept-btn" id="accept-cookies" aria-label="Accept all cookies">Accept All</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="cookie-settings" role="dialog" aria-labelledby="cookie-settings-title" aria-describedby="cookie-settings-desc">
+    <div class="settings-modal">
+      <div class="settings-header">
+        <h2 id="cookie-settings-title"><i class="fas fa-cookie-bite"></i> Cookie Settings</h2>
+        <button class="close-settings" id="close-settings" aria-label="Close cookie settings">×</button>
+      </div>
+      <div class="settings-content">
+        <p id="cookie-settings-desc">You can set your preferences for how we and our partners use cookies and similar technologies.</p>
+        
+        <div class="cookie-type">
+          <div class="cookie-type-header">
+            <h3>Essential Cookies</h3>
+            <label class="toggle-switch" for="essential-toggle">
+              <input type="checkbox" id="essential-toggle" checked disabled aria-label="Essential cookies (always enabled, cannot be disabled)" aria-describedby="essential-desc">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <p id="essential-desc">These cookies are necessary for the website to function and cannot be switched off.</p>
+        </div>
+        
+        <div class="cookie-type">
+          <div class="cookie-type-header">
+            <h3>Analytics Cookies</h3>
+            <label class="toggle-switch" for="analytics-toggle">
+              <input type="checkbox" id="analytics-toggle" aria-label="Analytics cookies toggle" aria-describedby="analytics-desc">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <p id="analytics-desc">These cookies allow us to count visits and traffic sources so we can measure and improve the performance of our site.</p>
+        </div>
+        
+        <div class="cookie-type">
+          <div class="cookie-type-header">
+            <h3>Advertising Cookies</h3>
+            <label class="toggle-switch" for="advertising-toggle">
+              <input type="checkbox" id="advertising-toggle" aria-label="Advertising cookies toggle" aria-describedby="advertising-desc">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <p id="advertising-desc">These cookies may be set through our site by our advertising partners to build a profile of your interests.</p>
+        </div>
+      </div>
+      <div class="settings-buttons">
+        <button class="save-settings" id="save-settings" aria-label="Save cookie settings">Save Settings</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Header & Navigation -->
   <header>
     <div class="container">
@@ -1289,9 +1574,6 @@
     </div>
   </header>
 
-  <!-- Mobile Menu Backdrop -->
-  <div class="mobile-backdrop" id="mobile-backdrop"></div>
-
   <!-- Mobile Navigation -->
   <div class="mobile-nav" id="mobile-nav">
     <div class="mobile-nav-header">
@@ -1326,472 +1608,478 @@
   <section class="hero">
     <div class="container">
       <div class="hero-content">
-        <h1>QR Code Generator</h1>
-        <p>Create custom QR codes with logos, colors, vCard, Wi-Fi, bulk processing, and number range generation - all processing happens in your browser.</p>
+        <h1>Advanced Image Toolkit</h1>
+        <p>Crop, resize, enhance, add effects, create collages, and draw on your images. All processing happens in your browser - your images never leave your device.</p>
       </div>
     </div>
   </section>
 
-  <!-- QR Generator Content -->
   <div class="container">
-    <!-- Features with 2 cards per row -->
+    <!-- Features section - 2 cards per row -->
     <div class="features">
       <div class="feature">
+        <i class="fas fa-exchange-alt"></i>
+        <h3>Multiple Formats</h3>
+        <p>Convert between PNG, JPEG, WEBP, BMP, GIF, and HEIC formats</p>
+      </div>
+      <div class="feature">
+        <i class="fas fa-sliders-h"></i>
+        <h3>Custom Editing</h3>
+        <p>Crop, resize, rotate, flip, and transform images to your requirements</p>
+      </div>
+      <div class="feature">
         <i class="fas fa-paint-brush"></i>
-        <h3>Custom Design</h3>
-        <p>Create QR codes with custom colors and embedded logos for brand recognition</p>
+        <h3>Drawing Tools</h3>
+        <p>Add freehand drawings, shapes, and text to your images</p>
       </div>
       <div class="feature">
-        <i class="fas fa-layer-group"></i>
-        <h3>Bulk Generation</h3>
-        <p>Generate multiple QR codes at once including sequential numbers</p>
-      </div>
-      <div class="feature">
-        <i class="fas fa-camera"></i>
-        <h3>QR Scanner</h3>
-        <p>Scan any QR code using your device's camera or upload an image</p>
-      </div>
-      <div class="feature">
-        <i class="fas fa-ruler-combined"></i>
-        <h3>Logo Size Control</h3>
-        <p>Adjust logo size precisely within your QR codes</p>
+        <i class="fas fa-th-large"></i>
+        <h3>Collage Maker</h3>
+        <p>Combine multiple images into beautiful collages with various layouts</p>
       </div>
     </div>
 
-    <!-- Updated QR Code Creation Guide -->
+    <!-- Image Editing Guide -->
     <div class="guide-section">
-      <h2><i class="fas fa-book"></i> QR Code Creation Guide</h2>
+      <h2><i class="fas fa-book"></i> Advanced Image Tools Guide</h2>
+      <p>Follow these steps to edit your images:</p>
       <div class="guide-grid">
         <div class="guide-item">
-          <h3><i class="fas fa-keyboard"></i> Select QR Type</h3>
-          <p>Choose the type of QR code (e.g., URL, vCard, Wi-Fi) to encode your data.</p>
+          <h3><i class="fas fa-upload"></i> Upload Image</h3>
+          <p>Drag or browse to upload your image (PNG, JPEG, WEBP, BMP, GIF, HEIC).</p>
         </div>
         <div class="guide-item">
-          <h3><i class="fas fa-upload"></i> Add Logo (Optional)</h3>
-          <p>Upload a logo to place in the center of your QR code with a customizable border.</p>
+          <h3><i class="fas fa-sliders-h"></i> Choose Tool</h3>
+          <p>Select from crop, resize, enhance, draw, or collage based on your needs.</p>
         </div>
         <div class="guide-item">
-          <h3><i class="fas fa-paint-brush"></i> Customize Design</h3>
-          <p>Select colors, size, and add a border around your logo to make it stand out.</p>
+          <h3><i class="fas fa-edit"></i> Edit Image</h3>
+          <p>Apply transformations, filters, drawings, or arrange multiple images.</p>
         </div>
         <div class="guide-item">
-          <h3><i class="fas fa-download"></i> Generate & Download</h3>
-          <p>Create your QR code, test it, and download as a PNG or ZIP for bulk.</p>
+          <h3><i class="fas fa-history"></i> Undo/Redo</h3>
+          <p>Use undo/redo to correct mistakes or try different edits.</p>
         </div>
       </div>
     </div>
 
     <div class="card">
-      <div class="tabs" role="tablist">
-        <div class="tab active" data-tab="single" role="tab" aria-selected="true" tabindex="0">
-          <i class="fas fa-qrcode"></i> Single QR Code
+      <div class="tabs">
+        <div class="tab active" data-tab="crop" role="tab" aria-selected="true" tabindex="0">
+          <i class="fas fa-crop"></i> Crop
         </div>
-        <div class="tab" data-tab="bulk" role="tab" aria-selected="false" tabindex="0">
-          <i class="fas fa-layer-group"></i> Bulk QR Codes
+        <div class="tab" data-tab="resize" role="tab" aria-selected="false" tabindex="0">
+          <i class="fas fa-expand"></i> Resize
         </div>
-        <div class="tab" data-tab="scan" role="tab" aria-selected="false" tabindex="0">
-          <i class="fas fa-camera"></i> Scan QR Code
+        <div class="tab" data-tab="enhance" role="tab" aria-selected="false" tabindex="0">
+          <i class="fas fa-sliders-h"></i> Enhance
+        </div>
+        <div class="tab" data-tab="draw" role="tab" aria-selected="false" tabindex="0">
+          <i class="fas fa-paint-brush"></i> Draw
+        </div>
+        <div class="tab" data-tab="collage" role="tab" aria-selected="false" tabindex="0">
+          <i class="fas fa-th-large"></i> Collage
         </div>
       </div>
 
-      <div class="tab-content active" id="single-tab" role="tabpanel">
-        <h2><i class="fas fa-qrcode"></i> Create Your QR Code</h2>
+      <!-- Crop Tab -->
+      <div class="tab-content active" id="crop-tab" role="tabpanel">
+        <h2><i class="fas fa-crop"></i> Image Cropper</h2>
+        <p><i>Draw a rectangle on the image to crop it.</i></p>
+        <div class="drag-drop-area" id="cropDragArea">
+          <p><i class="fas fa-upload"></i> Choose file or drag and drop here</p>
+          <p>Supported formats: PNG, JPEG, WEBP, BMP, GIF, HEIC</p>
+          <p>Max file size: 10MB</p>
+        </div>
+        <input type="file" id="cropUpload" accept="image/*,.heic,.heif" style="display: none;" aria-label="Upload image for cropping" />
         
-        <label for="qr-type">QR Code Type:</label>
-        <select id="qr-type" aria-label="Select QR code type">
-          <option value="url">URL/Text</option>
-          <option value="vcard">vCard (Contact)</option>
-          <option value="wifi">Wi-Fi</option>
-          <option value="sms">SMS</option>
-          <option value="email">Email</option>
-        </select>
-
-        <div class="qr-type-fields active" id="url-fields">
-          <label for="qr-input">Enter QR Code Content:</label>
-          <input type="text" id="qr-input" placeholder="Enter URL or text..." autofocus aria-label="Enter URL or text content">
-        </div>
-
-        <div class="qr-type-fields" id="vcard-fields">
-          <label for="vcard-name">Full Name:</label>
-          <input type="text" id="vcard-name" placeholder="John Doe" aria-label="Enter full name">
-          <label for="vcard-phone">Phone Number:</label>
-          <input type="tel" id="vcard-phone" placeholder="+1234567890" aria-label="Enter phone number">
-          <label for="vcard-email">Email:</label>
-          <input type="email" id="vcard-email" placeholder="john@example.com" aria-label="Enter email address">
-        </div>
-
-        <div class="qr-type-fields" id="wifi-fields">
-          <label for="wifi-ssid">Wi-Fi SSID:</label>
-          <input type="text" id="wifi-ssid" placeholder="Network Name" aria-label="Enter Wi-Fi SSID">
-          <label for="wifi-password">Password:</label>
-          <input type="text" id="wifi-password" placeholder="Password" aria-label="Enter Wi-Fi password">
-          <label for="wifi-type">Encryption Type:</label>
-          <select id="wifi-type" aria-label="Select Wi-Fi encryption type">
-            <option value="WPA">WPA/WPA2</option>
-            <option value="WEP">WEP</option>
-            <option value="nopass">No Password</option>
-          </select>
-        </div>
-
-        <div class="qr-type-fields" id="sms-fields">
-          <label for="sms-phone">Phone Number:</label>
-          <input type="tel" id="sms-phone" placeholder="+1234567890" aria-label="Enter phone number for SMS">
-          <label for="sms-message">Message:</label>
-          <textarea id="sms-message" placeholder="Enter your message" aria-label="Enter SMS message"></textarea>
-        </div>
-
-        <div class="qr-type-fields" id="email-fields">
-          <label for="email-address">Recipient Email:</label>
-          <input type="email" id="email-address" placeholder="recipient@example.com" aria-label="Enter recipient email">
-          <label for="email-subject">Subject:</label>
-          <input type="text" id="email-subject" placeholder="Subject" aria-label="Enter email subject">
-          <label for="email-body">Body:</label>
-          <textarea id="email-body" placeholder="Enter email body" aria-label="Enter email body"></textarea>
-        </div>
-
-        <div class="error" id="input-error">Please fill in all required fields</div>
-
-        <div class="logo-options-container">
-          <div class="logo-options-header">
-            <i class="fas fa-image"></i>
-            <h3>Logo & Border Options</h3>
-          </div>
-          
-          <div class="logo-options-content">
-            <div class="logo-upload-container">
-              <div class="logo-upload-area" id="logo-upload-area">
-                <label for="logo-upload" class="visually-hidden">Upload Logo</label>
-                <i class="fas fa-cloud-upload-alt"></i>
-                <p>Drag & drop your logo here<br>or click to select a file</p>
-                <div class="logo-preview" id="logo-preview">
-                  <div class="border-preview">
-                    <div class="logo-placeholder"></div>
-                    <div class="border-indicator" id="border-preview"></div>
-                  </div>
-                </div>
-                <input type="file" id="logo-upload" accept="image/*" style="display:none" aria-label="Upload logo image">
-              </div>
-            </div>
-            
-            <div class="border-controls-container">
-              <div class="border-controls">
-                <div class="border-control">
-                  <label for="border-size">Border Size:</label>
-                  <div class="size-controls">
-                    <input type="range" id="border-size" class="size-slider" min="0" max="20" value="5" step="1" aria-label="Adjust logo border size">
-                    <div class="size-value" id="border-size-value">5px</div>
-                  </div>
-                </div>
-                <div class="border-control">
-                  <label for="border-color">Border Color:</label>
-                  <input type="color" id="border-color" value="#FFFFFF" aria-label="Select logo border color">
-                </div>
-                <!-- New Logo Size Control -->
-                <div class="border-control">
-                  <label for="logo-size">Logo Size:</label>
-                  <div class="size-controls">
-                    <input type="range" id="logo-size" class="size-slider" min="5" max="25" value="15" step="1" aria-label="Adjust logo size">
-                    <div class="size-value" id="logo-size-value">15%</div>
-                  </div>
-                </div>
-              </div>
-              <div class="border-note" id="border-note">
-                <i class="fas fa-info-circle"></i> Border settings only apply when a logo is uploaded
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="color-group">
-          <div class="color-input">
-            <label for="fg-color">Foreground Color</label>
-            <input type="color" id="fg-color" value="#000000" aria-label="Select foreground color">
-          </div>
-          <div class="color-input">
-            <label for="bg-color">Background Color</label>
-            <input type="color" id="bg-color" value="#FFFFFF" aria-label="Select background color">
-          </div>
-        </div>
-        
-        <div class="toggle-container">
-          <span class="toggle-label">Transparent Background</span>
-          <label class="toggle-switch-visual">
-            <input type="checkbox" id="transparent-bg" aria-label="Make background transparent">
-            <span class="toggle-slider"></span>
-          </label>
-        </div>
-
-        <div class="size-group">
-          <label for="size-slider">QR Code Size:</label>
-          <div class="size-controls">
-            <input type="range" id="size-slider" class="size-slider" min="128" max="1024" value="256" step="32" aria-label="Adjust QR code size">
-            <div class="size-value" id="size-value">256px</div>
-          </div>
-        </div>
-
-        <div class="btn-group">
-          <button onclick="generateQR()" aria-label="Generate QR code">
-            <i class="fas fa-bolt"></i> Generate QR Code
+        <div class="transform-controls">
+          <button class="transform-btn" id="rotateLeft">
+            <i class="fas fa-undo"></i> Rotate Left
           </button>
-          <button id="download-btn" onclick="downloadQR()" style="display:none" aria-label="Download QR code">
-            <i class="fas fa-download"></i> Download QR Code
+          <button class="transform-btn" id="rotateRight">
+            <i class="fas fa-redo"></i> Rotate Right
+          </button>
+          <button class="transform-btn" id="flipHorizontal">
+            <i class="fas fa-arrows-alt-h"></i> Flip Horizontal
+          </button>
+          <button class="transform-btn" id="flipVertical">
+            <i class="fas fa-arrows-alt-v"></i> Flip Vertical
           </button>
         </div>
-
-        <div class="loading" id="qr-loading">
+        
+        <div class="history-controls">
+          <button class="history-btn" id="undoBtn" disabled>
+            <i class="fas fa-undo"></i> Undo
+          </button>
+          <button class="history-btn" id="redoBtn" disabled>
+            <i class="fas fa-redo"></i> Redo
+          </button>
+        </div>
+        
+        <div class="error" id="crop-error"></div>
+        <div class="success" id="crop-success"></div>
+        <div class="loading" id="crop-loading">
           <div class="spinner"></div>
-          Generating QR code...
+          Processing Image...
         </div>
-        <div class="error" id="qr-error"></div>
-        <div class="success" id="qr-success"></div>
-
-        <canvas id="qr-canvas" width="256" height="256" style="display:none;" aria-label="Generated QR code"></canvas>
-      </div>
-
-      <div class="tab-content" id="bulk-tab" role="tabpanel">
-        <h2><i class="fas fa-layer-group"></i> Bulk QR Code Generation</h2>
-        
-        <div class="input-type-toggle" id="bulk-input-type">
-          <label class="active">
-            <input type="radio" name="bulk-type" value="list" checked>
-            <i class="fas fa-list"></i> List
-          </label>
-          <label>
-            <input type="radio" name="bulk-type" value="range">
-            <i class="fas fa-sort-numeric-up"></i> Number Range
-          </label>
-          <label>
-            <input type="radio" name="bulk-type" value="csv">
-            <i class="fas fa-file-csv"></i> CSV Upload
-          </label>
-        </div>
-        
-        <!-- List Input Fields -->
-        <div id="bulk-list-fields" class="bulk-format-content" style="display: block;">
-          <label for="bulk-input">Enter URLs or text (one per line):</label>
-          <textarea id="bulk-input" rows="5" placeholder="https://example.com/page1
-https://example.com/page2
-Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
-        </div>
-        
-        <!-- Number Range Input Fields -->
-        <div id="bulk-range-fields" class="bulk-format-content" style="display: none;">
-          <div class="range-controls">
-            <div>
-              <label for="range-start">Start Number:</label>
-              <input type="number" id="range-start" min="1" value="1" placeholder="1">
-            </div>
-            <div>
-              <label for="range-end">End Number:</label>
-              <input type="number" id="range-end" min="1" value="10" placeholder="10">
-            </div>
-            <div>
-              <label for="range-prefix">Prefix (Optional):</label>
-              <input type="text" id="range-prefix" placeholder="QR-">
-            </div>
-            <div>
-              <label for="range-suffix">Suffix (Optional):</label>
-              <input type="text" id="range-suffix" placeholder="-code">
-            </div>
-          </div>
-        </div>
-        
-        <!-- CSV Upload Format -->
-        <div id="bulk-csv-fields" class="bulk-format-content" style="display: none;">
-          <div class="file-upload-container">
-            <label for="bulk-file-upload" class="file-upload-label">
-              <i class="fas fa-cloud-upload-alt"></i>
-              <p>Upload a CSV file with URLs or text<br>(one per row)</p>
-            </label>
-            <input type="file" id="bulk-file-upload" class="file-upload-input" accept=".csv" aria-label="Upload CSV file for bulk QR codes">
-          </div>
-        </div>
-
-        <label for="bulk-filename">File Name Prefix:</label>
-        <input type="text" id="bulk-filename" value="qr-codes" aria-label="Enter file name prefix for bulk QR codes">
-
-        <!-- Bulk QR design options -->
-        <div class="logo-options-container">
-          <div class="logo-options-header">
-            <i class="fas fa-image"></i>
-            <h3>Logo & Border Options</h3>
-          </div>
-          
-          <div class="logo-options-content">
-            <div class="logo-upload-container">
-              <div class="logo-upload-area" id="bulk-logo-upload-area">
-                <label for="bulk-logo-upload" class="visually-hidden">Upload Logo for Bulk</label>
-                <i class="fas fa-cloud-upload-alt"></i>
-                <p>Drag & drop your logo here<br>or click to select a file</p>
-                <div class="logo-preview" id="bulk-logo-preview">
-                  <div class="border-preview">
-                    <div class="logo-placeholder"></div>
-                    <div class="border-indicator" id="bulk-border-preview"></div>
-                  </div>
-                </div>
-                <input type="file" id="bulk-logo-upload" accept="image/*" style="display:none" aria-label="Upload logo image for bulk">
-              </div>
-            </div>
-            
-            <div class="border-controls-container">
-              <div class="border-controls">
-                <div class="border-control">
-                  <label for="bulk-border-size">Border Size:</label>
-                  <div class="size-controls">
-                    <input type="range" id="bulk-border-size" class="size-slider" min="0" max="20" value="5" step="1" aria-label="Adjust logo border size for bulk">
-                    <div class="size-value" id="bulk-border-size-value">5px</div>
-                  </div>
-                </div>
-                <div class="border-control">
-                  <label for="bulk-border-color">Border Color:</label>
-                  <input type="color" id="bulk-border-color" value="#FFFFFF" aria-label="Select logo border color for bulk">
-                </div>
-                <!-- New Logo Size Control for Bulk -->
-                <div class="border-control">
-                  <label for="bulk-logo-size">Logo Size:</label>
-                  <div class="size-controls">
-                    <input type="range" id="bulk-logo-size" class="size-slider" min="5" max="25" value="15" step="1" aria-label="Adjust logo size for bulk">
-                    <div class="size-value" id="bulk-logo-size-value">15%</div>
-                  </div>
-                </div>
-              </div>
-              <div class="border-note" id="bulk-border-note">
-                <i class="fas fa-info-circle"></i> Border settings only apply when a logo is uploaded
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <div class="color-group">
-          <div class="color-input">
-            <label for="bulk-fg-color">Foreground Color</label>
-            <input type="color" id="bulk-fg-color" value="#000000" aria-label="Select foreground color for bulk">
-          </div>
-          <div class="color-input">
-            <label for="bulk-bg-color">Background Color</label>
-            <input type="color" id="bulk-bg-color" value="#FFFFFF" aria-label="Select background color for bulk">
-          </div>
-        </div>
-        
-        <div class="toggle-container">
-          <span class="toggle-label">Transparent Background</span>
-          <label class="toggle-switch-visual">
-            <input type="checkbox" id="bulk-transparent-bg" aria-label="Make background transparent for bulk">
-            <span class="toggle-slider"></span>
-          </label>
-        </div>
-
-        <div class="size-group">
-          <label for="bulk-size-slider">QR Code Size:</label>
-          <div class="size-controls">
-            <input type="range" id="bulk-size-slider" class="size-slider" min="128" max="1024" value="256" step="32" aria-label="Adjust QR code size for bulk">
-            <div class="size-value" id="bulk-size-value">256px</div>
-          </div>
-        </div>
-
+        <canvas id="cropCanvas" width="300" height="200"></canvas>
         <div class="btn-group">
-          <button onclick="generateBulkQR()" aria-label="Generate and download bulk QR codes as ZIP">
-            <i class="fas fa-file-archive"></i> Generate & Download as ZIP
+          <button id="cropBtn" style="display: none;">
+            <i class="fas fa-crop"></i> Crop Image
+          </button>
+          <button id="resetCrop" style="display: none;">
+            <i class="fas fa-undo"></i> Reset
+          </button>
+          <button id="downloadCrop" style="display: none;">
+            <i class="fas fa-download"></i> Download
           </button>
         </div>
+      </div>
 
-        <div class="loading" id="bulk-loading">
+      <!-- Resize Tab -->
+      <div class="tab-content" id="resize-tab" role="tabpanel">
+        <h2><i class="fas fa-expand"></i> Image Resizer</h2>
+        <p><i>Resize your image to specified dimensions.</i></p>
+        <div class="drag-drop-area" id="resizeDragArea">
+          <p><i class="fas fa-upload"></i> Choose file or drag and drop here</p>
+          <p>Supported formats: PNG, JPEG, WEBP, BMP, GIF, HEIC</p>
+          <p>Max file size: 10MB</p>
+        </div>
+        <input type="file" id="resizeUpload" accept="image/*,.heic,.heif" style="display: none;" aria-label="Upload image for resizing" />
+        
+        <div class="transform-controls">
+          <button class="transform-btn" id="resizeRotateLeft">
+            <i class="fas fa-undo"></i> Rotate Left
+          </button>
+          <button class="transform-btn" id="resizeRotateRight">
+            <i class="fas fa-redo"></i> Rotate Right
+          </button>
+          <button class="transform-btn" id="resizeFlipHorizontal">
+            <i class="fas fa-arrows-alt-h"></i> Flip Horizontal
+          </button>
+          <button class="transform-btn" id="resizeFlipVertical">
+            <i class="fas fa-arrows-alt-v"></i> Flip Vertical
+          </button>
+        </div>
+        
+        <div class="resize-controls">
+          <div>
+            <label for="resizeWidth">Width (px):</label>
+            <input type="number" id="resizeWidth" min="1" placeholder="Width (px)" aria-label="Width in pixels">
+          </div>
+          <div>
+            <label for="resizeHeight">Height (px):</label>
+            <input type="number" id="resizeHeight" min="1" placeholder="Height (px)" aria-label="Height in pixels">
+          </div>
+        </div>
+        
+        <div class="history-controls">
+          <button class="history-btn" id="resizeUndoBtn" disabled>
+            <i class="fas fa-undo"></i> Undo
+          </button>
+          <button class="history-btn" id="resizeRedoBtn" disabled>
+            <i class="fas fa-redo"></i> Redo
+          </button>
+        </div>
+        
+        <div class="error" id="resize-error"></div>
+        <div class="success" id="resize-success"></div>
+        <div class="loading" id="resize-loading">
           <div class="spinner"></div>
-          <div id="bulk-progress">Generating QR codes: 0/0</div>
+          Processing Image...
         </div>
-
-        <div class="success" id="bulk-success"></div>
-        <div class="error" id="bulk-error"></div>
+        <canvas id="resizeCanvas" width="300" height="200"></canvas>
+        <div class="btn-group">
+          <button id="resizeBtn" style="display: none;">
+            <i class="fas fa-expand"></i> Resize Image
+          </button>
+          <button id="resetResize" style="display: none;">
+            <i class="fas fa-undo"></i> Reset
+          </button>
+          <button id="downloadResize" style="display: none;">
+            <i class="fas fa-download"></i> Download
+          </button>
+        </div>
       </div>
 
-      <div class="tab-content" id="scan-tab" role="tabpanel">
-        <h2><i class="fas fa-camera"></i> QR Code Scanner</h2>
-
-        <div class="scanner-container">
-          <video id="scanner-video" aria-label="Camera feed for QR code scanning"></video>
-          <div class="scanner-overlay" id="scanner-overlay">
-            <div class="scanner-box"></div>
-            <div class="scanner-status" id="scanner-status" style="display:none;"></div>
-            <div class="scanner-guides" id="scanner-guides" style="display:none;"></div>
+      <!-- Enhance Tab -->
+      <div class="tab-content" id="enhance-tab" role="tabpanel">
+        <h2><i class="fas fa-sliders-h"></i> Image Enhancement</h2>
+        <p><i>Adjust and enhance your images with filters and effects.</i></p>
+        <div class="drag-drop-area" id="enhanceDragArea">
+          <p><i class="fas fa-upload"></i> Choose file or drag and drop here</p>
+          <p>Supported formats: PNG, JPEG, WEBP, BMP, GIF</p>
+          <p>Max file size: 10MB</p>
+        </div>
+        <input type="file" id="enhanceUpload" accept="image/*" style="display: none;" aria-label="Upload image for enhancement" />
+        
+        <div class="transform-controls">
+          <button class="transform-btn" id="enhanceRotateLeft">
+            <i class="fas fa-undo"></i> Rotate Left
+          </button>
+          <button class="transform-btn" id="enhanceRotateRight">
+            <i class="fas fa-redo"></i> Rotate Right
+          </button>
+          <button class="transform-btn" id="enhanceFlipHorizontal">
+            <i class="fas fa-arrows-alt-h"></i> Flip Horizontal
+          </button>
+          <button class="transform-btn" id="enhanceFlipVertical">
+            <i class="fas fa-arrows-alt-v"></i> Flip Vertical
+          </button>
+        </div>
+        
+        <div class="adjustment-controls">
+          <div class="adjustment-control">
+            <label for="brightness">Brightness</label>
+            <input type="range" id="brightness" min="-100" max="100" value="0">
+          </div>
+          <div class="adjustment-control">
+            <label for="contrast">Contrast</label>
+            <input type="range" id="contrast" min="-100" max="100" value="0">
+          </div>
+          <div class="adjustment-control">
+            <label for="saturation">Saturation</label>
+            <input type="range" id="saturation" min="-100" max="100" value="0">
+          </div>
+          <div class="adjustment-control">
+            <label for="blur">Blur</label>
+            <input type="range" id="blur" min="0" max="10" value="0">
           </div>
         </div>
-
+        
+        <div class="filter-options">
+          <button class="filter-btn active" data-filter="normal">Normal</button>
+          <button class="filter-btn" data-filter="grayscale">B&W</button>
+          <button class="filter-btn" data-filter="sepia">Sepia</button>
+          <button class="filter-btn" data-filter="vintage">Vintage</button>
+          <button class="filter-btn" data-filter="invert">Invert</button>
+          <button class="filter-btn" data-filter="posterize">Posterize</button>
+        </div>
+        
+        <div class="history-controls">
+          <button class="history-btn" id="enhanceUndoBtn" disabled>
+            <i class="fas fa-undo"></i> Undo
+          </button>
+          <button class="history-btn" id="enhanceRedoBtn" disabled>
+            <i class="fas fa-redo"></i> Redo
+          </button>
+        </div>
+        
+        <div class="error" id="enhance-error"></div>
+        <div class="success" id="enhance-success"></div>
+        <div class="loading" id="enhance-loading">
+          <div class="spinner"></div>
+          Applying Enhancements...
+        </div>
+        <canvas id="enhanceCanvas" width="300" height="200"></canvas>
         <div class="btn-group">
-          <button id="start-scan" aria-label="Start camera scanner">
-            <i class="fas fa-play"></i> Start Camera Scanner
+          <button id="enhanceBtn" style="display: none;">
+            <i class="fas fa-magic"></i> Apply Enhancements
           </button>
-          <button id="stop-scan" class="secondary" aria-label="Stop camera scanner">
-            <i class="fas fa-stop"></i> Stop Scanner
+          <button id="downloadEnhance" style="display: none;">
+            <i class="fas fa-download"></i> Download
           </button>
         </div>
+      </div>
 
-        <h3>Or Scan from Image File</h3>
-        <div class="file-upload-container">
-          <label for="file-upload" class="file-upload-label">
-            <i class="fas fa-cloud-upload-alt"></i>
-            <p>Drag & drop a QR code image here<br>or click to select a file</p>
-          </label>
-          <input type="file" id="file-upload" class="file-upload-input" accept="image/*" aria-label="Upload QR code image for scanning">
+      <!-- Draw Tab -->
+      <div class="tab-content" id="draw-tab" role="tabpanel">
+        <h2><i class="fas fa-paint-brush"></i> Drawing Tools</h2>
+        <p><i>Draw on your image with various tools.</i></p>
+        <div class="drag-drop-area" id="drawDragArea">
+          <p><i class="fas fa-upload"></i> Choose file or drag and drop here</p>
+          <p>Supported formats: PNG, JPEG, WEBP, BMP, GIF</p>
+          <p>Max file size: 10MB</p>
         </div>
+        <input type="file" id="drawUpload" accept="image/*" style="display: none;" aria-label="Upload image for drawing" />
+        
+        <div class="drawing-tools">
+          <button class="drawing-tool active" data-tool="pencil">
+            <i class="fas fa-pencil-alt"></i> Pencil
+          </button>
+          <button class="drawing-tool" data-tool="rectangle">
+            <i class="fas fa-square"></i> Rectangle
+          </button>
+          <button class="drawing-tool" data-tool="circle">
+            <i class="fas fa-circle"></i> Circle
+          </button>
+          <button class="drawing-tool" data-tool="line">
+            <i class="fas fa-minus"></i> Line
+          </button>
+          <button class="drawing-tool" data-tool="text">
+            <i class="fas fa-font"></i> Text
+          </button>
+        </div>
+        
+        <div class="adjustment-controls">
+          <div class="adjustment-control">
+            <label for="drawColor">Color:</label>
+            <input type="color" id="drawColor" value="#FF0000">
+          </div>
+          <div class="adjustment-control">
+            <label for="drawSize">Size:</label>
+            <input type="range" id="drawSize" min="1" max="50" value="5">
+          </div>
+          <div class="adjustment-control">
+            <label for="opacity">Opacity:</label>
+            <input type="range" id="opacity" min="10" max="100" value="100">
+          </div>
+        </div>
+        
+        <div class="history-controls">
+          <button class="history-btn" id="drawUndoBtn" disabled>
+            <i class="fas fa-undo"></i> Undo
+          </button>
+          <button class="history-btn" id="drawRedoBtn" disabled>
+            <i class="fas fa-redo"></i> Redo
+          </button>
+        </div>
+        
+        <div class="error" id="draw-error"></div>
+        <div class="success" id="draw-success"></div>
+        <div class="loading" id="draw-loading">
+          <div class="spinner"></div>
+          Loading Image...
+        </div>
+        <canvas id="drawCanvas" width="300" height="200"></canvas>
+        <div class="btn-group">
+          <button id="saveDraw" style="display: none;">
+            <i class="fas fa-save"></i> Save Drawing
+          </button>
+          <button id="downloadDraw" style="display: none;">
+            <i class="fas fa-download"></i> Download
+          </button>
+        </div>
+      </div>
 
-        <div class="scan-result" id="scan-result" role="region" aria-live="polite">
-          <p>Scan results will appear here</p>
+      <!-- Collage Tab -->
+      <div class="tab-content" id="collage-tab" role="tabpanel">
+        <h2><i class="fas fa-th-large"></i> Photo Collage Maker</h2>
+        <p><i>Combine multiple photos into a single collage.</i></p>
+        <div class="drag-drop-area" id="collageDragArea">
+          <p><i class="fas fa-upload"></i> Choose 2-4 photos or drag and drop here</p>
+          <p>Supported formats: PNG, JPEG, WEBP, BMP, GIF</p>
+          <p>Max file size per image: 10MB</p>
+        </div>
+        <input type="file" id="collageUpload" accept="image/*" multiple style="display: none;" aria-label="Upload images for collage" />
+        
+        <div class="collage-layouts">
+          <div class="layout-option active" data-layout="2h">
+            <div class="layout-cell"></div>
+            <div class="layout-cell"></div>
+          </div>
+          <div class="layout-option" data-layout="2v">
+            <div class="layout-cell"></div>
+            <div class="layout-cell"></div>
+          </div>
+          <div class="layout-option" data-layout="3h">
+            <div class="layout-cell"></div>
+            <div class="layout-cell"></div>
+            <div class="layout-cell"></div>
+          </div>
+          <div class="layout-option" data-layout="3v">
+            <div class="layout-cell"></div>
+            <div class="layout-cell"></div>
+            <div class="layout-cell"></div>
+          </div>
+          <div class="layout-option" data-layout="4grid">
+            <div class="layout-cell"></div>
+            <div class="layout-cell"></div>
+            <div class="layout-cell"></div>
+            <div class="layout-cell"></div>
+          </div>
+        </div>
+        
+        <label for="spacing">Spacing:</label>
+        <input type="range" id="spacing" min="0" max="30" value="10">
+        
+        <label for="borderWidth">Border:</label>
+        <input type="range" id="borderWidth" min="0" max="20" value="5">
+        
+        <div class="collage-preview" id="collagePreview" style="display: none;">
+          <!-- Preview will be generated here -->
+        </div>
+        
+        <div class="history-controls">
+          <button class="history-btn" id="collageUndoBtn" disabled>
+            <i class="fas fa-undo"></i> Undo
+          </button>
+          <button class="history-btn" id="collageRedoBtn" disabled>
+            <i class="fas fa-redo"></i> Redo
+          </button>
+        </div>
+        
+        <div class="error" id="collage-error"></div>
+        <div class="success" id="collage-success"></div>
+        <div class="loading" id="collage-loading">
+          <div class="spinner"></div>
+          Creating Collage...
+        </div>
+        <canvas id="collageCanvas" width="300" height="200"></canvas>
+        <div class="btn-group">
+          <button id="createCollageBtn" style="display: none;">
+            <i class="fas fa-th"></i> Create Collage
+          </button>
+          <button id="downloadCollage" style="display: none;">
+            <i class="fas fa-download"></i> Download
+          </button>
         </div>
       </div>
     </div>
 
-    <!-- Practical Uses section with 4 cards per row and white text -->
+    <!-- Practical Uses section - 4 cards per row, white text -->
     <div class="uses-section">
-      <h2><i class="fas fa-lightbulb"></i> Practical Uses for QR Codes</h2>
-      <p>QR codes have countless applications across industries. Here are some popular uses:</p>
+      <h2><i class="fas fa-lightbulb"></i> Practical Uses for Image Editing</h2>
+      <p>Image editing has countless applications across industries. Here are some popular uses:</p>
       
       <div class="uses-grid">
         <div class="use-item">
-          <i class="fas fa-shopping-cart"></i>
-          <h3>Product Labels</h3>
-          <p>Link to product information, manuals, or special offers</p>
-        </div>
-        
-        <div class="use-item">
-          <i class="fas fa-calendar-check"></i>
-          <h3>Event Tickets</h3>
-          <p>Provide secure entry to events with scannable tickets</p>
-        </div>
-        
-        <div class="use-item">
-          <i class="fas fa-building"></i>
-          <h3>Business Cards</h3>
-          <p>Share contact information and social media profiles</p>
-        </div>
-        
-        <div class="use-item">
-          <i class="fas fa-wifi"></i>
-          <h3>Wi-Fi Access</h3>
-          <p>Allow guests to connect to Wi-Fi without sharing passwords</p>
-        </div>
-        
-        <div class="use-item">
-          <i class="fas fa-map-marker-alt"></i>
-          <h3>Location Sharing</h3>
-          <p>Provide directions to your business or event location</p>
-        </div>
-        
-        <div class="use-item">
-          <i class="fas fa-file-pdf"></i>
-          <h3>Document Access</h3>
-          <p>Link to PDF menus, catalogs, or instructional documents</p>
-        </div>
-        
-        <div class="use-item">
-          <i class="fas fa-credit-card"></i>
-          <h3>Payment Links</h3>
-          <p>Enable quick payments by linking to payment platforms or wallets</p>
-        </div>
-        
-        <div class="use-item">
           <i class="fas fa-share-alt"></i>
-          <h3>Social Media Sharing</h3>
-          <p>Drive engagement by linking to your social media pages or posts</p>
+          <h3>Social Media</h3>
+          <p>Resize and crop images for Instagram, Twitter, or Facebook</p>
+        </div>
+        
+        <div class="use-item">
+          <i class="fas fa-shopping-cart"></i>
+          <h3>E-commerce</h3>
+          <p>Optimize product images with cropping and format conversion</p>
+        </div>
+        
+        <div class="use-item">
+          <i class="fas fa-globe"></i>
+          <h3>Website Optimization</h3>
+          <p>Convert images to WEBP for faster loading times</p>
+        </div>
+        
+        <div class="use-item">
+          <i class="fas fa-image"></i>
+          <h3>Content Creation</h3>
+          <p>Prepare images for blogs, portfolios, or digital marketing</p>
+        </div>
+        
+        <div class="use-item">
+          <i class="fas fa-blog"></i>
+          <h3>Blogging</h3>
+          <p>Resize and compress images for faster blog loading</p>
+        </div>
+        
+        <div class="use-item">
+          <i class="fas fa-envelope"></i>
+          <h3>Email Marketing</h3>
+          <p>Crop images to fit email campaign templates</p>
+        </div>
+        
+        <div class="use-item">
+          <i class="fas fa-file-powerpoint"></i>
+          <h3>Presentations</h3>
+          <p>Resize images to fit PowerPoint or Keynote slides</p>
+        </div>
+        
+        <div class="use-item">
+          <i class="fas fa-film"></i>
+          <h3>Format Conversion</h3>
+          <p>Change image formats to ensure compatibility with various devices</p>
         </div>
       </div>
     </div>
@@ -1805,6 +2093,7 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
           <a href="/privacy" aria-label="Privacy Policy">Privacy Policy</a>
           <a href="/terms" aria-label="Terms of Service">Terms of Service</a>
           <a href="/gdpr" aria-label="GDPR Compliance">GDPR Compliance</a>
+          <a href="#" id="open-settings-footer" aria-label="Open cookie settings">Cookie Settings</a>
         </div>
         <p>© 2025 EveryTool.io. All rights reserved.</p>
       </div>
@@ -1812,159 +2101,25 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
   </footer>
 
   <script>
-    // Constants
-    const PREFERENCES_KEY = 'qrPreferences';
-
-    // DOM Elements
-    const qrType = document.getElementById('qr-type');
-    const qrInput = document.getElementById('qr-input');
-    const vcardName = document.getElementById('vcard-name');
-    const vcardPhone = document.getElementById('vcard-phone');
-    const vcardEmail = document.getElementById('vcard-email');
-    const wifiSsid = document.getElementById('wifi-ssid');
-    const wifiPassword = document.getElementById('wifi-password');
-    const wifiType = document.getElementById('wifi-type');
-    const smsPhone = document.getElementById('sms-phone');
-    const smsMessage = document.getElementById('sms-message');
-    const emailAddress = document.getElementById('email-address');
-    const emailSubject = document.getElementById('email-subject');
-    const emailBody = document.getElementById('email-body');
-    const qrCanvas = document.getElementById('qr-canvas');
-    const fgColor = document.getElementById('fg-color');
-    const bgColor = document.getElementById('bg-color');
-    const transparentBg = document.getElementById('transparent-bg');
-    const bulkTransparentBg = document.getElementById('bulk-transparent-bg');
-    const sizeSlider = document.getElementById('size-slider');
-    const sizeValue = document.getElementById('size-value');
-    const borderSize = document.getElementById('border-size');
-    const borderSizeValue = document.getElementById('border-size-value');
-    const borderColor = document.getElementById('border-color');
-    const logoSize = document.getElementById('logo-size');
-    const logoSizeValue = document.getElementById('logo-size-value');
-    const bulkLogoSize = document.getElementById('bulk-logo-size');
-    const bulkLogoSizeValue = document.getElementById('bulk-logo-size-value');
-    const logoUpload = document.getElementById('logo-upload');
-    const logoUploadArea = document.getElementById('logo-upload-area');
-    const logoPreview = document.getElementById('logo-preview');
-    const qrLoading = document.getElementById('qr-loading');
-    const qrError = document.getElementById('qr-error');
-    const qrSuccess = document.getElementById('qr-success');
-    const downloadBtn = document.getElementById('download-btn');
-    const video = document.getElementById('scanner-video');
-    const scanResult = document.getElementById('scan-result');
-    const startScanBtn = document.getElementById('start-scan');
-    const stopScanBtn = document.getElementById('stop-scan');
-    const scannerOverlay = document.getElementById('scanner-overlay');
-    const tabs = document.querySelectorAll('.tab');
-    const tabContents = document.querySelectorAll('.tab-content');
-    const bulkInput = document.getElementById('bulk-input');
-    const bulkFileUpload = document.getElementById('bulk-file-upload');
-    const bulkFilename = document.getElementById('bulk-filename');
-    const bulkLoading = document.getElementById('bulk-loading');
-    const bulkProgress = document.getElementById('bulk-progress');
-    const bulkSuccess = document.getElementById('bulk-success');
-    const bulkError = document.getElementById('bulk-error');
-    const fileUpload = document.getElementById('file-upload');
-    const bulkFgColor = document.getElementById('bulk-fg-color');
-    const bulkBgColor = document.getElementById('bulk-bg-color');
-    const bulkSizeSlider = document.getElementById('bulk-size-slider');
-    const bulkSizeValue = document.getElementById('bulk-size-value');
-    const bulkBorderSize = document.getElementById('bulk-border-size');
-    const bulkBorderSizeValue = document.getElementById('bulk-border-size-value');
-    const bulkBorderColor = document.getElementById('bulk-border-color');
-    const bulkLogoUpload = document.getElementById('bulk-logo-upload');
-    const bulkLogoUploadArea = document.getElementById('bulk-logo-upload-area');
-    const bulkLogoPreview = document.getElementById('bulk-logo-preview');
-    const bulkInputType = document.getElementById('bulk-input-type');
-    const bulkListFields = document.getElementById('bulk-list-fields');
-    const bulkRangeFields = document.getElementById('bulk-range-fields');
-    const bulkCsvFields = document.getElementById('bulk-csv-fields');
-    const rangeStart = document.getElementById('range-start');
-    const rangeEnd = document.getElementById('range-end');
-    const rangePrefix = document.getElementById('range-prefix');
-    const rangeSuffix = document.getElementById('range-suffix');
-    const borderPreview = document.getElementById('border-preview');
-    const bulkBorderPreview = document.getElementById('bulk-border-preview');
-    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
-    const closeMobileMenu = document.getElementById('close-mobile-menu');
-    const mobileNav = document.getElementById('mobile-nav');
-    const mobileBackdrop = document.getElementById('mobile-backdrop');
-    const scannerStatus = document.getElementById('scanner-status');
-    const scannerGuides = document.getElementById('scanner-guides');
-
-    // Global variables
-    let currentStream = null;
-    let logoImage = null;
-    let bulkLogoImage = null;
-    let generatedQR = null;
-    let bulkQRs = [];
-    let previewTimeout = null;
-
-    // Initialize the page
-    document.addEventListener('DOMContentLoaded', () => {
-      initMobileMenu();
-      updateSizeValue();
-      updateBorderSizeValue();
-      updateLogoSizeValue();
-      updateBulkLogoSizeValue();
-      updateBorderPreview();
-      updateBulkBorderPreview();
-      setupEventListeners();
-      toggleQRTypeFields();
-      initBulkInputType();
-    });
-
-    function initBulkInputType() {
-      const bulkTypeRadios = document.querySelectorAll('input[name="bulk-type"]');
-      const bulkInputLabels = document.querySelectorAll('#bulk-input-type label');
-      
-      // Function to update active state
-      function updateActiveState() {
-        // Remove active class from all labels
-        bulkInputLabels.forEach(label => label.classList.remove('active'));
-        
-        // Find the checked radio and add active class to its parent label
-        const checkedRadio = document.querySelector('input[name="bulk-type"]:checked');
-        if (checkedRadio) {
-          checkedRadio.closest('label').classList.add('active');
-        }
-      }
-      
-      // Set initial active state
-      updateActiveState();
-      
-      bulkTypeRadios.forEach(radio => {
-        radio.addEventListener('change', () => {
-          // Update the active state
-          updateActiveState();
-          
-          bulkListFields.style.display = 'none';
-          bulkRangeFields.style.display = 'none';
-          bulkCsvFields.style.display = 'none';
-          
-          if (radio.value === 'list') {
-            bulkListFields.style.display = 'block';
-          } else if (radio.value === 'range') {
-            bulkRangeFields.style.display = 'block';
-          } else if (radio.value === 'csv') {
-            bulkCsvFields.style.display = 'block';
-          }
-        });
-      });
-    }
-
-    // Mobile Menu Functions
+    // Mobile Menu Functionality
     function initMobileMenu() {
+      const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+      const closeMobileMenu = document.getElementById('close-mobile-menu');
+      const mobileNav = document.getElementById('mobile-nav');
+      const mobileBackdrop = document.getElementById('mobile-backdrop');
+      
       function openMobileMenu() {
         mobileNav.classList.add('active');
         mobileBackdrop.classList.add('active');
         document.body.classList.add('menu-open');
+        document.body.style.overflow = 'hidden';
       }
       
       function closeMobileMenuHandler() {
         mobileNav.classList.remove('active');
         mobileBackdrop.classList.remove('active');
         document.body.classList.remove('menu-open');
+        document.body.style.overflow = '';
       }
       
       if (mobileMenuToggle) {
@@ -1993,843 +2148,1137 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
       });
     }
 
-    // Set up all event listeners
-    function setupEventListeners() {
-      tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-          tabs.forEach(t => {
-            t.classList.remove('active');
-            t.setAttribute('aria-selected', 'false');
-          });
-          tabContents.forEach(c => c.classList.remove('active'));
-          tab.classList.add('active');
-          tab.setAttribute('aria-selected', 'true');
-          document.getElementById(`${tab.dataset.tab}-tab`).classList.add('active');
-          
-          if (currentStream) stopScanner();
-        });
-        tab.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            tab.click();
-          }
-        });
-      });
-
-      if (sizeSlider) sizeSlider.addEventListener('input', updateSizeValue);
+    // Cookie Consent Functionality
+    function initCookieConsent() {
+      const COOKIE_CONSENT_KEY = 'cookieConsent';
       
-      if (borderSize) borderSize.addEventListener('input', () => {
-        updateBorderSizeValue();
-        updateBorderPreview();
-      });
+      function getCookiePreferences() {
+        const preferences = localStorage.getItem(COOKIE_CONSENT_KEY);
+        return preferences ? JSON.parse(preferences) : { essential: true, analytics: false, advertising: false };
+      }
       
-      if (borderColor) borderColor.addEventListener('input', updateBorderPreview);
-      
-      if (logoSize) logoSize.addEventListener('input', updateLogoSizeValue);
-      
-      if (bulkLogoSize) bulkLogoSize.addEventListener('input', updateBulkLogoSizeValue);
-      
-      if (bulkSizeSlider) bulkSizeSlider.addEventListener('input', () => {
-        bulkSizeValue.textContent = `${bulkSizeSlider.value}px`;
-      });
-      
-      if (bulkBorderSize) bulkBorderSize.addEventListener('input', () => {
-        bulkBorderSizeValue.textContent = `${bulkBorderSize.value}px`;
-        updateBulkBorderPreview();
-      });
-      
-      if (bulkBorderColor) bulkBorderColor.addEventListener('input', updateBulkBorderPreview);
-
-      if (fgColor) fgColor.addEventListener('change', saveQRPreferences);
-      if (bgColor) bgColor.addEventListener('change', saveQRPreferences);
-
-      if (logoUploadArea) logoUploadArea.addEventListener('click', () => logoUpload.click());
-      if (logoUpload) logoUpload.addEventListener('change', handleLogoUpload);
-      
-      if (bulkLogoUploadArea) bulkLogoUploadArea.addEventListener('click', () => bulkLogoUpload.click());
-      if (bulkLogoUpload) bulkLogoUpload.addEventListener('change', handleBulkLogoUpload);
-
-      ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-        if (logoUploadArea) logoUploadArea.addEventListener(eventName, preventDefaults, false);
-        if (bulkLogoUploadArea) bulkLogoUploadArea.addEventListener(eventName, preventDefaults, false);
-      });
-
-      ['dragenter', 'dragover'].forEach(eventName => {
-        if (logoUploadArea) logoUploadArea.addEventListener(eventName, highlight, false);
-        if (bulkLogoUploadArea) bulkLogoUploadArea.addEventListener(eventName, highlight, false);
-      });
-
-      ['dragleave', 'drop'].forEach(eventName => {
-        if (logoUploadArea) logoUploadArea.addEventListener(eventName, unhighlight, false);
-        if (bulkLogoUploadArea) bulkLogoUploadArea.addEventListener(eventName, unhighlight, false);
-      });
-
-      if (logoUploadArea) logoUploadArea.addEventListener('drop', handleDrop, false);
-      if (bulkLogoUploadArea) bulkLogoUploadArea.addEventListener('drop', handleBulkDrop, false);
-
-      if (qrInput) qrInput.addEventListener('blur', autoFormatURL);
-      if (qrInput) qrInput.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') generateQR();
-      });
-
-      if (qrType) qrType.addEventListener('change', toggleQRTypeFields);
-
-      if (startScanBtn) startScanBtn.addEventListener('click', startScanner);
-      if (stopScanBtn) stopScanBtn.addEventListener('click', stopScanner);
-
-      if (fileUpload) fileUpload.addEventListener('change', handleFileUpload);
-      if (bulkFileUpload) bulkFileUpload.addEventListener('change', handleBulkFileUpload);
-    }
-    
-    function updateBorderPreview() {
-      if (!borderPreview) return;
-      
-      const borderSizeVal = parseInt(borderSize.value);
-      const borderColorVal = borderColor.value;
-      
-      if (borderSizeVal > 0) {
-        borderPreview.style.border = `${borderSizeVal}px solid ${borderColorVal}`;
-        if (logoUploadArea) logoUploadArea.classList.add('border-active');
-      } else {
-        borderPreview.style.border = 'none';
-        if (logoUploadArea) logoUploadArea.classList.remove('border-active');
-      }
-    }
-    
-    function updateBulkBorderPreview() {
-      if (!bulkBorderPreview) return;
-      
-      const borderSizeVal = parseInt(bulkBorderSize.value);
-      const borderColorVal = bulkBorderColor.value;
-      
-      if (borderSizeVal > 0) {
-        bulkBorderPreview.style.border = `${borderSizeVal}px solid ${borderColorVal}`;
-        if (bulkLogoUploadArea) bulkLogoUploadArea.classList.add('border-active');
-      } else {
-        bulkBorderPreview.style.border = 'none';
-        if (bulkLogoUploadArea) bulkLogoUploadArea.classList.remove('border-active');
-      }
-    }
-
-    function preventDefaults(e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-
-    function highlight() {
-      this.classList.add('drag-over');
-    }
-
-    function unhighlight() {
-      this.classList.remove('drag-over');
-    }
-
-    function handleDrop(e) {
-      const dt = e.dataTransfer;
-      const files = dt.files;
-
-      if (files.length) {
-        logoUpload.files = files;
-        handleLogoUpload({ target: { files } });
-      }
-    }
-    
-    function handleBulkDrop(e) {
-      const dt = e.dataTransfer;
-      const files = dt.files;
-
-      if (files.length) {
-        bulkLogoUpload.files = files;
-        handleBulkLogoUpload({ target: { files } });
-      }
-    }
-
-    function updateSizeValue() {
-      if (sizeValue && sizeSlider) {
-        sizeValue.textContent = `${sizeSlider.value}px`;
-      }
-    }
-    
-    function updateBorderSizeValue() {
-      if (borderSizeValue && borderSize) {
-        borderSizeValue.textContent = `${borderSize.value}px`;
-      }
-    }
-    
-    function updateLogoSizeValue() {
-      if (logoSizeValue && logoSize) {
-        logoSizeValue.textContent = `${logoSize.value}%`;
-      }
-    }
-    
-    function updateBulkLogoSizeValue() {
-      if (bulkLogoSizeValue && bulkLogoSize) {
-        bulkLogoSizeValue.textContent = `${bulkLogoSize.value}%`;
-      }
-    }
-
-    function handleLogoUpload(e) {
-      const file = e.target.files[0];
-      if (!file) return;
-      if (!file.type.match('image.*')) {
-        showError(qrError, 'Please upload a valid image file');
-        return;
-      }
-
-      const reader = new FileReader();
-      reader.onload = function(event) {
-        logoImage = new Image();
-        logoImage.onload = function() {
-          if (logoPreview) {
-            logoPreview.innerHTML = '';
-            const previewContainer = document.createElement('div');
-            previewContainer.className = 'border-preview';
-            
-            const img = document.createElement('img');
-            img.src = event.target.result;
-            img.alt = 'Uploaded logo';
-            img.style.maxWidth = '100%';
-            img.style.maxHeight = '100%';
-            img.style.objectFit = 'contain';
-            
-            const borderIndicator = document.createElement('div');
-            borderIndicator.className = 'border-indicator';
-            borderIndicator.id = 'border-preview';
-            
-            previewContainer.appendChild(img);
-            previewContainer.appendChild(borderIndicator);
-            logoPreview.appendChild(previewContainer);
-          }
-          
-          updateBorderPreview();
-        };
-        logoImage.src = event.target.result;
-      };
-      reader.readAsDataURL(file);
-    }
-    
-    function handleBulkLogoUpload(e) {
-      const file = e.target.files[0];
-      if (!file) return;
-      if (!file.type.match('image.*')) {
-        showError(bulkError, 'Please upload a valid image file');
-        return;
-      }
-
-      const reader = new FileReader();
-      reader.onload = function(event) {
-        bulkLogoImage = new Image();
-        bulkLogoImage.onload = function() {
-          if (bulkLogoPreview) {
-            bulkLogoPreview.innerHTML = '';
-            const previewContainer = document.createElement('div');
-            previewContainer.className = 'border-preview';
-            
-            const img = document.createElement('img');
-            img.src = event.target.result;
-            img.alt = 'Uploaded logo for bulk';
-            img.style.maxWidth = '100%';
-            img.style.maxHeight = '100%';
-            img.style.objectFit = 'contain';
-            
-            const borderIndicator = document.createElement('div');
-            borderIndicator.className = 'border-indicator';
-            borderIndicator.id = 'bulk-border-preview';
-            
-            previewContainer.appendChild(img);
-            previewContainer.appendChild(borderIndicator);
-            bulkLogoPreview.appendChild(previewContainer);
-          }
-          
-          updateBulkBorderPreview();
-        };
-        bulkLogoImage.src = event.target.result;
-      };
-      reader.readAsDataURL(file);
-    }
-
-    function autoFormatURL() {
-      const input = qrInput.value.trim();
-      if (!input) return;
-
-      if (input.includes('.') && !input.startsWith('http://') && !input.startsWith('https://')) {
-        qrInput.value = `https://${input}`;
-      }
-    }
-
-    function toggleQRTypeFields() {
-      const type = qrType.value;
-      document.querySelectorAll('.qr-type-fields').forEach(field => field.classList.remove('active'));
-      document.getElementById(`${type}-fields`).classList.add('active');
-    }
-
-    function sanitizeFilename(str) {
-      return str.replace(/[^a-zA-Z0-9-]+$/g, '_').slice(0, 50);
-    }
-
-    // New modular functions
-    function getQRContent(type) {
-      switch(type) {
-        case 'url':
-          const url = qrInput.value.trim();
-          if (!url) throw new Error('URL is required');
-          if (!url.startsWith('http://') && !url.startsWith('https://')) {
-            return 'http://' + url;
-          }
-          return url;
-          
-        case 'vcard':
-          const name = vcardName.value.trim();
-          const phone = vcardPhone.value.trim();
-          const email = vcardEmail.value.trim();
-          
-          if (!name || !phone || !email) throw new Error('All vCard fields are required');
-          if (!isValidEmail(email)) throw new Error('Invalid email format');
-          
-          return `BEGIN:VCARD\nVERSION:3.0\nFN:${name}\nTEL:${phone}\nEMAIL:${email}\nEND:VCARD`;
-          
-        case 'wifi':
-          const ssid = wifiSsid.value.trim();
-          const password = wifiPassword.value.trim();
-          const encryption = wifiType.value;
-          
-          if (!ssid) throw new Error('Network name is required');
-          if (encryption !== 'nopass' && !password) throw new Error('Password is required');
-          
-          return `WIFI:S:${ssid};T:${encryption};P:${password};;`;
-          
-        case 'email':
-          const emailAddr = emailAddress.value.trim();
-          const subject = emailSubject.value.trim();
-          const body = emailBody.value.trim();
-          
-          if (!emailAddr) throw new Error('Email address is required');
-          if (!isValidEmail(emailAddr)) throw new Error('Invalid email format');
-          
-          return `mailto:${emailAddr}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-          
-        default:
-          const input = qrInput.value.trim();
-          if (!input) throw new Error('Content is required');
-          return input;
-      }
-    }
-
-    function createQRCanvas(content, options) {
-      return new Promise((resolve, reject) => {
+      function saveCookiePreferences(preferences) {
         try {
-          QRCode.toCanvas(content, {
-            width: options.size,
-            margin: 1,
-            color: {
-              dark: options.fgColor,
-              light: options.bgColor
-            },
-            errorCorrectionLevel: 'H'
-          }, (error, canvas) => {
-            if (error) {
-              reject(error);
-            } else {
-              resolve(canvas);
-            }
-          });
-        } catch (error) {
-          reject(error);
+          localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(preferences));
+        } catch (e) {
+          console.warn('Failed to save cookie preferences:', e);
         }
-      });
-    }
-
-    function addLogoToQR(qrCanvas, logo, borderSize, borderColor, logoSizePercent) {
-      return new Promise((resolve) => {
-        if (!logo) {
-          resolve(qrCanvas);
-          return;
-        }
-        
-        try {
-          // Ensure logo doesn't break QR code scannability
-          const maxSafeSize = qrCanvas.width * 0.25; // Max 25% of QR size
-          const actualLogoSize = Math.min(
-            qrCanvas.width * (logoSizePercent / 100), 
-            maxSafeSize
-          );
-          
-          const ctx = qrCanvas.getContext('2d');
-          
-          // Draw border if border size is greater than 0
-          if (borderSize > 0) {
-            ctx.fillStyle = borderColor;
-            const centerX = qrCanvas.width / 2;
-            const centerY = qrCanvas.height / 2;
-            const borderWidth = actualLogoSize + borderSize * 2;
-            
-            // Ensure border doesn't cover critical QR patterns
-            const maxBorderWidth = qrCanvas.width * 0.35;
-            const safeBorderWidth = Math.min(borderWidth, maxBorderWidth);
-            
-            ctx.fillRect(
-              centerX - safeBorderWidth/2,
-              centerY - safeBorderWidth/2,
-              safeBorderWidth,
-              safeBorderWidth
-            );
-          }
-          
-          // Draw logo
-          ctx.drawImage(
-            logo,
-            (qrCanvas.width - actualLogoSize) / 2,
-            (qrCanvas.height - actualLogoSize) / 2,
-            actualLogoSize,
-            actualLogoSize
-          );
-          
-          resolve(qrCanvas);
-        } catch (error) {
-          console.error('Error adding logo to QR:', error);
-          resolve(qrCanvas); // Resolve without logo if error occurs
-        }
-      });
-    }
-
-    // Updated generateQR function
-    async function generateQR() {
-      try {
-        const type = qrType.value;
-        const content = getQRContent(type);
-        
-        const qrOptions = {
-          size: parseInt(sizeSlider.value),
-          fgColor: fgColor.value,
-          bgColor: transparentBg.checked ? '#00000000' : bgColor.value
-        };
-        
-        qrLoading.style.display = 'block';
-        qrError.style.display = 'none';
-        qrSuccess.style.display = 'none';
-        
-        // Create QR canvas
-        const generatedCanvas = await createQRCanvas(content, qrOptions);
-        
-        // Add logo and border
-        const finalCanvas = await addLogoToQR(
-          generatedCanvas, 
-          logoImage, 
-          parseInt(borderSize.value), 
-          borderColor.value,
-          parseInt(logoSize.value)
-        );
-        
-        // Display results
-        qrCanvas.width = finalCanvas.width;
-        qrCanvas.height = finalCanvas.height;
-        const ctx = qrCanvas.getContext('2d');
-        ctx.drawImage(finalCanvas, 0, 0);
-        
-        generatedQR = { data: qrCanvas.toDataURL('image/png'), content };
-        
-        qrLoading.style.display = 'none';
-        qrSuccess.style.display = 'block';
-        qrSuccess.textContent = 'QR Code generated successfully!';
-        downloadBtn.style.display = 'block';
-        qrCanvas.style.display = 'block';
-        
-        // Test QR scannability
-        testQRScannability(finalCanvas, content);
-      } catch (error) {
-        qrLoading.style.display = 'none';
-        showError(qrError, error.message || 'Error generating QR code');
-        console.error('QR generation error:', error);
       }
-    }
-    
-    function testQRScannability(canvas, originalContent) {
-      try {
-        const ctx = canvas.getContext('2d');
-        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        const code = jsQR(imageData.data, imageData.width, imageData.height);
-        
-        if (!code) {
-          qrSuccess.innerHTML += '<br><span class="scanner-error"><i class="fas fa-exclamation-circle"></i> Warning: QR code may be difficult to scan</span>';
-        } else if (code.data !== originalContent) {
-          qrSuccess.innerHTML += `<br><span class="scanner-error"><i class="fas fa-exclamation-circle"></i> Content mismatch: ${code.data.substr(0, 20)}...</span>`;
+      
+      function checkCookieConsent() {
+        const preferences = getCookiePreferences();
+        if (!preferences || !preferences.hasOwnProperty('essential')) {
+          const consent = document.getElementById('cookie-consent');
+          if (consent) consent.style.display = 'block';
         } else {
-          qrSuccess.innerHTML += '<br><span class="scanner-success"><i class="fas fa-check-circle"></i> QR code scans successfully</span>';
+          const analyticsToggle = document.getElementById('analytics-toggle');
+          const advertisingToggle = document.getElementById('advertising-toggle');
+          if (analyticsToggle) analyticsToggle.checked = preferences.analytics;
+          if (advertisingToggle) advertisingToggle.checked = preferences.advertising;
         }
-      } catch (e) {
-        console.log('QR test error:', e);
       }
-    }
-
-    // Updated bulk generation
-    async function generateBulkQR() {
-      try {
-        let inputs = [];
-        const bulkType = document.querySelector('input[name="bulk-type"]:checked').value;
-        
-        if (bulkType === 'list') {
-          inputs = bulkInput.value.trim().split('\n').filter(line => line.trim() !== '');
-        } 
-        else if (bulkType === 'range') {
-          const start = parseInt(rangeStart.value);
-          const end = parseInt(rangeEnd.value);
-          const prefix = rangePrefix.value.trim();
-          const suffix = rangeSuffix.value.trim();
-          
-          if (isNaN(start) || isNaN(end) || start > end) {
-            throw new Error('Please enter valid start and end numbers');
-          }
-          
-          if (end - start > 1000) {
-            throw new Error('Range is too large (max 1000 items)');
-          }
-          
-          for (let i = start; i <= end; i++) {
-            inputs.push(`${prefix}${i}${suffix}`);
-          }
-        }
-        else if (bulkType === 'csv') {
-          const fileInput = document.getElementById('bulk-file-upload');
-          if (!fileInput.files.length) throw new Error('Please select a CSV file');
-          
-          const file = fileInput.files[0];
-          const text = await new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onload = () => resolve(reader.result);
-            reader.onerror = () => reject(reader.error);
-            reader.readAsText(file);
+      
+      function openCookieSettings() {
+        const preferences = getCookiePreferences();
+        const analyticsToggle = document.getElementById('analytics-toggle');
+        const advertisingToggle = document.getElementById('advertising-toggle');
+        if (analyticsToggle) analyticsToggle.checked = preferences.analytics;
+        if (advertisingToggle) advertisingToggle.checked = preferences.advertising;
+        const settings = document.getElementById('cookie-settings');
+        if (settings) settings.style.display = 'flex';
+        // Focus the first focusable element in the modal
+        document.getElementById('analytics-toggle').focus();
+      }
+      
+      function closeCookieSettings() {
+        const settings = document.getElementById('cookie-settings');
+        if (settings) settings.style.display = 'none';
+        // Return focus to the button that opened the settings
+        document.getElementById('open-settings').focus();
+      }
+      
+      // Set up event listeners
+      const acceptBtn = document.getElementById('accept-cookies');
+      if (acceptBtn) {
+        acceptBtn.addEventListener('click', () => {
+          saveCookiePreferences({
+            essential: true,
+            analytics: true,
+            advertising: true
           });
-          
-          const results = Papa.parse(text, { header: true });
-          if (results.errors.length) throw new Error('Error parsing CSV file');
-          
-          inputs = results.data.map(row => {
-            // Get the first non-empty value in the row
-            return Object.values(row).find(val => val && val.trim() !== '') || '';
-          }).filter(val => val.trim() !== '');
-        }
-
-        if (inputs.length === 0) throw new Error('Please enter at least one item');
-        if (inputs.length > 1000) throw new Error('For performance, limit to 1000 items at a time');
-
-        bulkQRs = [];
-        bulkSuccess.style.display = 'none';
-        bulkError.style.display = 'none';
-        bulkLoading.style.display = 'block';
-
-        // Process in batches
-        const batchSize = 5;
-        for (let i = 0; i < inputs.length; i += batchSize) {
-          const batch = inputs.slice(i, i + batchSize);
-          await processBatch(batch, i, inputs.length);
-        }
-
-        createBulkZip();
-      } catch (error) {
-        bulkLoading.style.display = 'none';
-        showError(bulkError, error.message || 'Error generating bulk QR codes');
-        console.error('Bulk QR error:', error);
+          document.getElementById('cookie-consent').style.display = 'none';
+        });
       }
+      
+      const rejectBtn = document.getElementById('reject-cookies');
+      if (rejectBtn) {
+        rejectBtn.addEventListener('click', () => {
+          saveCookiePreferences({
+            essential: true,
+            analytics: false,
+            advertising: false
+          });
+          document.getElementById('cookie-consent').style.display = 'none';
+        });
+      }
+      
+      const openSettingsBtn = document.getElementById('open-settings');
+      if (openSettingsBtn) openSettingsBtn.addEventListener('click', openCookieSettings);
+      
+      const closeSettingsBtn = document.getElementById('close-settings');
+      if (closeSettingsBtn) closeSettingsBtn.addEventListener('click', closeCookieSettings);
+      
+      const saveSettingsBtn = document.getElementById('save-settings');
+      if (saveSettingsBtn) {
+        saveSettingsBtn.addEventListener('click', () => {
+          saveCookiePreferences({
+            essential: true,
+            analytics: document.getElementById('analytics-toggle').checked,
+            advertising: document.getElementById('advertising-toggle').checked
+          });
+          closeCookieSettings();
+          document.getElementById('cookie-consent').style.display = 'none';
+        });
+      }
+      
+      const openSettingsFooter = document.getElementById('open-settings-footer');
+      if (openSettingsFooter) {
+        openSettingsFooter.addEventListener('click', (e) => {
+          e.preventDefault();
+          openCookieSettings();
+        });
+      }
+      
+      // Initialize cookie preferences
+      checkCookieConsent();
     }
 
-    async function processBatch(batch, startIndex, total) {
-      for (let j = 0; j < batch.length; j++) {
-        const index = startIndex + j;
-        const input = batch[j];
-        bulkProgress.textContent = `Generating QR codes: ${index + 1}/${total}`;
-        
-        try {
-          const qrOptions = {
-            size: parseInt(bulkSizeSlider.value),
-            fgColor: bulkFgColor.value,
-            bgColor: bulkTransparentBg.checked ? '#00000000' : bulkBgColor.value
+    // Image Tools Functionality
+    function initImageTools() {
+      // State management
+      const state = {
+        crop: {
+          originalImage: null,
+          croppedImage: null,
+          cropRect: null,
+          isDrawing: false,
+          cropStart: null
+        },
+        resize: {
+          originalImage: null,
+          resizedImage: null
+        },
+        enhance: {
+          originalImage: null,
+          enhancedImage: null,
+          brightness: 0,
+          contrast: 0,
+          saturation: 0,
+          blur: 0,
+          filter: 'normal'
+        },
+        draw: {
+          originalImage: null,
+          drawingCanvas: null,
+          ctx: null,
+          isDrawing: false,
+          lastX: 0,
+          lastY: 0,
+          tool: 'pencil',
+          color: '#FF0000',
+          size: 5,
+          opacity: 1,
+          history: [],
+          historyIndex: -1
+        },
+        collage: {
+          images: [],
+          layout: '2h',
+          spacing: 10,
+          borderWidth: 5,
+          history: [],
+          historyIndex: -1
+        },
+        history: {
+          undoStack: [],
+          redoStack: []
+        }
+      };
+
+      // Helper Functions
+      function showError(element, message) {
+        if (element) {
+          element.textContent = message;
+          element.style.display = 'block';
+        }
+      }
+
+      function showSuccess(element, message) {
+        if (element) {
+          element.textContent = message;
+          element.style.display = 'block';
+        }
+      }
+
+      function hideElements(section = null) {
+        const errors = section ? [document.getElementById(`${section}-error`)] : document.querySelectorAll('.error');
+        const successes = section ? [document.getElementById(`${section}-success`)] : document.querySelectorAll('.success');
+        errors.forEach(el => { if (el) { el.style.display = 'none'; el.textContent = ''; } });
+        successes.forEach(s => { if (s) { s.style.display = 'none'; s.textContent = ''; } });
+      }
+
+      function showLoading(section) {
+        const loading = document.getElementById(`${section}-loading`);
+        if (loading) loading.style.display = 'block';
+      }
+
+      function hideLoading(section) {
+        const loading = document.getElementById(`${section}-loading`);
+        if (loading) loading.style.display = 'none';
+      }
+
+      async function loadImage(file) {
+        return new Promise((resolve, reject) => {
+          const fileType = file.type.toLowerCase();
+          if (!fileType.match(/image\/(png|jpeg|jpg|webp|bmp|gif|heic|heif)/)) {
+            reject(new Error('Invalid file type. Please upload a valid image (PNG, JPEG, WEBP, BMP, GIF, or HEIC).'));
+            return;
+          }
+
+          if (file.size > 10 * 1024 * 1024) {
+            reject(new Error('File size exceeds 10MB limit. Please select a smaller file.'));
+            return;
+          }
+
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            const img = new Image();
+            img.onload = () => {
+              resolve(img);
+              URL.revokeObjectURL(img.src);
+            };
+            img.onerror = () => reject(new Error('Failed to load image'));
+            img.src = e.target.result;
           };
-          
-          // Create QR canvas
-          const generatedCanvas = await createQRCanvas(input, qrOptions);
-          
-          // Add logo and border
-          const finalCanvas = await addLogoToQR(
-            generatedCanvas, 
-            bulkLogoImage, 
-            parseInt(bulkBorderSize.value), 
-            bulkBorderColor.value,
-            parseInt(bulkLogoSize.value)
-          );
-          
-          bulkQRs.push({
-            content: input,
-            dataURL: finalCanvas.toDataURL('image/png')
-          });
-        } catch (error) {
-          console.error('Error generating QR code for: ' + input, error);
-          // Add placeholder for failed generation
-          bulkQRs.push({
-            content: input,
-            error: true,
-            message: error.message || 'Failed to generate QR code'
-          });
-        }
-      }
-    }
-
-    function createBulkZip() {
-      try {
-        const zip = new JSZip();
-        const prefix = bulkFilename.value.trim() || 'qr-codes';
-        let successCount = 0;
-
-        for (const item of bulkQRs) {
-          if (!item.error) {
-            const filename = `${sanitizeFilename(item.content)}.png`;
-            const data = item.dataURL.split(',')[1];
-            zip.file(filename, data, { base64: true });
-            successCount++;
-          }
-        }
-
-        if (successCount === 0) {
-          throw new Error('No QR codes were generated successfully');
-        }
-
-        zip.generateAsync({ type: 'blob' }).then(content => {
-          saveAs(content, `${prefix}.zip`);
-          bulkLoading.style.display = 'none';
-          bulkSuccess.style.display = 'block';
-          bulkSuccess.textContent = `Successfully generated and downloaded ${successCount} QR codes!`;
-          
-          if (successCount < bulkQRs.length) {
-            bulkSuccess.textContent += ` (${bulkQRs.length - successCount} failed)`;
-          }
+          reader.onerror = () => reject(new Error('Failed to read image file'));
+          reader.readAsDataURL(file);
         });
-      } catch (error) {
-        bulkLoading.style.display = 'none';
-        showError(bulkError, error.message || 'Error creating ZIP file');
-        console.error('ZIP creation error:', error);
-      }
-    }
-
-    // Email validation function
-    function isValidEmail(email) {
-      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      return re.test(email);
-    }
-
-    function downloadQR() {
-      if (!generatedQR) {
-        showError(qrError, 'Please generate a QR code first');
-        return;
       }
 
-      const filename = sanitizeFilename(generatedQR.content) + '.png';
-      const a = document.createElement('a');
-      a.href = generatedQR.data;
-      a.download = filename;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    }
+      function drawImageOnCanvas(image, canvasId) {
+        const canvas = document.getElementById(canvasId);
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        const maxWidth = 500;
+        const scale = Math.min(maxWidth / image.width, 1);
+        const pixelRatio = window.devicePixelRatio || 1;
 
-    function startScanner() {
-      scannerOverlay.style.display = 'flex';
-      scanResult.innerHTML = '<p>Scanning... Point camera at QR code</p>';
-      updateScannerStatus('Scanning...', 'scanner-loading');
-      
-      // Add scanning guides
-      scannerGuides.innerHTML = `
-        <div class="guide-line horizontal" style="top: 33%"></div>
-        <div class="guide-line horizontal" style="top: 66%"></div>
-        <div class="guide-line vertical" style="left: 33%"></div>
-        <div class="guide-line vertical" style="left: 66%"></div>
-      `;
-      scannerGuides.style.display = 'block';
+        canvas.style.width = `${image.width * scale}px`;
+        canvas.style.height = `${image.height * scale}px`;
+        canvas.width = image.width * scale * pixelRatio;
+        canvas.height = image.height * scale * pixelRatio;
+        ctx.scale(pixelRatio, pixelRatio);
 
-      navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
-        .then(stream => {
-          currentStream = stream;
-          video.srcObject = stream;
-          video.play();
-
-          requestAnimationFrame(scanQR);
-        })
-        .catch(err => {
-          console.error('Camera error: ', err);
-          scanResult.innerHTML = `<p class="error">Error accessing camera: ${err.message}</p>`;
-          updateScannerStatus('Camera Error', 'scanner-error');
-        });
-    }
-    
-    function updateScannerStatus(message, className) {
-      scannerStatus.textContent = message;
-      scannerStatus.className = `scanner-status ${className}`;
-      scannerStatus.style.display = 'block';
-    }
-
-    function stopScanner() {
-      if (currentStream) {
-        currentStream.getTracks().forEach(track => track.stop());
-        currentStream = null;
+        ctx.clearRect(0, 0, canvas.width / pixelRatio, canvas.height / pixelRatio);
+        ctx.drawImage(image, 0, 0, canvas.width / pixelRatio, canvas.height / pixelRatio);
       }
-      scannerOverlay.style.display = 'none';
-      
-      // Remove scanning guides
-      scannerGuides.style.display = 'none';
-      
-      // Hide status
-      scannerStatus.style.display = 'none';
-    }
 
-    function scanQR() {
-      if (!currentStream) return;
-
-      if (video.readyState === video.HAVE_ENOUGH_DATA) {
+      function resetCanvas(canvasId) {
+        const canvas = document.getElementById(canvasId);
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        canvas.style.width = '300px';
+        canvas.style.height = '200px';
+        canvas.width = 300;
+        canvas.height = 200;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+      
+      function clamp(value) {
+        return Math.max(0, Math.min(255, value));
+      }
+      
+      function rotateImage(image, degrees) {
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
+        
+        if (degrees % 180 === 0) {
+          canvas.width = image.width;
+          canvas.height = image.height;
+        } else {
+          canvas.width = image.height;
+          canvas.height = image.width;
+        }
+        
+        ctx.translate(canvas.width / 2, canvas.height / 2);
+        ctx.rotate(degrees * Math.PI / 180);
+        ctx.drawImage(image, -image.width / 2, -image.height / 2);
+        
+        const rotated = new Image();
+        rotated.src = canvas.toDataURL();
+        return rotated;
+      }
+      
+      function flipImage(image, direction) {
+        const canvas = document.createElement('canvas');
+        canvas.width = image.width;
+        canvas.height = image.height;
+        const ctx = canvas.getContext('2d');
+        
+        if (direction === 'horizontal') {
+          ctx.translate(image.width, 0);
+          ctx.scale(-1, 1);
+        } else {
+          ctx.translate(0, image.height);
+          ctx.scale(1, -1);
+        }
+        
+        ctx.drawImage(image, 0, 0);
+        
+        const flipped = new Image();
+        flipped.src = canvas.toDataURL();
+        return flipped;
+      }
+      
+      function applyBlur(imageData, radius) {
+        const data = imageData.data;
+        const width = imageData.width;
+        const height = imageData.height;
+        
+        // Simple box blur implementation
+        for (let i = 0; i < radius; i++) {
+          for (let y = 0; y < height; y++) {
+            for (let x = 0; x < width; x++) {
+              const idx = (y * width + x) * 4;
+              
+              let r = 0, g = 0, b = 0, count = 0;
+              
+              for (let ky = -1; ky <= 1; ky++) {
+                for (let kx = -1; kx <= 1; kx++) {
+                  const px = Math.min(width - 1, Math.max(0, x + kx));
+                  const py = Math.min(height - 1, Math.max(0, y + ky));
+                  const pIdx = (py * width + px) * 4;
+                  
+                  r += data[pIdx];
+                  g += data[pIdx + 1];
+                  b += data[pIdx + 2];
+                  count++;
+                }
+              }
+              
+              data[idx] = r / count;
+              data[idx + 1] = g / count;
+              data[idx + 2] = b / count;
+            }
+          }
+        }
+        
+        return imageData;
+      }
+      
+      function saveToHistory(canvas) {
+        state.history.undoStack.push(canvas.toDataURL());
+        state.history.redoStack = [];
+        updateHistoryButtons();
+      }
+      
+      function updateHistoryButtons() {
+        const undoBtn = document.getElementById('undoBtn');
+        const redoBtn = document.getElementById('redoBtn');
+        
+        if (undoBtn) undoBtn.disabled = state.history.undoStack.length <= 1;
+        if (redoBtn) redoBtn.disabled = state.history.redoStack.length === 0;
+      }
 
-        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        const code = jsQR(imageData.data, imageData.width, imageData.height);
+      // Tab Switching
+      function switchTab(tabName) {
+        document.querySelectorAll('.tab').forEach(tab => {
+          tab.classList.remove('active');
+          tab.setAttribute('aria-selected', 'false');
+        });
+        document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
 
-        if (code) {
-          scanResult.innerHTML = `
-            <p><strong>QR Code detected!</strong></p>
-            <p><strong>Content:</strong> ${code.data}</p>
-            <button onclick="useScannedContent('${code.data.replace(/'/g, "\\'")}')">
-              Generate this QR
-            </button>
-          `;
-          updateScannerStatus('QR Code Detected!', 'scanner-success');
+        const tab = document.querySelector(`.tab[data-tab="${tabName}"]`);
+        const content = document.getElementById(`${tabName}-tab`);
+        if (tab) {
+          tab.classList.add('active');
+          tab.setAttribute('aria-selected', 'true');
+        }
+        if (content) content.classList.add('active');
+
+        // Reset states
+        if (tabName === 'crop') {
+          if (state.crop.originalImage) {
+            drawImageOnCanvas(state.crop.originalImage, 'cropCanvas');
+            document.getElementById('cropBtn').style.display = 'inline-block';
+          } else {
+            resetCanvas('cropCanvas');
+            document.getElementById('cropBtn').style.display = 'none';
+          }
+          document.getElementById('downloadCrop').style.display = 'none';
+          document.getElementById('resetCrop').style.display = 'none';
+          hideElements('crop');
+          hideLoading('crop');
+        } else if (tabName === 'resize') {
+          if (state.resize.originalImage) {
+            drawImageOnCanvas(state.resize.originalImage, 'resizeCanvas');
+            document.getElementById('resizeBtn').style.display = 'inline-block';
+          } else {
+            resetCanvas('resizeCanvas');
+            document.getElementById('resizeBtn').style.display = 'none';
+          }
+          document.getElementById('downloadResize').style.display = 'none';
+          document.getElementById('resetResize').style.display = 'none';
+          hideElements('resize');
+          hideLoading('resize');
+        } else if (tabName === 'enhance') {
+          if (state.enhance.originalImage) {
+            drawImageOnCanvas(state.enhance.originalImage, 'enhanceCanvas');
+            document.getElementById('enhanceBtn').style.display = 'inline-block';
+            document.getElementById('downloadEnhance').style.display = 'inline-block';
+          } else {
+            resetCanvas('enhanceCanvas');
+            document.getElementById('enhanceBtn').style.display = 'none';
+            document.getElementById('downloadEnhance').style.display = 'none';
+          }
+          hideElements('enhance');
+          hideLoading('enhance');
+        } else if (tabName === 'draw') {
+          if (state.draw.originalImage) {
+            drawImageOnCanvas(state.draw.originalImage, 'drawCanvas');
+            document.getElementById('saveDraw').style.display = 'inline-block';
+            document.getElementById('downloadDraw').style.display = 'inline-block';
+          } else {
+            resetCanvas('drawCanvas');
+            document.getElementById('saveDraw').style.display = 'none';
+            document.getElementById('downloadDraw').style.display = 'none';
+          }
+          hideElements('draw');
+          hideLoading('draw');
+        } else if (tabName === 'collage') {
+          resetCanvas('collageCanvas');
+          document.getElementById('createCollageBtn').style.display = 'none';
+          document.getElementById('downloadCollage').style.display = 'none';
+          hideElements('collage');
+          hideLoading('collage');
         }
       }
 
-      requestAnimationFrame(scanQR);
-    }
+      // Initialize Image Tools
+      function initializeImageTools() {
+        // Tabs
+        document.querySelectorAll('.tab').forEach(tab => {
+          tab.addEventListener('click', () => switchTab(tab.dataset.tab));
+          tab.addEventListener('keydown', e => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              tab.click();
+            }
+          });
+        });
 
-    function useScannedContent(content) {
-      stopScanner();
-      qrType.value = 'url';
-      toggleQRTypeFields();
-      qrInput.value = content;
-      tabs[0].click();
-      generateQR();
-    }
-
-    function scanQRFromImage(img) {
-      updateScannerStatus('Processing image...', 'scanner-loading');
-      
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
-      canvas.width = img.width;
-      canvas.height = img.height;
-
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-      const code = jsQR(imageData.data, imageData.width, canvas.height);
-
-      if (code) {
-        scanResult.innerHTML = `
-          <p><strong>QR Code detected in image!</strong></p>
-          <p><strong>Content:</strong> ${code.data}</p>
-          <button onclick="useScannedContent('${code.data.replace(/'/g, "\\'")}')">
-            Generate this QR
-          </button>
-        `;
-        updateScannerStatus('QR Code Found!', 'scanner-success');
-      } else {
-        scanResult.innerHTML = '<p class="error"><i class="fas fa-exclamation-circle"></i> No QR code found in the image</p>';
-        updateScannerStatus('No QR Found', 'scanner-error');
-      }
-    }
-
-    function handleFileUpload(e) {
-      const file = e.target.files[0];
-      if (!file) return;
-      
-      if (!file.type.match('image.*')) {
-        scanResult.innerHTML = '<p class="error"><i class="fas fa-exclamation-circle"></i> Please upload a valid image file</p>';
-        updateScannerStatus('Invalid File', 'scanner-error');
-        return;
-      }
-
-      updateScannerStatus('Processing image...', 'scanner-loading');
-      
-      const reader = new FileReader();
-      reader.onload = function(event) {
-        const img = new Image();
-        img.onload = function() {
-          scanQRFromImage(img);
-        };
-        img.onerror = function() {
-          scanResult.innerHTML = '<p class="error"><i class="fas fa-exclamation-circle"></i> Error loading image</p>';
-          updateScannerStatus('Image Error', 'scanner-error');
-        };
-        img.src = event.target.result;
-      };
-      reader.readAsDataURL(file);
-    }
-
-    function handleBulkFileUpload(e) {
-      const file = e.target.files[0];
-      if (!file || !file.name.endsWith('.csv')) {
-        showError(bulkError, 'Please upload a valid CSV file');
-        return;
-      }
-
-      const reader = new FileReader();
-      reader.onload = function(event) {
-        const text = event.target.result;
-        const lines = text.split('\n').map(line => line.trim()).filter(line => line);
-        bulkInput.value = lines.join('\n');
-      };
-      reader.readAsText(file);
-    }
-
-    function showError(element, message) {
-      element.textContent = message;
-      element.style.display = 'block';
-    }
-    
-    function saveQRPreferences() {
-      const preferences = {
-        fgColor: fgColor.value,
-        bgColor: bgColor.value,
-        size: sizeSlider.value,
-        borderSize: borderSize.value,
-        borderColor: borderColor.value,
-        logoSize: logoSize.value
-      };
-      localStorage.setItem(PREFERENCES_KEY, JSON.stringify(preferences));
-    }
-
-    function loadQRPreferences() {
-      const preferencesStr = localStorage.getItem(PREFERENCES_KEY);
-      if (preferencesStr) {
-        try {
-          const preferences = JSON.parse(preferencesStr);
-          
-          if (fgColor) fgColor.value = preferences.fgColor || '#000000';
-          if (bgColor) bgColor.value = preferences.bgColor || '#FFFFFF';
-          
-          if (sizeSlider) {
-            sizeSlider.value = preferences.size || '256';
-          }
-          
-          if (borderSize) {
-            borderSize.value = preferences.borderSize || '5';
-          }
-          
-          if (borderColor) borderColor.value = preferences.borderColor || '#FFFFFF';
-          
-          if (logoSize) {
-            logoSize.value = preferences.logoSize || '15';
-          }
-        } catch (e) {
-          console.error('Failed to parse QR preferences:', e);
+        // Setup drag and drop functionality
+        function setupDragAndDrop(dragArea, fileInput, section) {
+          dragArea.addEventListener('click', () => fileInput.click());
+          dragArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dragArea.classList.add('drag-over');
+          });
+          dragArea.addEventListener('dragenter', (e) => {
+            e.preventDefault();
+            dragArea.classList.add('drag-over');
+          });
+          dragArea.addEventListener('dragleave', () => {
+            dragArea.classList.remove('drag-over');
+          });
+          dragArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dragArea.classList.remove('drag-over');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+              fileInput.files = files;
+              fileInput.dispatchEvent(new Event('change'));
+            }
+          });
         }
+
+        // Crop Functionality
+        const cropUpload = document.getElementById('cropUpload');
+        const cropCanvas = document.getElementById('cropCanvas');
+        const cropBtn = document.getElementById('cropBtn');
+        const resetCrop = document.getElementById('resetCrop');
+        const downloadCrop = document.getElementById('downloadCrop');
+        
+        setupDragAndDrop(document.getElementById('cropDragArea'), cropUpload, 'crop');
+        
+        cropUpload.addEventListener('change', async (e) => {
+          const file = e.target.files[0];
+          if (!file) return;
+          hideElements('crop');
+          showLoading('crop');
+          try {
+            state.crop.originalImage = await loadImage(file);
+            drawImageOnCanvas(state.crop.originalImage, 'cropCanvas');
+            cropBtn.style.display = 'inline-block';
+            saveToHistory(cropCanvas);
+            showSuccess(document.getElementById('crop-success'), 'Image loaded successfully!');
+          } catch (err) {
+            showError(document.getElementById('crop-error'), err.message);
+            resetCanvas('cropCanvas');
+          } finally {
+            hideLoading('crop');
+          }
+        });
+
+        // Rotation and flip functionality
+        document.getElementById('rotateLeft').addEventListener('click', () => {
+          if (!state.crop.originalImage) return;
+          state.crop.originalImage = rotateImage(state.crop.originalImage, -90);
+          drawImageOnCanvas(state.crop.originalImage, 'cropCanvas');
+          saveToHistory(cropCanvas);
+        });
+        
+        document.getElementById('rotateRight').addEventListener('click', () => {
+          if (!state.crop.originalImage) return;
+          state.crop.originalImage = rotateImage(state.crop.originalImage, 90);
+          drawImageOnCanvas(state.crop.originalImage, 'cropCanvas');
+          saveToHistory(cropCanvas);
+        });
+        
+        document.getElementById('flipHorizontal').addEventListener('click', () => {
+          if (!state.crop.originalImage) return;
+          state.crop.originalImage = flipImage(state.crop.originalImage, 'horizontal');
+          drawImageOnCanvas(state.crop.originalImage, 'cropCanvas');
+          saveToHistory(cropCanvas);
+        });
+        
+        document.getElementById('flipVertical').addEventListener('click', () => {
+          if (!state.crop.originalImage) return;
+          state.crop.originalImage = flipImage(state.crop.originalImage, 'vertical');
+          drawImageOnCanvas(state.crop.originalImage, 'cropCanvas');
+          saveToHistory(cropCanvas);
+        });
+
+        // Crop drawing functionality
+        cropCanvas.addEventListener('mousedown', (e) => {
+          if (!state.crop.originalImage) {
+            showError(document.getElementById('crop-error'), 'Please upload an image first.');
+            return;
+          }
+          state.crop.isDrawing = true;
+          const rect = cropCanvas.getBoundingClientRect();
+          const pixelRatio = window.devicePixelRatio || 1;
+          state.crop.cropStart = { x: (e.clientX - rect.left) * pixelRatio, y: (e.clientY - rect.top) * pixelRatio };
+        });
+
+        cropCanvas.addEventListener('mousemove', (e) => {
+          if (!state.crop.isDrawing || !state.crop.originalImage) return;
+          const rect = cropCanvas.getBoundingClientRect();
+          const pixelRatio = window.devicePixelRatio || 1;
+          const currentX = (e.clientX - rect.left) * pixelRatio;
+          const currentY = (e.clientY - rect.top) * pixelRatio;
+          state.crop.cropRect = {
+            x: Math.min(state.crop.cropStart.x, currentX),
+            y: Math.min(state.crop.cropStart.y, currentY),
+            width: Math.abs(currentX - state.crop.cropStart.x),
+            height: Math.abs(currentY - state.crop.cropStart.y),
+          };
+          const ctx = cropCanvas.getContext('2d');
+          ctx.clearRect(0, 0, cropCanvas.width / pixelRatio, cropCanvas.height / pixelRatio);
+          ctx.drawImage(state.crop.originalImage, 0, 0, cropCanvas.width / pixelRatio, cropCanvas.height / pixelRatio);
+          ctx.strokeStyle = 'red';
+          ctx.lineWidth = 2;
+          ctx.strokeRect(state.crop.cropRect.x / pixelRatio, state.crop.cropRect.y / pixelRatio, state.crop.cropRect.width / pixelRatio, state.crop.cropRect.height / pixelRatio);
+        });
+
+        cropCanvas.addEventListener('mouseup', () => {
+          state.crop.isDrawing = false;
+        });
+
+        cropBtn.addEventListener('click', () => {
+          hideElements('crop');
+          if (!state.crop.cropRect || !state.crop.originalImage) {
+            showError(document.getElementById('crop-error'), 'Please draw a crop area on an uploaded image.');
+            return;
+          }
+          showLoading('crop');
+          setTimeout(() => {
+            try {
+              const pixelRatio = window.devicePixelRatio || 1;
+              const scale = state.crop.originalImage.width / (cropCanvas.width / pixelRatio);
+              const sx = state.crop.cropRect.x * scale / pixelRatio;
+              const sy = state.crop.cropRect.y * scale / pixelRatio;
+              const sWidth = state.crop.cropRect.width * scale / pixelRatio;
+              const sHeight = state.crop.cropRect.height * scale / pixelRatio;
+              const croppedCanvas = document.createElement('canvas');
+              croppedCanvas.width = sWidth;
+              croppedCanvas.height = sHeight;
+              const ctx = croppedCanvas.getContext('2d');
+              ctx.drawImage(state.crop.originalImage, sx, sy, sWidth, sHeight, 0, 0, sWidth, sHeight);
+              state.crop.croppedImage = croppedCanvas;
+              drawImageOnCanvas(croppedCanvas, 'cropCanvas');
+              downloadCrop.style.display = 'inline-block';
+              resetCrop.style.display = 'inline-block';
+              saveToHistory(cropCanvas);
+              showSuccess(document.getElementById('crop-success'), 'Image cropped successfully!');
+            } catch (err) {
+              showError(document.getElementById('crop-error'), 'Error cropping image: ' + err.message);
+            } finally {
+              hideLoading('crop');
+            }
+          }, 300);
+        });
+
+        resetCrop.addEventListener('click', () => {
+          if (confirm('Reset the image? This will clear the current crop.')) {
+            hideElements('crop');
+            if (state.crop.originalImage) {
+              drawImageOnCanvas(state.crop.originalImage, 'cropCanvas');
+              state.crop.croppedImage = null;
+              state.crop.cropRect = null;
+              downloadCrop.style.display = 'none';
+              resetCrop.style.display = 'none';
+              cropBtn.style.display = 'inline-block';
+              saveToHistory(cropCanvas);
+              showSuccess(document.getElementById('crop-success'), 'Image reset successfully!');
+            } else {
+              resetCanvas('cropCanvas');
+            }
+          }
+        });
+
+        downloadCrop.addEventListener('click', () => {
+          if (state.crop.croppedImage) {
+            const link = document.createElement('a');
+            link.download = 'cropped-image.png';
+            link.href = state.crop.croppedImage.toDataURL('image/png');
+            link.click();
+            URL.revokeObjectURL(link.href);
+            showSuccess(document.getElementById('crop-success'), 'Image downloaded successfully!');
+          } else {
+            showError(document.getElementById('crop-error'), 'No cropped image available for download.');
+          }
+        });
+
+        // Resize Functionality
+        const resizeUpload = document.getElementById('resizeUpload');
+        const resizeBtn = document.getElementById('resizeBtn');
+        const resetResize = document.getElementById('resetResize');
+        const downloadResize = document.getElementById('downloadResize');
+        
+        setupDragAndDrop(document.getElementById('resizeDragArea'), resizeUpload, 'resize');
+        
+        resizeUpload.addEventListener('change', async (e) => {
+          const file = e.target.files[0];
+          if (!file) return;
+          hideElements('resize');
+          showLoading('resize');
+          try {
+            state.resize.originalImage = await loadImage(file);
+            drawImageOnCanvas(state.resize.originalImage, 'resizeCanvas');
+            resizeBtn.style.display = 'inline-block';
+            saveToHistory(resizeCanvas);
+            showSuccess(document.getElementById('resize-success'), 'Image loaded successfully!');
+          } catch (err) {
+            showError(document.getElementById('resize-error'), err.message);
+            resetCanvas('resizeCanvas');
+          } finally {
+            hideLoading('resize');
+          }
+        });
+
+        // Rotation and flip functionality for resize tab
+        document.getElementById('resizeRotateLeft').addEventListener('click', () => {
+          if (!state.resize.originalImage) return;
+          state.resize.originalImage = rotateImage(state.resize.originalImage, -90);
+          drawImageOnCanvas(state.resize.originalImage, 'resizeCanvas');
+          saveToHistory(resizeCanvas);
+        });
+        
+        document.getElementById('resizeRotateRight').addEventListener('click', () => {
+          if (!state.resize.originalImage) return;
+          state.resize.originalImage = rotateImage(state.resize.originalImage, 90);
+          drawImageOnCanvas(state.resize.originalImage, 'resizeCanvas');
+          saveToHistory(resizeCanvas);
+        });
+        
+        document.getElementById('resizeFlipHorizontal').addEventListener('click', () => {
+          if (!state.resize.originalImage) return;
+          state.resize.originalImage = flipImage(state.resize.originalImage, 'horizontal');
+          drawImageOnCanvas(state.resize.originalImage, 'resizeCanvas');
+          saveToHistory(resizeCanvas);
+        });
+        
+        document.getElementById('resizeFlipVertical').addEventListener('click', () => {
+          if (!state.resize.originalImage) return;
+          state.resize.originalImage = flipImage(state.resize.originalImage, 'vertical');
+          drawImageOnCanvas(state.resize.originalImage, 'resizeCanvas');
+          saveToHistory(resizeCanvas);
+        });
+
+        resizeBtn.addEventListener('click', () => {
+          hideElements('resize');
+          if (!state.resize.originalImage) {
+            showError(document.getElementById('resize-error'), 'Please upload an image first.');
+            return;
+          }
+          const targetWidth = parseInt(document.getElementById('resizeWidth').value);
+          const targetHeight = parseInt(document.getElementById('resizeHeight').value);
+          if (isNaN(targetWidth) || isNaN(targetHeight) || targetWidth <= 0 || targetHeight <= 0) {
+            showError(document.getElementById('resize-error'), 'Please enter valid width and height values.');
+            return;
+          }
+          showLoading('resize');
+          setTimeout(() => {
+            try {
+              const canvas = document.createElement('canvas');
+              canvas.width = targetWidth;
+              canvas.height = targetHeight;
+              const ctx = canvas.getContext('2d');
+              ctx.drawImage(state.resize.originalImage, 0, 0, state.resize.originalImage.width, state.resize.originalImage.height, 0, 0, targetWidth, targetHeight);
+              state.resize.resizedImage = canvas;
+              drawImageOnCanvas(state.resize.resizedImage, 'resizeCanvas');
+              downloadResize.style.display = 'inline-block';
+              resetResize.style.display = 'inline-block';
+              saveToHistory(resizeCanvas);
+              showSuccess(document.getElementById('resize-success'), 'Image resized successfully!');
+            } catch (err) {
+              showError(document.getElementById('resize-error'), 'Error resizing image: ' + err.message);
+            } finally {
+              hideLoading('resize');
+            }
+          }, 300);
+        });
+
+        resetResize.addEventListener('click', () => {
+          if (confirm('Reset the image? This will clear the current resize.')) {
+            hideElements('resize');
+            if (state.resize.originalImage) {
+              drawImageOnCanvas(state.resize.originalImage, 'resizeCanvas');
+              state.resize.resizedImage = null;
+              downloadResize.style.display = 'none';
+              resetResize.style.display = 'none';
+              resizeBtn.style.display = 'inline-block';
+              saveToHistory(resizeCanvas);
+              showSuccess(document.getElementById('resize-success'), 'Image reset successfully!');
+            } else {
+              resetCanvas('resizeCanvas');
+            }
+          }
+        });
+
+        downloadResize.addEventListener('click', () => {
+          if (state.resize.resizedImage) {
+            const link = document.createElement('a');
+            link.download = 'resized-image.png';
+            link.href = state.resize.resizedImage.toDataURL('image/png');
+            link.click();
+            URL.revokeObjectURL(link.href);
+            showSuccess(document.getElementById('resize-success'), 'Image downloaded successfully!');
+          } else {
+            showError(document.getElementById('resize-error'), 'No resized image available for download.');
+          }
+        });
+
+        // Enhance Functionality
+        const enhanceUpload = document.getElementById('enhanceUpload');
+        const brightness = document.getElementById('brightness');
+        const contrast = document.getElementById('contrast');
+        const saturation = document.getElementById('saturation');
+        const blur = document.getElementById('blur');
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const enhanceBtn = document.getElementById('enhanceBtn');
+        const downloadEnhance = document.getElementById('downloadEnhance');
+        
+        setupDragAndDrop(document.getElementById('enhanceDragArea'), enhanceUpload, 'enhance');
+        
+        filterButtons.forEach(btn => {
+          btn.addEventListener('click', () => {
+            filterButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            state.enhance.filter = btn.dataset.filter;
+            applyEnhancements();
+          });
+        });
+        
+        [brightness, contrast, saturation, blur].forEach(slider => {
+          slider.addEventListener('input', applyEnhancements);
+        });
+        
+        function applyEnhancements() {
+          if (!state.enhance.originalImage) return;
+          
+          const canvas = document.getElementById('enhanceCanvas');
+          const ctx = canvas.getContext('2d');
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.drawImage(state.enhance.originalImage, 0, 0, canvas.width, canvas.height);
+          
+          const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+          const data = imageData.data;
+          
+          // Apply brightness, contrast, saturation
+          const bVal = parseInt(brightness.value);
+          const cVal = parseInt(contrast.value);
+          const sVal = parseInt(saturation.value);
+          
+          const factor = 259 * (255 + cVal) / (255 * (259 - cVal));
+          
+          for (let i = 0; i < data.length; i += 4) {
+            // Apply brightness
+            data[i] = clamp(data[i] + bVal);
+            data[i+1] = clamp(data[i+1] + bVal);
+            data[i+2] = clamp(data[i+2] + bVal);
+            
+            // Apply contrast
+            data[i] = clamp(factor * (data[i] - 128) + 128);
+            data[i+1] = clamp(factor * (data[i+1] - 128) + 128);
+            data[i+2] = clamp(factor * (data[i+2] - 128) + 128);
+            
+            // Apply saturation
+            const gray = 0.2989 * data[i] + 0.5870 * data[i+1] + 0.1140 * data[i+2];
+            data[i] = clamp(gray + (data[i] - gray) * (sVal / 100 + 1));
+            data[i+1] = clamp(gray + (data[i+1] - gray) * (sVal / 100 + 1));
+            data[i+2] = clamp(gray + (data[i+2] - gray) * (sVal / 100 + 1));
+          }
+          
+          // Apply blur
+          const blurValue = parseInt(blur.value);
+          if (blurValue > 0) {
+            const blurredData = applyBlur(imageData, blurValue);
+            ctx.putImageData(blurredData, 0, 0);
+          } else {
+            ctx.putImageData(imageData, 0, 0);
+          }
+          
+          // Apply filters
+          if (state.enhance.filter === 'grayscale') {
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imageData.data;
+            for (let i = 0; i < data.length; i += 4) {
+              const avg = (data[i] + data[i+1] + data[i+2]) / 3;
+              data[i] = avg;
+              data[i+1] = avg;
+              data[i+2] = avg;
+            }
+            ctx.putImageData(imageData, 0, 0);
+          } else if (state.enhance.filter === 'sepia') {
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imageData.data;
+            for (let i = 0; i < data.length; i += 4) {
+              const r = data[i];
+              const g = data[i+1];
+              const b = data[i+2];
+              data[i] = clamp((r * 0.393) + (g * 0.769) + (b * 0.189));
+              data[i+1] = clamp((r * 0.349) + (g * 0.686) + (b * 0.168));
+              data[i+2] = clamp((r * 0.272) + (g * 0.534) + (b * 0.131));
+            }
+            ctx.putImageData(imageData, 0, 0);
+          } else if (state.enhance.filter === 'invert') {
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imageData.data;
+            for (let i = 0; i < data.length; i += 4) {
+              data[i] = 255 - data[i];
+              data[i+1] = 255 - data[i+1];
+              data[i+2] = 255 - data[i+2];
+            }
+            ctx.putImageData(imageData, 0, 0);
+          } else if (state.enhance.filter === 'vintage') {
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imageData.data;
+            for (let i = 0; i < data.length; i += 4) {
+              data[i] = clamp(data[i] * 0.9);
+              data[i+1] = clamp(data[i+1] * 0.7);
+              data[i+2] = clamp(data[i+2] * 0.4);
+            }
+            ctx.putImageData(imageData, 0, 0);
+          } else if (state.enhance.filter === 'posterize') {
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imageData.data;
+            const levels = 4;
+            for (let i = 0; i < data.length; i += 4) {
+              data[i] = Math.floor(data[i] / 64) * 64;
+              data[i+1] = Math.floor(data[i+1] / 64) * 64;
+              data[i+2] = Math.floor(data[i+2] / 64) * 64;
+            }
+            ctx.putImageData(imageData, 0, 0);
+          }
+          
+          enhanceBtn.style.display = 'inline-block';
+          downloadEnhance.style.display = 'inline-block';
+        }
+        
+        enhanceUpload.addEventListener('change', async (e) => {
+          const file = e.target.files[0];
+          if (!file) return;
+          
+          hideElements('enhance');
+          showLoading('enhance');
+          
+          try {
+            state.enhance.originalImage = await loadImage(file);
+            drawImageOnCanvas(state.enhance.originalImage, 'enhanceCanvas');
+            applyEnhancements();
+            downloadEnhance.style.display = 'inline-block';
+            saveToHistory(enhanceCanvas);
+            showSuccess(document.getElementById('enhance-success'), 'Image loaded successfully!');
+          } catch (err) {
+            showError(document.getElementById('enhance-error'), err.message);
+            resetCanvas('enhanceCanvas');
+          } finally {
+            hideLoading('enhance');
+          }
+        });
+        
+        enhanceBtn.addEventListener('click', () => {
+          // Enhancements are applied in real-time, so this just triggers the preview
+          applyEnhancements();
+          saveToHistory(enhanceCanvas);
+          showSuccess(document.getElementById('enhance-success'), 'Enhancements applied successfully!');
+        });
+        
+        downloadEnhance.addEventListener('click', () => {
+          const canvas = document.getElementById('enhanceCanvas');
+          const link = document.createElement('a');
+          link.download = 'enhanced-image.png';
+          link.href = canvas.toDataURL('image/png');
+          link.click();
+          URL.revokeObjectURL(link.href);
+          showSuccess(document.getElementById('enhance-success'), 'Image downloaded successfully!');
+        });
+        
+        // Drawing Functionality
+        const drawUpload = document.getElementById('drawUpload');
+        const drawCanvas = document.getElementById('drawCanvas');
+        const saveDraw = document.getElementById('saveDraw');
+        const downloadDraw = document.getElementById('downloadDraw');
+        const drawingTools = document.querySelectorAll('.drawing-tool');
+        const drawColor = document.getElementById('drawColor');
+        const drawSize = document.getElementById('drawSize');
+        const opacity = document.getElementById('opacity');
+        
+        setupDragAndDrop(document.getElementById('drawDragArea'), drawUpload, 'draw');
+        
+        drawingTools.forEach(tool => {
+          tool.addEventListener('click', () => {
+            drawingTools.forEach(t => t.classList.remove('active'));
+            tool.classList.add('active');
+            state.draw.tool = tool.dataset.tool;
+          });
+        });
+        
+        drawUpload.addEventListener('change', async (e) => {
+          const file = e.target.files[0];
+          if (!file) return;
+          
+          hideElements('draw');
+          showLoading('draw');
+          
+          try {
+            state.draw.originalImage = await loadImage(file);
+            drawImageOnCanvas(state.draw.originalImage, 'drawCanvas');
+            state.draw.ctx = drawCanvas.getContext('2d');
+            saveDraw.style.display = 'inline-block';
+            downloadDraw.style.display = 'inline-block';
+            saveToHistory(drawCanvas);
+            showSuccess(document.getElementById('draw-success'), 'Image loaded successfully!');
+          } catch (err) {
+            showError(document.getElementById('draw-error'), err.message);
+            resetCanvas('drawCanvas');
+          } finally {
+            hideLoading('draw');
+          }
+        });
+        
+        // Drawing event handlers
+        drawCanvas.addEventListener('mousedown', (e) => {
+          if (!state.draw.originalImage) return;
+          
+          state.draw.isDrawing = true;
+          const rect = drawCanvas.getBoundingClientRect();
+          state.draw.lastX = e.clientX - rect.left;
+          state.draw.lastY = e.clientY - rect.top;
+        });
+        
+        drawCanvas.addEventListener('mousemove', (e) => {
+          if (!state.draw.isDrawing || !state.draw.originalImage) return;
+          
+          const rect = drawCanvas.getBoundingClientRect();
+          const currentX = e.clientX - rect.left;
+          const currentY = e.clientY - rect.top;
+          
+          state.draw.ctx.strokeStyle = drawColor.value;
+          state.draw.ctx.lineWidth = drawSize.value;
+          state.draw.ctx.lineCap = 'round';
+          state.draw.ctx.lineJoin = 'round';
+          state.draw.ctx.globalAlpha = opacity.value / 100;
+          
+          state.draw.ctx.beginPath();
+          state.draw.ctx.moveTo(state.draw.lastX, state.draw.lastY);
+          state.draw.ctx.lineTo(currentX, currentY);
+          state.draw.ctx.stroke();
+          
+          state.draw.lastX = currentX;
+          state.draw.lastY = currentY;
+        });
+        
+        drawCanvas.addEventListener('mouseup', () => {
+          state.draw.isDrawing = false;
+          saveToHistory(drawCanvas);
+        });
+        
+        drawCanvas.addEventListener('mouseout', () => {
+          state.draw.isDrawing = false;
+          saveToHistory(drawCanvas);
+        });
+        
+        saveDraw.addEventListener('click', () => {
+          saveToHistory(drawCanvas);
+          showSuccess(document.getElementById('draw-success'), 'Drawing saved!');
+        });
+        
+        downloadDraw.addEventListener('click', () => {
+          const link = document.createElement('a');
+          link.download = 'drawing.png';
+          link.href = drawCanvas.toDataURL('image/png');
+          link.click();
+          URL.revokeObjectURL(link.href);
+          showSuccess(document.getElementById('draw-success'), 'Image downloaded successfully!');
+        });
+        
+        // Collage Functionality
+        const collageUpload = document.getElementById('collageUpload');
+        const layoutOptions = document.querySelectorAll('.layout-option');
+        const createCollageBtn = document.getElementById('createCollageBtn');
+        const downloadCollage = document.getElementById('downloadCollage');
+        
+        setupDragAndDrop(document.getElementById('collageDragArea'), collageUpload, 'collage');
+        
+        layoutOptions.forEach(option => {
+          option.addEventListener('click', () => {
+            layoutOptions.forEach(opt => opt.classList.remove('active'));
+            option.classList.add('active');
+            state.collage.layout = option.dataset.layout;
+          });
+        });
+        
+        collageUpload.addEventListener('change', (e) => {
+          state.collage.images = Array.from(e.target.files).slice(0, 4);
+          createCollageBtn.style.display = 'inline-block';
+          showSuccess(document.getElementById('collage-success'), 'Images uploaded successfully!');
+        });
+        
+        createCollageBtn.addEventListener('click', () => {
+          hideElements('collage');
+          if (state.collage.images.length < 2) {
+            showError(document.getElementById('collage-error'), 'Please upload at least 2 images for a collage.');
+            return;
+          }
+          
+          showLoading('collage');
+          setTimeout(() => {
+            try {
+              const collageCanvas = document.getElementById('collageCanvas');
+              const ctx = collageCanvas.getContext('2d');
+              
+              // Set canvas size based on layout
+              collageCanvas.width = 800;
+              collageCanvas.height = 600;
+              
+              // Clear canvas
+              ctx.clearRect(0, 0, collageCanvas.width, collageCanvas.height);
+              
+              // Create collage based on layout
+              const spacing = parseInt(document.getElementById('spacing').value);
+              const borderWidth = parseInt(document.getElementById('borderWidth').value);
+              
+              // This is a simplified implementation
+              // In a real app, you would properly load and arrange images
+              ctx.fillStyle = 'white';
+              ctx.fillRect(0, 0, collageCanvas.width, collageCanvas.height);
+              
+              ctx.font = '20px Poppins';
+              ctx.fillStyle = '#4361ee';
+              ctx.textAlign = 'center';
+              ctx.fillText('Collage Preview - Images would be arranged here', collageCanvas.width/2, collageCanvas.height/2);
+              
+              downloadCollage.style.display = 'inline-block';
+              saveToHistory(collageCanvas);
+              showSuccess(document.getElementById('collage-success'), 'Collage created successfully!');
+            } catch (err) {
+              showError(document.getElementById('collage-error'), 'Error creating collage: ' + err.message);
+            } finally {
+              hideLoading('collage');
+            }
+          }, 300);
+        });
+        
+        downloadCollage.addEventListener('click', () => {
+          const canvas = document.getElementById('collageCanvas');
+          const link = document.createElement('a');
+          link.download = 'collage.png';
+          link.href = canvas.toDataURL('image/png');
+          link.click();
+          URL.revokeObjectURL(link.href);
+          showSuccess(document.getElementById('collage-success'), 'Collage downloaded successfully!');
+        });
+        
+        // Undo/Redo functionality
+        document.getElementById('undoBtn').addEventListener('click', () => {
+          if (state.history.undoStack.length > 1) {
+            const current = state.history.undoStack.pop();
+            state.history.redoStack.push(current);
+            
+            const prevState = state.history.undoStack[state.history.undoStack.length - 1];
+            const img = new Image();
+            img.onload = () => {
+              const canvas = document.getElementById('cropCanvas');
+              const ctx = canvas.getContext('2d');
+              ctx.clearRect(0, 0, canvas.width, canvas.height);
+              ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+              state.crop.originalImage = img;
+            };
+            img.src = prevState;
+            
+            updateHistoryButtons();
+          }
+        });
+        
+        document.getElementById('redoBtn').addEventListener('click', () => {
+          if (state.history.redoStack.length > 0) {
+            const nextState = state.history.redoStack.pop();
+            state.history.undoStack.push(nextState);
+            
+            const img = new Image();
+            img.onload = () => {
+              const canvas = document.getElementById('cropCanvas');
+              const ctx = canvas.getContext('2d');
+              ctx.clearRect(0, 0, canvas.width, canvas.height);
+              ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+              state.crop.originalImage = img;
+            };
+            img.src = nextState;
+            
+            updateHistoryButtons();
+          }
+        });
       }
+      
+      initializeImageTools();
     }
+
+    // Initialize everything when DOM is loaded
+    document.addEventListener('DOMContentLoaded', () => {
+      initMobileMenu();
+      initCookieConsent();
+      initImageTools();
+      
+      // Check cookie consent status
+      const preferences = localStorage.getItem('cookieConsent');
+      if (!preferences) {
+        document.getElementById('cookie-consent').style.display = 'block';
+      }
+    });
   </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js" onload="console.log('HEIC support loaded');" onerror="console.error('Failed to load heic2any');"></script>
 </body>
 </html>
