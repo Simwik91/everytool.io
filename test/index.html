@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Advanced Image Toolkit: Edit, enhance, and transform images with powerful tools - all in your browser.">
-  <meta name="keywords" content="image editor, photo editor, crop image, resize image, image filters, drawing tools, collage maker">
+  <meta name="keywords" content="image editor, photo editor, crop image, resize image, image filters, drawing tools">
   <meta name="robots" content="index, follow">
   <meta property="og:title" content="Advanced Image Toolkit - EveryTool.io">
   <meta property="og:description" content="Edit, enhance, and transform images with powerful tools. All processing happens in your browser.">
@@ -410,6 +410,8 @@
     canvas {
       margin: 1.5em auto;
       max-width: 100%;
+      min-height: 400px;
+      min-width: 500px;
       border-radius: 12px;
       background: #f5f5f5;
       padding: 15px;
@@ -511,10 +513,10 @@
       flex: 1;
     }
     
-    /* Features grid - 2 cards per row */
+    /* Features grid - 3 cards per row */
     .features {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       gap: 25px;
       margin: 30px 0;
     }
@@ -550,7 +552,7 @@
     
     .guide-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       gap: 30px;
       margin-top: 25px;
     }
@@ -1032,246 +1034,39 @@
       border: 1px dashed var(--light-gray);
     }
     
-    .collage-layouts {
-      display: flex;
-      gap: 15px;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin: 20px 0;
-    }
-    
-    .layout-option {
-      width: 120px;
-      height: 120px;
-      border: 2px solid var(--light-gray);
-      border-radius: 8px;
-      cursor: pointer;
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 2px;
-      padding: 2px;
-    }
-    
-    .layout-option.active {
-      border-color: var(--primary);
-    }
-    
-    .layout-cell {
-      background-color: var(--light-gray);
-      border-radius: 4px;
-    }
-    
-    /* Layout specific styles */
-    .layout-option[data-layout="2h"] {
-      grid-template-columns: 1fr;
-      grid-template-rows: 1fr 1fr;
-    }
-    
-    .layout-option[data-layout="2v"] {
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: 1fr;
-    }
-    
-    .layout-option[data-layout="3h"] {
-      grid-template-columns: 1fr;
-      grid-template-rows: 1fr 1fr 1fr;
-    }
-    
-    .layout-option[data-layout="3v"] {
-      grid-template-columns: 1fr 1fr 1fr;
-      grid-template-rows: 1fr;
-    }
-    
-    .layout-option[data-layout="4grid"] {
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: 1fr 1fr;
-    }
-    
-    .collage-preview {
-      display: grid;
-      gap: 5px;
-      margin: 20px auto;
-      max-width: 500px;
-    }
-    
-    .preview-cell {
-      background-size: cover;
-      background-position: center;
-      border-radius: 4px;
-      min-height: 100px;
-    }
-    
-    .batch-section {
-      margin: 20px 0;
-      padding: 20px;
-      background: white;
-      border-radius: var(--border-radius);
-      box-shadow: var(--box-shadow);
-    }
-    
-    .batch-toggle {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 15px;
-      justify-content: center;
-    }
-    
-    .batch-toggle button {
-      padding: 8px 15px;
-      border-radius: 50px;
-      background: var(--light-gray);
-      border: none;
-      cursor: pointer;
-      font-weight: 500;
-    }
-    
-    .batch-toggle button.active {
-      background: var(--primary);
-      color: white;
-    }
-    
-    .batch-controls {
-      display: none;
-    }
-    
-    .batch-controls.active {
-      display: block;
-    }
-    
-    .batch-list {
-      max-height: 200px;
-      overflow-y: auto;
-      margin: 10px 0;
-      padding: 10px;
-      background: var(--light);
-      border-radius: 8px;
-    }
-    
-    .batch-item {
-      display: flex;
-      align-items: center;
-      padding: 8px;
-      border-bottom: 1px solid var(--light-gray);
-    }
-    
-    .batch-item img {
-      width: 40px;
-      height: 40px;
-      object-fit: cover;
-      margin-right: 10px;
-      border-radius: 4px;
-    }
-    
-    .batch-item .name {
-      flex: 1;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    
-    .batch-actions {
-      display: flex;
-      justify-content: center;
-      margin-top: 15px;
-    }
-    
-    .progress-container {
-      margin: 20px 0;
-      background: var(--light-gray);
-      border-radius: 50px;
-      height: 10px;
-      overflow: hidden;
-    }
-    
-    .progress-bar {
-      height: 100%;
-      background: var(--primary);
-      width: 0%;
-      transition: width 0.3s ease;
-    }
-    
-    .quality-info {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.9rem;
-      color: var(--gray);
-      margin-top: 5px;
-    }
-    
-    .file-info {
-      display: flex;
-      justify-content: space-around;
-      margin: 15px 0;
-      font-weight: 500;
-    }
-    
-    .filter-options {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin: 20px 0;
-    }
-    
-    .filter-btn {
-      padding: 8px 15px;
-      border-radius: 50px;
-      background: var(--light-gray);
-      border: none;
-      cursor: pointer;
-      font-weight: 500;
-    }
-    
-    .filter-btn.active {
-      background: var(--primary);
-      color: white;
-    }
-    
-    .position-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 5px;
-      max-width: 300px;
-      margin: 10px auto;
-    }
-    
-    .position-grid button {
-      padding: 8px;
-      background: var(--light-gray);
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    
-    .position-grid button.active {
-      background: var(--primary);
-      color: white;
-    }
-    
+    /* Transformation controls */
     .transform-controls {
       display: flex;
-      gap: 10px;
       justify-content: center;
+      gap: 10px;
       margin: 15px 0;
       flex-wrap: wrap;
     }
     
     .transform-btn {
-      padding: 10px 15px;
+      padding: 8px 12px;
       border-radius: 50px;
       background: var(--light-gray);
+      color: var(--dark);
       border: none;
       cursor: pointer;
       font-weight: 500;
       display: flex;
       align-items: center;
       gap: 8px;
+      transition: var(--transition);
+      font-size: 0.85rem;
     }
     
     .transform-btn:hover {
       background: #dbe4ff;
     }
     
+    .transform-btn i {
+      font-size: 0.85rem;
+    }
+    
+    /* Drawing tools */
     .drawing-tools {
       display: flex;
       gap: 10px;
@@ -1281,28 +1076,7 @@
     }
     
     .drawing-tool {
-      padding: 10px 15px;
-      border-radius: 50px;
-      background: var(--light-gray);
-      border: none;
-      cursor: pointer;
-      font-weight: 500;
-    }
-    
-    .drawing-tool.active {
-      background: var(--primary);
-      color: white;
-    }
-    
-    .history-controls {
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-      margin: 15px 0;
-    }
-    
-    .history-btn {
-      padding: 10px 20px;
+      padding: 8px 12px;
       border-radius: 50px;
       background: var(--light-gray);
       border: none;
@@ -1311,6 +1085,33 @@
       display: flex;
       align-items: center;
       gap: 8px;
+      font-size: 0.85rem;
+    }
+    
+    .drawing-tool.active {
+      background: var(--primary);
+      color: white;
+    }
+    
+    /* History controls */
+    .history-controls {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin: 15px 0;
+    }
+    
+    .history-btn {
+      padding: 8px 12px;
+      border-radius: 50px;
+      background: var(--light-gray);
+      border: none;
+      cursor: pointer;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
     }
     
     .history-btn:disabled {
@@ -1334,11 +1135,11 @@
       }
       
       .guide-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
       }
       
       .features {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
       }
       
       .uses-grid {
@@ -1360,8 +1161,21 @@
         font-size: 2rem;
       }
       
-      .section-title {
-        font-size: 2rem;
+      canvas {
+        min-height: 300px;
+        min-width: 100%;
+      }
+      
+      .guide-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .features {
+        grid-template-columns: 1fr;
+      }
+      
+      .uses-grid {
+        grid-template-columns: 1fr;
       }
       
       .footer-links-row {
@@ -1392,7 +1206,7 @@
       }
       
       .uses-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: 1fr;
       }
       
       .btn-group {
@@ -1411,19 +1225,6 @@
       .option-card {
         width: 100%;
         max-width: 300px;
-      }
-      
-      .collage-layouts {
-        gap: 8px;
-      }
-      
-      .layout-option {
-        width: 90px;
-        height: 90px;
-      }
-      
-      .uses-grid {
-        grid-template-columns: repeat(2, 1fr);
       }
     }
 
@@ -1462,10 +1263,6 @@
       
       .uses-grid {
         grid-template-columns: 1fr;
-      }
-      
-      .position-grid {
-        grid-template-columns: repeat(3, 1fr);
       }
     }
   </style>
@@ -1609,13 +1406,13 @@
     <div class="container">
       <div class="hero-content">
         <h1>Advanced Image Toolkit</h1>
-        <p>Crop, resize, enhance, add effects, create collages, and draw on your images. All processing happens in your browser - your images never leave your device.</p>
+        <p>Crop, resize, enhance, add effects, and draw on your images. All processing happens in your browser - your images never leave your device.</p>
       </div>
     </div>
   </section>
 
   <div class="container">
-    <!-- Features section - 2 cards per row -->
+    <!-- Features section - 3 cards per row -->
     <div class="features">
       <div class="feature">
         <i class="fas fa-exchange-alt"></i>
@@ -1632,11 +1429,6 @@
         <h3>Drawing Tools</h3>
         <p>Add freehand drawings, shapes, and text to your images</p>
       </div>
-      <div class="feature">
-        <i class="fas fa-th-large"></i>
-        <h3>Collage Maker</h3>
-        <p>Combine multiple images into beautiful collages with various layouts</p>
-      </div>
     </div>
 
     <!-- Image Editing Guide -->
@@ -1650,11 +1442,11 @@
         </div>
         <div class="guide-item">
           <h3><i class="fas fa-sliders-h"></i> Choose Tool</h3>
-          <p>Select from crop, resize, enhance, draw, or collage based on your needs.</p>
+          <p>Select from crop, resize, enhance, or draw based on your needs.</p>
         </div>
         <div class="guide-item">
           <h3><i class="fas fa-edit"></i> Edit Image</h3>
-          <p>Apply transformations, filters, drawings, or arrange multiple images.</p>
+          <p>Apply transformations, filters, or drawings to your image.</p>
         </div>
         <div class="guide-item">
           <h3><i class="fas fa-history"></i> Undo/Redo</h3>
@@ -1677,9 +1469,6 @@
         <div class="tab" data-tab="draw" role="tab" aria-selected="false" tabindex="0">
           <i class="fas fa-paint-brush"></i> Draw
         </div>
-        <div class="tab" data-tab="collage" role="tab" aria-selected="false" tabindex="0">
-          <i class="fas fa-th-large"></i> Collage
-        </div>
       </div>
 
       <!-- Crop Tab -->
@@ -1693,6 +1482,14 @@
         </div>
         <input type="file" id="cropUpload" accept="image/*,.heic,.heif" style="display: none;" aria-label="Upload image for cropping" />
         
+        <div class="error" id="crop-error"></div>
+        <div class="success" id="crop-success"></div>
+        <div class="loading" id="crop-loading">
+          <div class="spinner"></div>
+          Processing Image...
+        </div>
+        <canvas id="cropCanvas" width="500" height="400"></canvas>
+        
         <div class="transform-controls">
           <button class="transform-btn" id="rotateLeft">
             <i class="fas fa-undo"></i> Rotate Left
@@ -1701,14 +1498,11 @@
             <i class="fas fa-redo"></i> Rotate Right
           </button>
           <button class="transform-btn" id="flipHorizontal">
-            <i class="fas fa-arrows-alt-h"></i> Flip Horizontal
+            <i class="fas fa-arrows-alt-h"></i> Flip H
           </button>
           <button class="transform-btn" id="flipVertical">
-            <i class="fas fa-arrows-alt-v"></i> Flip Vertical
+            <i class="fas fa-arrows-alt-v"></i> Flip V
           </button>
-        </div>
-        
-        <div class="history-controls">
           <button class="history-btn" id="undoBtn" disabled>
             <i class="fas fa-undo"></i> Undo
           </button>
@@ -1717,13 +1511,6 @@
           </button>
         </div>
         
-        <div class="error" id="crop-error"></div>
-        <div class="success" id="crop-success"></div>
-        <div class="loading" id="crop-loading">
-          <div class="spinner"></div>
-          Processing Image...
-        </div>
-        <canvas id="cropCanvas" width="300" height="200"></canvas>
         <div class="btn-group">
           <button id="cropBtn" style="display: none;">
             <i class="fas fa-crop"></i> Crop Image
@@ -1748,21 +1535,6 @@
         </div>
         <input type="file" id="resizeUpload" accept="image/*,.heic,.heif" style="display: none;" aria-label="Upload image for resizing" />
         
-        <div class="transform-controls">
-          <button class="transform-btn" id="resizeRotateLeft">
-            <i class="fas fa-undo"></i> Rotate Left
-          </button>
-          <button class="transform-btn" id="resizeRotateRight">
-            <i class="fas fa-redo"></i> Rotate Right
-          </button>
-          <button class="transform-btn" id="resizeFlipHorizontal">
-            <i class="fas fa-arrows-alt-h"></i> Flip Horizontal
-          </button>
-          <button class="transform-btn" id="resizeFlipVertical">
-            <i class="fas fa-arrows-alt-v"></i> Flip Vertical
-          </button>
-        </div>
-        
         <div class="resize-controls">
           <div>
             <label for="resizeWidth">Width (px):</label>
@@ -1774,7 +1546,27 @@
           </div>
         </div>
         
-        <div class="history-controls">
+        <div class="error" id="resize-error"></div>
+        <div class="success" id="resize-success"></div>
+        <div class="loading" id="resize-loading">
+          <div class="spinner"></div>
+          Processing Image...
+        </div>
+        <canvas id="resizeCanvas" width="500" height="400"></canvas>
+        
+        <div class="transform-controls">
+          <button class="transform-btn" id="resizeRotateLeft">
+            <i class="fas fa-undo"></i> Rotate Left
+          </button>
+          <button class="transform-btn" id="resizeRotateRight">
+            <i class="fas fa-redo"></i> Rotate Right
+          </button>
+          <button class="transform-btn" id="resizeFlipHorizontal">
+            <i class="fas fa-arrows-alt-h"></i> Flip H
+          </button>
+          <button class="transform-btn" id="resizeFlipVertical">
+            <i class="fas fa-arrows-alt-v"></i> Flip V
+          </button>
           <button class="history-btn" id="resizeUndoBtn" disabled>
             <i class="fas fa-undo"></i> Undo
           </button>
@@ -1783,13 +1575,6 @@
           </button>
         </div>
         
-        <div class="error" id="resize-error"></div>
-        <div class="success" id="resize-success"></div>
-        <div class="loading" id="resize-loading">
-          <div class="spinner"></div>
-          Processing Image...
-        </div>
-        <canvas id="resizeCanvas" width="300" height="200"></canvas>
         <div class="btn-group">
           <button id="resizeBtn" style="display: none;">
             <i class="fas fa-expand"></i> Resize Image
@@ -1813,21 +1598,6 @@
           <p>Max file size: 10MB</p>
         </div>
         <input type="file" id="enhanceUpload" accept="image/*" style="display: none;" aria-label="Upload image for enhancement" />
-        
-        <div class="transform-controls">
-          <button class="transform-btn" id="enhanceRotateLeft">
-            <i class="fas fa-undo"></i> Rotate Left
-          </button>
-          <button class="transform-btn" id="enhanceRotateRight">
-            <i class="fas fa-redo"></i> Rotate Right
-          </button>
-          <button class="transform-btn" id="enhanceFlipHorizontal">
-            <i class="fas fa-arrows-alt-h"></i> Flip Horizontal
-          </button>
-          <button class="transform-btn" id="enhanceFlipVertical">
-            <i class="fas fa-arrows-alt-v"></i> Flip Vertical
-          </button>
-        </div>
         
         <div class="adjustment-controls">
           <div class="adjustment-control">
@@ -1857,7 +1627,27 @@
           <button class="filter-btn" data-filter="posterize">Posterize</button>
         </div>
         
-        <div class="history-controls">
+        <div class="error" id="enhance-error"></div>
+        <div class="success" id="enhance-success"></div>
+        <div class="loading" id="enhance-loading">
+          <div class="spinner"></div>
+          Applying Enhancements...
+        </div>
+        <canvas id="enhanceCanvas" width="500" height="400"></canvas>
+        
+        <div class="transform-controls">
+          <button class="transform-btn" id="enhanceRotateLeft">
+            <i class="fas fa-undo"></i> Rotate Left
+          </button>
+          <button class="transform-btn" id="enhanceRotateRight">
+            <i class="fas fa-redo"></i> Rotate Right
+          </button>
+          <button class="transform-btn" id="enhanceFlipHorizontal">
+            <i class="fas fa-arrows-alt-h"></i> Flip H
+          </button>
+          <button class="transform-btn" id="enhanceFlipVertical">
+            <i class="fas fa-arrows-alt-v"></i> Flip V
+          </button>
           <button class="history-btn" id="enhanceUndoBtn" disabled>
             <i class="fas fa-undo"></i> Undo
           </button>
@@ -1866,13 +1656,6 @@
           </button>
         </div>
         
-        <div class="error" id="enhance-error"></div>
-        <div class="success" id="enhance-success"></div>
-        <div class="loading" id="enhance-loading">
-          <div class="spinner"></div>
-          Applying Enhancements...
-        </div>
-        <canvas id="enhanceCanvas" width="300" height="200"></canvas>
         <div class="btn-group">
           <button id="enhanceBtn" style="display: none;">
             <i class="fas fa-magic"></i> Apply Enhancements
@@ -1927,7 +1710,27 @@
           </div>
         </div>
         
-        <div class="history-controls">
+        <div class="error" id="draw-error"></div>
+        <div class="success" id="draw-success"></div>
+        <div class="loading" id="draw-loading">
+          <div class="spinner"></div>
+          Loading Image...
+        </div>
+        <canvas id="drawCanvas" width="500" height="400"></canvas>
+        
+        <div class="transform-controls">
+          <button class="transform-btn" id="drawRotateLeft">
+            <i class="fas fa-undo"></i> Rotate Left
+          </button>
+          <button class="transform-btn" id="drawRotateRight">
+            <i class="fas fa-redo"></i> Rotate Right
+          </button>
+          <button class="transform-btn" id="drawFlipHorizontal">
+            <i class="fas fa-arrows-alt-h"></i> Flip H
+          </button>
+          <button class="transform-btn" id="drawFlipVertical">
+            <i class="fas fa-arrows-alt-v"></i> Flip V
+          </button>
           <button class="history-btn" id="drawUndoBtn" disabled>
             <i class="fas fa-undo"></i> Undo
           </button>
@@ -1936,92 +1739,11 @@
           </button>
         </div>
         
-        <div class="error" id="draw-error"></div>
-        <div class="success" id="draw-success"></div>
-        <div class="loading" id="draw-loading">
-          <div class="spinner"></div>
-          Loading Image...
-        </div>
-        <canvas id="drawCanvas" width="300" height="200"></canvas>
         <div class="btn-group">
           <button id="saveDraw" style="display: none;">
             <i class="fas fa-save"></i> Save Drawing
           </button>
           <button id="downloadDraw" style="display: none;">
-            <i class="fas fa-download"></i> Download
-          </button>
-        </div>
-      </div>
-
-      <!-- Collage Tab -->
-      <div class="tab-content" id="collage-tab" role="tabpanel">
-        <h2><i class="fas fa-th-large"></i> Photo Collage Maker</h2>
-        <p><i>Combine multiple photos into a single collage.</i></p>
-        <div class="drag-drop-area" id="collageDragArea">
-          <p><i class="fas fa-upload"></i> Choose 2-4 photos or drag and drop here</p>
-          <p>Supported formats: PNG, JPEG, WEBP, BMP, GIF</p>
-          <p>Max file size per image: 10MB</p>
-        </div>
-        <input type="file" id="collageUpload" accept="image/*" multiple style="display: none;" aria-label="Upload images for collage" />
-        
-        <div class="collage-layouts">
-          <div class="layout-option active" data-layout="2h">
-            <div class="layout-cell"></div>
-            <div class="layout-cell"></div>
-          </div>
-          <div class="layout-option" data-layout="2v">
-            <div class="layout-cell"></div>
-            <div class="layout-cell"></div>
-          </div>
-          <div class="layout-option" data-layout="3h">
-            <div class="layout-cell"></div>
-            <div class="layout-cell"></div>
-            <div class="layout-cell"></div>
-          </div>
-          <div class="layout-option" data-layout="3v">
-            <div class="layout-cell"></div>
-            <div class="layout-cell"></div>
-            <div class="layout-cell"></div>
-          </div>
-          <div class="layout-option" data-layout="4grid">
-            <div class="layout-cell"></div>
-            <div class="layout-cell"></div>
-            <div class="layout-cell"></div>
-            <div class="layout-cell"></div>
-          </div>
-        </div>
-        
-        <label for="spacing">Spacing:</label>
-        <input type="range" id="spacing" min="0" max="30" value="10">
-        
-        <label for="borderWidth">Border:</label>
-        <input type="range" id="borderWidth" min="0" max="20" value="5">
-        
-        <div class="collage-preview" id="collagePreview" style="display: none;">
-          <!-- Preview will be generated here -->
-        </div>
-        
-        <div class="history-controls">
-          <button class="history-btn" id="collageUndoBtn" disabled>
-            <i class="fas fa-undo"></i> Undo
-          </button>
-          <button class="history-btn" id="collageRedoBtn" disabled>
-            <i class="fas fa-redo"></i> Redo
-          </button>
-        </div>
-        
-        <div class="error" id="collage-error"></div>
-        <div class="success" id="collage-success"></div>
-        <div class="loading" id="collage-loading">
-          <div class="spinner"></div>
-          Creating Collage...
-        </div>
-        <canvas id="collageCanvas" width="300" height="200"></canvas>
-        <div class="btn-group">
-          <button id="createCollageBtn" style="display: none;">
-            <i class="fas fa-th"></i> Create Collage
-          </button>
-          <button id="downloadCollage" style="display: none;">
             <i class="fas fa-download"></i> Download
           </button>
         </div>
@@ -2257,16 +1979,21 @@
     function initImageTools() {
       // State management
       const state = {
+        currentTab: 'crop',
         crop: {
           originalImage: null,
           croppedImage: null,
           cropRect: null,
           isDrawing: false,
-          cropStart: null
+          cropStart: null,
+          history: [],
+          historyIndex: -1
         },
         resize: {
           originalImage: null,
-          resizedImage: null
+          resizedImage: null,
+          history: [],
+          historyIndex: -1
         },
         enhance: {
           originalImage: null,
@@ -2275,7 +2002,9 @@
           contrast: 0,
           saturation: 0,
           blur: 0,
-          filter: 'normal'
+          filter: 'normal',
+          history: [],
+          historyIndex: -1
         },
         draw: {
           originalImage: null,
@@ -2288,20 +2017,11 @@
           color: '#FF0000',
           size: 5,
           opacity: 1,
+          startX: 0,
+          startY: 0,
           history: [],
-          historyIndex: -1
-        },
-        collage: {
-          images: [],
-          layout: '2h',
-          spacing: 10,
-          borderWidth: 5,
-          history: [],
-          historyIndex: -1
-        },
-        history: {
-          undoStack: [],
-          redoStack: []
+          historyIndex: -1,
+          tempCanvas: null
         }
       };
 
@@ -2369,7 +2089,7 @@
         const canvas = document.getElementById(canvasId);
         if (!canvas) return;
         const ctx = canvas.getContext('2d');
-        const maxWidth = 500;
+        const maxWidth = 800;
         const scale = Math.min(maxWidth / image.width, 1);
         const pixelRatio = window.devicePixelRatio || 1;
 
@@ -2387,10 +2107,10 @@
         const canvas = document.getElementById(canvasId);
         if (!canvas) return;
         const ctx = canvas.getContext('2d');
-        canvas.style.width = '300px';
-        canvas.style.height = '200px';
-        canvas.width = 300;
-        canvas.height = 200;
+        canvas.style.width = '500px';
+        canvas.style.height = '400px';
+        canvas.width = 500;
+        canvas.height = 400;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
       }
       
@@ -2476,22 +2196,50 @@
         return imageData;
       }
       
-      function saveToHistory(canvas) {
-        state.history.undoStack.push(canvas.toDataURL());
-        state.history.redoStack = [];
-        updateHistoryButtons();
+      function saveToHistory(canvas, tab) {
+        const stateTab = state[tab];
+        stateTab.history.push(canvas.toDataURL());
+        stateTab.historyIndex = stateTab.history.length - 1;
+        updateHistoryButtons(tab);
       }
       
-      function updateHistoryButtons() {
-        const undoBtn = document.getElementById('undoBtn');
-        const redoBtn = document.getElementById('redoBtn');
+      function restoreFromHistory(tab) {
+        const stateTab = state[tab];
+        if (stateTab.historyIndex < 0) return;
         
-        if (undoBtn) undoBtn.disabled = state.history.undoStack.length <= 1;
-        if (redoBtn) redoBtn.disabled = state.history.redoStack.length === 0;
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.getElementById(`${tab}Canvas`);
+          if (!canvas) return;
+          const ctx = canvas.getContext('2d');
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          
+          if (tab === 'crop') {
+            state.crop.originalImage = img;
+          } else if (tab === 'resize') {
+            state.resize.originalImage = img;
+          } else if (tab === 'enhance') {
+            state.enhance.originalImage = img;
+          } else if (tab === 'draw') {
+            state.draw.originalImage = img;
+          }
+        };
+        img.src = stateTab.history[stateTab.historyIndex];
+      }
+      
+      function updateHistoryButtons(tab) {
+        const stateTab = state[tab];
+        const undoBtn = document.getElementById(`${tab}UndoBtn`);
+        const redoBtn = document.getElementById(`${tab}RedoBtn`);
+        
+        if (undoBtn) undoBtn.disabled = stateTab.historyIndex <= 0;
+        if (redoBtn) redoBtn.disabled = stateTab.historyIndex >= stateTab.history.length - 1;
       }
 
       // Tab Switching
       function switchTab(tabName) {
+        state.currentTab = tabName;
         document.querySelectorAll('.tab').forEach(tab => {
           tab.classList.remove('active');
           tab.setAttribute('aria-selected', 'false');
@@ -2519,6 +2267,7 @@
           document.getElementById('resetCrop').style.display = 'none';
           hideElements('crop');
           hideLoading('crop');
+          updateHistoryButtons('crop');
         } else if (tabName === 'resize') {
           if (state.resize.originalImage) {
             drawImageOnCanvas(state.resize.originalImage, 'resizeCanvas');
@@ -2531,6 +2280,7 @@
           document.getElementById('resetResize').style.display = 'none';
           hideElements('resize');
           hideLoading('resize');
+          updateHistoryButtons('resize');
         } else if (tabName === 'enhance') {
           if (state.enhance.originalImage) {
             drawImageOnCanvas(state.enhance.originalImage, 'enhanceCanvas');
@@ -2543,6 +2293,7 @@
           }
           hideElements('enhance');
           hideLoading('enhance');
+          updateHistoryButtons('enhance');
         } else if (tabName === 'draw') {
           if (state.draw.originalImage) {
             drawImageOnCanvas(state.draw.originalImage, 'drawCanvas');
@@ -2555,12 +2306,7 @@
           }
           hideElements('draw');
           hideLoading('draw');
-        } else if (tabName === 'collage') {
-          resetCanvas('collageCanvas');
-          document.getElementById('createCollageBtn').style.display = 'none';
-          document.getElementById('downloadCollage').style.display = 'none';
-          hideElements('collage');
-          hideLoading('collage');
+          updateHistoryButtons('draw');
         }
       }
 
@@ -2620,7 +2366,7 @@
             state.crop.originalImage = await loadImage(file);
             drawImageOnCanvas(state.crop.originalImage, 'cropCanvas');
             cropBtn.style.display = 'inline-block';
-            saveToHistory(cropCanvas);
+            saveToHistory(cropCanvas, 'crop');
             showSuccess(document.getElementById('crop-success'), 'Image loaded successfully!');
           } catch (err) {
             showError(document.getElementById('crop-error'), err.message);
@@ -2635,28 +2381,43 @@
           if (!state.crop.originalImage) return;
           state.crop.originalImage = rotateImage(state.crop.originalImage, -90);
           drawImageOnCanvas(state.crop.originalImage, 'cropCanvas');
-          saveToHistory(cropCanvas);
+          saveToHistory(cropCanvas, 'crop');
         });
         
         document.getElementById('rotateRight').addEventListener('click', () => {
           if (!state.crop.originalImage) return;
           state.crop.originalImage = rotateImage(state.crop.originalImage, 90);
           drawImageOnCanvas(state.crop.originalImage, 'cropCanvas');
-          saveToHistory(cropCanvas);
+          saveToHistory(cropCanvas, 'crop');
         });
         
         document.getElementById('flipHorizontal').addEventListener('click', () => {
           if (!state.crop.originalImage) return;
           state.crop.originalImage = flipImage(state.crop.originalImage, 'horizontal');
           drawImageOnCanvas(state.crop.originalImage, 'cropCanvas');
-          saveToHistory(cropCanvas);
+          saveToHistory(cropCanvas, 'crop');
         });
         
         document.getElementById('flipVertical').addEventListener('click', () => {
           if (!state.crop.originalImage) return;
           state.crop.originalImage = flipImage(state.crop.originalImage, 'vertical');
           drawImageOnCanvas(state.crop.originalImage, 'cropCanvas');
-          saveToHistory(cropCanvas);
+          saveToHistory(cropCanvas, 'crop');
+        });
+
+        // Undo/Redo functionality for crop
+        document.getElementById('undoBtn').addEventListener('click', () => {
+          if (state.crop.historyIndex > 0) {
+            state.crop.historyIndex--;
+            restoreFromHistory('crop');
+          }
+        });
+        
+        document.getElementById('redoBtn').addEventListener('click', () => {
+          if (state.crop.historyIndex < state.crop.history.length - 1) {
+            state.crop.historyIndex++;
+            restoreFromHistory('crop');
+          }
         });
 
         // Crop drawing functionality
@@ -2719,7 +2480,7 @@
               drawImageOnCanvas(croppedCanvas, 'cropCanvas');
               downloadCrop.style.display = 'inline-block';
               resetCrop.style.display = 'inline-block';
-              saveToHistory(cropCanvas);
+              saveToHistory(cropCanvas, 'crop');
               showSuccess(document.getElementById('crop-success'), 'Image cropped successfully!');
             } catch (err) {
               showError(document.getElementById('crop-error'), 'Error cropping image: ' + err.message);
@@ -2739,7 +2500,7 @@
               downloadCrop.style.display = 'none';
               resetCrop.style.display = 'none';
               cropBtn.style.display = 'inline-block';
-              saveToHistory(cropCanvas);
+              saveToHistory(cropCanvas, 'crop');
               showSuccess(document.getElementById('crop-success'), 'Image reset successfully!');
             } else {
               resetCanvas('cropCanvas');
@@ -2777,7 +2538,7 @@
             state.resize.originalImage = await loadImage(file);
             drawImageOnCanvas(state.resize.originalImage, 'resizeCanvas');
             resizeBtn.style.display = 'inline-block';
-            saveToHistory(resizeCanvas);
+            saveToHistory(resizeCanvas, 'resize');
             showSuccess(document.getElementById('resize-success'), 'Image loaded successfully!');
           } catch (err) {
             showError(document.getElementById('resize-error'), err.message);
@@ -2792,28 +2553,43 @@
           if (!state.resize.originalImage) return;
           state.resize.originalImage = rotateImage(state.resize.originalImage, -90);
           drawImageOnCanvas(state.resize.originalImage, 'resizeCanvas');
-          saveToHistory(resizeCanvas);
+          saveToHistory(resizeCanvas, 'resize');
         });
         
         document.getElementById('resizeRotateRight').addEventListener('click', () => {
           if (!state.resize.originalImage) return;
           state.resize.originalImage = rotateImage(state.resize.originalImage, 90);
           drawImageOnCanvas(state.resize.originalImage, 'resizeCanvas');
-          saveToHistory(resizeCanvas);
+          saveToHistory(resizeCanvas, 'resize');
         });
         
         document.getElementById('resizeFlipHorizontal').addEventListener('click', () => {
           if (!state.resize.originalImage) return;
           state.resize.originalImage = flipImage(state.resize.originalImage, 'horizontal');
           drawImageOnCanvas(state.resize.originalImage, 'resizeCanvas');
-          saveToHistory(resizeCanvas);
+          saveToHistory(resizeCanvas, 'resize');
         });
         
         document.getElementById('resizeFlipVertical').addEventListener('click', () => {
           if (!state.resize.originalImage) return;
           state.resize.originalImage = flipImage(state.resize.originalImage, 'vertical');
           drawImageOnCanvas(state.resize.originalImage, 'resizeCanvas');
-          saveToHistory(resizeCanvas);
+          saveToHistory(resizeCanvas, 'resize');
+        });
+
+        // Undo/Redo for resize
+        document.getElementById('resizeUndoBtn').addEventListener('click', () => {
+          if (state.resize.historyIndex > 0) {
+            state.resize.historyIndex--;
+            restoreFromHistory('resize');
+          }
+        });
+        
+        document.getElementById('resizeRedoBtn').addEventListener('click', () => {
+          if (state.resize.historyIndex < state.resize.history.length - 1) {
+            state.resize.historyIndex++;
+            restoreFromHistory('resize');
+          }
         });
 
         resizeBtn.addEventListener('click', () => {
@@ -2840,7 +2616,7 @@
               drawImageOnCanvas(state.resize.resizedImage, 'resizeCanvas');
               downloadResize.style.display = 'inline-block';
               resetResize.style.display = 'inline-block';
-              saveToHistory(resizeCanvas);
+              saveToHistory(resizeCanvas, 'resize');
               showSuccess(document.getElementById('resize-success'), 'Image resized successfully!');
             } catch (err) {
               showError(document.getElementById('resize-error'), 'Error resizing image: ' + err.message);
@@ -2859,7 +2635,7 @@
               downloadResize.style.display = 'none';
               resetResize.style.display = 'none';
               resizeBtn.style.display = 'inline-block';
-              saveToHistory(resizeCanvas);
+              saveToHistory(resizeCanvas, 'resize');
               showSuccess(document.getElementById('resize-success'), 'Image reset successfully!');
             } else {
               resetCanvas('resizeCanvas');
@@ -3019,7 +2795,7 @@
             drawImageOnCanvas(state.enhance.originalImage, 'enhanceCanvas');
             applyEnhancements();
             downloadEnhance.style.display = 'inline-block';
-            saveToHistory(enhanceCanvas);
+            saveToHistory(enhanceCanvas, 'enhance');
             showSuccess(document.getElementById('enhance-success'), 'Image loaded successfully!');
           } catch (err) {
             showError(document.getElementById('enhance-error'), err.message);
@@ -3029,10 +2805,54 @@
           }
         });
         
+        // Rotation and flip functionality for enhance tab
+        document.getElementById('enhanceRotateLeft').addEventListener('click', () => {
+          if (!state.enhance.originalImage) return;
+          state.enhance.originalImage = rotateImage(state.enhance.originalImage, -90);
+          drawImageOnCanvas(state.enhance.originalImage, 'enhanceCanvas');
+          saveToHistory(enhanceCanvas, 'enhance');
+        });
+        
+        document.getElementById('enhanceRotateRight').addEventListener('click', () => {
+          if (!state.enhance.originalImage) return;
+          state.enhance.originalImage = rotateImage(state.enhance.originalImage, 90);
+          drawImageOnCanvas(state.enhance.originalImage, 'enhanceCanvas');
+          saveToHistory(enhanceCanvas, 'enhance');
+        });
+        
+        document.getElementById('enhanceFlipHorizontal').addEventListener('click', () => {
+          if (!state.enhance.originalImage) return;
+          state.enhance.originalImage = flipImage(state.enhance.originalImage, 'horizontal');
+          drawImageOnCanvas(state.enhance.originalImage, 'enhanceCanvas');
+          saveToHistory(enhanceCanvas, 'enhance');
+        });
+        
+        document.getElementById('enhanceFlipVertical').addEventListener('click', () => {
+          if (!state.enhance.originalImage) return;
+          state.enhance.originalImage = flipImage(state.enhance.originalImage, 'vertical');
+          drawImageOnCanvas(state.enhance.originalImage, 'enhanceCanvas');
+          saveToHistory(enhanceCanvas, 'enhance');
+        });
+
+        // Undo/Redo for enhance
+        document.getElementById('enhanceUndoBtn').addEventListener('click', () => {
+          if (state.enhance.historyIndex > 0) {
+            state.enhance.historyIndex--;
+            restoreFromHistory('enhance');
+          }
+        });
+        
+        document.getElementById('enhanceRedoBtn').addEventListener('click', () => {
+          if (state.enhance.historyIndex < state.enhance.history.length - 1) {
+            state.enhance.historyIndex++;
+            restoreFromHistory('enhance');
+          }
+        });
+        
         enhanceBtn.addEventListener('click', () => {
           // Enhancements are applied in real-time, so this just triggers the preview
           applyEnhancements();
-          saveToHistory(enhanceCanvas);
+          saveToHistory(enhanceCanvas, 'enhance');
           showSuccess(document.getElementById('enhance-success'), 'Enhancements applied successfully!');
         });
         
@@ -3079,7 +2899,7 @@
             state.draw.ctx = drawCanvas.getContext('2d');
             saveDraw.style.display = 'inline-block';
             downloadDraw.style.display = 'inline-block';
-            saveToHistory(drawCanvas);
+            saveToHistory(drawCanvas, 'draw');
             showSuccess(document.getElementById('draw-success'), 'Image loaded successfully!');
           } catch (err) {
             showError(document.getElementById('draw-error'), err.message);
@@ -3095,44 +2915,140 @@
           
           state.draw.isDrawing = true;
           const rect = drawCanvas.getBoundingClientRect();
-          state.draw.lastX = e.clientX - rect.left;
-          state.draw.lastY = e.clientY - rect.top;
+          state.draw.startX = e.clientX - rect.left;
+          state.draw.startY = e.clientY - rect.top;
+          state.draw.lastX = state.draw.startX;
+          state.draw.lastY = state.draw.startY;
+          
+          // Create temporary canvas for preview
+          if (!state.draw.tempCanvas) {
+            state.draw.tempCanvas = document.createElement('canvas');
+            state.draw.tempCanvas.width = drawCanvas.width;
+            state.draw.tempCanvas.height = drawCanvas.height;
+            state.draw.tempCtx = state.draw.tempCanvas.getContext('2d');
+          }
+          
+          // For text tool, prompt for text
+          if (state.draw.tool === 'text') {
+            const text = prompt('Enter text:');
+            if (text) {
+              state.draw.ctx.font = `${drawSize.value * 5}px Arial`;
+              state.draw.ctx.fillStyle = drawColor.value;
+              state.draw.ctx.globalAlpha = opacity.value / 100;
+              state.draw.ctx.fillText(text, state.draw.startX, state.draw.startY);
+              saveToHistory(drawCanvas, 'draw');
+            }
+            state.draw.isDrawing = false;
+            return;
+          }
         });
         
         drawCanvas.addEventListener('mousemove', (e) => {
-          if (!state.draw.isDrawing || !state.draw.originalImage) return;
+          if (!state.draw.isDrawing || !state.draw.originalImage || state.draw.tool === 'text') return;
           
           const rect = drawCanvas.getBoundingClientRect();
           const currentX = e.clientX - rect.left;
           const currentY = e.clientY - rect.top;
           
-          state.draw.ctx.strokeStyle = drawColor.value;
-          state.draw.ctx.lineWidth = drawSize.value;
-          state.draw.ctx.lineCap = 'round';
-          state.draw.ctx.lineJoin = 'round';
-          state.draw.ctx.globalAlpha = opacity.value / 100;
+          // Clear temp canvas
+          state.draw.tempCtx.clearRect(0, 0, state.draw.tempCanvas.width, state.draw.tempCanvas.height);
           
-          state.draw.ctx.beginPath();
-          state.draw.ctx.moveTo(state.draw.lastX, state.draw.lastY);
-          state.draw.ctx.lineTo(currentX, currentY);
-          state.draw.ctx.stroke();
+          state.draw.tempCtx.strokeStyle = drawColor.value;
+          state.draw.tempCtx.lineWidth = drawSize.value;
+          state.draw.tempCtx.lineCap = 'round';
+          state.draw.tempCtx.lineJoin = 'round';
+          state.draw.tempCtx.globalAlpha = opacity.value / 100;
+          
+          if (state.draw.tool === 'pencil') {
+            state.draw.tempCtx.beginPath();
+            state.draw.tempCtx.moveTo(state.draw.lastX, state.draw.lastY);
+            state.draw.tempCtx.lineTo(currentX, currentY);
+            state.draw.tempCtx.stroke();
+          } else if (state.draw.tool === 'rectangle') {
+            state.draw.tempCtx.strokeRect(
+              state.draw.startX, 
+              state.draw.startY, 
+              currentX - state.draw.startX, 
+              currentY - state.draw.startY
+            );
+          } else if (state.draw.tool === 'circle') {
+            const radius = Math.sqrt(
+              Math.pow(currentX - state.draw.startX, 2) + 
+              Math.pow(currentY - state.draw.startY, 2)
+            );
+            state.draw.tempCtx.beginPath();
+            state.draw.tempCtx.arc(state.draw.startX, state.draw.startY, radius, 0, 2 * Math.PI);
+            state.draw.tempCtx.stroke();
+          } else if (state.draw.tool === 'line') {
+            state.draw.tempCtx.beginPath();
+            state.draw.tempCtx.moveTo(state.draw.startX, state.draw.startY);
+            state.draw.tempCtx.lineTo(currentX, currentY);
+            state.draw.tempCtx.stroke();
+          }
           
           state.draw.lastX = currentX;
           state.draw.lastY = currentY;
         });
         
         drawCanvas.addEventListener('mouseup', () => {
+          if (!state.draw.isDrawing || !state.draw.originalImage || state.draw.tool === 'text') return;
+          
+          // Draw from temp canvas to main canvas
+          state.draw.ctx.drawImage(state.draw.tempCanvas, 0, 0);
           state.draw.isDrawing = false;
-          saveToHistory(drawCanvas);
+          saveToHistory(drawCanvas, 'draw');
         });
         
         drawCanvas.addEventListener('mouseout', () => {
           state.draw.isDrawing = false;
-          saveToHistory(drawCanvas);
+        });
+        
+        // Rotation and flip functionality for draw tab
+        document.getElementById('drawRotateLeft').addEventListener('click', () => {
+          if (!state.draw.originalImage) return;
+          state.draw.originalImage = rotateImage(state.draw.originalImage, -90);
+          drawImageOnCanvas(state.draw.originalImage, 'drawCanvas');
+          saveToHistory(drawCanvas, 'draw');
+        });
+        
+        document.getElementById('drawRotateRight').addEventListener('click', () => {
+          if (!state.draw.originalImage) return;
+          state.draw.originalImage = rotateImage(state.draw.originalImage, 90);
+          drawImageOnCanvas(state.draw.originalImage, 'drawCanvas');
+          saveToHistory(drawCanvas, 'draw');
+        });
+        
+        document.getElementById('drawFlipHorizontal').addEventListener('click', () => {
+          if (!state.draw.originalImage) return;
+          state.draw.originalImage = flipImage(state.draw.originalImage, 'horizontal');
+          drawImageOnCanvas(state.draw.originalImage, 'drawCanvas');
+          saveToHistory(drawCanvas, 'draw');
+        });
+        
+        document.getElementById('drawFlipVertical').addEventListener('click', () => {
+          if (!state.draw.originalImage) return;
+          state.draw.originalImage = flipImage(state.draw.originalImage, 'vertical');
+          drawImageOnCanvas(state.draw.originalImage, 'drawCanvas');
+          saveToHistory(drawCanvas, 'draw');
+        });
+
+        // Undo/Redo for draw
+        document.getElementById('drawUndoBtn').addEventListener('click', () => {
+          if (state.draw.historyIndex > 0) {
+            state.draw.historyIndex--;
+            restoreFromHistory('draw');
+          }
+        });
+        
+        document.getElementById('drawRedoBtn').addEventListener('click', () => {
+          if (state.draw.historyIndex < state.draw.history.length - 1) {
+            state.draw.historyIndex++;
+            restoreFromHistory('draw');
+          }
         });
         
         saveDraw.addEventListener('click', () => {
-          saveToHistory(drawCanvas);
+          saveToHistory(drawCanvas, 'draw');
           showSuccess(document.getElementById('draw-success'), 'Drawing saved!');
         });
         
@@ -3143,123 +3059,6 @@
           link.click();
           URL.revokeObjectURL(link.href);
           showSuccess(document.getElementById('draw-success'), 'Image downloaded successfully!');
-        });
-        
-        // Collage Functionality
-        const collageUpload = document.getElementById('collageUpload');
-        const layoutOptions = document.querySelectorAll('.layout-option');
-        const createCollageBtn = document.getElementById('createCollageBtn');
-        const downloadCollage = document.getElementById('downloadCollage');
-        
-        setupDragAndDrop(document.getElementById('collageDragArea'), collageUpload, 'collage');
-        
-        layoutOptions.forEach(option => {
-          option.addEventListener('click', () => {
-            layoutOptions.forEach(opt => opt.classList.remove('active'));
-            option.classList.add('active');
-            state.collage.layout = option.dataset.layout;
-          });
-        });
-        
-        collageUpload.addEventListener('change', (e) => {
-          state.collage.images = Array.from(e.target.files).slice(0, 4);
-          createCollageBtn.style.display = 'inline-block';
-          showSuccess(document.getElementById('collage-success'), 'Images uploaded successfully!');
-        });
-        
-        createCollageBtn.addEventListener('click', () => {
-          hideElements('collage');
-          if (state.collage.images.length < 2) {
-            showError(document.getElementById('collage-error'), 'Please upload at least 2 images for a collage.');
-            return;
-          }
-          
-          showLoading('collage');
-          setTimeout(() => {
-            try {
-              const collageCanvas = document.getElementById('collageCanvas');
-              const ctx = collageCanvas.getContext('2d');
-              
-              // Set canvas size based on layout
-              collageCanvas.width = 800;
-              collageCanvas.height = 600;
-              
-              // Clear canvas
-              ctx.clearRect(0, 0, collageCanvas.width, collageCanvas.height);
-              
-              // Create collage based on layout
-              const spacing = parseInt(document.getElementById('spacing').value);
-              const borderWidth = parseInt(document.getElementById('borderWidth').value);
-              
-              // This is a simplified implementation
-              // In a real app, you would properly load and arrange images
-              ctx.fillStyle = 'white';
-              ctx.fillRect(0, 0, collageCanvas.width, collageCanvas.height);
-              
-              ctx.font = '20px Poppins';
-              ctx.fillStyle = '#4361ee';
-              ctx.textAlign = 'center';
-              ctx.fillText('Collage Preview - Images would be arranged here', collageCanvas.width/2, collageCanvas.height/2);
-              
-              downloadCollage.style.display = 'inline-block';
-              saveToHistory(collageCanvas);
-              showSuccess(document.getElementById('collage-success'), 'Collage created successfully!');
-            } catch (err) {
-              showError(document.getElementById('collage-error'), 'Error creating collage: ' + err.message);
-            } finally {
-              hideLoading('collage');
-            }
-          }, 300);
-        });
-        
-        downloadCollage.addEventListener('click', () => {
-          const canvas = document.getElementById('collageCanvas');
-          const link = document.createElement('a');
-          link.download = 'collage.png';
-          link.href = canvas.toDataURL('image/png');
-          link.click();
-          URL.revokeObjectURL(link.href);
-          showSuccess(document.getElementById('collage-success'), 'Collage downloaded successfully!');
-        });
-        
-        // Undo/Redo functionality
-        document.getElementById('undoBtn').addEventListener('click', () => {
-          if (state.history.undoStack.length > 1) {
-            const current = state.history.undoStack.pop();
-            state.history.redoStack.push(current);
-            
-            const prevState = state.history.undoStack[state.history.undoStack.length - 1];
-            const img = new Image();
-            img.onload = () => {
-              const canvas = document.getElementById('cropCanvas');
-              const ctx = canvas.getContext('2d');
-              ctx.clearRect(0, 0, canvas.width, canvas.height);
-              ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-              state.crop.originalImage = img;
-            };
-            img.src = prevState;
-            
-            updateHistoryButtons();
-          }
-        });
-        
-        document.getElementById('redoBtn').addEventListener('click', () => {
-          if (state.history.redoStack.length > 0) {
-            const nextState = state.history.redoStack.pop();
-            state.history.undoStack.push(nextState);
-            
-            const img = new Image();
-            img.onload = () => {
-              const canvas = document.getElementById('cropCanvas');
-              const ctx = canvas.getContext('2d');
-              ctx.clearRect(0, 0, canvas.width, canvas.height);
-              ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-              state.crop.originalImage = img;
-            };
-            img.src = nextState;
-            
-            updateHistoryButtons();
-          }
         });
       }
       
