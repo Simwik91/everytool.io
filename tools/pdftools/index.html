@@ -499,7 +499,58 @@
       cursor: pointer;
       padding: 5px;
     }
-
+    
+    /* Page range controls */
+    .page-range-container {
+      max-width: 500px;
+      margin: 20px auto;
+      padding: 20px;
+      background: #f8f9ff;
+      border-radius: var(--border-radius);
+      border: 1px solid var(--light-gray);
+    }
+    
+    .range-input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    
+    .range-input-group label {
+      font-weight: 500;
+      color: var(--dark);
+      margin-bottom: 5px;
+    }
+    
+    .range-input-group input {
+      padding: 12px 15px;
+      font-size: 1rem;
+      border-radius: 10px;
+      border: 1px solid var(--light-gray);
+      background: white;
+      transition: var(--transition);
+    }
+    
+    .range-input-group input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+    }
+    
+    .range-info {
+      background: #e6f0ff;
+      padding: 15px;
+      border-radius: 10px;
+      margin-top: 15px;
+      font-size: 0.9rem;
+      color: var(--primary-dark);
+    }
+    
+    .range-info i {
+      margin-right: 8px;
+    }
+    
     .page-range-controls {
       display: flex;
       gap: 15px;
@@ -567,6 +618,13 @@
       display: none;
       text-align: center;
     }
+    
+    .result-container.split {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+    }
 
     .download-btn {
       background: #27ae60;
@@ -581,6 +639,9 @@
       transition: var(--transition);
       margin-top: 15px;
       cursor: pointer;
+      width: 100%;
+      justify-content: center;
+      text-align: center;
     }
 
     .download-btn:hover, .download-btn:focus {
@@ -589,6 +650,15 @@
       box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
       outline: 2px solid var(--primary);
       outline-offset: 2px;
+    }
+    
+    .download-btn.split {
+      background: var(--primary);
+      max-width: 300px;
+    }
+    
+    .download-btn.split:hover, .download-btn.split:focus {
+      background: var(--primary-dark);
     }
 
     button {
@@ -1109,6 +1179,14 @@
       .uses-grid {
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       }
+      
+      .page-range-container {
+        padding: 15px;
+      }
+      
+      .range-input-group {
+        flex-direction: column;
+      }
     }
 
     @media (max-width: 576px) {
@@ -1350,6 +1428,9 @@
           <div class="tab active" data-tab="merge" role="tab" aria-selected="true" tabindex="0">
             <i class="fas fa-object-group"></i> Merge PDFs
           </div>
+          <div class="tab" data-tab="split" role="tab" aria-selected="false" tabindex="0">
+            <i class="fas fa-cut"></i> Split PDF
+          </div>
           <div class="tab" data-tab="compress" role="tab" aria-selected="false" tabindex="0">
             <i class="fas fa-compress-alt"></i> Compress PDF
           </div>
@@ -1392,6 +1473,55 @@
           <div id="mergeResult" class="result-container">
             <p>PDFs merged successfully!</p>
             <a id="mergeDownloadLink" class="download-btn"><i class="fas fa-download"></i> Download Merged PDF</a>
+          </div>
+        </div>
+        
+        <!-- Split PDF Tab -->
+        <div class="tab-content" id="split-tab" role="tabpanel">
+          <h2><i class="fas fa-cut"></i> Split PDF File</h2>
+          <p>Extract specific pages or split your PDF into multiple files.</p>
+          
+          <div class="drag-drop-area" id="splitUploadArea">
+            <p><i class="fas fa-cloud-upload-alt fa-2x"></i></p>
+            <p><strong>Choose file or drag and drop here</strong></p>
+            <p>Supported formats: PDF</p>
+            <p>Max file size: 100MB</p>
+          </div>
+          <input type="file" id="splitFileUpload" accept=".pdf" style="display: none;" aria-label="Upload PDF file for splitting" />
+          
+          <div class="file-list" id="splitFileList"></div>
+          
+          <div class="page-range-container">
+            <div class="range-input-group">
+              <label for="splitRange">Page Range <span id="totalPages">(Total pages: -)</span></label>
+              <input type="text" id="splitRange" placeholder="e.g., 1-3,5,7-9" aria-label="Enter page range to extract">
+              <div class="range-info">
+                <i class="fas fa-info-circle"></i> Enter page numbers separated by commas. Use hyphens for ranges (e.g., 1-3,5,7-9)
+              </div>
+            </div>
+          </div>
+          
+          <div class="btn-group">
+            <button id="splitBtn" disabled>
+              <i class="fas fa-cut"></i> Split PDF
+            </button>
+            <button id="clearSplitBtn" class="btn-secondary">
+              <i class="fas fa-trash"></i> Clear
+            </button>
+          </div>
+          
+          <div class="loading" id="splitLoading">
+            <div class="spinner"></div>
+            Splitting your PDF file...
+          </div>
+          
+          <div class="error" id="splitError"></div>
+          <div class="success" id="splitSuccess"></div>
+          
+          <div id="splitResult" class="result-container split" style="display: none;">
+            <p>PDF split successfully!</p>
+            <p>Your document has been split into <span id="splitCount">1</span> file.</p>
+            <a id="splitDownloadLink" class="download-btn split"><i class="fas fa-download"></i> Download Split PDF</a>
           </div>
         </div>
 
@@ -1723,7 +1853,8 @@
       // State
       let state = {
         uploadedFiles: {},
-        activeTab: 'merge'
+        activeTab: 'merge',
+        splitTotalPages: 0
       };
 
       // Switch tabs
@@ -1816,6 +1947,17 @@
           if (listId === 'convertFileList') {
             updateConversionDirection(file);
           }
+          
+          // For split tab, get total pages
+          if (listId === 'splitFileList' && file.type === 'application/pdf') {
+            getPDFPageCount(file).then(pageCount => {
+              state.splitTotalPages = pageCount;
+              document.getElementById('totalPages').textContent = `(Total pages: ${pageCount})`;
+            }).catch(error => {
+              console.error('Failed to get page count:', error);
+              document.getElementById('totalPages').textContent = '(Total pages: unknown)';
+            });
+          }
         }
         
         // Add remove functionality
@@ -1830,10 +1972,24 @@
             if (listId === 'convertFileList' && state.uploadedFiles[listId].length === 0) {
               document.getElementById('conversionDirection').textContent = 'Upload a file to begin';
             }
+            
+            // For split tab, reset total pages
+            if (listId === 'splitFileList' && state.uploadedFiles[listId].length === 0) {
+              state.splitTotalPages = 0;
+              document.getElementById('totalPages').textContent = '(Total pages: -)';
+            }
           });
         });
         
         updateProcessButtonState(listId);
+      }
+      
+      // Get PDF page count
+      async function getPDFPageCount(file) {
+        const { PDFDocument } = PDFLib;
+        const arrayBuffer = await file.arrayBuffer();
+        const pdfDoc = await PDFDocument.load(arrayBuffer);
+        return pdfDoc.getPageCount();
       }
       
       // Update conversion direction based on file type
@@ -1866,6 +2022,14 @@
         const tool = state.activeTab;
         const hasFiles = state.uploadedFiles[listId] && state.uploadedFiles[listId].length > 0;
         document.getElementById(`${tool}Btn`).disabled = !hasFiles;
+        
+        // For split tab, also require a valid range
+        if (tool === 'split') {
+          const rangeInput = document.getElementById('splitRange');
+          const range = rangeInput.value.trim();
+          const hasValidRange = range !== '' && validatePageRange(range, state.splitTotalPages);
+          document.getElementById('splitBtn').disabled = !hasFiles || !hasValidRange;
+        }
       }
 
       // Show error message
@@ -1947,6 +2111,27 @@
         
         return Array.from(pages).sort((a, b) => a - b);
       }
+      
+      // Validate page range
+      function validatePageRange(rangeStr, totalPages) {
+        if (!rangeStr) return false;
+        
+        const ranges = rangeStr.split(',');
+        for (const range of ranges) {
+          if (range.includes('-')) {
+            const [start, end] = range.split('-').map(Number);
+            if (isNaN(start) || isNaN(end) || start < 1 || end > totalPages || start > end) {
+              return false;
+            }
+          } else {
+            const page = parseInt(range.trim());
+            if (isNaN(page) || page < 1 || page > totalPages) {
+              return false;
+            }
+          }
+        }
+        return true;
+      }
 
       // Process functions
       async function processMerge() {
@@ -1983,6 +2168,57 @@
           showSuccess('merge', 'PDFs merged successfully!');
         } catch (error) {
           showError('merge', `Failed to merge PDFs: ${error.message}`);
+        }
+      }
+      
+      // Process Split PDF
+      async function processSplit() {
+        const files = state.uploadedFiles.splitFileList;
+        if (!files || files.length === 0) {
+          showError('split', 'Please upload a PDF file to split');
+          return;
+        }
+        
+        const rangeInput = document.getElementById('splitRange').value.trim();
+        if (!rangeInput) {
+          showError('split', 'Please enter a valid page range');
+          return;
+        }
+        
+        if (!validatePageRange(rangeInput, state.splitTotalPages)) {
+          showError('split', `Invalid page range. Please enter pages between 1 and ${state.splitTotalPages}`);
+          return;
+        }
+        
+        try {
+          showLoading('split');
+          
+          const { PDFDocument } = PDFLib;
+          const file = files[0];
+          const fileBytes = await file.arrayBuffer();
+          const pdfDoc = await PDFDocument.load(fileBytes);
+          
+          // Parse page range
+          const pageIndices = parseRange(rangeInput, state.splitTotalPages);
+          
+          // Create new PDF with selected pages
+          const newPdf = await PDFDocument.create();
+          const pages = await newPdf.copyPages(pdfDoc, pageIndices);
+          pages.forEach(page => newPdf.addPage(page));
+          
+          // Save new PDF
+          const newPdfBytes = await newPdf.save();
+          const blob = new Blob([newPdfBytes], { type: 'application/pdf' });
+          
+          // Update UI
+          const downloadLink = document.getElementById('splitDownloadLink');
+          downloadLink.onclick = () => downloadFile(blob, `split-document-pages-${rangeInput.replace(/,/g, '-')}.pdf`);
+          document.getElementById('splitCount').textContent = '1';
+          document.getElementById('splitResult').style.display = 'flex';
+          hideLoading('split');
+          showSuccess('split', `PDF split successfully! Extracted ${pageIndices.length} pages.`);
+        } catch (error) {
+          showError('split', `Failed to split PDF: ${error.message}`);
         }
       }
       
@@ -2127,6 +2363,7 @@
 
         // Initialize file upload areas
         setupFileUpload('mergeUploadArea', 'mergeFileUpload', 'mergeFileList');
+        setupFileUpload('splitUploadArea', 'splitFileUpload', 'splitFileList');
         setupFileUpload('compressUploadArea', 'compressFileUpload', 'compressFileList');
         setupFileUpload('convertUploadArea', 'convertFileUpload', 'convertFileList');
 
@@ -2137,6 +2374,17 @@
           hideMessages('merge');
           document.getElementById('mergeResult').style.display = 'none';
           document.getElementById('mergeBtn').disabled = true;
+        });
+        
+        document.getElementById('clearSplitBtn').addEventListener('click', () => {
+          document.getElementById('splitFileList').innerHTML = '';
+          document.getElementById('splitRange').value = '';
+          state.uploadedFiles.splitFileList = [];
+          state.splitTotalPages = 0;
+          hideMessages('split');
+          document.getElementById('splitResult').style.display = 'none';
+          document.getElementById('splitBtn').disabled = true;
+          document.getElementById('totalPages').textContent = '(Total pages: -)';
         });
         
         document.getElementById('clearCompressBtn').addEventListener('click', () => {
@@ -2159,8 +2407,17 @@
         
         // Process buttons
         document.getElementById('mergeBtn').addEventListener('click', processMerge);
+        document.getElementById('splitBtn').addEventListener('click', processSplit);
         document.getElementById('compressBtn').addEventListener('click', processCompress);
         document.getElementById('convertBtn').addEventListener('click', processConvert);
+        
+        // Validate split range input
+        const splitRangeInput = document.getElementById('splitRange');
+        if (splitRangeInput) {
+          splitRangeInput.addEventListener('input', () => {
+            updateProcessButtonState('splitFileList');
+          });
+        }
       }
 
       // Initialize when DOM is loaded
