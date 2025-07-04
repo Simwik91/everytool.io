@@ -17,6 +17,9 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   
+  <!-- PDF.js for PDF rendering -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+  
   <style>
     :root {
       --primary: #4361ee;
@@ -551,6 +554,45 @@
       margin-right: 8px;
     }
     
+    /* Conversion settings */
+    .conversion-settings {
+      max-width: 500px;
+      margin: 20px auto;
+      padding: 20px;
+      background: #f8f9ff;
+      border-radius: var(--border-radius);
+      border: 1px solid var(--light-gray);
+    }
+    
+    .setting-group {
+      margin-bottom: 20px;
+    }
+    
+    .setting-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: var(--dark);
+    }
+    
+    .setting-group select, 
+    .setting-group input {
+      width: 100%;
+      padding: 12px 15px;
+      font-size: 1rem;
+      border-radius: 10px;
+      border: 1px solid var(--light-gray);
+      background: white;
+      transition: var(--transition);
+    }
+    
+    .setting-group select:focus, 
+    .setting-group input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+    }
+    
     .page-range-controls {
       display: flex;
       gap: 15px;
@@ -625,6 +667,13 @@
       align-items: center;
       gap: 15px;
     }
+    
+    .result-container.convert {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+    }
 
     .download-btn {
       background: #27ae60;
@@ -659,6 +708,15 @@
     
     .download-btn.split:hover, .download-btn.split:focus {
       background: var(--primary-dark);
+    }
+    
+    .download-btn.convert {
+      background: var(--secondary);
+      max-width: 300px;
+    }
+    
+    .download-btn.convert:hover, .download-btn.convert:focus {
+      background: #6517a0;
     }
 
     button {
@@ -1180,7 +1238,8 @@
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       }
       
-      .page-range-container {
+      .page-range-container,
+      .conversion-settings {
         padding: 15px;
       }
       
@@ -1595,12 +1654,29 @@
           
           <div class="file-list" id="convertFileList"></div>
           
-          <div class="settings-grid">
+          <div class="conversion-settings">
             <div class="setting-group">
-              <p class="description">Conversion direction will be detected automatically based on your file type.</p>
+              <label for="conversionDirection">Conversion Type</label>
               <div id="conversionDirection" style="padding: 15px; background: #f0f4ff; border-radius: 10px; margin-top: 10px; text-align: center; font-weight: 500;">
                 Upload a file to begin
               </div>
+            </div>
+            
+            <div class="setting-group" id="pdfToImageSettings">
+              <label for="pageSelection">Page to Convert</label>
+              <select id="pageSelection" aria-label="Select page to convert">
+                <option value="1">Page 1</option>
+              </select>
+              <p class="description">Only the first page will be converted to an image</p>
+            </div>
+            
+            <div class="setting-group" id="imageToPdfSettings">
+              <label for="imageQuality">Image Quality</label>
+              <select id="imageQuality" aria-label="Select image quality">
+                <option value="high">High Quality</option>
+                <option value="medium" selected>Medium Quality</option>
+                <option value="low">Low Quality</option>
+              </select>
             </div>
           </div>
           
@@ -1621,9 +1697,9 @@
           <div class="error" id="convertError"></div>
           <div class="success" id="convertSuccess"></div>
           
-          <div id="convertResult" class="result-container">
+          <div id="convertResult" class="result-container convert" style="display: none;">
             <p>File converted successfully!</p>
-            <a id="convertDownloadLink" class="download-btn"><i class="fas fa-download"></i> Download Converted File</a>
+            <a id="convertDownloadLink" class="download-btn convert"><i class="fas fa-download"></i> Download Converted File</a>
           </div>
         </div>
       </div>
@@ -1696,6 +1772,9 @@
   </footer>
 
   <script>
+    // Set up PDF.js worker
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+
     // Mobile Menu Functionality
     function initMobileMenu() {
       const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
@@ -1854,7 +1933,8 @@
       let state = {
         uploadedFiles: {},
         activeTab: 'merge',
-        splitTotalPages: 0
+        splitTotalPages: 0,
+        pdfTotalPages: 0
       };
 
       // Switch tabs
@@ -1968,6 +2048,8 @@
             // For conversion tab, reset direction if no files
             if (listId === 'convertFileList' && state.uploadedFiles[listId].length === 0) {
               document.getElementById('conversionDirection').textContent = 'Upload a file to begin';
+              document.getElementById('pdfToImageSettings').style.display = 'none';
+              document.getElementById('imageToPdfSettings').style.display = 'none';
             }
           });
         });
@@ -2006,18 +2088,39 @@
       }
       
       // Update conversion direction based on file type
-      function updateConversionDirection(file) {
+      async function updateConversionDirection(file) {
         const directionEl = document.getElementById('conversionDirection');
         
         if (file.type === 'application/pdf') {
           directionEl.innerHTML = '<i class="fas fa-file-pdf"></i> PDF → <i class="fas fa-file-image"></i> Image';
           directionEl.style.color = '#4361ee';
+          
+          // Get PDF page count
+          const pageCount = await getPDFPageCount(file);
+          state.pdfTotalPages = pageCount;
+          
+          // Update page selection dropdown
+          const pageSelect = document.getElementById('pageSelection');
+          pageSelect.innerHTML = '';
+          for (let i = 1; i <= Math.min(pageCount, 10); i++) {
+            const option = document.createElement('option');
+            option.value = i;
+            option.textContent = `Page ${i}`;
+            pageSelect.appendChild(option);
+          }
+          
+          document.getElementById('pdfToImageSettings').style.display = 'block';
+          document.getElementById('imageToPdfSettings').style.display = 'none';
         } else if (file.type.startsWith('image/')) {
           directionEl.innerHTML = '<i class="fas fa-file-image"></i> Image → <i class="fas fa-file-pdf"></i> PDF';
           directionEl.style.color = '#7209b7';
+          document.getElementById('pdfToImageSettings').style.display = 'none';
+          document.getElementById('imageToPdfSettings').style.display = 'block';
         } else {
           directionEl.textContent = 'Unsupported file type';
           directionEl.style.color = '#e74c3c';
+          document.getElementById('pdfToImageSettings').style.display = 'none';
+          document.getElementById('imageToPdfSettings').style.display = 'none';
         }
       }
       
@@ -2288,6 +2391,7 @@
         }
       }
       
+      // Improved PDF conversion with PDF.js
       async function processConvert() {
         const files = state.uploadedFiles.convertFileList;
         if (!files || files.length === 0) {
@@ -2301,11 +2405,37 @@
           let blob, fileName;
           
           if (file.type === 'application/pdf') {
-            // FIXED: Use a different approach for PDF to image conversion
-            // Instead of trying to render the PDF, we'll convert to images using a simpler method
-            // For this demo, we'll just show an error since PDF rendering requires additional libraries
-            showError('convert', 'PDF to image conversion is currently not supported in this version.');
-            return;
+            // Get selected page
+            const pageNum = parseInt(document.getElementById('pageSelection').value);
+            
+            // Load the PDF with PDF.js
+            const arrayBuffer = await file.arrayBuffer();
+            const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+            
+            // Get the selected page
+            const page = await pdf.getPage(pageNum);
+            
+            // Set scale (1.5 = 150% for better quality)
+            const viewport = page.getViewport({ scale: 1.5 });
+            
+            // Create canvas for rendering
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+            
+            // Render PDF page to canvas
+            const renderContext = {
+              canvasContext: context,
+              viewport: viewport
+            };
+            await page.render(renderContext).promise;
+            
+            // Convert canvas to JPEG
+            const dataUrl = canvas.toDataURL('image/jpeg', 0.95);
+            const res = await fetch(dataUrl);
+            blob = await res.blob();
+            fileName = `converted-page-${pageNum}.jpg`;
           } else if (file.type.startsWith('image/')) {
             // Convert image to PDF
             const { jsPDF } = window.jspdf;
@@ -2328,8 +2458,14 @@
             const pdfWidth = pdf.internal.pageSize.getWidth();
             const pdfHeight = pdfWidth / ratio;
             
+            // Get quality setting
+            const quality = document.getElementById('imageQuality').value;
+            let qualityValue = 0.95;
+            if (quality === 'medium') qualityValue = 0.75;
+            if (quality === 'low') qualityValue = 0.5;
+            
             // Add image to PDF
-            pdf.addImage(img, 'JPEG', 0, 0, pdfWidth, pdfHeight);
+            pdf.addImage(img, 'JPEG', 0, 0, pdfWidth, pdfHeight, null, 'FAST', 0, qualityValue);
             blob = pdf.output('blob');
             fileName = 'converted-document.pdf';
             
@@ -2342,7 +2478,7 @@
           // Update UI
           const downloadLink = document.getElementById('convertDownloadLink');
           downloadLink.onclick = () => downloadFile(blob, fileName);
-          document.getElementById('convertResult').style.display = 'block';
+          document.getElementById('convertResult').style.display = 'flex';
           hideLoading('convert');
           showSuccess('convert', 'File converted successfully!');
         } catch (error) {
@@ -2401,6 +2537,8 @@
           hideMessages('convert');
           document.getElementById('convertResult').style.display = 'none';
           document.getElementById('conversionDirection').textContent = 'Upload a file to begin';
+          document.getElementById('pdfToImageSettings').style.display = 'none';
+          document.getElementById('imageToPdfSettings').style.display = 'none';
         });
         
         // Process buttons
