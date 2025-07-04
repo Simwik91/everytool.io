@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Simple Video Converter</title>
-  <!-- Include ffmpeg.wasm from CDN -->
+  <!-- Include ffmpeg.wasm from a reliable CDN -->
   <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.12.10/dist/umd/ffmpeg.min.js"></script>
   <style>
     body {
@@ -110,13 +110,23 @@
   <a id="downloadLink">Download Converted Video</a>
 
   <script>
-    // Check if FFmpeg is defined
-    if (typeof FFmpeg === 'undefined') {
-      console.error('FFmpeg is not defined. Check if the script loaded correctly.');
-      document.getElementById('error').style.display = 'block';
-      document.getElementById('error').textContent = 'Error: FFmpeg library failed to load. Check your network or CDN URL.';
-    } else {
-      console.log('FFmpeg script detected.');
+    // Function to check if FFmpeg is loaded with retry mechanism
+    function checkFFmpegLoaded(retries = 3, delay = 1000) {
+      return new Promise((resolve, reject) => {
+        function attemptCheck(attemptsLeft) {
+          if (typeof FFmpeg !== 'undefined' && FFmpeg.createFFmpeg) {
+            console.log('FFmpeg loaded successfully.');
+            resolve();
+          } else if (attemptsLeft > 0) {
+            console.warn(`FFmpeg not defined, retrying (${attemptsLeft} attempts left)...`);
+            setTimeout(() => attemptCheck(attemptsLeft - 1), delay);
+          } else {
+            console.error('FFmpeg failed to load after retries.');
+            reject(new Error('FFmpeg library failed to load. Check CDN or network.'));
+          }
+        }
+        attemptCheck(retries);
+      });
     }
 
     // Function to convert a file to Uint8Array
@@ -147,6 +157,14 @@
     const loadingDiv = document.getElementById('loading');
     let uploadedFile;
 
+    // Initial FFmpeg load check
+    checkFFmpegLoaded()
+      .catch((error) => {
+        errorDiv.style.display = 'block';
+        errorDiv.textContent = error.message;
+        convertBtn.disabled = true;
+      });
+
     // Handle file upload
     videoInput.addEventListener('change', (e) => {
       uploadedFile = e.target.files[0];
@@ -175,17 +193,16 @@
         errorDiv.style.display = 'none';
         console.log('Starting conversion process...');
 
-        // Check FFmpeg availability again
-        if (!FFmpeg || !FFmpeg.createFFmpeg) {
-          throw new Error('FFmpeg is not available. Ensure the library loaded correctly.');
-        }
+        // Verify FFmpeg is available
+        await checkFFmpegLoaded();
+        console.log('FFmpeg confirmed available.');
 
         // Load FFmpeg
-        console.log('Loading FFmpeg...');
+        console.log('Initializing FFmpeg...');
         const { createFFmpeg } = FFmpeg;
         const ffmpeg = createFFmpeg({ log: true });
         await ffmpeg.load();
-        console.log('FFmpeg loaded successfully.');
+        console.log('FFmpeg initialized successfully.');
 
         // Write the input file to FFmpeg's file system
         console.log('Writing input file to FFmpeg FS...');
