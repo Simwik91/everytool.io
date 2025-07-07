@@ -4,25 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Video Converter</title>
-    <!-- Add any existing CSS or other head elements from your original index.html -->
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+        #outputVideo { max-width: 100%; margin-top: 20px; }
+        select, input, button { margin: 10px; padding: 5px; }
+    </style>
 </head>
 <body>
-    <!-- Placeholder UI for video converter -->
-    <div>
-        <h1>Video Converter</h1>
-        <input type="file" id="videoInput" accept="video/*">
-        <select id="outputFormat">
-            <option value="mp4">MP4</option>
-            <option value="webm">WEBM</option>
-            <option value="gif">GIF</option>
-        </select>
-        <button onclick="convertVideo()">Convert Video</button>
-        <video id="outputVideo" controls></video>
-    </div>
+    <h1>Video Converter</h1>
+    <input type="file" id="videoInput" accept="video/*">
+    <select id="outputFormat">
+        <option value="mp4">MP4</option>
+        <option value="webm">WEBM</option>
+        <option value="gif">GIF</option>
+    </select>
+    <button onclick="convertVideo()">Convert Video</button>
+    <div id="status"></div>
+    <video id="outputVideo" controls></video>
 
-    <!-- Load local ffmpeg.min.js (version 0.10.0) from /assets -->
+    <!-- Load FFmpeg (version 0.10.0) from /assets -->
     <script src="../assets/ffmpeg.min.js"></script>
-    <!-- Video converter script (adjust if name or path differs) -->
+    <!-- Load video converter script from /assets -->
     <script src="../assets/video-converter.js"></script>
 </body>
 </html>
