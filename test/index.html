@@ -1,30 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Converter</title>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
-        #outputVideo { max-width: 100%; margin-top: 20px; }
-        select, input, button { margin: 10px; padding: 5px; }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Video Converter</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+    #outputVideo { max-width: 100%; margin-top: 20px; }
+    select, input, button { margin: 10px; padding: 5px; }
+  </style>
 </head>
 <body>
-    <h1>Video Converter</h1>
-    <input type="file" id="videoInput" accept="video/*">
-    <select id="outputFormat">
-        <option value="mp4">MP4</option>
-        <option value="webm">WEBM</option>
-        <option value="gif">GIF</option>
-    </select>
-    <button onclick="convertVideo()">Convert Video</button>
-    <div id="status"></div>
-    <video id="outputVideo" controls></video>
+  <h1>Video Converter</h1>
+  <input type="file" id="videoInput" accept="video/*">
+  <select id="outputFormat">
+    <option value="mp4">MP4</option>
+    <option value="webm">WEBM</option>
+    <option value="gif">GIF</option>
+  </select>
+  <button id="convertBtn">Convert Video</button>
+  <div id="status"></div>
+  <video id="outputVideo" controls></video>
 
-    <!-- Load FFmpeg (version 0.10.0) from /assets -->
-    <script src="../assets/ffmpeg.min.js"></script>
-    <!-- Load video converter script from /assets -->
-    <script src="../assets/video-converter.js"></script>
+  <script type="module">
+    import { createFFmpeg, fetchFile } from 'https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js';
+
+    const ffmpeg = createFFmpeg({ log: true });
+
+    document.getElementById('convertBtn').addEventListener('click', async () => {
+      const input = document.getElementById('videoInput').files[0];
+      const format = document.getElementById('outputFormat').value;
+      const status = document.getElementById('status');
+      const outputVideo = document.getElementById('outputVideo');
+
+      if (!input) return alert('Please select a video.');
+
+      status.textContent = 'Loading FFmpeg...';
+      if (!ffmpeg.isLoaded()) await ffmpeg.load();
+
+      status.textContent = 'Converting...';
+      ffmpeg.FS('writeFile', 'input.mp4', await fetchFile(input));
+
+      const outputName = `output.${format}`;
+      await ffmpeg.run('-i', 'input.mp4', outputName);
+
+      const data = ffmpeg.FS('readFile', outputName);
+      const blob = new Blob([data.buffer], { type: `video/${format}` });
+      outputVideo.src = URL.createObjectURL(blob);
+
+      status.textContent = 'Done!';
+    });
+  </script>
 </body>
 </html>
