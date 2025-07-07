@@ -40,13 +40,13 @@
   <p id="status">Select a video file and click Convert.</p>
   <a id="downloadLink" download="converted_video.mp4">Download Converted Video</a>
 
-  <script src="/assets/ffmpeg/ffmpeg-core.js"></script>
-  <script>
+  <script type="module">
+    import { createFFmpeg, fetchFile } from 'https://unpkg.com/@ffmpeg/ffmpeg@0.12.10/dist/esm/ffmpeg.min.js';
+
     let ffmpeg = null;
 
     async function loadFFmpeg() {
       if (ffmpeg) return;
-      const { createFFmpeg } = FFmpeg;
       ffmpeg = createFFmpeg({
         corePath: '/assets/ffmpeg/ffmpeg-core.js',
         wasmPath: '/assets/ffmpeg/ffmpeg-core.wasm',
@@ -97,12 +97,6 @@
       } catch (error) {
         status.textContent = 'Error: ' + error.message;
       }
-    }
-
-    // Helper function to convert file to ArrayBuffer
-    async function fetchFile(file) {
-      const arrayBuffer = await file.arrayBuffer();
-      return new Uint8Array(arrayBuffer);
     }
   </script>
 </body>
