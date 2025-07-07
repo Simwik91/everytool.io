@@ -3,12 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Video Converter with Debug</title>
+  <title>Video Converter</title>
   <style>
     body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
-    #outputVideo, #outputGif { max-width: 100%; margin-top: 20px; display: none; }
+    #outputVideo { max-width: 100%; margin-top: 20px; }
     select, input, button { margin: 10px; padding: 5px; }
-    #status { margin-top: 15px; white-space: pre-wrap; text-align: left; max-width: 600px; margin-left: auto; margin-right: auto; }
   </style>
 </head>
 <body>
@@ -19,98 +18,98 @@
     <option value="webm">WEBM</option>
     <option value="gif">GIF</option>
   </select>
-  <button id="convertBtn" onclick="convertVideo()">Convert Video</button>
-
-  <div id="status">Status: Ready</div>
-
+  <button id="convertBtn">Convert Video</button>
+  <div id="status"></div>
   <video id="outputVideo" controls></video>
-  <img id="outputGif" alt="Converted GIF preview" />
 
-  <!-- Load UMD FFmpeg bundle -->
-  <script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/umd/ffmpeg.min.js"></script>
+  <!-- Load FFmpeg UMD build from the relative path -->
+  <script src="../assets/ffmpeg/ffmpeg.min.js"></script>
 
   <script>
-    const { createFFmpeg, fetchFile } = FFmpeg;
+    const statusEl = document.getElementById('status');
+    const videoInput = document.getElementById('videoInput');
+    const outputFormat = document.getElementById('outputFormat');
+    const outputVideo = document.getElementById('outputVideo');
+    const convertBtn = document.getElementById('convertBtn');
+
+    const createFFmpeg = FFmpeg.createFFmpeg;
+    const fetchFile = FFmpeg.fetchFile;
 
     const ffmpeg = createFFmpeg({
       log: true,
-      corePath: '/assets/ffmpeg/ffmpeg-core.js',
-      wasmPath: '/assets/ffmpeg/ffmpeg-core.wasm',
-      workerPath: '/assets/ffmpeg/worker.js',
+      corePath: '../assets/ffmpeg/ffmpeg-core.js',
+      wasmPath: '../assets/ffmpeg/ffmpeg-core.wasm',
+      workerPath: '../assets/ffmpeg/worker.js'
     });
 
-    const statusEl = document.getElementById('status');
-    const convertBtn = document.getElementById('convertBtn');
-    const outputVideo = document.getElementById('outputVideo');
-    const outputGif = document.getElementById('outputGif');
+    let isLoaded = false;
 
-    function logStatus(message) {
-      console.log(message);
-      statusEl.textContent = 'Status: ' + message;
+    async function loadFFmpeg() {
+      statusEl.innerText = 'Loading FFmpeg...';
+      if (!isLoaded) {
+        await ffmpeg.load();
+        isLoaded = true;
+      }
+      statusEl.innerText = 'FFmpeg loaded.';
     }
 
     async function convertVideo() {
-      try {
-        convertBtn.disabled = true;
-        outputVideo.style.display = 'none';
-        outputGif.style.display = 'none';
-        statusEl.textContent = '';
-        logStatus('Checking file input...');
-
-        const fileInput = document.getElementById('videoInput');
-        const format = document.getElementById('outputFormat').value;
-
-        if (fileInput.files.length === 0) {
-          alert("Please select a video file.");
-          logStatus('No file selected.');
-          convertBtn.disabled = false;
-          return;
-        }
-
-        const file = fileInput.files[0];
-        const ext = file.name.split('.').pop();
-        const inputName = 'input.' + ext;
-        const outputName = 'output.' + format;
-
-        logStatus('Loading FFmpeg core...');
-        if (!ffmpeg.isLoaded()) {
-          await ffmpeg.load();
-          logStatus('FFmpeg loaded successfully.');
-        } else {
-          logStatus('FFmpeg already loaded.');
-        }
-
-        logStatus('Writing file to virtual FS...');
-        ffmpeg.FS('writeFile', inputName, await fetchFile(file));
-
-        logStatus(`Running FFmpeg to convert to .${format}...`);
-        await ffmpeg.run('-i', inputName, outputName);
-
-        logStatus('Reading output file from virtual FS...');
-        const data = ffmpeg.FS('readFile', outputName);
-
-        const mimeType = format === 'gif' ? 'image/gif' : `video/${format}`;
-        const url = URL.createObjectURL(new Blob([data.buffer], { type: mimeType }));
-
-        if (format === 'gif') {
-          outputGif.src = url;
-          outputGif.style.display = 'block';
-          outputVideo.style.display = 'none';
-          logStatus('Conversion complete! GIF preview ready.');
-        } else {
-          outputVideo.src = url;
-          outputVideo.style.display = 'block';
-          outputGif.style.display = 'none';
-          logStatus('Conversion complete! Video preview ready.');
-        }
-      } catch (error) {
-        console.error('Error during conversion:', error);
-        logStatus('Error: ' + error.message);
-        alert('An error occurred: ' + error.message);
-      } finally {
-        convertBtn.disabled = false;
+      if (videoInput.files.length === 0) {
+        alert('Please select a video file first.');
+        return;
       }
+
+      convertBtn.disabled = true;
+      statusEl.innerText = 'Loading FFmpeg...';
+
+      if (!isLoaded) {
+        await ffmpeg.load();
+        isLoaded = true;
+      }
+
+      const file = videoInput.files[0];
+      const inputName = file.name;
+      const outputExt = outputFormat.value;
+      const outputName = `output.${outputExt}`;
+
+      statusEl.innerText = 'Writing file to FFmpeg FS...';
+      ffmpeg.FS('writeFile', inputName, await fetchFile(file));
+
+      statusEl.innerText = 'Converting video...';
+
+      try {
+        if (outputExt === 'gif') {
+          await ffmpeg.run('-i', inputName, '-t', '5', '-vf', 'fps=10,scale=320:-1:flags=lanczos', outputName);
+        } else {
+          await ffmpeg.run('-i', inputName, outputName);
+        }
+      } catch (e) {
+        statusEl.innerText = 'Error during conversion: ' + e.message;
+        convertBtn.disabled = false;
+        return;
+      }
+
+      statusEl.innerText = 'Fetching output file...';
+
+      const data = ffmpeg.FS('readFile', outputName);
+
+      const videoBlob = new Blob([data.buffer], { type: `video/${outputExt}` });
+      const videoUrl = URL.createObjectURL(videoBlob);
+
+      outputVideo.src = videoUrl;
+      outputVideo.load();
+      outputVideo.play();
+
+      statusEl.innerText = 'Conversion finished!';
+      convertBtn.disabled = false;
+
+      ffmpeg.FS('unlink', inputName);
+      ffmpeg.FS('unlink', outputName);
     }
+
+    convertBtn.addEventListener('click', convertVideo);
+
+    window.onload = loadFFmpeg;
   </script>
 </body>
 </html>
