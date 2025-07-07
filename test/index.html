@@ -21,6 +21,11 @@
       margin-top: 20px;
       color: #333;
     }
+    #error {
+      margin-top: 20px;
+      color: #d32f2f;
+      display: none;
+    }
     #downloadLink {
       display: none;
       margin-top: 20px;
@@ -38,6 +43,7 @@
   <br>
   <button onclick="convertVideo()">Convert to MP4</button>
   <p id="status">Select a video file and click Convert.</p>
+  <p id="error"></p>
   <a id="downloadLink" download="converted_video.mp4">Download Converted Video</a>
 
   <script type="module">
@@ -45,57 +51,118 @@
 
     let ffmpeg = null;
 
-    async function loadFFmpeg() {
-      if (ffmpeg) return;
-      ffmpeg = createFFmpeg({
-        corePath: '/assets/ffmpeg/ffmpeg-core.js',
-        wasmPath: '/assets/ffmpeg/ffmpeg-core.wasm',
-        workerPath: '/assets/ffmpeg/worker.js',
-      });
-      await ffmpeg.load();
-      document.getElementById('status').textContent = 'FFmpeg loaded successfully!';
+    // Replace 'your-username' with your actual GitHub username
+    const BASE_URL = 'https://your-username.github.io/everytool.io/assets/ffmpeg/';
+
+    // Update status and error UI
+    function updateStatus(message) {
+      console.log(`Status: ${message}`);
+      document.getElementById('status').textContent = message;
+      document.getElementById('error').style.display = 'none';
     }
 
-    async function convertVideo() {
-      const videoInput = document.getElementById('videoInput');
-      const status = document.getElementById('status');
-      const downloadLink = document.getElementById('downloadLink');
+    function showError(message) {
+      console.error(`Error: ${message}`);
+      document.getElementById('error').textContent = message;
+      document.getElementById('error').style.display = 'block';
+      document.getElementById('status').textContent = '';
+    }
 
-      if (!videoInput.files[0]) {
-        status.textContent = 'Please select a video file!';
+    async function loadFFmpeg() {
+      if (ffmpeg) {
+        updateStatus('FFmpeg already loaded.');
         return;
       }
 
       try {
-        status.textContent = 'Loading FFmpeg...';
+        updateStatus('Loading FFmpeg...');
+        ffmpeg = createFFmpeg({
+          corePath: `${BASE_URL}ffmpeg-core.js`,
+          wasmPath: `${BASE_URL}ffmpeg-core.wasm`,
+          workerPath: `${BASE_URL}worker.js`,
+          log: true // Enable FFmpeg logs for debugging
+        });
+        await ffmpeg.load();
+        updateStatus('FFmpeg loaded successfully!');
+      } catch (error) {
+        showError(`Failed to load FFmpeg: ${error.message}. Check if files are accessible at ${BASE_URL}.`);
+        throw error;
+      }
+    }
+
+    async function convertVideo() {
+      const videoInput = document.getElementById('videoInput');
+      const downloadLink = document.getElementById('downloadLink');
+
+      // Reset UI
+      downloadLink.style.display = 'none';
+      document.getElementById('error').style.display = 'none';
+
+      // Validate input
+      if (!videoInput.files[0]) {
+        showError('No video file selected. Please choose a file.');
+        return;
+      }
+
+      try {
+        // Load FFmpeg
         await loadFFmpeg();
 
         const file = videoInput.files[0];
-        status.textContent = 'Converting video...';
+        updateStatus(`Processing ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MiB)...`);
+
+        // Validate file size (arbitrary limit for browser memory)
+        if (file.size > 500 * 1024 * 1024) {
+          showError('File is too large (>500 MiB). Try a smaller file.');
+          return;
+        }
 
         // Write input file to FFmpeg's virtual file system
-        const inputName = 'input.' + file.name.split('.').pop();
+        const inputName = `input.${file.name.split('.').pop()}`;
         const outputName = 'output.mp4';
-        ffmpeg.FS('writeFile', inputName, await fetchFile(file));
+        updateStatus('Writing file to FFmpeg...');
+        try {
+          ffmpeg.FS('writeFile', inputName, await fetchFile(file));
+        } catch (error) {
+          showError(`Failed to write file to FFmpeg: ${error.message}`);
+          throw error;
+        }
 
-        // Run FFmpeg command to convert to MP4 (H.264 video, AAC audio)
-        await ffmpeg.run('-i', inputName, '-c:v', 'libx264', '-c:a', 'aac', outputName);
+        // Run FFmpeg conversion
+        updateStatus('Converting to MP4...');
+        try {
+          await ffmpeg.run('-i', inputName, '-c:v', 'libx264', '-c:a', 'aac', '-strict', '-2', outputName);
+        } catch (error) {
+          showError(`Conversion failed: ${error.message}. Check if the input format is supported (e.g., MP4, AVI, MOV).`);
+          throw error;
+        }
 
-        // Read the output file
-        const data = ffmpeg.FS('readFile', outputName);
+        // Read output file
+        updateStatus('Generating download link...');
+        let data;
+        try {
+          data = ffmpeg.FS('readFile', outputName);
+        } catch (error) {
+          showError(`Failed to read output file: ${error.message}`);
+          throw error;
+        }
+
+        // Create download link
         const blob = new Blob([data.buffer], { type: 'video/mp4' });
         const url = URL.createObjectURL(blob);
-
-        // Update download link
         downloadLink.href = url;
         downloadLink.style.display = 'inline-block';
-        status.textContent = 'Conversion complete! Click to download.';
+        updateStatus('Conversion complete! Click to download.');
 
         // Clean up
-        ffmpeg.FS('unlink', inputName);
-        ffmpeg.FS('unlink', outputName);
+        try {
+          ffmpeg.FS('unlink', inputName);
+          ffmpeg.FS('unlink', outputName);
+        } catch (error) {
+          console.warn(`Cleanup failed: ${error.message}`);
+        }
       } catch (error) {
-        status.textContent = 'Error: ' + error.message;
+        console.error('Conversion process failed:', error);
       }
     }
   </script>
