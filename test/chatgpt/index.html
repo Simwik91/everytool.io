@@ -22,9 +22,11 @@
   <div id="status"></div>
   <video id="outputVideo" controls></video>
 
-  <!-- Load ffmpeg 0.12.10 from CDN -->
-  <script type="module">
-    import { createFFmpeg, fetchFile } from 'https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/esm/index.min.js';
+  <!-- Load the UMD FFmpeg bundle (exposes window.createFFmpeg) -->
+  <script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/umd/ffmpeg.min.js"></script>
+
+  <script>
+    const { createFFmpeg, fetchFile } = FFmpeg;
 
     const ffmpeg = createFFmpeg({
       log: true,
@@ -45,9 +47,9 @@
       }
 
       const file = fileInput.files[0];
-      const fileName = file.name;
-      const inputName = 'input.' + fileName.split('.').pop();
-      const outputName = `output.${format}`;
+      const ext = file.name.split('.').pop();
+      const inputName = 'input.' + ext;
+      const outputName = 'output.' + format;
 
       status.innerText = 'Loading FFmpeg...';
       await ffmpeg.load();
