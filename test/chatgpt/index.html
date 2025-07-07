@@ -3,11 +3,25 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device‑width, initial‑scale=1" />
-  <title>Video Converter (0.12.0 jsDelivr)</title>
+  <title>Video Converter</title>
   <style>
-    body { font-family: Arial, sans-serif; text-align: center; padding: 20px }
-    #outputVideo { max-width: 100%; margin-top: 20px }
-    select, input, button { margin: 10px; padding: 5px }
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+    #outputVideo {
+      max-width: 100%;
+      margin-top: 20px;
+    }
+    select, input, button {
+      margin: 10px;
+      padding: 5px;
+    }
+    #status {
+      margin-top: 10px;
+      font-style: italic;
+    }
   </style>
 </head>
 <body>
@@ -22,33 +36,51 @@
   <div id="status"></div>
   <video id="outputVideo" controls></video>
 
-  <!-- UMD runtime + WASM core bundled by @ffmpeg/ffmpeg -->
-  <script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.0/dist/ffmpeg.min.js"></script>
-  <script>
-    const { createFFmpeg, fetchFile } = FFmpeg; 
-    const ffmpeg = createFFmpeg({ log: true });
+  <!-- single ES‑module import of @ffmpeg/ffmpeg -->
+  <script type="module">
+    import { createFFmpeg, fetchFile } from 'https://unpkg.com/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js';
 
-    document.getElementById('convertBtn').onclick = async () => {
+    const ffmpeg = createFFmpeg({ log: true }); // uses default corePath
+
+    const statusEl = document.getElementById('status');
+    const outputVideo = document.getElementById('outputVideo');
+
+    document.getElementById('convertBtn').addEventListener('click', async () => {
       const file = document.getElementById('videoInput').files[0];
       const format = document.getElementById('outputFormat').value;
-      const status = document.getElementById('status');
-      const player = document.getElementById('outputVideo');
 
-      if (!file) return status.textContent = 'Select a video first.';
-      status.textContent = 'Loading FFmpeg…';
-      if (!ffmpeg.isLoaded()) await ffmpeg.load();  // auto‑fetches the core
-      status.textContent = 'Converting…';
+      if (!file) {
+        return statusEl.textContent = '❗ Please select a video file first.';
+      }
 
+      statusEl.textContent = '⏳ Loading FFmpeg...';
+      if (!ffmpeg.isLoaded()) {
+        await ffmpeg.load();            // auto‑fetches the WASM core from unpkg
+      }
+
+      // prepare names
       const ext = file.name.split('.').pop();
-      const inName = `in.${ext}`, outName = `out.${format}`;
-      ffmpeg.FS('writeFile', inName, await fetchFile(file));
-      await ffmpeg.run('-i', inName, outName);
+      const inName = `input.${ext}`;
+      const outName = `output.${format}`;
 
+      // write to FS
+      ffmpeg.FS('writeFile', inName, await fetchFile(file));
+
+      statusEl.textContent = '🔄 Converting... (this can take a minute)';
+      try {
+        await ffmpeg.run('-i', inName, outName);
+      } catch (err) {
+        console.error(err);
+        return statusEl.textContent = '❌ Conversion failed—see console.';
+      }
+
+      // read result, create Blob URL
       const data = ffmpeg.FS('readFile', outName);
       const blob = new Blob([data.buffer], { type: `video/${format}` });
-      player.src = URL.createObjectURL(blob);
-      status.textContent = 'Done!';
-    };
+      outputVideo.src = URL.createObjectURL(blob);
+
+      statusEl.textContent = '✅ Conversion complete!';
+    });
   </script>
 </body>
 </html>
