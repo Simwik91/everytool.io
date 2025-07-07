@@ -1,28 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Video Converter</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device‑width, initial‑scale=1" />
+  <title>Video Converter (0.12.0 jsDelivr)</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 20px;
-    }
-    #outputVideo {
-      max-width: 100%;
-      margin-top: 20px;
-    }
-    select, input, button {
-      margin: 10px;
-      padding: 5px;
-    }
+    body { font-family: Arial, sans-serif; text-align: center; padding: 20px }
+    #outputVideo { max-width: 100%; margin-top: 20px }
+    select, input, button { margin: 10px; padding: 5px }
   </style>
 </head>
 <body>
-  <h1>Video Converter (v0.12.0 CDNJS)</h1>
-  <input type="file" id="videoInput" accept="video/*">
+  <h1>Video Converter</h1>
+  <input type="file" id="videoInput" accept="video/*" />
   <select id="outputFormat">
     <option value="mp4">MP4</option>
     <option value="webm">WEBM</option>
@@ -32,52 +22,33 @@
   <div id="status"></div>
   <video id="outputVideo" controls></video>
 
-  <!-- FFmpeg script as module -->
-  <script type="module">
-    import { createFFmpeg, fetchFile } from 'https://cdnjs.cloudflare.com/ajax/libs/ffmpeg/0.12.0/esm/index.min.js';
+  <!-- UMD runtime + WASM core bundled by @ffmpeg/ffmpeg -->
+  <script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.0/dist/ffmpeg.min.js"></script>
+  <script>
+    const { createFFmpeg, fetchFile } = FFmpeg; 
+    const ffmpeg = createFFmpeg({ log: true });
 
-    const ffmpeg = createFFmpeg({
-      log: true,
-      corePath: 'https://cdnjs.cloudflare.com/ajax/libs/ffmpeg/0.12.0/umd/ffmpeg-core.js'
-    });
-
-    document.getElementById('convertBtn').addEventListener('click', async () => {
-      const input = document.getElementById('videoInput').files[0];
+    document.getElementById('convertBtn').onclick = async () => {
+      const file = document.getElementById('videoInput').files[0];
       const format = document.getElementById('outputFormat').value;
       const status = document.getElementById('status');
-      const outputVideo = document.getElementById('outputVideo');
+      const player = document.getElementById('outputVideo');
 
-      if (!input) {
-        status.textContent = 'Please select a video file.';
-        return;
-      }
+      if (!file) return status.textContent = 'Select a video first.';
+      status.textContent = 'Loading FFmpeg…';
+      if (!ffmpeg.isLoaded()) await ffmpeg.load();  // auto‑fetches the core
+      status.textContent = 'Converting…';
 
-      status.textContent = 'Loading FFmpeg...';
-      if (!ffmpeg.isLoaded()) {
-        await ffmpeg.load();
-      }
+      const ext = file.name.split('.').pop();
+      const inName = `in.${ext}`, outName = `out.${format}`;
+      ffmpeg.FS('writeFile', inName, await fetchFile(file));
+      await ffmpeg.run('-i', inName, outName);
 
-      const inputExt = input.name.split('.').pop();
-      const inputName = `input.${inputExt}`;
-      const outputName = `output.${format}`;
-
-      ffmpeg.FS('writeFile', inputName, await fetchFile(input));
-
-      status.textContent = 'Converting...';
-      try {
-        await ffmpeg.run('-i', inputName, outputName);
-
-        const data = ffmpeg.FS('readFile', outputName);
-        const videoBlob = new Blob([data.buffer], { type: `video/${format}` });
-        const videoURL = URL.createObjectURL(videoBlob);
-
-        outputVideo.src = videoURL;
-        status.textContent = 'Conversion complete!';
-      } catch (err) {
-        console.error(err);
-        status.textContent = 'Conversion failed.';
-      }
-    });
+      const data = ffmpeg.FS('readFile', outName);
+      const blob = new Blob([data.buffer], { type: `video/${format}` });
+      player.src = URL.createObjectURL(blob);
+      status.textContent = 'Done!';
+    };
   </script>
 </body>
 </html>
