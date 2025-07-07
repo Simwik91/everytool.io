@@ -1,129 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Basic Video Converter</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            text-align: center;
-        }
-        .container {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            align-items: center;
-        }
-        #status {
-            color: #333;
-        }
-        select, input, button {
-            padding: 10px;
-            font-size: 16px;
-        }
-        button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-            padding: 10px 20px;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        #downloadLink {
-            display: none;
-            margin-top: 20px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video Converter - everytool.io</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      text-align: center;
+    }
+    input, button {
+      margin: 10px;
+      padding: 10px;
+      font-size: 16px;
+    }
+    #status {
+      margin-top: 20px;
+      color: #333;
+    }
+    #downloadLink {
+      display: none;
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #28a745;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Basic Video Converter</h1>
-        <input type="file" id="videoInput" accept="video/*">
-        <select id="formatSelect">
-            <option value="mp4">MP4</option>
-            <option value="webm">WebM</option>
-            <option value="avi">AVI</option>
-        </select>
-        <button onclick="convertVideo()">Convert Video</button>
-        <p id="status">Select a video file and format to convert</p>
-        <a id="downloadLink" download>Download Converted Video</a>
-    </div>
+  <h1>Video Converter</h1>
+  <input type="file" id="videoInput" accept="video/*">
+  <br>
+  <button onclick="convertVideo()">Convert to MP4</button>
+  <p id="status">Select a video file and click Convert.</p>
+  <a id="downloadLink" download="converted_video.mp4">Download Converted Video</a>
 
-    <script src="https://unpkg.com/@ffmpeg/core@0.12.0/dist/umd/ffmpeg-core.js"></script>
-    <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.12.0/dist/umd/ffmpeg.min.js"></script>
-    <script>
-        let ffmpegInstance = null;
+  <script src="/assets/ffmpeg/ffmpeg-core.js"></script>
+  <script>
+    let ffmpeg = null;
 
-        // Initialize FFmpeg
-        async function loadFFmpeg() {
-            const { createFFmpeg } = ffmpeg; // Access createFFmpeg from global ffmpeg object
-            ffmpegInstance = createFFmpeg({ 
-                log: true,
-                corePath: 'https://unpkg.com/@ffmpeg/core@0.12.0/dist/umd/ffmpeg-core.js'
-            });
-            await ffmpegInstance.load();
-            console.log('FFmpeg loaded successfully');
-        }
+    async function loadFFmpeg() {
+      if (ffmpeg) return;
+      const { createFFmpeg } = FFmpeg;
+      ffmpeg = createFFmpeg({
+        corePath: '/assets/ffmpeg/ffmpeg-core.js',
+        wasmPath: '/assets/ffmpeg/ffmpeg-core.wasm',
+        workerPath: '/assets/ffmpeg/worker.js',
+      });
+      await ffmpeg.load();
+      document.getElementById('status').textContent = 'FFmpeg loaded successfully!';
+    }
 
-        // Convert video function
-        async function convertVideo() {
-            const videoInput = document.getElementById('videoInput');
-            const formatSelect = document.getElementById('formatSelect');
-            const status = document.getElementById('status');
-            const downloadLink = document.getElementById('downloadLink');
+    async function convertVideo() {
+      const videoInput = document.getElementById('videoInput');
+      const status = document.getElementById('status');
+      const downloadLink = document.getElementById('downloadLink');
 
-            if (!videoInput.files[0]) {
-                status.textContent = 'Please select a video file!';
-                return;
-            }
+      if (!videoInput.files[0]) {
+        status.textContent = 'Please select a video file!';
+        return;
+      }
 
-            if (!ffmpegInstance) {
-                status.textContent = 'Loading FFmpeg...';
-                try {
-                    await loadFFmpeg();
-                } catch (error) {
-                    console.error('FFmpeg load error:', error);
-                    status.textContent = 'Failed to load FFmpeg. Please try again.';
-                    return;
-                }
-            }
+      try {
+        status.textContent = 'Loading FFmpeg...';
+        await loadFFmpeg();
 
-            status.textContent = 'Converting... Please wait.';
-            const file = videoInput.files[0];
-            const outputFormat = formatSelect.value;
-            const outputName = `output.${outputFormat}`;
+        const file = videoInput.files[0];
+        status.textContent = 'Converting video...';
 
-            try {
-                // Write input file to FFmpeg virtual filesystem
-                const { fetchFile } = ffmpeg; // Access fetchFile from global ffmpeg object
-                const url = URL.createObjectURL(file);
-                const data = await fetchFile(url);
-                URL.revokeObjectURL(url);
-                ffmpegInstance.FS('writeFile', file.name, data);
+        // Write input file to FFmpeg's virtual file system
+        const inputName = 'input.' + file.name.split('.').pop();
+        const outputName = 'output.mp4';
+        ffmpeg.FS('writeFile', inputName, await fetchFile(file));
 
-                // Run FFmpeg command for conversion
-                await ffmpegInstance.run('-i', file.name, outputName);
+        // Run FFmpeg command to convert to MP4 (H.264 video, AAC audio)
+        await ffmpeg.run('-i', inputName, '-c:v', 'libx264', '-c:a', 'aac', outputName);
 
-                // Read output file
-                const outputData = ffmpegInstance.FS('readFile', outputName);
-                const blob = new Blob([outputData.buffer], { type: `video/${outputFormat}` });
+        // Read the output file
+        const data = ffmpeg.FS('readFile', outputName);
+        const blob = new Blob([data.buffer], { type: 'video/mp4' });
+        const url = URL.createObjectURL(blob);
 
-                // Create download link
-                downloadLink.href = URL.createObjectURL(blob);
-                downloadLink.download = outputName;
-                downloadLink.style.display = 'block';
-                status.textContent = 'Conversion complete! Click to download.';
-            } catch (error) {
-                console.error('Conversion error:', error);
-                status.textContent = 'Error during conversion. Please try again.';
-            }
-        }
-    </script>
+        // Update download link
+        downloadLink.href = url;
+        downloadLink.style.display = 'inline-block';
+        status.textContent = 'Conversion complete! Click to download.';
+
+        // Clean up
+        ffmpeg.FS('unlink', inputName);
+        ffmpeg.FS('unlink', outputName);
+      } catch (error) {
+        status.textContent = 'Error: ' + error.message;
+      }
+    }
+
+    // Helper function to convert file to ArrayBuffer
+    async function fetchFile(file) {
+      const arrayBuffer = await file.arrayBuffer();
+      return new Uint8Array(arrayBuffer);
+    }
+  </script>
 </body>
 </html>
