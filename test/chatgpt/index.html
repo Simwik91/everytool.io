@@ -9,25 +9,13 @@
     #outputVideo { max-width: 100%; margin-top: 20px; }
     select, input, button { margin: 10px; padding: 5px; }
   </style>
-</head>
-<body>
-  <h1>Video Converter</h1>
-  <input type="file" id="videoInput" accept="video/*">
-  <select id="outputFormat">
-    <option value="mp4">MP4</option>
-    <option value="webm">WEBM</option>
-    <option value="gif">GIF</option>
-  </select>
-  <button id="convertBtn">Convert Video</button>
-  <div id="status"></div>
-  <video id="outputVideo" controls></video>
 
-  <!-- Load ffmpeg.min.js from your assets folder -->
-  <script src="/assets/ffmpeg/ffmpeg.min.js"></script>
+  <!-- ✅ Load ffmpeg.min.js first -->
+  <script src="/assets/ffmpeg/ffmpeg.min.js" defer></script>
 
-  <!-- Your script must wait for ffmpeg.min.js to be loaded -->
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
+  <!-- ✅ Your code, runs AFTER ffmpeg.min.js is loaded -->
+  <script defer>
+    window.addEventListener('DOMContentLoaded', () => {
       const { createFFmpeg, fetchFile } = FFmpeg;
       const ffmpeg = createFFmpeg({
         log: true,
@@ -72,5 +60,17 @@
       });
     });
   </script>
+</head>
+<body>
+  <h1>Video Converter</h1>
+  <input type="file" id="videoInput" accept="video/*">
+  <select id="outputFormat">
+    <option value="mp4">MP4</option>
+    <option value="webm">WEBM</option>
+    <option value="gif">GIF</option>
+  </select>
+  <button id="convertBtn">Convert Video</button>
+  <div id="status"></div>
+  <video id="outputVideo" controls></video>
 </body>
 </html>
