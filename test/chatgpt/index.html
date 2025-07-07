@@ -21,67 +21,49 @@
   <p id="status">Idle</p>
   <video id="outputVideo" controls></video>
 
+  <!-- ✅ Load UMD build that exposes window.FFmpeg -->
+  <script src="/assets/ffmpeg/ffmpeg.min.js"></script>
   <script>
-    async function loadFFmpegScript() {
-      return new Promise((resolve, reject) => {
-        const script = document.createElement('script');
-        script.src = '/assets/ffmpeg/ffmpeg.min.js'; // Make sure this matches your GitHub structure
-        script.onload = resolve;
-        script.onerror = () => reject(new Error('Failed to load FFmpeg script'));
-        document.body.appendChild(script);
+    document.addEventListener('DOMContentLoaded', async () => {
+      const { createFFmpeg, fetchFile } = window.FFmpeg;
+
+      const ffmpeg = createFFmpeg({
+        log: true,
+        corePath: '/assets/ffmpeg/ffmpeg-core.js',
+        wasmPath: '/assets/ffmpeg/ffmpeg-core.wasm',
+        workerPath: '/assets/ffmpeg/worker.js'
       });
-    }
 
-    async function init() {
-      try {
-        await loadFFmpegScript();
+      const convertBtn = document.getElementById('convertBtn');
+      const statusDiv = document.getElementById('status');
+      const outputVideo = document.getElementById('outputVideo');
 
-        const { createFFmpeg, fetchFile } = FFmpeg;
+      convertBtn.addEventListener('click', async () => {
+        const inputFile = document.getElementById('videoInput').files[0];
+        const outputFormat = document.getElementById('outputFormat').value;
 
-        const ffmpeg = createFFmpeg({
-          log: true,
-          corePath: '/assets/ffmpeg/ffmpeg-core.js',
-          wasmPath: '/assets/ffmpeg/ffmpeg-core.wasm',
-          workerPath: '/assets/ffmpeg/worker.js'
-        });
+        if (!inputFile) {
+          statusDiv.textContent = 'Please select a video file.';
+          return;
+        }
 
-        const convertBtn = document.getElementById('convertBtn');
-        const statusDiv = document.getElementById('status');
-        const outputVideo = document.getElementById('outputVideo');
+        statusDiv.textContent = 'Loading FFmpeg...';
+        if (!ffmpeg.isLoaded()) await ffmpeg.load();
 
-        convertBtn.addEventListener('click', async () => {
-          const inputFile = document.getElementById('videoInput').files[0];
-          const outputFormat = document.getElementById('outputFormat').value;
+        const inputName = 'input.' + inputFile.name.split('.').pop();
+        const outputName = 'output.' + outputFormat;
 
-          if (!inputFile) {
-            statusDiv.textContent = 'Please select a video file.';
-            return;
-          }
+        ffmpeg.FS('writeFile', inputName, await fetchFile(inputFile));
+        statusDiv.textContent = 'Converting...';
+        await ffmpeg.run('-i', inputName, outputName);
+        const data = ffmpeg.FS('readFile', outputName);
 
-          statusDiv.textContent = 'Loading FFmpeg...';
-          if (!ffmpeg.isLoaded()) await ffmpeg.load();
-
-          const inputName = 'input.' + inputFile.name.split('.').pop();
-          const outputName = 'output.' + outputFormat;
-
-          ffmpeg.FS('writeFile', inputName, await fetchFile(inputFile));
-          statusDiv.textContent = 'Converting...';
-          await ffmpeg.run('-i', inputName, outputName);
-          const data = ffmpeg.FS('readFile', outputName);
-
-          const blob = new Blob([data.buffer], { type: `video/${outputFormat}` });
-          const url = URL.createObjectURL(blob);
-          outputVideo.src = url;
-          statusDiv.textContent = 'Done!';
-        });
-
-      } catch (err) {
-        console.error(err);
-        document.getElementById('status').textContent = 'Failed to load FFmpeg.';
-      }
-    }
-
-    init();
+        const blob = new Blob([data.buffer], { type: `video/${outputFormat}` });
+        const url = URL.createObjectURL(blob);
+        outputVideo.src = url;
+        statusDiv.textContent = 'Done!';
+      });
+    });
   </script>
 </body>
 </html>
