@@ -6,7 +6,7 @@
   <title>Video Converter</title>
   <style>
     body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
-    #outputVideo, #outputGif { max-width: 100%; margin-top: 20px; }
+    #outputVideo { max-width: 100%; margin-top: 20px; }
     select, input, button { margin: 10px; padding: 5px; }
   </style>
 </head>
@@ -18,60 +18,59 @@
     <option value="webm">WEBM</option>
     <option value="gif">GIF</option>
   </select>
-  <button onclick="convertVideo()">Convert Video</button>
+  <button id="convertBtn">Convert Video</button>
   <div id="status"></div>
-  <video id="outputVideo" controls style="display:none;"></video>
-  <img id="outputGif" style="display:none;" />
+  <video id="outputVideo" controls></video>
 
-  <!-- Load FFmpeg from local path -->
+  <!-- Load ffmpeg.min.js from your assets folder -->
   <script src="/assets/ffmpeg/ffmpeg.min.js"></script>
+
+  <!-- Your script must wait for ffmpeg.min.js to be loaded -->
   <script>
-    const { createFFmpeg, fetchFile } = FFmpeg;
-    const ffmpeg = createFFmpeg({
-      corePath: "/assets/ffmpeg/ffmpeg-core.js",
-      log: true
+    document.addEventListener('DOMContentLoaded', () => {
+      const { createFFmpeg, fetchFile } = FFmpeg;
+      const ffmpeg = createFFmpeg({
+        log: true,
+        corePath: '/assets/ffmpeg/ffmpeg-core.js',
+        wasmPath: '/assets/ffmpeg/ffmpeg-core.wasm',
+        workerPath: '/assets/ffmpeg/worker.js'
+      });
+
+      const convertBtn = document.getElementById('convertBtn');
+      const statusDiv = document.getElementById('status');
+      const outputVideo = document.getElementById('outputVideo');
+
+      convertBtn.addEventListener('click', async () => {
+        const inputFile = document.getElementById('videoInput').files[0];
+        const outputFormat = document.getElementById('outputFormat').value;
+
+        if (!inputFile) {
+          statusDiv.textContent = 'Please select a video file.';
+          return;
+        }
+
+        statusDiv.textContent = 'Loading FFmpeg...';
+        if (!ffmpeg.isLoaded()) {
+          await ffmpeg.load();
+        }
+
+        const inputName = 'input.' + inputFile.name.split('.').pop();
+        const outputName = 'output.' + outputFormat;
+
+        ffmpeg.FS('writeFile', inputName, await fetchFile(inputFile));
+
+        statusDiv.textContent = 'Converting...';
+        await ffmpeg.run('-i', inputName, outputName);
+
+        const data = ffmpeg.FS('readFile', outputName);
+
+        const videoBlob = new Blob([data.buffer], { type: `video/${outputFormat}` });
+        const videoUrl = URL.createObjectURL(videoBlob);
+        outputVideo.src = videoUrl;
+
+        statusDiv.textContent = 'Done!';
+      });
     });
-
-    async function convertVideo() {
-      const input = document.getElementById("videoInput").files[0];
-      const format = document.getElementById("outputFormat").value;
-      const status = document.getElementById("status");
-      const outputVideo = document.getElementById("outputVideo");
-      const outputGif = document.getElementById("outputGif");
-
-      if (!input) {
-        alert("Please select a video file.");
-        return;
-      }
-
-      if (!ffmpeg.isLoaded()) {
-        status.innerText = "Loading FFmpeg...";
-        await ffmpeg.load();
-      }
-
-      status.innerText = "Processing...";
-      const inputName = "input." + input.name.split('.').pop();
-      const outputName = `output.${format}`;
-
-      ffmpeg.FS("writeFile", inputName, await fetchFile(input));
-
-      await ffmpeg.run("-i", inputName, outputName);
-
-      const data = ffmpeg.FS("readFile", outputName);
-      const url = URL.createObjectURL(new Blob([data.buffer], { type: `video/${format}` }));
-
-      if (format === "gif") {
-        outputVideo.style.display = "none";
-        outputGif.src = url;
-        outputGif.style.display = "block";
-      } else {
-        outputGif.style.display = "none";
-        outputVideo.src = url;
-        outputVideo.style.display = "block";
-      }
-
-      status.innerText = "Conversion complete.";
-    }
   </script>
 </body>
 </html>
