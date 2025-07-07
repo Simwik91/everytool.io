@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Browser Video Converter</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -20,6 +21,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            overflow-x: hidden;
         }
         
         .container {
@@ -31,18 +33,22 @@
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
             backdrop-filter: blur(10px);
             text-align: center;
+            position: relative;
+            z-index: 10;
         }
         
         header {
             margin-bottom: 30px;
+            position: relative;
         }
         
         h1 {
             font-size: 2.8rem;
             margin-bottom: 10px;
-            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            background: linear-gradient(to right, #4facfe, #00f2fe);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 15px rgba(79, 172, 254, 0.3);
         }
         
         .subtitle {
@@ -57,10 +63,12 @@
             padding: 25px;
             margin-bottom: 25px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
         }
         
         .upload-area {
-            border: 3px dashed #ff7e5f;
+            border: 3px dashed #4facfe;
             border-radius: 10px;
             padding: 40px 20px;
             text-align: center;
@@ -71,13 +79,13 @@
         }
         
         .upload-area:hover {
-            background: rgba(255, 126, 95, 0.1);
+            background: rgba(79, 172, 254, 0.1);
             transform: translateY(-5px);
         }
         
         .upload-icon {
             font-size: 60px;
-            color: #ff7e5f;
+            color: #4facfe;
             margin-bottom: 15px;
         }
         
@@ -125,7 +133,7 @@
             display: block;
             margin-bottom: 8px;
             font-weight: bold;
-            color: #ff7e5f;
+            color: #4facfe;
             text-align: left;
         }
         
@@ -140,7 +148,7 @@
         }
         
         button {
-            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            background: linear-gradient(to right, #2193b0, #6dd5ed);
             color: white;
             font-weight: bold;
             cursor: pointer;
@@ -240,7 +248,7 @@
             text-align: center;
             font-style: italic;
             margin-top: 10px;
-            color: #ff7e5f;
+            color: #4facfe;
             font-size: 1.1rem;
             min-height: 24px;
         }
@@ -253,11 +261,70 @@
             color: #69f0ae;
         }
         
-        .init-message {
-            padding: 15px;
-            background: rgba(255, 126, 95, 0.2);
-            border-radius: 8px;
+        .init-container {
+            padding: 25px;
+            background: rgba(30, 30, 50, 0.8);
+            border-radius: 12px;
+            margin: 25px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .loader {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        
+        .loader-spinner {
+            width: 70px;
+            height: 70px;
+            border: 8px solid rgba(79, 172, 254, 0.2);
+            border-top: 8px solid #4facfe;
+            border-radius: 50%;
+            animation: spin 1.5s linear infinite;
             margin-bottom: 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .init-text {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .init-subtext {
+            color: #c7e9fb;
+            font-size: 1rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .init-progress {
+            width: 100%;
+            height: 8px;
+            background: rgba(79, 172, 254, 0.2);
+            border-radius: 4px;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+        
+        .init-progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+            transition: width 0.5s ease;
+        }
+        
+        .init-percentage {
+            font-size: 1.1rem;
+            margin-top: 10px;
+            color: #69f0ae;
         }
         
         footer {
@@ -271,11 +338,45 @@
         
         .tech-badge {
             display: inline-block;
-            background: rgba(255, 126, 95, 0.2);
+            background: rgba(79, 172, 254, 0.2);
             padding: 5px 12px;
             border-radius: 20px;
             margin-top: 10px;
             font-size: 14px;
+        }
+        
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(79, 172, 254, 0.3);
+            animation: float 15s infinite linear;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100vw) rotate(360deg);
+                opacity: 0;
+            }
         }
         
         @media (max-width: 768px) {
@@ -294,6 +395,8 @@
     </style>
 </head>
 <body>
+    <div class="bg-animation" id="bgAnimation"></div>
+    
     <div class="container">
         <header>
             <h1>Browser Video Converter</h1>
@@ -301,13 +404,23 @@
             <p class="subtitle">Powered by FFmpeg.wasm</p>
         </header>
         
-        <div class="init-message" id="initStatus">
-            Initializing FFmpeg... Please wait (this may take a minute)
+        <div class="init-container" id="initContainer">
+            <div class="loader">
+                <div class="loader-spinner"></div>
+                <div class="init-text" id="initText">Initializing FFmpeg...</div>
+                <div class="init-subtext">Please wait while we load the video processing engine</div>
+                <div class="init-progress">
+                    <div class="init-progress-bar" id="initProgressBar"></div>
+                </div>
+                <div class="init-percentage" id="initPercentage">0%</div>
+            </div>
         </div>
         
-        <div class="card">
+        <div class="card" id="mainCard" style="display: none;">
             <div class="upload-area" id="uploadArea">
-                <div class="upload-icon">📁</div>
+                <div class="upload-icon">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                </div>
                 <div class="upload-text">Drag & Drop your video file</div>
                 <div class="upload-subtext">or click to browse files (MP4, AVI, MOV, MKV, etc.)</div>
                 <input type="file" id="fileInput" accept="video/*" hidden>
@@ -326,7 +439,7 @@
             
             <div class="settings">
                 <div class="setting-group">
-                    <label for="formatSelect">Output Format</label>
+                    <label for="formatSelect"><i class="fas fa-file-video"></i> Output Format</label>
                     <select id="formatSelect">
                         <option value="mp4">MP4 (H.264)</option>
                         <option value="webm">WebM (VP9)</option>
@@ -335,7 +448,7 @@
                 </div>
                 
                 <div class="setting-group">
-                    <label for="qualitySelect">Quality</label>
+                    <label for="qualitySelect"><i class="fas fa-sliders-h"></i> Quality</label>
                     <select id="qualitySelect">
                         <option value="high">High Quality</option>
                         <option value="medium" selected>Medium Quality</option>
@@ -344,8 +457,8 @@
                 </div>
             </div>
             
-            <button id="convertBtn" disabled>
-                Convert Video
+            <button id="convertBtn">
+                <i class="fas fa-cog"></i> Convert Video
             </button>
         </div>
         
@@ -365,7 +478,7 @@
             <video id="resultVideo" controls></video>
             <br>
             <a id="downloadLink" class="download-btn">
-                Download Converted Video
+                <i class="fas fa-download"></i> Download Converted Video
             </a>
         </div>
         
@@ -379,6 +492,32 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ffmpeg/0.12.0/umd/ffmpeg.min.js"></script>
     
     <script>
+        // Create background animation
+        function createBackgroundAnimation() {
+            const container = document.getElementById('bgAnimation');
+            const particleCount = 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random size between 5px and 50px
+                const size = Math.random() * 45 + 5;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Random position
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                
+                // Random animation duration
+                particle.style.animationDuration = `${Math.random() * 20 + 10}s`;
+                particle.style.animationDelay = `${Math.random() * 5}s`;
+                
+                container.appendChild(particle);
+            }
+        }
+        
         // DOM elements
         const uploadArea = document.getElementById('uploadArea');
         const fileInput = document.getElementById('fileInput');
@@ -395,7 +534,11 @@
         const resultContainer = document.getElementById('resultContainer');
         const resultVideo = document.getElementById('resultVideo');
         const downloadLink = document.getElementById('downloadLink');
-        const initStatus = document.getElementById('initStatus');
+        const initContainer = document.getElementById('initContainer');
+        const initText = document.getElementById('initText');
+        const initProgressBar = document.getElementById('initProgressBar');
+        const initPercentage = document.getElementById('initPercentage');
+        const mainCard = document.getElementById('mainCard');
         
         // FFmpeg variables
         let ffmpeg = null;
@@ -404,12 +547,26 @@
         // Initialize FFmpeg with robust loading
         async function initFFmpeg() {
             try {
+                // Update initialization status
+                initText.textContent = 'Loading FFmpeg library...';
+                
+                // Simulate progress for better UX
+                let progress = 0;
+                const progressInterval = setInterval(() => {
+                    if (progress < 90) {
+                        progress += 1;
+                        initProgressBar.style.width = `${progress}%`;
+                        initPercentage.textContent = `${progress}%`;
+                    }
+                }, 100);
+                
                 // Check if FFmpeg is available
                 if (typeof FFmpeg === 'undefined') {
                     throw new Error('FFmpeg library not loaded. Please refresh the page.');
                 }
                 
-                initStatus.textContent = 'Loading FFmpeg core... (this may take 30-60 seconds)';
+                // Update status
+                initText.textContent = 'Loading FFmpeg core...';
                 
                 const { createFFmpeg, fetchFile } = FFmpeg;
                 
@@ -422,42 +579,57 @@
                         progressPercent.textContent = `${percent}%`;
                         statusText.textContent = `Processing: ${percent}%`;
                     },
+                    // Use the core from the CDN
                     corePath: 'https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.0/dist/ffmpeg-core.js'
+                });
+                
+                // Listen to the core loading progress
+                ffmpeg.setProgress(({ ratio }) => {
+                    const percent = Math.round(ratio * 100);
+                    initProgressBar.style.width = `${percent}%`;
+                    initPercentage.textContent = `${percent}%`;
+                    
+                    if (percent < 50) {
+                        initText.textContent = 'Loading core components...';
+                    } else if (percent < 80) {
+                        initText.textContent = 'Initializing video processing...';
+                    } else {
+                        initText.textContent = 'Finalizing setup...';
+                    }
                 });
                 
                 // Load FFmpeg
                 await ffmpeg.load();
                 
-                // Update UI
-                initStatus.textContent = 'FFmpeg initialized successfully!';
-                initStatus.style.background = 'rgba(105, 240, 174, 0.2)';
-                statusText.textContent = 'FFmpeg is ready!';
-                statusText.classList.add('success');
-                convertBtn.disabled = false;
+                // Clear the progress interval and set to 100%
+                clearInterval(progressInterval);
+                initProgressBar.style.width = '100%';
+                initPercentage.textContent = '100%';
                 
-                console.log('FFmpeg initialized successfully');
+                // Update UI
+                setTimeout(() => {
+                    initText.textContent = 'FFmpeg initialized successfully!';
+                    
+                    // Hide loader and show main UI after a short delay
+                    setTimeout(() => {
+                        initContainer.style.display = 'none';
+                        mainCard.style.display = 'block';
+                        statusText.textContent = 'FFmpeg is ready!';
+                    }, 1000);
+                }, 500);
                 
             } catch (error) {
                 console.error('FFmpeg initialization error:', error);
-                initStatus.textContent = `Error: ${error.message}`;
-                initStatus.style.background = 'rgba(255, 82, 82, 0.2)';
-                statusText.textContent = `Initialization failed: ${error.message}`;
-                statusText.classList.add('error');
+                initText.textContent = `Error: ${error.message}`;
+                initText.style.color = '#ff5252';
+                initPercentage.style.color = '#ff5252';
             }
         }
         
         // Initialize FFmpeg when the page loads
         window.addEventListener('load', () => {
-            // First try to initialize
+            createBackgroundAnimation();
             initFFmpeg();
-            
-            // Fallback in case the library hasn't loaded yet
-            const fallbackTimer = setTimeout(() => {
-                if (!ffmpeg) {
-                    console.log('FFmpeg not initialized yet, retrying...');
-                    initFFmpeg();
-                }
-            }, 2000);
         });
         
         // File selection handling
@@ -465,7 +637,7 @@
         
         uploadArea.addEventListener('dragover', (e) => {
             e.preventDefault();
-            uploadArea.style.background = 'rgba(255, 126, 95, 0.2)';
+            uploadArea.style.background = 'rgba(79, 172, 254, 0.2)';
         });
         
         uploadArea.addEventListener('dragleave', () => {
