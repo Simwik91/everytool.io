@@ -1,82 +1,68 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <title>Video Converter (ffmpeg.wasm)</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Video Converter</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+    #outputVideo { max-width: 100%; margin-top: 20px; }
+    select, input, button { margin: 10px; padding: 5px; }
+  </style>
 </head>
 <body>
   <h1>Video Converter</h1>
   <input type="file" id="videoInput" accept="video/*" />
-  <select id="formatSelect">
+  <select id="outputFormat">
     <option value="mp4">MP4</option>
     <option value="webm">WEBM</option>
     <option value="gif">GIF</option>
   </select>
-  <button id="convertBtn">Convert</button>
-  <p id="status">Status: Idle</p>
-  <!-- Output elements -->
-  <video id="outputVideo" controls style="max-width: 480px;"></video>
-  <img id="outputImage" style="display:none; max-width: 480px;" alt="Output GIF" />
+  <button onclick="convertVideo()">Convert Video</button>
+  <div id="status"></div>
+  <video id="outputVideo" controls></video>
 
+  <!-- Load ffmpeg 0.12.10 from CDN -->
   <script type="module">
-    import { FFmpeg } from 'https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.15/dist/esm/index.js';
-    import { fetchFile, toBlobURL } from 'https://cdn.jsdelivr.net/npm/@ffmpeg/util@0.12.1/dist/esm/index.js';
+    import { createFFmpeg, fetchFile } from 'https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/esm/index.min.js';
 
-    const ffmpeg = new FFmpeg({ log: true });
-    const statusEl = document.getElementById('status');
-    const outputVideo = document.getElementById('outputVideo');
-    const outputImage = document.getElementById('outputImage');
+    const ffmpeg = createFFmpeg({
+      log: true,
+      corePath: '/assets/ffmpeg/ffmpeg-core.js',
+      wasmPath: '/assets/ffmpeg/ffmpeg-core.wasm',
+      workerPath: '/assets/ffmpeg/worker.js',
+    });
 
-    // Asynchronously load FFmpeg core (jsDelivr CDN, single-thread version) using blob URLs
-    async function loadFFmpeg() {
-      statusEl.textContent = 'Status: Loading ffmpeg-core...';
-      const baseURL = 'https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.10/dist/esm';
-      await ffmpeg.load({
-        coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, 'text/javascript'),
-        wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, 'application/wasm'),
-      });
-      statusEl.textContent = 'Status: Ready';
-    }
-    loadFFmpeg();
-
-    // Handle the Convert button click
-    document.getElementById('convertBtn').addEventListener('click', async () => {
+    async function convertVideo() {
       const fileInput = document.getElementById('videoInput');
+      const format = document.getElementById('outputFormat').value;
+      const status = document.getElementById('status');
+      const outputVideo = document.getElementById('outputVideo');
+
       if (fileInput.files.length === 0) {
-        alert('Please select a video file first.');
+        alert("Please select a video file.");
         return;
       }
+
       const file = fileInput.files[0];
-      const format = document.getElementById('formatSelect').value;
-      statusEl.textContent = 'Status: Converting...';
-
-      // Write the input video file into FFmpeg's filesystem
-      const ext = file.name.split('.').pop();
-      await ffmpeg.writeFile(`input.${ext}`, await fetchFile(file));
-
-      // Run the ffmpeg command to convert format
+      const fileName = file.name;
+      const inputName = 'input.' + fileName.split('.').pop();
       const outputName = `output.${format}`;
-      await ffmpeg.exec(['-i', `input.${ext}`, outputName]);
 
-      // Read the result and create a Blob URL to display it
-      const data = await ffmpeg.readFile(outputName);
-      const blob = new Blob([data.buffer], {
-        type: format === 'gif' ? 'image/gif' : `video/${format}`
-      });
-      const url = URL.createObjectURL(blob);
+      status.innerText = 'Loading FFmpeg...';
+      await ffmpeg.load();
 
-      // Show result in video or image tag
-      if (format === 'gif') {
-        outputVideo.style.display = 'none';
-        outputImage.style.display = 'block';
-        outputImage.src = url;
-      } else {
-        outputImage.style.display = 'none';
-        outputVideo.style.display = 'block';
-        outputVideo.src = url;
-      }
-      statusEl.textContent = 'Status: Done';
-    });
+      status.innerText = 'Processing video...';
+      ffmpeg.FS('writeFile', inputName, await fetchFile(file));
+      await ffmpeg.run('-i', inputName, outputName);
+      const data = ffmpeg.FS('readFile', outputName);
+
+      const videoURL = URL.createObjectURL(new Blob([data.buffer], { type: `video/${format}` }));
+      outputVideo.src = videoURL;
+      outputVideo.load();
+
+      status.innerText = 'Done!';
+    }
   </script>
 </body>
 </html>
