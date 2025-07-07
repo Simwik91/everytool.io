@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Video Converter</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
+            color: white;
+            min-height: 100vh;
+        }
+        
+        .container {
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #4fc3f7;
+            text-shadow: 0 0 10px rgba(79, 195, 247, 0.5);
+        }
+        
+        .card {
+            background: rgba(30, 30, 50, 0.8);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #4fc3f7;
+        }
+        
+        input, select, button {
+            width: 100%;
+            padding: 12px;
+            border-radius: 5px;
+            border: none;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+        
+        button {
+            background: linear-gradient(to right, #2193b0, #6dd5ed);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+        
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        button:disabled {
+            background: #555;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        #fileInput {
+            padding: 10px;
+            border: 2px dashed #4fc3f7;
+            text-align: center;
+            cursor: pointer;
+        }
+        
+        .progress-container {
+            margin: 20px 0;
+            display: none;
+        }
+        
+        .progress-bar {
+            height: 20px;
+            background: #333;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(to right, #00b09b, #96c93d);
+            width: 0%;
+            transition: width 0.3s;
+        }
+        
+        .status {
+            text-align: center;
+            font-style: italic;
+            margin-top: 10px;
+            color: #4fc3f7;
+        }
+        
+        .result {
+            display: none;
+            text-align: center;
+        }
+        
+        .result video {
+            max-width: 100%;
+            border-radius: 10px;
+            margin-top: 20px;
+            background: black;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+        
+        .download-btn {
+            display: inline-block;
+            width: auto;
+            padding: 10px 20px;
+            margin-top: 15px;
+            background: linear-gradient(to right, #00c853, #64dd17);
+        }
+        
+        .console {
+            background: #111;
+            border-radius: 5px;
+            padding: 15px;
+            font-family: monospace;
+            font-size: 14px;
+            height: 150px;
+            overflow-y: auto;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .log {
+            color: #4fc3f7;
+            margin: 2px 0;
+        }
+        
+        .error {
+            color: #ff5252;
+        }
+        
+        .info {
+            color: #69f0ae;
+        }
+        
+        .warning {
+            color: #ffd740;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Simple Video Converter</h1>
+        
+        <div class="card">
+            <div class="input-group">
+                <label for="fileInput">Select Video File</label>
+                <input type="file" id="fileInput" accept="video/*">
+            </div>
+            
+            <div class="input-group">
+                <label for="formatSelect">Output Format</label>
+                <select id="formatSelect">
+                    <option value="mp4">MP4</option>
+                    <option value="webm">WebM</option>
+                    <option value="gif">GIF</option>
+                </select>
+            </div>
+            
+            <button id="convertBtn">Convert Video</button>
+        </div>
+        
+        <div class="progress-container" id="progressContainer">
+            <div class="progress-bar">
+                <div class="progress" id="progressBar"></div>
+            </div>
+            <div class="status" id="statusText">Initializing FFmpeg...</div>
+        </div>
+        
+        <div class="console" id="consoleOutput"></div>
+        
+        <div class="result" id="resultContainer">
+            <h3>Converted Video</h3>
+            <video id="resultVideo" controls></video>
+            <br>
+            <a id="downloadLink" class="download-btn">Download Converted Video</a>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Using FFmpeg.wasm v0.12.0 - Conversion happens in your browser</p>
+    </footer>
+    
+    <!-- Include FFmpeg.wasm from CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ffmpeg/0.12.0/umd/ffmpeg.min.js"></script>
+    <script>
+        // Get DOM elements
+        const fileInput = document.getElementById('fileInput');
+        const formatSelect = document.getElementById('formatSelect');
+        const convertBtn = document.getElementById('convertBtn');
+        const progressContainer = document.getElementById('progressContainer');
+        const progressBar = document.getElementById('progressBar');
+        const statusText = document.getElementById('statusText');
+        const consoleOutput = document.getElementById('consoleOutput');
+        const resultContainer = document.getElementById('resultContainer');
+        const resultVideo = document.getElementById('resultVideo');
+        const downloadLink = document.getElementById('downloadLink');
+        
+        // FFmpeg variables
+        let ffmpeg = null;
+        
+        // Initialize FFmpeg
+        async function initFFmpeg() {
+            try {
+                // Show progress container
+                progressContainer.style.display = 'block';
+                statusText.textContent = 'Loading FFmpeg...';
+                
+                // Create FFmpeg instance
+                const { createFFmpeg, fetchFile } = FFmpeg;
+                ffmpeg = createFFmpeg({
+                    log: true,
+                    progress: ({ ratio }) => {
+                        const percent = Math.round(ratio * 100);
+                        progressBar.style.width = `${percent}%`;
+                        statusText.textContent = `Processing: ${percent}%`;
+                    }
+                });
+                
+                // Log FFmpeg events to console
+                ffmpeg.setLogger(({ type, message }) => {
+                    const logEntry = document.createElement('div');
+                    logEntry.className = `log ${type}`;
+                    logEntry.textContent = message;
+                    consoleOutput.appendChild(logEntry);
+                    consoleOutput.scrollTop = consoleOutput.scrollHeight;
+                });
+                
+                // Load FFmpeg
+                await ffmpeg.load();
+                statusText.textContent = 'FFmpeg is ready!';
+                consoleOutput.style.display = 'block';
+                
+                // Log success
+                const logEntry = document.createElement('div');
+                logEntry.className = 'log info';
+                logEntry.textContent = 'FFmpeg initialized successfully';
+                consoleOutput.appendChild(logEntry);
+                
+            } catch (error) {
+                statusText.textContent = `Error: ${error.message}`;
+                console.error('FFmpeg initialization error:', error);
+                
+                const logEntry = document.createElement('div');
+                logEntry.className = 'log error';
+                logEntry.textContent = `Initialization error: ${error.message}`;
+                consoleOutput.appendChild(logEntry);
+                consoleOutput.style.display = 'block';
+            }
+        }
+        
+        // Convert video
+        async function convertVideo() {
+            if (!ffmpeg || !ffmpeg.isLoaded()) {
+                alert('FFmpeg is not ready yet. Please wait...');
+                return;
+            }
+            
+            const file = fileInput.files[0];
+            if (!file) {
+                alert('Please select a video file first');
+                return;
+            }
+            
+            try {
+                // Reset UI
+                resultContainer.style.display = 'none';
+                progressContainer.style.display = 'block';
+                progressBar.style.width = '0%';
+                statusText.textContent = 'Starting conversion...';
+                convertBtn.disabled = true;
+                
+                // Clear console
+                consoleOutput.innerHTML = '';
+                consoleOutput.style.display = 'block';
+                
+                // Get file info
+                const inputName = 'input.' + file.name.split('.').pop();
+                const outputFormat = formatSelect.value;
+                const outputName = `output.${outputFormat}`;
+                
+                // Write file to FFmpeg
+                statusText.textContent = 'Reading file...';
+                ffmpeg.FS('writeFile', inputName, await fetchFile(file));
+                
+                // Run FFmpeg conversion
+                statusText.textContent = 'Converting video...';
+                await ffmpeg.run('-i', inputName, outputName);
+                
+                // Read converted file
+                statusText.textContent = 'Finalizing output...';
+                const data = ffmpeg.FS('readFile', outputName);
+                
+                // Create video URL
+                const videoBlob = new Blob([data.buffer], { type: `video/${outputFormat}` });
+                const videoUrl = URL.createObjectURL(videoBlob);
+                
+                // Display result
+                resultVideo.src = videoUrl;
+                resultVideo.type = `video/${outputFormat}`;
+                downloadLink.href = videoUrl;
+                downloadLink.download = `converted.${outputFormat}`;
+                resultContainer.style.display = 'block';
+                
+                // Log success
+                const logEntry = document.createElement('div');
+                logEntry.className = 'log info';
+                logEntry.textContent = `Conversion successful! Output: ${outputName} (${Math.round(data.length / 1024)} KB)`;
+                consoleOutput.appendChild(logEntry);
+                
+                statusText.textContent = 'Conversion complete!';
+                
+            } catch (error) {
+                statusText.textContent = `Error: ${error.message}`;
+                console.error('Conversion error:', error);
+                
+                const logEntry = document.createElement('div');
+                logEntry.className = 'log error';
+                logEntry.textContent = `Conversion error: ${error.message}`;
+                consoleOutput.appendChild(logEntry);
+            } finally {
+                convertBtn.disabled = false;
+            }
+        }
+        
+        // Event listeners
+        convertBtn.addEventListener('click', convertVideo);
+        
+        // Initialize FFmpeg when page loads
+        document.addEventListener('DOMContentLoaded', initFFmpeg);
+    </script>
+</body>
+</html>
