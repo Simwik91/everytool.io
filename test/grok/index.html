@@ -1,54 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Converter</title>
+  <meta charset="UTF-8" />
+  <title>FFmpeg Browser Test</title>
 </head>
 <body>
-    <h1>Video Converter</h1>
-    <input type="file" id="videoInput" accept="video/*">
-    <select id="outputFormat">
-        <option value="mp4">MP4</option>
-        <option value="webm">WebM</option>
-    </select>
-    <button id="convertButton">Convert</button>
-    <a id="downloadLink" style="display:none;">Download Converted Video</a>
-    <script type="module">
-      async function loadFFmpeg() {
-        const { createFFmpeg } = await import('https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.15/dist/umd/ffmpeg.min.js');
-        return createFFmpeg;
-      }
+  <h2>Select a WebM file to convert to MP4:</h2>
+  <input type="file" id="uploader" accept=".webm" />
+  <p id="status">Status: Idle</p>
+  <video id="video" controls style="max-width: 100%; display: none;"></video>
 
-      document.getElementById('convertButton').addEventListener('click', async () => {
-        const file = document.getElementById('videoInput').files[0];
-        if (!file) {
-          alert('Please select a video file');
-          return;
-        }
+  <!-- Load the @ffmpeg/ffmpeg library -->
+  <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.12.10/dist/umd/ffmpeg.min.js"></script>
+  <script>
+    // Ensure FFmpeg is defined
+    if (typeof FFmpeg === 'undefined') {
+      console.error('FFmpeg is not defined. Check if the library loaded correctly.');
+    }
 
-        const arrayBuffer = await file.arrayBuffer();
-        const uint8Array = new Uint8Array(arrayBuffer);
+    const { createFFmpeg, fetchFile } = FFmpeg;
 
-        const createFFmpeg = await loadFFmpeg();
-        const ffmpeg = createFFmpeg({ log: true });
+    const ffmpeg = createFFmpeg({
+      log: true,
+      // Specify the correct core path for WebAssembly
+      corePath: 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/umd/ffmpeg-core.js',
+    });
+
+    const uploader = document.getElementById('uploader');
+    const status = document.getElementById('status');
+    const video = document.getElementById('video');
+
+    uploader.addEventListener('change', async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      try {
+        status.textContent = 'Status: Loading FFmpeg...';
         await ffmpeg.load();
 
-        ffmpeg.FS('writeFile', 'input', uint8Array);
+        status.textContent = 'Status: Writing file...';
+        ffmpeg.FS('writeFile', 'input.webm', await fetchFile(file));
 
-        const format = document.getElementById('outputFormat').value;
-        const outputFileName = `output.${format}`;
+        status.textContent = 'Status: Converting...';
+        await ffmpeg.run('-i', 'input.webm', '-c:v', 'libx264', '-c:a', 'aac', 'output.mp4');
 
-        await ffmpeg.run('-i', 'input', outputFileName);
-
-        const data = ffmpeg.FS('readFile', outputFileName);
-
-        const blob = new Blob([data.buffer], { type: `video/${format}` });
+        status.textContent = 'Status: Reading output...';
+        const data = ffmpeg.FS('readFile', 'output.mp4');
+        const blob = new Blob([data.buffer], { type: 'video/mp4' });
         const url = URL.createObjectURL(blob);
-        document.getElementById('downloadLink').href = url;
-        document.getElementById('downloadLink').download = outputFileName;
-        document.getElementById('downloadLink').style.display = 'block';
-      });
-    </script>
+
+        video.src = url;
+        video.style.display = 'block';
+        status.textContent = 'Status: Done!';
+      } catch (error) {
+        status.textContent = `Status: Error - ${error.message}`;
+        console.error('Error during FFmpeg processing:', error);
+      }
+    });
+  </script>
 </body>
 </html>
