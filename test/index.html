@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<title>FFmpeg WASM Video Converter - Full In-Browser Example</title>
+<title>FFmpeg WASM Video Converter</title>
 <style>
   body { font-family: sans-serif; max-width: 600px; margin: 2em auto; }
   progress { width: 100%; height: 20px; }
@@ -21,8 +21,12 @@
 <div id="status">Awaiting file upload...</div>
 <a id="downloadLink" href="#" download="output.webm">Download Converted Video</a>
 
-<script type="module">
-  import { FFmpeg } from '/assets/ffmpeg/ffmpeg.min.js'; // Adjust path as needed
+<!-- Load your bundled ffmpeg.min.js the old-school way -->
+<script src="/assets/ffmpeg/ffmpeg.min.js"></script>
+
+<script>
+  // Access FFmpeg class from the global FFmpegWASM namespace:
+  const { FFmpeg } = FFmpegWASM;
 
   const uploader = document.getElementById('uploader');
   const convertBtn = document.getElementById('convertBtn');
@@ -72,21 +76,17 @@
       });
       status.textContent = 'FFmpeg loaded. Writing file to FS...';
 
-      // Write the uploaded file to FFmpeg FS
       await ffmpeg.writeFile(inputFileName, inputFileData);
 
       status.textContent = 'Starting conversion...';
       progressBar.value = 0;
 
-      // Convert input video to output.webm
       await ffmpeg.exec(['-i', inputFileName, '-c:v', 'libvpx', '-b:v', '1M', 'output.webm']);
 
       status.textContent = 'Conversion finished! Preparing download...';
 
-      // Read converted file from FS
       const outputData = await ffmpeg.readFile('output.webm');
 
-      // Create Blob and Object URL for download
       const videoBlob = new Blob([outputData], { type: 'video/webm' });
       const videoUrl = URL.createObjectURL(videoBlob);
 
