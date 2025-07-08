@@ -5,170 +5,685 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Browser Video Converter</title>
     <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
         body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
+            color: white;
+            min-height: 100vh;
             padding: 20px;
-            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
-        .upload-area {
-            border: 2px dashed #ccc;
-            padding: 40px;
+        
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            margin-top: 30px;
+        }
+        
+        header {
             text-align: center;
-            margin: 20px 0;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .subtitle {
+            color: #ddd;
+            font-size: 1.1rem;
+            margin-top: 10px;
+        }
+        
+        .card {
+            background: rgba(30, 30, 40, 0.8);
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .card-title {
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            color: #feb47b;
+            display: flex;
+            align-items: center;
+        }
+        
+        .upload-area {
+            border: 2px dashed #4a9df7;
+            border-radius: 10px;
+            padding: 40px 20px;
+            text-align: center;
             cursor: pointer;
+            transition: all 0.3s;
+            background: rgba(74, 157, 247, 0.1);
+            margin-bottom: 20px;
         }
-        #status {
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 4px;
-            background: #f0f0f0;
+        
+        .upload-area:hover {
+            background: rgba(74, 157, 247, 0.2);
+            border-color: #6aafff;
         }
-        .debug-info {
-            font-family: monospace;
-            background: #333;
-            color: #0f0;
-            padding: 10px;
-            border-radius: 4px;
+        
+        #file-input {
+            display: none;
+        }
+        
+        .file-info {
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        select, button {
+            padding: 12px 20px;
+            border-radius: 8px;
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            flex: 1;
+            min-width: 150px;
+        }
+        
+        select {
+            background: #2c3e50;
+            color: white;
+            border: 1px solid #4a9df7;
+        }
+        
+        button {
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        button:disabled {
+            background: #7f8c8d;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        #convert-btn {
+            background: linear-gradient(to right, #4a9df7, #6aafff);
+        }
+        
+        .progress-container {
+            margin: 25px 0;
+            display: none;
+        }
+        
+        .progress-bar {
+            height: 20px;
+            background: #2c3e50;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 10px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            width: 0%;
+            transition: width 0.3s;
+            border-radius: 10px;
+        }
+        
+        .progress-text {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #ddd;
+        }
+        
+        .result-area {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            background: rgba(46, 204, 113, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(46, 204, 113, 0.3);
             margin-top: 20px;
+        }
+        
+        #download-btn {
+            background: linear-gradient(to right, #2ecc71, #27ae60);
+            margin-top: 15px;
+        }
+        
+        .note {
+            background: rgba(231, 76, 60, 0.1);
+            border: 1px solid rgba(231, 76, 60, 0.3);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 25px;
+            font-size: 0.9rem;
+            color: #f1c40f;
+        }
+        
+        .debug-console {
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: #0f0;
             max-height: 200px;
             overflow-y: auto;
+        }
+        
+        .debug-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            color: #4a9df7;
+        }
+        
+        .status-message {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            text-align: center;
+            display: none;
+        }
+        
+        .status-error {
+            background: rgba(231, 76, 60, 0.2);
+            border: 1px solid #e74c3c;
+        }
+        
+        .status-info {
+            background: rgba(74, 157, 247, 0.2);
+            border: 1px solid #4a9df7;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .controls {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Browser Video Converter</h1>
-    <div id="status">Initializing...</div>
-    <div id="debug" class="debug-info"></div>
+    <div class="container">
+        <header>
+            <h1>Browser Video Converter</h1>
+            <p class="subtitle">Convert videos directly in your browser - no server required</p>
+        </header>
+        
+        <div class="card">
+            <div class="card-title">
+                <h2>Upload Video</h2>
+            </div>
+            
+            <div class="upload-area" id="drop-area">
+                <h3>Click or Drag & Drop to Upload Video</h3>
+                <p>Supported formats: MP4, MOV, AVI, WEBM</p>
+                <input type="file" id="file-input" accept="video/*">
+            </div>
+            
+            <div class="file-info" id="file-info">
+                <div><strong>File Name:</strong> <span id="file-name"></span></div>
+                <div><strong>File Size:</strong> <span id="file-size"></span></div>
+                <div><strong>File Type:</strong> <span id="file-type"></span></div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-title">
+                <h2>Conversion Settings</h2>
+            </div>
+            
+            <div class="controls">
+                <select id="format-select">
+                    <option value="mp4">MP4 (H.264)</option>
+                    <option value="webm">WEBM (VP9)</option>
+                    <option value="gif">Animated GIF</option>
+                </select>
+                
+                <select id="quality-select">
+                    <option value="high">High Quality</option>
+                    <option value="medium" selected>Medium Quality</option>
+                    <option value="low">Low Quality</option>
+                </select>
+                
+                <button id="convert-btn" disabled>Convert Video</button>
+            </div>
+            
+            <div class="progress-container" id="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <div class="progress-text" id="progress-text">Initializing...</div>
+            </div>
+            
+            <div class="result-area" id="result-area">
+                <h3>Conversion Complete!</h3>
+                <p>Your video has been successfully converted.</p>
+                <button id="download-btn">Download Converted Video</button>
+            </div>
+            
+            <div class="status-message" id="status-message"></div>
+        </div>
+        
+        <div class="debug-console">
+            <div class="debug-header">
+                <h3>Debug Console</h3>
+                <button id="toggle-debug">Show Details</button>
+            </div>
+            <div id="debug-output"></div>
+        </div>
+        
+        <div class="note">
+            <h3>Important Note</h3>
+            <p>This converter runs entirely in your browser using WebAssembly. Large video files may take significant time to process and could cause browser slowdowns. For best results, use videos under 100MB.</p>
+        </div>
+    </div>
 
     <script>
-        // Debug logging
-        const debugEl = document.getElementById('debug');
-        function debugLog(message) {
-            debugEl.innerHTML += `> ${message}\n`;
-            debugEl.scrollTop = debugEl.scrollHeight;
-        }
-
-        // CDN sources to try (ordered by reliability)
+        // CDN sources with alternative paths
         const CDN_SOURCES = [
             {
-                name: "jsDelivr (primary)",
+                name: "jsDelivr (Standard)",
                 ffmpegUrl: "https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.4/dist/ffmpeg.min.js",
                 coreUrl: "https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.4/dist/ffmpeg-core.js"
             },
             {
-                name: "unpkg (fallback 1)",
+                name: "jsDelivr (Alternative)",
+                ffmpegUrl: "https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.4/dist/umd/ffmpeg.min.js",
+                coreUrl: "https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.4/dist/ffmpeg-core.js"
+            },
+            {
+                name: "unpkg (Standard)",
                 ffmpegUrl: "https://unpkg.com/@ffmpeg/ffmpeg@0.12.4/dist/ffmpeg.min.js",
                 coreUrl: "https://unpkg.com/@ffmpeg/core@0.12.4/dist/ffmpeg-core.js"
             },
             {
-                name: "cdnjs (fallback 2)",
-                ffmpegUrl: "https://cdnjs.cloudflare.com/ajax/libs/ffmpeg.js/0.12.4/ffmpeg.min.js",
-                coreUrl: "https://cdnjs.cloudflare.com/ajax/libs/ffmpeg.js/0.12.4/ffmpeg-core.js"
+                name: "unpkg (Alternative)",
+                ffmpegUrl: "https://unpkg.com/@ffmpeg/ffmpeg@0.12.4/dist/umd/ffmpeg.min.js",
+                coreUrl: "https://unpkg.com/@ffmpeg/core@0.12.4/dist/ffmpeg-core.js"
             },
             {
-                name: "GitHub (last resort)",
-                ffmpegUrl: "https://raw.githubusercontent.com/ffmpegwasm/ffmpeg.wasm/main/dist/ffmpeg.min.js",
-                coreUrl: "https://raw.githubusercontent.com/ffmpegwasm/ffmpeg.wasm/main/dist/ffmpeg-core.js"
+                name: "GitHub (Raw Content)",
+                ffmpegUrl: "https://raw.githubusercontent.com/ffmpegwasm/ffmpeg.wasm/v0.12.4/dist/umd/ffmpeg.min.js",
+                coreUrl: "https://raw.githubusercontent.com/ffmpegwasm/ffmpeg.wasm-core/v0.12.4/dist/ffmpeg-core.js"
             }
         ];
 
-        // Current CDN being tried
-        let currentCdnIndex = 0;
-        let ffmpeg = null;
+        // DOM elements
+        const elements = {
+            fileInput: document.getElementById('file-input'),
+            dropArea: document.getElementById('drop-area'),
+            fileInfo: document.getElementById('file-info'),
+            fileName: document.getElementById('file-name'),
+            fileSize: document.getElementById('file-size'),
+            fileType: document.getElementById('file-type'),
+            formatSelect: document.getElementById('format-select'),
+            qualitySelect: document.getElementById('quality-select'),
+            convertBtn: document.getElementById('convert-btn'),
+            progressContainer: document.getElementById('progress-container'),
+            progressFill: document.getElementById('progress-fill'),
+            progressText: document.getElementById('progress-text'),
+            resultArea: document.getElementById('result-area'),
+            downloadBtn: document.getElementById('download-btn'),
+            statusMessage: document.getElementById('status-message'),
+            debugOutput: document.getElementById('debug-output'),
+            toggleDebug: document.getElementById('toggle-debug')
+        };
 
-        // Update status
-        function updateStatus(message) {
-            document.getElementById('status').textContent = message;
-            debugLog(message);
+        // State
+        let state = {
+            selectedFile: null,
+            ffmpeg: null,
+            downloadUrl: null,
+            currentCdnIndex: 0,
+            debugVisible: false
+        };
+
+        // Debug logging
+        function debugLog(message) {
+            const now = new Date();
+            const timestamp = now.toLocaleTimeString();
+            const logEntry = document.createElement('div');
+            logEntry.textContent = `[${timestamp}] ${message}`;
+            elements.debugOutput.appendChild(logEntry);
+            elements.debugOutput.scrollTop = elements.debugOutput.scrollHeight;
         }
 
-        // Load script with timeout
-        function loadScript(src, timeout = 10000) {
-            return new Promise((resolve, reject) => {
-                const script = document.createElement('script');
-                script.src = src;
-                
-                const timer = setTimeout(() => {
-                    reject(new Error(`Timeout loading ${src}`));
-                    document.head.removeChild(script);
-                }, timeout);
-
-                script.onload = () => {
-                    clearTimeout(timer);
-                    resolve();
-                };
-                
-                script.onerror = () => {
-                    clearTimeout(timer);
-                    reject(new Error(`Failed to load ${src}`));
-                };
-                
-                document.head.appendChild(script);
-            });
+        // Show status message
+        function showStatus(message, type = 'info') {
+            elements.statusMessage.textContent = message;
+            elements.statusMessage.className = `status-message status-${type}`;
+            elements.statusMessage.style.display = 'block';
+            debugLog(`STATUS: ${message}`);
         }
 
-        // Try loading FFmpeg from current CDN
-        async function tryLoadFfmpeg() {
-            if (currentCdnIndex >= CDN_SOURCES.length) {
-                throw new Error("All CDN sources failed");
+        // Hide status message
+        function hideStatus() {
+            elements.statusMessage.style.display = 'none';
+        }
+
+        // Load FFmpeg from CDN
+        async function loadFFmpeg() {
+            if (state.currentCdnIndex >= CDN_SOURCES.length) {
+                showStatus('All CDN sources failed. Please check your internet connection.', 'error');
+                return false;
             }
 
-            const cdn = CDN_SOURCES[currentCdnIndex];
-            updateStatus(`Trying ${cdn.name} (${cdn.ffmpegUrl})`);
-            
+            const cdn = CDN_SOURCES[state.currentCdnIndex];
+            showStatus(`Trying CDN: ${cdn.name}`, 'info');
+            debugLog(`Attempting to load FFmpeg from: ${cdn.ffmpegUrl}`);
+
             try {
-                // Load main FFmpeg library
-                await loadScript(cdn.ffmpegUrl);
+                // Create script element dynamically
+                const script = document.createElement('script');
+                script.src = cdn.ffmpegUrl;
                 
+                // Handle script load
+                await new Promise((resolve, reject) => {
+                    script.onload = () => {
+                        debugLog(`Successfully loaded FFmpeg script from ${cdn.name}`);
+                        resolve();
+                    };
+                    
+                    script.onerror = () => {
+                        debugLog(`Failed to load FFmpeg script from ${cdn.name}`);
+                        reject(new Error(`Script load error for ${cdn.ffmpegUrl}`));
+                    };
+                    
+                    document.head.appendChild(script);
+                });
+
+                // Verify FFmpeg is available
                 if (typeof FFmpeg === 'undefined') {
-                    throw new Error("FFmpeg not defined after loading");
+                    throw new Error('FFmpeg not defined after loading');
                 }
 
                 // Initialize FFmpeg
-                const { createFFmpeg } = FFmpeg;
-                ffmpeg = createFFmpeg({
+                const { createFFmpeg, fetchFile } = FFmpeg;
+                state.ffmpeg = createFFmpeg({
                     log: true,
                     corePath: cdn.coreUrl
                 });
 
-                updateStatus(`Loading FFmpeg core from ${cdn.coreUrl}`);
-                await ffmpeg.load();
+                // Load FFmpeg core
+                showStatus('Loading FFmpeg core...', 'info');
+                await state.ffmpeg.load();
                 
-                updateStatus(`Success! Using ${cdn.name}`);
+                showStatus('FFmpeg loaded successfully!', 'info');
+                debugLog(`FFmpeg initialized with core from: ${cdn.coreUrl}`);
+                
+                // Enable UI
+                elements.convertBtn.disabled = false;
+                
                 return true;
             } catch (error) {
-                debugLog(`Error: ${error.message}`);
-                currentCdnIndex++;
-                return false;
-            }
-        }
-
-        // Main initialization
-        async function initialize() {
-            updateStatus("Starting FFmpeg initialization...");
-            
-            // Try each CDN until one works
-            while (currentCdnIndex < CDN_SOURCES.length) {
-                const success = await tryLoadFfmpeg();
-                if (success) {
-                    updateStatus("FFmpeg loaded successfully!");
-                    startApplication();
-                    return;
+                debugLog(`CDN attempt failed: ${error.message}`);
+                
+                // Remove the failed script
+                const scripts = document.head.getElementsByTagName('script');
+                for (let i = 0; i < scripts.length; i++) {
+                    if (scripts[i].src === cdn.ffmpegUrl) {
+                        document.head.removeChild(scripts[i]);
+                        break;
+                    }
                 }
+                
+                // Try next CDN
+                state.currentCdnIndex++;
+                return loadFFmpeg();
             }
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // File selection
+            elements.dropArea.addEventListener('click', () => elements.fileInput.click());
+            elements.fileInput.addEventListener('change', handleFileSelect);
             
-            updateStatus("All CDN sources failed. Please check your internet connection.");
+            // Drag and drop
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                elements.dropArea.addEventListener(eventName, preventDefaults, false);
+            });
+            
+            ['dragenter', 'dragover'].forEach(eventName => {
+                elements.dropArea.addEventListener(eventName, highlight, false);
+            });
+            
+            ['dragleave', 'drop'].forEach(eventName => {
+                elements.dropArea.addEventListener(eventName, unhighlight, false);
+            });
+            
+            elements.dropArea.addEventListener('drop', handleDrop, false);
+            
+            // Conversion
+            elements.convertBtn.addEventListener('click', convertVideo);
+            elements.downloadBtn.addEventListener('click', downloadResult);
+            
+            // Debug toggle
+            elements.toggleDebug.addEventListener('click', () => {
+                state.debugVisible = !state.debugVisible;
+                elements.debugOutput.style.display = state.debugVisible ? 'block' : 'none';
+                elements.toggleDebug.textContent = state.debugVisible ? 'Hide Details' : 'Show Details';
+            });
         }
 
-        // Application code after FFmpeg loads
-        function startApplication() {
-            updateStatus("Application ready!");
-            // Your application code here
+        // File handling
+        function handleFileSelect(e) {
+            const file = e.target.files[0];
+            if (file) processFile(file);
         }
 
-        // Start the process
+        function handleDrop(e) {
+            const file = e.dataTransfer.files[0];
+            if (file) processFile(file);
+        }
+
+        function processFile(file) {
+            if (!file.type.startsWith('video/')) {
+                showStatus('Please select a video file', 'error');
+                return;
+            }
+
+            if (file.size > 100 * 1024 * 1024) {
+                showStatus('File size exceeds 100MB. For better performance, use smaller files.', 'error');
+                return;
+            }
+
+            state.selectedFile = file;
+            elements.fileName.textContent = file.name;
+            elements.fileSize.textContent = formatFileSize(file.size);
+            elements.fileType.textContent = file.type || 'Unknown';
+            elements.fileInfo.style.display = 'block';
+            
+            showStatus('File ready for conversion', 'info');
+        }
+
+        // Format file size
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        // Conversion
+        async function convertVideo() {
+            if (!state.selectedFile || !state.ffmpeg) return;
+
+            // Reset UI
+            elements.resultArea.style.display = 'none';
+            elements.progressContainer.style.display = 'block';
+            elements.progressFill.style.width = '0%';
+            elements.progressText.textContent = 'Starting conversion...';
+            elements.convertBtn.disabled = true;
+            
+            try {
+                // Write file to memory
+                const inputName = 'input.' + state.selectedFile.name.split('.').pop();
+                const { fetchFile } = FFmpeg;
+                state.ffmpeg.FS('writeFile', inputName, await fetchFile(state.selectedFile));
+                
+                // Set progress reporting
+                state.ffmpeg.setProgress(({ ratio }) => {
+                    const percent = Math.round(ratio * 100);
+                    elements.progressFill.style.width = `${percent}%`;
+                    elements.progressText.textContent = `Processing: ${percent}%`;
+                });
+                
+                // Get conversion parameters
+                const format = elements.formatSelect.value;
+                const quality = elements.qualitySelect.value;
+                const outputName = `output.${format}`;
+                
+                // Set conversion arguments
+                let args = ['-i', inputName];
+                
+                if (format === 'mp4') {
+                    args.push('-c:v', 'libx264');
+                    args.push('-preset', 'medium');
+                    
+                    if (quality === 'high') args.push('-crf', '18');
+                    else if (quality === 'medium') args.push('-crf', '23');
+                    else args.push('-crf', '28');
+                    
+                    args.push('-c:a', 'aac');
+                } 
+                else if (format === 'webm') {
+                    args.push('-c:v', 'libvpx-vp9');
+                    
+                    if (quality === 'high') args.push('-b:v', '2M', '-crf', '15');
+                    else if (quality === 'medium') args.push('-b:v', '1M', '-crf', '25');
+                    else args.push('-b:v', '0.5M', '-crf', '35');
+                    
+                    args.push('-c:a', 'libopus');
+                } 
+                else if (format === 'gif') {
+                    const paletteName = 'palette.png';
+                    args.push('-vf', 'fps=10,scale=640:-1:flags=lanczos,palettegen', paletteName);
+                    
+                    // Execute first pass to generate palette
+                    await state.ffmpeg.run(...args);
+                    
+                    // Second pass to create GIF using palette
+                    args = [
+                        '-i', inputName,
+                        '-i', paletteName,
+                        '-filter_complex', 'fps=10,scale=640:-1:flags=lanczos[x];[x][1:v]paletteuse',
+                        outputName
+                    ];
+                }
+                
+                if (format !== 'gif') {
+                    args.push(outputName);
+                }
+                
+                // Run conversion
+                await state.ffmpeg.run(...args);
+                
+                // Read converted file
+                const data = state.ffmpeg.FS('readFile', outputName);
+                
+                // Create download URL
+                const mimeType = format === 'gif' ? 'image/gif' : `video/${format}`;
+                state.downloadUrl = URL.createObjectURL(new Blob([data.buffer], { type: mimeType }));
+                
+                // Show result
+                elements.resultArea.style.display = 'block';
+                showStatus('Conversion complete!', 'info');
+            } catch (error) {
+                console.error('Conversion error:', error);
+                showStatus(`Conversion failed: ${error.message}`, 'error');
+                elements.progressText.textContent = 'Error occurred';
+                elements.progressFill.style.backgroundColor = '#e74c3c';
+            }
+        }
+
+        // Download result
+        function downloadResult() {
+            if (!state.downloadUrl) return;
+            
+            const a = document.createElement('a');
+            a.href = state.downloadUrl;
+            a.download = `converted.${elements.formatSelect.value}`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            
+            // Clean up
+            setTimeout(() => {
+                URL.revokeObjectURL(state.downloadUrl);
+                state.downloadUrl = null;
+            }, 100);
+        }
+
+        // Helper functions
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        function highlight() {
+            elements.dropArea.style.backgroundColor = 'rgba(74, 157, 247, 0.3)';
+        }
+
+        function unhighlight() {
+            elements.dropArea.style.backgroundColor = '';
+        }
+
+        // Initialize application
+        async function initialize() {
+            showStatus('Initializing video converter...', 'info');
+            setupEventListeners();
+            await loadFFmpeg();
+        }
+
+        // Start the application
         initialize();
     </script>
 </body>
