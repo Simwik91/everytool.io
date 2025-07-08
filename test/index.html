@@ -2,73 +2,86 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Simple FFmpeg Converter</title>
+  <title>FFmpeg WASM Test</title>
 </head>
 <body>
-  <h1>Simple FFmpeg Video Converter</h1>
+  <h1>FFmpeg WASM Video Converter Test</h1>
+  <input type="file" id="uploader" />
+  <button id="convertBtn" disabled>Convert to mp4</button>
+  <pre id="log"></pre>
 
-  <input type="file" id="uploader" accept="video/*" />
-  <select id="outputFormat">
-    <option value="mp4">MP4</option>
-    <option value="webm">WEBM</option>
-    <option value="gif">GIF</option>
-  </select>
-  <button id="convertBtn">Convert</button>
-  <br /><br />
-  <video id="videoOutput" controls style="max-width: 400px;"></video>
-
-  <!-- UMD Script -->
-  <script src="/assets/ffmpeg/ffmpeg.min.js"></script>
+  <script src="https://everytool.io/assets/ffmpeg/ffmpeg.min.js"></script>
   <script>
-    const ffmpeg = FFmpeg.createFFmpeg({
-      log: true,
-      corePath: '/assets/ffmpeg/ffmpeg-core.js',
-    });
-
+    const logEl = document.getElementById('log');
     const uploader = document.getElementById('uploader');
     const convertBtn = document.getElementById('convertBtn');
-    const outputFormatSelect = document.getElementById('outputFormat');
-    const videoOutput = document.getElementById('videoOutput');
 
-    let inputFile = null;
+    function log(msg) {
+      console.log(msg);
+      logEl.textContent += msg + '\n';
+    }
 
-    uploader.addEventListener('change', (e) => {
-      inputFile = e.target.files[0];
-      console.log('Selected file:', inputFile?.name);
+    // Make sure FFmpeg is available
+    if (!window.FFmpeg) {
+      log('FFmpeg object not found!');
+    } else {
+      log('FFmpeg object loaded.');
+    }
+
+    // Create FFmpeg instance with paths set explicitly
+    const ffmpeg = FFmpeg.createFFmpeg({
+      log: true,
+      corePath: 'https://everytool.io/assets/ffmpeg/ffmpeg-core.js', // core js path
+      wasmPath: 'https://everytool.io/assets/ffmpeg/ffmpeg-core.wasm' // core wasm path
     });
 
+    async function loadFFmpeg() {
+      log('Loading FFmpeg core...');
+      try {
+        await ffmpeg.load();
+        log('FFmpeg loaded successfully!');
+        convertBtn.disabled = false;
+      } catch (e) {
+        log('FFmpeg load error: ' + e.message);
+      }
+    }
+
+    loadFFmpeg();
+
     convertBtn.addEventListener('click', async () => {
-      if (!inputFile) {
-        alert('Please select a file.');
+      if (uploader.files.length === 0) {
+        log('No file selected');
         return;
       }
 
-      const outputFormat = outputFormatSelect.value;
-      const inputExt = inputFile.name.split('.').pop();
-      const inputName = 'input.' + inputExt;
-      const outputName = 'output.' + outputFormat;
+      const file = uploader.files[0];
+      log(`Input file: ${file.name}`);
 
+      // Write the uploaded file to FFmpeg FS
       try {
-        console.log('Loading FFmpeg...');
-        await ffmpeg.load();
-        console.log('FFmpeg loaded.');
+        const data = await file.arrayBuffer();
+        ffmpeg.FS('writeFile', file.name, new Uint8Array(data));
+        log('File written to FFmpeg FS');
 
-        const data = await inputFile.arrayBuffer();
-        ffmpeg.FS('writeFile', inputName, new Uint8Array(data));
-        console.log('Input file written to FS.');
+        // Run FFmpeg conversion command - convert input to mp4
+        await ffmpeg.run('-i', file.name, 'output.mp4');
+        log('FFmpeg conversion finished');
 
-        console.log(`Running FFmpeg: -i ${inputName} ${outputName}`);
-        await ffmpeg.run('-i', inputName, outputName);
-        console.log('Conversion complete.');
+        // Read output file from FS
+        const outputData = ffmpeg.FS('readFile', 'output.mp4');
 
-        const outputData = ffmpeg.FS('readFile', outputName);
-        const blob = new Blob([outputData.buffer], {
-          type: outputFormat === 'gif' ? 'image/gif' : 'video/' + outputFormat,
-        });
-        videoOutput.src = URL.createObjectURL(blob);
-        console.log('Output video ready.');
+        // Create a Blob and download link
+        const blob = new Blob([outputData.buffer], { type: 'video/mp4' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'output.mp4';
+        a.textContent = 'Download converted video';
+        document.body.appendChild(a);
+
+        log('Output file ready for download');
       } catch (err) {
-        console.error('Conversion failed:', err);
+        log('Error during conversion: ' + err.message);
       }
     });
   </script>
