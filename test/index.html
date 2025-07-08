@@ -2,29 +2,27 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>FFmpeg Simple Video Converter Test</title>
+  <title>Simple FFmpeg Converter</title>
 </head>
 <body>
-  <h1>FFmpeg Simple Video Converter Test</h1>
+  <h1>Simple FFmpeg Video Converter</h1>
+
   <input type="file" id="uploader" accept="video/*" />
-  <br /><br />
-  <label for="outputFormat">Choose output format:</label>
   <select id="outputFormat">
     <option value="mp4">MP4</option>
     <option value="webm">WEBM</option>
     <option value="gif">GIF</option>
   </select>
-  <br /><br />
   <button id="convertBtn">Convert</button>
   <br /><br />
   <video id="videoOutput" controls style="max-width: 400px;"></video>
 
-  <script type="module">
-    import { FFmpeg } from '/assets/ffmpeg/ffmpeg.min.js'; // corrected path
-
-    const ffmpeg = new FFmpeg({
-      corePath: '/assets/ffmpeg/ffmpeg-core.js' // corrected path
+  <!-- UMD Script -->
+  <script src="/assets/ffmpeg/ffmpeg.min.js"></script>
+  <script>
+    const ffmpeg = FFmpeg.createFFmpeg({
+      log: true,
+      corePath: '/assets/ffmpeg/ffmpeg-core.js',
     });
 
     const uploader = document.getElementById('uploader');
@@ -36,61 +34,41 @@
 
     uploader.addEventListener('change', (e) => {
       inputFile = e.target.files[0];
-      console.log('File selected:', inputFile ? inputFile.name : 'None');
-    });
-
-    ffmpeg.on('log', ({ message }) => {
-      console.log('FFmpeg log:', message);
-    });
-
-    ffmpeg.on('progress', ({ ratio }) => {
-      console.log(`Progress: ${(ratio * 100).toFixed(2)}%`);
+      console.log('Selected file:', inputFile?.name);
     });
 
     convertBtn.addEventListener('click', async () => {
       if (!inputFile) {
-        alert('Please select a video file first.');
+        alert('Please select a file.');
         return;
       }
 
       const outputFormat = outputFormatSelect.value;
-      console.log('Starting conversion to format:', outputFormat);
+      const inputExt = inputFile.name.split('.').pop();
+      const inputName = 'input.' + inputExt;
+      const outputName = 'output.' + outputFormat;
 
       try {
-        console.log('Loading FFmpeg core...');
+        console.log('Loading FFmpeg...');
         await ffmpeg.load();
-        console.log('FFmpeg loaded successfully.');
-
-        const inputName = 'input.' + inputFile.name.split('.').pop();
-        const outputName = 'output.' + outputFormat;
+        console.log('FFmpeg loaded.');
 
         const data = await inputFile.arrayBuffer();
-        await ffmpeg.writeFile(inputName, new Uint8Array(data));
+        ffmpeg.FS('writeFile', inputName, new Uint8Array(data));
         console.log('Input file written to FS.');
 
-        const args = ['-i', inputName];
-        if (outputFormat === 'gif') {
-          args.push('-t', '5');
-        }
-        args.push(outputName);
+        console.log(`Running FFmpeg: -i ${inputName} ${outputName}`);
+        await ffmpeg.run('-i', inputName, outputName);
+        console.log('Conversion complete.');
 
-        console.log('Running FFmpeg with args:', args);
-        await ffmpeg.exec(args);
-        console.log('Conversion completed.');
-
-        const output = await ffmpeg.readFile(outputName);
-        const blob = new Blob([output.buffer], {
-          type: outputFormat === 'gif' ? 'image/gif' : 'video/' + outputFormat
+        const outputData = ffmpeg.FS('readFile', outputName);
+        const blob = new Blob([outputData.buffer], {
+          type: outputFormat === 'gif' ? 'image/gif' : 'video/' + outputFormat,
         });
-
-        const url = URL.createObjectURL(blob);
-        videoOutput.src = url;
-
-        console.log('Conversion successful! Output video set.');
-
+        videoOutput.src = URL.createObjectURL(blob);
+        console.log('Output video ready.');
       } catch (err) {
         console.error('Conversion failed:', err);
-        alert('Something went wrong. Check the console.');
       }
     });
   </script>
