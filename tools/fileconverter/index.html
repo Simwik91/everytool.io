@@ -10,7 +10,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4.0.3/dist/tesseract.min.js"></script>
     <style>
         :root {
@@ -1271,6 +1270,69 @@
             color: #e74c3c;
             border-left: 4px solid #e74c3c;
         }
+
+        /* Progress modal */
+        .progress-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            width: 90%;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .progress-modal-header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+        
+        .progress-modal-bar {
+            width: 100%;
+            height: 12px;
+            background: #e9ecef;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        
+        .progress-modal-fill {
+            height: 100%;
+            width: 0;
+            background: linear-gradient(90deg, #4361ee, #7209b7);
+            border-radius: 6px;
+            transition: width 0.4s ease;
+        }
+        
+        .progress-modal-message {
+            margin: 1rem 0;
+            font-size: 1rem;
+            text-align: center;
+        }
+        
+        .progress-modal-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .progress-modal-btn:hover {
+            background: #c0392b;
+        }
     </style>
 </head>
 <body>
@@ -1346,7 +1408,7 @@
     <div class="container">
         <div class="tool-header">
             <h1>Advanced File Converter</h1>
-            <p class="tagline">Convert images, documents, audio, video and more</p>
+            <p class="tagline">Convert images, audio, and video files quickly and securely</p>
             <div class="privacy-note">
                 <i class="fas fa-shield-alt"></i> All conversions happen locally in your browser - your files never leave your device!
             </div>
@@ -1362,22 +1424,22 @@
                 <div class="feature-card">
                     <i class="fas fa-file-image"></i>
                     <h3>Image Conversion</h3>
-                    <p>Convert between JPG, PNG, GIF, WEBP, SVG, TIFF, BMP, and RAW formats</p>
-                </div>
-                <div class="feature-card">
-                    <i class="fas fa-file-alt"></i>
-                    <h3>Document Tools</h3>
-                    <p>Convert PDF, DOCX, XLSX, PPTX, TXT, RTF, HTML and other document formats</p>
+                    <p>Convert between JPG, PNG, GIF, WEBP, and other popular image formats</p>
                 </div>
                 <div class="feature-card">
                     <i class="fas fa-file-audio"></i>
-                    <h3>Audio Conversion</h3>
-                    <p>Convert MP3, WAV, OGG, FLAC, AAC, and other audio formats with quality control</p>
+                    <h3>Audio Tools</h3>
+                    <p>Convert MP3, WAV, OGG, FLAC, and other audio formats with quality control</p>
                 </div>
                 <div class="feature-card">
                     <i class="fas fa-file-video"></i>
-                    <h3>Video Tools</h3>
+                    <h3>Video Conversion</h3>
                     <p>Convert MP4, AVI, MOV, MKV, WEBM, and other video formats with trimming</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-bolt"></i>
+                    <h3>Fast Processing</h3>
+                    <p>Browser-based processing ensures quick conversions without server delays</p>
                 </div>
             </div>
         </div>
@@ -1385,7 +1447,7 @@
         <!-- Conversion Guide Section -->
         <div class="guide-section">
             <h2><i class="fas fa-book"></i> File Conversion Guide</h2>
-            <p>Follow these steps to convert your files:</p>
+            <p>Follow these simple steps to convert your files:</p>
             <div class="guide-grid">
                 <div class="guide-item">
                     <h3><i class="fas fa-upload"></i> Upload Files</h3>
@@ -1411,17 +1473,11 @@
                 <div class="tab active" data-tab="image">
                     <i class="fas fa-image"></i> Image
                 </div>
-                <div class="tab" data-tab="document">
-                    <i class="fas fa-file-alt"></i> Document
-                </div>
                 <div class="tab" data-tab="audio">
                     <i class="fas fa-music"></i> Audio
                 </div>
                 <div class="tab" data-tab="video">
                     <i class="fas fa-video"></i> Video
-                </div>
-                <div class="tab" data-tab="ocr">
-                    <i class="fas fa-text-height"></i> OCR
                 </div>
             </div>
 
@@ -1434,17 +1490,15 @@
                     <i class="fas fa-cloud-upload-alt"></i>
                     <h3>Upload Image Files</h3>
                     <p>Drag & drop your files here or click to browse</p>
-                    <p class="file-upload-hint">Supports JPG, PNG, GIF, WEBP, SVG, TIFF, BMP, RAW</p>
+                    <p class="file-upload-hint">Supports JPG, PNG, GIF, WEBP, TIFF, BMP</p>
                     <input type="file" id="imageFileUpload" accept="image/*" multiple>
                     <div class="supported-formats">
                         <span class="format-tag">JPG</span>
                         <span class="format-tag">PNG</span>
                         <span class="format-tag">GIF</span>
                         <span class="format-tag">WEBP</span>
-                        <span class="format-tag">SVG</span>
                         <span class="format-tag">TIFF</span>
                         <span class="format-tag">BMP</span>
-                        <span class="format-tag">RAW</span>
                     </div>
                 </div>
                 
@@ -1496,7 +1550,6 @@
                             <option value="webp">WEBP</option>
                             <option value="gif">GIF</option>
                             <option value="bmp">BMP</option>
-                            <option value="tiff">TIFF</option>
                         </select>
                         
                         <label for="imageQuality">Quality:</label>
@@ -1543,16 +1596,6 @@
                     </button>
                 </div>
                 
-                <div class="progress-container" id="imageProgressContainer" style="display: none;">
-                    <div class="progress-header">
-                        <span>Processing...</span>
-                        <span class="time-remaining" id="imageTimeRemaining">Calculating...</span>
-                    </div>
-                    <div class="progress-bar-container">
-                        <div class="progress-bar" id="imageProgressBar"></div>
-                    </div>
-                </div>
-                
                 <div class="status-message status-processing" id="imageProcessing" style="display: none;">
                     <i class="fas fa-spinner fa-spin"></i> Processing your image...
                 </div>
@@ -1577,92 +1620,6 @@
                     </div>
                     <a href="#" class="download-btn" id="downloadImageBtn">
                         <i class="fas fa-download"></i> Download Converted Image
-                    </a>
-                </div>
-            </div>
-
-            <!-- Document Converter -->
-            <div class="tab-content" id="document-tab">
-                <h2><i class="fas fa-file-alt"></i> Document Converter</h2>
-                <p>Convert between document formats with advanced options</p>
-                
-                <div class="file-upload-area" id="docUploadArea">
-                    <i class="fas fa-cloud-upload-alt"></i>
-                    <h3>Upload Document</h3>
-                    <p>Drag & drop your file here or click to browse</p>
-                    <p class="file-upload-hint">Supports PDF, DOCX, XLSX, PPTX, TXT, RTF, HTML</p>
-                    <input type="file" id="docFileUpload" accept=".pdf,.docx,.xlsx,.pptx,.txt,.rtf,.html" multiple>
-                    <div class="supported-formats">
-                        <span class="format-tag">PDF</span>
-                        <span class="format-tag">DOCX</span>
-                        <span class="format-tag">XLSX</span>
-                        <span class="format-tag">PPTX</span>
-                        <span class="format-tag">TXT</span>
-                        <span class="format-tag">RTF</span>
-                        <span class="format-tag">HTML</span>
-                    </div>
-                </div>
-                
-                <div class="file-list" id="docFileList">
-                    <!-- Files will be listed here -->
-                </div>
-                
-                <div class="tool-row">
-                    <div class="tool-col">
-                        <label for="docTo">Convert To:</label>
-                        <select id="docTo">
-                            <option value="pdf">PDF</option>
-                            <option value="docx">DOCX</option>
-                            <option value="xlsx">XLSX</option>
-                            <option value="txt">TXT</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <div class="tool-row" id="pdfPagesRow">
-                    <div class="tool-col">
-                        <label for="pdfPages">Pages to Convert (PDF only):</label>
-                        <input type="text" id="pdfPages" placeholder="All pages (e.g. 1-3,5)">
-                    </div>
-                </div>
-                
-                <div class="btn-group">
-                    <button id="convertDocBtn">
-                        <i class="fas fa-exchange-alt"></i> Convert Document
-                    </button>
-                    <button id="batchConvertDocBtn">
-                        <i class="fas fa-layer-group"></i> Batch Convert
-                    </button>
-                </div>
-                
-                <div class="progress-container" id="docProgressContainer" style="display: none;">
-                    <div class="progress-header">
-                        <span>Processing...</span>
-                        <span class="time-remaining" id="docTimeRemaining">Calculating...</span>
-                    </div>
-                    <div class="progress-bar-container">
-                        <div class="progress-bar" id="docProgressBar"></div>
-                    </div>
-                </div>
-                
-                <div class="status-message status-processing" id="docProcessing" style="display: none;">
-                    <i class="fas fa-spinner fa-spin"></i> Processing your document...
-                </div>
-                
-                <div class="status-message status-completed" id="docSuccess" style="display: none;">
-                    <i class="fas fa-check-circle"></i> Document converted successfully!
-                </div>
-                
-                <div class="status-message status-error" id="docError" style="display: none;">
-                    <i class="fas fa-exclamation-circle"></i> <span id="docErrorText">Conversion failed</span>
-                </div>
-                
-                <div class="preview-container" id="docPreview">
-                    <div class="preview-document" id="docPreviewContent">
-                        <i class="fas fa-file-alt"></i> Converted content will appear here
-                    </div>
-                    <a href="#" class="download-btn" id="downloadDocBtn">
-                        <i class="fas fa-download"></i> Download Converted Document
                     </a>
                 </div>
             </div>
@@ -1737,14 +1694,16 @@
                     <i class="fas fa-exchange-alt"></i> Convert Audio
                 </button>
                 
-                <div class="progress-container" id="audioProgressContainer" style="display: none;">
-                    <div class="progress-header">
-                        <span>Processing...</span>
-                        <span class="time-remaining" id="audioTimeRemaining">Calculating...</span>
+                <div id="audioProgressContainer" class="progress-modal" style="display: none;">
+                    <div class="progress-modal-header">
+                        <span>Conversion Progress</span>
+                        <span id="audioProgressPercent">0%</span>
                     </div>
-                    <div class="progress-bar-container">
-                        <div class="progress-bar" id="audioProgressBar"></div>
+                    <div class="progress-modal-bar">
+                        <div id="audioProgressBar" class="progress-modal-fill"></div>
                     </div>
+                    <p id="audioProgressMessage" class="progress-modal-message">Initializing conversion...</p>
+                    <button id="audioCancelBtn" class="progress-modal-btn">Cancel Conversion</button>
                 </div>
                 
                 <div class="status-message status-processing" id="audioProcessing" style="display: none;">
@@ -1847,14 +1806,16 @@
                     <i class="fas fa-exchange-alt"></i> Convert Video
                 </button>
                 
-                <div class="progress-container" id="videoProgressContainer" style="display: none;">
-                    <div class="progress-header">
-                        <span>Processing...</span>
-                        <span class="time-remaining" id="videoTimeRemaining">Calculating...</span>
+                <div id="videoProgressContainer" class="progress-modal" style="display: none;">
+                    <div class="progress-modal-header">
+                        <span>Conversion Progress</span>
+                        <span id="videoProgressPercent">0%</span>
                     </div>
-                    <div class="progress-bar-container">
-                        <div class="progress-bar" id="videoProgressBar"></div>
+                    <div class="progress-modal-bar">
+                        <div id="videoProgressBar" class="progress-modal-fill"></div>
                     </div>
+                    <p id="videoProgressMessage" class="progress-modal-message">Initializing conversion...</p>
+                    <button id="videoCancelBtn" class="progress-modal-btn">Cancel Conversion</button>
                 </div>
                 
                 <div class="status-message status-processing" id="videoProcessing" style="display: none;">
@@ -1876,76 +1837,6 @@
                     </a>
                 </div>
             </div>
-
-            <!-- OCR Tool -->
-            <div class="tab-content" id="ocr-tab">
-                <h2><i class="fas fa-text-height"></i> OCR Tool</h2>
-                <p>Extract text from images or scanned PDFs using optical character recognition</p>
-                
-                <div class="file-upload-area" id="ocrUploadArea">
-                    <i class="fas fa-cloud-upload-alt"></i>
-                    <h3>Upload Image or PDF</h3>
-                    <p>Drag & drop your file here or click to browse</p>
-                    <p class="file-upload-hint">Supports JPG, PNG, PDF</p>
-                    <input type="file" id="ocrFileUpload" accept="image/*,.pdf" multiple>
-                    <div class="supported-formats">
-                        <span class="format-tag">JPG</span>
-                        <span class="format-tag">PNG</span>
-                        <span class="format-tag">PDF</span>
-                    </div>
-                </div>
-                
-                <div class="file-list" id="ocrFileList">
-                    <!-- Files will be listed here -->
-                </div>
-                
-                <h3><i class="fas fa-globe"></i> Language Selection</h3>
-                <div class="ocr-options">
-                    <div class="ocr-language active" data-lang="eng">English</div>
-                    <div class="ocr-language" data-lang="spa">Spanish</div>
-                    <div class="ocr-language" data-lang="fra">French</div>
-                    <div class="ocr-language" data-lang="deu">German</div>
-                    <div class="ocr-language" data-lang="ita">Italian</div>
-                    <div class="ocr-language" data-lang="por">Portuguese</div>
-                    <div class="ocr-language" data-lang="rus">Russian</div>
-                    <div class="ocr-language" data-lang="chi_sim">Chinese</div>
-                </div>
-                
-                <button id="startOcrBtn">
-                    <i class="fas fa-search"></i> Start OCR Processing
-                </button>
-                
-                <div class="progress-container" id="ocrProgressContainer" style="display: none;">
-                    <div class="progress-header">
-                        <span>Processing...</span>
-                        <span class="time-remaining" id="ocrTimeRemaining">Calculating...</span>
-                    </div>
-                    <div class="progress-bar-container">
-                        <div class="progress-bar" id="ocrProgressBar"></div>
-                    </div>
-                </div>
-                
-                <div class="status-message status-processing" id="ocrProcessing" style="display: none;">
-                    <i class="fas fa-spinner fa-spin"></i> Extracting text from your file...
-                </div>
-                
-                <div class="status-message status-completed" id="ocrSuccess" style="display: none;">
-                    <i class="fas fa-check-circle"></i> Text extracted successfully!
-                </div>
-                
-                <div class="status-message status-error" id="ocrError" style="display: none;">
-                    <i class="fas fa-exclamation-circle"></i> <span id="ocrErrorText">OCR processing failed</span>
-                </div>
-                
-                <div class="preview-container" id="ocrPreview">
-                    <div class="preview-document" id="ocrPreviewContent">
-                        <i class="fas fa-file-alt"></i> Extracted text will appear here
-                    </div>
-                    <a href="#" class="download-btn" id="downloadOcrBtn">
-                        <i class="fas fa-download"></i> Download Extracted Text
-                    </a>
-                </div>
-            </div>
         </div>
 
         <div class="uses-section">
@@ -1956,11 +1847,6 @@
                     <i class="fas fa-camera"></i>
                     <h3>Photography</h3>
                     <p>Convert RAW images to web-friendly formats</p>
-                </div>
-                <div class="use-card">
-                    <i class="fas fa-file-contract"></i>
-                    <h3>Business Documents</h3>
-                    <p>Convert contracts to PDF for signatures</p>
                 </div>
                 <div class="use-card">
                     <i class="fas fa-music"></i>
@@ -1981,11 +1867,6 @@
                     <i class="fas fa-archive"></i>
                     <h3>File Sharing</h3>
                     <p>Compress files for faster sharing</p>
-                </div>
-                <div class="use-card">
-                    <i class="fas fa-book"></i>
-                    <h3>Ebook Publishing</h3>
-                    <p>Convert manuscripts to EPUB/MOBI formats</p>
                 </div>
                 <div class="use-card">
                     <i class="fas fa-share-alt"></i>
@@ -2011,10 +1892,16 @@
         </div>
     </div>
 
-    <script>
+    <script type="module">
+        import { createFFmpeg, fetchFile } from 'https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.10.0/+esm';
+
         // Constants
         const MAX_FILE_SIZE = 500 * 1024 * 1024; // 500MB
-        
+
+        // FFmpeg instance
+        let ffmpeg = null;
+        let conversionCancelled = false;
+
         // Mobile Menu Functionality
         function initMobileMenu() {
             const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
@@ -2062,33 +1949,6 @@
             });
         }
 
-        // Progress Simulation
-        function simulateProgress(progressBarId, timeRemainingId, duration = 3000) {
-            const progressBar = document.getElementById(progressBarId);
-            const timeRemaining = document.getElementById(timeRemainingId);
-            let progress = 0;
-            const startTime = Date.now();
-            
-            progressBar.style.width = '0%';
-            
-            return new Promise(resolve => {
-                const interval = setInterval(() => {
-                    const elapsed = Date.now() - startTime;
-                    progress = Math.min(100, (elapsed / duration) * 100);
-                    progressBar.style.width = `${progress}%`;
-                    
-                    // Calculate time remaining
-                    const remaining = Math.max(0, (duration - elapsed) / 1000);
-                    timeRemaining.textContent = `${remaining.toFixed(1)} seconds remaining`;
-                    
-                    if (progress >= 100) {
-                        clearInterval(interval);
-                        resolve();
-                    }
-                }, 50);
-            });
-        }
-        
         // Format file size
         function formatFileSize(bytes) {
             if (bytes === 0) return '0 Bytes';
@@ -2097,7 +1957,7 @@
             const i = Math.floor(Math.log(bytes) / Math.log(k));
             return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
         }
-        
+
         // Validate file size
         function validateFileSize(file, maxSize = MAX_FILE_SIZE) {
             if (file.size > maxSize) {
@@ -2108,7 +1968,23 @@
             }
             return { valid: true };
         }
-        
+
+        // Initialize FFmpeg instance
+        async function initFFmpeg() {
+            if (!ffmpeg) {
+                ffmpeg = createFFmpeg({ 
+                    log: true,
+                    corePath: 'https://unpkg.com/@ffmpeg/core@0.10.0/dist/ffmpeg-core.js'
+                });
+            }
+            
+            if (!ffmpeg.isLoaded()) {
+                document.getElementById('videoProgressMessage').textContent = 'Loading FFmpeg engine...';
+                document.getElementById('audioProgressMessage').textContent = 'Loading FFmpeg engine...';
+                await ffmpeg.load();
+            }
+        }
+
         // Image Processing Functions
         function initImageConverter() {
             const canvas = document.getElementById('imageCanvas');
@@ -2126,9 +2002,6 @@
             const imagePreview = document.getElementById('imagePreview');
             const imageUpload = document.getElementById('imageFileUpload');
             const imageThumbnails = document.getElementById('imageThumbnails');
-            const imageProgressContainer = document.getElementById('imageProgressContainer');
-            const imageProgressBar = document.getElementById('imageProgressBar');
-            const imageTimeRemaining = document.getElementById('imageTimeRemaining');
             const imageError = document.getElementById('imageError');
             const imageErrorText = document.getElementById('imageErrorText');
             const imageSuccess = document.getElementById('imageSuccess');
@@ -2417,13 +2290,9 @@
                     }
                     
                     // Show processing UI
-                    imageProgressContainer.style.display = 'block';
                     imageProcessing.style.display = 'block';
                     imageError.style.display = 'none';
                     imageSuccess.style.display = 'none';
-                    
-                    // Show progress
-                    await simulateProgress('imageProgressBar', 'imageTimeRemaining');
                     
                     const format = imageFormatSelect.value;
                     const quality = parseInt(qualitySlider.value);
@@ -2440,12 +2309,10 @@
                     // Show success
                     imageProcessing.style.display = 'none';
                     imageSuccess.style.display = 'block';
-                    imageProgressContainer.style.display = 'none';
                 } catch (error) {
                     imageErrorText.textContent = `Conversion failed: ${error.message || 'Unknown error'}`;
                     imageError.style.display = 'block';
                     imageProcessing.style.display = 'none';
-                    imageProgressContainer.style.display = 'none';
                 }
             });
             
@@ -2455,13 +2322,9 @@
                 
                 try {
                     // Show processing UI
-                    imageProgressContainer.style.display = 'block';
                     imageProcessing.style.display = 'block';
                     imageError.style.display = 'none';
                     imageSuccess.style.display = 'none';
-                    
-                    // Show progress
-                    await simulateProgress('imageProgressBar', 'imageTimeRemaining', 5000);
                     
                     const zip = new JSZip();
                     const format = imageFormatSelect.value;
@@ -2490,12 +2353,10 @@
                     // Show success
                     imageProcessing.style.display = 'none';
                     imageSuccess.style.display = 'block';
-                    imageProgressContainer.style.display = 'none';
                 } catch (error) {
                     imageErrorText.textContent = `Batch conversion failed: ${error.message || 'Unknown error'}`;
                     imageError.style.display = 'block';
                     imageProcessing.style.display = 'none';
-                    imageProgressContainer.style.display = 'none';
                 }
             });
             
@@ -2574,14 +2435,6 @@
                 e.stopPropagation();
             }
             
-            ['dragenter', 'dragover'].forEach(eventName => {
-                imageUploadArea.addEventListener(eventName, highlight, false);
-            });
-            
-            ['dragleave', 'drop'].forEach(eventName => {
-                imageUploadArea.addEventListener(eventName, unhighlight, false);
-            });
-            
             function highlight() {
                 imageUploadArea.classList.add('drag-over');
             }
@@ -2589,6 +2442,14 @@
             function unhighlight() {
                 imageUploadArea.classList.remove('drag-over');
             }
+            
+            ['dragenter', 'dragover'].forEach(eventName => {
+                imageUploadArea.addEventListener(eventName, highlight, false);
+            });
+            
+            ['dragleave', 'drop'].forEach(eventName => {
+                imageUploadArea.addEventListener(eventName, unhighlight, false);
+            });
             
             imageUploadArea.addEventListener('drop', handleDrop, false);
             
@@ -2601,65 +2462,425 @@
                 imageUpload.dispatchEvent(event);
             }
         }
-        
-        // Document converter with automatic file type detection
-        function initDocumentConverter() {
-            const docFileUpload = document.getElementById('docFileUpload');
-            const docFileList = document.getElementById('docFileList');
-            
-            docFileUpload.addEventListener('change', function() {
-                if (!this.files.length) return;
-                
-                const file = this.files[0];
-                const extension = file.name.split('.').pop().toLowerCase();
-                const formatMap = {
-                    'pdf': 'PDF',
-                    'docx': 'DOCX',
-                    'xlsx': 'XLSX',
-                    'pptx': 'PPTX',
-                    'txt': 'TXT',
-                    'rtf': 'RTF',
-                    'html': 'HTML'
-                };
-                
-                docFileList.innerHTML = '';
-                
+
+        // Audio Converter
+        function initAudioConverter() {
+            const audioUpload = document.getElementById('audioFileUpload');
+            const audioFileList = document.getElementById('audioFileList');
+            const convertAudioBtn = document.getElementById('convertAudioBtn');
+            const audioProgressContainer = document.getElementById('audioProgressContainer');
+            const audioProgressBar = document.getElementById('audioProgressBar');
+            const audioProgressPercent = document.getElementById('audioProgressPercent');
+            const audioProgressMessage = document.getElementById('audioProgressMessage');
+            const audioCancelBtn = document.getElementById('audioCancelBtn');
+            const audioProcessing = document.getElementById('audioProcessing');
+            const audioSuccess = document.getElementById('audioSuccess');
+            const audioError = document.getElementById('audioError');
+            const audioErrorText = document.getElementById('audioErrorText');
+            const audioPreview = document.getElementById('audioPreview');
+            const audioPlayer = document.getElementById('audioPlayer');
+            const downloadAudioBtn = document.getElementById('downloadAudioBtn');
+
+            audioUpload.addEventListener('change', () => {
+                if (!audioUpload.files.length) return;
+
+                audioFileList.innerHTML = '';
+                const file = audioUpload.files[0];
+                const validation = validateFileSize(file);
+                if (!validation.valid) {
+                    audioErrorText.textContent = validation.message;
+                    audioError.style.display = 'block';
+                    return;
+                }
+
                 const fileItem = document.createElement('div');
                 fileItem.className = 'file-item';
-                
-                if (formatMap[extension]) {
-                    fileItem.innerHTML = `
-                        <div class="file-info">
-                            <i class="fas fa-file-alt file-icon"></i>
-                            <div class="file-details">
-                                <div class="file-name">${file.name}</div>
-                                <div class="file-size">${formatFileSize(file.size)}</div>
-                            </div>
+                fileItem.innerHTML = `
+                    <div class="file-info">
+                        <i class="fas fa-file-audio file-icon"></i>
+                        <div class="file-details">
+                            <div class="file-name">${file.name}</div>
+                            <div class="file-size">${formatFileSize(file.size)}</div>
                         </div>
-                        <div class="file-status status-queued">Detected: ${formatMap[extension]}</div>
-                    `;
+                    </div>
+                    <div class="file-status status-queued">Ready for conversion</div>
+                `;
+                audioFileList.appendChild(fileItem);
+
+                // Preload FFmpeg
+                initFFmpeg().catch(error => {
+                    console.error('FFmpeg initialization error:', error);
+                    audioErrorText.textContent = 'Failed to initialize audio engine. Please refresh the page.';
+                    audioError.style.display = 'block';
+                });
+            });
+
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                document.getElementById('audioUploadArea').addEventListener(eventName, preventDefaults, false);
+            });
+
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            function highlight() {
+                document.getElementById('audioUploadArea').classList.add('drag-over');
+            }
+
+            function unhighlight() {
+                document.getElementById('audioUploadArea').classList.remove('drag-over');
+            }
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                document.getElementById('audioUploadArea').addEventListener(eventName, highlight, false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                document.getElementById('audioUploadArea').addEventListener(eventName, unhighlight, false);
+            });
+
+            document.getElementById('audioUploadArea').addEventListener('drop', (e) => {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                if (files.length && files[0].type.startsWith('audio/')) {
+                    audioUpload.files = files;
+                    const event = new Event('change', { bubbles: true });
+                    audioUpload.dispatchEvent(event);
                 } else {
-                    fileItem.innerHTML = `
-                        <div class="file-info">
-                            <i class="fas fa-file-alt file-icon"></i>
-                            <div class="file-details">
-                                <div class="file-name">${file.name}</div>
-                                <div class="file-size">${formatFileSize(file.size)}</div>
-                            </div>
-                        </div>
-                        <div class="file-status status-error">Unsupported format</div>
-                    `;
+                    audioErrorText.textContent = 'Please drop a valid audio file (MP3, WAV, OGG, FLAC, AAC).';
+                    audioError.style.display = 'block';
                 }
-                
-                docFileList.appendChild(fileItem);
+            });
+
+            convertAudioBtn.addEventListener('click', async () => {
+                if (!audioUpload.files.length) return;
+
+                audioProcessing.style.display = 'block';
+                audioError.style.display = 'none';
+                audioSuccess.style.display = 'none';
+                audioProgressContainer.style.display = 'flex';
+                conversionCancelled = false;
+
+                try {
+                    const file = audioUpload.files[0];
+                    const validation = validateFileSize(file);
+                    if (!validation.valid) {
+                        audioErrorText.textContent = validation.message;
+                        audioError.style.display = 'block';
+                        audioProgressContainer.style.display = 'none';
+                        return;
+                    }
+
+                    await initFFmpeg();
+
+                    const format = document.getElementById('audioFormat').value;
+                    const bitrate = document.getElementById('audioBitrate').value;
+                    const sampleRate = document.getElementById('audioSampleRate').value;
+
+                    const inputExt = file.name.split('.').pop() || 'mp3';
+                    const inputFilename = `input.${inputExt}`;
+                    const outputFilename = `output.${format}`;
+                    ffmpeg.FS('writeFile', inputFilename, await fetchFile(file));
+
+                    const args = ['-i', inputFilename];
+                    if (format === 'mp3') {
+                        args.push('-c:a', 'libmp3lame', '-b:a', `${bitrate}k');
+                    } else if (format === 'wav') {
+                        args.push('-c:a', 'pcm_s16le');
+                    } else if (format === 'ogg') {
+                        args.push('-c:a', 'libvorbis', '-b:a', `${bitrate}k');
+                    }
+                    if (sampleRate !== '44100') {
+                        args.push('-ar', sampleRate);
+                    }
+                    args.push(outputFilename);
+
+                    ffmpeg.setProgress(({ ratio }) => {
+                        if (conversionCancelled) return;
+                        const progressPercent = Math.round(ratio * 100);
+                        audioProgressBar.style.width = `${progressPercent}%`;
+                        audioProgressPercent.textContent = `${progressPercent}%`;
+                        audioProgressMessage.textContent = `Processing... ${progressPercent}%`;
+                    });
+
+                    await ffmpeg.run(...args);
+
+                    if (conversionCancelled) {
+                        throw new Error('Conversion cancelled by user');
+                    }
+
+                    const data = ffmpeg.FS('readFile', outputFilename);
+                    const mimeType = `audio/${format === 'ogg' ? 'ogg' : format}`;
+                    const audioUrl = URL.createObjectURL(new Blob([data.buffer], { type: mimeType }));
+                    audioPlayer.src = audioUrl;
+                    downloadAudioBtn.href = audioUrl;
+                    downloadAudioBtn.download = `converted.${format}`;
+                    audioPreview.style.display = 'block';
+
+                    ffmpeg.FS('unlink', inputFilename);
+                    ffmpeg.FS('unlink', outputFilename);
+
+                    audioProcessing.style.display = 'none';
+                    audioSuccess.style.display = 'block';
+                    audioProgressContainer.style.display = 'none';
+                } catch (error) {
+                    console.error('Audio conversion error:', error);
+                    audioProgressContainer.style.display = 'none';
+                    audioProcessing.style.display = 'none';
+                    if (conversionCancelled) {
+                        audioErrorText.textContent = 'Conversion cancelled by user.';
+                    } else {
+                        audioErrorText.textContent = `Conversion failed: ${error.message || 'Unknown error'}`;
+                    }
+                    audioError.style.display = 'block';
+                }
+            });
+
+            audioCancelBtn.addEventListener('click', () => {
+                conversionCancelled = true;
+                if (ffmpeg) {
+                    ffmpeg.terminate();
+                    ffmpeg = null;
+                }
+                audioProgressContainer.style.display = 'none';
+                audioProcessing.style.display = 'none';
+                audioErrorText.textContent = 'Conversion cancelled by user.';
+                audioError.style.display = 'block';
             });
         }
-        
+
+        // Video Converter
+        function initVideoConverter() {
+            const videoUpload = document.getElementById('videoFileUpload');
+            const videoFileList = document.getElementById('videoFileList');
+            const convertVideoBtn = document.getElementById('convertVideoBtn');
+            const videoProgressContainer = document.getElementById('videoProgressContainer');
+            const videoProgressBar = document.getElementById('videoProgressBar');
+            const videoProgressPercent = document.getElementById('videoProgressPercent');
+            const videoProgressMessage = document.getElementById('videoProgressMessage');
+            const videoCancelBtn = document.getElementById('videoCancelBtn');
+            const videoProcessing = document.getElementById('videoProcessing');
+            const videoSuccess = document.getElementById('videoSuccess');
+            const videoError = document.getElementById('videoError');
+            const videoErrorText = document.getElementById('videoErrorText');
+            const videoPreview = document.getElementById('videoPreview');
+            const videoPlayer = document.getElementById('videoPlayer');
+            const downloadVideoBtn = document.getElementById('downloadVideoBtn');
+
+            videoUpload.addEventListener('change', () => {
+                if (!videoUpload.files.length) return;
+
+                videoFileList.innerHTML = '';
+                const file = videoUpload.files[0];
+                const validation = validateFileSize(file);
+                if (!validation.valid) {
+                    videoErrorText.textContent = validation.message;
+                    videoError.style.display = 'block';
+                    return;
+                }
+
+                const fileItem = document.createElement('div');
+                fileItem.className = 'file-item';
+                fileItem.innerHTML = `
+                    <div class="file-info">
+                        <i class="fas fa-file-video file-icon"></i>
+                        <div class="file-details">
+                            <div class="file-name">${file.name}</div>
+                            <div class="file-size">${formatFileSize(file.size)}</div>
+                        </div>
+                    </div>
+                    <div class="file-status status-queued">Ready for conversion</div>
+                `;
+                videoFileList.appendChild(fileItem);
+
+                // Preload FFmpeg
+                initFFmpeg().catch(error => {
+                    console.error('FFmpeg initialization error:', error);
+                    videoErrorText.textContent = 'Failed to initialize video engine. Please refresh the page.';
+                    videoError.style.display = 'block';
+                });
+            });
+
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                document.getElementById('videoUploadArea').addEventListener(eventName, preventDefaults, false);
+            });
+
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            function highlight() {
+                document.getElementById('videoUploadArea').classList.add('drag-over');
+            }
+
+            function unhighlight() {
+                document.getElementById('videoUploadArea').classList.remove('drag-over');
+            }
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                document.getElementById('videoUploadArea').addEventListener(eventName, highlight, false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                document.getElementById('videoUploadArea').addEventListener(eventName, unhighlight, false);
+            });
+
+            document.getElementById('videoUploadArea').addEventListener('drop', (e) => {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                if (files.length && files[0].type.startsWith('video/')) {
+                    videoUpload.files = files;
+                    const event = new Event('change', { bubbles: true });
+                    videoUpload.dispatchEvent(event);
+                } else {
+                    videoErrorText.textContent = 'Please drop a valid video file (MP4, AVI, MOV, MKV, WEBM).';
+                    videoError.style.display = 'block';
+                }
+            });
+
+            convertVideoBtn.addEventListener('click', async () => {
+                if (!videoUpload.files.length) return;
+
+                videoProcessing.style.display = 'block';
+                videoError.style.display = 'none';
+                videoSuccess.style.display = 'none';
+                videoProgressContainer.style.display = 'flex';
+                conversionCancelled = false;
+
+                try {
+                    const file = videoUpload.files[0];
+                    const validation = validateFileSize(file);
+                    if (!validation.valid) {
+                        videoErrorText.textContent = validation.message;
+                        videoError.style.display = 'block';
+                        videoProgressContainer.style.display = 'none';
+                        return;
+                    }
+
+                    await initFFmpeg();
+
+                    const format = document.getElementById('videoFormat').value;
+                    const quality = document.getElementById('videoQuality').value;
+                    const framerate = document.getElementById('videoFramerate').value;
+                    const resolution = document.getElementById('videoResolution').value;
+                    const startTime = parseFloat(document.getElementById('videoStart').value) || 0;
+                    const endTime = parseFloat(document.getElementById('videoEnd').value) || 0;
+
+                    const inputExt = file.name.split('.').pop() || 'mp4';
+                    const inputFilename = `input.${inputExt}`;
+                    const outputFilename = `output.${format}`;
+                    ffmpeg.FS('writeFile', inputFilename, await fetchFile(file));
+
+                    const args = ['-i', inputFilename];
+
+                    if (format === 'mp4') {
+                        args.push('-c:v', 'libx264');
+                        if (quality === 'high') args.push('-crf', '18');
+                        else if (quality === 'medium') args.push('-crf', '23');
+                        else if (quality === 'low') args.push('-crf', '28');
+                    } else if (format === 'webm') {
+                        args.push('-c:v', 'libvpx-vp9');
+                        if (quality === 'high') args.push('-crf', '10');
+                        else if (quality === 'medium') args.push('-crf', '20');
+                        else if (quality === 'low') args.push('-crf', '30');
+                    } else if (format === 'gif') {
+                        args.push('-vf', 'fps=10,scale=320:-1:flags=lanczos');
+                    } else if (format === 'mov') {
+                        args.push('-c:v', 'libx264', '-c:a', 'aac');
+                    }
+
+                    if (framerate !== '24') {
+                        args.push('-r', framerate);
+                    }
+
+                    if (resolution !== 'original') {
+                        let resolutionValue;
+                        switch (resolution) {
+                            case '1080': resolutionValue = '1920x1080'; break;
+                            case '720': resolutionValue = '1280x720'; break;
+                            case '480': resolutionValue = '854x480'; break;
+                        }
+                        args.push('-s', resolutionValue);
+                    }
+
+                    if (startTime > 0) {
+                        args.push('-ss', startTime.toString());
+                    }
+                    if (endTime > startTime) {
+                        args.push('-to', (endTime - startTime).toString());
+                    }
+
+                    args.push(outputFilename);
+
+                    ffmpeg.setProgress(({ ratio }) => {
+                        if (conversionCancelled) return;
+                        const progressPercent = Math.round(ratio * 100);
+                        videoProgressBar.style.width = `${progressPercent}%`;
+                        videoProgressPercent.textContent = `${progressPercent}%`;
+                        videoProgressMessage.textContent = `Processing... ${progressPercent}%`;
+                    });
+
+                    await ffmpeg.run(...args);
+
+                    if (conversionCancelled) {
+                        throw new Error('Conversion cancelled by user');
+                    }
+
+                    const data = ffmpeg.FS('readFile', outputFilename);
+                    let mimeType;
+                    switch (format) {
+                        case 'mp4': mimeType = 'video/mp4'; break;
+                        case 'webm': mimeType = 'video/webm'; break;
+                        case 'gif': mimeType = 'image/gif'; break;
+                        case 'mov': mimeType = 'video/quicktime'; break;
+                    }
+
+                    const videoUrl = URL.createObjectURL(new Blob([data.buffer], { type: mimeType }));
+                    videoPlayer.src = videoUrl;
+                    downloadVideoBtn.href = videoUrl;
+                    downloadVideoBtn.download = `converted.${format}`;
+                    videoPreview.style.display = 'block';
+
+                    ffmpeg.FS('unlink', inputFilename);
+                    ffmpeg.FS('unlink', outputFilename);
+
+                    videoProcessing.style.display = 'none';
+                    videoSuccess.style.display = 'block';
+                    videoProgressContainer.style.display = 'none';
+                } catch (error) {
+                    console.error('Video conversion error:', error);
+                    videoProgressContainer.style.display = 'none';
+                    videoProcessing.style.display = 'none';
+                    if (conversionCancelled) {
+                        videoErrorText.textContent = 'Conversion cancelled by user.';
+                    } else {
+                        videoErrorText.textContent = `Conversion failed: ${error.message || 'Unknown error'}`;
+                    }
+                    videoError.style.display = 'block';
+                }
+            });
+
+            videoCancelBtn.addEventListener('click', () => {
+                conversionCancelled = true;
+                if (ffmpeg) {
+                    ffmpeg.terminate();
+                    ffmpeg = null;
+                }
+                videoProgressContainer.style.display = 'none';
+                videoProcessing.style.display = 'none';
+                videoErrorText.textContent = 'Conversion cancelled by user.';
+                videoError.style.display = 'block';
+            });
+        }
+
         // Initialize everything when DOM is loaded
         document.addEventListener('DOMContentLoaded', () => {
             initMobileMenu();
             initImageConverter();
-            initDocumentConverter();
+            initAudioConverter();
+            initVideoConverter();
             
             // Tab Switching
             document.querySelectorAll('.tab').forEach(tab => {
@@ -2699,9 +2920,6 @@
                     }
                 });
             });
-            
-            // Set PDF.js worker
-            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
         });
     </script>
 </body>
