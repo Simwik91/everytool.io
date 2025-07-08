@@ -3,28 +3,57 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>FFmpeg WASM Video Converter Test</title>
+<title>FFmpeg WASM Video Converter with Progress</title>
+<style>
+  #progress-container {
+    width: 100%;
+    background: #eee;
+    border-radius: 5px;
+    margin-top: 10px;
+    height: 20px;
+    overflow: hidden;
+  }
+  #progress-bar {
+    height: 100%;
+    width: 0%;
+    background-color: #4caf50;
+    transition: width 0.2s;
+  }
+</style>
 </head>
 <body>
-<h1>FFmpeg WASM Video Converter</h1>
+<h1>FFmpeg WASM Video Converter with Progress</h1>
 
 <input type="file" id="input-video" accept="video/*" />
 <button id="convert-btn" disabled>Convert to WebM</button>
+
 <div id="status">Load FFmpeg first.</div>
+
+<div id="progress-container" aria-label="Conversion progress">
+  <div id="progress-bar"></div>
+</div>
 
 <script src="/assets/ffmpeg/ffmpeg.min.js"></script>
 <script>
   const status = document.getElementById('status');
   const inputVideo = document.getElementById('input-video');
   const convertBtn = document.getElementById('convert-btn');
+  const progressBar = document.getElementById('progress-bar');
 
   let ffmpeg;
   let videoFile;
 
-  // Initialize FFmpeg
   async function loadFFmpeg() {
     status.textContent = 'Loading FFmpeg...';
     ffmpeg = new FFmpegWASM.FFmpeg();
+
+    // Listen for progress events
+    ffmpeg.on('progress', ({ ratio }) => {
+      const percent = Math.min(100, Math.round(ratio * 100));
+      progressBar.style.width = percent + '%';
+      status.textContent = `Converting video... ${percent}%`;
+    });
+
     try {
       await ffmpeg.load();
       status.textContent = 'FFmpeg loaded successfully! Please select a video file.';
@@ -38,6 +67,7 @@
     if (e.target.files.length > 0) {
       videoFile = e.target.files[0];
       status.textContent = `Selected file: ${videoFile.name}`;
+      progressBar.style.width = '0%'; // reset progress bar on new file select
     }
   });
 
@@ -47,22 +77,15 @@
       return;
     }
 
-    status.textContent = 'Converting video...';
+    status.textContent = 'Starting conversion...';
+    progressBar.style.width = '0%';
 
     try {
-      // Read file as Uint8Array
       const data = new Uint8Array(await videoFile.arrayBuffer());
-
-      // Write the input file to FFmpeg FS
       await ffmpeg.writeFile('input.' + getExtension(videoFile.name), data);
-
-      // Run FFmpeg command to convert input to output.webm
       await ffmpeg.exec(['-i', 'input.' + getExtension(videoFile.name), '-c:v', 'libvpx', '-crf', '10', '-b:v', '1M', 'output.webm']);
-
-      // Read the result
       const outputData = await ffmpeg.readFile('output.webm');
 
-      // Create blob URL and download
       const videoBlob = new Blob([outputData], { type: 'video/webm' });
       const url = URL.createObjectURL(videoBlob);
       const a = document.createElement('a');
@@ -72,8 +95,10 @@
       URL.revokeObjectURL(url);
 
       status.textContent = 'Conversion complete! Download should start.';
+      progressBar.style.width = '100%';
     } catch (e) {
       status.textContent = 'Conversion failed: ' + e.message;
+      progressBar.style.width = '0%';
       console.error(e);
     }
   });
