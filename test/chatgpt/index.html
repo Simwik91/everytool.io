@@ -12,7 +12,7 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/ffmpeg/0.12.15/umd/ffmpeg.min.js"></script>
   <script>
-    const { createFFmpeg, fetchFile } = FFmpeg;
+    const { createFFmpeg, fetchFile } = FFmpeg.createFFmpeg ? FFmpeg : window.FFmpeg;
 
     const ffmpeg = createFFmpeg({
       log: true,
