@@ -2,86 +2,36 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>FFmpeg WASM Test</title>
+  <title>FFmpeg WASM Minimal Test</title>
 </head>
 <body>
-  <h1>FFmpeg WASM Video Converter Test</h1>
-  <input type="file" id="uploader" />
-  <button id="convertBtn" disabled>Convert to mp4</button>
-  <pre id="log"></pre>
+  <h1>FFmpeg WASM Minimal Test</h1>
+  <button id="load-btn">Load FFmpeg</button>
+  <pre id="output"></pre>
 
   <script src="https://everytool.io/assets/ffmpeg/ffmpeg.min.js"></script>
   <script>
-    const logEl = document.getElementById('log');
-    const uploader = document.getElementById('uploader');
-    const convertBtn = document.getElementById('convertBtn');
+    const output = document.getElementById('output');
+    const loadBtn = document.getElementById('load-btn');
 
-    function log(msg) {
-      console.log(msg);
-      logEl.textContent += msg + '\n';
-    }
+    loadBtn.addEventListener('click', async () => {
+      output.textContent = 'Initializing FFmpeg...';
 
-    // Make sure FFmpeg is available
-    if (!window.FFmpeg) {
-      log('FFmpeg object not found!');
-    } else {
-      log('FFmpeg object loaded.');
-    }
-
-    // Create FFmpeg instance with paths set explicitly
-    const ffmpeg = FFmpeg.createFFmpeg({
-      log: true,
-      corePath: 'https://everytool.io/assets/ffmpeg/ffmpeg-core.js', // core js path
-      wasmPath: 'https://everytool.io/assets/ffmpeg/ffmpeg-core.wasm' // core wasm path
-    });
-
-    async function loadFFmpeg() {
-      log('Loading FFmpeg core...');
       try {
+        const { FFmpeg } = window.FFmpegWASM;
+        const ffmpeg = new FFmpeg();
+
         await ffmpeg.load();
-        log('FFmpeg loaded successfully!');
-        convertBtn.disabled = false;
-      } catch (e) {
-        log('FFmpeg load error: ' + e.message);
-      }
-    }
+        output.textContent = 'FFmpeg loaded successfully!';
 
-    loadFFmpeg();
+        // You can add further ffmpeg commands here, for example:
+        // await ffmpeg.writeFile('input.txt', new Uint8Array([ ... ]));
+        // await ffmpeg.exec(['-i', 'input.txt', 'output.txt']);
+        // const data = ffmpeg.readFile('output.txt');
+        // output.textContent += '\nCommand executed, output length: ' + data.length;
 
-    convertBtn.addEventListener('click', async () => {
-      if (uploader.files.length === 0) {
-        log('No file selected');
-        return;
-      }
-
-      const file = uploader.files[0];
-      log(`Input file: ${file.name}`);
-
-      // Write the uploaded file to FFmpeg FS
-      try {
-        const data = await file.arrayBuffer();
-        ffmpeg.FS('writeFile', file.name, new Uint8Array(data));
-        log('File written to FFmpeg FS');
-
-        // Run FFmpeg conversion command - convert input to mp4
-        await ffmpeg.run('-i', file.name, 'output.mp4');
-        log('FFmpeg conversion finished');
-
-        // Read output file from FS
-        const outputData = ffmpeg.FS('readFile', 'output.mp4');
-
-        // Create a Blob and download link
-        const blob = new Blob([outputData.buffer], { type: 'video/mp4' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'output.mp4';
-        a.textContent = 'Download converted video';
-        document.body.appendChild(a);
-
-        log('Output file ready for download');
       } catch (err) {
-        log('Error during conversion: ' + err.message);
+        output.textContent = 'Error loading FFmpeg:\n' + err.message;
       }
     });
   </script>
