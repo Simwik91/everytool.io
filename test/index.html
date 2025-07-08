@@ -2,40 +2,33 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>FFmpeg WebAssembly Demo</title>
+  <title>FFmpeg 0.12.15 Test</title>
 </head>
 <body>
-  <h1>FFmpeg WebAssembly Test</h1>
-  <input type="file" id="uploader" />
-  <button id="convertBtn">Convert to MP4</button>
-  <video id="outputVideo" controls></video>
+  <h1>FFmpeg 0.12.15 Test</h1>
+  <p id="status">Loading FFmpeg...</p>
 
-  <script type="module">
-    import { createFFmpeg, fetchFile } from 'https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.10.1/+esm';
+  <script src="/assets/ffmpeg/ffmpeg.min.js"></script>
+  <script>
+    // Make sure the global FFmpeg is available
+    if (typeof FFmpeg === 'undefined') {
+      document.getElementById('status').textContent = 'FFmpeg is not defined. Check your script path.';
+    } else {
+      document.getElementById('status').textContent = 'FFmpeg loaded, creating instance...';
 
-    const ffmpeg = createFFmpeg({ log: true });
+      // Create FFmpeg instance (default)
+      const ffmpeg = FFmpeg.createFFmpeg({ log: true });
 
-    const uploader = document.getElementById('uploader');
-    const convertBtn = document.getElementById('convertBtn');
-    const outputVideo = document.getElementById('outputVideo');
-
-    let inputFile;
-
-    uploader.addEventListener('change', (e) => {
-      inputFile = e.target.files[0];
-    });
-
-    convertBtn.addEventListener('click', async () => {
-      if (!inputFile) return alert('Please upload a file first.');
-
-      await ffmpeg.load();
-      ffmpeg.FS('writeFile', 'input.webm', await fetchFile(inputFile));
-      await ffmpeg.run('-i', 'input.webm', 'output.mp4');
-      const data = ffmpeg.FS('readFile', 'output.mp4');
-
-      const videoUrl = URL.createObjectURL(new Blob([data.buffer], { type: 'video/mp4' }));
-      outputVideo.src = videoUrl;
-    });
+      ffmpeg.load()
+        .then(() => {
+          document.getElementById('status').textContent = 'FFmpeg loaded successfully!';
+          console.log('FFmpeg instance:', ffmpeg);
+        })
+        .catch(err => {
+          document.getElementById('status').textContent = 'Failed to load FFmpeg: ' + err.message;
+          console.error(err);
+        });
+    }
   </script>
 </body>
 </html>
