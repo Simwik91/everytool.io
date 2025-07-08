@@ -3,51 +3,49 @@
 <head>
   <meta charset="UTF-8">
   <title>Video Converter</title>
-  <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.12.2/dist/ffmpeg.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.6/dist/ffmpeg.min.js"></script>
 </head>
 <body>
-  <h1>Client-side Video Converter</h1>
-  
-  <input type="file" id="videoInput" accept="video/*">
-  <select id="formatSelect">
+  <h1>Video Converter (Client-side only)</h1>
+  <input type="file" id="uploader" accept="video/*">
+  <select id="format">
     <option value="mp4">MP4</option>
     <option value="webm">WebM</option>
     <option value="ogg">OGG</option>
   </select>
-  <button id="convertBtn">Convert</button>
+  <button id="convert">Convert</button>
 
   <p id="status">Status: Idle</p>
-  <a id="downloadLink" style="display:none">Download Converted Video</a>
+  <a id="download" style="display:none">Download Converted Video</a>
 
   <script>
-    const { createFFmpeg, fetchFile } = FFmpeg;
+    const convertBtn = document.getElementById('convert');
+    const uploader = document.getElementById('uploader');
+    const formatSelect = document.getElementById('format');
+    const statusText = document.getElementById('status');
+    const downloadLink = document.getElementById('download');
+
+    const { createFFmpeg, fetchFile } = window.FFmpeg;
     const ffmpeg = createFFmpeg({ log: true });
-    const input = document.getElementById('videoInput');
-    const convertBtn = document.getElementById('convertBtn');
-    const status = document.getElementById('status');
-    const downloadLink = document.getElementById('downloadLink');
-    const formatSelect = document.getElementById('formatSelect');
 
     convertBtn.addEventListener('click', async () => {
-      if (!input.files.length) {
-        alert('Please select a video file first.');
+      if (!uploader.files.length) {
+        alert('Please choose a video file.');
         return;
       }
 
-      const file = input.files[0];
-      const fileName = file.name;
-      const inputName = 'input_' + fileName;
+      const file = uploader.files[0];
       const outputFormat = formatSelect.value;
+      const inputName = 'input_' + file.name;
       const outputName = 'output.' + outputFormat;
 
-      status.textContent = 'Status: Loading FFmpeg...';
+      statusText.textContent = 'Status: Loading FFmpeg...';
       if (!ffmpeg.isLoaded()) {
         await ffmpeg.load();
       }
 
-      status.textContent = 'Status: Processing...';
+      statusText.textContent = 'Status: Converting...';
       ffmpeg.FS('writeFile', inputName, await fetchFile(file));
-
       await ffmpeg.run('-i', inputName, outputName);
 
       const data = ffmpeg.FS('readFile', outputName);
@@ -55,9 +53,10 @@
 
       downloadLink.href = url;
       downloadLink.download = outputName;
-      downloadLink.textContent = 'Download ' + outputName;
+      downloadLink.textContent = `Download ${outputName}`;
       downloadLink.style.display = 'block';
-      status.textContent = 'Status: Done!';
+
+      statusText.textContent = 'Status: Done!';
     });
   </script>
 </body>
