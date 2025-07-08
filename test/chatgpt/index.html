@@ -1,62 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Video Converter</title>
-  <script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.6/dist/ffmpeg.min.js"></script>
+  <meta charset="UTF-8" />
+  <title>FFmpeg WebAssembly Demo</title>
 </head>
 <body>
-  <h1>Video Converter (Client-side only)</h1>
-  <input type="file" id="uploader" accept="video/*">
-  <select id="format">
-    <option value="mp4">MP4</option>
-    <option value="webm">WebM</option>
-    <option value="ogg">OGG</option>
-  </select>
-  <button id="convert">Convert</button>
+  <h1>FFmpeg WebAssembly Test</h1>
+  <input type="file" id="uploader" />
+  <button id="convertBtn">Convert to MP4</button>
+  <video id="outputVideo" controls></video>
 
-  <p id="status">Status: Idle</p>
-  <a id="download" style="display:none">Download Converted Video</a>
+  <script type="module">
+    import { createFFmpeg, fetchFile } from 'https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.10.1/+esm';
 
-  <script>
-    const convertBtn = document.getElementById('convert');
-    const uploader = document.getElementById('uploader');
-    const formatSelect = document.getElementById('format');
-    const statusText = document.getElementById('status');
-    const downloadLink = document.getElementById('download');
-
-    const { createFFmpeg, fetchFile } = window.FFmpeg;
     const ffmpeg = createFFmpeg({ log: true });
 
+    const uploader = document.getElementById('uploader');
+    const convertBtn = document.getElementById('convertBtn');
+    const outputVideo = document.getElementById('outputVideo');
+
+    let inputFile;
+
+    uploader.addEventListener('change', (e) => {
+      inputFile = e.target.files[0];
+    });
+
     convertBtn.addEventListener('click', async () => {
-      if (!uploader.files.length) {
-        alert('Please choose a video file.');
-        return;
-      }
+      if (!inputFile) return alert('Please upload a file first.');
 
-      const file = uploader.files[0];
-      const outputFormat = formatSelect.value;
-      const inputName = 'input_' + file.name;
-      const outputName = 'output.' + outputFormat;
+      await ffmpeg.load();
+      ffmpeg.FS('writeFile', 'input.webm', await fetchFile(inputFile));
+      await ffmpeg.run('-i', 'input.webm', 'output.mp4');
+      const data = ffmpeg.FS('readFile', 'output.mp4');
 
-      statusText.textContent = 'Status: Loading FFmpeg...';
-      if (!ffmpeg.isLoaded()) {
-        await ffmpeg.load();
-      }
-
-      statusText.textContent = 'Status: Converting...';
-      ffmpeg.FS('writeFile', inputName, await fetchFile(file));
-      await ffmpeg.run('-i', inputName, outputName);
-
-      const data = ffmpeg.FS('readFile', outputName);
-      const url = URL.createObjectURL(new Blob([data.buffer], { type: 'video/' + outputFormat }));
-
-      downloadLink.href = url;
-      downloadLink.download = outputName;
-      downloadLink.textContent = `Download ${outputName}`;
-      downloadLink.style.display = 'block';
-
-      statusText.textContent = 'Status: Done!';
+      const videoUrl = URL.createObjectURL(new Blob([data.buffer], { type: 'video/mp4' }));
+      outputVideo.src = videoUrl;
     });
   </script>
 </body>
