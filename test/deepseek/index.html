@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Converter | Everytool.io</title>
-    <script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/ffmpeg.min.js"></script>
+    <title>Browser Video Converter</title>
+    <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.12.4/dist/ffmpeg.min.js"></script>
     <style>
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
@@ -18,257 +18,216 @@
             color: white;
             min-height: 100vh;
             padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
+            max-width: 800px;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            margin-top: 30px;
         }
         
         header {
             text-align: center;
-            padding: 30px 0;
+            margin-bottom: 30px;
         }
         
         h1 {
-            font-size: 3rem;
+            font-size: 2.5rem;
             margin-bottom: 10px;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
         
         .subtitle {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            max-width: 600px;
-            margin: 0 auto 20px;
+            color: #ddd;
+            font-size: 1.1rem;
+            margin-top: 10px;
         }
         
-        .converter-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            margin: 20px auto;
-            max-width: 800px;
-        }
-        
-        .card-header {
+        .card {
+            background: rgba(30, 30, 40, 0.8);
+            border-radius: 10px;
+            padding: 25px;
             margin-bottom: 25px;
-            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         .card-title {
-            font-size: 2rem;
-            margin-bottom: 10px;
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            color: #feb47b;
+            display: flex;
+            align-items: center;
         }
         
-        .card-description {
-            opacity: 0.8;
+        .card-title i {
+            margin-right: 10px;
+            font-size: 1.6rem;
+        }
+        
+        .upload-area {
+            border: 2px dashed #4a9df7;
+            border-radius: 10px;
+            padding: 40px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: rgba(74, 157, 247, 0.1);
             margin-bottom: 20px;
         }
         
-        .converter-container {
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
+        .upload-area:hover {
+            background: rgba(74, 157, 247, 0.2);
+            border-color: #6aafff;
         }
         
-        .input-section, .output-section, .progress-section {
-            background: rgba(0, 0, 0, 0.2);
-            padding: 20px;
-            border-radius: 10px;
-        }
-        
-        .section-title {
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .icon {
-            font-size: 1.5rem;
-        }
-        
-        .file-input-container {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        
-        .file-drop-area {
-            border: 2px dashed rgba(255, 255, 255, 0.3);
-            border-radius: 10px;
-            padding: 30px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .file-drop-area:hover, .file-drop-area.dragover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: #4CAF50;
-        }
-        
-        .file-drop-area i {
+        .upload-area i {
             font-size: 3rem;
+            color: #4a9df7;
             margin-bottom: 15px;
-            display: block;
-            color: #4CAF50;
         }
         
-        .format-selection {
+        #file-input {
+            display: none;
+        }
+        
+        .file-info {
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .controls {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
-            justify-content: center;
-            margin-top: 20px;
+            gap: 15px;
+            margin: 20px 0;
         }
         
-        .format-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .format-btn:hover {
-            background: rgba(76, 175, 80, 0.3);
-        }
-        
-        .format-btn.active {
-            background: #4CAF50;
-        }
-        
-        .convert-btn {
-            background: #4CAF50;
-            color: white;
+        select, button {
+            padding: 12px 20px;
+            border-radius: 8px;
             border: none;
-            padding: 15px 30px;
-            font-size: 1.2rem;
-            border-radius: 50px;
+            font-size: 1rem;
             cursor: pointer;
-            transition: all 0.3s ease;
-            display: block;
-            margin: 25px auto 0;
-            width: 100%;
-            max-width: 300px;
+            transition: all 0.3s;
+            flex: 1;
+            min-width: 150px;
         }
         
-        .convert-btn:hover {
-            background: #45a049;
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        select {
+            background: #2c3e50;
+            color: white;
+            border: 1px solid #4a9df7;
         }
         
-        .convert-btn:disabled {
-            background: #666;
+        button {
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        button:disabled {
+            background: #7f8c8d;
             cursor: not-allowed;
             transform: none;
             box-shadow: none;
         }
         
+        #convert-btn {
+            background: linear-gradient(to right, #4a9df7, #6aafff);
+        }
+        
+        .progress-container {
+            margin: 25px 0;
+            display: none;
+        }
+        
         .progress-bar {
             height: 20px;
-            background: rgba(255, 255, 255, 0.1);
+            background: #2c3e50;
             border-radius: 10px;
             overflow: hidden;
-            margin: 15px 0;
+            margin-bottom: 10px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
         }
         
         .progress-fill {
             height: 100%;
-            background: #4CAF50;
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
             width: 0%;
-            transition: width 0.3s ease;
+            transition: width 0.3s;
+            border-radius: 10px;
         }
         
         .progress-text {
             text-align: center;
             font-size: 0.9rem;
+            color: #ddd;
         }
         
-        .output-section {
+        .result-area {
             display: none;
-        }
-        
-        .output-container {
             text-align: center;
+            padding: 20px;
+            background: rgba(46, 204, 113, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(46, 204, 113, 0.3);
+            margin-top: 20px;
         }
         
-        .output-video {
-            max-width: 100%;
-            border-radius: 10px;
+        #download-btn {
+            background: linear-gradient(to right, #2ecc71, #27ae60);
             margin-top: 15px;
-            background: #000;
         }
         
-        .download-btn {
-            background: #2196F3;
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            font-size: 1rem;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 20px;
-            display: inline-block;
-        }
-        
-        .download-btn:hover {
-            background: #0b7dda;
-            transform: translateY(-2px);
-        }
-        
-        .status-message {
-            text-align: center;
-            padding: 15px;
+        .note {
+            background: rgba(231, 76, 60, 0.1);
+            border: 1px solid rgba(231, 76, 60, 0.3);
             border-radius: 8px;
-            margin: 15px 0;
+            padding: 15px;
+            margin-top: 25px;
+            font-size: 0.9rem;
+            color: #f1c40f;
         }
         
-        .status-loading {
-            background: rgba(255, 193, 7, 0.2);
-            color: #FFC107;
+        .note h3 {
+            color: #e74c3c;
+            margin-bottom: 10px;
         }
         
-        .status-success {
-            background: rgba(76, 175, 80, 0.2);
-            color: #4CAF50;
-        }
-        
-        .status-error {
-            background: rgba(244, 67, 54, 0.2);
-            color: #f44336;
-        }
-        
-        .video-preview {
-            max-width: 100%;
-            margin-top: 20px;
-            border-radius: 10px;
+        .hidden {
             display: none;
         }
         
-        footer {
-            text-align: center;
-            padding: 30px 0;
-            margin-top: 20px;
-            font-size: 0.9rem;
-            opacity: 0.7;
-        }
-        
-        @media (max-width: 768px) {
-            .converter-card {
-                padding: 20px;
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
             }
             
             h1 {
-                font-size: 2.2rem;
+                font-size: 2rem;
+            }
+            
+            .controls {
+                flex-direction: column;
             }
         }
     </style>
@@ -277,341 +236,292 @@
     <div class="container">
         <header>
             <h1>Browser Video Converter</h1>
-            <p class="subtitle">Convert video files directly in your browser using FFmpeg.wasm - no server required!</p>
+            <p class="subtitle">Convert videos directly in your browser - no server required</p>
         </header>
         
-        <main>
-            <div class="converter-card">
-                <div class="card-header">
-                    <h2 class="card-title">Convert Your Videos</h2>
-                    <p class="card-description">Select a video file, choose output format, and convert instantly</p>
-                </div>
-                
-                <div class="converter-container">
-                    <div class="input-section">
-                        <h3 class="section-title">
-                            <span class="icon">📁</span>
-                            Input Video
-                        </h3>
-                        
-                        <div class="file-input-container">
-                            <div class="file-drop-area" id="drop-area">
-                                <i>📤</i>
-                                <p>Drag & drop your video file here</p>
-                                <p>or</p>
-                                <input type="file" id="file-input" accept="video/*" style="display: none;">
-                                <button class="format-btn" onclick="document.getElementById('file-input').click()">
-                                    Select File
-                                </button>
-                            </div>
-                            
-                            <div id="file-info" style="text-align: center; margin-top: 15px;"></div>
-                            
-                            <video id="video-preview" class="video-preview" controls></video>
-                        </div>
-                        
-                        <h3 class="section-title" style="margin-top: 25px;">
-                            <span class="icon">🔄</span>
-                            Output Format
-                        </h3>
-                        
-                        <div class="format-selection">
-                            <button class="format-btn" data-format="mp4">MP4</button>
-                            <button class="format-btn" data-format="webm">WebM</button>
-                            <button class="format-btn" data-format="gif">GIF</button>
-                            <button class="format-btn" data-format="avi">AVI</button>
-                            <button class="format-btn" data-format="mov">MOV</button>
-                        </div>
-                    </div>
-                    
-                    <button id="convert-btn" class="convert-btn" disabled>Convert Video</button>
-                    
-                    <div class="progress-section">
-                        <h3 class="section-title">
-                            <span class="icon">⏳</span>
-                            Conversion Progress
-                        </h3>
-                        
-                        <div class="progress-bar">
-                            <div class="progress-fill" id="progress-fill"></div>
-                        </div>
-                        <p class="progress-text" id="progress-text">Waiting to start...</p>
-                        
-                        <div id="status-message" class="status-message">
-                            FFmpeg is loading, please wait...
-                        </div>
-                    </div>
-                    
-                    <div class="output-section" id="output-section">
-                        <h3 class="section-title">
-                            <span class="icon">✅</span>
-                            Converted Video
-                        </h3>
-                        
-                        <div class="output-container">
-                            <video id="output-video" class="output-video" controls></video>
-                            <br>
-                            <a id="download-btn" class="download-btn">
-                                Download Converted Video
-                            </a>
-                        </div>
-                    </div>
-                </div>
+        <div class="card">
+            <div class="card-title">
+                <i>📁</i>
+                <h2>Upload Video</h2>
             </div>
-        </main>
+            
+            <div class="upload-area" id="drop-area">
+                <i>⬆️</i>
+                <h3>Click or Drag & Drop to Upload Video</h3>
+                <p>Supported formats: MP4, MOV, AVI, WEBM</p>
+                <input type="file" id="file-input" accept="video/*">
+            </div>
+            
+            <div class="file-info" id="file-info">
+                <div><strong>File Name:</strong> <span id="file-name"></span></div>
+                <div><strong>File Size:</strong> <span id="file-size"></span></div>
+                <div><strong>File Type:</strong> <span id="file-type"></span></div>
+            </div>
+        </div>
         
-        <footer>
-            <p>Video Converter | Part of Everytool.io | Powered by FFmpeg.wasm</p>
-            <p>All processing happens in your browser - no files are uploaded to any server</p>
-        </footer>
+        <div class="card">
+            <div class="card-title">
+                <i>⚙️</i>
+                <h2>Conversion Settings</h2>
+            </div>
+            
+            <div class="controls">
+                <select id="format-select">
+                    <option value="mp4">MP4 (H.264)</option>
+                    <option value="webm">WEBM (VP9)</option>
+                    <option value="gif">Animated GIF</option>
+                </select>
+                
+                <select id="quality-select">
+                    <option value="high">High Quality</option>
+                    <option value="medium" selected>Medium Quality</option>
+                    <option value="low">Low Quality</option>
+                </select>
+                
+                <button id="convert-btn" disabled>Convert Video</button>
+            </div>
+            
+            <div class="progress-container" id="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <div class="progress-text" id="progress-text">Initializing...</div>
+            </div>
+            
+            <div class="result-area" id="result-area">
+                <h3>Conversion Complete!</h3>
+                <p>Your video has been successfully converted.</p>
+                <button id="download-btn">Download Converted Video</button>
+            </div>
+        </div>
+        
+        <div class="note">
+            <h3>Important Note</h3>
+            <p>This converter runs entirely in your browser using WebAssembly. Large video files may take significant time to process and could cause browser slowdowns. For best results, use videos under 100MB.</p>
+        </div>
     </div>
-    
+
     <script>
-        // Initialize variables
-        let ffmpeg = null;
-        let selectedFile = null;
-        let selectedFormat = 'mp4';
-        let isFFmpegLoaded = false;
+        // Initialize FFmpeg
+        const { createFFmpeg, fetchFile } = FFmpeg;
+        const ffmpeg = createFFmpeg({ 
+            log: true,
+            corePath: 'https://unpkg.com/@ffmpeg/core@0.12.4/dist/ffmpeg-core.js'
+        });
         
         // DOM elements
         const fileInput = document.getElementById('file-input');
         const dropArea = document.getElementById('drop-area');
         const fileInfo = document.getElementById('file-info');
-        const videoPreview = document.getElementById('video-preview');
-        const formatButtons = document.querySelectorAll('.format-btn');
+        const fileName = document.getElementById('file-name');
+        const fileSize = document.getElementById('file-size');
+        const fileType = document.getElementById('file-type');
+        const formatSelect = document.getElementById('format-select');
+        const qualitySelect = document.getElementById('quality-select');
         const convertBtn = document.getElementById('convert-btn');
+        const progressContainer = document.getElementById('progress-container');
         const progressFill = document.getElementById('progress-fill');
         const progressText = document.getElementById('progress-text');
-        const statusMessage = document.getElementById('status-message');
-        const outputSection = document.getElementById('output-section');
-        const outputVideo = document.getElementById('output-video');
+        const resultArea = document.getElementById('result-area');
         const downloadBtn = document.getElementById('download-btn');
         
-        // Set up event listeners
-        document.addEventListener('DOMContentLoaded', initApp);
+        // Variables
+        let selectedFile = null;
         
-        function initApp() {
-            // Initialize FFmpeg
-            loadFFmpeg();
-            
-            // File input change event
-            fileInput.addEventListener('change', handleFileSelect);
-            
-            // Drag and drop events
-            dropArea.addEventListener('dragover', (e) => {
-                e.preventDefault();
-                dropArea.classList.add('dragover');
-            });
-            
-            dropArea.addEventListener('dragleave', () => {
-                dropArea.classList.remove('dragover');
-            });
-            
-            dropArea.addEventListener('drop', (e) => {
-                e.preventDefault();
-                dropArea.classList.remove('dragover');
-                
-                if (e.dataTransfer.files.length) {
-                    fileInput.files = e.dataTransfer.files;
-                    handleFileSelect({target: fileInput});
-                }
-            });
-            
-            // Format selection
-            formatButtons.forEach(btn => {
-                if (btn.dataset.format) {
-                    btn.addEventListener('click', () => {
-                        // Remove active class from all buttons
-                        formatButtons.forEach(b => b.classList.remove('active'));
-                        // Add active class to clicked button
-                        btn.classList.add('active');
-                        selectedFormat = btn.dataset.format;
-                    });
-                }
-            });
-            
-            // Set first format button as active
-            if (formatButtons.length > 0) {
-                formatButtons[0].classList.add('active');
+        // Setup drag and drop
+        dropArea.addEventListener('click', () => fileInput.click());
+        
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleFile(e.target.files[0]);
             }
-            
-            // Convert button
-            convertBtn.addEventListener('click', convertVideo);
+        });
+        
+        // Drag and drop events
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, preventDefaults, false);
+        });
+        
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
         }
         
-        // Load FFmpeg
-        async function loadFFmpeg() {
-            try {
-                statusMessage.textContent = "Loading FFmpeg...";
-                statusMessage.className = "status-message status-loading";
-                
-                // Create FFmpeg instance
-                const { createFFmpeg, fetchFile } = FFmpeg;
-                ffmpeg = createFFmpeg({ 
-                    log: true,
-                    progress: ({ ratio }) => {
-                        const percent = Math.round(ratio * 100);
-                        progressFill.style.width = `${percent}%`;
-                        progressText.textContent = `Processing: ${percent}%`;
-                    }
-                });
-                
-                // Load FFmpeg
-                await ffmpeg.load();
-                
-                statusMessage.textContent = "FFmpeg is ready! Select a video file to convert.";
-                statusMessage.className = "status-message status-success";
-                isFFmpegLoaded = true;
-                
-                // Enable convert button if file is already selected
-                if (selectedFile) {
-                    convertBtn.disabled = false;
-                }
-            } catch (error) {
-                console.error("FFmpeg loading error:", error);
-                statusMessage.textContent = "Error loading FFmpeg. Please try again.";
-                statusMessage.className = "status-message status-error";
-            }
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropArea.addEventListener(eventName, highlight, false);
+        });
+        
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, unhighlight, false);
+        });
+        
+        function highlight() {
+            dropArea.style.backgroundColor = 'rgba(74, 157, 247, 0.3)';
         }
         
-        // Handle file selection
-        function handleFileSelect(event) {
-            const file = event.target.files[0];
-            
-            if (!file) return;
-            
-            // Check if file is a video
+        function unhighlight() {
+            dropArea.style.backgroundColor = '';
+        }
+        
+        dropArea.addEventListener('drop', handleDrop, false);
+        
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const file = dt.files[0];
+            handleFile(file);
+        }
+        
+        // Handle selected file
+        function handleFile(file) {
             if (!file.type.startsWith('video/')) {
-                statusMessage.textContent = "Please select a valid video file.";
-                statusMessage.className = "status-message status-error";
+                alert('Please select a video file.');
                 return;
             }
             
             selectedFile = file;
             
             // Display file info
-            fileInfo.innerHTML = `
-                <strong>Selected file:</strong> ${file.name}<br>
-                <strong>Type:</strong> ${file.type}<br>
-                <strong>Size:</strong> ${(file.size / 1024 / 1024).toFixed(2)} MB
-            `;
+            fileName.textContent = file.name;
+            fileSize.textContent = formatFileSize(file.size);
+            fileType.textContent = file.type || 'Unknown';
+            fileInfo.style.display = 'block';
             
-            // Show preview
-            const objectURL = URL.createObjectURL(file);
-            videoPreview.src = objectURL;
-            videoPreview.style.display = 'block';
-            
-            // Enable convert button if FFmpeg is loaded
-            if (isFFmpegLoaded) {
-                convertBtn.disabled = false;
-            }
-            
-            // Hide output section if shown
-            outputSection.style.display = 'none';
+            // Enable convert button
+            convertBtn.disabled = false;
         }
         
-        // Convert video
+        // Format file size
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+        
+        // Conversion function
         async function convertVideo() {
-            if (!selectedFile || !ffmpeg) return;
+            if (!selectedFile) return;
+            
+            // Show progress
+            progressContainer.style.display = 'block';
+            progressFill.style.width = '0%';
+            progressText.textContent = 'Initializing FFmpeg...';
+            convertBtn.disabled = true;
             
             try {
-                // Reset UI
-                outputSection.style.display = 'none';
-                convertBtn.disabled = true;
-                progressFill.style.width = '0%';
-                progressText.textContent = 'Starting conversion...';
-                statusMessage.textContent = "Converting video, please wait...";
-                statusMessage.className = "status-message status-loading";
-                
-                const inputFileName = 'input.' + selectedFile.name.split('.').pop();
-                const outputFileName = `converted.${selectedFormat}`;
-                
-                // Write file to FFmpeg file system
-                ffmpeg.FS('writeFile', inputFileName, await fetchFile(selectedFile));
-                
-                // Run FFmpeg command
-                let command = ['-i', inputFileName];
-                
-                // Add format-specific options
-                if (selectedFormat === 'gif') {
-                    command.push('-vf', 'fps=10,scale=640:-1:flags=lanczos');
-                } else if (selectedFormat === 'mp4') {
-                    command.push('-c:v', 'libx264');
-                    command.push('-preset', 'fast');
-                    command.push('-crf', '23');
-                    command.push('-c:a', 'aac');
-                    command.push('-b:a', '128k');
+                // Load FFmpeg
+                if (!ffmpeg.isLoaded()) {
+                    await ffmpeg.load();
                 }
                 
-                command.push(outputFileName);
+                // Write file to memory
+                const inputName = 'input.' + selectedFile.name.split('.').pop();
+                ffmpeg.FS('writeFile', inputName, await fetchFile(selectedFile));
                 
-                await ffmpeg.run(...command);
+                // Set up progress reporting
+                ffmpeg.setProgress(({ ratio }) => {
+                    const percent = Math.round(ratio * 100);
+                    progressFill.style.width = `${percent}%`;
+                    progressText.textContent = `Processing: ${percent}%`;
+                });
                 
-                // Read output file
-                const data = ffmpeg.FS('readFile', outputFileName);
+                // Get conversion parameters
+                const format = formatSelect.value;
+                const quality = qualitySelect.value;
+                const outputName = `output.${format}`;
                 
-                // Create output URL
-                const outputBlob = new Blob([data.buffer], { type: `video/${selectedFormat}` });
-                const outputUrl = URL.createObjectURL(outputBlob);
+                // Set conversion arguments based on format and quality
+                let args = ['-i', inputName];
                 
-                // Display output
-                outputVideo.src = outputUrl;
-                outputVideo.style.display = 'block';
-                outputSection.style.display = 'block';
+                if (format === 'mp4') {
+                    args.push('-c:v', 'libx264');
+                    args.push('-preset', 'medium');
+                    
+                    if (quality === 'high') {
+                        args.push('-crf', '18');
+                    } else if (quality === 'medium') {
+                        args.push('-crf', '23');
+                    } else {
+                        args.push('-crf', '28');
+                    }
+                    
+                    args.push('-c:a', 'aac');
+                } 
+                else if (format === 'webm') {
+                    args.push('-c:v', 'libvpx-vp9');
+                    
+                    if (quality === 'high') {
+                        args.push('-b:v', '2M');
+                        args.push('-crf', '15');
+                    } else if (quality === 'medium') {
+                        args.push('-b:v', '1M');
+                        args.push('-crf', '25');
+                    } else {
+                        args.push('-b:v', '0.5M');
+                        args.push('-crf', '35');
+                    }
+                    
+                    args.push('-c:a', 'libopus');
+                } 
+                else if (format === 'gif') {
+                    // For GIFs we use palettegen and paletteuse for better quality
+                    const paletteName = 'palette.png';
+                    args.push('-vf', 'fps=10,scale=640:-1:flags=lanczos,palettegen', paletteName);
+                    
+                    // Execute first pass to generate palette
+                    await ffmpeg.run(...args);
+                    
+                    // Second pass to create GIF using palette
+                    args = [
+                        '-i', inputName,
+                        '-i', paletteName,
+                        '-filter_complex', 'fps=10,scale=640:-1:flags=lanczos[x];[x][1:v]paletteuse',
+                        outputName
+                    ];
+                }
                 
-                // Set download link
-                downloadBtn.href = outputUrl;
-                downloadBtn.download = `converted.${selectedFormat}`;
+                if (format !== 'gif') {
+                    args.push(outputName);
+                }
                 
-                // Update status
-                statusMessage.textContent = "Conversion successful!";
-                statusMessage.className = "status-message status-success";
-                progressText.textContent = "Conversion complete!";
+                // Run conversion
+                await ffmpeg.run(...args);
                 
-                // Re-enable convert button for new conversion
-                convertBtn.disabled = false;
+                // Read converted file
+                const data = ffmpeg.FS('readFile', outputName);
+                
+                // Create download URL
+                const url = URL.createObjectURL(new Blob([data.buffer], { type: `video/${format}` }));
+                
+                // Set up download button
+                downloadBtn.onclick = () => {
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `converted.${format}`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                };
+                
+                // Show result
+                resultArea.style.display = 'block';
+                progressText.textContent = 'Conversion complete!';
+                
             } catch (error) {
-                console.error("Conversion error:", error);
-                statusMessage.textContent = "Error converting video. Please try a different file or format.";
-                statusMessage.className = "status-message status-error";
-                progressText.textContent = "Conversion failed";
-                convertBtn.disabled = false;
+                console.error('Conversion error:', error);
+                progressText.textContent = `Error: ${error.message}`;
+                progressFill.style.backgroundColor = '#e74c3c';
             }
         }
         
-        // Simulate FFmpeg progress for demo purposes
-        function simulateProgress() {
-            let progress = 0;
-            const interval = setInterval(() => {
-                progress += 5;
-                progressFill.style.width = `${progress}%`;
-                progressText.textContent = `Processing: ${progress}%`;
-                
-                if (progress >= 100) {
-                    clearInterval(interval);
-                    
-                    // Show output for demo
-                    setTimeout(() => {
-                        outputVideo.src = "https://everytool.io/deepseek/test/sample-output.mp4";
-                        outputVideo.style.display = 'block';
-                        outputSection.style.display = 'block';
-                        downloadBtn.href = "https://everytool.io/deepseek/test/sample-output.mp4";
-                        downloadBtn.download = "converted.mp4";
-                        
-                        statusMessage.textContent = "Conversion successful!";
-                        statusMessage.className = "status-message status-success";
-                        progressText.textContent = "Conversion complete!";
-                        convertBtn.disabled = false;
-                    }, 500);
-                }
-            }, 200);
-        }
+        // Event listeners
+        convertBtn.addEventListener('click', convertVideo);
         
-        // For demo purposes in this example without actual FFmpeg
-        if (window.location.href.includes('file://')) {
-            // This is a local demo - use simulation
-            convertBtn.addEventListener('click', simulateProgress);
-        }
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log("Video Converter Initialized");
+        });
     </script>
 </body>
 </html>
