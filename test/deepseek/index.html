@@ -5,92 +5,171 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Browser Video Converter</title>
     <style>
-        /* [Previous CSS styles remain exactly the same] */
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .upload-area {
+            border: 2px dashed #ccc;
+            padding: 40px;
+            text-align: center;
+            margin: 20px 0;
+            cursor: pointer;
+        }
+        #status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            background: #f0f0f0;
+        }
+        .debug-info {
+            font-family: monospace;
+            background: #333;
+            color: #0f0;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 20px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- [Previous HTML structure remains exactly the same] -->
-    </div>
+    <h1>Browser Video Converter</h1>
+    <div id="status">Initializing...</div>
+    <div id="debug" class="debug-info"></div>
 
-    <!-- Load FFmpeg scripts with proper error handling -->
-    <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.12.4/dist/ffmpeg.min.js"></script>
     <script>
-        // Wait for all scripts to load
-        window.addEventListener('load', async function() {
-            // Check if FFmpeg is available
-            if (typeof FFmpeg === 'undefined') {
-                showError('FFmpeg library failed to load. Please refresh the page or check your internet connection.');
-                return;
+        // Debug logging
+        const debugEl = document.getElementById('debug');
+        function debugLog(message) {
+            debugEl.innerHTML += `> ${message}\n`;
+            debugEl.scrollTop = debugEl.scrollHeight;
+        }
+
+        // CDN sources to try (ordered by reliability)
+        const CDN_SOURCES = [
+            {
+                name: "jsDelivr (primary)",
+                ffmpegUrl: "https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.4/dist/ffmpeg.min.js",
+                coreUrl: "https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.4/dist/ffmpeg-core.js"
+            },
+            {
+                name: "unpkg (fallback 1)",
+                ffmpegUrl: "https://unpkg.com/@ffmpeg/ffmpeg@0.12.4/dist/ffmpeg.min.js",
+                coreUrl: "https://unpkg.com/@ffmpeg/core@0.12.4/dist/ffmpeg-core.js"
+            },
+            {
+                name: "cdnjs (fallback 2)",
+                ffmpegUrl: "https://cdnjs.cloudflare.com/ajax/libs/ffmpeg.js/0.12.4/ffmpeg.min.js",
+                coreUrl: "https://cdnjs.cloudflare.com/ajax/libs/ffmpeg.js/0.12.4/ffmpeg-core.js"
+            },
+            {
+                name: "GitHub (last resort)",
+                ffmpegUrl: "https://raw.githubusercontent.com/ffmpegwasm/ffmpeg.wasm/main/dist/ffmpeg.min.js",
+                coreUrl: "https://raw.githubusercontent.com/ffmpegwasm/ffmpeg.wasm/main/dist/ffmpeg-core.js"
+            }
+        ];
+
+        // Current CDN being tried
+        let currentCdnIndex = 0;
+        let ffmpeg = null;
+
+        // Update status
+        function updateStatus(message) {
+            document.getElementById('status').textContent = message;
+            debugLog(message);
+        }
+
+        // Load script with timeout
+        function loadScript(src, timeout = 10000) {
+            return new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = src;
+                
+                const timer = setTimeout(() => {
+                    reject(new Error(`Timeout loading ${src}`));
+                    document.head.removeChild(script);
+                }, timeout);
+
+                script.onload = () => {
+                    clearTimeout(timer);
+                    resolve();
+                };
+                
+                script.onerror = () => {
+                    clearTimeout(timer);
+                    reject(new Error(`Failed to load ${src}`));
+                };
+                
+                document.head.appendChild(script);
+            });
+        }
+
+        // Try loading FFmpeg from current CDN
+        async function tryLoadFfmpeg() {
+            if (currentCdnIndex >= CDN_SOURCES.length) {
+                throw new Error("All CDN sources failed");
             }
 
-            // DOM elements [same as previous version]
-            const fileInput = document.getElementById('file-input');
-            const dropArea = document.getElementById('drop-area');
-            // [All other DOM element declarations remain the same]
-
-            // Variables
-            let selectedFile = null;
-            let ffmpeg = null;
-
-            // Initialize FFmpeg with retry logic
-            async function initializeFFmpeg() {
-                statusMessage.textContent = 'Loading FFmpeg (this may take a moment)...';
-                statusMessage.className = 'status-message status-info';
-                statusMessage.style.display = 'block';
+            const cdn = CDN_SOURCES[currentCdnIndex];
+            updateStatus(`Trying ${cdn.name} (${cdn.ffmpegUrl})`);
+            
+            try {
+                // Load main FFmpeg library
+                await loadScript(cdn.ffmpegUrl);
                 
-                try {
-                    // Retry mechanism
-                    let retries = 3;
-                    while (retries > 0) {
-                        try {
-                            const { createFFmpeg, fetchFile } = FFmpeg;
-                            ffmpeg = createFFmpeg({ 
-                                log: true,
-                                corePath: 'https://unpkg.com/@ffmpeg/core@0.12.4/dist/ffmpeg-core.js'
-                            });
-                            
-                            await ffmpeg.load();
-                            break;
-                        } catch (error) {
-                            retries--;
-                            if (retries === 0) throw error;
-                            await new Promise(resolve => setTimeout(resolve, 1000));
-                        }
-                    }
-                    
-                    statusMessage.textContent = 'FFmpeg loaded successfully!';
-                    setTimeout(() => {
-                        statusMessage.style.display = 'none';
-                    }, 3000);
-                } catch (error) {
-                    console.error('FFmpeg initialization error:', error);
-                    showError(`Failed to initialize FFmpeg: ${error.message}`);
-                    convertBtn.disabled = true;
+                if (typeof FFmpeg === 'undefined') {
+                    throw new Error("FFmpeg not defined after loading");
                 }
-            }
 
-            // [All other functions remain the same as previous version]
+                // Initialize FFmpeg
+                const { createFFmpeg } = FFmpeg;
+                ffmpeg = createFFmpeg({
+                    log: true,
+                    corePath: cdn.coreUrl
+                });
 
-            // Initialize the converter
-            initializeFFmpeg();
-        });
-
-        // Show error message (defined outside DOMContentLoaded to be available immediately)
-        function showError(message) {
-            const statusEl = document.getElementById('status-message');
-            if (statusEl) {
-                statusEl.textContent = message;
-                statusEl.className = 'status-message status-error';
-                statusEl.style.display = 'block';
+                updateStatus(`Loading FFmpeg core from ${cdn.coreUrl}`);
+                await ffmpeg.load();
                 
-                setTimeout(() => {
-                    statusEl.style.display = 'none';
-                }, 5000);
-            } else {
-                alert(message);
+                updateStatus(`Success! Using ${cdn.name}`);
+                return true;
+            } catch (error) {
+                debugLog(`Error: ${error.message}`);
+                currentCdnIndex++;
+                return false;
             }
         }
+
+        // Main initialization
+        async function initialize() {
+            updateStatus("Starting FFmpeg initialization...");
+            
+            // Try each CDN until one works
+            while (currentCdnIndex < CDN_SOURCES.length) {
+                const success = await tryLoadFfmpeg();
+                if (success) {
+                    updateStatus("FFmpeg loaded successfully!");
+                    startApplication();
+                    return;
+                }
+            }
+            
+            updateStatus("All CDN sources failed. Please check your internet connection.");
+        }
+
+        // Application code after FFmpeg loads
+        function startApplication() {
+            updateStatus("Application ready!");
+            // Your application code here
+        }
+
+        // Start the process
+        initialize();
     </script>
 </body>
 </html>
