@@ -14,40 +14,58 @@
     </select>
     <button id="convertButton">Convert</button>
     <a id="downloadLink" style="display:none;">Download Converted Video</a>
+    <div id="errorMessage" style="color:red;"></div>
     <script type="module">
       async function loadFFmpeg() {
-        const { createFFmpeg } = await import('https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.15/dist/umd/ffmpeg.min.js');
-        return createFFmpeg;
+        try {
+          const { createFFmpeg } = await import('https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/umd/ffmpeg.min.js');
+          return createFFmpeg;
+        } catch (e) {
+          console.error('Failed to load FFmpeg:', e);
+          throw e;
+        }
       }
 
       document.getElementById('convertButton').addEventListener('click', async () => {
-        const file = document.getElementById('videoInput').files[0];
-        if (!file) {
-          alert('Please select a video file');
-          return;
+        const errorDiv = document.getElementById('errorMessage');
+        errorDiv.textContent = '';
+        try {
+          const file = document.getElementById('videoInput').files[0];
+          if (!file) {
+            throw new Error('Please select a video file');
+          }
+
+          const arrayBuffer = await file.arrayBuffer();
+          const uint8Array = new Uint8Array(arrayBuffer);
+
+          const createFFmpeg = await loadFFmpeg();
+          const ffmpeg = createFFmpeg({
+            log: true,
+            corePath: 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/umd/ffmpeg-core.js',
+            wasmPath: 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/umd/ffmpeg-core.wasm',
+            workerPath: 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/umd/ffmpeg-core.worker.js'
+          });
+
+          await ffmpeg.load();
+
+          ffmpeg.FS('writeFile', 'input', uint8Array);
+
+          const format = document.getElementById('outputFormat').value;
+          const outputFileName = `output.${format}`;
+
+          await ffmpeg.run('-i', 'input', outputFileName);
+
+          const data = ffmpeg.FS('readFile', outputFileName);
+
+          const blob = new Blob([data.buffer], { type: `video/${format}` });
+          const url = URL.createObjectURL(blob);
+          document.getElementById('downloadLink').href = url;
+          document.getElementById('downloadLink').download = outputFileName;
+          document.getElementById('downloadLink').style.display = 'block';
+        } catch (e) {
+          console.error('Conversion error:', e);
+          errorDiv.textContent = `Error: ${e.message}`;
         }
-
-        const arrayBuffer = await file.arrayBuffer();
-        const uint8Array = new Uint8Array(arrayBuffer);
-
-        const createFFmpeg = await loadFFmpeg();
-        const ffmpeg = createFFmpeg({ log: true });
-        await ffmpeg.load();
-
-        ffmpeg.FS('writeFile', 'input', uint8Array);
-
-        const format = document.getElementById('outputFormat').value;
-        const outputFileName = `output.${format}`;
-
-        await ffmpeg.run('-i', 'input', outputFileName);
-
-        const data = ffmpeg.FS('readFile', outputFileName);
-
-        const blob = new Blob([data.buffer], { type: `video/${format}` });
-        const url = URL.createObjectURL(blob);
-        document.getElementById('downloadLink').href = url;
-        document.getElementById('downloadLink').download = outputFileName;
-        document.getElementById('downloadLink').style.display = 'block';
       });
     </script>
 </body>
