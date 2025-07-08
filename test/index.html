@@ -3,32 +3,86 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>FFmpeg WASM Minimal Test</title>
+<title>FFmpeg WASM Video Converter Test</title>
 </head>
 <body>
-<h1>FFmpeg WASM Minimal Test</h1>
-<button id="run">Load FFmpeg</button>
-<div id="status"></div>
+<h1>FFmpeg WASM Video Converter</h1>
+
+<input type="file" id="input-video" accept="video/*" />
+<button id="convert-btn" disabled>Convert to WebM</button>
+<div id="status">Load FFmpeg first.</div>
 
 <script src="/assets/ffmpeg/ffmpeg.min.js"></script>
 <script>
   const status = document.getElementById('status');
-  const runBtn = document.getElementById('run');
+  const inputVideo = document.getElementById('input-video');
+  const convertBtn = document.getElementById('convert-btn');
 
-  runBtn.onclick = async () => {
+  let ffmpeg;
+  let videoFile;
+
+  // Initialize FFmpeg
+  async function loadFFmpeg() {
     status.textContent = 'Loading FFmpeg...';
-
-    // Create FFmpeg instance from the global FFmpegWASM object
-    const ffmpeg = new FFmpegWASM.FFmpeg();
-
+    ffmpeg = new FFmpegWASM.FFmpeg();
     try {
       await ffmpeg.load();
-      status.textContent = 'FFmpeg loaded successfully!';
+      status.textContent = 'FFmpeg loaded successfully! Please select a video file.';
+      convertBtn.disabled = false;
+    } catch (err) {
+      status.textContent = 'Failed to load FFmpeg: ' + err.message;
+    }
+  }
+
+  inputVideo.addEventListener('change', (e) => {
+    if (e.target.files.length > 0) {
+      videoFile = e.target.files[0];
+      status.textContent = `Selected file: ${videoFile.name}`;
+    }
+  });
+
+  convertBtn.addEventListener('click', async () => {
+    if (!videoFile) {
+      alert('Please select a video file first.');
+      return;
+    }
+
+    status.textContent = 'Converting video...';
+
+    try {
+      // Read file as Uint8Array
+      const data = new Uint8Array(await videoFile.arrayBuffer());
+
+      // Write the input file to FFmpeg FS
+      await ffmpeg.writeFile('input.' + getExtension(videoFile.name), data);
+
+      // Run FFmpeg command to convert input to output.webm
+      await ffmpeg.exec(['-i', 'input.' + getExtension(videoFile.name), '-c:v', 'libvpx', '-crf', '10', '-b:v', '1M', 'output.webm']);
+
+      // Read the result
+      const outputData = await ffmpeg.readFile('output.webm');
+
+      // Create blob URL and download
+      const videoBlob = new Blob([outputData], { type: 'video/webm' });
+      const url = URL.createObjectURL(videoBlob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'converted.webm';
+      a.click();
+      URL.revokeObjectURL(url);
+
+      status.textContent = 'Conversion complete! Download should start.';
     } catch (e) {
-      status.textContent = 'Failed to load FFmpeg: ' + e.message;
+      status.textContent = 'Conversion failed: ' + e.message;
       console.error(e);
     }
-  };
+  });
+
+  function getExtension(filename) {
+    return filename.split('.').pop().toLowerCase();
+  }
+
+  loadFFmpeg();
 </script>
 </body>
 </html>
