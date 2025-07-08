@@ -1,83 +1,85 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>FFmpeg Video Converter</title>
-  <style>
-    body { font-family: sans-serif; text-align: center; padding: 2em; }
-    input, button, select { margin: 1em; padding: 0.5em; }
-    video { max-width: 100%; margin-top: 2em; }
-  </style>
-</head>
+<html>
+<head><meta charset="utf-8"><title>FFmpeg.wasm Video Converter</title></head>
 <body>
-  <h1>FFmpeg Video Converter</h1>
-  <input type="file" id="videoInput" accept="video/*" />
-  <select id="outputFormat">
-    <option value="mp4">MP4</option>
-    <option value="webm">WebM</option>
-    <option value="gif">GIF</option>
+  <h2>Client-Side Video Converter (FFmpeg.wasm)</h2>
+  <input type="file" id="uploader" accept="video/*"><br>
+  <select id="format">
+    <option value="mp4">MP4 (H.264)</option>
+    <option value="webm">WebM (VP8)</option>
+    <option value="avi">AVI (MPEG-4)</option>
   </select>
-  <button id="convertBtn">Convert</button>
-  <p id="status">Idle</p>
-  <video id="outputVideo" controls></video>
+  <button id="convert">Convert</button>
+  <br><br>
+  <progress id="progress" value="0" max="100" style="width:300px; display:none;"></progress>
+  <span id="progresstext"></span>
+  <br><br>
+  <a id="downloadLink" style="display:none"></a>
 
-  <!-- ✅ Load UMD build that exposes `window.FFmpeg` -->
-  <script src="/assets/ffmpeg/ffmpeg.min.js"></script>
-
-  <!-- ✅ Wait until the script is ready -->
+  <!-- Load FFmpeg.wasm from CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/umd/ffmpeg.min.js"></script>
   <script>
-    window.addEventListener('load', async () => {
-      const statusEl = document.getElementById('status');
-      const convertBtn = document.getElementById('convertBtn');
-      const videoOutput = document.getElementById('outputVideo');
-
-      // ✅ Check if FFmpeg was properly loaded
-      if (!window.FFmpeg || !window.FFmpeg.createFFmpeg) {
-        statusEl.textContent = 'Failed to load FFmpeg.';
-        console.error('FFmpeg is not defined. Check that ffmpeg.min.js is accessible and loaded.');
-        return;
-      }
-
-      const { createFFmpeg, fetchFile } = window.FFmpeg;
-
-      const ffmpeg = createFFmpeg({
-        log: true,
-        corePath: '/assets/ffmpeg/ffmpeg-core.js',
-        wasmPath: '/assets/ffmpeg/ffmpeg-core.wasm',
-        workerPath: '/assets/ffmpeg/worker.js'
-      });
-
-      convertBtn.addEventListener('click', async () => {
-        const input = document.getElementById('videoInput').files[0];
-        const format = document.getElementById('outputFormat').value;
-
-        if (!input) {
-          statusEl.textContent = 'Please select a file.';
+    (async () => {
+      const { createFFmpeg, fetchFile } = FFmpeg;
+      const ffmpeg = createFFmpeg({ log: true });
+      await ffmpeg.load();  // initialize FFmpeg WASM
+      
+      document.getElementById('convert').onclick = async () => {
+        const fileInput = document.getElementById('uploader');
+        if (fileInput.files.length === 0) {
+          alert("Please select a video file.");
           return;
         }
+        const file = fileInput.files[0];
+        const format = document.getElementById('format').value;  // 'mp4', 'webm', or 'avi'
+        const inputName = 'input' + (file.name.match(/\.[^\.]+$/) || [''])[0];
+        const outputName = 'output.' + format;
 
-        try {
-          statusEl.textContent = 'Loading FFmpeg...';
-          if (!ffmpeg.isLoaded()) await ffmpeg.load();
+        // Show progress bar
+        const progressBar = document.getElementById('progress');
+        const progressText = document.getElementById('progresstext');
+        progressBar.style.display = 'inline';
+        progressText.textContent = '0%';
 
-          const inputName = 'input.' + input.name.split('.').pop();
-          const outputName = 'output.' + format;
+        // Setup progress listener
+        ffmpeg.setLogger(({ message }) => {
+          // Optionally log messages
+          console.log(message);
+        });
+        ffmpeg.on('progress', ({ ratio }) => {
+          progressBar.value = ratio * 100;
+          progressText.textContent = `${(ratio*100).toFixed(1)}%`;
+        });
 
-          ffmpeg.FS('writeFile', inputName, await fetchFile(input));
-
-          statusEl.textContent = 'Converting...';
-          await ffmpeg.run('-i', inputName, outputName);
-
-          const data = ffmpeg.FS('readFile', outputName);
-          const blob = new Blob([data.buffer], { type: 'video/' + format });
-          videoOutput.src = URL.createObjectURL(blob);
-          statusEl.textContent = 'Done!';
-        } catch (err) {
-          console.error(err);
-          statusEl.textContent = 'Error during conversion.';
+        // Write the uploaded file to FFmpeg FS
+        const data = await fetchFile(file);
+        await ffmpeg.FS('writeFile', inputName, data);
+        
+        // Run conversion command
+        if (format === 'mp4') {
+          await ffmpeg.run('-i', inputName, '-c:v', 'libx264', '-c:a', 'aac', outputName);
+        } else if (format === 'webm') {
+          await ffmpeg.run('-i', inputName, '-c:v', 'libvpx', '-c:a', 'libvorbis', outputName);
+        } else if (format === 'avi') {
+          await ffmpeg.run('-i', inputName, '-c:v', 'mpeg4', '-c:a', 'mp3', outputName);
         }
-      });
-    });
+
+        // Read the result
+        const outData = ffmpeg.FS('readFile', outputName);
+        const mime = (format==='mp4' ? 'video/mp4' : format==='webm' ? 'video/webm' : 'video/x-msvideo');
+        const blob = new Blob([outData.buffer], { type: mime });
+        const url = URL.createObjectURL(blob);
+        const link = document.getElementById('downloadLink');
+        link.href = url;
+        link.download = outputName;
+        link.textContent = `Download ${outputName}`;
+        link.style.display = 'inline';
+
+        // Cleanup and reset
+        progressBar.style.display = 'none';
+        progressText.textContent = '';
+      };
+    })();
   </script>
 </body>
 </html>
