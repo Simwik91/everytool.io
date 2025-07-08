@@ -2,48 +2,39 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>FFmpeg Browser Test</title>
+  <title>FFmpeg WebAssembly Demo</title>
 </head>
 <body>
-  <h2>Select a WebM file to convert to MP4:</h2>
-  <input type="file" id="uploader" accept=".webm" />
-  <p id="status">Status: Idle</p>
-  <video id="video" controls style="max-width: 100%; display: none;"></video>
+  <h1>FFmpeg WebAssembly Test</h1>
+  <input type="file" id="uploader" />
+  <button id="convertBtn">Convert to MP4</button>
+  <video id="outputVideo" controls></video>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/ffmpeg/0.12.15/umd/ffmpeg.min.js"></script>
-  <script>
-    const { createFFmpeg, fetchFile } = FFmpeg.createFFmpeg ? FFmpeg : window.FFmpeg;
+  <script type="module">
+    import { createFFmpeg, fetchFile } from 'https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.10.1/+esm';
 
-    const ffmpeg = createFFmpeg({
-      log: true,
-      corePath: 'https://cdnjs.cloudflare.com/ajax/libs/ffmpeg/0.12.15/umd/814.ffmpeg.min.js',
-    });
+    const ffmpeg = createFFmpeg({ log: true });
 
     const uploader = document.getElementById('uploader');
-    const status = document.getElementById('status');
-    const video = document.getElementById('video');
+    const convertBtn = document.getElementById('convertBtn');
+    const outputVideo = document.getElementById('outputVideo');
 
-    uploader.addEventListener('change', async (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
+    let inputFile;
 
-      status.textContent = 'Status: Loading FFmpeg...';
+    uploader.addEventListener('change', (e) => {
+      inputFile = e.target.files[0];
+    });
+
+    convertBtn.addEventListener('click', async () => {
+      if (!inputFile) return alert('Please upload a file first.');
+
       await ffmpeg.load();
-
-      status.textContent = 'Status: Writing file...';
-      ffmpeg.FS('writeFile', 'input.webm', await fetchFile(file));
-
-      status.textContent = 'Status: Converting...';
-      await ffmpeg.run('-i', 'input.webm', '-c:v', 'libx264', '-c:a', 'aac', 'output.mp4');
-
-      status.textContent = 'Status: Reading output...';
+      ffmpeg.FS('writeFile', 'input.webm', await fetchFile(inputFile));
+      await ffmpeg.run('-i', 'input.webm', 'output.mp4');
       const data = ffmpeg.FS('readFile', 'output.mp4');
-      const blob = new Blob([data.buffer], { type: 'video/mp4' });
-      const url = URL.createObjectURL(blob);
 
-      video.src = url;
-      video.style.display = 'block';
-      status.textContent = 'Status: Done!';
+      const videoUrl = URL.createObjectURL(new Blob([data.buffer], { type: 'video/mp4' }));
+      outputVideo.src = videoUrl;
     });
   </script>
 </body>
