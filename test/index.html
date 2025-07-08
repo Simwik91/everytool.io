@@ -1,259 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Video Converter - Everytool.io</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 20px;
-      text-align: center;
-    }
-    input, button {
-      margin: 10px;
-      padding: 10px;
-      font-size: 16px;
-    }
-    #status {
-      margin-top: 20px;
-      color: #333;
-    }
-    #error {
-      margin-top: 20px;
-      color: #d32f2f;
-      display: none;
-    }
-    #downloadLink {
-      display: none;
-      margin-top: 20px;
-      padding: 10px;
-      background-color: #28a745;
-      color: white;
-      text-decoration: none;
-      border-radius: 5px;
-    }
-    #debugPanel {
-      margin-top: 20px;
-      text-align: left;
-      border: 1px solid #ccc;
-      padding: 10px;
-      background-color: #f9f9f9;
-      max-height: 200px;
-      overflow-y: auto;
-      display: none;
-    }
-    #debugPanel pre {
-      margin: 0;
-      font-size: 12px;
-    }
-    #debugToggle {
-      cursor: pointer;
-      color: #007bff;
-      text-decoration: underline;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Converter</title>
+    <script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.15/dist/umd/ffmpeg.min.js"></script>
 </head>
 <body>
-  <h1>Video Converter</h1>
-  <input type="file" id="videoInput" accept="video/mp4,video/avi,video/mov,video/mkv,video/webm">
-  <br>
-  <button onclick="convertVideo()">Convert to MP4</button>
-  <button onclick="testFFmpeg()">Test FFmpeg</button>
-  <p id="status">Select a video file and click Convert.</p>
-  <p id="error"></p>
-  <a id="downloadLink" download="converted_video.mp4">Download Converted Video</a>
-  <p><span id="debugToggle" onclick="toggleDebugPanel()">Show Debug Logs</span></p>
-  <div id="debugPanel"></div>
+    <h1>Video Converter</h1>
+    <input type="file" id="videoInput" accept="video/*">
+    <select id="outputFormat">
+        <option value="mp4">MP4</option>
+        <option value="webm">WebM</option>
+    </select>
+    <button id="convertButton">Convert</button>
+    <a id="downloadLink" style="display:none;">Download Converted Video</a>
+    <script>
+        document.getElementById('convertButton').addEventListener('click', async () => {
+            const file = document.getElementById('videoInput').files[0];
+            if (!file) {
+                alert('Please select a video file');
+                return;
+            }
 
-  <script type="module">
-    import { createFFmpeg, fetchFile } from 'https://unpkg.com/@ffmpeg/ffmpeg@0.12.10/dist/esm/ffmpeg.min.js';
+            const arrayBuffer = await file.arrayBuffer();
+            const uint8Array = new Uint8Array(arrayBuffer);
 
-    let ffmpeg = null;
-    const BASE_URL = 'https://simwik91.github.io/everytool.io/assets/ffmpeg/';
-    const debugLog = [];
+            const ffmpeg = new FFmpeg();
+            await ffmpeg.load();
 
-    // UI and logging functions
-    function updateStatus(message) {
-      console.log(`Status: ${message}`);
-      debugLog.push(`[Status] ${new Date().toISOString()}: ${message}`);
-      updateDebugPanel();
-      document.getElementById('status').textContent = message;
-      document.getElementById('error').style.display = 'none';
-    }
+            ffmpeg.FS('writeFile', 'input', uint8Array);
 
-    function showError(message) {
-      console.error(`Error: ${message}`);
-      debugLog.push(`[Error] ${new Date().toISOString()}: ${message}`);
-      updateDebugPanel();
-      document.getElementById('error').textContent = message;
-      document.getElementById('error').style.display = 'block';
-      document.getElementById('status').textContent = '';
-    }
+            const format = document.getElementById('outputFormat').value;
+            const outputFileName = `output.${format}`;
 
-    function updateDebugPanel() {
-      const debugPanel = document.getElementById('debugPanel');
-      debugPanel.innerHTML = `<pre>${debugLog.join('\n')}</pre>`;
-    }
+            await ffmpeg.run('-i', 'input', outputFileName);
 
-    function toggleDebugPanel() {
-      const debugPanel = document.getElementById('debugPanel');
-      const debugToggle = document.getElementById('debugToggle');
-      debugPanel.style.display = debugPanel.style.display === 'none' ? 'block' : 'none';
-      debugToggle.textContent = debugPanel.style.display === 'none' ? 'Show Debug Logs' : 'Hide Debug Logs';
-    }
+            const data = ffmpeg.FS('readFile', outputFileName);
 
-    async function loadFFmpeg() {
-      if (ffmpeg) {
-        updateStatus('FFmpeg already loaded.');
-        return;
-      }
-
-      try {
-        updateStatus('Loading FFmpeg...');
-        ffmpeg = createFFmpeg({
-          corePath: `${BASE_URL}ffmpeg-core.js`,
-          wasmPath: `${BASE_URL}ffmpeg-core.wasm`,
-          workerPath: `${BASE_URL}worker.js`,
-          log: true // Enable FFmpeg logs
+            const blob = new Blob([data.buffer], { type: `video/${format}` });
+            const url = URL.createObjectURL(blob);
+            document.getElementById('downloadLink').href = url;
+            document.getElementById('downloadLink').download = outputFileName;
+            document.getElementById('downloadLink').style.display = 'block';
         });
-
-        // Capture FFmpeg logs
-        ffmpeg.setLogger(({ type, message }) => {
-          debugLog.push(`[FFmpeg ${type}] ${new Date().toISOString()}: ${message}`);
-          updateDebugPanel();
-        });
-
-        await ffmpeg.load();
-        updateStatus('FFmpeg loaded successfully!');
-      } catch (error) {
-        showError(`Failed to load FFmpeg: ${error.message}. Check if files are accessible at ${BASE_URL}.`);
-        throw error;
-      }
-    }
-
-    async function testFFmpeg() {
-      updateStatus('Testing FFmpeg setup...');
-      document.getElementById('error').style.display = 'none';
-      debugLog.push(`[Test] ${new Date().toISOString()}: Starting FFmpeg test`);
-      updateDebugPanel();
-
-      try {
-        // Test file accessibility
-        for (const file of ['ffmpeg-core.js', 'ffmpeg-core.wasm', 'worker.js']) {
-          updateStatus(`Checking ${file}...`);
-          const response = await fetch(`${BASE_URL}${file}`);
-          if (!response.ok) {
-            throw new Error(`Failed to fetch ${file}: ${response.statusText}`);
-          }
-          debugLog.push(`[Test] ${new Date().toISOString()}: ${file} accessible`);
-        }
-
-        // Test FFmpeg loading
-        await loadFFmpeg();
-        debugLog.push(`[Test] ${new Date().toISOString()}: FFmpeg loaded successfully`);
-
-        // Log browser info
-        const browserInfo = `Browser: ${navigator.userAgent}`;
-        debugLog.push(`[Test] ${new Date().toISOString()}: ${browserInfo}`);
-        updateDebugPanel();
-        updateStatus('FFmpeg test passed! All files accessible and FFmpeg loaded.');
-      } catch (error) {
-        showError(`Test failed: ${error.message}. Check console and debug logs.`);
-      }
-    }
-
-    async function convertVideo() {
-      const videoInput = document.getElementById('videoInput');
-      const downloadLink = document.getElementById('downloadLink');
-
-      // Reset UI
-      downloadLink.style.display = 'none';
-      document.getElementById('error').style.display = 'none';
-
-      // Validate input
-      if (!videoInput.files[0]) {
-        showError('No video file selected. Please choose a file.');
-        return;
-      }
-
-      const file = videoInput.files[0];
-      const validExtensions = ['mp4', 'avi', 'mov', 'mkv', 'webm'];
-      const fileExtension = file.name.split('.').pop().toLowerCase();
-      if (!validExtensions.includes(fileExtension)) {
-        showError(`Unsupported file format: .${fileExtension}. Use MP4, AVI, MOV, MKV, or WebM.`);
-        return;
-      }
-
-      try {
-        // Load FFmpeg
-        await loadFFmpeg();
-
-        updateStatus(`Processing ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MiB)...`);
-        debugLog.push(`[Info] ${new Date().toISOString()}: File: ${file.name}, Size: ${(file.size / 1024 / 1024).toFixed(2)} MiB, Type: ${file.type}`);
-        updateDebugPanel();
-
-        // Validate file size
-        if (file.size > 500 * 1024 * 1024) {
-          showError('File is too large (>500 MiB). Try a smaller file.');
-          return;
-        }
-
-        // Write input file
-        const inputName = `input.${fileExtension}`;
-        const outputName = 'output.mp4';
-        updateStatus('Writing file to FFmpeg...');
-        try {
-          ffmpeg.FS('writeFile', inputName, await fetchFile(file));
-        } catch (error) {
-          showError(`Failed to write file to FFmpeg: ${error.message}`);
-          throw error;
-        }
-
-        // Run conversion
-        updateStatus('Converting to MP4...');
-        try {
-          await ffmpeg.run('-i', inputName, '-c:v', 'libx264', '-c:a', 'aac', '-strict', '-2', outputName);
-        } catch (error) {
-          showError(`Conversion failed: ${error.message}. Check if the input format is supported.`);
-          throw error;
-        }
-
-        // Read output
-        updateStatus('Generating download link...');
-        let data;
-        try {
-          data = ffmpeg.FS('readFile', outputName);
-        } catch (error) {
-          showError(`Failed to read output file: ${error.message}`);
-          throw error;
-        }
-
-        // Create download link
-        const blob = new Blob([data.buffer], { type: 'video/mp4' });
-        const url = URL.createObjectURL(blob);
-        downloadLink.href = url;
-        downloadLink.style.display = 'inline-block';
-        updateStatus('Conversion complete! Click to download.');
-        debugLog.push(`[Info] ${new Date().toISOString()}: Output file generated, size: ${(data.buffer.byteLength / 1024 / 1024).toFixed(2)} MiB`);
-
-        // Clean up
-        try {
-          ffmpeg.FS('unlink', inputName);
-          ffmpeg.FS('unlink', outputName);
-        } catch (error) {
-          console.warn(`Cleanup failed: ${error.message}`);
-          debugLog.push(`[Warn] ${new Date().toISOString()}: Cleanup failed: ${error.message}`);
-        }
-        updateDebugPanel();
-      } catch (error) {
-        console.error('Conversion process failed:', error);
-        debugLog.push(`[Error] ${new Date().toISOString()}: Conversion process failed: ${error.message}`);
-        updateDebugPanel();
-      }
-    }
-  </script>
+    </script>
 </body>
 </html>
