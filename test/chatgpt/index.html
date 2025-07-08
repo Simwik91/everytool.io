@@ -1,85 +1,64 @@
 <!DOCTYPE html>
-<html>
-<head><meta charset="utf-8"><title>FFmpeg.wasm Video Converter</title></head>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Video Converter</title>
+  <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.12.2/dist/ffmpeg.min.js"></script>
+</head>
 <body>
-  <h2>Client-Side Video Converter (FFmpeg.wasm)</h2>
-  <input type="file" id="uploader" accept="video/*"><br>
-  <select id="format">
-    <option value="mp4">MP4 (H.264)</option>
-    <option value="webm">WebM (VP8)</option>
-    <option value="avi">AVI (MPEG-4)</option>
+  <h1>Client-side Video Converter</h1>
+  
+  <input type="file" id="videoInput" accept="video/*">
+  <select id="formatSelect">
+    <option value="mp4">MP4</option>
+    <option value="webm">WebM</option>
+    <option value="ogg">OGG</option>
   </select>
-  <button id="convert">Convert</button>
-  <br><br>
-  <progress id="progress" value="0" max="100" style="width:300px; display:none;"></progress>
-  <span id="progresstext"></span>
-  <br><br>
-  <a id="downloadLink" style="display:none"></a>
+  <button id="convertBtn">Convert</button>
 
-  <!-- Load FFmpeg.wasm from CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/umd/ffmpeg.min.js"></script>
+  <p id="status">Status: Idle</p>
+  <a id="downloadLink" style="display:none">Download Converted Video</a>
+
   <script>
-    (async () => {
-      const { createFFmpeg, fetchFile } = FFmpeg;
-      const ffmpeg = createFFmpeg({ log: true });
-      await ffmpeg.load();  // initialize FFmpeg WASM
-      
-      document.getElementById('convert').onclick = async () => {
-        const fileInput = document.getElementById('uploader');
-        if (fileInput.files.length === 0) {
-          alert("Please select a video file.");
-          return;
-        }
-        const file = fileInput.files[0];
-        const format = document.getElementById('format').value;  // 'mp4', 'webm', or 'avi'
-        const inputName = 'input' + (file.name.match(/\.[^\.]+$/) || [''])[0];
-        const outputName = 'output.' + format;
+    const { createFFmpeg, fetchFile } = FFmpeg;
+    const ffmpeg = createFFmpeg({ log: true });
+    const input = document.getElementById('videoInput');
+    const convertBtn = document.getElementById('convertBtn');
+    const status = document.getElementById('status');
+    const downloadLink = document.getElementById('downloadLink');
+    const formatSelect = document.getElementById('formatSelect');
 
-        // Show progress bar
-        const progressBar = document.getElementById('progress');
-        const progressText = document.getElementById('progresstext');
-        progressBar.style.display = 'inline';
-        progressText.textContent = '0%';
+    convertBtn.addEventListener('click', async () => {
+      if (!input.files.length) {
+        alert('Please select a video file first.');
+        return;
+      }
 
-        // Setup progress listener
-        ffmpeg.setLogger(({ message }) => {
-          // Optionally log messages
-          console.log(message);
-        });
-        ffmpeg.on('progress', ({ ratio }) => {
-          progressBar.value = ratio * 100;
-          progressText.textContent = `${(ratio*100).toFixed(1)}%`;
-        });
+      const file = input.files[0];
+      const fileName = file.name;
+      const inputName = 'input_' + fileName;
+      const outputFormat = formatSelect.value;
+      const outputName = 'output.' + outputFormat;
 
-        // Write the uploaded file to FFmpeg FS
-        const data = await fetchFile(file);
-        await ffmpeg.FS('writeFile', inputName, data);
-        
-        // Run conversion command
-        if (format === 'mp4') {
-          await ffmpeg.run('-i', inputName, '-c:v', 'libx264', '-c:a', 'aac', outputName);
-        } else if (format === 'webm') {
-          await ffmpeg.run('-i', inputName, '-c:v', 'libvpx', '-c:a', 'libvorbis', outputName);
-        } else if (format === 'avi') {
-          await ffmpeg.run('-i', inputName, '-c:v', 'mpeg4', '-c:a', 'mp3', outputName);
-        }
+      status.textContent = 'Status: Loading FFmpeg...';
+      if (!ffmpeg.isLoaded()) {
+        await ffmpeg.load();
+      }
 
-        // Read the result
-        const outData = ffmpeg.FS('readFile', outputName);
-        const mime = (format==='mp4' ? 'video/mp4' : format==='webm' ? 'video/webm' : 'video/x-msvideo');
-        const blob = new Blob([outData.buffer], { type: mime });
-        const url = URL.createObjectURL(blob);
-        const link = document.getElementById('downloadLink');
-        link.href = url;
-        link.download = outputName;
-        link.textContent = `Download ${outputName}`;
-        link.style.display = 'inline';
+      status.textContent = 'Status: Processing...';
+      ffmpeg.FS('writeFile', inputName, await fetchFile(file));
 
-        // Cleanup and reset
-        progressBar.style.display = 'none';
-        progressText.textContent = '';
-      };
-    })();
+      await ffmpeg.run('-i', inputName, outputName);
+
+      const data = ffmpeg.FS('readFile', outputName);
+      const url = URL.createObjectURL(new Blob([data.buffer], { type: 'video/' + outputFormat }));
+
+      downloadLink.href = url;
+      downloadLink.download = outputName;
+      downloadLink.textContent = 'Download ' + outputName;
+      downloadLink.style.display = 'block';
+      status.textContent = 'Status: Done!';
+    });
   </script>
 </body>
 </html>
