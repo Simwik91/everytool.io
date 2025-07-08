@@ -6,29 +6,33 @@
 </head>
 <body>
   <h1>FFmpeg 0.12.15 Test</h1>
-  <p id="status">Loading FFmpeg...</p>
+  <button id="load">Load FFmpeg</button>
+  <pre id="log"></pre>
 
   <script src="/assets/ffmpeg/ffmpeg.min.js"></script>
   <script>
-    // Make sure the global FFmpeg is available
-    if (typeof FFmpeg === 'undefined') {
-      document.getElementById('status').textContent = 'FFmpeg is not defined. Check your script path.';
-    } else {
-      document.getElementById('status').textContent = 'FFmpeg loaded, creating instance...';
+    const logEl = document.getElementById('log');
+    const log = (msg) => {
+      console.log(msg);
+      logEl.textContent += msg + "\n";
+    };
 
-      // Create FFmpeg instance (default)
-      const ffmpeg = FFmpeg.createFFmpeg({ log: true });
+    document.getElementById('load').addEventListener('click', async () => {
+      try {
+        log('Starting FFmpeg...');
+        const { FFmpeg } = FFmpegWASM;  // Correct reference here
+        const ffmpeg = new FFmpeg();
 
-      ffmpeg.load()
-        .then(() => {
-          document.getElementById('status').textContent = 'FFmpeg loaded successfully!';
-          console.log('FFmpeg instance:', ffmpeg);
-        })
-        .catch(err => {
-          document.getElementById('status').textContent = 'Failed to load FFmpeg: ' + err.message;
-          console.error(err);
-        });
-    }
+        log('Loading FFmpeg core (this may take a while)...');
+        await ffmpeg.load();
+
+        log('FFmpeg loaded successfully!');
+        // You can now use ffmpeg instance for commands, e.g.:
+        // await ffmpeg.exec(['-version']);
+      } catch (err) {
+        log('Error: ' + err.message);
+      }
+    });
   </script>
 </body>
 </html>
