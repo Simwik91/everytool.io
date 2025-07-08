@@ -3,111 +3,172 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>FFmpeg WASM Video Converter with Progress</title>
+<title>FFmpeg WASM Video Converter with Logging</title>
 <style>
   #progress-container {
-    width: 100%;
+    width: 300px;
     background: #eee;
-    border-radius: 5px;
-    margin-top: 10px;
-    height: 20px;
-    overflow: hidden;
+    border: 1px solid #ccc;
+    margin: 1em 0;
   }
   #progress-bar {
-    height: 100%;
-    width: 0%;
-    background-color: #4caf50;
-    transition: width 0.2s;
+    width: 0;
+    height: 20px;
+    background: #4caf50;
   }
 </style>
 </head>
 <body>
-<h1>FFmpeg WASM Video Converter with Progress</h1>
+
+<h2>FFmpeg WASM Video Converter with Detailed Logging</h2>
 
 <input type="file" id="input-video" accept="video/*" />
 <button id="convert-btn" disabled>Convert to WebM</button>
 
-<div id="status">Load FFmpeg first.</div>
-
-<div id="progress-container" aria-label="Conversion progress">
+<div id="progress-container">
   <div id="progress-bar"></div>
 </div>
 
-<script src="/assets/ffmpeg/ffmpeg.min.js"></script>
+<p id="status">Load FFmpeg</p>
+
 <script>
-  const status = document.getElementById('status');
-  const inputVideo = document.getElementById('input-video');
-  const convertBtn = document.getElementById('convert-btn');
-  const progressBar = document.getElementById('progress-bar');
+  // Path to your locally hosted ffmpeg.min.js and wasm must be correct
+  // ffmpeg.min.js should be the self-hosted file you pasted earlier.
+  // ffmpeg-core.wasm should be at the same folder as ffmpeg.min.js
 
-  let ffmpeg;
-  let videoFile;
-
-  async function loadFFmpeg() {
-    status.textContent = 'Loading FFmpeg...';
-    ffmpeg = new FFmpegWASM.FFmpeg();
-
-    // Listen for progress events
-    ffmpeg.on('progress', ({ ratio }) => {
-      const percent = Math.min(100, Math.round(ratio * 100));
-      progressBar.style.width = percent + '%';
-      status.textContent = `Converting video... ${percent}%`;
+  // Load your local ffmpeg.min.js as a script tag dynamically
+  function loadFFmpegScript(src) {
+    return new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = src;
+      script.onload = () => {
+        console.log('ffmpeg.min.js loaded from', src);
+        resolve();
+      };
+      script.onerror = (e) => reject(new Error('Failed to load ffmpeg.min.js'));
+      document.head.appendChild(script);
     });
-
-    try {
-      await ffmpeg.load();
-      status.textContent = 'FFmpeg loaded successfully! Please select a video file.';
-      convertBtn.disabled = false;
-    } catch (err) {
-      status.textContent = 'Failed to load FFmpeg: ' + err.message;
-    }
   }
 
-  inputVideo.addEventListener('change', (e) => {
-    if (e.target.files.length > 0) {
-      videoFile = e.target.files[0];
-      status.textContent = `Selected file: ${videoFile.name}`;
-      progressBar.style.width = '0%'; // reset progress bar on new file select
-    }
-  });
+  (async () => {
+    const status = document.getElementById('status');
+    const inputVideo = document.getElementById('input-video');
+    const convertBtn = document.getElementById('convert-btn');
+    const progressBar = document.getElementById('progress-bar');
 
-  convertBtn.addEventListener('click', async () => {
-    if (!videoFile) {
-      alert('Please select a video file first.');
+    // Step 1: Load ffmpeg.min.js from local assets folder
+    try {
+      await loadFFmpegScript('/assets/ffmpeg/ffmpeg.min.js');
+    } catch (e) {
+      status.textContent = 'Error loading ffmpeg.min.js';
+      console.error(e);
       return;
     }
 
-    status.textContent = 'Starting conversion...';
-    progressBar.style.width = '0%';
-
-    try {
-      const data = new Uint8Array(await videoFile.arrayBuffer());
-      await ffmpeg.writeFile('input.' + getExtension(videoFile.name), data);
-      await ffmpeg.exec(['-i', 'input.' + getExtension(videoFile.name), '-c:v', 'libvpx', '-crf', '10', '-b:v', '1M', 'output.webm']);
-      const outputData = await ffmpeg.readFile('output.webm');
-
-      const videoBlob = new Blob([outputData], { type: 'video/webm' });
-      const url = URL.createObjectURL(videoBlob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'converted.webm';
-      a.click();
-      URL.revokeObjectURL(url);
-
-      status.textContent = 'Conversion complete! Download should start.';
-      progressBar.style.width = '100%';
-    } catch (e) {
-      status.textContent = 'Conversion failed: ' + e.message;
-      progressBar.style.width = '0%';
-      console.error(e);
+    if (!window.FFmpegWASM) {
+      status.textContent = 'FFmpegWASM global not found after loading script!';
+      console.error('FFmpegWASM is not defined');
+      return;
     }
-  });
 
-  function getExtension(filename) {
-    return filename.split('.').pop().toLowerCase();
-  }
+    // Step 2: Create FFmpeg instance using your self-hosted wasm
+    // Make sure ffmpeg-core.wasm is in the same directory as ffmpeg.min.js
+    const ffmpeg = new FFmpegWASM.FFmpeg();
 
-  loadFFmpeg();
+    // Attach logs and progress listeners with detailed logging
+    ffmpeg.on('log', (msg) => {
+      console.log('[FFmpeg LOG]', msg);
+    });
+    ffmpeg.on('progress', (progress) => {
+      console.log('[FFmpeg PROGRESS]', progress);
+      if (typeof progress.ratio === 'number') {
+        const percent = Math.min(100, Math.round(progress.ratio * 100));
+        progressBar.style.width = percent + '%';
+        status.textContent = `Converting video... ${percent}%`;
+      } else {
+        console.warn('[FFmpeg PROGRESS] Invalid ratio:', progress.ratio);
+      }
+    });
+
+    ffmpeg.on('error', (e) => {
+      console.error('[FFmpeg ERROR]', e);
+      status.textContent = 'Error during FFmpeg operation: ' + e.message;
+    });
+
+    // Step 3: Load ffmpeg-core.wasm
+    try {
+      status.textContent = 'Loading FFmpeg WASM core...';
+      await ffmpeg.load({ classWorkerURL: '/assets/ffmpeg/ffmpeg-core.js' });
+      // Note: classWorkerURL is your worker js file, adjust if needed
+      status.textContent = 'FFmpeg loaded successfully! Please select a video file.';
+      convertBtn.disabled = false;
+    } catch (e) {
+      status.textContent = 'Error loading FFmpeg WASM core';
+      console.error(e);
+      return;
+    }
+
+    let videoFile;
+
+    inputVideo.addEventListener('change', (e) => {
+      if (e.target.files.length > 0) {
+        videoFile = e.target.files[0];
+        status.textContent = `Selected file: ${videoFile.name}`;
+        progressBar.style.width = '0%';
+        console.log('Video file selected:', videoFile.name);
+      }
+    });
+
+    convertBtn.addEventListener('click', async () => {
+      if (!videoFile) {
+        alert('Please select a video file first.');
+        return;
+      }
+
+      status.textContent = 'Starting conversion...';
+      progressBar.style.width = '0%';
+      console.log('Starting conversion for:', videoFile.name);
+
+      try {
+        // Write file into ffmpeg FS
+        const arrayBuffer = await videoFile.arrayBuffer();
+        await ffmpeg.writeFile(videoFile.name, new Uint8Array(arrayBuffer));
+        console.log('Input file written to FFmpeg FS:', videoFile.name);
+
+        // Run ffmpeg to convert to webm
+        await ffmpeg.exec([
+          '-i', videoFile.name,
+          '-c:v', 'libvpx',
+          '-crf', '10',
+          '-b:v', '1M',
+          'output.webm',
+        ]);
+        console.log('FFmpeg run finished');
+
+        // Read output file
+        const outputData = await ffmpeg.readFile('output.webm');
+        console.log('Output file read, size:', outputData.length);
+
+        // Create blob and download link
+        const videoBlob = new Blob([outputData], { type: 'video/webm' });
+        const url = URL.createObjectURL(videoBlob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'converted.webm';
+        a.click();
+        URL.revokeObjectURL(url);
+
+        status.textContent = 'Conversion complete! Download should start.';
+        progressBar.style.width = '100%';
+
+      } catch (e) {
+        console.error('Conversion failed:', e);
+        status.textContent = 'Conversion failed: ' + e.message;
+      }
+    });
+
+  })();
 </script>
+
 </body>
 </html>
