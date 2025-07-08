@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>FFmpeg 0.12.15 Simple Video Converter Test</title>
+  <title>FFmpeg Simple Video Converter Test</title>
 </head>
 <body>
-  <h1>FFmpeg 0.12.15 Simple Video Converter Test</h1>
+  <h1>FFmpeg Simple Video Converter Test</h1>
   <input type="file" id="uploader" accept="video/*" />
   <br /><br />
   <label for="outputFormat">Choose output format:</label>
@@ -19,10 +19,14 @@
   <button id="convertBtn">Convert</button>
   <br /><br />
   <video id="videoOutput" controls style="max-width: 400px;"></video>
-  <script type="module">
-    import { FFmpeg } from './assets/ffmpeg/ffmpeg.min.js';
 
-    const ffmpeg = new FFmpeg();
+  <script type="module">
+    import { FFmpeg } from '/assets/ffmpeg/ffmpeg.min.js'; // corrected path
+
+    const ffmpeg = new FFmpeg({
+      corePath: '/assets/ffmpeg/ffmpeg-core.js' // corrected path
+    });
+
     const uploader = document.getElementById('uploader');
     const convertBtn = document.getElementById('convertBtn');
     const outputFormatSelect = document.getElementById('outputFormat');
@@ -33,6 +37,14 @@
     uploader.addEventListener('change', (e) => {
       inputFile = e.target.files[0];
       console.log('File selected:', inputFile ? inputFile.name : 'None');
+    });
+
+    ffmpeg.on('log', ({ message }) => {
+      console.log('FFmpeg log:', message);
+    });
+
+    ffmpeg.on('progress', ({ ratio }) => {
+      console.log(`Progress: ${(ratio * 100).toFixed(2)}%`);
     });
 
     convertBtn.addEventListener('click', async () => {
@@ -49,40 +61,36 @@
         await ffmpeg.load();
         console.log('FFmpeg loaded successfully.');
 
-        const fileName = 'input.' + inputFile.name.split('.').pop();
-        const outputFileName = 'output.' + outputFormat;
+        const inputName = 'input.' + inputFile.name.split('.').pop();
+        const outputName = 'output.' + outputFormat;
 
         const data = await inputFile.arrayBuffer();
-        console.log('Writing file to FFmpeg FS:', fileName);
-        await ffmpeg.writeFile(fileName, new Uint8Array(data));
-        console.log('File written.');
+        await ffmpeg.writeFile(inputName, new Uint8Array(data));
+        console.log('Input file written to FS.');
 
-        // Build ffmpeg command arguments
-        // Basic example: convert input to output format, keeping video codec copy for speed
-        const args = ['-i', fileName];
-
+        const args = ['-i', inputName];
         if (outputFormat === 'gif') {
-          args.push('-t', '5'); // limit gif length to 5 seconds for demo
+          args.push('-t', '5');
         }
-
-        args.push(outputFileName);
+        args.push(outputName);
 
         console.log('Running FFmpeg with args:', args);
         await ffmpeg.exec(args);
-        console.log('FFmpeg command finished.');
+        console.log('Conversion completed.');
 
-        console.log('Reading output file:', outputFileName);
-        const outputData = await ffmpeg.readFile(outputFileName);
+        const output = await ffmpeg.readFile(outputName);
+        const blob = new Blob([output.buffer], {
+          type: outputFormat === 'gif' ? 'image/gif' : 'video/' + outputFormat
+        });
 
-        // Create blob and object URL for output video/gif
-        const blob = new Blob([outputData.buffer], { type: 'video/' + (outputFormat === 'gif' ? 'gif' : outputFormat) });
         const url = URL.createObjectURL(blob);
         videoOutput.src = url;
-        console.log('Conversion complete! Output video set.');
+
+        console.log('Conversion successful! Output video set.');
 
       } catch (err) {
-        console.error('Error during conversion:', err);
-        alert('Conversion failed. Check console for details.');
+        console.error('Conversion failed:', err);
+        alert('Something went wrong. Check the console.');
       }
     });
   </script>
