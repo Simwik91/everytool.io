@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Video Converter</title>
-    <script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.15/dist/umd/ffmpeg.min.js"></script>
 </head>
 <body>
     <h1>Video Converter</h1>
@@ -15,35 +14,39 @@
     </select>
     <button id="convertButton">Convert</button>
     <a id="downloadLink" style="display:none;">Download Converted Video</a>
-    <script>
-        document.getElementById('convertButton').addEventListener('click', async () => {
-            const file = document.getElementById('videoInput').files[0];
-            if (!file) {
-                alert('Please select a video file');
-                return;
-            }
+    <script type="module">
+      import { FFmpeg } from 'https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.15/dist/esm/ffmpeg.js';
 
-            const arrayBuffer = await file.arrayBuffer();
-            const uint8Array = new Uint8Array(arrayBuffer);
+      document.getElementById('convertButton').addEventListener('click', async () => {
+        const file = document.getElementById('videoInput').files[0];
+        if (!file) {
+          alert('Please select a video file');
+          return;
+        }
 
-            const ffmpeg = new FFmpeg();
-            await ffmpeg.load();
+        const arrayBuffer = await file.arrayBuffer();
+        const uint8Array = new Uint8Array(arrayBuffer);
 
-            ffmpeg.FS('writeFile', 'input', uint8Array);
+        const ffmpeg = new FFmpeg();
+        await ffmpeg.load();
 
-            const format = document.getElementById('outputFormat').value;
-            const outputFileName = `output.${format}`;
+        ffmpeg.FS('writeFile', 'input', uint8Array);
 
-            await ffmpeg.run('-i', 'input', outputFileName);
+        const format = document.getElementById('outputFormat').value;
+        const outputFileName = `output.${format}`;
 
-            const data = ffmpeg.FS('readFile', outputFileName);
+        await ffmpeg.run('-i', 'input', outputFileName);
 
-            const blob = new Blob([data.buffer], { type: `video/${format}` });
-            const url = URL.createObjectURL(blob);
-            document.getElementById('downloadLink').href = url;
-            document.getElementById('downloadLink').download = outputFileName;
-            document.getElementById('downloadLink').style.display = 'block';
-        });
+        const data = ffmpeg.FS('readFile', outputFileName);
+
+        const blob = new Blob([data.buffer], { type: `video /
+
+${format}` });
+        const url = URL.createObjectURL(blob);
+        document.getElementById('downloadLink').href = url;
+        document.getElementById('downloadLink').download = outputFileName;
+        document.getElementById('downloadLink').style.display = 'block';
+      });
     </script>
 </body>
 </html>
