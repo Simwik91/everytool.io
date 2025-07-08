@@ -1,78 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>FFmpeg 0.12.15 Video Converter Test</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FFmpeg 0.12.15 Simple Video Converter Test</title>
 </head>
 <body>
-  <h1>FFmpeg 0.12.15 Simple Video Converter</h1>
-
+  <h1>FFmpeg 0.12.15 Simple Video Converter Test</h1>
   <input type="file" id="uploader" accept="video/*" />
-  <button id="convertBtn" disabled>Convert to MP4</button>
-  <div id="status"></div>
-  <a id="downloadLink" style="display:none;" download="output.mp4">Download Converted Video</a>
+  <br /><br />
+  <label for="outputFormat">Choose output format:</label>
+  <select id="outputFormat">
+    <option value="mp4">MP4</option>
+    <option value="webm">WEBM</option>
+    <option value="gif">GIF</option>
+  </select>
+  <br /><br />
+  <button id="convertBtn">Convert</button>
+  <br /><br />
+  <video id="videoOutput" controls style="max-width: 400px;"></video>
+  <script type="module">
+    import { FFmpeg } from './assets/ffmpeg/ffmpeg.min.js';
 
-  <script src="/assets/ffmpeg/ffmpeg.min.js"></script>
-  <script>
-    const { FFmpeg } = FFmpegWASM;
     const ffmpeg = new FFmpeg();
-
     const uploader = document.getElementById('uploader');
     const convertBtn = document.getElementById('convertBtn');
-    const status = document.getElementById('status');
-    const downloadLink = document.getElementById('downloadLink');
+    const outputFormatSelect = document.getElementById('outputFormat');
+    const videoOutput = document.getElementById('videoOutput');
 
-    let selectedFile;
+    let inputFile = null;
 
     uploader.addEventListener('change', (e) => {
-      selectedFile = e.target.files[0];
-      if (selectedFile) {
-        convertBtn.disabled = false;
-        status.textContent = `Selected file: ${selectedFile.name}`;
-        downloadLink.style.display = 'none';
-        downloadLink.href = '';
-      }
+      inputFile = e.target.files[0];
+      console.log('File selected:', inputFile ? inputFile.name : 'None');
     });
 
-    async function fileToUint8Array(file) {
-      return new Uint8Array(await file.arrayBuffer());
-    }
-
     convertBtn.addEventListener('click', async () => {
-      if (!selectedFile) return;
-
-      convertBtn.disabled = true;
-      status.textContent = 'Loading FFmpeg...';
-
-      if (!ffmpeg.loaded) {
-        await ffmpeg.load();
+      if (!inputFile) {
+        alert('Please select a video file first.');
+        return;
       }
 
-      status.textContent = 'Start converting...';
+      const outputFormat = outputFormatSelect.value;
+      console.log('Starting conversion to format:', outputFormat);
 
-      // Write the input file to FFmpeg filesystem
-      ffmpeg.FS('writeFile', 'input', await fileToUint8Array(selectedFile));
+      try {
+        console.log('Loading FFmpeg core...');
+        await ffmpeg.load();
+        console.log('FFmpeg loaded successfully.');
 
-      // Run FFmpeg command to convert to MP4 with H.264 video and AAC audio
-      await ffmpeg.run('-i', 'input', '-c:v', 'libx264', '-preset', 'fast', '-c:a', 'aac', '-b:a', '128k', 'output.mp4');
+        const fileName = 'input.' + inputFile.name.split('.').pop();
+        const outputFileName = 'output.' + outputFormat;
 
-      status.textContent = 'Conversion done! Preparing download...';
+        const data = await inputFile.arrayBuffer();
+        console.log('Writing file to FFmpeg FS:', fileName);
+        await ffmpeg.writeFile(fileName, new Uint8Array(data));
+        console.log('File written.');
 
-      // Read output file from FFmpeg FS
-      const data = ffmpeg.FS('readFile', 'output.mp4');
+        // Build ffmpeg command arguments
+        // Basic example: convert input to output format, keeping video codec copy for speed
+        const args = ['-i', fileName];
 
-      // Create a Blob URL for download
-      const videoBlob = new Blob([data.buffer], { type: 'video/mp4' });
-      const url = URL.createObjectURL(videoBlob);
+        if (outputFormat === 'gif') {
+          args.push('-t', '5'); // limit gif length to 5 seconds for demo
+        }
 
-      downloadLink.href = url;
-      downloadLink.style.display = 'inline';
-      downloadLink.textContent = 'Download Converted Video';
+        args.push(outputFileName);
 
-      status.textContent = 'Conversion completed!';
+        console.log('Running FFmpeg with args:', args);
+        await ffmpeg.exec(args);
+        console.log('FFmpeg command finished.');
 
-      convertBtn.disabled = false;
+        console.log('Reading output file:', outputFileName);
+        const outputData = await ffmpeg.readFile(outputFileName);
+
+        // Create blob and object URL for output video/gif
+        const blob = new Blob([outputData.buffer], { type: 'video/' + (outputFormat === 'gif' ? 'gif' : outputFormat) });
+        const url = URL.createObjectURL(blob);
+        videoOutput.src = url;
+        console.log('Conversion complete! Output video set.');
+
+      } catch (err) {
+        console.error('Error during conversion:', err);
+        alert('Conversion failed. Check console for details.');
+      }
     });
   </script>
 </body>
