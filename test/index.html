@@ -15,7 +15,10 @@
     <button id="convertButton">Convert</button>
     <a id="downloadLink" style="display:none;">Download Converted Video</a>
     <script type="module">
-      import { FFmpeg } from 'https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.15/dist/esm/ffmpeg.js';
+      async function loadFFmpeg() {
+        const { createFFmpeg } = await import('https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.15/dist/umd/ffmpeg.min.js');
+        return createFFmpeg;
+      }
 
       document.getElementById('convertButton').addEventListener('click', async () => {
         const file = document.getElementById('videoInput').files[0];
@@ -27,7 +30,8 @@
         const arrayBuffer = await file.arrayBuffer();
         const uint8Array = new Uint8Array(arrayBuffer);
 
-        const ffmpeg = new FFmpeg();
+        const createFFmpeg = await loadFFmpeg();
+        const ffmpeg = createFFmpeg({ log: true });
         await ffmpeg.load();
 
         ffmpeg.FS('writeFile', 'input', uint8Array);
@@ -39,9 +43,7 @@
 
         const data = ffmpeg.FS('readFile', outputFileName);
 
-        const blob = new Blob([data.buffer], { type: `video /
-
-${format}` });
+        const blob = new Blob([data.buffer], { type: `video/${format}` });
         const url = URL.createObjectURL(blob);
         document.getElementById('downloadLink').href = url;
         document.getElementById('downloadLink').download = outputFileName;
