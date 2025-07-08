@@ -1,79 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Simple Video Converter with FFmpeg WASM</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>FFmpeg WASM Minimal Test</title>
 </head>
 <body>
-  <h2>Simple Video Converter</h2>
+<h1>FFmpeg WASM Minimal Test</h1>
+<button id="run">Load FFmpeg</button>
+<div id="status"></div>
 
-  <input type="file" id="videoInput" accept="video/*" />
-  <button id="convertBtn" disabled>Convert to MP4</button>
+<script src="/assets/ffmpeg/ffmpeg.min.js"></script>
+<script>
+  const status = document.getElementById('status');
+  const runBtn = document.getElementById('run');
 
-  <p id="status">Load FFmpeg</p>
+  runBtn.onclick = async () => {
+    status.textContent = 'Loading FFmpeg...';
 
-  <script type="module">
-    import { createFFmpeg, fetchFile } from 'https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.15/dist/ffmpeg.min.js';
+    // Create FFmpeg instance from the global FFmpegWASM object
+    const ffmpeg = new FFmpegWASM.FFmpeg();
 
-    const ffmpeg = createFFmpeg({ log: true });
-    const status = document.getElementById('status');
-    const videoInput = document.getElementById('videoInput');
-    const convertBtn = document.getElementById('convertBtn');
-
-    let inputFileName = '';
-    let isFFmpegLoaded = false;
-
-    async function loadFFmpeg() {
-      status.textContent = 'Loading FFmpeg core...';
+    try {
       await ffmpeg.load();
-      isFFmpegLoaded = true;
-      status.textContent = 'FFmpeg loaded. Please select a video file.';
-      convertBtn.disabled = false;
+      status.textContent = 'FFmpeg loaded successfully!';
+    } catch (e) {
+      status.textContent = 'Failed to load FFmpeg: ' + e.message;
+      console.error(e);
     }
-
-    videoInput.addEventListener('change', () => {
-      if (videoInput.files.length > 0) {
-        inputFileName = videoInput.files[0].name;
-        status.textContent = `Selected file: ${inputFileName}`;
-        convertBtn.disabled = !isFFmpegLoaded;
-      }
-    });
-
-    convertBtn.addEventListener('click', async () => {
-      if (!videoInput.files.length) {
-        alert('Please select a video file first.');
-        return;
-      }
-
-      const file = videoInput.files[0];
-      const outputFileName = 'output.mp4';
-
-      status.textContent = 'Converting... Please wait.';
-
-      // Write the input file to ffmpeg FS
-      ffmpeg.FS('writeFile', inputFileName, await fetchFile(file));
-
-      // Run ffmpeg to convert the file to mp4
-      // Basic command: -i input.ext -c:v libx264 -preset veryfast output.mp4
-      await ffmpeg.run('-i', inputFileName, '-c:v', 'libx264', '-preset', 'veryfast', outputFileName);
-
-      // Read the result
-      const data = ffmpeg.FS('readFile', outputFileName);
-
-      // Create a Blob and download link
-      const videoBlob = new Blob([data.buffer], { type: 'video/mp4' });
-      const url = URL.createObjectURL(videoBlob);
-
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = outputFileName;
-      a.textContent = 'Download Converted Video';
-      document.body.appendChild(a);
-
-      status.textContent = 'Conversion complete! Download your video below.';
-    });
-
-    loadFFmpeg();
-  </script>
+  };
+</script>
 </body>
 </html>
