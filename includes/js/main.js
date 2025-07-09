@@ -1,3 +1,41 @@
+// Mobile Menu Functionality
+function initMobileMenu() {
+  const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+  const closeMobileMenu = document.getElementById('close-mobile-menu');
+  const mobileNav = document.getElementById('mobile-nav');
+  const mobileBackdrop = document.getElementById('mobile-backdrop');
+  
+  function openMobileMenu() {
+    mobileNav.classList.add('active');
+    mobileBackdrop.classList.add('active');
+    document.body.classList.add('menu-open');
+  }
+  
+  function closeMobileMenuHandler() {
+    mobileNav.classList.remove('active');
+    mobileBackdrop.classList.remove('active');
+    document.body.classList.remove('menu-open');
+  }
+  
+  if (mobileMenuToggle) {
+    mobileMenuToggle.addEventListener('click', openMobileMenu);
+  }
+  
+  if (closeMobileMenu) {
+    closeMobileMenu.addEventListener('click', closeMobileMenuHandler);
+  }
+  
+  if (mobileBackdrop) {
+    mobileBackdrop.addEventListener('click', closeMobileMenuHandler);
+  }
+  
+  const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+  mobileLinks.forEach(link => {
+    link.addEventListener('click', closeMobileMenuHandler);
+  });
+}
+
+// Cookie Consent Functionality
 function initCookieConsent() {
   const COOKIE_CONSENT_KEY = 'cookieConsent';
   
@@ -74,7 +112,17 @@ function initCookieConsent() {
   
   const saveSettingsBtn = document.getElementById('save-settings');
   if (saveSettingsBtn) {
-    save        
+    saveSettingsBtn.addEventListener('click', () => {
+      saveCookiePreferences({
+        essential: true,
+        analytics: document.getElementById('analytics-toggle').checked,
+        advertising: document.getElementById('advertising-toggle').checked
+      });
+      closeCookieSettings();
+      document.getElementById('cookie-consent').style.display = 'none';
+    });
+  }
+  
   const openSettingsFooter = document.getElementById('open-settings-footer');
   if (openSettingsFooter) {
     openSettingsFooter.addEventListener('click', (e) => {
@@ -86,17 +134,21 @@ function initCookieConsent() {
   checkCookieConsent();
 }
 
+// Initialize header and footer includes
 document.addEventListener('DOMContentLoaded', () => {
   fetch('/includes/header.html')
     .then(response => response.text())
     .then(data => {
       document.querySelector('#main-header').innerHTML = data;
-      initMobileMenu(); // From header
-    });
+      initMobileMenu();
+    })
+    .catch(error => console.error('Error loading header:', error));
+  
   fetch('/includes/footer.html')
     .then(response => response.text())
     .then(data => {
       document.querySelector('#main-footer').innerHTML = data;
-      initCookieConsent(); // Initialize after footer is loaded
-    });
+      initCookieConsent();
+    })
+    .catch(error => console.error('Error loading footer:', error));
 });
