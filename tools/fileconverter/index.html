@@ -8,9 +8,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4.0.3/dist/tesseract.min.js"></script>
+    <script type="module">
+        import { createFFmpeg, fetchFile } from 'https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.10.0/+esm';
+        // FFmpeg instance will be created later
+    </script>
     <style>
         :root {
             --primary: #4361ee;
@@ -1409,13 +1410,10 @@
         <div class="tool-header">
             <h1>Advanced File Converter</h1>
             <p class="tagline">Convert images, audio, and video files quickly and securely</p>
-            <div class="privacy-note">
-                <i class="fas fa-shield-alt"></i> All conversions happen locally in your browser - your files never leave your device!
-            </div>
         </div>
         
         <div class="warning">
-            <i class="fas fa-exclamation-triangle"></i> For best performance, files larger than 500MB are not recommended.
+            <i class="fas fa-exclamation-triangle"></i> For best performance, files larger than 100MB are not recommended.
         </div>
 
         <!-- Features Section -->
@@ -1873,6 +1871,16 @@
                     <h3>Social Media</h3>
                     <p>Optimize media files for social platforms</p>
                 </div>
+                <div class="use-card">
+                    <i class="fas fa-book"></i>
+                    <h3>E-book Conversion</h3>
+                    <p>Convert documents to EPUB/MOBI formats</p>
+                </div>
+                <div class="use-card">
+                    <i class="fas fa-file-archive"></i>
+                    <h3>Archive Extraction</h3>
+                    <p>Extract compressed files for access</p>
+                </div>
             </div>
         </div>
     </div>
@@ -1892,16 +1900,10 @@
         </div>
     </div>
 
-    <script type="module">
-        import { createFFmpeg, fetchFile } from 'https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.10.0/+esm';
-
+    <script>
         // Constants
         const MAX_FILE_SIZE = 500 * 1024 * 1024; // 500MB
-
-        // FFmpeg instance
-        let ffmpeg = null;
-        let conversionCancelled = false;
-
+        
         // Mobile Menu Functionality
         function initMobileMenu() {
             const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
@@ -1957,7 +1959,7 @@
             const i = Math.floor(Math.log(bytes) / Math.log(k));
             return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
         }
-
+        
         // Validate file size
         function validateFileSize(file, maxSize = MAX_FILE_SIZE) {
             if (file.size > maxSize) {
@@ -1968,23 +1970,7 @@
             }
             return { valid: true };
         }
-
-        // Initialize FFmpeg instance
-        async function initFFmpeg() {
-            if (!ffmpeg) {
-                ffmpeg = createFFmpeg({ 
-                    log: true,
-                    corePath: 'https://unpkg.com/@ffmpeg/core@0.10.0/dist/ffmpeg-core.js'
-                });
-            }
-            
-            if (!ffmpeg.isLoaded()) {
-                document.getElementById('videoProgressMessage').textContent = 'Loading FFmpeg engine...';
-                document.getElementById('audioProgressMessage').textContent = 'Loading FFmpeg engine...';
-                await ffmpeg.load();
-            }
-        }
-
+        
         // Image Processing Functions
         function initImageConverter() {
             const canvas = document.getElementById('imageCanvas');
@@ -2002,6 +1988,9 @@
             const imagePreview = document.getElementById('imagePreview');
             const imageUpload = document.getElementById('imageFileUpload');
             const imageThumbnails = document.getElementById('imageThumbnails');
+            const imageProgressContainer = document.getElementById('imageProgressContainer');
+            const imageProgressBar = document.getElementById('imageProgressBar');
+            const imageTimeRemaining = document.getElementById('imageTimeRemaining');
             const imageError = document.getElementById('imageError');
             const imageErrorText = document.getElementById('imageErrorText');
             const imageSuccess = document.getElementById('imageSuccess');
@@ -2290,6 +2279,7 @@
                     }
                     
                     // Show processing UI
+                    imageProgressContainer.style.display = 'block';
                     imageProcessing.style.display = 'block';
                     imageError.style.display = 'none';
                     imageSuccess.style.display = 'none';
@@ -2309,10 +2299,12 @@
                     // Show success
                     imageProcessing.style.display = 'none';
                     imageSuccess.style.display = 'block';
+                    imageProgressContainer.style.display = 'none';
                 } catch (error) {
                     imageErrorText.textContent = `Conversion failed: ${error.message || 'Unknown error'}`;
                     imageError.style.display = 'block';
                     imageProcessing.style.display = 'none';
+                    imageProgressContainer.style.display = 'none';
                 }
             });
             
@@ -2322,6 +2314,7 @@
                 
                 try {
                     // Show processing UI
+                    imageProgressContainer.style.display = 'block';
                     imageProcessing.style.display = 'block';
                     imageError.style.display = 'none';
                     imageSuccess.style.display = 'none';
@@ -2353,10 +2346,12 @@
                     // Show success
                     imageProcessing.style.display = 'none';
                     imageSuccess.style.display = 'block';
+                    imageProgressContainer.style.display = 'none';
                 } catch (error) {
                     imageErrorText.textContent = `Batch conversion failed: ${error.message || 'Unknown error'}`;
                     imageError.style.display = 'block';
                     imageProcessing.style.display = 'none';
+                    imageProgressContainer.style.display = 'none';
                 }
             });
             
@@ -2462,425 +2457,11 @@
                 imageUpload.dispatchEvent(event);
             }
         }
-
-        // Audio Converter
-        function initAudioConverter() {
-            const audioUpload = document.getElementById('audioFileUpload');
-            const audioFileList = document.getElementById('audioFileList');
-            const convertAudioBtn = document.getElementById('convertAudioBtn');
-            const audioProgressContainer = document.getElementById('audioProgressContainer');
-            const audioProgressBar = document.getElementById('audioProgressBar');
-            const audioProgressPercent = document.getElementById('audioProgressPercent');
-            const audioProgressMessage = document.getElementById('audioProgressMessage');
-            const audioCancelBtn = document.getElementById('audioCancelBtn');
-            const audioProcessing = document.getElementById('audioProcessing');
-            const audioSuccess = document.getElementById('audioSuccess');
-            const audioError = document.getElementById('audioError');
-            const audioErrorText = document.getElementById('audioErrorText');
-            const audioPreview = document.getElementById('audioPreview');
-            const audioPlayer = document.getElementById('audioPlayer');
-            const downloadAudioBtn = document.getElementById('downloadAudioBtn');
-
-            audioUpload.addEventListener('change', () => {
-                if (!audioUpload.files.length) return;
-
-                audioFileList.innerHTML = '';
-                const file = audioUpload.files[0];
-                const validation = validateFileSize(file);
-                if (!validation.valid) {
-                    audioErrorText.textContent = validation.message;
-                    audioError.style.display = 'block';
-                    return;
-                }
-
-                const fileItem = document.createElement('div');
-                fileItem.className = 'file-item';
-                fileItem.innerHTML = `
-                    <div class="file-info">
-                        <i class="fas fa-file-audio file-icon"></i>
-                        <div class="file-details">
-                            <div class="file-name">${file.name}</div>
-                            <div class="file-size">${formatFileSize(file.size)}</div>
-                        </div>
-                    </div>
-                    <div class="file-status status-queued">Ready for conversion</div>
-                `;
-                audioFileList.appendChild(fileItem);
-
-                // Preload FFmpeg
-                initFFmpeg().catch(error => {
-                    console.error('FFmpeg initialization error:', error);
-                    audioErrorText.textContent = 'Failed to initialize audio engine. Please refresh the page.';
-                    audioError.style.display = 'block';
-                });
-            });
-
-            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-                document.getElementById('audioUploadArea').addEventListener(eventName, preventDefaults, false);
-            });
-
-            function preventDefaults(e) {
-                e.preventDefault();
-                e.stopPropagation();
-            }
-
-            function highlight() {
-                document.getElementById('audioUploadArea').classList.add('drag-over');
-            }
-
-            function unhighlight() {
-                document.getElementById('audioUploadArea').classList.remove('drag-over');
-            }
-
-            ['dragenter', 'dragover'].forEach(eventName => {
-                document.getElementById('audioUploadArea').addEventListener(eventName, highlight, false);
-            });
-
-            ['dragleave', 'drop'].forEach(eventName => {
-                document.getElementById('audioUploadArea').addEventListener(eventName, unhighlight, false);
-            });
-
-            document.getElementById('audioUploadArea').addEventListener('drop', (e) => {
-                const dt = e.dataTransfer;
-                const files = dt.files;
-                if (files.length && files[0].type.startsWith('audio/')) {
-                    audioUpload.files = files;
-                    const event = new Event('change', { bubbles: true });
-                    audioUpload.dispatchEvent(event);
-                } else {
-                    audioErrorText.textContent = 'Please drop a valid audio file (MP3, WAV, OGG, FLAC, AAC).';
-                    audioError.style.display = 'block';
-                }
-            });
-
-            convertAudioBtn.addEventListener('click', async () => {
-                if (!audioUpload.files.length) return;
-
-                audioProcessing.style.display = 'block';
-                audioError.style.display = 'none';
-                audioSuccess.style.display = 'none';
-                audioProgressContainer.style.display = 'flex';
-                conversionCancelled = false;
-
-                try {
-                    const file = audioUpload.files[0];
-                    const validation = validateFileSize(file);
-                    if (!validation.valid) {
-                        audioErrorText.textContent = validation.message;
-                        audioError.style.display = 'block';
-                        audioProgressContainer.style.display = 'none';
-                        return;
-                    }
-
-                    await initFFmpeg();
-
-                    const format = document.getElementById('audioFormat').value;
-                    const bitrate = document.getElementById('audioBitrate').value;
-                    const sampleRate = document.getElementById('audioSampleRate').value;
-
-                    const inputExt = file.name.split('.').pop() || 'mp3';
-                    const inputFilename = `input.${inputExt}`;
-                    const outputFilename = `output.${format}`;
-                    ffmpeg.FS('writeFile', inputFilename, await fetchFile(file));
-
-                    const args = ['-i', inputFilename];
-                    if (format === 'mp3') {
-                        args.push('-c:a', 'libmp3lame', '-b:a', `${bitrate}k');
-                    } else if (format === 'wav') {
-                        args.push('-c:a', 'pcm_s16le');
-                    } else if (format === 'ogg') {
-                        args.push('-c:a', 'libvorbis', '-b:a', `${bitrate}k');
-                    }
-                    if (sampleRate !== '44100') {
-                        args.push('-ar', sampleRate);
-                    }
-                    args.push(outputFilename);
-
-                    ffmpeg.setProgress(({ ratio }) => {
-                        if (conversionCancelled) return;
-                        const progressPercent = Math.round(ratio * 100);
-                        audioProgressBar.style.width = `${progressPercent}%`;
-                        audioProgressPercent.textContent = `${progressPercent}%`;
-                        audioProgressMessage.textContent = `Processing... ${progressPercent}%`;
-                    });
-
-                    await ffmpeg.run(...args);
-
-                    if (conversionCancelled) {
-                        throw new Error('Conversion cancelled by user');
-                    }
-
-                    const data = ffmpeg.FS('readFile', outputFilename);
-                    const mimeType = `audio/${format === 'ogg' ? 'ogg' : format}`;
-                    const audioUrl = URL.createObjectURL(new Blob([data.buffer], { type: mimeType }));
-                    audioPlayer.src = audioUrl;
-                    downloadAudioBtn.href = audioUrl;
-                    downloadAudioBtn.download = `converted.${format}`;
-                    audioPreview.style.display = 'block';
-
-                    ffmpeg.FS('unlink', inputFilename);
-                    ffmpeg.FS('unlink', outputFilename);
-
-                    audioProcessing.style.display = 'none';
-                    audioSuccess.style.display = 'block';
-                    audioProgressContainer.style.display = 'none';
-                } catch (error) {
-                    console.error('Audio conversion error:', error);
-                    audioProgressContainer.style.display = 'none';
-                    audioProcessing.style.display = 'none';
-                    if (conversionCancelled) {
-                        audioErrorText.textContent = 'Conversion cancelled by user.';
-                    } else {
-                        audioErrorText.textContent = `Conversion failed: ${error.message || 'Unknown error'}`;
-                    }
-                    audioError.style.display = 'block';
-                }
-            });
-
-            audioCancelBtn.addEventListener('click', () => {
-                conversionCancelled = true;
-                if (ffmpeg) {
-                    ffmpeg.terminate();
-                    ffmpeg = null;
-                }
-                audioProgressContainer.style.display = 'none';
-                audioProcessing.style.display = 'none';
-                audioErrorText.textContent = 'Conversion cancelled by user.';
-                audioError.style.display = 'block';
-            });
-        }
-
-        // Video Converter
-        function initVideoConverter() {
-            const videoUpload = document.getElementById('videoFileUpload');
-            const videoFileList = document.getElementById('videoFileList');
-            const convertVideoBtn = document.getElementById('convertVideoBtn');
-            const videoProgressContainer = document.getElementById('videoProgressContainer');
-            const videoProgressBar = document.getElementById('videoProgressBar');
-            const videoProgressPercent = document.getElementById('videoProgressPercent');
-            const videoProgressMessage = document.getElementById('videoProgressMessage');
-            const videoCancelBtn = document.getElementById('videoCancelBtn');
-            const videoProcessing = document.getElementById('videoProcessing');
-            const videoSuccess = document.getElementById('videoSuccess');
-            const videoError = document.getElementById('videoError');
-            const videoErrorText = document.getElementById('videoErrorText');
-            const videoPreview = document.getElementById('videoPreview');
-            const videoPlayer = document.getElementById('videoPlayer');
-            const downloadVideoBtn = document.getElementById('downloadVideoBtn');
-
-            videoUpload.addEventListener('change', () => {
-                if (!videoUpload.files.length) return;
-
-                videoFileList.innerHTML = '';
-                const file = videoUpload.files[0];
-                const validation = validateFileSize(file);
-                if (!validation.valid) {
-                    videoErrorText.textContent = validation.message;
-                    videoError.style.display = 'block';
-                    return;
-                }
-
-                const fileItem = document.createElement('div');
-                fileItem.className = 'file-item';
-                fileItem.innerHTML = `
-                    <div class="file-info">
-                        <i class="fas fa-file-video file-icon"></i>
-                        <div class="file-details">
-                            <div class="file-name">${file.name}</div>
-                            <div class="file-size">${formatFileSize(file.size)}</div>
-                        </div>
-                    </div>
-                    <div class="file-status status-queued">Ready for conversion</div>
-                `;
-                videoFileList.appendChild(fileItem);
-
-                // Preload FFmpeg
-                initFFmpeg().catch(error => {
-                    console.error('FFmpeg initialization error:', error);
-                    videoErrorText.textContent = 'Failed to initialize video engine. Please refresh the page.';
-                    videoError.style.display = 'block';
-                });
-            });
-
-            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-                document.getElementById('videoUploadArea').addEventListener(eventName, preventDefaults, false);
-            });
-
-            function preventDefaults(e) {
-                e.preventDefault();
-                e.stopPropagation();
-            }
-
-            function highlight() {
-                document.getElementById('videoUploadArea').classList.add('drag-over');
-            }
-
-            function unhighlight() {
-                document.getElementById('videoUploadArea').classList.remove('drag-over');
-            }
-
-            ['dragenter', 'dragover'].forEach(eventName => {
-                document.getElementById('videoUploadArea').addEventListener(eventName, highlight, false);
-            });
-
-            ['dragleave', 'drop'].forEach(eventName => {
-                document.getElementById('videoUploadArea').addEventListener(eventName, unhighlight, false);
-            });
-
-            document.getElementById('videoUploadArea').addEventListener('drop', (e) => {
-                const dt = e.dataTransfer;
-                const files = dt.files;
-                if (files.length && files[0].type.startsWith('video/')) {
-                    videoUpload.files = files;
-                    const event = new Event('change', { bubbles: true });
-                    videoUpload.dispatchEvent(event);
-                } else {
-                    videoErrorText.textContent = 'Please drop a valid video file (MP4, AVI, MOV, MKV, WEBM).';
-                    videoError.style.display = 'block';
-                }
-            });
-
-            convertVideoBtn.addEventListener('click', async () => {
-                if (!videoUpload.files.length) return;
-
-                videoProcessing.style.display = 'block';
-                videoError.style.display = 'none';
-                videoSuccess.style.display = 'none';
-                videoProgressContainer.style.display = 'flex';
-                conversionCancelled = false;
-
-                try {
-                    const file = videoUpload.files[0];
-                    const validation = validateFileSize(file);
-                    if (!validation.valid) {
-                        videoErrorText.textContent = validation.message;
-                        videoError.style.display = 'block';
-                        videoProgressContainer.style.display = 'none';
-                        return;
-                    }
-
-                    await initFFmpeg();
-
-                    const format = document.getElementById('videoFormat').value;
-                    const quality = document.getElementById('videoQuality').value;
-                    const framerate = document.getElementById('videoFramerate').value;
-                    const resolution = document.getElementById('videoResolution').value;
-                    const startTime = parseFloat(document.getElementById('videoStart').value) || 0;
-                    const endTime = parseFloat(document.getElementById('videoEnd').value) || 0;
-
-                    const inputExt = file.name.split('.').pop() || 'mp4';
-                    const inputFilename = `input.${inputExt}`;
-                    const outputFilename = `output.${format}`;
-                    ffmpeg.FS('writeFile', inputFilename, await fetchFile(file));
-
-                    const args = ['-i', inputFilename];
-
-                    if (format === 'mp4') {
-                        args.push('-c:v', 'libx264');
-                        if (quality === 'high') args.push('-crf', '18');
-                        else if (quality === 'medium') args.push('-crf', '23');
-                        else if (quality === 'low') args.push('-crf', '28');
-                    } else if (format === 'webm') {
-                        args.push('-c:v', 'libvpx-vp9');
-                        if (quality === 'high') args.push('-crf', '10');
-                        else if (quality === 'medium') args.push('-crf', '20');
-                        else if (quality === 'low') args.push('-crf', '30');
-                    } else if (format === 'gif') {
-                        args.push('-vf', 'fps=10,scale=320:-1:flags=lanczos');
-                    } else if (format === 'mov') {
-                        args.push('-c:v', 'libx264', '-c:a', 'aac');
-                    }
-
-                    if (framerate !== '24') {
-                        args.push('-r', framerate);
-                    }
-
-                    if (resolution !== 'original') {
-                        let resolutionValue;
-                        switch (resolution) {
-                            case '1080': resolutionValue = '1920x1080'; break;
-                            case '720': resolutionValue = '1280x720'; break;
-                            case '480': resolutionValue = '854x480'; break;
-                        }
-                        args.push('-s', resolutionValue);
-                    }
-
-                    if (startTime > 0) {
-                        args.push('-ss', startTime.toString());
-                    }
-                    if (endTime > startTime) {
-                        args.push('-to', (endTime - startTime).toString());
-                    }
-
-                    args.push(outputFilename);
-
-                    ffmpeg.setProgress(({ ratio }) => {
-                        if (conversionCancelled) return;
-                        const progressPercent = Math.round(ratio * 100);
-                        videoProgressBar.style.width = `${progressPercent}%`;
-                        videoProgressPercent.textContent = `${progressPercent}%`;
-                        videoProgressMessage.textContent = `Processing... ${progressPercent}%`;
-                    });
-
-                    await ffmpeg.run(...args);
-
-                    if (conversionCancelled) {
-                        throw new Error('Conversion cancelled by user');
-                    }
-
-                    const data = ffmpeg.FS('readFile', outputFilename);
-                    let mimeType;
-                    switch (format) {
-                        case 'mp4': mimeType = 'video/mp4'; break;
-                        case 'webm': mimeType = 'video/webm'; break;
-                        case 'gif': mimeType = 'image/gif'; break;
-                        case 'mov': mimeType = 'video/quicktime'; break;
-                    }
-
-                    const videoUrl = URL.createObjectURL(new Blob([data.buffer], { type: mimeType }));
-                    videoPlayer.src = videoUrl;
-                    downloadVideoBtn.href = videoUrl;
-                    downloadVideoBtn.download = `converted.${format}`;
-                    videoPreview.style.display = 'block';
-
-                    ffmpeg.FS('unlink', inputFilename);
-                    ffmpeg.FS('unlink', outputFilename);
-
-                    videoProcessing.style.display = 'none';
-                    videoSuccess.style.display = 'block';
-                    videoProgressContainer.style.display = 'none';
-                } catch (error) {
-                    console.error('Video conversion error:', error);
-                    videoProgressContainer.style.display = 'none';
-                    videoProcessing.style.display = 'none';
-                    if (conversionCancelled) {
-                        videoErrorText.textContent = 'Conversion cancelled by user.';
-                    } else {
-                        videoErrorText.textContent = `Conversion failed: ${error.message || 'Unknown error'}`;
-                    }
-                    videoError.style.display = 'block';
-                }
-            });
-
-            videoCancelBtn.addEventListener('click', () => {
-                conversionCancelled = true;
-                if (ffmpeg) {
-                    ffmpeg.terminate();
-                    ffmpeg = null;
-                }
-                videoProgressContainer.style.display = 'none';
-                videoProcessing.style.display = 'none';
-                videoErrorText.textContent = 'Conversion cancelled by user.';
-                videoError.style.display = 'block';
-            });
-        }
-
+        
         // Initialize everything when DOM is loaded
         document.addEventListener('DOMContentLoaded', () => {
             initMobileMenu();
             initImageConverter();
-            initAudioConverter();
-            initVideoConverter();
             
             // Tab Switching
             document.querySelectorAll('.tab').forEach(tab => {
