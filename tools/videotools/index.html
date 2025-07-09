@@ -1585,365 +1585,370 @@
 
     // Video Converter Functionality
     function initVideoConverter() {
-      // Import FFmpeg using the correct method
-      import('https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.10.0/dist/ffmpeg.min.js').then(module => {
-        // Extract createFFmpeg and fetchFile from the module
-        const { createFFmpeg, fetchFile } = module.default;
-        
-        const elements = {
-          dropZone: document.getElementById('dropZone'),
-          videoInput: document.getElementById('videoInput'),
-          dropZoneText: document.getElementById('dropZoneText'),
-          fileInfo: document.getElementById('fileInfo'),
-          fileName: document.getElementById('fileName'),
-          fileSize: document.getElementById('fileSize'),
-          fileType: document.getElementById('fileType'),
-          fileDimensions: document.getElementById('fileDimensions'),
-          convertBtn: document.getElementById('convertBtn'),
-          progressContainer: document.getElementById('progressContainer'),
-          progressMessage: document.getElementById('progressMessage'),
-          progressFill: document.getElementById('progressFill'),
-          progressPercent: document.getElementById('progressPercent'),
-          resultContainer: document.getElementById('resultContainer'),
-          downloadLink: document.getElementById('downloadLink'),
-          convertError: document.getElementById('convert-error'),
-          convertSuccess: document.getElementById('convert-success'),
-          convertLoading: document.getElementById('convert-loading'),
-          outputFormat: document.getElementById('outputFormat'),
-          quality: document.getElementById('quality'),
-          framerate: document.getElementById('framerate'),
-          resolution: document.getElementById('resolution'),
-          aspectRatio: document.getElementById('aspectRatio'),
-          muteAudio: document.getElementById('mute-audio'),
-          normalizeAudio: document.getElementById('normalize-audio'),
-          cancelBtn: document.getElementById('cancelBtn')
-        };
+      const elements = {
+        dropZone: document.getElementById('dropZone'),
+        videoInput: document.getElementById('videoInput'),
+        dropZoneText: document.getElementById('dropZoneText'),
+        fileInfo: document.getElementById('fileInfo'),
+        fileName: document.getElementById('fileName'),
+        fileSize: document.getElementById('fileSize'),
+        fileType: document.getElementById('fileType'),
+        fileDimensions: document.getElementById('fileDimensions'),
+        convertBtn: document.getElementById('convertBtn'),
+        progressContainer: document.getElementById('progressContainer'),
+        progressMessage: document.getElementById('progressMessage'),
+        progressFill: document.getElementById('progressFill'),
+        progressPercent: document.getElementById('progressPercent'),
+        resultContainer: document.getElementById('resultContainer'),
+        downloadLink: document.getElementById('downloadLink'),
+        convertError: document.getElementById('convert-error'),
+        convertSuccess: document.getElementById('convert-success'),
+        convertLoading: document.getElementById('convert-loading'),
+        outputFormat: document.getElementById('outputFormat'),
+        quality: document.getElementById('quality'),
+        framerate: document.getElementById('framerate'),
+        resolution: document.getElementById('resolution'),
+        aspectRatio: document.getElementById('aspectRatio'),
+        muteAudio: document.getElementById('mute-audio'),
+        normalizeAudio: document.getElementById('normalize-audio'),
+        cancelBtn: document.getElementById('cancelBtn')
+      };
 
-        let state = {
-          uploadedFile: null,
-          ffmpeg: null,
-          cancelRequested: false
-        };
+      let state = {
+        uploadedFile: null,
+        ffmpeg: null,
+        cancelRequested: false
+      };
 
-        function showError(message) {
+      function showError(message) {
+        if (elements.convertError) {
           elements.convertError.textContent = message;
           elements.convertError.style.display = 'block';
         }
+      }
 
-        function showSuccess(message) {
+      function showSuccess(message) {
+        if (elements.convertSuccess) {
           elements.convertSuccess.textContent = message;
           elements.convertSuccess.style.display = 'block';
         }
+      }
 
-        function hideMessages() {
-          elements.convertError.style.display = 'none';
-          elements.convertSuccess.style.display = 'none';
+      function hideMessages() {
+        if (elements.convertError) elements.convertError.style.display = 'none';
+        if (elements.convertSuccess) elements.convertSuccess.style.display = 'none';
+      }
+
+      function showLoading() {
+        if (elements.convertLoading) elements.convertLoading.style.display = 'block';
+      }
+
+      function hideLoading() {
+        if (elements.convertLoading) elements.convertLoading.style.display = 'none';
+      }
+
+      function updateProgress(percent, msg) {
+        const percentValue = Math.min(100, Math.max(0, percent));
+        if (elements.progressFill) elements.progressFill.style.width = `${percentValue}%`;
+        if (elements.progressMessage) elements.progressMessage.textContent = msg;
+        if (elements.progressPercent) elements.progressPercent.textContent = `${Math.round(percentValue)}%`;
+      }
+
+      async function loadFFmpeg() {
+        if (!state.ffmpeg) {
+          // Dynamically import FFmpeg
+          const FFmpegModule = await import('https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.10.0/dist/ffmpeg.min.js');
+          const { createFFmpeg, fetchFile } = FFmpegModule;
+          
+          state.ffmpeg = createFFmpeg({ 
+            log: true,
+            corePath: 'https://unpkg.com/@ffmpeg/core@0.10.0/dist/ffmpeg-core.js'
+          });
+          
+          await state.ffmpeg.load();
+        }
+        return state.ffmpeg;
+      }
+
+      function getResolutionDimensions(resolution) {
+        switch (resolution) {
+          case '1080p': return { width: 1920, height: 1080 };
+          case '720p': return { width: 1280, height: 720 };
+          case '480p': return { width: 854, height: 480 };
+          case '360p': return { width: 640, height: 360 };
+          default: return null;
+        }
+      }
+
+      function getAspectRatioValue(aspectRatio) {
+        switch (aspectRatio) {
+          case '16:9': return 16/9;
+          case '4:3': return 4/3;
+          case '1:1': return 1;
+          case '9:16': return 9/16;
+          default: return null;
+        }
+      }
+
+      async function processFile(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        hideMessages();
+        showLoading();
+
+        const allowedTypes = [
+          'video/mp4', 'video/webm', 'video/quicktime',
+          'video/x-msvideo', 'video/x-matroska'
+        ];
+        const allowedExtensions = ['.mp4', '.webm', '.mov', '.avi', '.mkv'];
+        const ext = '.' + file.name.split('.').pop().toLowerCase();
+
+        if (!allowedTypes.includes(file.type) && !allowedExtensions.includes(ext)) {
+          showError('Invalid file type. Please select a supported format (MP4, WEBM, MOV, AVI, or MKV).');
+          hideLoading();
+          return;
         }
 
-        function showLoading() {
-          elements.convertLoading.style.display = 'block';
+        if (file.size > 100 * 1024 * 1024) {
+          showError('File size exceeds 100MB limit. Please select a smaller file.');
+          hideLoading();
+          return;
         }
 
-        function hideLoading() {
-          elements.convertLoading.style.display = 'none';
+        try {
+          state.uploadedFile = file;
+          elements.dropZoneText.innerHTML = `Ready to convert:<br><strong>${file.name}</strong>`;
+          elements.fileInfo.style.display = 'block';
+          elements.fileName.textContent = file.name;
+          elements.fileSize.textContent = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
+          elements.fileType.textContent = file.type || 'Unknown';
+
+          const video = document.createElement('video');
+          video.src = URL.createObjectURL(file);
+          video.style.display = 'none';
+          document.body.appendChild(video);
+
+          await new Promise((resolve, reject) => {
+            video.onloadedmetadata = () => {
+              const width = video.videoWidth;
+              const height = video.videoHeight;
+              elements.fileDimensions.textContent = `${width}×${height}`;
+              document.body.removeChild(video);
+              URL.revokeObjectURL(video.src);
+              resolve();
+            };
+            video.onerror = () => reject(new Error('Failed to load video metadata'));
+          });
+
+          elements.convertBtn.disabled = false;
+          showSuccess('Video loaded successfully!');
+        } catch (error) {
+          showError('Error processing video: ' + error.message);
+          elements.convertBtn.disabled = true;
+        } finally {
+          hideLoading();
+        }
+      }
+
+      async function convertVideo() {
+        if (!state.uploadedFile) return;
+        if (state.ffmpeg && state.ffmpeg.isLoaded()) {
+          state.ffmpeg.exit();
         }
 
-        function updateProgress(percent, msg) {
-          const percentValue = Math.min(100, Math.max(0, percent));
-          elements.progressFill.style.width = `${percentValue}%`;
-          elements.progressMessage.textContent = msg;
-          elements.progressPercent.textContent = `${Math.round(percentValue)}%`;
-        }
+        hideMessages();
+        showLoading();
+        elements.progressContainer.style.display = 'block';
+        elements.resultContainer.style.display = 'none';
+        elements.convertBtn.disabled = true;
+        state.cancelRequested = false;
 
-        async function loadFFmpeg() {
-          if (!state.ffmpeg) {
-            state.ffmpeg = createFFmpeg({
-              log: true,
-              corePath: 'https://unpkg.com/@ffmpeg/core@0.10.0/dist/ffmpeg-core.js'
-            });
-            await state.ffmpeg.load();
+        try {
+          // Initialize FFmpeg
+          const ffmpeg = await loadFFmpeg();
+          
+          // Set up progress handler
+          ffmpeg.setProgress(({ ratio }) => {
+            const percent = Math.round(ratio * 100);
+            updateProgress(percent, `Processing video... ${percent}% complete`);
+          });
+
+          // Get settings from UI
+          const outputFormat = elements.outputFormat.value;
+          const quality = elements.quality.value;
+          const framerate = elements.framerate.value;
+          const resolution = elements.resolution.value;
+          const aspectRatio = elements.aspectRatio.value;
+          const muteAudio = elements.muteAudio.checked;
+          const normalizeAudio = elements.normalizeAudio.checked;
+
+          // Prepare input filename
+          const inputExt = state.uploadedFile.name.split('.').pop() || 'mp4';
+          const inputName = `input.${inputExt}`;
+          const outputName = `output.${outputFormat}`;
+
+          // Write file to FFmpeg FS
+          updateProgress(10, 'Loading video file...');
+          
+          // Dynamically import fetchFile
+          const FFmpegModule = await import('https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.10.0/dist/ffmpeg.min.js');
+          const { fetchFile } = FFmpegModule;
+          
+          ffmpeg.FS('writeFile', inputName, await fetchFile(state.uploadedFile));
+
+          // Build FFmpeg command
+          let command = ['-i', inputName];
+          let videoFilters = [];
+          let audioFilters = [];
+
+          // Handle resolution
+          const resDimensions = getResolutionDimensions(resolution);
+          if (resDimensions) {
+            videoFilters.push(`scale=${resDimensions.width}:${resDimensions.height}:force_original_aspect_ratio=decrease`);
+            videoFilters.push(`pad=${resDimensions.width}:${resDimensions.height}:(ow-iw)/2:(oh-ih)/2`);
           }
-          return state.ffmpeg;
-        }
 
-        function getResolutionDimensions(resolution) {
-          switch (resolution) {
-            case '1080p': return { width: 1920, height: 1080 };
-            case '720p': return { width: 1280, height: 720 };
-            case '480p': return { width: 854, height: 480 };
-            case '360p': return { width: 640, height: 360 };
-            default: return null;
+          // Handle framerate
+          if (framerate !== 'original') {
+            command.push('-r', framerate);
           }
-        }
 
-        function getAspectRatioValue(aspectRatio) {
-          switch (aspectRatio) {
-            case '16:9': return 16/9;
-            case '4:3': return 4/3;
-            case '1:1': return 1;
-            case '9:16': return 9/16;
-            default: return null;
+          // Handle aspect ratio (if specified and not original)
+          const targetAspect = getAspectRatioValue(aspectRatio);
+          if (targetAspect && aspectRatio !== 'original') {
+            videoFilters.push(`setsar=${targetAspect}`);
           }
-        }
 
-        async function processFile(e) {
-          const file = e.target.files[0];
-          if (!file) return;
+          // Apply video filters if any
+          if (videoFilters.length > 0) {
+            command.push('-vf', videoFilters.join(','));
+          }
 
-          hideMessages();
-          showLoading();
+          // Handle audio
+          if (muteAudio) {
+            command.push('-an');
+          } else {
+            if (normalizeAudio) {
+              audioFilters.push('loudnorm=I=-16:TP=-1.5:LRA=11');
+            }
+            
+            if (audioFilters.length > 0) {
+              command.push('-af', audioFilters.join(','));
+            }
+          }
 
-          const allowedTypes = [
-            'video/mp4', 'video/webm', 'video/quicktime',
-            'video/x-msvideo', 'video/x-matroska'
-          ];
-          const allowedExtensions = ['.mp4', '.webm', '.mov', '.avi', '.mkv'];
-          const ext = '.' + file.name.split('.').pop().toLowerCase();
+          // Set video codec and quality
+          if (outputFormat === 'mp4') {
+            command.push('-c:v', 'libx264');
+            command.push('-preset', 'medium');
+            command.push('-crf', quality === 'high' ? '18' : (quality === 'medium' ? '23' : '28'));
+            command.push('-c:a', 'aac');
+            command.push('-b:a', quality === 'high' ? '192k' : (quality === 'medium' ? '128k' : '64k'));
+          } 
+          else if (outputFormat === 'webm') {
+            command.push('-c:v', 'libvpx-vp9');
+            command.push('-b:v', quality === 'high' ? '5M' : (quality === 'medium' ? '2.5M' : '1M'));
+            command.push('-c:a', 'libopus');
+            command.push('-b:a', quality === 'high' ? '192k' : (quality === 'medium' ? '128k' : '64k'));
+          } 
+          else if (outputFormat === 'gif') {
+            command.push('-an'); // No audio in GIF
+            command.push('-f', 'gif');
+          }
 
-          if (!allowedTypes.includes(file.type) && !allowedExtensions.includes(ext)) {
-            showError('Invalid file type. Please select a supported format (MP4, WEBM, MOV, AVI, or MKV).');
-            hideLoading();
+          // Add output file
+          command.push(outputName);
+
+          // Run FFmpeg command
+          updateProgress(20, 'Starting conversion...');
+          await ffmpeg.run(...command);
+
+          // Check if conversion was canceled
+          if (state.cancelRequested) {
+            updateProgress(0, 'Conversion canceled');
+            showError('Conversion was canceled');
             return;
           }
 
-          if (file.size > 100 * 1024 * 1024) {
-            showError('File size exceeds 100MB limit. Please select a smaller file.');
-            hideLoading();
-            return;
+          // Read output file
+          updateProgress(90, 'Finalizing conversion...');
+          const data = ffmpeg.FS('readFile', outputName);
+          const blob = new Blob([data.buffer], { type: `video/${outputFormat === 'gif' ? 'gif' : outputFormat}` });
+          const url = URL.createObjectURL(blob);
+
+          // Set download link
+          elements.downloadLink.href = url;
+          elements.downloadLink.download = `converted.${outputFormat}`;
+          elements.resultContainer.style.display = 'block';
+
+          // Clean up
+          ffmpeg.FS('unlink', inputName);
+          ffmpeg.FS('unlink', outputName);
+
+          // Show success
+          updateProgress(100, 'Conversion complete!');
+          showSuccess('Video converted successfully!');
+        } catch (error) {
+          if (!state.cancelRequested) {
+            console.error('Conversion error:', error);
+            showError(`Conversion failed: ${error.message || 'Unknown error'}`);
+            updateProgress(0, 'Conversion failed');
           }
-
-          try {
-            state.uploadedFile = file;
-            elements.dropZoneText.innerHTML = `Ready to convert:<br><strong>${file.name}</strong>`;
-            elements.fileInfo.style.display = 'block';
-            elements.fileName.textContent = file.name;
-            elements.fileSize.textContent = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
-            elements.fileType.textContent = file.type || 'Unknown';
-
-            const video = document.createElement('video');
-            video.src = URL.createObjectURL(file);
-            video.style.display = 'none';
-            document.body.appendChild(video);
-
-            await new Promise((resolve, reject) => {
-              video.onloadedmetadata = () => {
-                const width = video.videoWidth;
-                const height = video.videoHeight;
-                elements.fileDimensions.textContent = `${width}×${height}`;
-                document.body.removeChild(video);
-                URL.revokeObjectURL(video.src);
-                resolve();
-              };
-              video.onerror = () => reject(new Error('Failed to load video metadata'));
-            });
-
-            elements.convertBtn.disabled = false;
-            showSuccess('Video loaded successfully!');
-          } catch (error) {
-            showError('Error processing video: ' + error.message);
-            elements.convertBtn.disabled = true;
-          } finally {
-            hideLoading();
-          }
+        } finally {
+          hideLoading();
+          elements.convertBtn.disabled = false;
         }
+      }
 
-        async function convertVideo() {
-          if (!state.uploadedFile) return;
-          if (state.ffmpeg && state.ffmpeg.isLoaded()) {
+      function initializeConverter() {
+        // Drag and Drop Setup
+        elements.dropZone.addEventListener('click', () => elements.videoInput.click());
+        elements.dropZone.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          elements.dropZone.classList.add('drag-over');
+        });
+        elements.dropZone.addEventListener('dragenter', (e) => {
+          e.preventDefault();
+          elements.dropZone.classList.add('drag-over');
+        });
+        elements.dropZone.addEventListener('dragleave', () => {
+          elements.dropZone.classList.remove('drag-over');
+        });
+        elements.dropZone.addEventListener('drop', (e) => {
+          e.preventDefault();
+          elements.dropZone.classList.remove('drag-over');
+          const files = e.dataTransfer.files;
+          if (files.length > 0) {
+            elements.videoInput.files = files;
+            elements.videoInput.dispatchEvent(new Event('change'));
+          }
+        });
+
+        // File Input
+        elements.videoInput.addEventListener('change', processFile);
+
+        // Convert Button
+        elements.convertBtn.addEventListener('click', convertVideo);
+
+        // Cancel Button
+        elements.cancelBtn.addEventListener('click', () => {
+          state.cancelRequested = true;
+          if (state.ffmpeg) {
             state.ffmpeg.exit();
           }
+        });
 
-          hideMessages();
-          showLoading();
-          elements.progressContainer.style.display = 'block';
-          elements.resultContainer.style.display = 'none';
-          elements.convertBtn.disabled = true;
-          state.cancelRequested = false;
-
-          try {
-            // Initialize FFmpeg
-            const ffmpeg = await loadFFmpeg();
-            
-            // Set progress handler
-            ffmpeg.setProgress(({ ratio }) => {
-              const percent = Math.round(ratio * 100);
-              updateProgress(percent, `Processing video... ${percent}% complete`);
-            });
-
-            // Get settings from UI
-            const outputFormat = elements.outputFormat.value;
-            const quality = elements.quality.value;
-            const framerate = elements.framerate.value;
-            const resolution = elements.resolution.value;
-            const aspectRatio = elements.aspectRatio.value;
-            const muteAudio = elements.muteAudio.checked;
-            const normalizeAudio = elements.normalizeAudio.checked;
-
-            // Prepare input filename
-            const inputExt = state.uploadedFile.name.split('.').pop() || 'mp4';
-            const inputName = `input.${inputExt}`;
-            const outputName = `output.${outputFormat}`;
-
-            // Write file to FFmpeg FS
-            updateProgress(10, 'Loading video file...');
-            ffmpeg.FS('writeFile', inputName, await fetchFile(state.uploadedFile));
-
-            // Build FFmpeg command
-            let command = ['-i', inputName];
-            let videoFilters = [];
-            let audioFilters = [];
-
-            // Handle resolution
-            const resDimensions = getResolutionDimensions(resolution);
-            if (resDimensions) {
-              videoFilters.push(`scale=${resDimensions.width}:${resDimensions.height}:force_original_aspect_ratio=decrease`);
-              videoFilters.push(`pad=${resDimensions.width}:${resDimensions.height}:(ow-iw)/2:(oh-ih)/2`);
-            }
-
-            // Handle framerate
-            if (framerate !== 'original') {
-              command.push('-r', framerate);
-            }
-
-            // Handle aspect ratio (if specified and not original)
-            const targetAspect = getAspectRatioValue(aspectRatio);
-            if (targetAspect && aspectRatio !== 'original') {
-              videoFilters.push(`setsar=${targetAspect}`);
-            }
-
-            // Apply video filters if any
-            if (videoFilters.length > 0) {
-              command.push('-vf', videoFilters.join(','));
-            }
-
-            // Handle audio
-            if (muteAudio) {
-              command.push('-an');
-            } else {
-              if (normalizeAudio) {
-                audioFilters.push('loudnorm=I=-16:TP=-1.5:LRA=11');
-              }
-              
-              if (audioFilters.length > 0) {
-                command.push('-af', audioFilters.join(','));
-              }
-            }
-
-            // Set video codec and quality
-            if (outputFormat === 'mp4') {
-              command.push('-c:v', 'libx264');
-              command.push('-preset', 'medium');
-              command.push('-crf', quality === 'high' ? '18' : (quality === 'medium' ? '23' : '28'));
-              command.push('-c:a', 'aac');
-              command.push('-b:a', quality === 'high' ? '192k' : (quality === 'medium' ? '128k' : '64k'));
-            } 
-            else if (outputFormat === 'webm') {
-              command.push('-c:v', 'libvpx-vp9');
-              command.push('-b:v', quality === 'high' ? '5M' : (quality === 'medium' ? '2.5M' : '1M'));
-              command.push('-c:a', 'libopus');
-              command.push('-b:a', quality === 'high' ? '192k' : (quality === 'medium' ? '128k' : '64k'));
-            } 
-            else if (outputFormat === 'gif') {
-              command.push('-an'); // No audio in GIF
-              command.push('-f', 'gif');
-            }
-
-            // Add output file
-            command.push(outputName);
-
-            // Run FFmpeg command
-            updateProgress(20, 'Starting conversion...');
-            await ffmpeg.run(...command);
-
-            // Check if conversion was canceled
-            if (state.cancelRequested) {
-              updateProgress(0, 'Conversion canceled');
-              showError('Conversion was canceled');
-              return;
-            }
-
-            // Read output file
-            updateProgress(90, 'Finalizing conversion...');
-            const data = ffmpeg.FS('readFile', outputName);
-            const blob = new Blob([data.buffer], { type: `video/${outputFormat === 'gif' ? 'gif' : outputFormat}` });
-            const url = URL.createObjectURL(blob);
-
-            // Set download link
-            elements.downloadLink.href = url;
-            elements.downloadLink.download = `converted.${outputFormat}`;
-            elements.resultContainer.style.display = 'block';
-
-            // Clean up
-            ffmpeg.FS('unlink', inputName);
-            ffmpeg.FS('unlink', outputName);
-
-            // Show success
-            updateProgress(100, 'Conversion complete!');
-            showSuccess('Video converted successfully!');
-          } catch (error) {
-            if (!state.cancelRequested) {
-              console.error('Conversion error:', error);
-              showError(`Conversion failed: ${error.message || 'Unknown error'}`);
-              updateProgress(0, 'Conversion failed');
-            }
-          } finally {
-            hideLoading();
-            elements.convertBtn.disabled = false;
+        // Keyboard accessibility for drag zone
+        elements.dropZone.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            elements.videoInput.click();
           }
-        }
+        });
+      }
 
-        function initializeConverter() {
-          // Drag and Drop Setup
-          elements.dropZone.addEventListener('click', () => elements.videoInput.click());
-          elements.dropZone.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            elements.dropZone.classList.add('drag-over');
-          });
-          elements.dropZone.addEventListener('dragenter', (e) => {
-            e.preventDefault();
-            elements.dropZone.classList.add('drag-over');
-          });
-          elements.dropZone.addEventListener('dragleave', () => {
-            elements.dropZone.classList.remove('drag-over');
-          });
-          elements.dropZone.addEventListener('drop', (e) => {
-            e.preventDefault();
-            elements.dropZone.classList.remove('drag-over');
-            const files = e.dataTransfer.files;
-            if (files.length > 0) {
-              elements.videoInput.files = files;
-              elements.videoInput.dispatchEvent(new Event('change'));
-            }
-          });
-
-          // File Input
-          elements.videoInput.addEventListener('change', processFile);
-
-          // Convert Button
-          elements.convertBtn.addEventListener('click', convertVideo);
-
-          // Cancel Button
-          elements.cancelBtn.addEventListener('click', () => {
-            state.cancelRequested = true;
-            if (state.ffmpeg) {
-              state.ffmpeg.exit();
-            }
-          });
-
-          // Keyboard accessibility for drag zone
-          elements.dropZone.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-              e.preventDefault();
-              elements.videoInput.click();
-            }
-          });
-        }
-
-        initializeConverter();
-      }).catch(error => {
-        console.error('Failed to load FFmpeg:', error);
-        showError('Failed to load video processing engine. Please try again later.');
-      });
+      initializeConverter();
     }
 
     // Initialize everything when DOM is loaded
