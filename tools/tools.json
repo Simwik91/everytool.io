@@ -1,10 +1,10 @@
 [
   {
-    "category": "EAN Generator",
-    "slug": "ean-generator",
-    "description": "Generate EAN barcodes for products or inventories.",
+    "category": "Barcode Generator",
+    "slug": "barcode-generator",
+    "description": "Generate barcodes for products or inventories.",
     "icon": "fas fa-barcode",
-    "url": "/tools/eangenerator"
+    "url": "/tools/barcodegenerator/"
   },
   {
     "category": "QR Generator",
@@ -53,6 +53,6 @@
     "slug": "resume-builder",
     "description": "Build resumes.",
     "icon": "fas fa-briefcase",
-    "url": "/tools/careertools"
+    "url": "/tools/resumebuilder"
   }
 ]
