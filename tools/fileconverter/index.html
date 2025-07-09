@@ -8,10 +8,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-    <script type="module">
-        import { createFFmpeg, fetchFile } from 'https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.10.0/+esm';
-        // FFmpeg instance will be created later
-    </script>
     <style>
         :root {
             --primary: #4361ee;
@@ -1721,6 +1717,8 @@
         // Initialize FFmpeg
         async function initFFmpeg() {
             if (!ffmpeg) {
+                // Dynamically import FFmpeg
+                const { createFFmpeg, fetchFile } = await import('https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.10.0/+esm');
                 ffmpeg = createFFmpeg({ 
                     log: true,
                     corePath: 'https://unpkg.com/@ffmpeg/core@0.10.0/dist/ffmpeg-core.js'
@@ -1778,8 +1776,6 @@
         
         // Image Processing Functions
         function initImageConverter() {
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
             const imageFormatSelect = document.getElementById('imageFormat');
             const convertImageBtn = document.getElementById('convertImageBtn');
             const batchConvertBtn = document.getElementById('batchConvertBtn');
@@ -1829,21 +1825,27 @@
             
             // Process image (convert format)
             async function processImage(file) {
-                const img = await new Promise((resolve, reject) => {
-                    const image = new Image();
-                    image.onload = () => resolve(image);
-                    image.onerror = reject;
-                    image.src = URL.createObjectURL(file);
-                });
-                
-                canvas.width = img.width;
-                canvas.height = img.height;
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                
-                const format = imageFormatSelect.value;
-                return new Promise(resolve => {
-                    canvas.toBlob(blob => resolve(blob), `image/${format}`);
+                return new Promise((resolve, reject) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        canvas.width = img.width;
+                        canvas.height = img.height;
+                        ctx.clearRect(0, 0, canvas.width, canvas.height);
+                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                        
+                        const format = imageFormatSelect.value;
+                        canvas.toBlob(blob => {
+                            if (blob) {
+                                resolve(blob);
+                            } else {
+                                reject(new Error('Failed to convert image'));
+                            }
+                        }, `image/${format}`);
+                    };
+                    img.onerror = reject;
+                    img.src = URL.createObjectURL(file);
                 });
             }
             
