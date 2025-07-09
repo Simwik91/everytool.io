@@ -1,67 +1,71 @@
-<!-- Header & Navigation -->
+<!-- Header -->
 <header id="main-header">
   <div class="container">
     <div class="header-container">
       <a href="/index.html" class="logo" aria-label="EveryTool.io Home">
-        <i class="fas fa-tools"></i>
-        EveryTool.io
+        <i class="fas fa-tools"></i> EveryTool.io
       </a>
-      
       <div class="nav-container">
-        <ul class="nav-menu">
-          <li class="nav-item">
-            <a href="/" class="nav-link" aria-label="Home"><i class="fas fa-home"></i> Home</a>
-          </li>
-          <li class="nav-item">
-            <a href="/tools" class="nav-link" aria-label="Tools"><i class="fas fa-toolbox"></i> Tools</a>
-          </li>
-          <li class="nav-item">
-            <a href="/blog" class="nav-link" aria-label="Blog"><i class="fas fa-blog"></i> Blog</a>
-          </li>
-          <li class="nav-item">
-            <a href="/about" class="nav-link" aria-label="About"><i class="fas fa-address-card"></i> About</a>
-          </li>
-          <li class="nav-item">
-            <a href="/contact" class="nav-link" aria-label="Contact"><i class="fas fa-envelope"></i> Contact</a>
-          </li>
-        </ul>
-        <button class="mobile-menu-btn" id="mobile-menu-toggle" aria-label="Open mobile menu">
+        <nav class="nav-menu" aria-label="Main navigation">
+          <ul class="nav-menu">
+            <li class="nav-item"><a href="/index.html" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
+            <li class="nav-item dropdown">
+              <a href="/tools" class="nav-link dropdown-toggle" id="tools-dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-wrench"></i> Tools
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="tools-dropdown">
+                <li><a href="/tools/barcodegenerator" class="dropdown-item">Barcode Generator</a></li>
+                <li><a href="/tools/fileconverter" class="dropdown-item">File Converter</a></li>
+                <li><a href="/tools/imagetools" class="dropdown-item">Image Tools</a></li>
+                <li><a href="/tools/pdftools" class="dropdown-item">PDF Tools</a></li>
+                <li><a href="/tools/qrgenerator" class="dropdown-item">QR Generator</a></li>
+                <li><a href="/tools/resumebuilder" class="dropdown-item">Resume Builder</a></li>
+                <li><a href="/tools/texttools" class="dropdown-item">Text Tools</a></li>
+                <li><a href="/tools/videotools" class="dropdown-item">Video Tools</a></li>
+              </ul>
+            </li>
+            <li class="nav-item"><a href="/blog" class="nav-link"><i class="fas fa-blog"></i> Blog</a></li>
+            <li class="nav-item"><a href="/about" class="nav-link"><i class="fas fa-info-circle"></i> About</a></li>
+            <li class="nav-item"><a href="/contact" class="nav-link"><i class="fas fa-envelope"></i> Contact</a></li>
+          </ul>
+        </nav>
+        <button class="mobile-menu-btn" id="mobile-menu-toggle" aria-label="Toggle mobile menu">
           <i class="fas fa-bars"></i>
         </button>
       </div>
     </div>
   </div>
+  <!-- Mobile Navigation -->
+  <div class="mobile-backdrop" id="mobile-backdrop"></div>
+  <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation">
+    <div class="mobile-nav-header">
+      <a href="/index.html" class="logo" aria-label="EveryTool.io Home">
+        <i class="fas fa-tools"></i> EveryTool.io
+      </a>
+      <button class="close-mobile-menu" id="close-mobile-menu" aria-label="Close mobile menu">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <ul class="mobile-nav-menu">
+      <li class="mobile-nav-item"><a href="/index.html" class="mobile-nav-link"><i class="fas fa-home"></i> Home</a></li>
+      <li class="mobile-nav-item dropdown">
+        <a href="/tools" class="mobile-nav-link dropdown-toggle" id="mobile-tools-dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fas fa-wrench"></i> Tools
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="mobile-tools-dropdown">
+          <li><a href="/tools/barcodegenerator" class="dropdown-item">Barcode Generator</a></li>
+          <li><a href="/tools/fileconverter" class="dropdown-item">File Converter</a></li>
+          <li><a href="/tools/imagetools" class="dropdown-item">Image Tools</a></li>
+          <li><a href="/tools/pdftools" class="dropdown-item">PDF Tools</a></li>
+          <li><a href="/tools/qrgenerator" class="dropdown-item">QR Generator</a></li>
+          <li><a href="/tools/resumebuilder" class="dropdown-item">Resume Builder</a></li>
+          <li><a href="/tools/texttools" class="dropdown-item">Text Tools</a></li>
+          <li><a href="/tools/videotools" class="dropdown-item">Video Tools</a></li>
+        </ul>
+      </li>
+      <li class="mobile-nav-item"><a href="/blog" class="mobile-nav-link"><i class="fas fa-blog"></i> Blog</a></li>
+      <li class="mobile-nav-item"><a href="/about" class="mobile-nav-link"><i class="fas fa-info-circle"></i> About</a></li>
+      <li class="mobile-nav-item"><a href="/contact" class="mobile-nav-link"><i class="fas fa-envelope"></i> Contact</a></li>
+    </ul>
+  </nav>
 </header>
-
-<!-- Mobile Menu Backdrop -->
-<div class="mobile-backdrop" id="mobile-backdrop"></div>
-
-<!-- Mobile Navigation -->
-<div class="mobile-nav" id="mobile-nav">
-  <div class="mobile-nav-header">
-    <a href="/index.html" class="logo" aria-label="EveryTool.io Home">
-      <i class="fas fa-tools"></i>
-      EveryTool.io
-    </a>
-    <button class="close-mobile-menu" id="close-mobile-menu" aria-label="Close mobile menu">
-      <i class="fas fa-times"></i>
-    </button>
-  </div>
-  <ul class="mobile-nav-menu">
-    <li class="mobile-nav-item">
-      <a href="/" class="mobile-nav-link" aria-label="Home"><i class="fas fa-home"></i> Home</a>
-    </li>
-    <li class="mobile-nav-item">
-      <a href="/tools" class="mobile-nav-link" aria-label="Tools"><i class="fas fa-toolbox"></i> Tools</a>
-    </li>
-    <li class="mobile-nav-item">
-      <a href="/blog" class="mobile-nav-link" aria-label="Blog"><i class="fas fa-blog"></i> Blog</a>
-    </li>
-    <li class="mobile-nav-item">
-      <a href="/about" class="mobile-nav-link" aria-label="About"><i class="fas fa-address-card"></i> About</a>
-    </li>
-    <li class="mobile-nav-item">
-      <a href="/contact" class="mobile-nav-link" aria-label="Contact"><i class="fas fa-envelope"></i> Contact</a>
-    </li>
-  </ul>
-</div>
