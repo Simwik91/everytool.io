@@ -1,108 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<title>FFmpeg WASM Video Converter</title>
-<style>
-  body { font-family: sans-serif; max-width: 600px; margin: 2em auto; }
-  progress { width: 100%; height: 20px; }
-  #downloadLink { display: none; margin-top: 1em; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="EveryTool.io - Test Page for Header and Footer Includes">
+  <title>EveryTool.io - Test Page</title>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
+  <!-- Header Placeholder -->
+  <header id="main-header"></header>
 
-<h1>FFmpeg WASM Video Converter</h1>
+  <!-- Test Content -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <h1>Test Page for EveryTool.io</h1>
+        <p>This is a test page to verify the header, footer, mobile menu, and cookie consent functionality.</p>
+        <a href="/tools" class="hero-btn">Explore Tools</a>
+      </div>
+    </div>
+  </section>
 
-<input type="file" id="uploader" accept="video/*" />
-<br /><br />
-<button id="convertBtn" disabled>Convert to WebM</button>
+  <!-- Footer Placeholder -->
+  <footer id="main-footer"></footer>
 
-<progress id="progressBar" max="100" value="0"></progress>
-<div id="status">Awaiting file upload...</div>
-<a id="downloadLink" href="#" download="output.webm">Download Converted Video</a>
+  <!-- Cookie Consent Banner -->
+  <div id="cookie-consent">
+    <div class="cookie-content">
+      <div class="cookie-text">
+        <p>We use cookies to enhance your experience. Essential cookies are always on, but you can choose whether to allow analytics and advertising cookies.</p>
+        <p>Learn more in our <a href="/privacy" aria-label="Privacy Policy">Privacy Policy</a>.</p>
+      </div>
+      <div class="cookie-buttons">
+        <button class="cookie-btn reject-btn" id="reject-cookies">Reject Non-Essential</button>
+        <button class="cookie-btn accept-btn" id="accept-cookies">Accept All</button>
+      </div>
+      <button class="cookie-settings-btn" id="open-settings">Customize Settings</button>
+    </div>
+  </div>
 
-<!-- Load your bundled ffmpeg.min.js the old-school way -->
-<script src="/assets/ffmpeg/ffmpeg.min.js"></script>
+  <!-- Cookie Settings Modal -->
+  <div id="cookie-settings">
+    <div class="settings-modal">
+      <div class="settings-header">
+        <h2>Cookie Settings</h2>
+        <button class="close-settings" aria-label="Close settings"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="settings-content">
+        <div class="cookie-type">
+          <div class="cookie-type-header">
+            <h3>Essential Cookies</h3>
+            <div class="toggle-switch">
+              <input type="checkbox" id="essential-toggle" checked disabled>
+              <span class="slider"></span>
+            </div>
+          </div>
+          <p>These cookies are necessary for the website to function and cannot be disabled.</p>
+        </div>
+        <div class="cookie-type">
+          <div class="cookie-type-header">
+            <h3>Analytics Cookies</h3>
+            <div class="toggle-switch">
+              <input type="checkbox" id="analytics-toggle">
+              <span class="slider"></span>
+            </div>
+          </div>
+          <p>These cookies help us understand how visitors interact with our website, providing insights to improve our services.</p>
+        </div>
+        <div class="cookie-type">
+          <div class="cookie-type-header">
+            <h3>Advertising Cookies</h3>
+            <div class="toggle-switch">
+              <input type="checkbox" id="advertising-toggle">
+              <span class="slider"></span>
+            </div>
+          </div>
+          <p>These cookies are used to deliver personalized advertisements based on your interests.</p>
+        </div>
+      </div>
+      <div class="settings-buttons">
+        <button class="save-settings" id="save-settings">Save Settings</button>
+      </div>
+    </div>
+  </div>
 
-<script>
-  // Access FFmpeg class from the global FFmpegWASM namespace:
-  const { FFmpeg } = FFmpegWASM;
-
-  const uploader = document.getElementById('uploader');
-  const convertBtn = document.getElementById('convertBtn');
-  const status = document.getElementById('status');
-  const progressBar = document.getElementById('progressBar');
-  const downloadLink = document.getElementById('downloadLink');
-
-  const ffmpeg = new FFmpeg({
-    log: true,
-    progress: ({ ratio }) => {
-      const percent = Math.round(ratio * 100);
-      progressBar.value = percent;
-      status.textContent = `Converting... ${percent}%`;
-    }
-  });
-
-  let inputFileName = '';
-  let inputFileData = null;
-
-  uploader.addEventListener('change', async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    inputFileName = file.name;
-    status.textContent = `Loading file "${inputFileName}"...`;
-    progressBar.value = 0;
-    downloadLink.style.display = 'none';
-    convertBtn.disabled = true;
-
-    inputFileData = new Uint8Array(await file.arrayBuffer());
-
-    status.textContent = `File loaded: ${inputFileName} (${(inputFileData.length/1024).toFixed(1)} KB)`;
-
-    convertBtn.disabled = false;
-  });
-
-  convertBtn.addEventListener('click', async () => {
-    convertBtn.disabled = true;
-    status.textContent = 'Loading FFmpeg core...';
-    progressBar.value = 0;
-    downloadLink.style.display = 'none';
-
-    try {
-      await ffmpeg.load({
-        corePath: '/assets/ffmpeg/ffmpeg-core.wasm',
-        workerPath: '/assets/ffmpeg/ffmpeg-core.js',
-      });
-      status.textContent = 'FFmpeg loaded. Writing file to FS...';
-
-      await ffmpeg.writeFile(inputFileName, inputFileData);
-
-      status.textContent = 'Starting conversion...';
-      progressBar.value = 0;
-
-      await ffmpeg.exec(['-i', inputFileName, '-c:v', 'libvpx', '-b:v', '1M', 'output.webm']);
-
-      status.textContent = 'Conversion finished! Preparing download...';
-
-      const outputData = await ffmpeg.readFile('output.webm');
-
-      const videoBlob = new Blob([outputData], { type: 'video/webm' });
-      const videoUrl = URL.createObjectURL(videoBlob);
-
-      downloadLink.href = videoUrl;
-      downloadLink.style.display = 'inline-block';
-
-      status.textContent = 'Conversion complete! Click below to download your video.';
-    } catch (err) {
-      console.error(err);
-      status.textContent = 'Error: ' + err.message;
-    } finally {
-      convertBtn.disabled = false;
-      progressBar.value = 0;
-    }
-  });
-</script>
-
+  <!-- JavaScript -->
+  <script src="/js/main.js"></script>
 </body>
 </html>
