@@ -841,13 +841,8 @@
             max-height: 400px;
             border-radius: var(--border-radius);
             box-shadow: var(--box-shadow);
-            cursor: zoom-in;
-            transition: transform 0.3s ease;
-        }
-        
-        .preview-image.zoomed {
-            transform: scale(1.5);
-            cursor: zoom-out;
+            display: block;
+            margin: 0 auto 20px;
         }
 
         .preview-document {
@@ -1090,15 +1085,15 @@
                 width: 100%;
             }
             
-            .ocr-options {
-                grid-template-columns: 1fr;
-            }
-            
             .guide-grid {
                 grid-template-columns: 1fr;
             }
             
             .uses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .ocr-options {
                 grid-template-columns: 1fr;
             }
         }
@@ -1326,12 +1321,12 @@
                 <div class="feature-card">
                     <i class="fas fa-file-audio"></i>
                     <h3>Audio Tools</h3>
-                    <p>Convert MP3, WAV, OGG, FLAC, and other audio formats with quality control</p>
+                    <p>Convert MP3, WAV, OGG, FLAC, and other audio formats</p>
                 </div>
                 <div class="feature-card">
                     <i class="fas fa-file-video"></i>
                     <h3>Video Conversion</h3>
-                    <p>Convert MP4, AVI, MOV, MKV, WEBM, and other video formats with trimming</p>
+                    <p>Convert MP4, AVI, MOV, MKV, WEBM, and other video formats</p>
                 </div>
                 <div class="feature-card">
                     <i class="fas fa-bolt"></i>
@@ -1352,7 +1347,7 @@
                 </div>
                 <div class="guide-item">
                     <h3><i class="fas fa-cog"></i> Configure Settings</h3>
-                    <p>Choose format and customize options</p>
+                    <p>Choose output format</p>
                 </div>
                 <div class="guide-item">
                     <h3><i class="fas fa-bolt"></i> Convert</h3>
@@ -1380,8 +1375,8 @@
 
             <!-- Image Converter -->
             <div class="tab-content active" id="image-tab">
-                <h2><i class="fas fa-image"></i> Advanced Image Converter</h2>
-                <p>Convert between various image formats with high quality</p>
+                <h2><i class="fas fa-image"></i> Image Converter</h2>
+                <p>Convert between various image formats</p>
                 
                 <div class="file-upload-area" id="imageUploadArea">
                     <i class="fas fa-cloud-upload-alt"></i>
@@ -1403,22 +1398,16 @@
                     <!-- Thumbnails will be added here -->
                 </div>
                 
-                <div class="image-settings">
-                    <h3><i class="fas fa-sliders-h"></i> Image Settings</h3>
-                    <label for="imageFormat">Output Format:</label>
-                    <select id="imageFormat">
-                        <option value="jpg">JPG</option>
-                        <option value="png">PNG</option>
-                        <option value="webp">WEBP</option>
-                        <option value="gif">GIF</option>
-                        <option value="bmp">BMP</option>
-                    </select>
-                    
-                    <label for="imageQuality">Quality:</label>
-                    <input type="range" id="imageQuality" min="50" max="100" value="90">
-                    <div class="slider-label">
-                        <span>Quality:</span>
-                        <span class="slider-value" id="qualityValue">90%</span>
+                <div class="tool-row">
+                    <div class="tool-col">
+                        <label for="imageFormat">Output Format:</label>
+                        <select id="imageFormat">
+                            <option value="jpg">JPG</option>
+                            <option value="png">PNG</option>
+                            <option value="webp">WEBP</option>
+                            <option value="gif">GIF</option>
+                            <option value="bmp">BMP</option>
+                        </select>
                     </div>
                 </div>
                 
@@ -1445,14 +1434,6 @@
                 
                 <div class="preview-container" id="imagePreview">
                     <img src="" alt="Preview" class="preview-image" id="imagePreviewImg">
-                    <div class="preview-controls">
-                        <div class="zoom-control" id="zoomInBtn">
-                            <i class="fas fa-search-plus"></i>
-                        </div>
-                        <div class="zoom-control" id="zoomOutBtn">
-                            <i class="fas fa-search-minus"></i>
-                        </div>
-                    </div>
                     <a href="#" class="download-btn" id="downloadImageBtn">
                         <i class="fas fa-download"></i> Download Converted Image
                     </a>
@@ -1462,7 +1443,7 @@
             <!-- Audio Converter -->
             <div class="tab-content" id="audio-tab">
                 <h2><i class="fas fa-music"></i> Audio Converter</h2>
-                <p>Convert audio files between various formats with quality control</p>
+                <p>Convert audio files between various formats</p>
                 
                 <div class="file-upload-area" id="audioUploadArea">
                     <i class="fas fa-cloud-upload-alt"></i>
@@ -1490,37 +1471,6 @@
                             <option value="mp3">MP3</option>
                             <option value="wav">WAV</option>
                             <option value="ogg">OGG</option>
-                        </select>
-                    </div>
-                    <div class="tool-col">
-                        <label for="audioQuality">Quality:</label>
-                        <select id="audioQuality">
-                            <option value="high">High (320kbps)</option>
-                            <option value="medium" selected>Medium (192kbps)</option>
-                            <option value="low">Low (128kbps)</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <div class="tool-row">
-                    <div class="tool-col">
-                        <label for="audioBitrate">Bitrate:</label>
-                        <select id="audioBitrate">
-                            <option value="320">320 kbps</option>
-                            <option value="256">256 kbps</option>
-                            <option value="192" selected>192 kbps</option>
-                            <option value="128">128 kbps</option>
-                            <option value="96">96 kbps</option>
-                        </select>
-                    </div>
-                    <div class="tool-col">
-                        <label for="audioSampleRate">Sample Rate:</label>
-                        <select id="audioSampleRate">
-                            <option value="44100">44.1 kHz (CD Quality)</option>
-                            <option value="48000">48 kHz</option>
-                            <option value="32000">32 kHz</option>
-                            <option value="22050">22.05 kHz</option>
-                            <option value="16000">16 kHz</option>
                         </select>
                     </div>
                 </div>
@@ -1564,7 +1514,7 @@
             <!-- Video Converter -->
             <div class="tab-content" id="video-tab">
                 <h2><i class="fas fa-video"></i> Video Converter</h2>
-                <p>Convert video files between various formats with trimming</p>
+                <p>Convert video files between various formats</p>
                 
                 <div class="file-upload-area" id="videoUploadArea">
                     <i class="fas fa-cloud-upload-alt"></i>
@@ -1592,48 +1542,7 @@
                             <option value="mp4">MP4</option>
                             <option value="webm">WEBM</option>
                             <option value="gif">GIF</option>
-                            <option value="mov">MOV</option>
                         </select>
-                    </div>
-                    <div class="tool-col">
-                        <label for="videoQuality">Quality:</label>
-                        <select id="videoQuality">
-                            <option value="high">High (1080p)</option>
-                            <option value="medium" selected>Medium (720p)</option>
-                            <option value="low">Low (480p)</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <div class="tool-row">
-                    <div class="tool-col">
-                        <label for="videoFramerate">Frame Rate:</label>
-                        <select id="videoFramerate">
-                            <option value="30">30 fps</option>
-                            <option value="25">25 fps</option>
-                            <option value="24" selected>24 fps</option>
-                            <option value="15">15 fps</option>
-                        </select>
-                    </div>
-                    <div class="tool-col">
-                        <label for="videoResolution">Resolution:</label>
-                        <select id="videoResolution">
-                            <option value="original">Original</option>
-                            <option value="1080">1080p</option>
-                            <option value="720" selected>720p</option>
-                            <option value="480">480p</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <div class="tool-row">
-                    <div class="tool-col">
-                        <label for="videoStart">Trim Start (seconds):</label>
-                        <input type="number" id="videoStart" min="0" value="0">
-                    </div>
-                    <div class="tool-col">
-                        <label for="videoEnd">Trim End (seconds):</label>
-                        <input type="number" id="videoEnd" min="1" value="10">
                     </div>
                 </div>
                 
@@ -1739,7 +1648,8 @@
 
     <script>
         // Constants
-        const MAX_FILE_SIZE = 500 * 1024 * 1024; // 500MB
+        const MAX_FILE_SIZE = 100 * 1024 * 1024; // 100MB
+        let ffmpeg = null;
         
         // Mobile Menu Functionality
         function initMobileMenu() {
@@ -1808,15 +1718,68 @@
             return { valid: true };
         }
         
+        // Initialize FFmpeg
+        async function initFFmpeg() {
+            if (!ffmpeg) {
+                ffmpeg = createFFmpeg({ 
+                    log: true,
+                    corePath: 'https://unpkg.com/@ffmpeg/core@0.10.0/dist/ffmpeg-core.js'
+                });
+            }
+            
+            if (!ffmpeg.isLoaded()) {
+                await ffmpeg.load();
+            }
+            return ffmpeg;
+        }
+        
+        // Setup drag and drop for an upload area
+        function setupDragDrop(uploadArea, fileInput) {
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, preventDefaults, false);
+            });
+            
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            
+            function highlight() {
+                uploadArea.classList.add('drag-over');
+            }
+            
+            function unhighlight() {
+                uploadArea.classList.remove('drag-over');
+            }
+            
+            ['dragenter', 'dragover'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, highlight, false);
+            });
+            
+            ['dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, unhighlight, false);
+            });
+            
+            uploadArea.addEventListener('drop', handleDrop, false);
+            
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                fileInput.files = files;
+                
+                const event = new Event('change');
+                fileInput.dispatchEvent(event);
+            }
+            
+            uploadArea.addEventListener('click', () => {
+                fileInput.click();
+            });
+        }
+        
         // Image Processing Functions
         function initImageConverter() {
-            // Create a hidden canvas for conversion
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
-            
-            // Get elements
-            const qualitySlider = document.getElementById('imageQuality');
-            const qualityValue = document.getElementById('qualityValue');
             const imageFormatSelect = document.getElementById('imageFormat');
             const convertImageBtn = document.getElementById('convertImageBtn');
             const batchConvertBtn = document.getElementById('batchConvertBtn');
@@ -1829,44 +1792,16 @@
             const imageErrorText = document.getElementById('imageErrorText');
             const imageSuccess = document.getElementById('imageSuccess');
             const imageProcessing = document.getElementById('imageProcessing');
-            const zoomInBtn = document.getElementById('zoomInBtn');
-            const zoomOutBtn = document.getElementById('zoomOutBtn');
-            
-            // Update quality value display
-            qualitySlider.addEventListener('input', () => {
-                qualityValue.textContent = `${qualitySlider.value}%`;
-            });
-            
-            // Zoom functionality
-            zoomInBtn.addEventListener('click', () => {
-                imagePreviewImg.classList.add('zoomed');
-            });
-            
-            zoomOutBtn.addEventListener('click', () => {
-                imagePreviewImg.classList.remove('zoomed');
-            });
-            
-            // Load image from file
-            function loadImage(file) {
-                return new Promise((resolve, reject) => {
-                    const img = new Image();
-                    img.onload = () => resolve(img);
-                    img.onerror = reject;
-                    img.src = URL.createObjectURL(file);
-                });
-            }
             
             // Create thumbnail
             function createThumbnail(file) {
                 return new Promise((resolve) => {
                     const img = new Image();
                     img.onload = () => {
-                        // Create thumbnail canvas
                         const canvas = document.createElement('canvas');
                         const ctx = canvas.getContext('2d');
                         const maxSize = 120;
                         
-                        // Calculate dimensions
                         let width = img.width;
                         let height = img.height;
                         
@@ -1884,8 +1819,6 @@
                         
                         canvas.width = width;
                         canvas.height = height;
-                        
-                        // Draw image to canvas
                         ctx.drawImage(img, 0, 0, width, height);
                         
                         resolve(canvas.toDataURL('image/jpeg', 0.7));
@@ -1894,15 +1827,23 @@
                 });
             }
             
-            // Process image (convert format and quality)
-            async function processImage(file, quality, format) {
-                const img = await loadImage(file);
+            // Process image (convert format)
+            async function processImage(file) {
+                const img = await new Promise((resolve, reject) => {
+                    const image = new Image();
+                    image.onload = () => resolve(image);
+                    image.onerror = reject;
+                    image.src = URL.createObjectURL(file);
+                });
+                
                 canvas.width = img.width;
                 canvas.height = img.height;
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                
+                const format = imageFormatSelect.value;
                 return new Promise(resolve => {
-                    canvas.toBlob(blob => resolve(blob), `image/${format}`, quality / 100);
+                    canvas.toBlob(blob => resolve(blob), `image/${format}`);
                 });
             }
             
@@ -1926,13 +1867,10 @@
                     imageError.style.display = 'none';
                     imageSuccess.style.display = 'none';
                     
-                    const format = imageFormatSelect.value;
-                    const quality = parseInt(qualitySlider.value);
-                    
-                    const blob = await processImage(file, quality, format);
+                    const blob = await processImage(file);
                     
                     downloadImageBtn.href = URL.createObjectURL(blob);
-                    downloadImageBtn.download = `converted.${format}`;
+                    downloadImageBtn.download = `converted.${imageFormatSelect.value}`;
                     imagePreviewImg.src = downloadImageBtn.href;
                     imagePreview.style.display = 'block';
                     
@@ -1958,7 +1896,6 @@
                     
                     const zip = new JSZip();
                     const format = imageFormatSelect.value;
-                    const quality = parseInt(qualitySlider.value);
                     
                     for (let i = 0; i < imageUpload.files.length; i++) {
                         const file = imageUpload.files[i];
@@ -1971,7 +1908,7 @@
                             continue;
                         }
                         
-                        const blob = await processImage(file, quality, format);
+                        const blob = await processImage(file);
                         zip.file(`converted-${i+1}.${format}`, blob);
                     }
                     
@@ -2032,50 +1969,15 @@
                 }
             });
             
-            // Handle drag and drop
-            const imageUploadArea = document.getElementById('imageUploadArea');
-            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-                imageUploadArea.addEventListener(eventName, preventDefaults, false);
-            });
-            
-            function preventDefaults(e) {
-                e.preventDefault();
-                e.stopPropagation();
-            }
-            
-            function highlight() {
-                imageUploadArea.classList.add('drag-over');
-            }
-            
-            function unhighlight() {
-                imageUploadArea.classList.remove('drag-over');
-            }
-            
-            ['dragenter', 'dragover'].forEach(eventName => {
-                imageUploadArea.addEventListener(eventName, highlight, false);
-            });
-            
-            ['dragleave', 'drop'].forEach(eventName => {
-                imageUploadArea.addEventListener(eventName, unhighlight, false);
-            });
-            
-            imageUploadArea.addEventListener('drop', handleDrop, false);
-            
-            function handleDrop(e) {
-                const dt = e.dataTransfer;
-                const files = dt.files;
-                imageUpload.files = files;
-                
-                const event = new Event('change');
-                imageUpload.dispatchEvent(event);
-            }
+            // Setup drag and drop
+            setupDragDrop(document.getElementById('imageUploadArea'), imageUpload);
         }
         
         // Audio Converter
         function initAudioConverter() {
             const audioUpload = document.getElementById('audioFileUpload');
             const audioFileList = document.getElementById('audioFileList');
-            const audioUploadArea = document.getElementById('audioUploadArea');
+            const audioFormatSelect = document.getElementById('audioFormat');
             const convertAudioBtn = document.getElementById('convertAudioBtn');
             const downloadAudioBtn = document.getElementById('downloadAudioBtn');
             const audioPlayer = document.getElementById('audioPlayer');
@@ -2084,109 +1986,119 @@
             const audioSuccess = document.getElementById('audioSuccess');
             const audioError = document.getElementById('audioError');
             const audioErrorText = document.getElementById('audioErrorText');
+            const audioProgressContainer = document.getElementById('audioProgressContainer');
+            const audioProgressBar = document.getElementById('audioProgressBar');
+            const audioProgressPercent = document.getElementById('audioProgressPercent');
+            const audioProgressMessage = document.getElementById('audioProgressMessage');
+            const audioCancelBtn = document.getElementById('audioCancelBtn');
+            
+            let currentFile = null;
             
             // Handle file input change
             audioUpload.addEventListener('change', () => {
                 audioFileList.innerHTML = '';
-                Array.from(audioUpload.files).forEach((file, index) => {
+                if (audioUpload.files.length) {
+                    currentFile = audioUpload.files[0];
                     const listItem = document.createElement('div');
                     listItem.className = 'file-item';
                     listItem.innerHTML = `
                         <div class="file-info">
                             <i class="fas fa-file-audio file-icon"></i>
                             <div class="file-details">
-                                <div class="file-name">${file.name}</div>
-                                <div class="file-size">${formatFileSize(file.size)}</div>
+                                <div class="file-name">${currentFile.name}</div>
+                                <div class="file-size">${formatFileSize(currentFile.size)}</div>
                             </div>
                         </div>
-                        <div class="file-status status-queued">Queued</div>
-                        <i class="fas fa-times file-remove" data-index="${index}"></i>
                     `;
                     audioFileList.appendChild(listItem);
-                    
-                    // Add remove functionality
-                    listItem.querySelector('.file-remove').addEventListener('click', function() {
-                        const index = parseInt(this.getAttribute('data-index'));
-                        const newFiles = Array.from(audioUpload.files);
-                        newFiles.splice(index, 1);
-                        
-                        // Create new FileList
-                        const dataTransfer = new DataTransfer();
-                        newFiles.forEach(file => dataTransfer.items.add(file));
-                        audioUpload.files = dataTransfer.files;
-                        
-                        // Trigger change event to update UI
-                        const event = new Event('change');
-                        audioUpload.dispatchEvent(event);
-                    });
-                });
+                }
             });
-            
-            // Handle drag and drop
-            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-                audioUploadArea.addEventListener(eventName, preventDefaults, false);
-            });
-            
-            function preventDefaults(e) {
-                e.preventDefault();
-                e.stopPropagation();
-            }
-            
-            function highlight() {
-                audioUploadArea.classList.add('drag-over');
-            }
-            
-            function unhighlight() {
-                audioUploadArea.classList.remove('drag-over');
-            }
-            
-            ['dragenter', 'dragover'].forEach(eventName => {
-                audioUploadArea.addEventListener(eventName, highlight, false);
-            });
-            
-            ['dragleave', 'drop'].forEach(eventName => {
-                audioUploadArea.addEventListener(eventName, unhighlight, false);
-            });
-            
-            audioUploadArea.addEventListener('drop', handleDrop, false);
-            
-            function handleDrop(e) {
-                const dt = e.dataTransfer;
-                const files = dt.files;
-                audioUpload.files = files;
-                
-                const event = new Event('change');
-                audioUpload.dispatchEvent(event);
-            }
             
             // Convert button handler
-            convertAudioBtn.addEventListener('click', () => {
-                if (!audioUpload.files.length) return;
+            convertAudioBtn.addEventListener('click', async () => {
+                if (!currentFile) return;
                 
-                // Simulate conversion
-                audioProcessing.style.display = 'block';
-                audioError.style.display = 'none';
-                audioSuccess.style.display = 'none';
-                
-                setTimeout(() => {
-                    const file = audioUpload.files[0];
-                    const url = URL.createObjectURL(file);
+                try {
+                    // Validate file size
+                    const validation = validateFileSize(currentFile);
+                    if (!validation.valid) {
+                        audioErrorText.textContent = validation.message;
+                        audioError.style.display = 'block';
+                        return;
+                    }
+                    
+                    // Show processing UI
+                    audioProcessing.style.display = 'block';
+                    audioError.style.display = 'none';
+                    audioSuccess.style.display = 'none';
+                    audioProgressContainer.style.display = 'flex';
+                    
+                    const format = audioFormatSelect.value;
+                    const ffmpeg = await initFFmpeg();
+                    
+                    // Set up progress handler
+                    ffmpeg.setProgress(({ ratio }) => {
+                        const percent = Math.round(ratio * 100);
+                        audioProgressBar.style.width = `${percent}%`;
+                        audioProgressPercent.textContent = `${percent}%`;
+                        audioProgressMessage.textContent = `Converting... ${percent}%`;
+                    });
+                    
+                    // Write file to FFmpeg FS
+                    const inputExt = currentFile.name.split('.').pop() || 'mp3';
+                    const inputName = `input.${inputExt}`;
+                    const outputName = `output.${format}`;
+                    ffmpeg.FS('writeFile', inputName, await fetchFile(currentFile));
+                    
+                    // Run conversion command
+                    await ffmpeg.run('-i', inputName, outputName);
+                    
+                    // Read output file
+                    const data = ffmpeg.FS('readFile', outputName);
+                    
+                    // Create blob and URL
+                    const blob = new Blob([data.buffer], { type: `audio/${format}` });
+                    const url = URL.createObjectURL(blob);
+                    
+                    // Set up player and download link
                     audioPlayer.src = url;
                     audioPreview.style.display = 'block';
                     downloadAudioBtn.href = url;
-                    downloadAudioBtn.download = 'converted.mp3';
+                    downloadAudioBtn.download = `converted.${format}`;
                     
+                    // Clean up FFmpeg files
+                    ffmpeg.FS('unlink', inputName);
+                    ffmpeg.FS('unlink', outputName);
+                    
+                    // Show success
                     audioProcessing.style.display = 'none';
                     audioSuccess.style.display = 'block';
-                }, 1500);
+                    audioProgressContainer.style.display = 'none';
+                    
+                } catch (error) {
+                    console.error('Audio conversion error:', error);
+                    audioErrorText.textContent = `Conversion failed: ${error.message || 'Unknown error'}`;
+                    audioError.style.display = 'block';
+                    audioProcessing.style.display = 'none';
+                    audioProgressContainer.style.display = 'none';
+                }
             });
+            
+            // Cancel button
+            audioCancelBtn.addEventListener('click', () => {
+                audioProgressContainer.style.display = 'none';
+                audioProcessing.style.display = 'none';
+            });
+            
+            // Setup drag and drop
+            setupDragDrop(document.getElementById('audioUploadArea'), audioUpload);
         }
         
         // Video Converter
         function initVideoConverter() {
             const videoUpload = document.getElementById('videoFileUpload');
             const videoFileList = document.getElementById('videoFileList');
-            const videoUploadArea = document.getElementById('videoUploadArea');
+            const videoFormatSelect = document.getElementById('videoFormat');
             const convertVideoBtn = document.getElementById('convertVideoBtn');
             const downloadVideoBtn = document.getElementById('downloadVideoBtn');
             const videoPlayer = document.getElementById('videoPlayer');
@@ -2195,102 +2107,117 @@
             const videoSuccess = document.getElementById('videoSuccess');
             const videoError = document.getElementById('videoError');
             const videoErrorText = document.getElementById('videoErrorText');
+            const videoProgressContainer = document.getElementById('videoProgressContainer');
+            const videoProgressBar = document.getElementById('videoProgressBar');
+            const videoProgressPercent = document.getElementById('videoProgressPercent');
+            const videoProgressMessage = document.getElementById('videoProgressMessage');
+            const videoCancelBtn = document.getElementById('videoCancelBtn');
+            
+            let currentFile = null;
             
             // Handle file input change
             videoUpload.addEventListener('change', () => {
                 videoFileList.innerHTML = '';
-                Array.from(videoUpload.files).forEach((file, index) => {
+                if (videoUpload.files.length) {
+                    currentFile = videoUpload.files[0];
                     const listItem = document.createElement('div');
                     listItem.className = 'file-item';
                     listItem.innerHTML = `
                         <div class="file-info">
                             <i class="fas fa-file-video file-icon"></i>
                             <div class="file-details">
-                                <div class="file-name">${file.name}</div>
-                                <div class="file-size">${formatFileSize(file.size)}</div>
+                                <div class="file-name">${currentFile.name}</div>
+                                <div class="file-size">${formatFileSize(currentFile.size)}</div>
                             </div>
                         </div>
-                        <div class="file-status status-queued">Queued</div>
-                        <i class="fas fa-times file-remove" data-index="${index}"></i>
                     `;
                     videoFileList.appendChild(listItem);
-                    
-                    // Add remove functionality
-                    listItem.querySelector('.file-remove').addEventListener('click', function() {
-                        const index = parseInt(this.getAttribute('data-index'));
-                        const newFiles = Array.from(videoUpload.files);
-                        newFiles.splice(index, 1);
-                        
-                        // Create new FileList
-                        const dataTransfer = new DataTransfer();
-                        newFiles.forEach(file => dataTransfer.items.add(file));
-                        videoUpload.files = dataTransfer.files;
-                        
-                        // Trigger change event to update UI
-                        const event = new Event('change');
-                        videoUpload.dispatchEvent(event);
-                    });
-                });
+                }
             });
-            
-            // Handle drag and drop
-            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-                videoUploadArea.addEventListener(eventName, preventDefaults, false);
-            });
-            
-            function preventDefaults(e) {
-                e.preventDefault();
-                e.stopPropagation();
-            }
-            
-            function highlight() {
-                videoUploadArea.classList.add('drag-over');
-            }
-            
-            function unhighlight() {
-                videoUploadArea.classList.remove('drag-over');
-            }
-            
-            ['dragenter', 'dragover'].forEach(eventName => {
-                videoUploadArea.addEventListener(eventName, highlight, false);
-            });
-            
-            ['dragleave', 'drop'].forEach(eventName => {
-                videoUploadArea.addEventListener(eventName, unhighlight, false);
-            });
-            
-            videoUploadArea.addEventListener('drop', handleDrop, false);
-            
-            function handleDrop(e) {
-                const dt = e.dataTransfer;
-                const files = dt.files;
-                videoUpload.files = files;
-                
-                const event = new Event('change');
-                videoUpload.dispatchEvent(event);
-            }
             
             // Convert button handler
-            convertVideoBtn.addEventListener('click', () => {
-                if (!videoUpload.files.length) return;
+            convertVideoBtn.addEventListener('click', async () => {
+                if (!currentFile) return;
                 
-                // Simulate conversion
-                videoProcessing.style.display = 'block';
-                videoError.style.display = 'none';
-                videoSuccess.style.display = 'none';
-                
-                setTimeout(() => {
-                    const file = videoUpload.files[0];
-                    const url = URL.createObjectURL(file);
+                try {
+                    // Validate file size
+                    const validation = validateFileSize(currentFile);
+                    if (!validation.valid) {
+                        videoErrorText.textContent = validation.message;
+                        videoError.style.display = 'block';
+                        return;
+                    }
+                    
+                    // Show processing UI
+                    videoProcessing.style.display = 'block';
+                    videoError.style.display = 'none';
+                    videoSuccess.style.display = 'none';
+                    videoProgressContainer.style.display = 'flex';
+                    
+                    const format = videoFormatSelect.value;
+                    const ffmpeg = await initFFmpeg();
+                    
+                    // Set up progress handler
+                    ffmpeg.setProgress(({ ratio }) => {
+                        const percent = Math.round(ratio * 100);
+                        videoProgressBar.style.width = `${percent}%`;
+                        videoProgressPercent.textContent = `${percent}%`;
+                        videoProgressMessage.textContent = `Converting... ${percent}%`;
+                    });
+                    
+                    // Write file to FFmpeg FS
+                    const inputExt = currentFile.name.split('.').pop() || 'mp4';
+                    const inputName = `input.${inputExt}`;
+                    const outputName = `output.${format}`;
+                    ffmpeg.FS('writeFile', inputName, await fetchFile(currentFile));
+                    
+                    // Run conversion command
+                    await ffmpeg.run('-i', inputName, outputName);
+                    
+                    // Read output file
+                    const data = ffmpeg.FS('readFile', outputName);
+                    
+                    // Create blob and URL
+                    let mimeType;
+                    if (format === 'mp4') mimeType = 'video/mp4';
+                    else if (format === 'webm') mimeType = 'video/webm';
+                    else if (format === 'gif') mimeType = 'image/gif';
+                    
+                    const blob = new Blob([data.buffer], { type: mimeType });
+                    const url = URL.createObjectURL(blob);
+                    
+                    // Set up player and download link
                     videoPlayer.src = url;
                     videoPreview.style.display = 'block';
                     downloadVideoBtn.href = url;
-                    downloadVideoBtn.download = 'converted.mp4';
+                    downloadVideoBtn.download = `converted.${format}`;
                     
+                    // Clean up FFmpeg files
+                    ffmpeg.FS('unlink', inputName);
+                    ffmpeg.FS('unlink', outputName);
+                    
+                    // Show success
                     videoProcessing.style.display = 'none';
                     videoSuccess.style.display = 'block';
-                }, 1500);
+                    videoProgressContainer.style.display = 'none';
+                    
+                } catch (error) {
+                    console.error('Video conversion error:', error);
+                    videoErrorText.textContent = `Conversion failed: ${error.message || 'Unknown error'}`;
+                    videoError.style.display = 'block';
+                    videoProcessing.style.display = 'none';
+                    videoProgressContainer.style.display = 'none';
+                }
             });
+            
+            // Cancel button
+            videoCancelBtn.addEventListener('click', () => {
+                videoProgressContainer.style.display = 'none';
+                videoProcessing.style.display = 'none';
+            });
+            
+            // Setup drag and drop
+            setupDragDrop(document.getElementById('videoUploadArea'), videoUpload);
         }
         
         // Initialize everything when DOM is loaded
@@ -2308,34 +2235,6 @@
                     tab.classList.add('active');
                     const contentId = `${tab.dataset.tab}-tab`;
                     document.getElementById(contentId).classList.add('active');
-                });
-            });
-            
-            // Setup file upload areas
-            document.querySelectorAll('.file-upload-area').forEach(uploadArea => {
-                const fileInput = uploadArea.querySelector('input[type="file"]');
-                uploadArea.addEventListener('click', () => {
-                    fileInput.click();
-                });
-                
-                // Drag and drop functionality
-                uploadArea.addEventListener('dragover', (e) => {
-                    e.preventDefault();
-                    uploadArea.classList.add('drag-over');
-                });
-                
-                uploadArea.addEventListener('dragleave', () => {
-                    uploadArea.classList.remove('drag-over');
-                });
-                
-                uploadArea.addEventListener('drop', (e) => {
-                    e.preventDefault();
-                    uploadArea.classList.remove('drag-over');
-                    if (e.dataTransfer.files.length) {
-                        fileInput.files = e.dataTransfer.files;
-                        const event = new Event('change', { bubbles: true });
-                        fileInput.dispatchEvent(event);
-                    }
                 });
             });
         });
