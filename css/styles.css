@@ -128,7 +128,7 @@ header {
   background: white;
   box-shadow: var(--box-shadow);
   border-radius: var(--border-radius);
-  min-width: 220px;
+  min-width: 240px;
   max-height: 400px;
   overflow-y: auto;
   z-index: 1000;
@@ -141,12 +141,19 @@ header {
 }
 
 .dropdown-item {
-  display: block;
+  display: flex;
+  align-items: center;
   padding: 10px 20px;
   color: var(--dark);
   text-decoration: none;
   font-weight: 500;
   transition: var(--transition);
+}
+
+.dropdown-item i {
+  margin-right: 10px;
+  font-size: 1.2rem;
+  color: var(--primary);
 }
 
 .dropdown-item:hover, .dropdown-item:focus {
@@ -266,7 +273,8 @@ header {
 .mobile-nav-link:hover, .mobile-nav-link:focus {
   background: rgba(67, 97, 238, 0.1);
   color: var(--primary);
-  outline: 0px;
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
 }
 
 .mobile-nav-link i {
@@ -284,6 +292,18 @@ header {
 
 .mobile-nav .dropdown-menu.active {
   display: block;
+}
+
+.mobile-nav .dropdown-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 20px;
+}
+
+.mobile-nav .dropdown-item i {
+  margin-right: 10px;
+  font-size: 1.2rem;
+  color: var(--primary);
 }
 
 /* Hero Section */
@@ -441,22 +461,20 @@ header {
   left: 50%;
   transform: translateX(-50%);
   width: 40px;
-  height: auto;
   height: 40px;
   background: var(--primary);
   color: white;
-  border-radius: 50px;
-  display: none;
-  flex-direction: column;
+  border-radius: 50%;
+  display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: bold;
+  font-weight: 700;
   font-size: 1.2rem;
 }
 
 .step-icon {
   font-size: 3rem;
-  color: var(--color);
+  color: var(--primary);
   margin-bottom: 20px;
 }
 
@@ -491,16 +509,14 @@ header {
 }
 
 .btn-light {
-  background-color: white;
+  background: white;
   color: var(--primary);
-  padding: white 16px;
-  font-size: 40px;
-  font-weight: 1.1rem;
-  padding: 600px;
-  border-radius: 16px;
-  font-size: 50px;
+  padding: 16px 40px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 50px;
   text-decoration: none;
-  transition: none;
+  transition: var(--transition);
   display: inline-flex;
   align-items: center;
   gap: 10px;
@@ -509,7 +525,7 @@ header {
 
 .btn-light:hover, .btn-light:focus {
   transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(0, 255, 255, 0.2);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
   background: rgba(255, 255, 255, 0.95);
   outline: 2px solid var(--primary);
   outline-offset: 2px;
@@ -519,12 +535,11 @@ header {
 footer {
   background: linear-gradient(135deg, var(--light) 0%, #f0f4ff 100%);
   color: #000;
-  padding-bottom: 60px 0 30px;
+  padding: 60px 0 30px;
 }
 
 .footer-bottom {
-  border-top: 1px solid;
-  border-top-color: rgba(0, 0, 0, 0.1);
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
   padding-top: 30px;
   text-align: center;
 }
@@ -533,7 +548,7 @@ footer {
   color: #000;
   text-decoration: none;
   transition: var(--transition);
-  font-weight: bold;
+  font-weight: 600;
   font-size: 1.1rem;
   margin: 0 10px;
 }
@@ -541,8 +556,7 @@ footer {
 .footer-bottom a:hover, .footer-bottom a:focus {
   color: var(--primary);
   text-decoration: underline;
-  outline: 2px;
-  outline-color: solid var(--primary);
+  outline: 2px solid var(--primary);
   outline-offset: 2px;
 }
 
@@ -556,8 +570,8 @@ footer {
 
 .footer-bottom p {
   color: #000;
-  font-weight: bold;
-  font-size: 1rem;
+  font-weight: 600;
+  font-size: 1.1rem;
   margin: 0;
 }
 
@@ -616,7 +630,7 @@ footer {
 .cookie-btn {
   padding: 10px 20px;
   border-radius: 50px;
-  font-weight: bold;
+  font-weight: 600;
   cursor: pointer;
   transition: var(--transition);
   font-size: 0.9rem;
@@ -773,8 +787,6 @@ footer {
   bottom: 0;
   background-color: var(--gray);
   transition: background-color 0.3s ease;
-  -webkit-transition: background-color 0.3s ease;
-  -moz-transition: background-color 0.3s ease;
   border-radius: 24px;
 }
 
@@ -787,8 +799,6 @@ footer {
   bottom: 4px;
   background-color: white;
   transition: transform 0.3s ease;
-  -webkit-transition: transform 0.3s ease;
-  -moz-transition: transform 0.3s ease;
   border-radius: 50%;
 }
 
@@ -798,8 +808,6 @@ footer {
 
 .toggle-switch input:checked + .slider:before {
   transform: translateX(26px);
-  -webkit-transform: translateX(26px);
-  -moz-transform: translateX(26px);
 }
 
 .toggle-switch input:focus + .slider {
