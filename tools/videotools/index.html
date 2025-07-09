@@ -1585,9 +1585,10 @@
 
     // Video Converter Functionality
     function initVideoConverter() {
-      // Import FFmpeg
+      // Import FFmpeg using the correct method
       import('https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.10.0/dist/ffmpeg.min.js').then(module => {
-        const { createFFmpeg, fetchFile } = module;
+        // Extract createFFmpeg and fetchFile from the module
+        const { createFFmpeg, fetchFile } = module.default;
         
         const elements = {
           dropZone: document.getElementById('dropZone'),
