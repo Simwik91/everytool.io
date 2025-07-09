@@ -4,7 +4,7 @@
     "slug": "ean-generator",
     "description": "Generate EAN barcodes for products or inventories.",
     "icon": "fas fa-barcode",
-    "url": "/eangenerator"
+    "url": "/tools/eangenerator"
   },
   {
     "category": "QR Generator",
