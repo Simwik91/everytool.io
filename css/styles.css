@@ -166,6 +166,12 @@ header {
   display: block;
 }
 
+.dropdown-error {
+  font-size: 0.9rem;
+  color: red;
+  padding: 10px 20px;
+}
+
 .mobile-menu-btn {
   display: none;
   background: none;
@@ -304,6 +310,12 @@ header {
   margin-right: 10px;
   font-size: 1.2rem;
   color: var(--primary);
+}
+
+.mobile-nav .dropdown-error {
+  font-size: 0.9rem;
+  color: red;
+  padding: 8px 20px;
 }
 
 /* Hero Section */
