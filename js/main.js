@@ -223,7 +223,7 @@ document.addEventListener('DOMContentLoaded', () => {
   console.log('main.js loaded successfully');
   // Determine base path based on current URL
   const isTestPage = window.location.pathname.includes('/test/');
-  const basePath = isTestPage ? '/everytool.io' : '';
+  const basePath = "";
   console.log(`Base path set to: ${basePath}`);
 
   // Fetch Header
