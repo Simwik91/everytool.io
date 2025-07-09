@@ -1942,7 +1942,7 @@
       checkCookieConsent();
     }
 
-    // Resume Builder Functionality
+    // Resume Builder Functionality (with fix implemented)
     function initializeResumeBuilder() {
       let resumeData = {};
       
@@ -2385,7 +2385,7 @@
         localStorage.setItem('resumeData', JSON.stringify(formData));
       }
       
-      // Load saved data
+      // Load saved data - FIXED VERSION
       function loadSavedData() {
         const savedData = localStorage.getItem('resumeData');
         if (savedData) {
@@ -2400,18 +2400,20 @@
           document.getElementById('website').value = formData.personal.website || '';
           document.getElementById('summary').value = formData.personal.summary || '';
           
-          // Experience section
-          formData.experience.forEach((exp, index) => {
-            if (index > 0) {
-              document.getElementById('addExperienceBtn').click();
-            }
-            document.getElementById(`jobTitle${index+1}`).value = exp.jobTitle || '';
-            document.getElementById(`company${index+1}`).value = exp.company || '';
-            document.getElementById(`startDate${index+1}`).value = exp.startDate || '';
-            document.getElementById(`endDate${index+1}`).value = exp.endDate || '';
-            if (exp.current) document.getElementById(`currentJob${index+1}`).checked = true;
-            document.getElementById(`jobDescription${index+1}`).value = exp.description || '';
-          });
+          // Experience section - SAFE CHECK ADDED
+          if (formData.experience && Array.isArray(formData.experience)) {
+            formData.experience.forEach((exp, index) => {
+              if (index > 0) {
+                document.getElementById('addExperienceBtn').click();
+              }
+              document.getElementById(`jobTitle${index+1}`).value = exp.jobTitle || '';
+              document.getElementById(`company${index+1}`).value = exp.company || '';
+              document.getElementById(`startDate${index+1}`).value = exp.startDate || '';
+              document.getElementById(`endDate${index+1}`).value = exp.endDate || '';
+              if (exp.current) document.getElementById(`currentJob${index+1}`).checked = true;
+              document.getElementById(`jobDescription${index+1}`).value = exp.description || '';
+            });
+          }
           
           // Update UI
           updateResumePreview();
