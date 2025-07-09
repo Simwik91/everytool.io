@@ -87,10 +87,10 @@ function initDesktopDropdown() {
   });
 }
 
-function populateToolsDropdown() {
-  fetch('/tools/tools.json')
+function populateToolsDropdown(basePath) {
+  fetch(`${basePath}/tools/tools.json`)
     .then(response => {
-      if (!response.ok) throw new Error(`Failed to fetch tools.json: ${response.status}`);
+      if (!response.ok) throw new Error(`Failed to fetch tools.json: ${response.status} ${response.statusText}`);
       return response.json();
     })
     .then(tools => {
@@ -110,7 +110,13 @@ function populateToolsDropdown() {
       desktopDropdown.innerHTML = items;
       mobileDropdown.innerHTML = items;
     })
-    .catch(error => console.error('Error loading tools:', error));
+    .catch(error => {
+      console.error('Error loading tools:', error);
+      const desktopDropdown = document.querySelector('.nav-menu .dropdown-menu');
+      const mobileDropdown = document.querySelector('.mobile-nav .dropdown-menu');
+      if (desktopDropdown) desktopDropdown.innerHTML = '<li><a class="dropdown-item">Error loading tools</a></li>';
+      if (mobileDropdown) mobileDropdown.innerHTML = '<li><a class="dropdown-item">Error loading tools</a></li>';
+    });
 }
 
 function initCookieConsent() {
@@ -204,10 +210,14 @@ function initCookieConsent() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Determine base path based on current URL
+  const isTestPage = window.location.pathname.includes('/test/');
+  const basePath = isTestPage ? '/everytool.io' : '';
+
   // Fetch Header
-  fetch('/includes/header.html')
+  fetch(`${basePath}/includes/header.html`)
     .then(response => {
-      if (!response.ok) throw new Error(`Failed to fetch header: ${response.status}`);
+      if (!response.ok) throw new Error(`Failed to fetch header: ${response.status} ${response.statusText}`);
       return response.text();
     })
     .then(data => {
@@ -216,9 +226,11 @@ document.addEventListener('DOMContentLoaded', () => {
         header.innerHTML = data;
         initMobileMenu();
         initDesktopDropdown();
-        populateToolsDropdown();
+        populateToolsDropdown(basePath);
       } else {
         console.warn('Header element not found');
+        const headerError = document.querySelector('#main-header .error-message');
+        if (headerError) headerError.style.display = 'block';
       }
     })
     .catch(error => {
@@ -228,9 +240,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   
   // Fetch Footer
-  fetch('/includes/footer.html')
+  fetch(`${basePath}/includes/footer.html`)
     .then(response => {
-      if (!response.ok) throw new Error(`Failed to fetch footer: ${response.status}`);
+      if (!response.ok) throw new Error(`Failed to fetch footer: ${response.status} ${response.statusText}`);
       return response.text();
     })
     .then(data => {
@@ -240,6 +252,8 @@ document.addEventListener('DOMContentLoaded', () => {
         initCookieConsent();
       } else {
         console.warn('Footer element not found');
+        const footerError = document.querySelector('#main-footer .error-message');
+        if (footerError) footerError.style.display = 'block';
       }
     })
     .catch(error => {
