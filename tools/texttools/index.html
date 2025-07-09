@@ -1041,6 +1041,115 @@
       clip: rect(0, 0, 0, 0);
       border: 0;
     }
+    
+    /* New Tool Styles */
+    .range-container {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    
+    .range-container input[type="range"] {
+      flex: 1;
+      margin: 0;
+    }
+    
+    .range-container span {
+      min-width: 40px;
+      text-align: center;
+      font-weight: bold;
+    }
+    
+    .diff-container {
+      margin-top: 20px;
+      padding: 20px;
+      background: #f8f9ff;
+      border-radius: var(--border-radius);
+      max-height: 300px;
+      overflow-y: auto;
+      font-family: monospace;
+      white-space: pre-wrap;
+    }
+    
+    .diff-added {
+      background-color: rgba(46, 204, 113, 0.2);
+      text-decoration: none;
+    }
+    
+    .diff-removed {
+      background-color: rgba(231, 76, 60, 0.2);
+      text-decoration: line-through;
+    }
+    
+    .regex-patterns {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    
+    .regex-pattern {
+      padding: 8px 12px;
+      background: #e0e7ff;
+      border-radius: 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .regex-pattern:hover {
+      background: #d0d9ff;
+    }
+    
+    .regex-results {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f0f4ff;
+      border-radius: var(--border-radius);
+      max-height: 300px;
+      overflow-y: auto;
+      font-family: monospace;
+    }
+    
+    .regex-match {
+      padding: 5px;
+      margin-bottom: 5px;
+      background: #dbe4ff;
+      border-radius: 5px;
+    }
+    
+    .regex-group {
+      display: inline-block;
+      margin: 2px;
+      padding: 2px 4px;
+      background: #a5b4fc;
+      border-radius: 3px;
+    }
+    
+    .transformer-options {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    
+    .transformer-option {
+      padding: 12px;
+      background: #f0f4ff;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .transformer-option:hover {
+      background: #dbe4ff;
+    }
+    
+    .transformer-option.active {
+      background: var(--primary);
+      color: white;
+    }
 
     /* Responsive Design */
     @media (max-width: 992px) {
@@ -1070,6 +1179,14 @@
       
       .formatter-options {
         grid-template-columns: 1fr;
+      }
+      
+      .transformer-options {
+        grid-template-columns: 1fr;
+      }
+      
+      .regex-patterns {
+        grid-template-columns: repeat(2, 1fr);
       }
     }
 
@@ -1373,14 +1490,27 @@
         <div class="tab" data-tab="encoder" role="tab" aria-selected="false" tabindex="0">
           <i class="fas fa-code"></i> Encoder
         </div>
-        <div class="tab" data-tab="formatter" role="tab" aria-selected="false" tabindex="0">
-          <i class="fas fa-eraser"></i> Formatter
+        <div class="tab" data-tab="cleaner" role="tab" aria-selected="false" tabindex="0">
+          <i class="fas fa-broom"></i> Cleaner
         </div>
         <div class="tab" data-tab="password" role="tab" aria-selected="false" tabindex="0">
           <i class="fas fa-key"></i> Password
         </div>
         <div class="tab" data-tab="slug" role="tab" aria-selected="false" tabindex="0">
           <i class="fas fa-link"></i> Slug
+        </div>
+        <!-- New Tools Tabs -->
+        <div class="tab" data-tab="summarizer" role="tab" aria-selected="false" tabindex="0">
+          <i class="fas fa-file-contract"></i> Summarizer
+        </div>
+        <div class="tab" data-tab="regex" role="tab" aria-selected="false" tabindex="0">
+          <i class="fas fa-terminal"></i> Regex Tester
+        </div>
+        <div class="tab" data-tab="bulk" role="tab" aria-selected="false" tabindex="0">
+          <i class="fas fa-list"></i> Bulk Transformer
+        </div>
+        <div class="tab" data-tab="diff" role="tab" aria-selected="false" tabindex="0">
+          <i class="fas fa-code-compare"></i> Diff Checker
         </div>
       </div>
 
@@ -1528,13 +1658,13 @@
         </div>
       </div>
       
-      <!-- Text Formatter -->
-      <div class="tab-content" id="formatter-tab" role="tabpanel">
-        <h2><i class="fas fa-eraser"></i> Text Formatter</h2>
-        <p><i>Clean and format your text by removing extra spaces and line breaks.</i></p>
+      <!-- Text Cleaner -->
+      <div class="tab-content" id="cleaner-tab" role="tabpanel">
+        <h2><i class="fas fa-broom"></i> Text Cleaner</h2>
+        <p><i>Clean and format your text with advanced options.</i></p>
         
-        <label for="formatterInput">Enter your text:</label>
-        <textarea id="formatterInput" placeholder="Type or paste your text here..."></textarea>
+        <label for="cleanerInput">Enter your text:</label>
+        <textarea id="cleanerInput" placeholder="Type or paste your text here..."></textarea>
         
         <div class="formatter-options">
           <div class="formatter-option active" data-option="all">
@@ -1549,20 +1679,26 @@
           <div class="formatter-option" data-option="html">
             <i class="fas fa-code"></i> Remove HTML Tags
           </div>
+          <div class="formatter-option" data-option="duplicates">
+            <i class="fas fa-copy"></i> Remove Duplicate Lines
+          </div>
+          <div class="formatter-option" data-option="quotes">
+            <i class="fas fa-quote-right"></i> Convert Smart Quotes
+          </div>
         </div>
         
-        <button id="formatBtn">
-          <i class="fas fa-magic"></i> Format Text
+        <button id="cleanBtn">
+          <i class="fas fa-magic"></i> Clean Text
         </button>
         
-        <label for="formatterOutput">Formatted text:</label>
-        <textarea id="formatterOutput" readonly placeholder="Formatted text will appear here..."></textarea>
+        <label for="cleanerOutput">Cleaned text:</label>
+        <textarea id="cleanerOutput" readonly placeholder="Cleaned text will appear here..."></textarea>
         
         <div class="btn-group">
-          <button id="copyFormatterBtn">
+          <button id="copyCleanerBtn">
             <i class="fas fa-copy"></i> Copy to Clipboard
           </button>
-          <button id="clearFormatterBtn">
+          <button id="clearCleanerBtn">
             <i class="fas fa-trash"></i> Clear All
           </button>
         </div>
@@ -1642,6 +1778,174 @@
             <i class="fas fa-copy"></i> Copy to Clipboard
           </button>
           <button id="clearSlugBtn">
+            <i class="fas fa-trash"></i> Clear All
+          </button>
+        </div>
+      </div>
+      
+      <!-- Text Summarizer -->
+      <div class="tab-content" id="summarizer-tab" role="tabpanel">
+        <h2><i class="fas fa-file-contract"></i> Text Summarizer</h2>
+        <p><i>Summarize long text into key sentences using advanced algorithms.</i></p>
+        
+        <label for="summarizerInput">Enter your text:</label>
+        <textarea id="summarizerInput" placeholder="Type or paste your text here..."></textarea>
+        
+        <div class="range-container">
+          <label for="summaryLength">Summary Length:</label>
+          <input type="range" id="summaryLength" min="1" max="10" value="3">
+          <span id="summaryLengthValue">3</span>
+        </div>
+        
+        <button id="summarizeBtn">
+          <i class="fas fa-compress-alt"></i> Summarize Text
+        </button>
+        
+        <label for="summarizerOutput">Summary:</label>
+        <textarea id="summarizerOutput" readonly placeholder="Summary will appear here..."></textarea>
+        
+        <div class="btn-group">
+          <button id="copySummarizerBtn">
+            <i class="fas fa-copy"></i> Copy to Clipboard
+          </button>
+          <button id="clearSummarizerBtn">
+            <i class="fas fa-trash"></i> Clear All
+          </button>
+        </div>
+      </div>
+      
+      <!-- Regex Tester -->
+      <div class="tab-content" id="regex-tab" role="tabpanel">
+        <h2><i class="fas fa-terminal"></i> Regex Tester</h2>
+        <p><i>Test and generate regular expressions with real-time feedback.</i></p>
+        
+        <div class="tool-row">
+          <div class="tool-col">
+            <label for="regexPattern">Regular Expression:</label>
+            <input type="text" id="regexPattern" placeholder="Enter your regex pattern...">
+          </div>
+          <div class="tool-col">
+            <label for="regexFlags">Flags:</label>
+            <input type="text" id="regexFlags" placeholder="g, i, m, etc.">
+          </div>
+        </div>
+        
+        <div class="regex-patterns">
+          <div class="regex-pattern" data-pattern="\\w+">Words</div>
+          <div class="regex-pattern" data-pattern="\\d+">Numbers</div>
+          <div class="regex-pattern" data-pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}">Email</div>
+          <div class="regex-pattern" data-pattern="https?:\\/\\/[^\\s]+">URL</div>
+          <div class="regex-pattern" data-pattern="\\b\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\b">IP Address</div>
+          <div class="regex-pattern" data-pattern="\\d{1,2}\\/\\d{1,2}\\/\\d{4}">Date (MM/DD/YYYY)</div>
+        </div>
+        
+        <label for="regexInput">Test String:</label>
+        <textarea id="regexInput" placeholder="Enter text to test your regex against..."></textarea>
+        
+        <button id="testRegexBtn">
+          <i class="fas fa-bolt"></i> Test Regex
+        </button>
+        
+        <div class="regex-results" id="regexResults">
+          <p>Results will appear here...</p>
+        </div>
+        
+        <div class="btn-group">
+          <button id="copyRegexBtn">
+            <i class="fas fa-copy"></i> Copy Pattern
+          </button>
+          <button id="clearRegexBtn">
+            <i class="fas fa-trash"></i> Clear All
+          </button>
+        </div>
+      </div>
+      
+      <!-- Bulk Text Transformer -->
+      <div class="tab-content" id="bulk-tab" role="tabpanel">
+        <h2><i class="fas fa-list"></i> Bulk Text Transformer</h2>
+        <p><i>Apply transformations to multiple lines of text at once.</i></p>
+        
+        <label for="bulkInput">Enter text (one item per line):</label>
+        <textarea id="bulkInput" placeholder="Enter your text items, one per line..."></textarea>
+        
+        <div class="transformer-options">
+          <div class="transformer-option active" data-operation="prefix">
+            <i class="fas fa-text-width"></i> Add Prefix
+          </div>
+          <div class="transformer-option" data-operation="suffix">
+            <i class="fas fa-text-width"></i> Add Suffix
+          </div>
+          <div class="transformer-option" data-operation="uppercase">
+            <i class="fas fa-text-height"></i> UPPERCASE
+          </div>
+          <div class="transformer-option" data-operation="lowercase">
+            <i class="fas fa-text-height"></i> lowercase
+          </div>
+          <div class="transformer-option" data-operation="sort">
+            <i class="fas fa-sort-alpha-down"></i> Sort Ascending
+          </div>
+          <div class="transformer-option" data-operation="sort-desc">
+            <i class="fas fa-sort-alpha-down-alt"></i> Sort Descending
+          </div>
+        </div>
+        
+        <div id="prefixSuffixInput" class="tool-row">
+          <div class="tool-col">
+            <label for="prefixText">Prefix:</label>
+            <input type="text" id="prefixText" placeholder="Enter prefix...">
+          </div>
+          <div class="tool-col">
+            <label for="suffixText">Suffix:</label>
+            <input type="text" id="suffixText" placeholder="Enter suffix...">
+          </div>
+        </div>
+        
+        <button id="transformBulkBtn">
+          <i class="fas fa-magic"></i> Transform Text
+        </button>
+        
+        <label for="bulkOutput">Transformed Text:</label>
+        <textarea id="bulkOutput" readonly placeholder="Transformed text will appear here..."></textarea>
+        
+        <div class="btn-group">
+          <button id="copyBulkBtn">
+            <i class="fas fa-copy"></i> Copy to Clipboard
+          </button>
+          <button id="clearBulkBtn">
+            <i class="fas fa-trash"></i> Clear All
+          </button>
+        </div>
+      </div>
+      
+      <!-- Text Diff Checker -->
+      <div class="tab-content" id="diff-tab" role="tabpanel">
+        <h2><i class="fas fa-code-compare"></i> Text Diff Checker</h2>
+        <p><i>Compare two text blocks and see the differences.</i></p>
+        
+        <div class="tool-row">
+          <div class="tool-col">
+            <label for="originalText">Original Text:</label>
+            <textarea id="originalText" placeholder="Enter original text..."></textarea>
+          </div>
+          <div class="tool-col">
+            <label for="changedText">Changed Text:</label>
+            <textarea id="changedText" placeholder="Enter modified text..."></textarea>
+          </div>
+        </div>
+        
+        <button id="compareTextBtn">
+          <i class="fas fa-exchange-alt"></i> Compare Texts
+        </button>
+        
+        <div class="diff-container" id="diffResults">
+          <p>Differences will appear here...</p>
+        </div>
+        
+        <div class="btn-group">
+          <button id="copyDiffBtn">
+            <i class="fas fa-copy"></i> Copy Diff
+          </button>
+          <button id="clearDiffBtn">
             <i class="fas fa-trash"></i> Clear All
           </button>
         </div>
@@ -1929,6 +2233,14 @@
         });
       });
       
+      // Transformer options
+      document.querySelectorAll('.transformer-option').forEach(option => {
+        option.addEventListener('click', function() {
+          document.querySelectorAll('.transformer-option').forEach(opt => opt.classList.remove('active'));
+          this.classList.add('active');
+        });
+      });
+      
       // Case Converter Functions
       document.getElementById('upperCaseBtn').addEventListener('click', () => {
         const input = document.getElementById('caseInput').value;
@@ -2057,38 +2369,48 @@
         document.getElementById('encoderOutput').value = '';
       });
       
-      // Text Formatter Functions
-      document.getElementById('formatBtn').addEventListener('click', () => {
-        const input = document.getElementById('formatterInput').value;
-        let output = input;
-        
+      // Text Cleaner Functions
+      document.getElementById('cleanBtn').addEventListener('click', () => {
+        let input = document.getElementById('cleanerInput').value;
         const option = document.querySelector('.formatter-option.active').dataset.option;
         
         if (option === 'all' || option === 'spaces') {
-          output = output.replace(/\s+/g, ' ').trim();
+          input = input.replace(/\s+/g, ' ').trim();
         }
         
         if (option === 'all' || option === 'lines') {
-          output = output.replace(/\n+/g, ' ');
+          input = input.replace(/\n+/g, ' ');
         }
         
-        if (option === 'html') {
-          output = output.replace(/<[^>]*>/g, '');
+        if (option === 'html' || option === 'all') {
+          input = input.replace(/<[^>]*>/g, '');
         }
         
-        document.getElementById('formatterOutput').value = output;
+        if (option === 'duplicates' || option === 'all') {
+          const lines = input.split('\n');
+          const uniqueLines = [...new Set(lines)];
+          input = uniqueLines.join('\n');
+        }
+        
+        if (option === 'quotes' || option === 'all') {
+          input = input
+            .replace(/[\u2018\u2019]/g, "'") // Smart single quotes
+            .replace(/[\u201C\u201D]/g, '"'); // Smart double quotes
+        }
+        
+        document.getElementById('cleanerOutput').value = input;
       });
       
-      document.getElementById('copyFormatterBtn').addEventListener('click', () => {
-        const output = document.getElementById('formatterOutput');
+      document.getElementById('copyCleanerBtn').addEventListener('click', () => {
+        const output = document.getElementById('cleanerOutput');
         output.select();
         document.execCommand('copy');
         alert('Copied to clipboard!');
       });
       
-      document.getElementById('clearFormatterBtn').addEventListener('click', () => {
-        document.getElementById('formatterInput').value = '';
-        document.getElementById('formatterOutput').value = '';
+      document.getElementById('clearCleanerBtn').addEventListener('click', () => {
+        document.getElementById('cleanerInput').value = '';
+        document.getElementById('cleanerOutput').value = '';
       });
       
       // Password Generator Functions
@@ -2191,6 +2513,262 @@
       document.getElementById('clearSlugBtn').addEventListener('click', () => {
         document.getElementById('slugInput').value = '';
         document.getElementById('slugOutput').value = '';
+      });
+      
+      // Text Summarizer Functions
+      const summaryLength = document.getElementById('summaryLength');
+      const summaryLengthValue = document.getElementById('summaryLengthValue');
+      summaryLength.addEventListener('input', () => {
+        summaryLengthValue.textContent = summaryLength.value;
+      });
+      
+      document.getElementById('summarizeBtn').addEventListener('click', () => {
+        const input = document.getElementById('summarizerInput').value;
+        const numSentences = parseInt(summaryLength.value);
+        
+        if (!input.trim()) {
+          alert('Please enter some text to summarize');
+          return;
+        }
+        
+        // Simple extractive summarization algorithm
+        const sentences = input.split(/[.!?]+/).filter(s => s.trim().length > 0);
+        const wordFrequencies = {};
+        const words = input.toLowerCase().match(/\b\w+\b/g) || [];
+        
+        words.forEach(word => {
+          wordFrequencies[word] = (wordFrequencies[word] || 0) + 1;
+        });
+        
+        // Score sentences based on word frequencies
+        const sentenceScores = sentences.map(sentence => {
+          const wordsInSentence = sentence.toLowerCase().match(/\b\w+\b/g) || [];
+          let score = 0;
+          
+          wordsInSentence.forEach(word => {
+            if (wordFrequencies[word]) {
+              score += wordFrequencies[word];
+            }
+          });
+          
+          return { sentence, score };
+        });
+        
+        // Sort sentences by score
+        sentenceScores.sort((a, b) => b.score - a.score);
+        
+        // Take top N sentences
+        const summarySentences = sentenceScores.slice(0, numSentences)
+          .map(item => item.sentence.trim())
+          .map(s => s.charAt(0).toUpperCase() + s.slice(1) + '.');
+          
+        document.getElementById('summarizerOutput').value = summarySentences.join(' ');
+      });
+      
+      document.getElementById('copySummarizerBtn').addEventListener('click', () => {
+        const output = document.getElementById('summarizerOutput');
+        output.select();
+        document.execCommand('copy');
+        alert('Copied to clipboard!');
+      });
+      
+      document.getElementById('clearSummarizerBtn').addEventListener('click', () => {
+        document.getElementById('summarizerInput').value = '';
+        document.getElementById('summarizerOutput').value = '';
+      });
+      
+      // Regex Tester Functions
+      document.querySelectorAll('.regex-pattern').forEach(pattern => {
+        pattern.addEventListener('click', () => {
+          document.getElementById('regexPattern').value = pattern.dataset.pattern;
+        });
+      });
+      
+      document.getElementById('testRegexBtn').addEventListener('click', () => {
+        const pattern = document.getElementById('regexPattern').value;
+        const flags = document.getElementById('regexFlags').value;
+        const testString = document.getElementById('regexInput').value;
+        const resultsDiv = document.getElementById('regexResults');
+        
+        if (!pattern) {
+          alert('Please enter a regular expression pattern');
+          return;
+        }
+        
+        if (!testString) {
+          alert('Please enter a test string');
+          return;
+        }
+        
+        try {
+          const regex = new RegExp(pattern, flags);
+          const matches = [...testString.matchAll(regex)];
+          
+          if (matches.length === 0) {
+            resultsDiv.innerHTML = '<p>No matches found.</p>';
+            return;
+          }
+          
+          let html = '<p>Matches found:</p>';
+          matches.forEach((match, index) => {
+            html += `<div class="regex-match">Match ${index + 1}:`;
+            
+            // Entire match
+            html += `<div class="regex-group">${match[0]}</div>`;
+            
+            // Groups
+            if (match.length > 1) {
+              html += '<div>Groups:';
+              for (let i = 1; i < match.length; i++) {
+                html += `<span class="regex-group">${match[i]}</span>`;
+              }
+              html += '</div>';
+            }
+            
+            html += '</div>';
+          });
+          
+          resultsDiv.innerHTML = html;
+        } catch (e) {
+          resultsDiv.innerHTML = `<p class="error">Error: ${e.message}</p>`;
+        }
+      });
+      
+      document.getElementById('copyRegexBtn').addEventListener('click', () => {
+        const pattern = document.getElementById('regexPattern');
+        pattern.select();
+        document.execCommand('copy');
+        alert('Pattern copied to clipboard!');
+      });
+      
+      document.getElementById('clearRegexBtn').addEventListener('click', () => {
+        document.getElementById('regexPattern').value = '';
+        document.getElementById('regexFlags').value = '';
+        document.getElementById('regexInput').value = '';
+        document.getElementById('regexResults').innerHTML = '<p>Results will appear here...</p>';
+      });
+      
+      // Bulk Transformer Functions
+      document.getElementById('transformBulkBtn').addEventListener('click', () => {
+        const input = document.getElementById('bulkInput').value;
+        const operation = document.querySelector('.transformer-option.active').dataset.operation;
+        const prefix = document.getElementById('prefixText').value;
+        const suffix = document.getElementById('suffixText').value;
+        
+        if (!input.trim()) {
+          alert('Please enter some text to transform');
+          return;
+        }
+        
+        let items = input.split('\n').filter(item => item.trim().length > 0);
+        let output = '';
+        
+        switch(operation) {
+          case 'prefix':
+            output = items.map(item => prefix + item).join('\n');
+            break;
+          case 'suffix':
+            output = items.map(item => item + suffix).join('\n');
+            break;
+          case 'uppercase':
+            output = items.map(item => item.toUpperCase()).join('\n');
+            break;
+          case 'lowercase':
+            output = items.map(item => item.toLowerCase()).join('\n');
+            break;
+          case 'sort':
+            output = items.sort((a, b) => a.localeCompare(b)).join('\n');
+            break;
+          case 'sort-desc':
+            output = items.sort((a, b) => b.localeCompare(a)).join('\n');
+            break;
+          default:
+            output = input;
+        }
+        
+        document.getElementById('bulkOutput').value = output;
+      });
+      
+      document.getElementById('copyBulkBtn').addEventListener('click', () => {
+        const output = document.getElementById('bulkOutput');
+        output.select();
+        document.execCommand('copy');
+        alert('Copied to clipboard!');
+      });
+      
+      document.getElementById('clearBulkBtn').addEventListener('click', () => {
+        document.getElementById('bulkInput').value = '';
+        document.getElementById('bulkOutput').value = '';
+        document.getElementById('prefixText').value = '';
+        document.getElementById('suffixText').value = '';
+      });
+      
+      // Diff Checker Functions
+      document.getElementById('compareTextBtn').addEventListener('click', () => {
+        const original = document.getElementById('originalText').value;
+        const changed = document.getElementById('changedText').value;
+        const diffResults = document.getElementById('diffResults');
+        
+        if (!original && !changed) {
+          alert('Please enter text to compare');
+          return;
+        }
+        
+        // Simple diff algorithm
+        const originalLines = original.split('\n');
+        const changedLines = changed.split('\n');
+        
+        let diffHTML = '';
+        let maxLength = Math.max(originalLines.length, changedLines.length);
+        
+        for (let i = 0; i < maxLength; i++) {
+          const origLine = originalLines[i] || '';
+          const changedLine = changedLines[i] || '';
+          
+          if (origLine === changedLine) {
+            diffHTML += `<div>${origLine}</div>`;
+          } else {
+            // Find character differences
+            let charDiff = '';
+            let minLength = Math.min(origLine.length, changedLine.length);
+            
+            for (let j = 0; j < minLength; j++) {
+              if (origLine[j] === changedLine[j]) {
+                charDiff += origLine[j];
+              } else {
+                charDiff += `<span class="diff-removed">${origLine[j] || ''}</span>`;
+                charDiff += `<span class="diff-added">${changedLine[j] || ''}</span>`;
+              }
+            }
+            
+            // Handle remaining characters
+            if (origLine.length > minLength) {
+              charDiff += `<span class="diff-removed">${origLine.substring(minLength)}</span>`;
+            } else if (changedLine.length > minLength) {
+              charDiff += `<span class="diff-added">${changedLine.substring(minLength)}</span>`;
+            }
+            
+            diffHTML += `<div>${charDiff}</div>`;
+          }
+        }
+        
+        diffResults.innerHTML = diffHTML || '<p>No differences found.</p>';
+      });
+      
+      document.getElementById('copyDiffBtn').addEventListener('click', () => {
+        const diffResults = document.getElementById('diffResults');
+        const range = document.createRange();
+        range.selectNode(diffResults);
+        window.getSelection().removeAllRanges();
+        window.getSelection().addRange(range);
+        document.execCommand('copy');
+        alert('Diff results copied to clipboard!');
+      });
+      
+      document.getElementById('clearDiffBtn').addEventListener('click', () => {
+        document.getElementById('originalText').value = '';
+        document.getElementById('changedText').value = '';
+        document.getElementById('diffResults').innerHTML = '<p>Differences will appear here...</p>';
       });
     }
 
