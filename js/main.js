@@ -5,13 +5,7 @@ function initMobileMenu() {
   const mobileNav = document.getElementById('mobile-nav');
   const mobileBackdrop = document.getElementById('mobile-backdrop');
   
-  function openMobileMenu() {
-    mobileNav.classList.add('active');
-    mobileBackdrop.classList.add('active');
-    document.body.classList.add('menu-open');
-  }
-  
-  function closeMobileMenu() {
+  function closeMobileNav() {
     mobileNav.classList.remove('active');
     mobileBackdrop.classList.remove('active');
     document.body.classList.remove('menu-open');
@@ -23,24 +17,28 @@ function initMobileMenu() {
   }
   
   if (mobileMenuToggle) {
-    mobileMenuToggle.addEventListener('click', openMobileMenu);
+    mobileMenuToggle.addEventListener('click', () => {
+      mobileNav.classList.add('active');
+      mobileBackdrop.classList.add('active');
+      document.body.classList.add('menu-open');
+    });
   } else {
     console.warn('Mobile menu toggle not found');
   }
   
   if (closeMobileMenu) {
-    closeMobileMenu.addEventListener('click', closeMobileMenu);
+    closeMobileMenu.addEventListener('click', closeMobileNav);
   }
   
   if (mobileBackdrop) {
-    mobileBackdrop.addEventListener('click', closeMobileMenu);
+    mobileBackdrop.addEventListener('click', closeMobileNav);
   }
   
   const links = document.querySelectorAll('.mobile-nav-link');
   links.forEach(link => {
     link.addEventListener('click', (e) => {
       if (!link.classList.contains('dropdown-toggle')) {
-        closeMobileMenu();
+        closeMobileNav();
       }
     });
   });
@@ -91,8 +89,8 @@ function initDesktopDropdown() {
   });
 }
 
-function populateToolsDropdown(basePath) {
-  console.log(`Fetching tools.json from ${basePath}/tools/tools.json`);
+function populateToolsDropdown(basePath, retryCount = 0, maxRetries = 2) {
+  console.log(`Fetching tools.json from ${basePath}/tools/tools.json (Attempt ${retryCount + 1}/${maxRetries + 1})`);
   fetch(`${basePath}/tools/tools.json`)
     .then(response => {
       if (!response.ok) throw new Error(`Failed to fetch tools.json: ${response.status} ${response.statusText}`);
@@ -118,10 +116,15 @@ function populateToolsDropdown(basePath) {
     })
     .catch(error => {
       console.error('Error loading tools:', error);
-      const desktopDropdown = document.querySelector('.nav-menu .dropdown-menu');
-      const mobileDropdown = document.querySelector('.mobile-nav .dropdown-menu');
-      if (desktopDropdown) desktopDropdown.innerHTML = '<li><a class="dropdown-item">Error loading tools</a></li>';
-      if (mobileDropdown) mobileDropdown.innerHTML = '<li><a class="dropdown-item">Error loading tools</a></li>';
+      if (retryCount < maxRetries) {
+        console.log(`Retrying tools.json fetch (Attempt ${retryCount + 2})`);
+        setTimeout(() => populateToolsDropdown(basePath, retryCount + 1, maxRetries), 1000);
+      } else {
+        const desktopDropdown = document.querySelector('.nav-menu .dropdown-menu .dropdown-error');
+        const mobileDropdown = document.querySelector('.mobile-nav .dropdown-menu .dropdown-error');
+        if (desktopDropdown) desktopDropdown.style.display = 'block';
+        if (mobileDropdown) mobileDropdown.style.display = 'block';
+      }
     });
 }
 
