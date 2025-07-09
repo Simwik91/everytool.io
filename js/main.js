@@ -1,4 +1,5 @@
 function initMobileMenu() {
+  console.log('Initializing mobile menu');
   const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
   const closeMobileMenu = document.getElementById('close-mobile-menu');
   const mobileNav = document.getElementById('mobile-nav');
@@ -23,6 +24,8 @@ function initMobileMenu() {
   
   if (mobileMenuToggle) {
     mobileMenuToggle.addEventListener('click', openMobileMenu);
+  } else {
+    console.warn('Mobile menu toggle not found');
   }
   
   if (closeMobileMenu) {
@@ -60,6 +63,7 @@ function initMobileMenu() {
 }
 
 function initDesktopDropdown() {
+  console.log('Initializing desktop dropdown');
   const dropdownToggles = document.querySelectorAll('.nav-menu .dropdown-toggle');
   dropdownToggles.forEach(toggle => {
     toggle.addEventListener('click', (e) => {
@@ -88,6 +92,7 @@ function initDesktopDropdown() {
 }
 
 function populateToolsDropdown(basePath) {
+  console.log(`Fetching tools.json from ${basePath}/tools/tools.json`);
   fetch(`${basePath}/tools/tools.json`)
     .then(response => {
       if (!response.ok) throw new Error(`Failed to fetch tools.json: ${response.status} ${response.statusText}`);
@@ -109,6 +114,7 @@ function populateToolsDropdown(basePath) {
       `).join('');
       desktopDropdown.innerHTML = items;
       mobileDropdown.innerHTML = items;
+      console.log('Tools dropdown populated successfully');
     })
     .catch(error => {
       console.error('Error loading tools:', error);
@@ -120,6 +126,7 @@ function populateToolsDropdown(basePath) {
 }
 
 function initCookieConsent() {
+  console.log('Initializing cookie consent');
   const COOKIE_CONSENT_KEY = 'cookieConsent';
   
   function getCookiePreferences() {
@@ -210,11 +217,14 @@ function initCookieConsent() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  console.log('main.js loaded successfully');
   // Determine base path based on current URL
   const isTestPage = window.location.pathname.includes('/test/');
   const basePath = isTestPage ? '/everytool.io' : '';
+  console.log(`Base path set to: ${basePath}`);
 
   // Fetch Header
+  console.log(`Fetching header from ${basePath}/includes/header.html`);
   fetch(`${basePath}/includes/header.html`)
     .then(response => {
       if (!response.ok) throw new Error(`Failed to fetch header: ${response.status} ${response.statusText}`);
@@ -224,6 +234,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const header = document.querySelector('#main-header');
       if (header) {
         header.innerHTML = data;
+        console.log('Header loaded successfully');
         initMobileMenu();
         initDesktopDropdown();
         populateToolsDropdown(basePath);
@@ -240,6 +251,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   
   // Fetch Footer
+  console.log(`Fetching footer from ${basePath}/includes/footer.html`);
   fetch(`${basePath}/includes/footer.html`)
     .then(response => {
       if (!response.ok) throw new Error(`Failed to fetch footer: ${response.status} ${response.statusText}`);
@@ -249,6 +261,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const footer = document.querySelector('#main-footer');
       if (footer) {
         footer.innerHTML = data;
+        console.log('Footer loaded successfully');
         initCookieConsent();
       } else {
         console.warn('Footer element not found');
@@ -261,4 +274,15 @@ document.addEventListener('DOMContentLoaded', () => {
       const footerError = document.querySelector('#main-footer .error-message');
       if (footerError) footerError.style.display = 'block';
     });
+});
+
+// Fallback if main.js fails to load correctly
+window.addEventListener('error', (event) => {
+  if (event.filename.includes('main.js')) {
+    console.error('Script error in main.js:', event.message, event.lineno, event.colno);
+    const headerError = document.querySelector('#main-header .error-message');
+    const footerError = document.querySelector('#main-footer .error-message');
+    if (headerError) headerError.style.display = 'block';
+    if (footerError) footerError.style.display = 'block';
+  }
 });
