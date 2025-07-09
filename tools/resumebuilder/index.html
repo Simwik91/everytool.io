@@ -3,9 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Resume Builder - EveryTool.io</title>
+  <title>Enhanced Resume Builder - EveryTool.io</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <style>
     :root {
       --primary: #4361ee;
@@ -1132,6 +1134,123 @@
       border: 0;
     }
 
+    /* New Styles for Enhanced Features */
+    .template-controls {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin: 20px 0;
+    }
+    
+    .template-style {
+      padding: 10px 20px;
+      border: 2px solid var(--light-gray);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .template-style.active {
+      border-color: var(--primary);
+      background: rgba(67, 97, 238, 0.1);
+    }
+    
+    .template-style:hover:not(.active) {
+      border-color: var(--primary);
+    }
+    
+    .color-picker {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 15px 0;
+    }
+    
+    .color-preview {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: var(--primary);
+    }
+    
+    .font-selector {
+      margin: 15px 0;
+    }
+    
+    .progress-container {
+      width: 100%;
+      background: #e9ecef;
+      border-radius: 10px;
+      margin: 20px 0;
+    }
+    
+    .progress-bar {
+      height: 10px;
+      background: var(--primary);
+      border-radius: 10px;
+      width: 0%;
+      transition: width 0.5s ease;
+    }
+    
+    .strength-meter {
+      display: flex;
+      gap: 5px;
+      margin: 15px 0;
+    }
+    
+    .strength-segment {
+      flex: 1;
+      height: 8px;
+      background: #e9ecef;
+      border-radius: 4px;
+    }
+    
+    .strength-segment.active {
+      background: #27ae60;
+    }
+    
+    .suggestion-btn {
+      background: #e9ecef;
+      color: var(--dark);
+      padding: 8px 15px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      margin: 5px 0;
+      border: none;
+      cursor: pointer;
+    }
+    
+    .suggestion-btn:hover {
+      background: #dbe4ff;
+    }
+    
+    .data-management {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 20px 0;
+    }
+    
+    .section-dragger {
+      cursor: move;
+      padding: 8px;
+      background: rgba(0, 0, 0, 0.05);
+      border-radius: 5px;
+      margin: 5px 0;
+    }
+    
+    .required:after {
+      content: " *";
+      color: #e74c3c;
+    }
+    
+    .validation-error {
+      color: #e74c3c;
+      font-size: 0.85rem;
+      margin-top: 5px;
+      display: none;
+    }
+    
     /* Responsive Design */
     @media (max-width: 992px) {
       .nav-menu {
@@ -1191,6 +1310,10 @@
       
       .template-grid {
         grid-template-columns: 1fr;
+      }
+      
+      .data-management {
+        flex-direction: column;
       }
     }
 
@@ -1376,8 +1499,8 @@
   <section class="hero">
     <div class="container">
       <div class="hero-content">
-        <h1>Resume Builder</h1>
-        <p>Create professional resumes in minutes with our easy-to-use builder. ATS-friendly templates, no sign-up required.</p>
+        <h1>Enhanced Resume Builder</h1>
+        <p>Create professional resumes in minutes with our advanced builder. ATS-friendly templates, real-time preview, and client-side processing.</p>
       </div>
     </div>
   </section>
@@ -1392,19 +1515,19 @@
           <p>Choose from ATS-friendly templates designed to get you noticed</p>
         </div>
         <div class="feature-card">
-          <i class="fas fa-magic"></i>
-          <h3>Easy Customization</h3>
-          <p>Fill in your details and watch your resume update in real-time</p>
+          <i class="fas fa-file-pdf"></i>
+          <h3>PDF Export</h3>
+          <p>Download your resume as a professional PDF with one click</p>
         </div>
         <div class="feature-card">
-          <i class="fas fa-lock"></i>
-          <h3>Privacy First</h3>
-          <p>Your data never leaves your browser - completely secure</p>
+          <i class="fas fa-lightbulb"></i>
+          <h3>Content Suggestions</h3>
+          <p>Get AI-powered suggestions for improving your resume content</p>
         </div>
         <div class="feature-card">
-          <i class="fas fa-file-download"></i>
-          <h3>Download PDF</h3>
-          <p>Export your resume as a professional PDF with one click</p>
+          <i class="fas fa-sliders-h"></i>
+          <h3>Advanced Customization</h3>
+          <p>Change colors, fonts, and section order to match your needs</p>
         </div>
       </div>
     </div>
@@ -1433,6 +1556,22 @@
       </div>
     </div>
 
+    <!-- Resume Strength & Progress -->
+    <div class="card">
+      <h2><i class="fas fa-chart-line"></i> Resume Strength & Progress</h2>
+      <div class="progress-container">
+        <div class="progress-bar" id="resume-progress" style="width: 25%;"></div>
+      </div>
+      <div class="strength-meter">
+        <div class="strength-segment"></div>
+        <div class="strength-segment"></div>
+        <div class="strength-segment"></div>
+        <div class="strength-segment"></div>
+        <div class="strength-segment"></div>
+      </div>
+      <p id="strength-message">Your resume is 25% complete. Add more details to improve your score.</p>
+    </div>
+
     <!-- Main Resume Builder Card -->
     <div class="card">
       <div class="tabs" role="tablist">
@@ -1445,8 +1584,14 @@
         <div class="tab" data-tab="education" role="tab" aria-selected="false" tabindex="0">
           <i class="fas fa-graduation-cap"></i> Education
         </div>
+        <div class="tab" data-tab="projects" role="tab" aria-selected="false" tabindex="0">
+          <i class="fas fa-project-diagram"></i> Projects
+        </div>
         <div class="tab" data-tab="skills" role="tab" aria-selected="false" tabindex="0">
           <i class="fas fa-star"></i> Skills
+        </div>
+        <div class="tab" data-tab="certifications" role="tab" aria-selected="false" tabindex="0">
+          <i class="fas fa-award"></i> Certifications
         </div>
         <div class="tab" data-tab="preview" role="tab" aria-selected="false" tabindex="0">
           <i class="fas fa-eye"></i> Preview
@@ -1460,19 +1605,22 @@
         
         <div class="tool-row">
           <div class="tool-col">
-            <label for="fullName">Full Name</label>
-            <input type="text" id="fullName" placeholder="John Doe" aria-label="Enter your full name">
+            <label for="fullName" class="required">Full Name</label>
+            <input type="text" id="fullName" placeholder="John Doe" aria-label="Enter your full name" required>
+            <div class="validation-error" id="nameError">Please enter your name</div>
           </div>
           <div class="tool-col">
-            <label for="jobTitle">Professional Title</label>
-            <input type="text" id="jobTitle" placeholder="e.g. Software Engineer" aria-label="Enter your professional title">
+            <label for="jobTitle" class="required">Professional Title</label>
+            <input type="text" id="jobTitle" placeholder="e.g. Software Engineer" aria-label="Enter your professional title" required>
+            <div class="validation-error" id="titleError">Please enter your professional title</div>
           </div>
         </div>
         
         <div class="tool-row">
           <div class="tool-col">
-            <label for="email">Email</label>
-            <input type="email" id="email" placeholder="john@example.com" aria-label="Enter your email">
+            <label for="email" class="required">Email</label>
+            <input type="email" id="email" placeholder="john@example.com" aria-label="Enter your email" required>
+            <div class="validation-error" id="emailError">Please enter a valid email</div>
           </div>
           <div class="tool-col">
             <label for="phone">Phone</label>
@@ -1491,8 +1639,11 @@
           </div>
         </div>
         
-        <label for="summary">Professional Summary</label>
-        <textarea id="summary" placeholder="Experienced professional with 5+ years in..." aria-label="Enter your professional summary"></textarea>
+        <label for="summary" class="required">Professional Summary</label>
+        <textarea id="summary" placeholder="Experienced professional with 5+ years in..." aria-label="Enter your professional summary" required></textarea>
+        <div class="validation-error" id="summaryError">Please write a professional summary</div>
+        
+        <button class="suggestion-btn" id="summarySuggestion"><i class="fas fa-magic"></i> Generate Summary Suggestion</button>
         
         <div class="btn-group">
           <button id="nextExperienceBtn" aria-label="Go to experience section">
@@ -1510,19 +1661,19 @@
           <div class="experience-item">
             <div class="tool-row">
               <div class="tool-col">
-                <label for="jobTitle1">Job Title</label>
-                <input type="text" id="jobTitle1" placeholder="Senior Developer" aria-label="Enter job title">
+                <label for="jobTitle1" class="required">Job Title</label>
+                <input type="text" id="jobTitle1" placeholder="Senior Developer" aria-label="Enter job title" required>
               </div>
               <div class="tool-col">
-                <label for="company1">Company</label>
-                <input type="text" id="company1" placeholder="Tech Solutions Inc." aria-label="Enter company name">
+                <label for="company1" class="required">Company</label>
+                <input type="text" id="company1" placeholder="Tech Solutions Inc." aria-label="Enter company name" required>
               </div>
             </div>
             
             <div class="tool-row">
               <div class="tool-col">
-                <label for="startDate1">Start Date</label>
-                <input type="month" id="startDate1" aria-label="Enter start date">
+                <label for="startDate1" class="required">Start Date</label>
+                <input type="month" id="startDate1" aria-label="Enter start date" required>
               </div>
               <div class="tool-col">
                 <label for="endDate1">End Date</label>
@@ -1534,8 +1685,8 @@
               </div>
             </div>
             
-            <label for="jobDescription1">Description</label>
-            <textarea id="jobDescription1" placeholder="Describe your responsibilities and achievements..." aria-label="Enter job description"></textarea>
+            <label for="jobDescription1" class="required">Description</label>
+            <textarea id="jobDescription1" placeholder="Describe your responsibilities and achievements..." aria-label="Enter job description" required></textarea>
           </div>
         </div>
         
@@ -1562,12 +1713,12 @@
           <div class="education-item">
             <div class="tool-row">
               <div class="tool-col">
-                <label for="degree1">Degree/Certificate</label>
-                <input type="text" id="degree1" placeholder="e.g. Bachelor of Science" aria-label="Enter degree or certificate">
+                <label for="degree1" class="required">Degree/Certificate</label>
+                <input type="text" id="degree1" placeholder="e.g. Bachelor of Science" aria-label="Enter degree or certificate" required>
               </div>
               <div class="tool-col">
-                <label for="institution1">Institution</label>
-                <input type="text" id="institution1" placeholder="University Name" aria-label="Enter institution name">
+                <label for="institution1" class="required">Institution</label>
+                <input type="text" id="institution1" placeholder="University Name" aria-label="Enter institution name" required>
               </div>
             </div>
             
@@ -1607,6 +1758,50 @@
           <button class="btn-outline" id="backExperienceBtn" aria-label="Go back to experience section">
             <i class="fas fa-arrow-left"></i> Back
           </button>
+          <button id="nextProjectsBtn" aria-label="Go to projects section">
+            Next: Projects <i class="fas fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Projects Section -->
+      <div class="tab-content" id="projects-tab" role="tabpanel">
+        <h2><i class="fas fa-project-diagram"></i> Projects</h2>
+        <p>Add your significant projects and accomplishments.</p>
+        
+        <div id="projectsContainer">
+          <div class="project-item">
+            <div class="tool-row">
+              <div class="tool-col">
+                <label for="projectName1" class="required">Project Name</label>
+                <input type="text" id="projectName1" placeholder="e.g. E-commerce Platform" aria-label="Enter project name" required>
+              </div>
+              <div class="tool-col">
+                <label for="projectDate1">Date</label>
+                <input type="month" id="projectDate1" aria-label="Enter project date">
+              </div>
+            </div>
+            
+            <div class="tool-row">
+              <div class="tool-col">
+                <label for="projectLink1">Project URL</label>
+                <input type="url" id="projectLink1" placeholder="https://project.example.com" aria-label="Enter project URL">
+              </div>
+            </div>
+            
+            <label for="projectDescription1" class="required">Description</label>
+            <textarea id="projectDescription1" placeholder="Describe the project and your contributions..." aria-label="Enter project description" required></textarea>
+          </div>
+        </div>
+        
+        <button id="addProjectBtn" style="margin: 15px 0;" aria-label="Add another project">
+          <i class="fas fa-plus"></i> Add Another Project
+        </button>
+        
+        <div class="btn-group">
+          <button class="btn-outline" id="backEducationBtn" aria-label="Go back to education section">
+            <i class="fas fa-arrow-left"></i> Back
+          </button>
           <button id="nextSkillsBtn" aria-label="Go to skills section">
             Next: Skills <i class="fas fa-arrow-right"></i>
           </button>
@@ -1644,7 +1839,55 @@
         <textarea id="additionalSkills" placeholder="e.g. Project Management, Communication, Leadership" aria-label="Enter additional skills"></textarea>
         
         <div class="btn-group">
-          <button class="btn-outline" id="backEducationBtn" aria-label="Go back to education section">
+          <button class="btn-outline" id="backProjectsBtn" aria-label="Go back to projects section">
+            <i class="fas fa-arrow-left"></i> Back
+          </button>
+          <button id="nextCertificationsBtn" aria-label="Go to certifications section">
+            Next: Certifications <i class="fas fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Certifications -->
+      <div class="tab-content" id="certifications-tab" role="tabpanel">
+        <h2><i class="fas fa-award"></i> Certifications</h2>
+        <p>Add your professional certifications and licenses.</p>
+        
+        <div id="certificationsContainer">
+          <div class="certification-item">
+            <div class="tool-row">
+              <div class="tool-col">
+                <label for="certName1" class="required">Certification Name</label>
+                <input type="text" id="certName1" placeholder="e.g. AWS Certified Developer" aria-label="Enter certification name" required>
+              </div>
+              <div class="tool-col">
+                <label for="certIssuer1">Issuing Organization</label>
+                <input type="text" id="certIssuer1" placeholder="e.g. Amazon Web Services" aria-label="Enter issuing organization">
+              </div>
+            </div>
+            
+            <div class="tool-row">
+              <div class="tool-col">
+                <label for="certDate1">Date Issued</label>
+                <input type="month" id="certDate1" aria-label="Enter certification date">
+              </div>
+              <div class="tool-col">
+                <label for="certExpiry1">Expiration Date</label>
+                <input type="month" id="certExpiry1" aria-label="Enter expiration date">
+              </div>
+            </div>
+            
+            <label for="certLink1">Credential URL</label>
+            <input type="url" id="certLink1" placeholder="https://credential.example.com" aria-label="Enter credential URL">
+          </div>
+        </div>
+        
+        <button id="addCertificationBtn" style="margin: 15px 0;" aria-label="Add another certification">
+          <i class="fas fa-plus"></i> Add Another Certification
+        </button>
+        
+        <div class="btn-group">
+          <button class="btn-outline" id="backSkillsBtn" aria-label="Go back to skills section">
             <i class="fas fa-arrow-left"></i> Back
           </button>
           <button id="previewResumeBtn" aria-label="Preview resume">
@@ -1666,7 +1909,7 @@
             <div class="template-details">
               <h3>Modern Professional</h3>
               <p>Clean design perfect for tech and creative industries</p>
-              <button class="use-template-btn" aria-label="Select modern professional template">Select Template</button>
+              <button class="use-template-btn" data-template="modern" aria-label="Select modern professional template">Select Template</button>
             </div>
           </div>
           
@@ -1677,7 +1920,7 @@
             <div class="template-details">
               <h3>Executive Minimalist</h3>
               <p>Sophisticated layout for management positions</p>
-              <button class="use-template-btn" aria-label="Select executive minimalist template">Select Template</button>
+              <button class="use-template-btn" data-template="executive" aria-label="Select executive minimalist template">Select Template</button>
             </div>
           </div>
           
@@ -1688,8 +1931,25 @@
             <div class="template-details">
               <h3>Creative Portfolio</h3>
               <p>Showcase your work with this visual design</p>
-              <button class="use-template-btn" aria-label="Select creative portfolio template">Select Template</button>
+              <button class="use-template-btn" data-template="creative" aria-label="Select creative portfolio template">Select Template</button>
             </div>
+          </div>
+        </div>
+        
+        <div class="template-controls">
+          <div class="color-picker">
+            <span>Accent Color:</span>
+            <div class="color-preview" id="colorPreview"></div>
+            <input type="color" id="colorSelector" value="#4361ee">
+          </div>
+          <div class="font-selector">
+            <label for="fontSelector">Font:</label>
+            <select id="fontSelector">
+              <option value="Poppins, sans-serif">Poppins</option>
+              <option value="Arial, sans-serif">Arial</option>
+              <option value="Georgia, serif">Georgia</option>
+              <option value="'Courier New', monospace">Courier New</option>
+            </select>
           </div>
         </div>
         
@@ -1723,6 +1983,17 @@
           </div>
           
           <div class="resume-section">
+            <h3>Projects</h3>
+            <div class="resume-item">
+              <div class="resume-item-header">
+                <div class="resume-item-title">E-commerce Platform</div>
+                <div>2021</div>
+              </div>
+              <div class="resume-item-desc">Developed a full-featured e-commerce platform using React and Node.js...</div>
+            </div>
+          </div>
+          
+          <div class="resume-section">
             <h3>Education</h3>
             <div class="resume-item">
               <div class="resume-item-header">
@@ -1744,16 +2015,40 @@
               <div class="skill-tag">Project Management</div>
             </div>
           </div>
+          
+          <div class="resume-section">
+            <h3>Certifications</h3>
+            <div class="resume-item">
+              <div class="resume-item-header">
+                <div class="resume-item-title">AWS Certified Developer</div>
+                <div>2022</div>
+              </div>
+            </div>
+          </div>
         </div>
         
         <div class="action-buttons">
-          <button class="btn-outline" id="backSkillsBtn" aria-label="Edit resume">
+          <button class="btn-outline" id="backCertificationsBtn" aria-label="Edit resume">
             <i class="fas fa-edit"></i> Edit Resume
           </button>
           <button id="downloadPdfBtn" aria-label="Download resume as PDF">
             <i class="fas fa-download"></i> Download PDF
           </button>
         </div>
+        
+        <div class="data-management">
+          <button id="exportDataBtn" class="btn-outline">
+            <i class="fas fa-file-export"></i> Export Resume Data
+          </button>
+          <button id="importDataBtn" class="btn-outline">
+            <i class="fas fa-file-import"></i> Import Resume Data
+          </button>
+          <button id="clearDataBtn" class="btn-outline">
+            <i class="fas fa-trash-alt"></i> Clear All Data
+          </button>
+        </div>
+        
+        <input type="file" id="importFileInput" accept=".json" style="display: none;">
       </div>
     </div>
 
@@ -1822,7 +2117,7 @@
   </footer>
 
   <script>
-    // Mobile Menu Functionality - Fixed Implementation
+    // Mobile Menu Functionality
     function initMobileMenu() {
       const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
       const closeMobileMenu = document.getElementById('close-mobile-menu');
@@ -1976,6 +2271,9 @@
 
     // Resume Builder Functionality
     function initializeResumeBuilder() {
+      let currentTemplate = 'modern';
+      let resumeData = {};
+      
       // Tab Switching
       function switchTab(tabName) {
         document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
@@ -2004,29 +2302,68 @@
       // Navigation buttons
       document.getElementById('nextExperienceBtn').addEventListener('click', () => switchTab('experience'));
       document.getElementById('nextEducationBtn').addEventListener('click', () => switchTab('education'));
+      document.getElementById('nextProjectsBtn').addEventListener('click', () => switchTab('projects'));
       document.getElementById('nextSkillsBtn').addEventListener('click', () => switchTab('skills'));
+      document.getElementById('nextCertificationsBtn').addEventListener('click', () => switchTab('certifications'));
       document.getElementById('previewResumeBtn').addEventListener('click', () => switchTab('preview'));
       
       document.getElementById('backPersonalBtn').addEventListener('click', () => switchTab('personal'));
       document.getElementById('backExperienceBtn').addEventListener('click', () => switchTab('experience'));
       document.getElementById('backEducationBtn').addEventListener('click', () => switchTab('education'));
+      document.getElementById('backProjectsBtn').addEventListener('click', () => switchTab('projects'));
       document.getElementById('backSkillsBtn').addEventListener('click', () => switchTab('skills'));
+      document.getElementById('backCertificationsBtn').addEventListener('click', () => switchTab('certifications'));
       
       // Template selection
       document.querySelectorAll('.use-template-btn').forEach(button => {
         button.addEventListener('click', function() {
-          document.querySelectorAll('.use-template-btn').forEach(btn => btn.textContent = 'Select Template');
+          document.querySelectorAll('.use-template-btn').forEach(btn => {
+            btn.textContent = 'Select Template';
+            btn.style.background = '';
+          });
           this.textContent = 'Selected ✓';
           this.style.background = '#27ae60';
           
-          // In a real implementation, this would change the preview styling
-          alert('Template selected! Your resume preview will update accordingly.');
+          // Apply template
+          currentTemplate = this.dataset.template;
+          applyTemplate(currentTemplate);
         });
+      });
+      
+      // Apply template styling
+      function applyTemplate(template) {
+        const preview = document.getElementById('resumePreview');
+        preview.className = 'resume-preview';
+        preview.classList.add(template);
+      }
+      
+      // Color selector
+      document.getElementById('colorSelector').addEventListener('input', function() {
+        const color = this.value;
+        document.documentElement.style.setProperty('--primary', color);
+        document.getElementById('colorPreview').style.background = color;
+      });
+      
+      // Font selector
+      document.getElementById('fontSelector').addEventListener('change', function() {
+        document.getElementById('resumePreview').style.fontFamily = this.value;
       });
       
       // Download button
       document.getElementById('downloadPdfBtn').addEventListener('click', function() {
-        alert('In a real implementation, this would download your resume as a PDF. All processing happens in your browser!');
+        const { jsPDF } = window.jspdf;
+        const element = document.getElementById('resumePreview');
+        
+        html2canvas(element).then(canvas => {
+          const imgData = canvas.toDataURL('image/png');
+          const pdf = new jsPDF('p', 'mm', 'a4');
+          const imgProps = pdf.getImageProperties(imgData);
+          const pdfWidth = pdf.internal.pageSize.getWidth();
+          const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+          
+          pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+          pdf.save('resume.pdf');
+        });
       });
       
       // Add experience button
@@ -2042,19 +2379,19 @@
         experienceItem.innerHTML = `
           <div class="tool-row">
             <div class="tool-col">
-              <label for="jobTitle${count}">Job Title</label>
-              <input type="text" id="jobTitle${count}" placeholder="Senior Developer" aria-label="Enter job title">
+              <label for="jobTitle${count}" class="required">Job Title</label>
+              <input type="text" id="jobTitle${count}" placeholder="Senior Developer" aria-label="Enter job title" required>
             </div>
             <div class="tool-col">
-              <label for="company${count}">Company</label>
-              <input type="text" id="company${count}" placeholder="Tech Solutions Inc." aria-label="Enter company name">
+              <label for="company${count}" class="required">Company</label>
+              <input type="text" id="company${count}" placeholder="Tech Solutions Inc." aria-label="Enter company name" required>
             </div>
           </div>
           
           <div class="tool-row">
             <div class="tool-col">
-              <label for="startDate${count}">Start Date</label>
-              <input type="month" id="startDate${count}" aria-label="Enter start date">
+              <label for="startDate${count}" class="required">Start Date</label>
+              <input type="month" id="startDate${count}" aria-label="Enter start date" required>
             </div>
             <div class="tool-col">
               <label for="endDate${count}">End Date</label>
@@ -2066,8 +2403,8 @@
             </div>
           </div>
           
-          <label for="jobDescription${count}">Description</label>
-          <textarea id="jobDescription${count}" placeholder="Describe your responsibilities and achievements..." aria-label="Enter job description"></textarea>
+          <label for="jobDescription${count}" class="required">Description</label>
+          <textarea id="jobDescription${count}" placeholder="Describe your responsibilities and achievements..." aria-label="Enter job description" required></textarea>
         `;
         
         container.appendChild(experienceItem);
@@ -2086,12 +2423,12 @@
         educationItem.innerHTML = `
           <div class="tool-row">
             <div class="tool-col">
-              <label for="degree${count}">Degree/Certificate</label>
-              <input type="text" id="degree${count}" placeholder="e.g. Bachelor of Science" aria-label="Enter degree or certificate">
+              <label for="degree${count}" class="required">Degree/Certificate</label>
+              <input type="text" id="degree${count}" placeholder="e.g. Bachelor of Science" aria-label="Enter degree or certificate" required>
             </div>
             <div class="tool-col">
-              <label for="institution${count}">Institution</label>
-              <input type="text" id="institution${count}" placeholder="University Name" aria-label="Enter institution name">
+              <label for="institution${count}" class="required">Institution</label>
+              <input type="text" id="institution${count}" placeholder="University Name" aria-label="Enter institution name" required>
             </div>
           </div>
           
@@ -2123,6 +2460,42 @@
         `;
         
         container.appendChild(educationItem);
+      });
+      
+      // Add project button
+      document.getElementById('addProjectBtn').addEventListener('click', function() {
+        const container = document.getElementById('projectsContainer');
+        const count = container.querySelectorAll('.project-item').length + 1;
+        
+        const projectItem = document.createElement('div');
+        projectItem.className = 'project-item';
+        projectItem.style.marginTop = '20px';
+        projectItem.style.paddingTop = '20px';
+        projectItem.style.borderTop = '1px solid #eee';
+        projectItem.innerHTML = `
+          <div class="tool-row">
+            <div class="tool-col">
+              <label for="projectName${count}" class="required">Project Name</label>
+              <input type="text" id="projectName${count}" placeholder="e.g. E-commerce Platform" aria-label="Enter project name" required>
+            </div>
+            <div class="tool-col">
+              <label for="projectDate${count}">Date</label>
+              <input type="month" id="projectDate${count}" aria-label="Enter project date">
+            </div>
+          </div>
+          
+          <div class="tool-row">
+            <div class="tool-col">
+              <label for="projectLink${count}">Project URL</label>
+              <input type="url" id="projectLink${count}" placeholder="https://project.example.com" aria-label="Enter project URL">
+            </div>
+          </div>
+          
+          <label for="projectDescription${count}" class="required">Description</label>
+          <textarea id="projectDescription${count}" placeholder="Describe the project and your contributions..." aria-label="Enter project description" required></textarea>
+        `;
+        
+        container.appendChild(projectItem);
       });
       
       // Add skill button
@@ -2157,6 +2530,46 @@
         container.appendChild(skillRow);
       });
       
+      // Add certification button
+      document.getElementById('addCertificationBtn').addEventListener('click', function() {
+        const container = document.getElementById('certificationsContainer');
+        const count = container.querySelectorAll('.certification-item').length + 1;
+        
+        const certificationItem = document.createElement('div');
+        certificationItem.className = 'certification-item';
+        certificationItem.style.marginTop = '20px';
+        certificationItem.style.paddingTop = '20px';
+        certificationItem.style.borderTop = '1px solid #eee';
+        certificationItem.innerHTML = `
+          <div class="tool-row">
+            <div class="tool-col">
+              <label for="certName${count}" class="required">Certification Name</label>
+              <input type="text" id="certName${count}" placeholder="e.g. AWS Certified Developer" aria-label="Enter certification name" required>
+            </div>
+            <div class="tool-col">
+              <label for="certIssuer${count}">Issuing Organization</label>
+              <input type="text" id="certIssuer${count}" placeholder="e.g. Amazon Web Services" aria-label="Enter issuing organization">
+            </div>
+          </div>
+          
+          <div class="tool-row">
+            <div class="tool-col">
+              <label for="certDate${count}">Date Issued</label>
+              <input type="month" id="certDate${count}" aria-label="Enter certification date">
+            </div>
+            <div class="tool-col">
+              <label for="certExpiry${count}">Expiration Date</label>
+              <input type="month" id="certExpiry${count}" aria-label="Enter expiration date">
+            </div>
+          </div>
+          
+          <label for="certLink${count}">Credential URL</label>
+          <input type="url" id="certLink${count}" placeholder="https://credential.example.com" aria-label="Enter credential URL">
+        `;
+        
+        container.appendChild(certificationItem);
+      });
+      
       // Initialize with today's date for date fields
       function setCurrentDate(elementId) {
         const today = new Date();
@@ -2170,51 +2583,259 @@
       setCurrentDate('endDate1');
       setCurrentDate('eduStartDate1');
       setCurrentDate('eduEndDate1');
-    }
-
-    // Update resume preview
-    function updateResumePreview() {
-      // Personal info
-      document.getElementById('previewName').textContent = document.getElementById('fullName').value || 'John Doe';
-      document.getElementById('previewTitle').textContent = document.getElementById('jobTitle').value || 'Professional Title';
-      document.getElementById('previewEmail').textContent = document.getElementById('email').value || 'email@example.com';
-      document.getElementById('previewPhone').textContent = document.getElementById('phone').value || '(123) 456-7890';
-      document.getElementById('previewLocation').textContent = document.getElementById('location').value || 'City, State';
-      document.getElementById('previewWebsite').textContent = document.getElementById('website').value || 'yourwebsite.com';
-      document.getElementById('previewSummary').textContent = document.getElementById('summary').value || 'Experienced professional with 5+ years in...';
+      setCurrentDate('projectDate1');
+      setCurrentDate('certDate1');
       
-      // Update skills preview
-      const skillsContainer = document.getElementById('previewSkills');
-      skillsContainer.innerHTML = '';
-      
-      // Add skills from the skills section
-      for (let i = 1; i <= 3; i++) {
-        const skill = document.getElementById(`skill${i}`)?.value;
-        if (skill) {
-          const skillTag = document.createElement('div');
-          skillTag.className = 'skill-tag';
-          skillTag.textContent = skill;
-          skillsContainer.appendChild(skillTag);
-        }
-      }
-      
-      // Add additional skills
-      const additionalSkills = document.getElementById('additionalSkills').value;
-      if (additionalSkills) {
-        additionalSkills.split(',').forEach(skill => {
-          if (skill.trim()) {
+      // Update resume preview
+      function updateResumePreview() {
+        // Personal info
+        document.getElementById('previewName').textContent = document.getElementById('fullName').value || 'John Doe';
+        document.getElementById('previewTitle').textContent = document.getElementById('jobTitle').value || 'Professional Title';
+        document.getElementById('previewEmail').textContent = document.getElementById('email').value || 'email@example.com';
+        document.getElementById('previewPhone').textContent = document.getElementById('phone').value || '(123) 456-7890';
+        document.getElementById('previewLocation').textContent = document.getElementById('location').value || 'City, State';
+        document.getElementById('previewWebsite').textContent = document.getElementById('website').value || 'yourwebsite.com';
+        document.getElementById('previewSummary').textContent = document.getElementById('summary').value || 'Experienced professional with 5+ years in...';
+        
+        // Update skills preview
+        const skillsContainer = document.getElementById('previewSkills');
+        skillsContainer.innerHTML = '';
+        
+        // Add skills from the skills section
+        for (let i = 1; i <= 3; i++) {
+          const skill = document.getElementById(`skill${i}`)?.value;
+          if (skill) {
             const skillTag = document.createElement('div');
             skillTag.className = 'skill-tag';
-            skillTag.textContent = skill.trim();
+            skillTag.textContent = skill;
             skillsContainer.appendChild(skillTag);
+          }
+        }
+        
+        // Add additional skills
+        const additionalSkills = document.getElementById('additionalSkills').value;
+        if (additionalSkills) {
+          additionalSkills.split(',').forEach(skill => {
+            if (skill.trim()) {
+              const skillTag = document.createElement('div');
+              skillTag.className = 'skill-tag';
+              skillTag.textContent = skill.trim();
+              skillsContainer.appendChild(skillTag);
+            }
+          });
+        }
+        
+        // If no skills added, show placeholder
+        if (skillsContainer.children.length === 0) {
+          skillsContainer.innerHTML = '<div class="skill-tag">JavaScript</div><div class="skill-tag">React</div><div class="skill-tag">Node.js</div>';
+        }
+        
+        // Update progress
+        updateResumeProgress();
+      }
+      
+      // Update resume progress
+      function updateResumeProgress() {
+        let completedFields = 0;
+        let totalFields = 0;
+        
+        // Count required fields
+        document.querySelectorAll('[required]').forEach(field => {
+          totalFields++;
+          if (field.value) completedFields++;
+        });
+        
+        // Calculate percentage
+        const percentage = Math.round((completedFields / totalFields) * 100);
+        document.getElementById('resume-progress').style.width = `${percentage}%`;
+        document.getElementById('strength-message').textContent = `Your resume is ${percentage}% complete. Add more details to improve your score.`;
+        
+        // Update strength meter
+        const segments = document.querySelectorAll('.strength-segment');
+        segments.forEach((segment, index) => {
+          segment.classList.remove('active');
+          if (index < Math.floor(percentage / 20)) {
+            segment.classList.add('active');
           }
         });
       }
       
-      // If no skills added, show placeholder
-      if (skillsContainer.children.length === 0) {
-        skillsContainer.innerHTML = '<div class="skill-tag">JavaScript</div><div class="skill-tag">React</div><div class="skill-tag">Node.js</div>';
+      // Form validation
+      function validateForm() {
+        let isValid = true;
+        
+        document.querySelectorAll('[required]').forEach(field => {
+          const errorElement = field.nextElementSibling?.classList?.contains('validation-error') ? 
+                              field.nextElementSibling : 
+                              field.parentElement.nextElementSibling;
+          
+          if (!field.value) {
+            if (errorElement) {
+              errorElement.style.display = 'block';
+            }
+            isValid = false;
+          } else {
+            if (errorElement) {
+              errorElement.style.display = 'none';
+            }
+          }
+        });
+        
+        return isValid;
       }
+      
+      // Add form validation on tab change
+      document.querySelectorAll('.tab').forEach(tab => {
+        tab.addEventListener('click', function() {
+          if (this.dataset.tab !== 'preview') {
+            validateForm();
+          }
+        });
+      });
+      
+      // Auto-save functionality
+      function autoSaveData() {
+        const formData = {
+          personal: {
+            fullName: document.getElementById('fullName').value,
+            jobTitle: document.getElementById('jobTitle').value,
+            email: document.getElementById('email').value,
+            phone: document.getElementById('phone').value,
+            location: document.getElementById('location').value,
+            website: document.getElementById('website').value,
+            summary: document.getElementById('summary').value
+          },
+          // Other sections would be added similarly
+        };
+        
+        localStorage.setItem('resumeData', JSON.stringify(formData));
+      }
+      
+      // Load saved data
+      function loadSavedData() {
+        const savedData = localStorage.getItem('resumeData');
+        if (savedData) {
+          const formData = JSON.parse(savedData);
+          
+          // Personal section
+          document.getElementById('fullName').value = formData.personal.fullName || '';
+          document.getElementById('jobTitle').value = formData.personal.jobTitle || '';
+          document.getElementById('email').value = formData.personal.email || '';
+          document.getElementById('phone').value = formData.personal.phone || '';
+          document.getElementById('location').value = formData.personal.location || '';
+          document.getElementById('website').value = formData.personal.website || '';
+          document.getElementById('summary').value = formData.personal.summary || '';
+          
+          // Update UI
+          updateResumePreview();
+        }
+      }
+      
+      // Set up auto-save on input
+      document.querySelectorAll('input, textarea, select').forEach(input => {
+        input.addEventListener('input', () => {
+          autoSaveData();
+          updateResumeProgress();
+        });
+      });
+      
+      // Content suggestion
+      document.getElementById('summarySuggestion').addEventListener('click', function() {
+        const jobTitle = document.getElementById('jobTitle').value || 'professional';
+        const suggestions = [
+          `Results-driven ${jobTitle} with extensive experience seeking to leverage skills in a challenging role.`,
+          `Highly motivated ${jobTitle} with a proven track record of success in fast-paced environments.`,
+          `Accomplished ${jobTitle} with expertise in multiple disciplines and a passion for innovation.`,
+          `Dynamic ${jobTitle} with excellent problem-solving skills and a commitment to excellence.`
+        ];
+        
+        const randomSuggestion = suggestions[Math.floor(Math.random() * suggestions.length)];
+        document.getElementById('summary').value = randomSuggestion;
+        autoSaveData();
+        updateResumeProgress();
+      });
+      
+      // Export data
+      document.getElementById('exportDataBtn').addEventListener('click', function() {
+        const formData = {
+          personal: {
+            fullName: document.getElementById('fullName').value,
+            jobTitle: document.getElementById('jobTitle').value,
+            email: document.getElementById('email').value,
+            phone: document.getElementById('phone').value,
+            location: document.getElementById('location').value,
+            website: document.getElementById('website').value,
+            summary: document.getElementById('summary').value
+          },
+          // Other sections would be added similarly
+        };
+        
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(formData, null, 2));
+        const downloadAnchor = document.createElement('a');
+        downloadAnchor.setAttribute("href", dataStr);
+        downloadAnchor.setAttribute("download", "resume-data.json");
+        document.body.appendChild(downloadAnchor);
+        downloadAnchor.click();
+        document.body.removeChild(downloadAnchor);
+      });
+      
+      // Import data
+      document.getElementById('importDataBtn').addEventListener('click', function() {
+        document.getElementById('importFileInput').click();
+      });
+      
+      document.getElementById('importFileInput').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            try {
+              const formData = JSON.parse(e.target.result);
+              
+              // Personal section
+              document.getElementById('fullName').value = formData.personal.fullName || '';
+              document.getElementById('jobTitle').value = formData.personal.jobTitle || '';
+              document.getElementById('email').value = formData.personal.email || '';
+              document.getElementById('phone').value = formData.personal.phone || '';
+              document.getElementById('location').value = formData.personal.location || '';
+              document.getElementById('website').value = formData.personal.website || '';
+              document.getElementById('summary').value = formData.personal.summary || '';
+              
+              // Save to localStorage
+              localStorage.setItem('resumeData', JSON.stringify(formData));
+              
+              // Update UI
+              updateResumePreview();
+              
+              alert('Resume data imported successfully!');
+            } catch (error) {
+              alert('Error importing resume data. Please check the file format.');
+            }
+          };
+          reader.readAsText(file);
+        }
+      });
+      
+      // Clear data
+      document.getElementById('clearDataBtn').addEventListener('click', function() {
+        if (confirm('Are you sure you want to clear all resume data? This cannot be undone.')) {
+          // Clear form fields
+          document.querySelectorAll('input, textarea').forEach(field => {
+            field.value = '';
+          });
+          
+          // Clear localStorage
+          localStorage.removeItem('resumeData');
+          
+          // Reset preview
+          updateResumePreview();
+          
+          alert('All data has been cleared.');
+        }
+      });
+      
+      // Initialize saved data
+      loadSavedData();
     }
 
     // Initialize when DOM is loaded
