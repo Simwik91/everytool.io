@@ -11,48 +11,48 @@
     "slug": "qr-generator",
     "description": "Create QR codes for URLs, text, or contact details.",
     "icon": "fas fa-qrcode",
-    "url": "/qrgenerator"
+    "url": "/tools/qrgenerator"
   },
   {
     "category": "Image Tools",
     "slug": "image-tools",
     "description": "Edit, resize, or convert images with ease.",
     "icon": "fas fa-image",
-    "url": "/imagetools"
+    "url": "/tools/imagetools"
   },
   {
     "category": "Video Tools",
     "slug": "video-tools",
     "description": "Trim, convert, or compress videos quickly.",
     "icon": "fas fa-video",
-    "url": "/videotools"
+    "url": "/tools/videotools"
   },
   {
     "category": "Text Tools",
     "slug": "text-tools",
     "description": "Format, count, or generate text content.",
     "icon": "fas fa-font",
-    "url": "/texttools"
+    "url": "/tools/texttools"
   },
   {
     "category": "File Converter",
     "slug": "file-converter",
     "description": "Convert files between various formats.",
     "icon": "fas fa-file-export",
-    "url": "/fileconverter"
+    "url": "/tools/fileconverter"
   },
   {
     "category": "PDF Tools",
     "slug": "pdf-tools",
     "description": "Edit, merge, or compress PDF files.",
     "icon": "fas fa-file-pdf",
-    "url": "/pdftools"
+    "url": "/tools/pdftools"
   },
   {
     "category": "Career Tools",
     "slug": "career-tools",
     "description": "Build resumes or prepare for interviews.",
     "icon": "fas fa-briefcase",
-    "url": "/careertools"
+    "url": "/tools/careertools"
   }
 ]
