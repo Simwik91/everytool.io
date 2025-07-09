@@ -49,9 +49,9 @@
     "url": "/tools/pdftools"
   },
   {
-    "category": "Career Tools",
-    "slug": "career-tools",
-    "description": "Build resumes or prepare for interviews.",
+    "category": "Resume Builder",
+    "slug": "resume-builder",
+    "description": "Build resumes.",
     "icon": "fas fa-briefcase",
     "url": "/tools/careertools"
   }
