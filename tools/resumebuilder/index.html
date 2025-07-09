@@ -1942,7 +1942,7 @@
       checkCookieConsent();
     }
 
-    // Resume Builder Functionality (with fix implemented)
+    // Resume Builder Functionality (with PDF download fix)
     function initializeResumeBuilder() {
       let resumeData = {};
       
@@ -1998,19 +1998,20 @@
         document.getElementById('resumePreview').style.fontFamily = this.value;
       });
       
-      // Download button
+      // Download button - FIXED VERSION
       document.getElementById('downloadPdfBtn').addEventListener('click', function() {
-        // Check if jsPDF is loaded
-        if (typeof jsPDF === 'undefined' || typeof html2canvas === 'undefined') {
+        // Check if jsPDF is loaded correctly
+        if (typeof window.jspdf === 'undefined' || typeof window.jspdf.jsPDF === 'undefined' || typeof html2canvas === 'undefined') {
           alert('PDF libraries are still loading. Please try again in a moment.');
           return;
         }
         
         const element = document.getElementById('resumePreview');
+        const { jsPDF } = window.jspdf;  // Access jsPDF correctly
         
         html2canvas(element).then(canvas => {
           const imgData = canvas.toDataURL('image/png');
-          const pdf = new window.jspdf.jsPDF('p', 'mm', 'a4');
+          const pdf = new jsPDF('p', 'mm', 'a4');
           const imgProps = pdf.getImageProperties(imgData);
           const pdfWidth = pdf.internal.pageSize.getWidth();
           const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
