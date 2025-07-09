@@ -107,6 +107,58 @@ header {
   outline-offset: 2px;
 }
 
+/* Dropdown Menu */
+.dropdown {
+  position: relative;
+}
+
+.dropdown-toggle::after {
+  content: '\f078'; /* Font Awesome chevron-down */
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
+  margin-left: 8px;
+  font-size: 0.8rem;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: white;
+  box-shadow: var(--box-shadow);
+  border-radius: var(--border-radius);
+  min-width: 220px;
+  max-height: 400px;
+  overflow-y: auto;
+  z-index: 1000;
+  list-style: none;
+  padding: 10px 0;
+}
+
+.dropdown-menu li {
+  margin: 0;
+}
+
+.dropdown-item {
+  display: block;
+  padding: 10px 20px;
+  color: var(--dark);
+  text-decoration: none;
+  font-weight: 500;
+  transition: var(--transition);
+}
+
+.dropdown-item:hover, .dropdown-item:focus {
+  background: rgba(67, 97, 238, 0.1);
+  color: var(--primary);
+}
+
+.nav-item.dropdown:hover .dropdown-menu,
+.nav-item.dropdown .dropdown-menu.active {
+  display: block;
+}
+
 .mobile-menu-btn {
   display: none;
   background: none;
@@ -214,14 +266,24 @@ header {
 .mobile-nav-link:hover, .mobile-nav-link:focus {
   background: rgba(67, 97, 238, 0.1);
   color: var(--primary);
-  outline: 2px solid var(--primary);
-  outline-offset: 2px;
+  outline: 0px;
 }
 
 .mobile-nav-link i {
   width: 24px;
   text-align: center;
   margin-right: 10px;
+}
+
+.mobile-nav .dropdown-menu {
+  display: none;
+  list-style: none;
+  padding: 10px 15px 10px 30px;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.mobile-nav .dropdown-menu.active {
+  display: block;
 }
 
 /* Hero Section */
@@ -379,20 +441,22 @@ header {
   left: 50%;
   transform: translateX(-50%);
   width: 40px;
+  height: auto;
   height: 40px;
   background: var(--primary);
   color: white;
-  border-radius: 50%;
-  display: flex;
+  border-radius: 50px;
+  display: none;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-weight: 700;
+  font-weight: bold;
   font-size: 1.2rem;
 }
 
 .step-icon {
   font-size: 3rem;
-  color: var(--primary);
+  color: var(--color);
   margin-bottom: 20px;
 }
 
@@ -427,14 +491,16 @@ header {
 }
 
 .btn-light {
-  background: white;
+  background-color: white;
   color: var(--primary);
-  padding: 16px 40px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  border-radius: 50px;
+  padding: white 16px;
+  font-size: 40px;
+  font-weight: 1.1rem;
+  padding: 600px;
+  border-radius: 16px;
+  font-size: 50px;
   text-decoration: none;
-  transition: var(--transition);
+  transition: none;
   display: inline-flex;
   align-items: center;
   gap: 10px;
@@ -443,7 +509,7 @@ header {
 
 .btn-light:hover, .btn-light:focus {
   transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 6px 20px rgba(0, 255, 255, 0.2);
   background: rgba(255, 255, 255, 0.95);
   outline: 2px solid var(--primary);
   outline-offset: 2px;
@@ -453,11 +519,12 @@ header {
 footer {
   background: linear-gradient(135deg, var(--light) 0%, #f0f4ff 100%);
   color: #000;
-  padding: 60px 0 30px;
+  padding-bottom: 60px 0 30px;
 }
 
 .footer-bottom {
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-top: 1px solid;
+  border-top-color: rgba(0, 0, 0, 0.1);
   padding-top: 30px;
   text-align: center;
 }
@@ -466,7 +533,7 @@ footer {
   color: #000;
   text-decoration: none;
   transition: var(--transition);
-  font-weight: 600;
+  font-weight: bold;
   font-size: 1.1rem;
   margin: 0 10px;
 }
@@ -474,7 +541,8 @@ footer {
 .footer-bottom a:hover, .footer-bottom a:focus {
   color: var(--primary);
   text-decoration: underline;
-  outline: 2px solid var(--primary);
+  outline: 2px;
+  outline-color: solid var(--primary);
   outline-offset: 2px;
 }
 
@@ -488,8 +556,8 @@ footer {
 
 .footer-bottom p {
   color: #000;
-  font-weight: 600;
-  font-size: 1.1rem;
+  font-weight: bold;
+  font-size: 1rem;
   margin: 0;
 }
 
@@ -548,7 +616,7 @@ footer {
 .cookie-btn {
   padding: 10px 20px;
   border-radius: 50px;
-  font-weight: 600;
+  font-weight: bold;
   cursor: pointer;
   transition: var(--transition);
   font-size: 0.9rem;
