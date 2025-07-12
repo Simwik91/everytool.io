@@ -32,7 +32,7 @@ SOFTWARE.
 
 Licensed under the MIT License
 Copyright (c) 2016–2020 Johan Lindell and contributors
-[MIT License](https://opensource.org/licenses/MIT)
+[https://github.com/lindell/JsBarcode](https://github.com/lindell/JsBarcode)
 
 ---
 
@@ -40,7 +40,7 @@ Copyright (c) 2016–2020 Johan Lindell and contributors
 
 Licensed under the MIT License
 Copyright (c) 2008–2021 Stuart Knightley, David Duponchel, Franz Buchinger, António Afonso
-[MIT License](https://opensource.org/licenses/MIT)
+[https://github.com/Stuk/jszip](https://github.com/Stuk/jszip)
 
 ---
 
@@ -48,23 +48,24 @@ Copyright (c) 2008–2021 Stuart Knightley, David Duponchel, Franz Buchinger, An
 
 Licensed under the MIT License
 Copyright (c) 2016 Eli Grey
-[MIT License](https://opensource.org/licenses/MIT)
+[https://github.com/eligrey/FileSaver.js](https://github.com/eligrey/FileSaver.js)
 
 ---
 
 ### Font Awesome
 
-* **Icons**: Licensed under [Creative Commons Attribution 4.0 International](https://creativecommons.org/licenses/by/4.0/)
+* **Icons**: Licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
   Attribution required: *Icons provided by Font Awesome*
 * **Fonts and CSS**: Licensed under the MIT License
   Copyright (c) Fonticons, Inc.
-  [MIT License](https://opensource.org/licenses/MIT)
+  [https://fontawesome.com/](https://fontawesome.com/)
 
 ---
 
 ### Poppins Font
 
 Licensed under the [SIL Open Font License (OFL)](https://scripts.sil.org/OFL)
+[https://fonts.google.com/specimen/Poppins](https://fonts.google.com/specimen/Poppins)
 
 ---
 
@@ -72,7 +73,7 @@ Licensed under the [SIL Open Font License (OFL)](https://scripts.sil.org/OFL)
 
 Licensed under the MIT License
 Copyright (c) 2011 Kazuhiko Arase
-[MIT License](https://opensource.org/licenses/MIT)
+[https://github.com/davidshimjs/qrcodejs](https://github.com/davidshimjs/qrcodejs)
 
 ---
 
@@ -80,7 +81,7 @@ Copyright (c) 2011 Kazuhiko Arase
 
 Licensed under the MIT License
 Copyright (c) 2014–2020 Dominic Tarr
-[MIT License](https://opensource.org/licenses/MIT)
+[https://github.com/neocotic/qrious](https://github.com/neocotic/qrious)
 
 ---
 
@@ -88,7 +89,7 @@ Copyright (c) 2014–2020 Dominic Tarr
 
 Licensed under the MIT License
 Copyright (c) Project Nayuki
-[MIT License](https://opensource.org/licenses/MIT)
+[https://github.com/nayuki/QR-Code-generator](https://github.com/nayuki/QR-Code-generator)
 
 ---
 
@@ -96,7 +97,7 @@ Copyright (c) Project Nayuki
 
 Licensed under the MIT License
 Copyright (c) 2011–2024 The Bootstrap Authors
-[MIT License](https://opensource.org/licenses/MIT)
+[https://getbootstrap.com/](https://getbootstrap.com/)
 
 ---
 
@@ -104,7 +105,7 @@ Copyright (c) 2011–2024 The Bootstrap Authors
 
 Licensed under the MIT License
 Copyright (c) atomiks
-[MIT License](https://opensource.org/licenses/MIT)
+[https://atomiks.github.io/tippyjs/](https://atomiks.github.io/tippyjs/)
 
 ---
 
@@ -112,7 +113,7 @@ Copyright (c) atomiks
 
 Licensed under the MIT License
 Copyright (c) Federico Zivolo
-[MIT License](https://opensource.org/licenses/MIT)
+[https://popper.js.org/](https://popper.js.org/)
 
 ---
 
@@ -120,13 +121,14 @@ Copyright (c) Federico Zivolo
 
 Licensed under the MIT License
 Copyright (c) Feather Icons contributors
-[MIT License](https://opensource.org/licenses/MIT)
+[https://feathericons.com/](https://feathericons.com/)
 
 ---
 
 ### Google Fonts (Inter, Poppins)
 
 Licensed under the [SIL Open Font License (OFL)](https://scripts.sil.org/OFL)
+[https://fonts.google.com/](https://fonts.google.com/)
 
 ---
 
@@ -134,7 +136,7 @@ Licensed under the [SIL Open Font License (OFL)](https://scripts.sil.org/OFL)
 
 Licensed under the MIT License
 Copyright (c) Tailwind Labs, Inc.
-[MIT License](https://opensource.org/licenses/MIT)
+[https://tailwindcss.com/](https://tailwindcss.com/)
 
 ---
 
@@ -142,4 +144,4 @@ Copyright (c) Tailwind Labs, Inc.
 
 Licensed under the MIT License
 Copyright (c) 2014–present Chart.js Contributors
-[MIT License](https://opensource.org/licenses/MIT)
+[https://www.chartjs.org/](https://www.chartjs.org/)
