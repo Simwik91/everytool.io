@@ -1,74 +1,244 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="Browse our collection of privacy-focused online tools that run entirely in your browser – no tracking, no data collection."/>
-  <title>Tools - EveryTool.io</title>
-
-  <!-- Performance Tuning -->
-  <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="EveryTool.io - Credits for open-source libraries and assets used in our free online tools.">
+  <title>EveryTool.io - Credits</title>
+  
+  <!-- Performance Optimization -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
   <!-- Shared CSS -->
-  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" href="/css/styles.css">
+  
+  <!-- Credits Page Specific Styles -->
+  <style>
+    :root {
+      --primary: #4361ee;
+      --primary-dark: #3a56d4;
+      --secondary: #7209b7;
+      --accent: #f72585;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --gray: #6c757d;
+      --light-gray: #e9ecef;
+      --border-radius: 12px;
+      --box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, var(--light) 0%, #f0f4ff 100%);
+      color: var(--dark);
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Main Content */
+    .main-content {
+      padding: 50px 0;
+      text-align: center;
+    }
+
+    .main-content h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      font-weight: 700;
+      color: var(--dark);
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .main-content p {
+      font-size: 1.2rem;
+      color: var(--gray);
+      max-width: 700px;
+      margin: 0 auto 30px;
+    }
+
+    .credits-list {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 30px;
+      box-shadow: var(--box-shadow);
+      text-align: left;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .credits-list ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .credits-list li {
+      margin-bottom: 20px;
+      font-size: 1.1rem;
+      line-height: 1.8;
+    }
+
+    .credits-list li strong {
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .credits-list a {
+      color: var(--primary);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .credits-list a:hover,
+    .credits-list a:focus {
+      text-decoration: underline;
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .main-content h1 {
+        font-size: 2rem;
+      }
+
+      .credits-list {
+        padding: 20px;
+      }
+
+      .credits-list li {
+        font-size: 1rem;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .main-content {
+        padding: 30px 0;
+      }
+
+      .main-content h1 {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
 </head>
 <body>
-
   <!-- Header Placeholder -->
   <header id="main-header">
     <p class="error-message" style="display: none; color: red; text-align: center;">Failed to load header. Please try refreshing the page.</p>
   </header>
 
-  <!-- Tools Page Content -->
-  <main class="tools-page">
-    <section class="container">
-      <div class="page-header">
-        <h1><i class="fas fa-wrench"></i> Our Tools</h1>
-        <p class="subtitle">All tools work 100% in your browser – private, fast, and free.</p>
+  <!-- Main Content -->
+  <section class="main-content">
+    <div class="container">
+      <h1>Credits</h1>
+      <p>We are grateful for the open-source community and use the following libraries and assets in our project:</p>
+      <div class="credits-list">
+        <ul>
+          <li><strong>JsBarcode</strong> - MIT License - <a href="https://github.com/lindell/JsBarcode" target="_blank" rel="noopener">Source</a> - Used for generating barcodes.</li>
+          <li><strong>JSZip</strong> - MIT License - <a href="https://github.com/Stuk/jszip" target="_blank" rel="noopener">Source</a> - Used for creating ZIP files for batch conversions and bulk QR code downloads.</li>
+          <li><strong>FileSaver.js</strong> - MIT License - <a href="https://github.com/eligrey/FileSaver.js" target="_blank" rel="noopener">Source</a> - Used for facilitating file downloads.</li>
+          <li><strong>Font Awesome</strong> - CC BY 4.0 (Icons), MIT (CSS/Fonts) - <a href="https://fontawesome.com" target="_blank" rel="noopener">Source</a> - Used for icons throughout the site.</li>
+          <li><strong>Poppins Font</strong> - SIL Open Font License - <a href="https://fonts.google.com/specimen/Poppins" target="_blank" rel="noopener">Source</a> - Used for typography.</li>
+          <li><strong>Standard Browser Fonts (Arial, Georgia, Courier New, Monospace)</strong> - Standard system fonts - Available in most browsers and operating systems - Used as selectable font options in the resume builder and for text output formatting.</li>
+          <li><strong>FFmpeg</strong> - MIT License - <a href="https://github.com/ffmpegwasm/ffmpeg.wasm" target="_blank" rel="noopener">Source</a> - Used for audio and video conversions.</li>
+          <li><strong>PDF-lib</strong> - MIT License - <a href="https://github.com/Hopding/pdf-lib" target="_blank" rel="noopener">Source</a> - Used for PDF manipulation (merging, splitting, compressing).</li>
+          <li><strong>jsPDF</strong> - MIT License - <a href="https://github.com/parallax/jsPDF" target="_blank" rel="noopener">Source</a> - Used for PDF generation and image-to-PDF conversion.</li>
+          <li><strong>html2canvas</strong> - MIT License - <a href="https://github.com/niklasvh/html2canvas" target="_blank" rel="noopener">Source</a> - Used for converting HTML to canvas for PDF export in the resume builder.</li>
+          <li><strong>PDF.js</strong> - Apache License 2.0 - <a href="https://github.com/mozilla/pdf.js" target="_blank" rel="noopener">Source</a> - Used for PDF rendering and page extraction for conversion.</li>
+          <li><strong>QRCode.js</strong> - MIT License - <a href="https://github.com/davidshimjs/qrcodejs" target="_blank" rel="noopener">Source</a> - Used for generating QR codes.</li>
+          <li><strong>jsQR</strong> - Apache License 2.0 - <a href="https://github.com/cozmo/jsQR" target="_blank" rel="noopener">Source</a> - Used for scanning QR codes from images or camera.</li>
+          <li><strong>PapaParse</strong> - MIT License - <a href="https://github.com/mholt/PapaParse" target="_blank" rel="noopener">Source</a> - Used for parsing CSV files for bulk QR code generation.</li>
+        </ul>
       </div>
-
-      <div class="tools-grid">
-        <a href="/qr-generator" class="tool-card">
-          <i class="fas fa-qrcode tool-icon"></i>
-          <h3>QR Code Generator</h3>
-          <p>Create QR codes instantly. Your data never leaves your device.</p>
-        </a>
-
-        <a href="/barcode-generator" class="tool-card">
-          <i class="fas fa-barcode tool-icon"></i>
-          <h3>EAN Barcode Generator</h3>
-          <p>Generate EAN-8 and EAN-13 barcodes with exportable images.</p>
-        </a>
-
-        <!-- Add more tools as needed -->
-      </div>
-    </section>
-  </main>
+    </div>
+  </section>
 
   <!-- Footer Placeholder -->
   <footer id="main-footer">
     <p class="error-message" style="display: none; color: red; text-align: center;">Failed to load footer. Please try refreshing the page.</p>
   </footer>
 
-  <!-- Load Header/Footer -->
-  <script>
-    async function loadPartial(id, url) {
-      try {
-        const res = await fetch(url);
-        if (!res.ok) throw new Error("Fetch failed");
-        const html = await res.text();
-        document.getElementById(id).innerHTML = html;
-      } catch (err) {
-        document.querySelector(`#${id} .error-message`).style.display = "block";
-      }
-    }
+  <!-- Cookie Consent Banner -->
+  <div id="cookie-consent">
+    <div class="cookie-content">
+      <div class="cookie-text">
+        <p>We use cookies to enhance your experience. Essential cookies are always on, but you can choose whether to allow analytics and advertising cookies.</p>
+        <p>Learn more in our <a href="/privacy" aria-label="Privacy Policy">Privacy Policy</a>.</p>
+      </div>
+      <div class="cookie-buttons">
+        <button class="cookie-btn reject-btn" id="reject-cookies">Reject Non-Essential</button>
+        <button class="cookie-btn accept-btn" id="accept-cookies">Accept All</button>
+      </div>
+      <button class="cookie-settings-btn" id="open-settings">Customize Settings</button>
+    </div>
+  </div>
 
-    loadPartial("main-header", "/partials/header.html");
-    loadPartial("main-footer", "/partials/footer.html");
-  </script>
+  <!-- Cookie Settings Modal -->
+  <div id="cookie-settings">
+    <div class="settings-modal">
+      <div class="settings-header">
+        <h2>Cookie Settings</h2>
+        <button class="close-settings" aria-label="Close settings"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="settings-content">
+        <div class="cookie-type">
+          <div class="cookie-type-header">
+            <h3>Essential Cookies</h3>
+            <div class="toggle-switch">
+              <input type="checkbox" id="essential-toggle" checked disabled>
+              <span class="slider"></span>
+            </div>
+          </div>
+          <p>These cookies are necessary for the website to function and cannot be disabled.</p>
+        </div>
+        <div class="cookie-type">
+          <div class="cookie-type-header">
+            <h3>Analytics Cookies</h3>
+            <div class="toggle-switch">
+              <input type="checkbox" id="analytics-toggle">
+              <span class="slider"></span>
+            </div>
+          </div>
+          <p>These cookies help us understand how visitors interact with our website, providing insights to improve our services.</p>
+        </div>
+        <div class="cookie-type">
+          <div class="cookie-type-header">
+            <h3>Advertising Cookies</h3>
+            <div class="toggle-switch">
+              <input type="checkbox" id="advertising-toggle">
+              <span class="slider"></span>
+            </div>
+          </div>
+          <p>These cookies are used to deliver personalized advertisements based on your interests.</p>
+        </div>
+      </div>
+      <div class="settings-buttons">
+        <button class="save-settings" id="save-settings">Save Settings</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="/js/main.js"></script>
 </body>
 </html>
