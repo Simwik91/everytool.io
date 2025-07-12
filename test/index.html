@@ -1,1246 +1,2909 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Free Barcode Generator - Create custom EAN-13, EAN-8, UPC, and other barcodes for products, inventory, and retail.">
-  <title>Enhanced Barcode Generator - EveryTool.io</title>
-  
-  <!-- SEO Optimizations -->
-  <meta name="robots" content="index, follow">
-  <meta name="keywords" content="free barcode generator, barcode creator, ean-13, ean-8, upc barcode, barcode generator">
-  <meta property="og:title" content="Free Barcode Generator - EveryTool.io">
-  <meta property="og:description" content="Create custom Barcodes for products, inventory, and retail applications. Generate EAN-13, EAN-8, UPC, and more.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://everytool.io/barcodegenerator">
-  <meta property="og:image" content="https://everytool.io/social-preview.jpg">
-  <meta name="twitter:card" content="summary_large_image">
-  
-  <!-- Performance Optimization -->
-  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.rel='stylesheet'">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  
-  <!-- Scripts -->
-  <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-  
-  <!-- Shared CSS -->
-  <link rel="stylesheet" href="/css/styles.css">
-  
-  <!-- Barcode Generator Specific Styles -->
-  <style>
-    /* Hero Section */
-    .hero {
-      padding: 60px 0 40px;
-      text-align: center;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Convert images, audio, and video files quickly and securely with EveryTool.io - all processing happens in your browser!">
+    <title>Advanced File Converter - EveryTool.io</title>
+    
+    <!-- Performance Tuning -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Shared CSS -->
+    <style>
+        /* === Shared CSS Styles === */
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #7209b7;
+            --accent: #f72585;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --border-radius: 12px;
+            --box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
 
-    .hero-content {
-      max-width: 800px;
-      margin: 0 auto;
-    }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-    .hero h1 {
-      font-size: 2.5rem;
-      margin-bottom: 20px;
-      font-weight: 700;
-      background: linear-gradient(90deg, var(--primary), var(--secondary));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      line-height: 1.2;
-    }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--light) 0%, #f0f4ff 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+            transition: transform 0.4s ease;
+        }
+        
+        body.menu-open {
+            overflow: hidden;
+        }
 
-    .hero p {
-      font-size: 1.2rem;
-      color: #444;
-      margin-bottom: 40px;
-      max-width: 700px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    
-    .card {
-      background: var(--light);
-      border-radius: var(--border-radius);
-      box-shadow: var(--box-shadow);
-      padding: 30px;
-      margin-bottom: 30px;
-      transition: var(--transition);
-    }
-    
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
-    }
-    
-    h2 {
-      font-size: 1.8rem;
-      margin-bottom: 25px;
-      color: var(--dark);
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      justify-content: center;
-    }
-    
-    h2 i {
-      color: var(--primary);
-    }
-    
-    h3 {
-      font-size: 1.4rem;
-      margin: 20px 0 15px;
-      color: var(--dark);
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      justify-content: center;
-    }
-    
-    .tabs {
-      display: flex;
-      justify-content: center;
-      margin: 0 0 30px;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    
-    .tab {
-      padding: 12px 25px;
-      cursor: pointer;
-      background: var(--light-gray);
-      border-radius: 50px;
-      font-weight: 500;
-      transition: var(--transition);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 1rem;
-    }
-    
-    .tab.active {
-      background: var(--primary);
-      color: white;
-    }
-    
-    .tab:hover:not(.active) {
-      background: #dbe4ff;
-    }
-    
-    .tab-content {
-      display: none;
-    }
-    
-    .tab-content.active {
-      display: block;
-      animation: fadeIn 0.4s ease;
-    }
-    
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    
-    input, select, button, textarea {
-      margin: 0.5em auto;
-      padding: 15px;
-      width: 100%;
-      font-size: 1rem;
-      border-radius: 10px;
-      border: 1px solid var(--light-gray);
-      background: var(--light);
-      display: block;
-      transition: var(--transition);
-      font-family: 'Poppins', sans-serif;
-      color: #444;
-    }
-    
-    input:focus, select:focus, textarea:focus {
-      outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
-    }
-    
-    button {
-      background: var(--primary);
-      color: white;
-      border: none;
-      cursor: pointer;
-      font-weight: 600;
-      padding: 15px 20px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-    }
-    
-    button:hover, button:focus {
-      background: var(--primary-dark);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-    
-    button.secondary {
-      background: var(--light);
-      color: var(--primary);
-      border: 2px solid var(--primary);
-    }
-    
-    button.secondary:hover, button.secondary:focus {
-      background: #f0f4ff;
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-    
-    canvas {
-      margin: 1.5em auto;
-      display: block;
-      max-width: 100%;
-      border-radius: 12px;
-      background: var(--light);
-      padding: 15px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-      border: 1px solid var(--light-gray);
-    }
-    
-    .loading {
-      display: none;
-      text-align: center;
-      padding: 30px;
-    }
-    
-    .spinner {
-      border: 4px solid rgba(0, 0, 0, 0.1);
-      border-left-color: var(--primary);
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      animation: spin 1s linear infinite;
-      margin: 0 auto 20px;
-    }
-    
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-    
-    .error {
-      color: #e74c3c;
-      padding: 15px;
-      background: rgba(231, 76, 60, 0.1);
-      border-radius: var(--border-radius);
-      margin: 20px 0;
-      display: none;
-      border-left: 4px solid #e74c3c;
-    }
-    
-    .success {
-      color: #27ae60;
-      padding: 15px;
-      background: rgba(39, 174, 96, 0.1);
-      border-radius: var(--border-radius);
-      margin: 20px 0;
-      display: none;
-      border-left: 4px solid #27ae60;
-    }
-    
-    .btn-group {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      margin: 1.5em 0;
-      flex-wrap: wrap;
-    }
-    
-    .btn-group button {
-      width: auto;
-      min-width: 180px;
-      flex: 1;
-    }
-    
-    /* Updated features grid - 2 cards per row */
-    .features {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 25px;
-      margin: 30px 0;
-    }
-    
-    .feature {
-      background: var(--light);
-      border-radius: var(--border-radius);
-      padding: 25px;
-      text-align: center;
-      box-shadow: var(--box-shadow);
-      transition: var(--transition);
-    }
-    
-    .feature:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-    }
-    
-    .feature i {
-      font-size: 2.5rem;
-      margin-bottom: 15px;
-      color: var(--primary);
-    }
-    
-    .guide-section {
-      background: var(--light);
-      border-radius: var(--border-radius);
-      padding: 40px;
-      margin: 40px auto;
-      box-shadow: var(--box-shadow);
-      text-align: center;
-    }
-    
-    .guide-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 30px;
-      margin-top: 25px;
-    }
-    
-    .guide-item {
-      padding: 25px;
-      background: #f8f9ff;
-      border-radius: var(--border-radius);
-      text-align: center;
-      font-size: 14px;
-    }
-    
-    .guide-item h3 {
-      font-size: 1.5rem;
-      margin-bottom: 15px;
-      color: var(--primary);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      justify-content: center;
-    }
-    
-    .guide-item h3 i {
-      font-size: 1.8rem;
-    }
-    
-    .guide-item p {
-      font-size: 1rem;
-      color: #444;
-    }
-    
-    /* NEW: Simplified Customization Panel */
-    .customization-panel {
-      background: #f8f9ff;
-      border-radius: var(--border-radius);
-      padding: 25px;
-      margin-bottom: 30px;
-      border: 1px solid #e9ecef;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-    }
-    
-    .customization-panel h2 {
-      font-size: 1.5rem;
-      margin-bottom: 20px;
-      color: var(--primary);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      justify-content: center;
-    }
-    
-    .customization-panel h2 i {
-      color: var(--primary);
-    }
-    
-    .customization-options {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 20px;
-    }
-    
-    .color-options {
-      display: flex;
-      justify-content: center;
-      gap: 25px;
-      flex-wrap: wrap;
-    }
-    
-    .color-option {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-    }
-    
-    .color-option label {
-      font-weight: 500;
-      font-size: 1rem;
-    }
-    
-    /* Visual marker for selected color */
-    .color-preview {
-      position: relative;
-      display: inline-block;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      cursor: pointer;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-      transition: transform 0.2s ease;
-    }
-    
-    .color-preview:hover {
-      transform: scale(1.1);
-    }
-    
-    .color-preview::after {
-      content: "";
-      position: absolute;
-      top: -4px;
-      left: -4px;
-      right: -4px;
-      bottom: -4px;
-      border: 2px solid var(--primary);
-      border-radius: 50%;
-      opacity: 0;
-      transition: opacity 0.2s ease;
-    }
-    
-    .color-preview.selected::after {
-      opacity: 1;
-    }
-    
-    .color-preview-container {
-      position: relative;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    
-    .color-value {
-      font-size: 0.9rem;
-      font-weight: 500;
-      min-width: 70px;
-      text-align: center;
-      padding: 5px 10px;
-      background: rgba(0, 0, 0, 0.05);
-      border-radius: 4px;
-    }
-    
-    .transparent-bg-container {
-      background: #f8f9fa;
-      border-radius: 10px;
-      padding: 15px;
-      margin-top: 15px;
-      border: 1px dashed var(--light-gray);
-      display: flex;
-      justify-content: center;
-    }
-    
-    .reset-btn {
-      display: flex;
-      justify-content: center;
-      margin-top: 20px;
-    }
-    
-    /* Responsive Design for Barcode Generator */
-    @media (max-width: 768px) {
-      .hero h1 {
-        font-size: 2rem;
-      }
-      
-      .section-title {
-        font-size: 2rem;
-      }
-      
-      .tab {
-        padding: 10px 15px;
-        font-size: 0.9rem;
-      }
-      
-      .guide-section, .uses-section {
-        padding: 25px;
-      }
-      
-      .btn-group {
-        flex-direction: column;
-      }
-      
-      .btn-group button {
-        width: 100%;
-      }
-      
-      .features {
-        grid-template-columns: 1fr;
-      }
-      
-      .guide-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .color-options {
-        flex-direction: column;
-        align-items: center;
-      }
-    }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
 
-    @media (max-width: 576px) {
-      .hero {
-        padding: 40px 0 20px;
-      }
-      
-      .hero h1 {
-        font-size: 1.8rem;
-      }
-      
-      .card {
-        padding: 20px;
-      }
-      
-      h2 {
-        font-size: 1.5rem;
-      }
-      
-      h3 {
-        font-size: 1.2rem;
-      }
-    }
-  </style>
+        /* Header & Navigation */
+        header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            z-index: 2001;
+        }
+
+        .logo i {
+            margin-right: 10px;
+            font-size: 2.2rem;
+        }
+
+        .nav-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            margin-right: 20px;
+        }
+
+        .nav-item {
+            position: relative;
+            margin: 0 15px;
+        }
+
+        .nav-link {
+            padding: 10px 15px;
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-link i {
+            margin-right: 8px;
+        }
+
+        .nav-link:hover, .nav-link:focus {
+            background: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        /* Dropdown Menu */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-toggle::after {
+            content: '\f078'; /* Font Awesome chevron-down */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            margin-left: 8px;
+            font-size: 0.8rem;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            box-shadow: var(--box-shadow);
+            border-radius: var(--border-radius);
+            min-width: 240px;
+            max-height: 400px;
+            overflow-y: auto;
+            z-index: 1000;
+            list-style: none;
+            padding: 10px 0;
+        }
+
+        .dropdown-menu li {
+            margin: 0;
+        }
+
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 20px;
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .dropdown-item i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+
+        .dropdown-item:hover, .dropdown-item:focus {
+            background: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
+        }
+
+        .nav-item.dropdown:hover .dropdown-menu,
+        .nav-item.dropdown .dropdown-menu.active {
+            display: block;
+        }
+
+        .dropdown-error {
+            font-size: 0.9rem;
+            color: red;
+            padding: 10px 20px;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--dark);
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 5px;
+            z-index: 2001;
+        }
+
+        .mobile-menu-btn:hover, .mobile-menu-btn:focus {
+            background: rgba(67, 97, 238, 0.1);
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        /* Mobile Menu */
+        .mobile-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1999;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .mobile-backdrop.active {
+            display: block;
+            opacity: 1;
+        }
+
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 280px;
+            height: 100vh;
+            background: white;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            z-index: 2000;
+            transform: translateX(-100%);
+            transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            overflow-y: auto;
+            display: block;
+        }
+
+        .mobile-nav.active {
+            transform: translateX(0);
+        }
+
+        .mobile-nav-header {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .close-mobile-menu {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--dark);
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 5px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-mobile-menu:hover, .close-mobile-menu:focus {
+            background: rgba(0, 0, 0, 0.05);
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        .mobile-nav-menu {
+            list-style: none;
+            padding: 20px;
+        }
+
+        .mobile-nav-item {
+            margin-bottom: 10px;
+        }
+
+        .mobile-nav-link {
+            display: block;
+            padding: 12px 15px;
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .mobile-nav-link:hover, .mobile-nav-link:focus {
+            background: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        .mobile-nav-link i {
+            width: 24px;
+            text-align: center;
+            margin-right: 10px;
+        }
+
+        .mobile-nav .dropdown-menu {
+            display: none;
+            list-style: none;
+            padding: 10px 15px 10px 30px;
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .mobile-nav .dropdown-menu.active {
+            display: block;
+        }
+
+        .mobile-nav .dropdown-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 20px;
+        }
+
+        .mobile-nav .dropdown-item i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+
+        .mobile-nav .dropdown-error {
+            font-size: 0.9rem;
+            color: red;
+            padding: 8px 20px;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, var(--light) 0%, #f0f4ff 100%);
+            color: #000;
+            padding: 60px 0 30px;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            padding-top: 30px;
+            text-align: center;
+        }
+
+        .footer-bottom a {
+            color: #000;
+            text-decoration: none;
+            transition: var(--transition);
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin: 0 10px;
+        }
+
+        .footer-bottom a:hover, 
+        .footer-bottom a:focus {
+            color: var(--primary);
+            text-decoration: underline;
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        .footer-links-row {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .footer-bottom p {
+            color: #000;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin: 0;
+        }
+        
+        /* Cookie Consent Styles */
+        #cookie-consent {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 95%;
+            max-width: 800px;
+            background: var(--light);
+            border-radius: var(--border-radius);
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.15);
+            padding: 20px;
+            z-index: 1000;
+            display: none;
+        }
+
+        .cookie-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .cookie-text {
+            flex: 1;
+            min-width: 300px;
+            color: var(--dark);
+        }
+
+        .cookie-text p {
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+        }
+
+        .cookie-text a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .cookie-text a:hover, .cookie-text a:focus {
+            text-decoration: underline;
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        .cookie-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .cookie-btn {
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.9rem;
+            border: none;
+            min-width: 180px;
+        }
+
+        .cookie-btn:focus {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        .reject-btn {
+            background: var(--light-gray);
+            color: var(--dark);
+        }
+
+        .reject-btn:hover {
+            background: #e0e0e0;
+        }
+
+        .accept-btn {
+            background: var(--primary);
+            color: white;
+        }
+
+        .accept-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        .cookie-settings-btn {
+            background: transparent;
+            color: var(--gray);
+            text-decoration: underline;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            margin-top: 10px;
+            font-size: 0.85rem;
+        }
+
+        .cookie-settings-btn:hover, .cookie-settings-btn:focus {
+            color: var(--dark);
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        #cookie-settings {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        .settings-modal {
+            background: var(--light);
+            border-radius: var(--border-radius);
+            width: 95%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 30px;
+            position: relative;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .settings-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .settings-header h2 {
+            font-size: 1.8rem;
+            margin: 0;
+        }
+
+        .close-settings {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+            transition: var(--transition);
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        .close-settings:hover, .close-settings:focus {
+            color: var(--dark);
+            background: rgba(0, 0, 0, 0.05);
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        .settings-content {
+            margin-bottom: 20px;
+        }
+
+        .cookie-type {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .cookie-type-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .cookie-type h3 {
+            margin: 0;
+            font-size: 1.2rem;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+
+        .toggle-switch input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+            z-index: 1;
+        }
+
+        .slider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--gray);
+            transition: background-color 0.3s ease;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: transform 0.3s ease;
+            border-radius: 50%;
+        }
+
+        .toggle-switch input:checked + .slider {
+            background-color: var(--primary);
+        }
+
+        .toggle-switch input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        .toggle-switch input:focus + .slider {
+            box-shadow: 0 0 0 2px var(--primary-dark);
+        }
+
+        .toggle-switch input:disabled + .slider {
+            background-color: var(--light-gray);
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .toggle-switch input:disabled + .slider:before {
+            background-color: #ddd;
+        }
+
+        .cookie-type p {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: 10px;
+        }
+
+        .settings-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .save-settings {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .save-settings:hover, .save-settings:focus {
+            background: var(--primary-dark);
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        /* Accessibility Improvements */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .nav-menu {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .mobile-nav {
+                width: 100%;
+            }
+        }
+
+        @media (min-width: 993px) {
+            .mobile-nav {
+                display: none !important;
+            }
+            .mobile-backdrop {
+                display: none !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .footer-links-row {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .cookie-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .cookie-buttons {
+                width: 100%;
+            }
+            
+            .cookie-btn {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .header-container {
+                padding: 15px 0;
+            }
+            
+            .logo {
+                font-size: 1.5rem;
+            }
+            
+            .logo i {
+                font-size: 1.8rem;
+            }
+            
+            .settings-modal {
+                padding: 20px;
+            }
+        }
+    </style>
+    
+    <!-- File Converter Specific Styles -->
+    <style>
+        /* === File Converter Specific Styles === */
+        :root {
+            --success: #27ae60;
+            --error: #e74c3c;
+            --warning: #f39c12;
+        }
+        
+        .tool-header {
+            text-align: center;
+            padding: 40px 0 20px;
+        }
+
+        .tool-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto 25px;
+        }
+        
+        .privacy-note {
+            background: rgba(67, 97, 238, 0.1);
+            border-radius: var(--border-radius);
+            padding: 15px;
+            margin: 20px 0;
+            text-align: center;
+            border-left: 4px solid var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .privacy-note i {
+            font-size: 1.2rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 30px;
+            margin-bottom: 30px;
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            color: var(--dark);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        h2 i {
+            color: var(--primary);
+        }
+
+        h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+            font-weight: 600;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin: 0 0 30px;
+            gap: 10px;
+            flex-wrap: wrap;
+            overflow-x: auto;
+        }
+
+        .tab {
+            padding: 12px 25px;
+            cursor: pointer;
+            background: var(--light-gray);
+            border-radius: 50px;
+            font-weight: 500;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+            white-space: nowrap;
+        }
+
+        .tab.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .tab:hover:not(.active) {
+            background: #dbe4ff;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        input, select, button {
+            margin: 0.5em auto;
+            padding: 15px;
+            width: 100%;
+            font-size: 1rem;
+            border-radius: 10px;
+            border: 1px solid var(--light-gray);
+            background: white;
+            display: block;
+            transition: var(--transition);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        input:focus, 
+        select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+
+        button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            padding: 15px 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: var(--transition);
+        }
+
+        button:hover, button:focus {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 1.5em 0;
+            flex-wrap: wrap;
+        }
+
+        .btn-group button {
+            width: auto;
+            min-width: 180px;
+            flex: 1;
+        }
+
+        .file-upload-area {
+            border: 2px dashed #ddd;
+            border-radius: var(--border-radius);
+            padding: 40px;
+            text-align: center;
+            margin: 20px 0;
+            cursor: pointer;
+            transition: var(--transition);
+            background: #f8f9ff;
+            position: relative;
+        }
+        
+        .file-upload-area.drag-over {
+            border-color: var(--primary);
+            background: rgba(67, 97, 238, 0.05);
+        }
+
+        .file-upload-area i {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .file-upload-area input {
+            display: none;
+        }
+        
+        .file-upload-hint {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+        
+        .supported-formats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        
+        .format-tag {
+            background: rgba(67, 97, 238, 0.1);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+
+        .file-list {
+            margin: 20px 0;
+            max-height: 300px;
+            overflow-y: auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .batch-thumbnails {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .thumbnail-container {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            aspect-ratio: 1/1;
+            background: #f8f9fa;
+        }
+        
+        .thumbnail {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .thumbnail-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 5px;
+            font-size: 0.8rem;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .thumbnail-remove {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(231, 76, 60, 0.8);
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 0.7rem;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 15px;
+            border-bottom: 1px solid #eee;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .file-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .file-icon {
+            color: var(--primary);
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+        
+        .file-details {
+            min-width: 0;
+        }
+        
+        .file-name {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-weight: 500;
+        }
+        
+        .file-size {
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+        
+        .file-status {
+            font-size: 0.8rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+        
+        .status-queued {
+            background: rgba(52, 152, 219, 0.1);
+            color: #3498db;
+        }
+        
+        .status-processing {
+            background: rgba(241, 196, 15, 0.1);
+            color: #f39c12;
+        }
+        
+        .status-completed {
+            background: rgba(46, 204, 113, 0.1);
+            color: #27ae60;
+        }
+        
+        .status-error {
+            background: rgba(231, 76, 60, 0.1);
+            color: #e74c3c;
+        }
+
+        .file-remove {
+            color: #e74c3c;
+            cursor: pointer;
+            padding: 5px;
+            margin-left: 10px;
+            flex-shrink: 0;
+        }
+        
+        .progress-container {
+            margin: 20px 0;
+        }
+        
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .progress-bar-container {
+            height: 10px;
+            background: #e9ecef;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: var(--primary);
+            width: 0;
+            transition: width 0.3s ease;
+        }
+        
+        .time-remaining {
+            color: var(--gray);
+            font-size: 0.8rem;
+        }
+
+        .conversion-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .conversion-option {
+            background: #f0f4ff;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .conversion-option:hover {
+            background: #dbe4ff;
+        }
+
+        .conversion-option.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .features-section {
+            margin: 40px auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-top: 25px;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            text-align: center;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            height: 100%;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-card i {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            background: #f0f4ff;
+            width: 90px;
+            height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .feature-card p {
+            margin-bottom: 20px;
+            color: var(--gray);
+            font-size: 1.1rem;
+        }
+
+        .guide-section {
+            background: var(--light);
+            border-radius: var(--border-radius);
+            padding: 40px;
+            margin: 40px auto;
+            box-shadow: var(--box-shadow);
+            text-align: center;
+        }
+        
+        .guide-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-top: 25px;
+        }
+        
+        .guide-item {
+            padding: 25px;
+            background: #f8f9ff;
+            border-radius: var(--border-radius);
+            text-align: center;
+            font-size: 14px;
+        }
+        
+        .guide-item h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: center;
+        }
+        
+        .guide-item h3 i {
+            font-size: 1.8rem;
+        }
+        
+        .guide-item p {
+            font-size: 1rem;
+            color: #444;
+        }
+
+        .uses-section {
+            background: linear-gradient(135deg, #4361ee, #7209b7);
+            color: white;
+            border-radius: var(--border-radius);
+            padding: 40px;
+            margin: 40px auto;
+            box-shadow: var(--box-shadow);
+        }
+
+        .uses-section h2 {
+            color: white;
+            text-align: center;
+        }
+        
+        .uses-section h2 i {
+            color: white;
+        }
+        
+        .uses-section p {
+            color: rgba(255, 255, 255, 0.9);
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+
+        .uses-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .use-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            text-align: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .use-card i {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .use-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        .use-card p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1rem;
+        }
+
+        .tool-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .tool-col {
+            flex: 1;
+        }
+
+        .preview-container {
+            margin-top: 30px;
+            text-align: center;
+            display: none;
+        }
+
+        .preview-image {
+            max-width: 100%;
+            max-height: 400px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            display: block;
+            margin: 0 auto 20px;
+        }
+
+        .preview-document {
+            width: 100%;
+            height: 400px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            background: #f8f9ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--gray);
+            overflow: auto;
+            padding: 20px;
+            text-align: left;
+        }
+        
+        .preview-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .zoom-control {
+            background: var(--light-gray);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .zoom-control:hover {
+            background: #dbe4ff;
+        }
+
+        .download-btn {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: var(--transition);
+        }
+
+        .download-btn:hover, .download-btn:focus {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            display: none;
+        }
+
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: var(--primary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .error {
+            color: var(--error);
+            padding: 15px;
+            background: rgba(231, 76, 60, 0.1);
+            border-radius: var(--border-radius);
+            margin: 20px 0;
+            border-left: 4px solid var(--error);
+            display: none;
+        }
+
+        .success {
+            color: var(--success);
+            padding: 15px;
+            background: rgba(39, 174, 96, 0.1);
+            border-radius: var(--border-radius);
+            margin: 20px 0;
+            border-left: 4px solid var(--success);
+            display: none;
+        }
+        
+        .warning {
+            color: var(--warning);
+            padding: 15px;
+            background: rgba(243, 156, 18, 0.1);
+            border-radius: var(--border-radius);
+            margin: 20px 0;
+            border-left: 4px solid var(--warning);
+            text-align: center;
+        }
+        
+        .ocr-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .ocr-language {
+            background: #f0f4ff;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            text-align: center;
+            transition: var(--transition);
+        }
+        
+        .ocr-language.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .ocr-language:hover:not(.active) {
+            background: #dbe4ff;
+        }
+
+        /* Status messages */
+        .status-message {
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin: 15px 0;
+            text-align: center;
+            font-weight: 500;
+            display: none;
+        }
+        
+        .status-processing {
+            background: rgba(241, 196, 15, 0.1);
+            color: #f39c12;
+            border-left: 4px solid #f39c12;
+        }
+        
+        .status-completed {
+            background: rgba(46, 204, 113, 0.1);
+            color: #27ae60;
+            border-left: 4px solid #27ae60;
+        }
+        
+        .status-error {
+            background: rgba(231, 76, 60, 0.1);
+            color: #e74c3c;
+            border-left: 4px solid #e74c3c;
+        }
+
+        /* Progress modal */
+        .progress-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            width: 90%;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .progress-modal-header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+        
+        .progress-modal-bar {
+            width: 100%;
+            height: 12px;
+            background: #e9ecef;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        
+        .progress-modal-fill {
+            height: 100%;
+            width: 0;
+            background: linear-gradient(90deg, #4361ee, #7209b7);
+            border-radius: 6px;
+            transition: width 0.4s ease;
+        }
+        
+        .progress-modal-message {
+            margin: 1rem 0;
+            font-size: 1rem;
+            text-align: center;
+        }
+        
+        .progress-modal-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .progress-modal-btn:hover {
+            background: #c0392b;
+        }
+        
+        /* Responsive Design for File Converter */
+        @media (max-width: 992px) {
+            .tool-header h1 {
+                font-size: 2rem;
+            }
+            
+            .tool-row {
+                flex-direction: column;
+            }
+            
+            .guide-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .uses-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+            }
+            
+            .btn-group button {
+                width: 100%;
+            }
+            
+            .guide-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .uses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .ocr-options {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .tool-header {
+                padding: 15px 0 5px;
+            }
+
+            .tool-header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+            
+            .tab {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+            
+            .uses-section {
+                padding: 25px;
+            }
+            
+            .guide-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .uses-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
-  <!-- Header Placeholder -->
-  <header id="main-header">
-    <p class="error-message" style="display: none; color: red; text-align: center;">Failed to load header. Please try refreshing the page.</p>
-  </header>
+    <!-- Header Placeholder -->
+    <header id="main-header">
+        <p class="error-message" style="display: none; color: red; text-align: center;">Failed to load header. Please try refreshing the page.</p>
+    </header>
 
-  <!-- Hero Section -->
-  <section class="hero">
+    <!-- File Converter Content -->
     <div class="container">
-      <div class="hero-content">
-        <h1>Enhanced Barcode Generator</h1>
-        <p>Create custom EAN-13, EAN-8, UPC, and other barcodes for products, inventory, and retail applications. All processing happens in your browser.</p>
-      </div>
-    </div>
-  </section>
+        <div class="tool-header">
+            <h1>Advanced File Converter</h1>
+            <p class="tagline">Convert images, audio, and video files quickly and securely</p>
+        </div>
+        
+        <div class="privacy-note">
+            <i class="fas fa-lock"></i>
+            <span>All conversions happen in your browser - your files never leave your device!</span>
+        </div>
+        
+        <div class="warning">
+            <i class="fas fa-exclamation-triangle"></i> For best performance, files larger than 100MB are not recommended.
+        </div>
 
-  <!-- Barcode Generator Content -->
-  <div class="container">
-    <!-- Features with 2 cards per row -->
-    <div class="features">
-      <div class="feature">
-        <i class="fas fa-barcode"></i>
-        <h3>Multiple Formats</h3>
-        <p>Generate EAN-13, EAN-8, UPC, Code 128, Code 39, and more barcode types</p>
-      </div>
-      <div class="feature">
-        <i class="fas fa-layer-group"></i>
-        <h3>Batch Generation</h3>
-        <p>Create multiple barcodes at once and download as a ZIP file</p>
-      </div>
-      <div class="feature">
-        <i class="fas fa-random"></i>
-        <h3>Auto-Generate</h3>
-        <p>Generate valid Barcodes with correct checksums automatically</p>
-      </div>
-      <div class="feature">
-        <i class="fas fa-shield-alt"></i>
-        <h3>Privacy First</h3>
-        <p>All processing happens in your browser - no data is uploaded to servers</p>
-      </div>
-    </div>
-
-    <!-- Barcode Creation Guide -->
-    <div class="guide-section">
-      <h2><i class="fas fa-book"></i> Barcode Creation Guide</h2>
-      <p>Follow these steps to create your perfect Barcode:</p>
-      <div class="guide-grid">
-        <div class="guide-item">
-          <h3><i class="fas fa-tools"></i> Choose Barcode Type</h3>
-          <p>Select from EAN-13, EAN-8, UPC, or other formats based on your needs.</p>
-        </div>
-        <div class="guide-item">
-          <h3><i class="fas fa-keyboard"></i> Enter or Auto-Generate</h3>
-          <p>Input your code or leave blank for a random, valid Barcode.</p>
-        </div>
-        <div class="guide-item">
-          <h3><i class="fas fa-sliders-h"></i> Customize Appearance</h3>
-          <p>Adjust colors and other visual properties as needed.</p>
-        </div>
-        <div class="guide-item">
-          <h3><i class="fas fa-bolt"></i> Generate Barcode</h3>
-          <p>Click "Generate Barcode" to create your Barcode instantly.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Simplified Customization Panel -->
-    <div class="customization-panel">
-      <h2><i class="fas fa-sliders-h"></i> Customization Settings</h2>
-      <p style="text-align: center; margin-bottom: 20px; color: var(--gray);">These settings apply to all generated barcodes</p>
-      
-      <div class="customization-options">
-        <!-- Color Options -->
-        <div>
-          <h3><i class="fas fa-palette"></i> Colors</h3>
-          <div class="color-options">
-            <div class="color-option">
-              <label for="bar-color">Bar Color:</label>
-              <div class="color-preview-container">
-                <div class="color-preview selected" id="bar-color-preview" style="background-color: #000000;"></div>
-                <span class="color-value" id="bar-color-value">#000000</span>
-              </div>
-              <input type="color" id="bar-color" value="#000000" style="display: none;">
+        <!-- Features Section -->
+        <div class="features-section">
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i class="fas fa-file-image"></i>
+                    <h3>Image Conversion</h3>
+                    <p>Convert between JPG, PNG, GIF, WEBP, and other popular image formats</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-file-audio"></i>
+                    <h3>Audio Tools</h3>
+                    <p>Convert MP3, WAV, OGG, FLAC, and other audio formats</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-file-video"></i>
+                    <h3>Video Conversion</h3>
+                    <p>Convert MP4, AVI, MOV, MKV, WEBM, and other video formats</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-bolt"></i>
+                    <h3>Fast Processing</h3>
+                    <p>Browser-based processing ensures quick conversions without server delays</p>
+                </div>
             </div>
-            <div class="color-option">
-              <label for="background-color">Background Color:</label>
-              <div class="color-preview-container">
-                <div class="color-preview" id="background-color-preview" style="background-color: #ffffff;"></div>
-                <span class="color-value" id="background-color-value">#ffffff</span>
-              </div>
-              <input type="color" id="background-color" value="#ffffff" style="display: none;">
+        </div>
+
+        <!-- Conversion Guide Section -->
+        <div class="guide-section">
+            <h2><i class="fas fa-book"></i> File Conversion Guide</h2>
+            <p>Follow these simple steps to convert your files:</p>
+            <div class="guide-grid">
+                <div class="guide-item">
+                    <h3><i class="fas fa-upload"></i> Upload Files</h3>
+                    <p>Drag & drop or select files to convert</p>
+                </div>
+                <div class="guide-item">
+                    <h3><i class="fas fa-cog"></i> Configure Settings</h3>
+                    <p>Choose output format</p>
+                </div>
+                <div class="guide-item">
+                    <h3><i class="fas fa-bolt"></i> Convert</h3>
+                    <p>Process files instantly in your browser</p>
+                </div>
+                <div class="guide-item">
+                    <h3><i class="fas fa-download"></i> Download</h3>
+                    <p>Save converted files to your device</p>
+                </div>
             </div>
-          </div>
-          
-          <div class="transparent-bg-container">
-            <label>
-              <input type="checkbox" id="transparent-bg">
-              Transparent Background
-            </label>
-          </div>
         </div>
-      </div>
-      
-      <div class="reset-btn">
-        <button id="reset-customization" class="secondary">
-          <i class="fas fa-redo"></i> Reset Customization
-        </button>
-      </div>
+
+        <div class="card">
+            <div class="tabs">
+                <div class="tab active" data-tab="image">
+                    <i class="fas fa-image"></i> Image
+                </div>
+                <div class="tab" data-tab="audio">
+                    <i class="fas fa-music"></i> Audio
+                </div>
+                <div class="tab" data-tab="video">
+                    <i class="fas fa-video"></i> Video
+                </div>
+            </div>
+
+            <!-- Image Converter -->
+            <div class="tab-content active" id="image-tab">
+                <h2><i class="fas fa-image"></i> Image Converter</h2>
+                <p>Convert between various image formats</p>
+                
+                <div class="file-upload-area" id="imageUploadArea">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <h3>Upload Image Files</h3>
+                    <p>Drag & drop your files here or click to browse</p>
+                    <p class="file-upload-hint">Supports JPG, PNG, GIF, WEBP, TIFF, BMP</p>
+                    <input type="file" id="imageFileUpload" accept="image/*" multiple>
+                    <div class="supported-formats">
+                        <span class="format-tag">JPG</span>
+                        <span class="format-tag">PNG</span>
+                        <span class="format-tag">GIF</span>
+                        <span class="format-tag">WEBP</span>
+                        <span class="format-tag">TIFF</span>
+                        <span class="format-tag">BMP</span>
+                    </div>
+                </div>
+                
+                <div class="batch-thumbnails" id="imageThumbnails">
+                    <!-- Thumbnails will be added here -->
+                </div>
+                
+                <div class="tool-row">
+                    <div class="tool-col">
+                        <label for="imageFormat">Output Format:</label>
+                        <select id="imageFormat">
+                            <option value="jpg">JPG</option>
+                            <option value="png">PNG</option>
+                            <option value="webp">WEBP</option>
+                            <option value="gif">GIF</option>
+                            <option value="bmp">BMP</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="btn-group">
+                    <button id="convertImageBtn">
+                        <i class="fas fa-sync-alt"></i> Convert Single Image
+                    </button>
+                    <button id="batchConvertBtn">
+                        <i class="fas fa-layer-group"></i> Batch Convert All
+                    </button>
+                </div>
+                
+                <div class="status-message status-processing" id="imageProcessing" style="display: none;">
+                    <i class="fas fa-spinner fa-spin"></i> Processing your image...
+                </div>
+                
+                <div class="status-message status-completed" id="imageSuccess" style="display: none;">
+                    <i class="fas fa-check-circle"></i> Image converted successfully!
+                </div>
+                
+                <div class="status-message status-error" id="imageError" style="display: none;">
+                    <i class="fas fa-exclamation-circle"></i> <span id="imageErrorText">Conversion failed</span>
+                </div>
+            </div>
+
+            <!-- Audio Converter -->
+            <div class="tab-content" id="audio-tab">
+                <h2><i class="fas fa-music"></i> Audio Converter</h2>
+                <p>Convert audio files between various formats</p>
+                
+                <div class="file-upload-area" id="audioUploadArea">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <h3>Upload Audio File</h3>
+                    <p>Drag & drop your file here or click to browse</p>
+                    <p class="file-upload-hint">Supports MP3, WAV, OGG, FLAC, AAC</p>
+                    <input type="file" id="audioFileUpload" accept="audio/*" multiple>
+                    <div class="supported-formats">
+                        <span class="format-tag">MP3</span>
+                        <span class="format-tag">WAV</span>
+                        <span class="format-tag">OGG</span>
+                        <span class="format-tag">FLAC</span>
+                        <span class="format-tag">AAC</span>
+                    </div>
+                </div>
+                
+                <div class="file-list" id="audioFileList">
+                    <!-- Files will be listed here -->
+                </div>
+                
+                <div class="tool-row">
+                    <div class="tool-col">
+                        <label for="audioFormat">Output Format:</label>
+                        <select id="audioFormat">
+                            <option value="mp3">MP3</option>
+                            <option value="wav">WAV</option>
+                            <option value="ogg">OGG</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <button id="convertAudioBtn">
+                    <i class="fas fa-exchange-alt"></i> Convert Audio
+                </button>
+                
+                <div id="audioProgressContainer" class="progress-modal" style="display: none;">
+                    <div class="progress-modal-header">
+                        <span>Conversion Progress</span>
+                        <span id="audioProgressPercent">0%</span>
+                    </div>
+                    <div class="progress-modal-bar">
+                        <div id="audioProgressBar" class="progress-modal-fill"></div>
+                    </div>
+                    <p id="audioProgressMessage" class="progress-modal-message">Initializing conversion...</p>
+                    <button id="audioCancelBtn" class="progress-modal-btn">Cancel Conversion</button>
+                </div>
+                
+                <div class="status-message status-processing" id="audioProcessing" style="display: none;">
+                    <i class="fas fa-spinner fa-spin"></i> Processing your audio...
+                </div>
+                
+                <div class="status-message status-completed" id="audioSuccess" style="display: none;">
+                    <i class="fas fa-check-circle"></i> Audio converted successfully!
+                </div>
+                
+                <div class="status-message status-error" id="audioError" style="display: none;">
+                    <i class="fas fa-exclamation-circle"></i> <span id="audioErrorText">Conversion failed</span>
+                </div>
+                
+                <div class="preview-container" id="audioPreview">
+                    <audio controls id="audioPlayer" style="width: 100%; margin-top: 20px;"></audio>
+                    <a href="#" class="download-btn" id="downloadAudioBtn">
+                        <i class="fas fa-download"></i> Download Converted Audio
+                    </a>
+                </div>
+            </div>
+
+            <!-- Video Converter -->
+            <div class="tab-content" id="video-tab">
+                <h2><i class="fas fa-video"></i> Video Converter</h2>
+                <p>Convert video files between various formats</p>
+                
+                <div class="file-upload-area" id="videoUploadArea">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <h3>Upload Video File</h3>
+                    <p>Drag & drop your file here or click to browse</p>
+                    <p class="file-upload-hint">Supports MP4, AVI, MOV, MKV, WEBM</p>
+                    <input type="file" id="videoFileUpload" accept="video/*" multiple>
+                    <div class="supported-formats">
+                        <span class="format-tag">MP4</span>
+                        <span class="format-tag">AVI</span>
+                        <span class="format-tag">MOV</span>
+                        <span class="format-tag">MKV</span>
+                        <span class="format-tag">WEBM</span>
+                    </div>
+                </div>
+                
+                <div class="file-list" id="videoFileList">
+                    <!-- Files will be listed here -->
+                </div>
+                
+                <div class="tool-row">
+                    <div class="tool-col">
+                        <label for="videoFormat">Output Format:</label>
+                        <select id="videoFormat">
+                            <option value="mp4">MP4</option>
+                            <option value="webm">WEBM</option>
+                            <option value="gif">GIF</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <button id="convertVideoBtn">
+                    <i class="fas fa-exchange-alt"></i> Convert Video
+                </button>
+                
+                <div id="videoProgressContainer" class="progress-modal" style="display: none;">
+                    <div class="progress-modal-header">
+                        <span>Conversion Progress</span>
+                        <span id="videoProgressPercent">0%</span>
+                    </div>
+                    <div class="progress-modal-bar">
+                        <div id="videoProgressBar" class="progress-modal-fill"></div>
+                    </div>
+                    <p id="videoProgressMessage" class="progress-modal-message">Initializing conversion...</p>
+                    <button id="videoCancelBtn" class="progress-modal-btn">Cancel Conversion</button>
+                </div>
+                
+                <div class="status-message status-processing" id="videoProcessing" style="display: none;">
+                    <i class="fas fa-spinner fa-spin"></i> Processing your video...
+                </div>
+                
+                <div class="status-message status-completed" id="videoSuccess" style="display: none;">
+                    <i class="fas fa-check-circle"></i> Video converted successfully!
+                </div>
+                
+                <div class="status-message status-error" id="videoError" style="display: none;">
+                    <i class="fas fa-exclamation-circle"></i> <span id="videoErrorText">Conversion failed</span>
+                </div>
+                
+                <div class="preview-container" id="videoPreview">
+                    <video controls id="videoPlayer" style="width: 100%; max-height: 300px; margin-top: 20px;"></video>
+                    <a href="#" class="download-btn" id="downloadVideoBtn">
+                        <i class="fas fa-download"></i> Download Converted Video
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="card">
-      <div class="tabs" role="tablist">
-        <div class="tab active" data-tab="single" role="tab" aria-selected="true" tabindex="0">
-          <i class="fas fa-barcode"></i> Single Barcode
-        </div>
-        <div class="tab" data-tab="batch" role="tab" aria-selected="false" tabindex="0">
-          <i class="fas fa-layer-group"></i> Batch Barcodes
-        </div>
-        <div class="tab" data-tab="custom" role="tab" aria-selected="false" tabindex="0">
-          <i class="fas fa-cog"></i> Custom Barcodes
-        </div>
-      </div>
+    <!-- Footer Placeholder -->
+    <footer id="main-footer">
+        <p class="error-message" style="display: none; color: red; text-align: center;">Failed to load footer. Please try refreshing the page.</p>
+    </footer>
 
-      <div class="tab-content active" id="single-tab" role="tabpanel">
-        <h2><i class="fas fa-barcode"></i> Generate Single Barcode</h2>
-        <label for="ean-type">Barcode Type:</label>
-        <select id="ean-type" aria-label="Select barcode type">
-          <option value="ean13" selected>EAN-13</option>
-          <option value="ean8">EAN-8</option>
-          <option value="upc">UPC-A</option>
-          <option value="code128">Code 128</option>
-          <option value="code39">Code 39</option>
-          <option value="itf14">ITF-14</option>
-          <option value="codabar">Codabar</option>
-          <option value="pharmacode">Pharmacode</option>
-        </select>
-        <label for="ean-input">Barcode Value:</label>
-        <input id="ean-input" type="text" placeholder="Enter barcode or leave blank to auto-generate" autofocus aria-label="Enter barcode value">
-        
-        <div class="error" id="single-error"></div>
-        <div class="success" id="single-success"></div>
-        <div class="btn-group">
-          <button id="generate-single-btn" aria-label="Generate barcode">
-            <i class="fas fa-bolt"></i> Generate Barcode
-          </button>
-          <button id="download-btn" style="display:none" aria-label="Download barcode">
-            <i class="fas fa-download"></i> Download PNG
-          </button>
-          <button id="download-svg-btn" style="display:none" aria-label="Download SVG">
-            <i class="fas fa-file-code"></i> Download SVG
-          </button>
+    <!-- Cookie Consent Banner -->
+    <div id="cookie-consent">
+        <div class="cookie-content">
+            <div class="cookie-text">
+                <p>We use cookies to enhance your experience. Essential cookies are always on, but you can choose whether to allow analytics and advertising cookies.</p>
+                <p>Learn more in our <a href="/privacy" aria-label="Privacy Policy">Privacy Policy</a>.</p>
+            </div>
+            <div class="cookie-buttons">
+                <button class="cookie-btn reject-btn" id="reject-cookies">Reject Non-Essential</button>
+                <button class="cookie-btn accept-btn" id="accept-cookies">Accept All</button>
+            </div>
+            <button class="cookie-settings-btn" id="open-settings">Customize Settings</button>
         </div>
-        <div class="loading" id="single-loading">
-          <div class="spinner"></div>
-          Generating Barcode...
-        </div>
-        <canvas id="ean-canvas" style="display: none;" aria-label="Generated barcode"></canvas>
-      </div>
-
-      <div class="tab-content" id="batch-tab" role="tabpanel">
-        <h2><i class="fas fa-layer-group"></i> Batch Barcode Generation</h2>
-        <label for="batch-ean-type">Barcode Type:</label>
-        <select id="batch-ean-type" aria-label="Select barcode type for batch generation">
-          <option value="ean13" selected>EAN-13</option>
-          <option value="ean8">EAN-8</option>
-          <option value="upc">UPC-A</option>
-          <option value="code128">Code 128</option>
-          <option value="code39">Code 39</option>
-          <option value="itf14">ITF-14</option>
-          <option value="codabar">Codabar</option>
-          <option value="pharmacode">Pharmacode</option>
-        </select>
-        <label for="batch-amount">Number of Barcodes:</label>
-        <input id="batch-amount" type="number" min="1" max="100" value="10" placeholder="Enter number of codes (1–100)" aria-label="Enter number of barcodes">
-        
-        <div class="btn-group">
-          <button id="generate-batch-btn" aria-label="Generate and download batch barcodes as ZIP">
-            <i class="fas fa-file-archive"></i> Generate & Download as ZIP
-          </button>
-        </div>
-        <div class="loading" id="batch-loading">
-          <div class="spinner"></div>
-          <div id="batch-progress">Generating barcodes: 0/0</div>
-        </div>
-        <div class="success" id="batch-success"></div>
-        <div class="error" id="batch-error"></div>
-      </div>
-
-      <div class="tab-content" id="custom-tab" role="tabpanel">
-        <h2><i class="fas fa-cog"></i> Custom Barcode Generator</h2>
-        <label for="custom-type">Barcode Type:</label>
-        <select id="custom-type" aria-label="Select custom barcode type">
-          <option value="code128">Code 128</option>
-          <option value="code39">Code 39</option>
-          <option value="codabar">Codabar</option>
-          <option value="pharmacode">Pharmacode</option>
-        </select>
-        <label for="custom-input">Custom Text:</label>
-        <input id="custom-input" type="text" placeholder="Enter custom text for barcode" aria-label="Enter custom text for barcode">
-        <div class="format-info">
-          <h3>Format Examples:</h3>
-          <ul>
-            <li><strong>Code 128:</strong> Alphanumeric (e.g., ABC123)</li>
-            <li><strong>Code 39:</strong> Alphanumeric, uppercase (e.g., CODE39)</li>
-            <li><strong>Codabar:</strong> Start/end with A-D, digits and -$:/.+ (e.g., A12345B)</li>
-            <li><strong>Pharmacode:</strong> Numbers 3-131070 (e.g., 1234)</li>
-          </ul>
-        </div>
-        
-        <div class="btn-group">
-          <button id="generate-custom-btn" aria-label="Generate custom barcode">
-            <i class="fas fa-bolt"></i> Generate Custom Barcode
-          </button>
-          <button id="custom-download" style="display:none" aria-label="Download custom barcode">
-            <i class="fas fa-download"></i> Download PNG
-          </button>
-          <button id="custom-svg-download" style="display:none" aria-label="Download SVG">
-            <i class="fas fa-file-code"></i> Download SVG
-          </button>
-        </div>
-        <div class="loading" id="custom-loading">
-          <div class="spinner"></div>
-          Generating Custom Barcode...
-        </div>
-        <div class="error" id="custom-error"></div>
-        <div class="success" id="custom-success"></div>
-        <canvas id="custom-canvas" style="display: none;" aria-label="Generated custom barcode"></canvas>
-      </div>
     </div>
-  </div>
 
-  <!-- Footer Placeholder -->
-  <footer id="main-footer">
-    <p class="error-message" style="display: none; color: red; text-align: center;">Failed to load footer. Please try refreshing the page.</p>
-  </footer>
-
-  <!-- Cookie Consent Banner -->
-  <div id="cookie-consent" role="dialog" aria-labelledby="cookie-consent-banner" aria-describedby="cookie-consent-desc">
-    <div class="sr-only" id="cookie-consent-banner">Cookie Consent</div>
-    <div class="cookie-content" id="cookie-consent-desc">
-      <div class="cookie-text">
-        <p>We use cookies to enhance your experience and analyze site traffic. By clicking "Accept All", you consent to our use of cookies. 
-          <a href="/privacy-policy.html" aria-label="Learn more about our Privacy Policy">Learn more</a> in our Privacy Policy.
-        </p>
-        <button class="cookie-settings-btn" id="open-settings" aria-label="Open cookie settings">Cookie Settings</button>
-      </div>
-      <div class="cookie-buttons">
-        <button class="cookie-btn reject-btn" id="reject-cookies" aria-label="Reject non-essential cookies">Reject Non-Essential</button>
-        <button class="cookie-btn accept-btn" id="accept-cookies" aria-label="Accept all cookies">Accept All</button>
-      </div>
+    <!-- Cookie Settings Modal -->
+    <div id="cookie-settings">
+        <div class="settings-modal">
+            <div class="settings-header">
+                <h2>Cookie Settings</h2>
+                <button class="close-settings" aria-label="Close settings"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="settings-content">
+                <div class="cookie-type">
+                    <div class="cookie-type-header">
+                        <h3>Essential Cookies</h3>
+                        <div class="toggle-switch">
+                            <input type="checkbox" id="essential-toggle" checked disabled>
+                            <span class="slider"></span>
+                        </div>
+                    </div>
+                    <p>These cookies are necessary for the website to function and cannot be disabled.</p>
+                </div>
+                <div class="cookie-type">
+                    <div class="cookie-type-header">
+                        <h3>Analytics Cookies</h3>
+                        <div class="toggle-switch">
+                            <input type="checkbox" id="analytics-toggle">
+                            <span class="slider"></span>
+                        </div>
+                    </div>
+                    <p>These cookies help us understand how visitors interact with our website, providing insights to improve our services.</p>
+                </div>
+                <div class="cookie-type">
+                    <div class="cookie-type-header">
+                        <h3>Advertising Cookies</h3>
+                        <div class="toggle-switch">
+                            <input type="checkbox" id="advertising-toggle">
+                            <span class="slider"></span>
+                        </div>
+                    </div>
+                    <p>These cookies are used to deliver personalized advertisements based on your interests.</p>
+                </div>
+            </div>
+            <div class="settings-buttons">
+                <button class="save-settings" id="save-settings">Save Settings</button>
+            </div>
+        </div>
     </div>
-  </div>
 
-  <!-- Cookie Settings Modal -->
-  <div id="cookie-settings" role="dialog" aria-labelledby="cookie-settings-title" aria-describedby="cookie-settings-desc">
-    <div class="settings-modal">
-      <div class="settings-header">
-        <h2 id="cookie-settings-title"><i class="fas fa-cookie-bite"></i> Cookie Settings</h2>
-        <button class="close-settings" id="close-settings" aria-label="Close cookie settings">×</button>
-      </div>
-      <div class="settings-content">
-        <p id="cookie-settings-desc">You can set your preferences for how we and our partners use cookies and similar technologies.</p>
-        
-        <div class="cookie-type">
-          <div class="cookie-type-header">
-            <h3>Essential Cookies</h3>
-            <label class="toggle-switch" for="essential-toggle">
-              <input type="checkbox" id="essential-toggle" checked disabled aria-label="Essential cookies (always enabled, cannot be disabled)" aria-describedby="essential-desc">
-              <span class="slider"></span>
-            </label>
-          </div>
-          <p id="essential-desc">These cookies are necessary for the website to function and cannot be switched off.</p>
-        </div>
-        
-        <div class="cookie-type">
-          <div class="cookie-type-header">
-            <h3>Analytics Cookies</h3>
-            <label class="toggle-switch" for="analytics-toggle">
-              <input type="checkbox" id="analytics-toggle" aria-label="Analytics cookies toggle" aria-describedby="analytics-desc">
-              <span class="slider"></span>
-            </label>
-          </div>
-          <p id="analytics-desc">These cookies allow us to count visits and traffic sources so we can measure and improve the performance of our site.</p>
-        </div>
-        
-        <div class="cookie-type">
-          <div class="cookie-type-header">
-            <h3>Advertising Cookies</h3>
-            <label class="toggle-switch" for="advertising-toggle">
-              <input type="checkbox" id="advertising-toggle" aria-label="Advertising cookies toggle" aria-describedby="advertising-desc">
-              <span class="slider"></span>
-            </label>
-          </div>
-          <p id="advertising-desc">These cookies may be set through our site by our advertising partners to build a profile of your interests.</p>
-        </div>
-      </div>
-      <div class="settings-buttons">
-        <button class="save-settings" id="save-settings" aria-label="Save cookie settings">Save Settings</button>
-      </div>
-    </div>
-  </div>
+    <!-- JavaScript Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 
-  <!-- JavaScript -->
-  <script src="/js/main.js"></script>
-  <script>
-    // Barcode Generator Functionality
-    function initBarcodeGenerator() {
-      // Constants
-      const elements = {
-        tabs: document.querySelectorAll('.tab'),
-        tabContents: document.querySelectorAll('.tab-content'),
-        singleCanvas: document.getElementById('ean-canvas'),
-        customCanvas: document.getElementById('custom-canvas'),
-        downloadBtn: document.getElementById('download-btn'),
-        downloadSvgBtn: document.getElementById('download-svg-btn'),
-        customDownloadBtn: document.getElementById('custom-download'),
-        customSvgDownloadBtn: document.getElementById('custom-svg-download'),
-        singleLoading: document.getElementById('single-loading'),
-        batchLoading: document.getElementById('batch-loading'),
-        customLoading: document.getElementById('custom-loading'),
-        batchProgress: document.getElementById('batch-progress'),
-        singleError: document.getElementById('single-error'),
-        batchError: document.getElementById('batch-error'),
-        customError: document.getElementById('custom-error'),
-        singleSuccess: document.getElementById('single-success'),
-        batchSuccess: document.getElementById('batch-success'),
-        customSuccess: document.getElementById('custom-success'),
-        eanType: document.getElementById('ean-type'),
-        eanInput: document.getElementById('ean-input'),
-        batchEanType: document.getElementById('batch-ean-type'),
-        batchAmount: document.getElementById('batch-amount'),
-        customType: document.getElementById('custom-type'),
-        customInput: document.getElementById('custom-input'),
-        generateSingleBtn: document.getElementById('generate-single-btn'),
-        generateBatchBtn: document.getElementById('generate-batch-btn'),
-        generateCustomBtn: document.getElementById('generate-custom-btn'),
-        resetCustomizationBtn: document.getElementById('reset-customization'),
-        
-        // Customization elements
-        barColor: document.getElementById('bar-color'),
-        backgroundColor: document.getElementById('background-color'),
-        transparentBg: document.getElementById('transparent-bg'),
-        barColorPreview: document.getElementById('bar-color-preview'),
-        backgroundColorPreview: document.getElementById('background-color-preview'),
-        barColorValue: document.getElementById('bar-color-value'),
-        backgroundColorValue: document.getElementById('background-color-value')
-      };
-
-      const barcodeConfig = {
-        ean13: { length: 12, regex: /^\d{12,13}$/, format: 'ean13' },
-        ean8: { length: 7, regex: /^\d{7,8}$/, format: 'ean8' },
-        upc: { length: 11, regex: /^\d{11,12}$/, format: 'UPC' },
-        itf14: { length: 13, regex: /^\d{13,14}$/, format: 'itf14' },
-        code128: { regex: /^[\w\s-]+$/, format: 'code128' },
-        code39: { regex: /^[0-9A-Z\s-.%*+$/]+$/, format: 'code39' },
-        codabar: { regex: /^[A-D][0-9-:$/.+]*[A-D]$/, format: 'codabar' },
-        pharmacode: { min: 3, max: 131070, regex: /^\d+$/, format: 'pharmacode' }
-      };
-
-      // Initialize color previews
-      function initColorSelection() {
-        // Set initial selection
-        elements.barColorPreview.classList.add('selected');
-        
-        // Bar color preview click handler
-        elements.barColorPreview.addEventListener('click', () => {
-          elements.barColor.click();
-          elements.barColorPreview.classList.add('selected');
-          elements.backgroundColorPreview.classList.remove('selected');
-        });
-        
-        // Background color preview click handler
-        elements.backgroundColorPreview.addEventListener('click', () => {
-          elements.backgroundColor.click();
-          elements.backgroundColorPreview.classList.add('selected');
-          elements.barColorPreview.classList.remove('selected');
-        });
-        
-        // Bar color input change handler
-        elements.barColor.addEventListener('input', () => {
-          const color = elements.barColor.value;
-          elements.barColorPreview.style.backgroundColor = color;
-          elements.barColorValue.textContent = color;
-        });
-        
-        // Background color input change handler
-        elements.backgroundColor.addEventListener('input', () => {
-          const color = elements.backgroundColor.value;
-          elements.backgroundColorPreview.style.backgroundColor = color;
-          elements.backgroundColorValue.textContent = color;
-        });
-      }
-      
-      // Reset customization
-      elements.resetCustomizationBtn.addEventListener('click', function() {
-        // Reset color pickers
-        elements.barColor.value = '#000000';
-        elements.backgroundColor.value = '#ffffff';
-        
-        // Update previews
-        elements.barColorPreview.style.backgroundColor = '#000000';
-        elements.backgroundColorPreview.style.backgroundColor = '#ffffff';
-        
-        // Update value displays
-        elements.barColorValue.textContent = '#000000';
-        elements.backgroundColorValue.textContent = '#ffffff';
-        
-        // Reset background
-        elements.transparentBg.checked = false;
-        
-        // Reset selection state
-        elements.barColorPreview.classList.add('selected');
-        elements.backgroundColorPreview.classList.remove('selected');
-      });
-
-      function showError(element, message) {
-        element.textContent = message;
-        element.style.display = 'block';
-      }
-
-      function showSuccess(element, message) {
-        element.textContent = message;
-        element.style.display = 'block';
-      }
-
-      function hideElements() {
-        [elements.singleError, elements.batchError, elements.customError,
-         elements.singleSuccess, elements.batchSuccess, elements.customSuccess]
-          .forEach(el => el.style.display = 'none');
-      }
-
-      function calculateChecksum(code, type) {
-        let sum = 0;
-        if (type === 'ean8') {
-          const weights = [3, 1, 3, 1, 3, 1, 3];
-          for (let i = 0; i < code.length; i++) sum += parseInt(code[i]) * weights[i];
-        } else if (type === 'upc' || type === 'itf14') {
-          for (let i = 0; i < code.length; i++) sum += parseInt(code[i]) * (i % 2 === 0 ? 3 : 1);
-        } else {
-          const weights = [1, 3];
-          for (let i = 0; i < code.length; i++) sum += parseInt(code[i]) * weights[i % 2];
-        }
-        return (10 - (sum % 10)) % 10;
-      }
-
-      function generateRandomEAN(type) {
-        const { length } = barcodeConfig[type];
-        let base = Array.from({ length }, () => Math.floor(Math.random() * 10)).join('');
-        return base + calculateChecksum(base, type);
-      }
-
-      function validateInput(code, type) {
-        const config = barcodeConfig[type];
-        if (!code) return true;
-        if (type === 'pharmacode') {
-          const num = parseInt(code);
-          return !isNaN(num) && num >= config.min && num <= config.max;
-        }
-        return config.regex.test(code);
-      }
-
-      function generateRandomBarcode(type) {
-        if (['ean13', 'ean8', 'upc', 'itf14'].includes(type)) {
-          return generateRandomEAN(type);
-        }
-        switch (type) {
-          case 'code128':
-          case 'code39':
-            return Math.random().toString(36).slice(2, 12).toUpperCase();
-          case 'codabar':
-            return `A${Math.floor(Math.random() * 100000).toString().padStart(5, '0')}B`;
-          case 'pharmacode':
-            return Math.floor(Math.random() * (barcodeConfig.pharmacode.max - barcodeConfig.pharmacode.min + 1) + barcodeConfig.pharmacode.min).toString();
-          default:
-            return '123456';
-        }
-      }
-
-      function sanitizeFilename(str) {
-        return str.replace(/[^a-zA-Z0-9-]+/g, '_').slice(0, 50) || 'barcode';
-      }
-
-      function generateBarcode({ canvas, code, type, errorElement, successElement, downloadButton, svgDownloadButton, loadingElement }) {
-        const ctx = canvas.getContext('2d');
-        hideElements();
-        loadingElement.style.display = 'block';
-        downloadButton.style.display = 'none';
-        svgDownloadButton.style.display = 'none';
-        canvas.style.display = 'none';
-
-        if (!validateInput(code, type)) {
-          showError(errorElement, 'Invalid input format for selected barcode type');
-          loadingElement.style.display = 'none';
-          return;
-        }
-
-        const finalCode = code || generateRandomBarcode(type);
-        const isPharmacode = type === 'pharmacode';
-        // Fixed size as requested
-        const width = 320;
-        const height = 150;
-        
-        // Set canvas dimensions
-        canvas.width = width;
-        canvas.height = height;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        canvas.dataset.code = finalCode;
-        canvas.dataset.type = type;
-
-        try {
-          // Generate the barcode with custom colors and background
-          JsBarcode(canvas, finalCode, {
-            format: barcodeConfig[type].format,
-            displayValue: true,
-            width: 2,
-            height: isPharmacode ? height * 0.5 : height * 0.7,
-            lineColor: elements.barColor.value,
-            textColor: elements.barColor.value,
-            background: elements.transparentBg.checked ? 'transparent' : elements.backgroundColor.value
-          });
-
-          downloadButton.style.display = 'inline-block';
-          svgDownloadButton.style.display = 'inline-block';
-          canvas.style.display = 'block';
-          showSuccess(successElement, 'Barcode generated successfully!');
-        } catch (error) {
-          showError(errorElement, `Failed to generate barcode: ${error.message}`);
-        } finally {
-          loadingElement.style.display = 'none';
-        }
-      }
-
-      function downloadBarcode(canvas, errorElement) {
-        try {
-          const code = canvas.dataset.code;
-          const link = document.createElement('a');
-          link.download = `${sanitizeFilename(code)}.png`;
-          link.href = canvas.toDataURL('image/png', 1.0);
-          link.click();
-        } catch (error) {
-          showError(errorElement, 'Error downloading barcode');
-        }
-      }
-
-      function downloadSVG(canvas, errorElement) {
-        try {
-          const code = canvas.dataset.code;
-          const type = canvas.dataset.type;
-          const svgNS = "http://www.w3.org/2000/svg";
-          const svg = document.createElementNS(svgNS, "svg");
-          svg.setAttribute("xmlns", svgNS);
-          svg.setAttribute("version", "1.1");
-          svg.setAttribute("width", canvas.width);
-          svg.setAttribute("height", canvas.height);
-          
-          // Create SVG barcode
-          JsBarcode(svg, code, {
-            format: barcodeConfig[type].format,
-            displayValue: true,
-            width: 2,
-            height: canvas.height * 0.7,
-            lineColor: elements.barColor.value,
-            textColor: elements.barColor.value,
-            background: elements.transparentBg.checked ? 'transparent' : elements.backgroundColor.value
-          });
-
-          // Serialize SVG
-          const serializer = new XMLSerializer();
-          let svgString = serializer.serializeToString(svg);
-          if (!svgString.includes('xmlns')) {
-            svgString = svgString.replace(/<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
-          }
-
-          // Create blob and download
-          const blob = new Blob([svgString], {type: "image/svg+xml;charset=utf-8"});
-          const url = URL.createObjectURL(blob);
-          const link = document.createElement("a");
-          link.href = url;
-          link.download = `${sanitizeFilename(code)}.svg`;
-          link.click();
-          URL.revokeObjectURL(url);
-        } catch (error) {
-          showError(errorElement, 'Error generating SVG: ' + error.message);
-        }
-      }
-
-      async function generateBatchEANs() {
-        const type = elements.batchEanType.value;
-        const amount = parseInt(elements.batchAmount.value);
-        // Fixed size as requested
-        const width = 320;
-        const height = 150;
-
-        if (isNaN(amount) || amount < 1 || amount > 100) {
-          showError(elements.batchError, 'Please enter a number between 1 and 100');
-          return;
-        }
-
-        hideElements();
-        elements.batchLoading.style.display = 'block';
-
-        try {
-          const zip = new JSZip();
-          const canvas = document.createElement('canvas');
-          const isPharmacode = type === 'pharmacode';
-
-          for (let i = 0; i < amount; i++) {
-            elements.batchProgress.textContent = `Generating barcodes: ${i + 1}/${amount}`;
-            const code = generateRandomBarcode(type);
-            canvas.width = width;
-            canvas.height = height;
-
-            try {
-              // Generate the barcode with customization
-              const ctx = canvas.getContext('2d');
-              ctx.clearRect(0, 0, canvas.width, canvas.height);
-              
-              JsBarcode(canvas, code, {
-                format: barcodeConfig[type].format,
-                displayValue: true,
-                width: 2,
-                height: isPharmacode ? height * 0.5 : height * 0.7,
-                lineColor: elements.barColor.value,
-                textColor: elements.barColor.value,
-                background: elements.transparentBg.checked ? 'transparent' : elements.backgroundColor.value
-              });
-
-              const dataUrl = canvas.toDataURL('image/png', 1.0);
-              const imgData = dataUrl.replace(/^data:image\/png;base64,/, '');
-              zip.file(`${sanitizeFilename(code)}.png`, imgData, { base64: true });
-            } catch (err) {
-              console.warn(`Error generating barcode for code ${code}: ${err.message}`);
+    <!-- Main Shared JavaScript -->
+    <script>
+        // ===== Shared main.js Content =====
+        function initMobileMenu() {
+            console.log('Initializing mobile menu');
+            const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+            const closeMobileMenu = document.getElementById('close-mobile-menu');
+            const mobileNav = document.getElementById('mobile-nav');
+            const mobileBackdrop = document.getElementById('mobile-backdrop');
+            
+            function closeMobileNav() {
+                mobileNav.classList.remove('active');
+                mobileBackdrop.classList.remove('active');
+                document.body.classList.remove('menu-open');
+                document.querySelectorAll('.mobile-nav .dropdown-menu').forEach(menu => {
+                    menu.classList.remove('active');
+                    const toggle = menu.parentElement.querySelector('.dropdown-toggle');
+                    if (toggle) toggle.setAttribute('aria-expanded', 'false');
+                });
             }
-
-            await new Promise(resolve => setTimeout(resolve, 10));
-          }
-
-          const blob = await zip.generateAsync({ type: 'blob' });
-          saveAs(blob, `batch-${sanitizeFilename(type)}.zip`);
-          showSuccess(elements.batchSuccess, `Successfully generated and downloaded ${amount} barcodes!`);
-        } catch (error) {
-          showError(elements.batchError, `Error creating ZIP file: ${error.message}`);
-        } finally {
-          elements.batchLoading.style.display = 'none';
-        }
-      }
-
-      function initializeBarcodeGenerator() {
-        // Initialize color selection UI
-        initColorSelection();
-        
-        // Tabs functionality
-        elements.tabs.forEach(tab => {
-          tab.addEventListener('click', () => {
-            elements.tabs.forEach(t => {
-              t.classList.remove('active');
-              t.setAttribute('aria-selected', 'false');
+            
+            if (mobileMenuToggle) {
+                mobileMenuToggle.addEventListener('click', () => {
+                    mobileNav.classList.add('active');
+                    mobileBackdrop.classList.add('active');
+                    document.body.classList.add('menu-open');
+                });
+            } else {
+                console.warn('Mobile menu toggle not found');
+            }
+            
+            if (closeMobileMenu) {
+                closeMobileMenu.addEventListener('click', closeMobileNav);
+            }
+            
+            if (mobileBackdrop) {
+                mobileBackdrop.addEventListener('click', closeMobileNav);
+            }
+            
+            const links = document.querySelectorAll('.mobile-nav-link');
+            links.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    if (!link.classList.contains('dropdown-toggle')) {
+                        closeMobileNav();
+                    }
+                });
             });
-            elements.tabContents.forEach(c => c.classList.remove('active'));
-            tab.classList.add('active');
-            tab.setAttribute('aria-selected', 'true');
-            document.getElementById(`${tab.dataset.tab}-tab`).classList.add('active');
-          });
-          tab.addEventListener('keydown', e => {
-            if (e.key === 'Enter' || e.key === ' ') {
-              e.preventDefault();
-              tab.click();
+
+            const mobileDropdownToggles = document.querySelectorAll('.mobile-nav .dropdown-toggle');
+            mobileDropdownToggles.forEach(toggle => {
+                toggle.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const dropdownMenu = toggle.parentElement.querySelector('.dropdown-menu');
+                    const isOpen = dropdownMenu.classList.contains('active');
+                    document.querySelectorAll('.mobile-nav .dropdown-menu').forEach(menu => {
+                        menu.classList.remove('active');
+                        const otherToggle = menu.parentElement.querySelector('.dropdown-toggle');
+                        if (otherToggle) otherToggle.setAttribute('aria-expanded', 'false');
+                    });
+                    dropdownMenu.classList.toggle('active');
+                    toggle.setAttribute('aria-expanded', !isOpen);
+                });
+            });
+        }
+
+        function initDesktopDropdown() {
+            console.log('Initializing desktop dropdown');
+            const dropdownToggles = document.querySelectorAll('.nav-menu .dropdown-toggle');
+            dropdownToggles.forEach(toggle => {
+                toggle.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const dropdownMenu = toggle.parentElement.querySelector('.dropdown-menu');
+                    const isOpen = dropdownMenu.classList.contains('active');
+                    document.querySelectorAll('.nav-menu .dropdown-menu').forEach(menu => {
+                        menu.classList.remove('active');
+                        const otherToggle = menu.parentElement.querySelector('.dropdown-toggle');
+                        if (otherToggle) otherToggle.setAttribute('aria-expanded', 'false');
+                    });
+                    dropdownMenu.classList.toggle('active');
+                    toggle.setAttribute('aria-expanded', !isOpen);
+                });
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.dropdown')) {
+                    document.querySelectorAll('.nav-menu .dropdown-menu').forEach(menu => {
+                        menu.classList.remove('active');
+                        const toggle = menu.parentElement.querySelector('.dropdown-toggle');
+                        if (toggle) toggle.setAttribute('aria-expanded', 'false');
+                    });
+                }
+            });
+        }
+
+        function populateToolsDropdown(basePath, retryCount = 0, maxRetries = 2) {
+            console.log(`Fetching tools.json from ${basePath}/tools/tools.json (Attempt ${retryCount + 1}/${maxRetries + 1})`);
+            fetch(`${basePath}/tools/tools.json`)
+                .then(response => {
+                    if (!response.ok) throw new Error(`Failed to fetch tools.json: ${response.status} ${response.statusText}`);
+                    return response.json();
+                })
+                .then(tools => {
+                    const desktopDropdown = document.querySelector('.nav-menu .dropdown-menu');
+                    const mobileDropdown = document.querySelector('.mobile-nav .dropdown-menu');
+                    if (!desktopDropdown || !mobileDropdown) {
+                        console.warn('Dropdown menus not found');
+                        return;
+                    }
+                    const items = tools.map(tool => `
+                        <li>
+                            <a href="${tool.url}" class="dropdown-item" aria-label="${tool.description}" title="${tool.description}">
+                                <i class="${tool.icon}"></i> ${tool.category}
+                            </a>
+                        </li>
+                    `).join('');
+                    desktopDropdown.innerHTML = items;
+                    mobileDropdown.innerHTML = items;
+                    console.log('Tools dropdown populated successfully');
+                })
+                .catch(error => {
+                    console.error('Error loading tools:', error);
+                    if (retryCount < maxRetries) {
+                        console.log(`Retrying tools.json fetch (Attempt ${retryCount + 2})`);
+                        setTimeout(() => populateToolsDropdown(basePath, retryCount + 1, maxRetries), 1000);
+                    } else {
+                        const desktopDropdown = document.querySelector('.nav-menu .dropdown-menu .dropdown-error');
+                        const mobileDropdown = document.querySelector('.mobile-nav .dropdown-menu .dropdown-error');
+                        if (desktopDropdown) desktopDropdown.style.display = 'block';
+                        if (mobileDropdown) mobileDropdown.style.display = 'block';
+                    }
+                });
+        }
+
+        function initCookieConsent() {
+            console.log('Initializing cookie consent');
+            const COOKIE_CONSENT_KEY = 'cookieConsent';
+            
+            function getCookiePreferences() {
+                const preferences = localStorage.getItem(COOKIE_CONSENT_KEY);
+                return preferences ? JSON.parse(preferences) : { essential: true, analytics: false, advertising: false };
             }
-          });
+            
+            function saveCookiePreferences(preferences) {
+                try {
+                    localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(preferences));
+                } catch (e) {
+                    console.warn('Failed to save cookie preferences:', e);
+                }
+            }
+            
+            function showCookieConsent() {
+                const preferences = getCookiePreferences();
+                if (!preferences.hasOwnProperty('essential')) {
+                    const consent = document.getElementById('cookie-consent');
+                    if (consent) consent.style.display = 'block';
+                } else {
+                    const analyticsToggle = document.getElementById('analytics-toggle');
+                    const advertisingToggle = document.getElementById('advertising-toggle');
+                    if (analyticsToggle) analyticsToggle.checked = preferences.analytics;
+                    if (advertisingToggle) advertisingToggle.checked = preferences.advertising;
+                }
+            }
+            
+            function openCookieSettings() {
+                const preferences = getCookiePreferences();
+                const analyticsToggle = document.getElementById('analytics-toggle');
+                const advertisingToggle = document.getElementById('advertising-toggle');
+                if (analyticsToggle) analyticsToggle.checked = preferences.analytics;
+                if (advertisingToggle) advertisingToggle.checked = preferences.advertising;
+                const settings = document.getElementById('cookie-settings');
+                if (settings) settings.style.display = 'flex';
+            }
+            
+            function closeCookieSettings() {
+                const settings = document.getElementById('cookie-settings');
+                if (settings) settings.style.display = 'none';
+            }
+            
+            const acceptBtn = document.getElementById('accept-cookies');
+            if (acceptBtn) {
+                acceptBtn.addEventListener('click', () => {
+                    saveCookiePreferences({ essential: true, analytics: true, advertising: true });
+                    document.getElementById('cookie-consent').style.display = 'none';
+                });
+            }
+            
+            const rejectBtn = document.getElementById('reject-cookies');
+            if (rejectBtn) {
+                rejectBtn.addEventListener('click', () => {
+                    saveCookiePreferences({ essential: true, analytics: false, advertising: false });
+                    document.getElementById('cookie-consent').style.display = 'none';
+                });
+            }
+            
+            const openSettingsBtn = document.getElementById('open-settings');
+            if (openSettingsBtn) openSettingsBtn.addEventListener('click', openCookieSettings);
+            
+            const closeSettingsBtn = document.querySelector('.close-settings');
+            if (closeSettingsBtn) closeSettingsBtn.addEventListener('click', closeCookieSettings);
+            
+            const saveSettingsBtn = document.getElementById('save-settings');
+            if (saveSettingsBtn) {
+                saveSettingsBtn.addEventListener('click', () => {
+                    saveCookiePreferences({
+                        essential: true,
+                        analytics: document.getElementById('analytics-toggle').checked,
+                        advertising: document.getElementById('advertising-toggle').checked
+                    });
+                    closeCookieSettings();
+                    document.getElementById('cookie-consent').style.display = 'none';
+                });
+            }
+            
+            const openSettingsFooter = document.getElementById('open-settings-footer');
+            if (openSettingsFooter) {
+                openSettingsFooter.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    openCookieSettings();
+                });
+            }
+            
+            showCookieConsent();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('main.js loaded successfully');
+            // Determine base path based on current URL
+            const isTestPage = window.location.pathname.includes('/test/');
+            const basePath = "";
+            console.log(`Base path set to: ${basePath}`);
+
+            // Fetch Header
+            console.log(`Fetching header from ${basePath}/includes/header.html`);
+            fetch(`${basePath}/includes/header.html`)
+                .then(response => {
+                    if (!response.ok) throw new Error(`Failed to fetch header: ${response.status} ${response.statusText}`);
+                    return response.text();
+                })
+                .then(data => {
+                    const header = document.querySelector('#main-header');
+                    if (header) {
+                        header.innerHTML = data;
+                        console.log('Header loaded successfully');
+                        initMobileMenu();
+                        initDesktopDropdown();
+                        populateToolsDropdown(basePath);
+                    } else {
+                        console.warn('Header element not found');
+                        const headerError = document.querySelector('#main-header .error-message');
+                        if (headerError) headerError.style.display = 'block';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading header:', error);
+                    const headerError = document.querySelector('#main-header .error-message');
+                    if (headerError) headerError.style.display = 'block';
+                });
+            
+            // Fetch Footer
+            console.log(`Fetching footer from ${basePath}/includes/footer.html`);
+            fetch(`${basePath}/includes/footer.html`)
+                .then(response => {
+                    if (!response.ok) throw new Error(`Failed to fetch footer: ${response.status} ${response.statusText}`);
+                    return response.text();
+                })
+                .then(data => {
+                    const footer = document.querySelector('#main-footer');
+                    if (footer) {
+                        footer.innerHTML = data;
+                        console.log('Footer loaded successfully');
+                        initCookieConsent();
+                    } else {
+                        console.warn('Footer element not found');
+                        const footerError = document.querySelector('#main-footer .error-message');
+                        if (footerError) footerError.style.display = 'block';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading footer:', error);
+                    const footerError = document.querySelector('#main-footer .error-message');
+                    if (footerError) footerError.style.display = 'block';
+                });
         });
 
-        // Input events
-        elements.eanInput.addEventListener('keypress', e => {
-          if (e.key === 'Enter') elements.generateSingleBtn.click();
+        // Fallback if main.js fails to load correctly
+        window.addEventListener('error', (event) => {
+            if (event.filename.includes('main.js')) {
+                console.error('Script error in main.js:', event.message, event.lineno, event.colno);
+                const headerError = document.querySelector('#main-header .error-message');
+                const footerError = document.querySelector('#main-footer .error-message');
+                if (headerError) headerError.style.display = 'block';
+                if (footerError) footerError.style.display = 'block';
+            }
+        }); 
+    </script>
+
+    <!-- File Converter JavaScript -->
+    <script>
+        // ===== File Converter JavaScript =====
+        // Constants
+        const MAX_FILE_SIZE = 100 * 1024 * 1024; // 100MB
+        let ffmpeg = null;
+        let fetchFileFn = null; // To hold the fetchFile function
+        
+        // Mobile Menu Functionality
+        function initMobileMenu() {
+            const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+            const closeMobileMenu = document.getElementById('close-mobile-menu');
+            const mobileNav = document.getElementById('mobile-nav');
+            const mobileBackdrop = document.getElementById('mobile-backdrop');
+            
+            function openMobileMenu() {
+                mobileNav.classList.add('active');
+                mobileBackdrop.classList.add('active');
+                document.body.classList.add('menu-open');
+                document.querySelector('.mobile-nav-link').focus();
+            }
+            
+            function closeMobileMenuHandler() {
+                mobileNav.classList.remove('active');
+                mobileBackdrop.classList.remove('active');
+                document.body.classList.remove('menu-open');
+                mobileMenuToggle.focus();
+            }
+            
+            if (mobileMenuToggle) {
+                mobileMenuToggle.addEventListener('click', openMobileMenu);
+            }
+            
+            if (closeMobileMenu) {
+                closeMobileMenu.addEventListener('click', closeMobileMenuHandler);
+            }
+            
+            if (mobileBackdrop) {
+                mobileBackdrop.addEventListener('click', closeMobileMenuHandler);
+            }
+            
+            const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', closeMobileMenuHandler);
+            });
+            
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && mobileNav.classList.contains('active')) {
+                    closeMobileMenuHandler();
+                }
+            });
+        }
+
+        // Format file size
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+        
+        // Validate file size
+        function validateFileSize(file, maxSize = MAX_FILE_SIZE) {
+            if (file.size > maxSize) {
+                return {
+                    valid: false,
+                    message: `File size exceeds ${formatFileSize(maxSize)} limit. Please upload a smaller file.`
+                };
+            }
+            return { valid: true };
+        }
+        
+        // Initialize FFmpeg
+        async function initFFmpeg() {
+            if (!ffmpeg) {
+                // Dynamically import FFmpeg and fetchFile
+                const { createFFmpeg, fetchFile } = await import('https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.10.0/+esm');
+                ffmpeg = createFFmpeg({ 
+                    log: true,
+                    corePath: 'https://unpkg.com/@ffmpeg/core@0.10.0/dist/ffmpeg-core.js'
+                });
+                fetchFileFn = fetchFile; // Store fetchFile globally
+            }
+            
+            if (!ffmpeg.isLoaded()) {
+                await ffmpeg.load();
+            }
+            return ffmpeg;
+        }
+        
+        // Setup drag and drop for an upload area
+        function setupDragDrop(uploadArea, fileInput) {
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, preventDefaults, false);
+            });
+            
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            
+            function highlight() {
+                uploadArea.classList.add('drag-over');
+            }
+            
+            function unhighlight() {
+                uploadArea.classList.remove('drag-over');
+            }
+            
+            ['dragenter', 'dragover'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, highlight, false);
+            });
+            
+            ['dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, unhighlight, false);
+            });
+            
+            uploadArea.addEventListener('drop', handleDrop, false);
+            
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                fileInput.files = files;
+                
+                const event = new Event('change');
+                fileInput.dispatchEvent(event);
+            }
+            
+            uploadArea.addEventListener('click', () => {
+                fileInput.click();
+            });
+        }
+        
+        // Image Processing Functions
+        function initImageConverter() {
+            const imageFormatSelect = document.getElementById('imageFormat');
+            const convertImageBtn = document.getElementById('convertImageBtn');
+            const batchConvertBtn = document.getElementById('batchConvertBtn');
+            const imageUpload = document.getElementById('imageFileUpload');
+            const imageThumbnails = document.getElementById('imageThumbnails');
+            const imageError = document.getElementById('imageError');
+            const imageErrorText = document.getElementById('imageErrorText');
+            const imageSuccess = document.getElementById('imageSuccess');
+            const imageProcessing = document.getElementById('imageProcessing');
+            
+            // Create thumbnail
+            function createThumbnail(file) {
+                return new Promise((resolve) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        const maxSize = 120;
+                        
+                        let width = img.width;
+                        let height = img.height;
+                        
+                        if (width > height) {
+                            if (width > maxSize) {
+                                height *= maxSize / width;
+                                width = maxSize;
+                            }
+                        } else {
+                            if (height > maxSize) {
+                                width *= maxSize / height;
+                                height = maxSize;
+                            }
+                        }
+                        
+                        canvas.width = width;
+                        canvas.height = height;
+                        ctx.drawImage(img, 0, 0, width, height);
+                        
+                        resolve(canvas.toDataURL('image/jpeg', 0.7));
+                    };
+                    img.src = URL.createObjectURL(file);
+                });
+            }
+            
+            // Process image (convert format)
+            async function processImage(file) {
+                return new Promise((resolve, reject) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        canvas.width = img.width;
+                        canvas.height = img.height;
+                        ctx.clearRect(0, 0, canvas.width, canvas.height);
+                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                        
+                        const format = imageFormatSelect.value;
+                        canvas.toBlob(blob => {
+                            if (blob) {
+                                resolve(blob);
+                            } else {
+                                reject(new Error('Failed to convert image'));
+                            }
+                        }, `image/${format}`);
+                    };
+                    img.onerror = reject;
+                    img.src = URL.createObjectURL(file);
+                });
+            }
+            
+            // Convert single image
+            convertImageBtn.addEventListener('click', async () => {
+                if (!imageUpload.files.length) return;
+                
+                try {
+                    const file = imageUpload.files[0];
+                    
+                    // Validate file size
+                    const validation = validateFileSize(file);
+                    if (!validation.valid) {
+                        imageErrorText.textContent = validation.message;
+                        imageError.style.display = 'block';
+                        return;
+                    }
+                    
+                    // Show processing UI
+                    imageProcessing.style.display = 'block';
+                    imageError.style.display = 'none';
+                    imageSuccess.style.display = 'none';
+                    
+                    const blob = await processImage(file);
+                    
+                    // Trigger download without showing preview
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `converted.${imageFormatSelect.value}`;
+                    document.body.appendChild(a);
+                    a.click();
+                    
+                    // Clean up
+                    setTimeout(() => {
+                        document.body.removeChild(a);
+                        URL.revokeObjectURL(url);
+                    }, 100);
+                    
+                    // Show success
+                    imageProcessing.style.display = 'none';
+                    imageSuccess.style.display = 'block';
+                } catch (error) {
+                    imageErrorText.textContent = `Conversion failed: ${error.message || 'Unknown error'}`;
+                    imageError.style.display = 'block';
+                    imageProcessing.style.display = 'none';
+                }
+            });
+            
+            // Batch convert images
+            batchConvertBtn.addEventListener('click', async () => {
+                if (!imageUpload.files.length) return;
+                
+                try {
+                    // Show processing UI
+                    imageProcessing.style.display = 'block';
+                    imageError.style.display = 'none';
+                    imageSuccess.style.display = 'none';
+                    
+                    const zip = new JSZip();
+                    const format = imageFormatSelect.value;
+                    
+                    for (let i = 0; i < imageUpload.files.length; i++) {
+                        const file = imageUpload.files[i];
+                        
+                        // Validate file size
+                        const validation = validateFileSize(file);
+                        if (!validation.valid) {
+                            imageErrorText.textContent = validation.message;
+                            imageError.style.display = 'block';
+                            continue;
+                        }
+                        
+                        const blob = await processImage(file);
+                        zip.file(`converted-${i+1}.${format}`, blob);
+                    }
+                    
+                    const zipBlob = await zip.generateAsync({type: 'blob'});
+                    saveAs(zipBlob, 'converted-images.zip');
+                    
+                    // Show success
+                    imageProcessing.style.display = 'none';
+                    imageSuccess.style.display = 'block';
+                } catch (error) {
+                    imageErrorText.textContent = `Batch conversion failed: ${error.message || 'Unknown error'}`;
+                    imageError.style.display = 'block';
+                    imageProcessing.style.display = 'none';
+                }
+            });
+            
+            // Handle file upload
+            imageUpload.addEventListener('change', async () => {
+                if (!imageUpload.files.length) return;
+                
+                try {
+                    // Clear thumbnails
+                    imageThumbnails.innerHTML = '';
+                    
+                    // Create thumbnails for all files
+                    for (let i = 0; i < imageUpload.files.length; i++) {
+                        const file = imageUpload.files[i];
+                        const thumbnail = await createThumbnail(file);
+                        
+                        const thumbnailContainer = document.createElement('div');
+                        thumbnailContainer.className = 'thumbnail-container';
+                        thumbnailContainer.innerHTML = `
+                            <img src="${thumbnail}" class="thumbnail">
+                            <div class="thumbnail-overlay">${file.name}</div>
+                            <div class="thumbnail-remove" data-index="${i}">×</div>
+                        `;
+                        imageThumbnails.appendChild(thumbnailContainer);
+                        
+                        // Add remove functionality
+                        thumbnailContainer.querySelector('.thumbnail-remove').addEventListener('click', function() {
+                            const index = parseInt(this.getAttribute('data-index'));
+                            const newFiles = Array.from(imageUpload.files);
+                            newFiles.splice(index, 1);
+                            
+                            // Create new FileList
+                            const dataTransfer = new DataTransfer();
+                            newFiles.forEach(file => dataTransfer.items.add(file));
+                            imageUpload.files = dataTransfer.files;
+                            
+                            // Trigger change event to update UI
+                            const event = new Event('change');
+                            imageUpload.dispatchEvent(event);
+                        });
+                    }
+                } catch (error) {
+                    imageErrorText.textContent = `Error loading image: ${error.message || 'Unknown error'}`;
+                    imageError.style.display = 'block';
+                }
+            });
+            
+            // Setup drag and drop
+            setupDragDrop(document.getElementById('imageUploadArea'), imageUpload);
+        }
+        
+        // Audio Converter
+        function initAudioConverter() {
+            const audioUpload = document.getElementById('audioFileUpload');
+            const audioFileList = document.getElementById('audioFileList');
+            const audioFormatSelect = document.getElementById('audioFormat');
+            const convertAudioBtn = document.getElementById('convertAudioBtn');
+            const downloadAudioBtn = document.getElementById('downloadAudioBtn');
+            const audioPlayer = document.getElementById('audioPlayer');
+            const audioPreview = document.getElementById('audioPreview');
+            const audioProcessing = document.getElementById('audioProcessing');
+            const audioSuccess = document.getElementById('audioSuccess');
+            const audioError = document.getElementById('audioError');
+            const audioErrorText = document.getElementById('audioErrorText');
+            const audioProgressContainer = document.getElementById('audioProgressContainer');
+            const audioProgressBar = document.getElementById('audioProgressBar');
+            const audioProgressPercent = document.getElementById('audioProgressPercent');
+            const audioProgressMessage = document.getElementById('audioProgressMessage');
+            const audioCancelBtn = document.getElementById('audioCancelBtn');
+            
+            let currentFile = null;
+            
+            // Handle file input change
+            audioUpload.addEventListener('change', () => {
+                audioFileList.innerHTML = '';
+                if (audioUpload.files.length) {
+                    currentFile = audioUpload.files[0];
+                    const listItem = document.createElement('div');
+                    listItem.className = 'file-item';
+                    listItem.innerHTML = `
+                        <div class="file-info">
+                            <i class="fas fa-file-audio file-icon"></i>
+                            <div class="file-details">
+                                <div class="file-name">${currentFile.name}</div>
+                                <div class="file-size">${formatFileSize(currentFile.size)}</div>
+                            </div>
+                        </div>
+                    `;
+                    audioFileList.appendChild(listItem);
+                }
+            });
+            
+            // Convert button handler
+            convertAudioBtn.addEventListener('click', async () => {
+                if (!currentFile) return;
+                
+                try {
+                    // Validate file size
+                    const validation = validateFileSize(currentFile);
+                    if (!validation.valid) {
+                        audioErrorText.textContent = validation.message;
+                        audioError.style.display = 'block';
+                        return;
+                    }
+                    
+                    // Show processing UI
+                    audioProcessing.style.display = 'block';
+                    audioError.style.display = 'none';
+                    audioSuccess.style.display = 'none';
+                    audioProgressContainer.style.display = 'flex';
+                    
+                    const format = audioFormatSelect.value;
+                    const ffmpeg = await initFFmpeg();
+                    
+                    // Set up progress handler
+                    ffmpeg.setProgress(({ ratio }) => {
+                        const percent = Math.round(ratio * 100);
+                        audioProgressBar.style.width = `${percent}%`;
+                        audioProgressPercent.textContent = `${percent}%`;
+                        audioProgressMessage.textContent = `Converting... ${percent}%`;
+                    });
+                    
+                    // Write file to FFmpeg FS
+                    const inputExt = currentFile.name.split('.').pop() || 'mp3';
+                    const inputName = `input.${inputExt}`;
+                    const outputName = `output.${format}`;
+                    ffmpeg.FS('writeFile', inputName, await fetchFileFn(currentFile));
+                    
+                    // Run conversion command
+                    await ffmpeg.run('-i', inputName, outputName);
+                    
+                    // Read output file
+                    const data = ffmpeg.FS('readFile', outputName);
+                    
+                    // Create blob and URL
+                    const blob = new Blob([data.buffer], { type: `audio/${format}` });
+                    const url = URL.createObjectURL(blob);
+                    
+                    // Set up player and download link
+                    audioPlayer.src = url;
+                    audioPreview.style.display = 'block';
+                    downloadAudioBtn.href = url;
+                    downloadAudioBtn.download = `converted.${format}`;
+                    
+                    // Clean up FFmpeg files
+                    ffmpeg.FS('unlink', inputName);
+                    ffmpeg.FS('unlink', outputName);
+                    
+                    // Show success
+                    audioProcessing.style.display = 'none';
+                    audioSuccess.style.display = 'block';
+                    audioProgressContainer.style.display = 'none';
+                    
+                } catch (error) {
+                    console.error('Audio conversion error:', error);
+                    audioErrorText.textContent = `Conversion failed: ${error.message || 'Unknown error'}`;
+                    audioError.style.display = 'block';
+                    audioProcessing.style.display = 'none';
+                    audioProgressContainer.style.display = 'none';
+                }
+            });
+            
+            // Cancel button
+            audioCancelBtn.addEventListener('click', () => {
+                audioProgressContainer.style.display = 'none';
+                audioProcessing.style.display = 'none';
+            });
+            
+            // Setup drag and drop
+            setupDragDrop(document.getElementById('audioUploadArea'), audioUpload);
+        }
+        
+        // Video Converter
+        function initVideoConverter() {
+            const videoUpload = document.getElementById('videoFileUpload');
+            const videoFileList = document.getElementById('videoFileList');
+            const videoFormatSelect = document.getElementById('videoFormat');
+            const convertVideoBtn = document.getElementById('convertVideoBtn');
+            const downloadVideoBtn = document.getElementById('downloadVideoBtn');
+            const videoPlayer = document.getElementById('videoPlayer');
+            const videoPreview = document.getElementById('videoPreview');
+            const videoProcessing = document.getElementById('videoProcessing');
+            const videoSuccess = document.getElementById('videoSuccess');
+            const videoError = document.getElementById('videoError');
+            const videoErrorText = document.getElementById('videoErrorText');
+            const videoProgressContainer = document.getElementById('videoProgressContainer');
+            const videoProgressBar = document.getElementById('videoProgressBar');
+            const videoProgressPercent = document.getElementById('videoProgressPercent');
+            const videoProgressMessage = document.getElementById('videoProgressMessage');
+            const videoCancelBtn = document.getElementById('videoCancelBtn');
+            
+            let currentFile = null;
+            
+            // Handle file input change
+            videoUpload.addEventListener('change', () => {
+                videoFileList.innerHTML = '';
+                if (videoUpload.files.length) {
+                    currentFile = videoUpload.files[0];
+                    const listItem = document.createElement('div');
+                    listItem.className = 'file-item';
+                    listItem.innerHTML = `
+                        <div class="file-info">
+                            <i class="fas fa-file-video file-icon"></i>
+                            <div class="file-details">
+                                <div class="file-name">${currentFile.name}</div>
+                                <div class="file-size">${formatFileSize(currentFile.size)}</div>
+                            </div>
+                        </div>
+                    `;
+                    videoFileList.appendChild(listItem);
+                }
+            });
+            
+            // Convert button handler
+            convertVideoBtn.addEventListener('click', async () => {
+                if (!currentFile) return;
+                
+                try {
+                    // Validate file size
+                    const validation = validateFileSize(currentFile);
+                    if (!validation.valid) {
+                        videoErrorText.textContent = validation.message;
+                        videoError.style.display = 'block';
+                        return;
+                    }
+                    
+                    // Show processing UI
+                    videoProcessing.style.display = 'block';
+                    videoError.style.display = 'none';
+                    videoSuccess.style.display = 'none';
+                    videoProgressContainer.style.display = 'flex';
+                    
+                    const format = videoFormatSelect.value;
+                    const ffmpeg = await initFFmpeg();
+                    
+                    // Set up progress handler
+                    ffmpeg.setProgress(({ ratio }) => {
+                        const percent = Math.round(ratio * 100);
+                        videoProgressBar.style.width = `${percent}%`;
+                        videoProgressPercent.textContent = `${percent}%`;
+                        videoProgressMessage.textContent = `Converting... ${percent}%`;
+                    });
+                    
+                    // Write file to FFmpeg FS
+                    const inputExt = currentFile.name.split('.').pop() || 'mp4';
+                    const inputName = `input.${inputExt}`;
+                    const outputName = `output.${format}`;
+                    ffmpeg.FS('writeFile', inputName, await fetchFileFn(currentFile));
+                    
+                    // Run conversion command
+                    await ffmpeg.run('-i', inputName, outputName);
+                    
+                    // Read output file
+                    const data = ffmpeg.FS('readFile', outputName);
+                    
+                    // Create blob and URL
+                    let mimeType;
+                    if (format === 'mp4') mimeType = 'video/mp4';
+                    else if (format === 'webm') mimeType = 'video/webm';
+                    else if (format === 'gif') mimeType = 'image/gif';
+                    
+                    const blob = new Blob([data.buffer], { type: mimeType });
+                    const url = URL.createObjectURL(blob);
+                    
+                    // Set up player and download link
+                    videoPlayer.src = url;
+                    videoPreview.style.display = 'block';
+                    downloadVideoBtn.href = url;
+                    downloadVideoBtn.download = `converted.${format}`;
+                    
+                    // Clean up FFmpeg files
+                    ffmpeg.FS('unlink', inputName);
+                    ffmpeg.FS('unlink', outputName);
+                    
+                    // Show success
+                    videoProcessing.style.display = 'none';
+                    videoSuccess.style.display = 'block';
+                    videoProgressContainer.style.display = 'none';
+                    
+                } catch (error) {
+                    console.error('Video conversion error:', error);
+                    videoErrorText.textContent = `Conversion failed: ${error.message || 'Unknown error'}`;
+                    videoError.style.display = 'block';
+                    videoProcessing.style.display = 'none';
+                    videoProgressContainer.style.display = 'none';
+                }
+            });
+            
+            // Cancel button
+            videoCancelBtn.addEventListener('click', () => {
+                videoProgressContainer.style.display = 'none';
+                videoProcessing.style.display = 'none';
+            });
+            
+            // Setup drag and drop
+            setupDragDrop(document.getElementById('videoUploadArea'), videoUpload);
+        }
+        
+        // Initialize everything when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            initImageConverter();
+            initAudioConverter();
+            initVideoConverter();
+            
+            // Tab Switching
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    tab.classList.add('active');
+                    const contentId = `${tab.dataset.tab}-tab`;
+                    document.getElementById(contentId).classList.add('active');
+                });
+            });
         });
-
-        elements.customInput.addEventListener('keypress', e => {
-          if (e.key === 'Enter') elements.generateCustomBtn.click();
-        });
-
-        // Button click handlers
-        elements.generateSingleBtn.addEventListener('click', () => generateBarcode({
-          canvas: elements.singleCanvas,
-          code: elements.eanInput.value.trim(),
-          type: elements.eanType.value,
-          errorElement: elements.singleError,
-          successElement: elements.singleSuccess,
-          downloadButton: elements.downloadBtn,
-          svgDownloadButton: elements.downloadSvgBtn,
-          loadingElement: elements.singleLoading
-        }));
-
-        elements.downloadBtn.addEventListener('click', () => downloadBarcode(elements.singleCanvas, elements.singleError));
-        elements.downloadSvgBtn.addEventListener('click', () => downloadSVG(elements.singleCanvas, elements.singleError));
-
-        elements.generateBatchBtn.addEventListener('click', generateBatchEANs);
-
-        elements.generateCustomBtn.addEventListener('click', () => {
-          const code = elements.customInput.value.trim();
-          if (!code) {
-            showError(elements.customError, 'Please enter custom text for the barcode');
-            return;
-          }
-          generateBarcode({
-            canvas: elements.customCanvas,
-            code,
-            type: elements.customType.value,
-            errorElement: elements.customError,
-            successElement: elements.customSuccess,
-            downloadButton: elements.customDownloadBtn,
-            svgDownloadButton: elements.customSvgDownloadBtn,
-            loadingElement: elements.customLoading
-          });
-        });
-
-        elements.customDownloadBtn.addEventListener('click', () => downloadBarcode(elements.customCanvas, elements.customError));
-        elements.customSvgDownloadBtn.addEventListener('click', () => downloadSVG(elements.customCanvas, elements.customError));
-      }
-      
-      initializeBarcodeGenerator();
-    }
-
-    // Initialize everything when DOM is loaded
-    document.addEventListener('DOMContentLoaded', () => {
-      initBarcodeGenerator();
-    });
-  </script>
+    </script>
 </body>
 </html>
