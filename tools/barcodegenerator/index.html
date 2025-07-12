@@ -28,236 +28,12 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
   
+  <!-- Shared CSS -->
+  <link rel="stylesheet" href="/css/styles.css">
+  
+  <!-- Barcode Generator Specific Styles -->
   <style>
-    :root {
-      --primary: #4361ee;
-      --primary-dark: #3a56d4;
-      --secondary: #7209b7;
-      --accent: #f72585;
-      --light: #f8f9fa;
-      --dark: #212529;
-      --gray: #6c757d;
-      --light-gray: #e9ecef;
-      --border-radius: 12px;
-      --box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-      --transition: all 0.3s ease;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, var(--light) 0%, #f0f4ff 100%);
-      color: var(--dark);
-      line-height: 1.6;
-      min-height: 100vh;
-      transition: transform 0.4s ease;
-    }
-    
-    body.menu-open {
-      overflow: hidden;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-
-    /* Header & Navigation */
-    header {
-      background: white;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-
-    .header-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px 0;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: var(--primary);
-      text-decoration: none;
-      z-index: 2001;
-    }
-
-    .logo i {
-      margin-right: 10px;
-      font-size: 2.2rem;
-    }
-
-    .nav-container {
-      display: flex;
-      align-items: center;
-    }
-
-    .nav-menu {
-      display: flex;
-      list-style: none;
-      margin-right: 20px;
-    }
-
-    .nav-item {
-      position: relative;
-      margin: 0 15px;
-    }
-
-    .nav-link {
-      padding: 10px 15px;
-      color: var(--dark);
-      text-decoration: none;
-      font-weight: 500;
-      border-radius: var(--border-radius);
-      transition: var(--transition);
-      display: flex;
-      align-items: center;
-    }
-
-    .nav-link i {
-      margin-right: 8px;
-    }
-
-    .nav-link:hover, .nav-link:focus {
-      background: rgba(67, 97, 238, 0.1);
-      color: var(--primary);
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-
-    .mobile-menu-btn {
-      display: none;
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      color: var(--dark);
-      cursor: pointer;
-      padding: 10px;
-      border-radius: 5px;
-      z-index: 2001;
-    }
-
-    .mobile-menu-btn:hover, .mobile-menu-btn:focus {
-      background: rgba(67, 97, 238, 0.1);
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-    
-    /* Mobile Menu Backdrop */
-    .mobile-backdrop {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      z-index: 1999;
-      display: none;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-    
-    .mobile-backdrop.active {
-      display: block;
-      opacity: 1;
-    }
-    
-    /* Mobile Navigation */
-    .mobile-nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100vh;
-      background: white;
-      z-index: 2000;
-      transform: translateX(-100%);
-      transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-    }
-    
-    .mobile-nav.active {
-      transform: translateX(0);
-    }
-    
-    .mobile-nav-header {
-      padding: 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid var(--light-gray);
-    }
-    
-    .close-mobile-menu {
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      color: var(--dark);
-      cursor: pointer;
-      padding: 5px;
-      border-radius: 5px;
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    .close-mobile-menu:hover, .close-mobile-menu:focus {
-      background: rgba(0, 0, 0, 0.05);
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-    
-    .mobile-nav-menu {
-      list-style: none;
-      padding: 20px;
-      flex: 1;
-    }
-    
-    .mobile-nav-item {
-      margin-bottom: 10px;
-    }
-    
-    .mobile-nav-link {
-      display: block;
-      padding: 15px 20px;
-      color: var(--dark);
-      text-decoration: none;
-      font-weight: 500;
-      border-radius: var(--border-radius);
-      transition: var(--transition);
-      font-size: 1.1rem;
-    }
-    
-    .mobile-nav-link:hover, .mobile-nav-link:focus {
-      background: rgba(67, 97, 238, 0.1);
-      color: var(--primary);
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-    
-    .mobile-nav-link i {
-      width: 24px;
-      text-align: center;
-      margin-right: 10px;
-    }
-
-    /* Barcode Generator Specific Styles */
+    /* Hero Section */
     .hero {
       padding: 60px 0 40px;
       text-align: center;
@@ -475,76 +251,6 @@
       border-left: 4px solid #27ae60;
     }
     
-    .size-group {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin: 1.5em 0;
-    }
-    
-    .size-controls {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      width: 100%;
-      max-width: 500px;
-      margin: 0.5em auto;
-    }
-    
-    .size-slider {
-      flex: 1;
-      height: 8px;
-      border-radius: 4px;
-      background: var(--light-gray);
-      outline: none;
-      -webkit-appearance: none;
-    }
-    
-    .size-slider::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      background: var(--primary);
-      cursor: pointer;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-      transition: var(--transition);
-    }
-    
-    .size-slider::-webkit-slider-thumb:hover {
-      transform: scale(1.2);
-    }
-    
-    .size-value {
-      min-width: 80px;
-      text-align: center;
-      font-weight: 600;
-      font-size: 1.1rem;
-      color: var(--primary);
-    }
-    
-    .format-info {
-      background: #fafbff;
-      border-left: 4px solid var(--primary);
-      padding: 15px 20px;
-      margin: 1.5em auto;
-      max-width: 500px;
-      text-align: left;
-      border-radius: 0 8px 8px 0;
-      font-size: 0.95em;
-      box-shadow: var(--box-shadow);
-    }
-    
-    .format-info ul {
-      padding-left: 25px;
-      margin: 0.5em 0;
-    }
-    
-    .format-info li {
-      margin-bottom: 8px;
-      color: #444;
-    }
-    
     .btn-group {
       display: flex;
       justify-content: center;
@@ -630,387 +336,6 @@
       color: #444;
     }
     
-    /* Practical Uses section - 4 cards per row, white text */
-    .uses-section {
-      background: linear-gradient(135deg, #4361ee, #7209b7);
-      color: white;
-      border-radius: var(--border-radius);
-      padding: 40px;
-      margin: 40px auto;
-      box-shadow: var(--box-shadow);
-      text-align: center;
-    }
-    
-    .uses-section, 
-    .uses-section * {
-      color: white !important;
-    }
-    
-    .uses-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
-      margin-top: 25px;
-    }
-    
-    .use-item {
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: var(--border-radius);
-      padding: 25px;
-      text-align: center;
-      backdrop-filter: blur(5px);
-    }
-    
-    .use-item i {
-      font-size: 2.5rem;
-      margin-bottom: 20px;
-    }
-    
-    .use-item h3 {
-      font-size: 1.3rem;
-      margin-bottom: 15px;
-    }
-    
-    /* Footer */
-    footer {
-      background: linear-gradient(135deg, var(--light) 0%, #f0f4ff 100%);
-      color: #000;
-      padding: 60px 0 30px;
-    }
-
-    .footer-bottom {
-      border-top: 1px solid rgba(0, 0, 0, 0.1);
-      padding-top: 30px;
-      text-align: center;
-    }
-
-    .footer-bottom a {
-      color: #000;
-      text-decoration: none;
-      transition: var(--transition);
-      font-weight: 600;
-      font-size: 1.1rem;
-      margin: 0 10px;
-    }
-
-    .footer-bottom a:hover, .footer-bottom a:focus {
-      color: var(--primary);
-      text-decoration: underline;
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-
-    .footer-links-row {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-    }
-    
-    .footer-bottom p {
-      color: #000;
-      font-weight: 600;
-      font-size: 1.1rem;
-      margin: 0;
-    }
-
-    /* Cookie Consent Styles */
-    #cookie-consent {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 95%;
-      max-width: 800px;
-      background: var(--light);
-      border-radius: var(--border-radius);
-      box-shadow: var(--box-shadow);
-      padding: 20px;
-      z-index: 1000;
-      display: none;
-    }
-
-    .cookie-content {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 15px;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .cookie-text {
-      flex: 1;
-      min-width: 300px;
-      color: var(--dark);
-    }
-
-    .cookie-text p {
-      margin-bottom: 10px;
-      font-size: 0.95rem;
-      color: #444;
-    }
-
-    .cookie-text a {
-      color: var(--primary);
-      text-decoration: none;
-    }
-
-    .cookie-text a:hover, .cookie-text a:focus {
-      text-decoration: underline;
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-
-    .cookie-buttons {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .cookie-btn {
-      padding: 10px 20px;
-      border-radius: 50px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: var(--transition);
-      font-size: 0.9rem;
-      border: none;
-      min-width: 180px;
-    }
-
-    .cookie-btn:focus {
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-
-    .reject-btn {
-      background: var(--light-gray);
-      color: var(--dark);
-    }
-
-    .reject-btn:hover {
-      background: #e0e0e0;
-    }
-
-    .accept-btn {
-      background: var(--primary);
-      color: white;
-    }
-
-    .accept-btn:hover {
-      background: var(--primary-dark);
-    }
-
-    .cookie-settings-btn {
-      background: transparent;
-      color: var(--gray);
-      text-decoration: underline;
-      border: none;
-      cursor: pointer;
-      padding: 0;
-      margin-top: 10px;
-      font-size: 0.85rem;
-    }
-
-    .cookie-settings-btn:hover, .cookie-settings-btn:focus {
-      color: var(--dark);
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-
-    #cookie-settings {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.7);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 2000;
-      animation: fadeIn 0.3s ease-out;
-    }
-
-    .settings-modal {
-      background: var(--light);
-      border-radius: var(--border-radius);
-      width: 95%;
-      max-width: 600px;
-      max-height: 90vh;
-      overflow-y: auto;
-      padding: 30px;
-      position: relative;
-      animation: slideUp 0.3s ease-out;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    @keyframes slideUp {
-      from { transform: translateY(20px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-
-    .settings-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-
-    .settings-header h2 {
-      font-size: 1.8rem;
-      margin: 0;
-    }
-
-    .close-settings {
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      cursor: pointer;
-      color: var(--gray);
-      transition: var(--transition);
-      padding: 5px;
-      border-radius: 5px;
-    }
-
-    .close-settings:hover, .close-settings:focus {
-      color: var(--dark);
-      background: rgba(0, 0, 0, 0.05);
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-
-    .settings-content {
-      margin-bottom: 20px;
-    }
-
-    .cookie-type {
-      margin-bottom: 20px;
-      padding-bottom: 15px;
-      border-bottom: 1px solid var(--light-gray);
-    }
-
-    .cookie-type-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-
-    .cookie-type h3 {
-      margin: 0;
-      font-size: 1.2rem;
-    }
-
-    .toggle-switch {
-      position: relative;
-      display: inline-block;
-      width: 50px;
-      height: 24px;
-    }
-
-    .toggle-switch input {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      opacity: 0;
-      cursor: pointer;
-      z-index: 1;
-    }
-
-    .slider {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: var(--gray);
-      transition: background-color 0.3s ease;
-      border-radius: 24px;
-    }
-
-    .slider:before {
-      position: absolute;
-      content: "";
-      height: 16px;
-      width: 16px;
-      left: 4px;
-      bottom: 4px;
-      background-color: white;
-      transition: transform 0.3s ease;
-      border-radius: 50%;
-    }
-
-    .toggle-switch input:checked + .slider {
-      background-color: var(--primary);
-    }
-
-    .toggle-switch input:checked + .slider:before {
-      transform: translateX(26px);
-    }
-
-    .toggle-switch input:focus + .slider {
-      box-shadow: 0 0 0 2px var(--primary-dark);
-    }
-
-    .toggle-switch input:disabled + .slider {
-      background-color: var(--light-gray);
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    .toggle-switch input:disabled + .slider:before {
-      background-color: #ddd;
-    }
-
-    .cookie-type p {
-      font-size: 0.9rem;
-      color: #444;
-      margin-bottom: 10px;
-    }
-
-    .settings-buttons {
-      display: flex;
-      justify-content: flex-end;
-      gap: 10px;
-    }
-
-    .save-settings {
-      background: var(--primary);
-      color: white;
-      border: none;
-      padding: 10px 25px;
-      border-radius: 50px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-
-    .save-settings:hover, .save-settings:focus {
-      background: var(--primary-dark);
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-    
-    /* Accessibility Improvements */
-    .sr-only {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      border: 0;
-    }
-    
     /* NEW: Simplified Customization Panel */
     .customization-panel {
       background: #f8f9ff;
@@ -1060,6 +385,56 @@
       font-size: 1rem;
     }
     
+    /* Visual marker for selected color */
+    .color-preview {
+      position: relative;
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+      transition: transform 0.2s ease;
+    }
+    
+    .color-preview:hover {
+      transform: scale(1.1);
+    }
+    
+    .color-preview::after {
+      content: "";
+      position: absolute;
+      top: -4px;
+      left: -4px;
+      right: -4px;
+      bottom: -4px;
+      border: 2px solid var(--primary);
+      border-radius: 50%;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+    
+    .color-preview.selected::after {
+      opacity: 1;
+    }
+    
+    .color-preview-container {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .color-value {
+      font-size: 0.9rem;
+      font-weight: 500;
+      min-width: 70px;
+      text-align: center;
+      padding: 5px 10px;
+      background: rgba(0, 0, 0, 0.05);
+      border-radius: 4px;
+    }
+    
     .transparent-bg-container {
       background: #f8f9fa;
       border-radius: 10px;
@@ -1076,38 +451,7 @@
       margin-top: 20px;
     }
     
-    /* Responsive Design */
-    @media (max-width: 992px) {
-      .nav-menu {
-        display: none;
-      }
-      
-      .mobile-menu-btn {
-        display: block;
-      }
-      
-      .guide-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .features {
-        grid-template-columns: 1fr;
-      }
-      
-      .uses-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (min-width: 993px) {
-      .mobile-nav {
-        display: none !important;
-      }
-      .mobile-backdrop {
-        display: none !important;
-      }
-    }
-
+    /* Responsive Design for Barcode Generator */
     @media (max-width: 768px) {
       .hero h1 {
         font-size: 2rem;
@@ -1115,24 +459,6 @@
       
       .section-title {
         font-size: 2rem;
-      }
-      
-      .footer-links-row {
-        flex-direction: column;
-        gap: 10px;
-      }
-      
-      .cookie-content {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      
-      .cookie-buttons {
-        width: 100%;
-      }
-      
-      .cookie-btn {
-        width: 100%;
       }
       
       .tab {
@@ -1152,24 +478,21 @@
         width: 100%;
       }
       
-      .uses-grid {
+      .features {
         grid-template-columns: 1fr;
+      }
+      
+      .guide-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .color-options {
+        flex-direction: column;
+        align-items: center;
       }
     }
 
     @media (max-width: 576px) {
-      .header-container {
-        padding: 15px 0;
-      }
-      
-      .logo {
-        font-size: 1.5rem;
-      }
-      
-      .logo i {
-        font-size: 1.8rem;
-      }
-      
       .hero {
         padding: 40px 0 20px;
       }
@@ -1193,138 +516,10 @@
   </style>
 </head>
 <body>
-  <!-- Header & Navigation -->
-  <header>
-    <div class="container">
-      <div class="header-container">
-        <a href="https://everytool.io/" class="logo" aria-label="EveryTool.io Home">
-          <i class="fas fa-tools"></i>
-          EveryTool.io
-        </a>
-        
-        <div class="nav-container">
-          <ul class="nav-menu">
-            <li class="nav-item">
-              <a href="https://everytool.io/" class="nav-link" aria-label="Home"><i class="fas fa-home"></i> Home</a>
-            </li>
-            <li class="nav-item">
-              <a href="/tools" class="nav-link" aria-label="Tools"><i class="fas fa-toolbox"></i> Tools</a>
-            </li>
-            <li class="nav-item">
-              <a href="/blog" class="nav-link" aria-label="Blog"><i class="fas fa-blog"></i> Blog</a>
-            </li>
-            <li class="nav-item">
-              <a href="/about" class="nav-link" aria-label="About"><i class="fas fa-address-card"></i> About</a>
-            </li>
-            <li class="nav-item">
-              <a href="/contact" class="nav-link" aria-label="Contact"><i class="fas fa-envelope"></i> Contact</a>
-            </li>
-          </ul>
-          <button class="mobile-menu-btn" id="mobile-menu-toggle" aria-label="Open mobile menu">
-            <i class="fas fa-bars"></i>
-          </button>
-        </div>
-      </div>
-    </div>
+  <!-- Header Placeholder -->
+  <header id="main-header">
+    <p class="error-message" style="display: none; color: red; text-align: center;">Failed to load header. Please try refreshing the page.</p>
   </header>
-
-  <!-- Mobile Menu Backdrop -->
-  <div class="mobile-backdrop" id="mobile-backdrop"></div>
-
-  <!-- Mobile Navigation -->
-  <div class="mobile-nav" id="mobile-nav">
-    <div class="mobile-nav-header">
-      <a href="https://everytool.io/" class="logo" aria-label="EveryTool.io Home">
-        <i class="fas fa-tools"></i>
-        EveryTool.io
-      </a>
-      <button class="close-mobile-menu" id="close-mobile-menu" aria-label="Close mobile menu">
-        <i class="fas fa-times"></i>
-      </button>
-    </div>
-    <ul class="mobile-nav-menu">
-      <li class="mobile-nav-item">
-        <a href="https://everytool.io/" class="mobile-nav-link" aria-label="Home"><i class="fas fa-home"></i> Home</a>
-      </li>
-      <li class="mobile-nav-item">
-        <a href="/tools" class="mobile-nav-link" aria-label="Tools"><i class="fas fa-toolbox"></i> Tools</a>
-      </li>
-      <li class="mobile-nav-item">
-        <a href="/blog" class="mobile-nav-link" aria-label="Blog"><i class="fas fa-blog"></i> Blog</a>
-      </li>
-      <li class="mobile-nav-item">
-        <a href="/about" class="mobile-nav-link" aria-label="About"><i class="fas fa-address-card"></i> About</a>
-      </li>
-      <li class="mobile-nav-item">
-        <a href="/contact" class="mobile-nav-link" aria-label="Contact"><i class="fas fa-envelope"></i> Contact</a>
-      </li>
-    </ul>
-  </div>
-
-  <!-- Cookie Consent Banner -->
-  <div id="cookie-consent" role="dialog" aria-labelledby="cookie-consent-banner" aria-describedby="cookie-consent-desc">
-    <div class="sr-only" id="cookie-consent-banner">Cookie Consent</div>
-    <div class="cookie-content" id="cookie-consent-desc">
-      <div class="cookie-text">
-        <p>We use cookies to enhance your experience and analyze site traffic. By clicking "Accept All", you consent to our use of cookies. 
-          <a href="/privacy-policy.html" aria-label="Learn more about our Privacy Policy">Learn more</a> in our Privacy Policy.
-        </p>
-        <button class="cookie-settings-btn" id="open-settings" aria-label="Open cookie settings">Cookie Settings</button>
-      </div>
-      <div class="cookie-buttons">
-        <button class="cookie-btn reject-btn" id="reject-cookies" aria-label="Reject non-essential cookies">Reject Non-Essential</button>
-        <button class="cookie-btn accept-btn" id="accept-cookies" aria-label="Accept all cookies">Accept All</button>
-      </div>
-    </div>
-  </div>
-
-  <div id="cookie-settings" role="dialog" aria-labelledby="cookie-settings-title" aria-describedby="cookie-settings-desc">
-    <div class="settings-modal">
-      <div class="settings-header">
-        <h2 id="cookie-settings-title"><i class="fas fa-cookie-bite"></i> Cookie Settings</h2>
-        <button class="close-settings" id="close-settings" aria-label="Close cookie settings">×</button>
-      </div>
-      <div class="settings-content">
-        <p id="cookie-settings-desc">You can set your preferences for how we and our partners use cookies and similar technologies.</p>
-        
-        <div class="cookie-type">
-          <div class="cookie-type-header">
-            <h3>Essential Cookies</h3>
-            <label class="toggle-switch" for="essential-toggle">
-              <input type="checkbox" id="essential-toggle" checked disabled aria-label="Essential cookies (always enabled, cannot be disabled)" aria-describedby="essential-desc">
-              <span class="slider"></span>
-            </label>
-          </div>
-          <p id="essential-desc">These cookies are necessary for the website to function and cannot be switched off.</p>
-        </div>
-        
-        <div class="cookie-type">
-          <div class="cookie-type-header">
-            <h3>Analytics Cookies</h3>
-            <label class="toggle-switch" for="analytics-toggle">
-              <input type="checkbox" id="analytics-toggle" aria-label="Analytics cookies toggle" aria-describedby="analytics-desc">
-              <span class="slider"></span>
-            </label>
-          </div>
-          <p id="analytics-desc">These cookies allow us to count visits and traffic sources so we can measure and improve the performance of our site.</p>
-        </div>
-        
-        <div class="cookie-type">
-          <div class="cookie-type-header">
-            <h3>Advertising Cookies</h3>
-            <label class="toggle-switch" for="advertising-toggle">
-              <input type="checkbox" id="advertising-toggle" aria-label="Advertising cookies toggle" aria-describedby="advertising-desc">
-              <span class="slider"></span>
-            </label>
-          </div>
-          <p id="advertising-desc">These cookies may be set through our site by our advertising partners to build a profile of your interests.</p>
-        </div>
-      </div>
-      <div class="settings-buttons">
-        <button class="save-settings" id="save-settings" aria-label="Save cookie settings">Save Settings</button>
-      </div>
-    </div>
-  </div>
 
   <!-- Hero Section -->
   <section class="hero">
@@ -1383,10 +578,6 @@
           <h3><i class="fas fa-bolt"></i> Generate Barcode</h3>
           <p>Click "Generate Barcode" to create your Barcode instantly.</p>
         </div>
-        <div class="guide-item">
-          <h3><i class="fas fa-download"></i> Download</h3>
-          <p>Download your barcode as PNG, SVG, or ZIP for batch generation.</p>
-        </div>
       </div>
     </div>
 
@@ -1402,11 +593,19 @@
           <div class="color-options">
             <div class="color-option">
               <label for="bar-color">Bar Color:</label>
-              <input type="color" id="bar-color" value="#000000">
+              <div class="color-preview-container">
+                <div class="color-preview selected" id="bar-color-preview" style="background-color: #000000;"></div>
+                <span class="color-value" id="bar-color-value">#000000</span>
+              </div>
+              <input type="color" id="bar-color" value="#000000" style="display: none;">
             </div>
             <div class="color-option">
               <label for="background-color">Background Color:</label>
-              <input type="color" id="background-color" value="#ffffff">
+              <div class="color-preview-container">
+                <div class="color-preview" id="background-color-preview" style="background-color: #ffffff;"></div>
+                <span class="color-value" id="background-color-value">#ffffff</span>
+              </div>
+              <input type="color" id="background-color" value="#ffffff" style="display: none;">
             </div>
           </div>
           
@@ -1417,8 +616,6 @@
             </label>
           </div>
         </div>
-        
-        <!-- Size Options Removed as requested -->
       </div>
       
       <div class="reset-btn">
@@ -1547,230 +744,82 @@
         <canvas id="custom-canvas" style="display: none;" aria-label="Generated custom barcode"></canvas>
       </div>
     </div>
+  </div>
 
-    <!-- Practical Uses section - 4 cards per row, white text -->
-    <div class="uses-section">
-      <h2><i class="fas fa-lightbulb"></i> Practical Uses for Barcodes</h2>
-      <p>Barcodes have countless applications across industries. Here are some popular uses:</p>
-      
-      <div class="uses-grid">
-        <div class="use-item">
-          <i class="fas fa-shopping-cart"></i>
-          <h3>Retail Products</h3>
-          <p>Use EAN-13 or UPC for product labeling and sales</p>
-        </div>
-        
-        <div class="use-item">
-          <i class="fas fa-warehouse"></i>
-          <h3>Inventory Tracking</h3>
-          <p>Code 128 or Code 39 for warehouse management</p>
-        </div>
-        
-        <div class="use-item">
-          <i class="fas fa-book"></i>
-          <h3>Library Books</h3>
-          <p>Code 39 for book tracking in libraries</p>
-        </div>
-        
-        <div class="use-item">
-          <i class="fas fa-prescription-bottle"></i>
-          <h3>Pharmacy Labels</h3>
-          <p>Pharmacode for medication packaging</p>
-        </div>
-        
-        <div class="use-item">
-          <i class="fas fa-id-card"></i>
-          <h3>Membership Cards</h3>
-          <p>Code 39 or Code 128 for member identification</p>
-        </div>
-        
-        <div class="use-item">
-          <i class="fas fa-tag"></i>
-          <h3>Asset Tagging</h3>
-          <p>Code 128 for equipment and asset management</p>
-        </div>
-        
-        <div class="use-item">
-          <i class="fas fa-truck"></i>
-          <h3>Shipping Labels</h3>
-          <p>ITF-14 for tracking packages and pallets</p>
-        </div>
-        
-        <div class="use-item">
-          <i class="fas fa-ticket-alt"></i>
-          <h3>Event Tickets</h3>
-          <p>Code 128 for secure event entry</p>
-        </div>
+  <!-- Footer Placeholder -->
+  <footer id="main-footer">
+    <p class="error-message" style="display: none; color: red; text-align: center;">Failed to load footer. Please try refreshing the page.</p>
+  </footer>
+
+  <!-- Cookie Consent Banner -->
+  <div id="cookie-consent" role="dialog" aria-labelledby="cookie-consent-banner" aria-describedby="cookie-consent-desc">
+    <div class="sr-only" id="cookie-consent-banner">Cookie Consent</div>
+    <div class="cookie-content" id="cookie-consent-desc">
+      <div class="cookie-text">
+        <p>We use cookies to enhance your experience and analyze site traffic. By clicking "Accept All", you consent to our use of cookies. 
+          <a href="/privacy-policy.html" aria-label="Learn more about our Privacy Policy">Learn more</a> in our Privacy Policy.
+        </p>
+        <button class="cookie-settings-btn" id="open-settings" aria-label="Open cookie settings">Cookie Settings</button>
+      </div>
+      <div class="cookie-buttons">
+        <button class="cookie-btn reject-btn" id="reject-cookies" aria-label="Reject non-essential cookies">Reject Non-Essential</button>
+        <button class="cookie-btn accept-btn" id="accept-cookies" aria-label="Accept all cookies">Accept All</button>
       </div>
     </div>
   </div>
 
-  <!-- Footer -->
-  <footer>
-    <div class="container">
-      <div class="footer-bottom">
-        <div class="footer-links-row">
-          <a href="/privacy" aria-label="Privacy Policy">Privacy Policy</a>
-          <a href="/terms" aria-label="Terms of Service">Terms of Service</a>
-          <a href="/gdpr" aria-label="GDPR Compliance">GDPR Compliance</a>
-          <a href="#" id="open-settings-footer" aria-label="Open cookie settings">Cookie Settings</a>
+  <!-- Cookie Settings Modal -->
+  <div id="cookie-settings" role="dialog" aria-labelledby="cookie-settings-title" aria-describedby="cookie-settings-desc">
+    <div class="settings-modal">
+      <div class="settings-header">
+        <h2 id="cookie-settings-title"><i class="fas fa-cookie-bite"></i> Cookie Settings</h2>
+        <button class="close-settings" id="close-settings" aria-label="Close cookie settings">×</button>
+      </div>
+      <div class="settings-content">
+        <p id="cookie-settings-desc">You can set your preferences for how we and our partners use cookies and similar technologies.</p>
+        
+        <div class="cookie-type">
+          <div class="cookie-type-header">
+            <h3>Essential Cookies</h3>
+            <label class="toggle-switch" for="essential-toggle">
+              <input type="checkbox" id="essential-toggle" checked disabled aria-label="Essential cookies (always enabled, cannot be disabled)" aria-describedby="essential-desc">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <p id="essential-desc">These cookies are necessary for the website to function and cannot be switched off.</p>
         </div>
-        <p>© 2025 EveryTool.io. All rights reserved.</p>
+        
+        <div class="cookie-type">
+          <div class="cookie-type-header">
+            <h3>Analytics Cookies</h3>
+            <label class="toggle-switch" for="analytics-toggle">
+              <input type="checkbox" id="analytics-toggle" aria-label="Analytics cookies toggle" aria-describedby="analytics-desc">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <p id="analytics-desc">These cookies allow us to count visits and traffic sources so we can measure and improve the performance of our site.</p>
+        </div>
+        
+        <div class="cookie-type">
+          <div class="cookie-type-header">
+            <h3>Advertising Cookies</h3>
+            <label class="toggle-switch" for="advertising-toggle">
+              <input type="checkbox" id="advertising-toggle" aria-label="Advertising cookies toggle" aria-describedby="advertising-desc">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <p id="advertising-desc">These cookies may be set through our site by our advertising partners to build a profile of your interests.</p>
+        </div>
+      </div>
+      <div class="settings-buttons">
+        <button class="save-settings" id="save-settings" aria-label="Save cookie settings">Save Settings</button>
       </div>
     </div>
-  </footer>
+  </div>
 
+  <!-- JavaScript -->
+  <script src="/js/main.js"></script>
   <script>
-    // Mobile Menu Functionality
-    function initMobileMenu() {
-      const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
-      const closeMobileMenu = document.getElementById('close-mobile-menu');
-      const mobileNav = document.getElementById('mobile-nav');
-      const mobileBackdrop = document.getElementById('mobile-backdrop');
-      
-      function openMobileMenu() {
-        mobileNav.classList.add('active');
-        mobileBackdrop.classList.add('active');
-        document.body.classList.add('menu-open');
-        document.body.style.overflow = 'hidden';
-      }
-      
-      function closeMobileMenuHandler() {
-        mobileNav.classList.remove('active');
-        mobileBackdrop.classList.remove('active');
-        document.body.classList.remove('menu-open');
-        document.body.style.overflow = '';
-      }
-      
-      if (mobileMenuToggle) {
-        mobileMenuToggle.addEventListener('click', openMobileMenu);
-      }
-      
-      if (closeMobileMenu) {
-        closeMobileMenu.addEventListener('click', closeMobileMenuHandler);
-      }
-      
-      if (mobileBackdrop) {
-        mobileBackdrop.addEventListener('click', closeMobileMenuHandler);
-      }
-      
-      // Close menu when clicking on links
-      const mobileLinks = document.querySelectorAll('.mobile-nav-link');
-      mobileLinks.forEach(link => {
-        link.addEventListener('click', closeMobileMenuHandler);
-      });
-      
-      // Close menu when pressing Escape key
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && mobileNav.classList.contains('active')) {
-          closeMobileMenuHandler();
-        }
-      });
-    }
-
-    // Cookie Consent Functionality
-    function initCookieConsent() {
-      const COOKIE_CONSENT_KEY = 'cookieConsent';
-      
-      function getCookiePreferences() {
-        const preferences = localStorage.getItem(COOKIE_CONSENT_KEY);
-        return preferences ? JSON.parse(preferences) : { essential: true, analytics: false, advertising: false };
-      }
-      
-      function saveCookiePreferences(preferences) {
-        try {
-          localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(preferences));
-        } catch (e) {
-          console.warn('Failed to save cookie preferences:', e);
-        }
-      }
-      
-      function checkCookieConsent() {
-        const preferences = getCookiePreferences();
-        if (!preferences || !preferences.hasOwnProperty('essential')) {
-          const consent = document.getElementById('cookie-consent');
-          if (consent) consent.style.display = 'block';
-        } else {
-          const analyticsToggle = document.getElementById('analytics-toggle');
-          const advertisingToggle = document.getElementById('advertising-toggle');
-          if (analyticsToggle) analyticsToggle.checked = preferences.analytics;
-          if (advertisingToggle) advertisingToggle.checked = preferences.advertising;
-        }
-      }
-      
-      function openCookieSettings() {
-        const preferences = getCookiePreferences();
-        const analyticsToggle = document.getElementById('analytics-toggle');
-        const advertisingToggle = document.getElementById('advertising-toggle');
-        if (analyticsToggle) analyticsToggle.checked = preferences.analytics;
-        if (advertisingToggle) advertisingToggle.checked = preferences.advertising;
-        const settings = document.getElementById('cookie-settings');
-        if (settings) settings.style.display = 'flex';
-        document.getElementById('analytics-toggle').focus();
-      }
-      
-      function closeCookieSettings() {
-        const settings = document.getElementById('cookie-settings');
-        if (settings) settings.style.display = 'none';
-        document.getElementById('open-settings').focus();
-      }
-      
-      // Set up event listeners
-      const acceptBtn = document.getElementById('accept-cookies');
-      if (acceptBtn) {
-        acceptBtn.addEventListener('click', () => {
-          saveCookiePreferences({
-            essential: true,
-            analytics: true,
-            advertising: true
-          });
-          document.getElementById('cookie-consent').style.display = 'none';
-        });
-      }
-      
-      const rejectBtn = document.getElementById('reject-cookies');
-      if (rejectBtn) {
-        rejectBtn.addEventListener('click', () => {
-          saveCookiePreferences({
-            essential: true,
-            analytics: false,
-            advertising: false
-          });
-          document.getElementById('cookie-consent').style.display = 'none';
-        });
-      }
-      
-      const openSettingsBtn = document.getElementById('open-settings');
-      if (openSettingsBtn) openSettingsBtn.addEventListener('click', openCookieSettings);
-      
-      const closeSettingsBtn = document.getElementById('close-settings');
-      if (closeSettingsBtn) closeSettingsBtn.addEventListener('click', closeCookieSettings);
-      
-      const saveSettingsBtn = document.getElementById('save-settings');
-      if (saveSettingsBtn) {
-        saveSettingsBtn.addEventListener('click', () => {
-          saveCookiePreferences({
-            essential: true,
-            analytics: document.getElementById('analytics-toggle').checked,
-            advertising: document.getElementById('advertising-toggle').checked
-          });
-          closeCookieSettings();
-          document.getElementById('cookie-consent').style.display = 'none';
-        });
-      }
-      
-      const openSettingsFooter = document.getElementById('open-settings-footer');
-      if (openSettingsFooter) {
-        openSettingsFooter.addEventListener('click', (e) => {
-          e.preventDefault();
-          openCookieSettings();
-        });
-      }
-      
-      // Initialize cookie preferences
-      checkCookieConsent();
-    }
-
     // Barcode Generator Functionality
     function initBarcodeGenerator() {
       // Constants
@@ -1806,8 +855,12 @@
         
         // Customization elements
         barColor: document.getElementById('bar-color'),
-        backgroundColor: document.getElementById('background-color'), // Changed from textColor to backgroundColor
+        backgroundColor: document.getElementById('background-color'),
         transparentBg: document.getElementById('transparent-bg'),
+        barColorPreview: document.getElementById('bar-color-preview'),
+        backgroundColorPreview: document.getElementById('background-color-preview'),
+        barColorValue: document.getElementById('bar-color-value'),
+        backgroundColorValue: document.getElementById('background-color-value')
       };
 
       const barcodeConfig = {
@@ -1821,14 +874,60 @@
         pharmacode: { min: 3, max: 131070, regex: /^\d+$/, format: 'pharmacode' }
       };
 
+      // Initialize color previews
+      function initColorSelection() {
+        // Set initial selection
+        elements.barColorPreview.classList.add('selected');
+        
+        // Bar color preview click handler
+        elements.barColorPreview.addEventListener('click', () => {
+          elements.barColor.click();
+          elements.barColorPreview.classList.add('selected');
+          elements.backgroundColorPreview.classList.remove('selected');
+        });
+        
+        // Background color preview click handler
+        elements.backgroundColorPreview.addEventListener('click', () => {
+          elements.backgroundColor.click();
+          elements.backgroundColorPreview.classList.add('selected');
+          elements.barColorPreview.classList.remove('selected');
+        });
+        
+        // Bar color input change handler
+        elements.barColor.addEventListener('input', () => {
+          const color = elements.barColor.value;
+          elements.barColorPreview.style.backgroundColor = color;
+          elements.barColorValue.textContent = color;
+        });
+        
+        // Background color input change handler
+        elements.backgroundColor.addEventListener('input', () => {
+          const color = elements.backgroundColor.value;
+          elements.backgroundColorPreview.style.backgroundColor = color;
+          elements.backgroundColorValue.textContent = color;
+        });
+      }
+      
       // Reset customization
       elements.resetCustomizationBtn.addEventListener('click', function() {
         // Reset color pickers
         elements.barColor.value = '#000000';
-        elements.backgroundColor.value = '#ffffff'; // Reset background to white
+        elements.backgroundColor.value = '#ffffff';
+        
+        // Update previews
+        elements.barColorPreview.style.backgroundColor = '#000000';
+        elements.backgroundColorPreview.style.backgroundColor = '#ffffff';
+        
+        // Update value displays
+        elements.barColorValue.textContent = '#000000';
+        elements.backgroundColorValue.textContent = '#ffffff';
         
         // Reset background
         elements.transparentBg.checked = false;
+        
+        // Reset selection state
+        elements.barColorPreview.classList.add('selected');
+        elements.backgroundColorPreview.classList.remove('selected');
       });
 
       function showError(element, message) {
@@ -1933,7 +1032,7 @@
             width: 2,
             height: isPharmacode ? height * 0.5 : height * 0.7,
             lineColor: elements.barColor.value,
-            textColor: elements.barColor.value, // Text color matches bar color
+            textColor: elements.barColor.value,
             background: elements.transparentBg.checked ? 'transparent' : elements.backgroundColor.value
           });
 
@@ -1978,7 +1077,7 @@
             width: 2,
             height: canvas.height * 0.7,
             lineColor: elements.barColor.value,
-            textColor: elements.barColor.value, // Text color matches bar color
+            textColor: elements.barColor.value,
             background: elements.transparentBg.checked ? 'transparent' : elements.backgroundColor.value
           });
 
@@ -2039,7 +1138,7 @@
                 width: 2,
                 height: isPharmacode ? height * 0.5 : height * 0.7,
                 lineColor: elements.barColor.value,
-                textColor: elements.barColor.value, // Text color matches bar color
+                textColor: elements.barColor.value,
                 background: elements.transparentBg.checked ? 'transparent' : elements.backgroundColor.value
               });
 
@@ -2064,6 +1163,9 @@
       }
 
       function initializeBarcodeGenerator() {
+        // Initialize color selection UI
+        initColorSelection();
+        
         // Tabs functionality
         elements.tabs.forEach(tab => {
           tab.addEventListener('click', () => {
@@ -2137,15 +1239,7 @@
 
     // Initialize everything when DOM is loaded
     document.addEventListener('DOMContentLoaded', () => {
-      initMobileMenu();
-      initCookieConsent();
       initBarcodeGenerator();
-      
-      // Check cookie consent status
-      const preferences = localStorage.getItem('cookieConsent');
-      if (!preferences) {
-        document.getElementById('cookie-consent').style.display = 'block';
-      }
     });
   </script>
 </body>
