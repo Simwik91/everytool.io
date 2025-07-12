@@ -3,19 +3,27 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>QR Code Generator with Logo Size Control - EveryTool.io</title>
+  <meta name="description" content="Free online video converter to MP4, WEBM, or GIF. Convert videos instantly in your browser with advanced settings for quality, resolution, and more. No signup required.">
+  <meta name="keywords" content="video converter, free video toolkit, online video converter, convert video to mp4, convert video to webm, convert video to gif, video toolkit">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="Free Video Converter - EveryTool.io">
+  <meta property="og:description" content="Convert videos to MP4, WEBM, or GIF with customizable settings. Free, fast, and secure in-browser processing.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://everytool.io/videoconverter">
+  <meta property="og:image" content="https://everytool.io/social-preview.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <title>Free Video Converter - EveryTool.io</title>
   
-  <!-- Performance Tuning -->
+  <!-- Performance Optimization -->
   <link rel="preconnect" href="https://cdnjs.cloudflare.com">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.rel='stylesheet'">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
   <!-- Shared CSS -->
   <link rel="stylesheet" href="/css/styles.css">
   
-  <!-- QR Generator Specific Styles -->
   <style>
     :root {
       --primary: #4361ee;
@@ -31,7 +39,512 @@
       --transition: all 0.3s ease;
     }
 
-    /* ... (all your existing styles remain unchanged) ... */
+    /* Video Converter Specific Styles */
+    .hero {
+      padding: 60px 0 40px;
+      text-align: center;
+    }
+
+    .hero-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      font-weight: 700;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1.2;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: var(--gray);
+      margin-bottom: 40px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .card {
+      background: var(--light);
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      padding: 30px;
+      margin-bottom: 30px;
+      transition: var(--transition);
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
+    }
+    
+    h2 {
+      font-size: 1.8rem;
+      margin-bottom: 25px;
+      color: var(--dark);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: center;
+    }
+    
+    h2 i {
+      color: var(--primary);
+    }
+    
+    h3 {
+      font-size: 1.4rem;
+      margin: 20px 0 15px;
+      color: var(--dark);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      justify-content: center;
+    }
+    
+    .tabs {
+      display: flex;
+      justify-content: center;
+      margin: 0 0 30px;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    
+    .tab {
+      padding: 12px 25px;
+      cursor: pointer;
+      background: var(--light-gray);
+      border-radius: 50px;
+      font-weight: 500;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1rem;
+    }
+    
+    .tab.active {
+      background: var(--primary);
+      color: white;
+    }
+    
+    .tab:hover:not(.active) {
+      background: #dbe4ff;
+    }
+    
+    .tab-content {
+      display: none;
+    }
+    
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.4s ease;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    input, select, button, textarea {
+      margin: 0.5em auto;
+      padding: 15px;
+      width: 100%;
+      font-size: 1rem;
+      border-radius: 10px;
+      border: 1px solid var(--light-gray);
+      background: var(--light);
+      display: block;
+      transition: var(--transition);
+      font-family: 'Poppins', sans-serif;
+    }
+    
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+    }
+    
+    button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      padding: 15px 20px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    
+    button:hover, button:focus {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+    
+    button:disabled {
+      background: #9ec5e6;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+    
+    .loading {
+      display: none;
+      text-align: center;
+      padding: 30px;
+    }
+    
+    .spinner {
+      border: 4px solid rgba(0, 0, 0, 0.1);
+      border-left-color: var(--primary);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 20px;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .error {
+      color: #e74c3c;
+      padding: 15px;
+      background: rgba(231, 76, 60, 0.1);
+      border-radius: var(--border-radius);
+      margin: 20px 0;
+      display: none;
+      border-left: 4px solid #e74c3c;
+    }
+    
+    .success {
+      color: #27ae60;
+      padding: 15px;
+      background: rgba(39, 174, 96, 0.1);
+      border-radius: var(--border-radius);
+      margin: 20px 0;
+      display: none;
+      border-left: 4px solid #27ae60;
+    }
+
+    .drag-drop-area {
+      width: 100%;
+      max-width: 500px;
+      margin: 2em auto;
+      padding: 2em;
+      border: 2px dashed var(--light-gray);
+      border-radius: var(--border-radius);
+      background: white;
+      color: var(--gray);
+      cursor: pointer;
+      transition: var(--transition);
+      text-align: center;
+      font-size: 1rem;
+    }
+
+    .drag-drop-area.drag-over {
+      background: #e6f0fa;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+    }
+
+    .drag-drop-area p {
+      margin: 0.5em 0;
+    }
+
+    .file-info {
+      width: 100%;
+      max-width: 500px;
+      margin: 1em auto;
+      padding: 15px;
+      background: var(--light);
+      border-radius: var(--border-radius);
+      text-align: left;
+    }
+
+    .file-detail {
+      display: flex;
+      justify-content: space-between;
+      margin: 0.3rem 0;
+      font-size: 0.9rem;
+    }
+
+    .settings-grid {
+      width: 100%;
+      max-width: 500px;
+      margin: 1em auto;
+    }
+
+    .setting-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .description {
+      font-size: 0.9em;
+      color: var(--gray);
+      margin-bottom: 0.5em;
+    }
+
+    .toggle-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 0.5em 0;
+    }
+
+    .toggle-switch {
+      position: relative;
+      width: 50px;
+      height: 24px;
+    }
+
+    .toggle-switch input {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+      z-index: 1;
+    }
+
+    .slider {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: var(--gray);
+      transition: background-color 0.3s ease;
+      border-radius: 24px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: transform 0.3s ease;
+      border-radius: 50%;
+    }
+
+    .toggle-switch input:checked + .slider {
+      background-color: var(--primary);
+    }
+
+    .toggle-switch input:checked + .slider:before {
+      transform: translateX(26px);
+    }
+
+    .toggle-switch input:focus + .slider {
+      box-shadow: 0 0 0 2px var(--primary-dark);
+    }
+
+    .toggle-switch input:disabled + .slider {
+      background-color: var(--light-gray);
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .toggle-switch input:disabled + .slider:before {
+      background-color: #ddd;
+    }
+
+    .progress-container {
+      width: 100%;
+      max-width: 500px;
+      margin: 1.5em auto;
+      padding: 15px;
+      background: var(--light);
+      border-radius: var(--border-radius);
+      display: none;
+    }
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+      font-size: 0.95rem;
+    }
+
+    .progress-bar {
+      height: 10px;
+      background: var(--light-gray);
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: 5px;
+      transition: width 0.4s ease;
+    }
+
+    .result-container {
+      width: 100%;
+      max-width: 500px;
+      margin: 1.5em auto;
+      padding: 1.2rem;
+      background: rgba(39, 174, 96, 0.08);
+      border: 1px dashed #27ae60;
+      border-radius: var(--border-radius);
+      display: none;
+    }
+
+    .download-btn {
+      background: #27ae60;
+      color: white;
+      padding: 15px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: var(--transition);
+    }
+
+    .download-btn:hover, .download-btn:focus {
+      background: #219653;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+      outline: 2px solid #27ae60;
+      outline-offset: 2px;
+    }
+    
+    /* Features grid - 2 cards per row */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 25px;
+      margin: 30px 0;
+    }
+    
+    .feature {
+      background: var(--light);
+      border-radius: var(--border-radius);
+      padding: 25px;
+      text-align: center;
+      box-shadow: var(--box-shadow);
+      transition: var(--transition);
+    }
+    
+    .feature:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    }
+    
+    .feature i {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      color: var(--primary);
+    }
+    
+    .guide-section {
+      background: var(--light);
+      border-radius: var(--border-radius);
+      padding: 40px;
+      margin: 40px auto;
+      box-shadow: var(--box-shadow);
+      text-align: center;
+    }
+    
+    .guide-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+      margin-top: 25px;
+    }
+    
+    .guide-item {
+      padding: 25px;
+      background: #f8f9ff;
+      border-radius: var(--border-radius);
+      text-align: center;
+      font-size: 14px;
+    }
+    
+    .guide-item h3 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: center;
+    }
+    
+    .guide-item h3 i {
+      font-size: 1.8rem;
+    }
+    
+    .guide-item p {
+      font-size: 1rem;
+      color: var(--gray);
+    }
+    
+    /* Responsive Design for Video Converter */
+    @media (max-width: 992px) {
+      .guide-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .features {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+      
+      .tab {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+      }
+      
+      .guide-section {
+        padding: 25px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .hero {
+        padding: 40px 0 20px;
+      }
+      
+      .card {
+        padding: 20px;
+      }
+      
+      h2 {
+        font-size: 1.5rem;
+      }
+      
+      h3 {
+        font-size: 1.2rem;
+      }
+    }
   </style>
 </head>
 <body>
@@ -44,84 +557,170 @@
   <section class="hero">
     <div class="container">
       <div class="hero-content">
-        <h1>QR Code Generator</h1>
-        <p>Create custom QR codes with logos, colors, vCard, Wi-Fi, bulk processing, and number range generation - all processing happens in your browser.</p>
+        <h1>Video Tools</h1>
+        <p>Convert videos to MP4, WEBM, or GIF with customizable settings. All processing happens in your browser - your videos never leave your device.</p>
       </div>
     </div>
   </section>
 
-  <!-- QR Generator Content -->
+  <!-- Features section - 2 cards per row -->
   <div class="container">
-    <!-- Features with 2 cards per row -->
     <div class="features">
       <div class="feature">
-        <i class="fas fa-paint-brush"></i>
-        <h3>Custom Design</h3>
-        <p>Create QR codes with custom colors and embedded logos for brand recognition</p>
+        <i class="fas fa-exchange-alt"></i>
+        <h3>Multiple Formats</h3>
+        <p>Convert between MP4, WEBM, and GIF formats with just a few clicks</p>
       </div>
       <div class="feature">
-        <i class="fas fa-layer-group"></i>
-        <h3>Bulk Generation</h3>
-        <p>Generate multiple QR codes at once including sequential numbers</p>
+        <i class="fas fa-sliders-h"></i>
+        <h3>Custom Settings</h3>
+        <p>Adjust resolution, quality, framerate, and aspect ratio to your needs</p>
       </div>
       <div class="feature">
-        <i class="fas fa-camera"></i>
-        <h3>QR Scanner</h3>
-        <p>Scan any QR code using your device's camera or upload an image</p>
+        <i class="fas fa-bolt"></i>
+        <h3>Fast Processing</h3>
+        <p>Convert videos instantly in your browser with no server uploads</p>
       </div>
       <div class="feature">
-        <i class="fas fa-ruler-combined"></i>
-        <h3>Logo Size Control</h3>
-        <p>Adjust logo size precisely within your QR codes</p>
+        <i class="fas fa-shield-alt"></i>
+        <h3>Privacy First</h3>
+        <p>All processing happens in your browser - no data is uploaded to servers</p>
       </div>
     </div>
 
-    <!-- Updated QR Code Creation Guide -->
+    <!-- Video Creation Guide -->
     <div class="guide-section">
-      <h2><i class="fas fa-book"></i> QR Code Creation Guide</h2>
+      <h2><i class="fas fa-book"></i> Video Tools Guide</h2>
+      <p>Follow these steps to convert your videos:</p>
       <div class="guide-grid">
         <div class="guide-item">
-          <h3><i class="fas fa-keyboard"></i> Select QR Type</h3>
-          <p>Choose the type of QR code (e.g., URL, vCard, Wi-Fi) to encode your data.</p>
+          <h3><i class="fas fa-upload"></i> Upload Video</h3>
+          <p>Drag or browse to upload your video (MP4, WEBM, MOV, AVI, MKV).</p>
         </div>
         <div class="guide-item">
-          <h3><i class="fas fa-upload"></i> Add Logo (Optional)</h3>
-          <p>Upload a logo to place in the center of your QR code with a customizable border.</p>
+          <h3><i class="fas fa-sliders-h"></i> Adjust Settings</h3>
+          <p>Customize output format, quality, resolution, and audio options.</p>
         </div>
         <div class="guide-item">
-          <h3><i class="fas fa-paint-brush"></i> Customize Design</h3>
-          <p>Select colors, size, and add a border around your logo to make it stand out.</p>
+          <h3><i class="fas fa-exchange-alt"></i> Convert Video</h3>
+          <p>Click "Convert Video" to process with your chosen settings.</p>
         </div>
         <div class="guide-item">
-          <h3><i class="fas fa-download"></i> Generate & Download</h3>
-          <p>Create your QR code, test it, and download as a PNG or ZIP for bulk.</p>
+          <h3><i class="fas fa-download"></i> Download</h3>
+          <p>Save your converted video instantly to your device.</p>
         </div>
       </div>
     </div>
 
     <div class="card">
-      <div class="tabs" role="tablist">
-        <div class="tab active" data-tab="single" role="tab" aria-selected="true" tabindex="0">
-          <i class="fas fa-qrcode"></i> Single QR Code
+      <h2><i class="fas fa-exchange-alt"></i> Video Converter</h2>
+      <p><i>Convert videos to MP4, WEBM, or GIF with customizable settings.</i></p>
+      <div class="drag-drop-area" id="dropZone" role="button" aria-label="Choose or drag and drop video file">
+        <p id="dropZoneText"><i class="fas fa-upload"></i> Choose file or drag and drop here</p>
+        <p>Supported formats: MP4, WEBM, MOV, AVI, MKV</p>
+        <p>Max file size: 100MB</p>
+      </div>
+      <input type="file" id="videoInput" accept="video/mp4,video/webm,video/quicktime,video/x-msvideo,video/x-matroska" style="display: none;" aria-label="Upload video for conversion" />
+      <div class="error" id="convert-error" role="alert"></div>
+      <div class="success" id="convert-success" role="alert"></div>
+      <div class="loading" id="convert-loading">
+        <div class="spinner"></div>
+        Processing Video...
+      </div>
+      <div id="fileInfo" class="file-info" style="display: none;">
+        <div class="file-detail"><span>Name:</span> <span id="fileName">No file selected</span></div>
+        <div class="file-detail"><span>Size:</span> <span id="fileSize">-</span></div>
+        <div class="file-detail"><span>Type:</span> <span id="fileType">-</span></div>
+        <div class="file-detail"><span>Dimensions:</span> <span id="fileDimensions">-</span></div>
+      </div>
+      <div class="settings-grid">
+        <div class="setting-group">
+          <p class="description">Input format is automatically detected from your uploaded video file.</p>
+          <select id="inputFormat" disabled aria-label="Input format (auto-detected)">
+            <option value="auto">Auto Detect</option>
+          </select>
         </div>
-        <div class="tab" data-tab="bulk" role="tab" aria-selected="false" tabindex="0">
-          <i class="fas fa-layer-group"></i> Bulk QR Codes
+        <div class="setting-group">
+          <p class="description">Choose the output format for your converted video.</p>
+          <select id="outputFormat" aria-label="Select output format">
+            <option value="mp4">MP4</option>
+            <option value="webm">WEBM</option>
+            <option value="gif">GIF</option>
+          </select>
         </div>
-        <div class="tab" data-tab="scan" role="tab" aria-selected="false" tabindex="0">
-          <i class="fas fa-camera"></i> Scan QR Code
+        <div class="setting-group">
+          <p class="description">Select video quality to balance file size and clarity.</p>
+          <select id="quality" aria-label="Select video quality">
+            <option value="high">High</option>
+            <option value="medium" selected>Medium</option>
+            <option value="low">Low</option>
+          </select>
+        </div>
+        <div class="setting-group">
+          <p class="description">Set the frame rate for your video or keep the original.</p>
+          <select id="framerate" aria-label="Select framerate">
+            <option value="original">Original</option>
+            <option value="30">30 fps</option>
+            <option value="25">25 fps</option>
+            <option value="24">24 fps</option>
+            <option value="15">15 fps</option>
+          </select>
+        </div>
+        <div class="setting-group">
+          <p class="description">Choose a resolution for your video or maintain the original size.</p>
+          <select id="resolution" aria-label="Select resolution">
+            <option value="original">Original</option>
+            <option value="1080p">1080p (Full HD)</option>
+            <option value="720p">720p (HD)</option>
+            <option value="480p">480p (SD)</option>
+            <option value="360p">360p</option>
+          </select>
+        </div>
+        <div class="setting-group">
+          <p class="description">Select an aspect ratio to adjust the video's dimensions.</p>
+          <select id="aspectRatio" aria-label="Select aspect ratio">
+            <option value="original">Original</option>
+            <option value="16:9">16:9 (Widescreen)</option>
+            <option value="4:3">4:3 (Standard)</option>
+            <option value="1:1">1:1 (Square)</option>
+            <option value="9:16">9:16 (Vertical)</option>
+          </select>
+        </div>
+        <div class="setting-group">
+          <p class="description">Toggle audio settings for your video.</p>
+          <div class="toggle-container">
+            <label for="mute-audio">Mute Audio</label>
+            <label class="toggle-switch">
+              <input type="checkbox" id="mute-audio" aria-label="Toggle mute audio">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <div class="toggle-container">
+            <label for="normalize-audio">Normalize Audio</label>
+            <label class="toggle-switch">
+              <input type="checkbox" id="normalize-audio" aria-label="Toggle normalize audio">
+              <span class="slider"></span>
+            </label>
+          </div>
         </div>
       </div>
-
-      <div class="tab-content active" id="single-tab" role="tabpanel">
-        <!-- ... (single tab content remains unchanged) ... -->
+      <button id="convertBtn" disabled aria-label="Convert video with selected settings">
+        <i class="fas fa-exchange-alt"></i> Convert Video
+      </button>
+      <div id="progressContainer" class="progress-container">
+        <div class="progress-header">
+          <span>Conversion Progress</span>
+          <span id="progressPercent">0%</span>
+        </div>
+        <div class="progress-bar">
+          <div id="progressFill" class="progress-fill"></div>
+        </div>
+        <p id="progressMessage">Initializing conversion...</p>
+        <button id="cancelBtn" style="margin-top: 15px; background: #e74c3c;">Cancel Conversion</button>
       </div>
-
-      <div class="tab-content" id="bulk-tab" role="tabpanel">
-        <!-- ... (bulk tab content remains unchanged) ... -->
-      </div>
-
-      <div class="tab-content" id="scan-tab" role="tabpanel">
-        <!-- ... (scan tab content remains unchanged) ... -->
+      <div id="resultContainer" class="result-container">
+        <p>Conversion Complete!</p>
+        <a id="downloadLink" class="download-btn" aria-label="Download converted video"><i class="fas fa-download"></i> Download Converted Video</a>
       </div>
     </div>
   </div>
@@ -191,982 +790,340 @@
     </div>
   </div>
 
-  <!-- JavaScript -->
-  <script src="/js/main.js"></script>
-  <script>
-    // Constants
-    const PREFERENCES_KEY = 'qrPreferences';
+  <!-- Required libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+  
+  <!-- Video Converter Script -->
+  <script type="module">
+    // Import FFmpeg from CDN
+    import { createFFmpeg, fetchFile } from 'https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.10.0/+esm';
+    
+    // FFmpeg variables
+    let ffmpeg = null;
+    let inputFile = null;
 
-    // DOM Elements
-    const qrType = document.getElementById('qr-type');
-    const qrInput = document.getElementById('qr-input');
-    const vcardName = document.getElementById('vcard-name');
-    const vcardPhone = document.getElementById('vcard-phone');
-    const vcardEmail = document.getElementById('vcard-email');
-    const wifiSsid = document.getElementById('wifi-ssid');
-    const wifiPassword = document.getElementById('wifi-password');
-    const wifiType = document.getElementById('wifi-type');
-    const smsPhone = document.getElementById('sms-phone');
-    const smsMessage = document.getElementById('sms-message');
-    const emailAddress = document.getElementById('email-address');
-    const emailSubject = document.getElementById('email-subject');
-    const emailBody = document.getElementById('email-body');
-    const qrCanvas = document.getElementById('qr-canvas');
-    const fgColor = document.getElementById('fg-color');
-    const bgColor = document.getElementById('bg-color');
-    const transparentBg = document.getElementById('transparent-bg');
-    const bulkTransparentBg = document.getElementById('bulk-transparent-bg');
-    const sizeSlider = document.getElementById('size-slider');
-    const sizeValue = document.getElementById('size-value');
-    const borderSize = document.getElementById('border-size');
-    const borderSizeValue = document.getElementById('border-size-value');
-    const borderColor = document.getElementById('border-color');
-    const logoSize = document.getElementById('logo-size');
-    const logoSizeValue = document.getElementById('logo-size-value');
-    const bulkLogoSize = document.getElementById('bulk-logo-size');
-    const bulkLogoSizeValue = document.getElementById('bulk-logo-size-value');
-    const logoUpload = document.getElementById('logo-upload');
-    const logoUploadArea = document.getElementById('logo-upload-area');
-    const logoPreview = document.getElementById('logo-preview');
-    const qrLoading = document.getElementById('qr-loading');
-    const qrError = document.getElementById('qr-error');
-    const qrSuccess = document.getElementById('qr-success');
-    const downloadBtn = document.getElementById('download-btn');
-    const video = document.getElementById('scanner-video');
-    const scanResult = document.getElementById('scan-result');
-    const startScanBtn = document.getElementById('start-scan');
-    const stopScanBtn = document.getElementById('stop-scan');
-    const scannerOverlay = document.getElementById('scanner-overlay');
-    const tabs = document.querySelectorAll('.tab');
-    const tabContents = document.querySelectorAll('.tab-content');
-    const bulkInput = document.getElementById('bulk-input');
-    const bulkFileUpload = document.getElementById('bulk-file-upload');
-    const bulkFilename = document.getElementById('bulk-filename');
-    const bulkLoading = document.getElementById('bulk-loading');
-    const bulkProgress = document.getElementById('bulk-progress');
-    const bulkSuccess = document.getElementById('bulk-success');
-    const bulkError = document.getElementById('bulk-error');
-    const fileUpload = document.getElementById('file-upload');
-    const bulkFgColor = document.getElementById('bulk-fg-color');
-    const bulkBgColor = document.getElementById('bulk-bg-color');
-    const bulkSizeSlider = document.getElementById('bulk-size-slider');
-    const bulkSizeValue = document.getElementById('bulk-size-value');
-    const bulkBorderSize = document.getElementById('bulk-border-size');
-    const bulkBorderSizeValue = document.getElementById('bulk-border-size-value');
-    const bulkBorderColor = document.getElementById('bulk-border-color');
-    const bulkLogoUpload = document.getElementById('bulk-logo-upload');
-    const bulkLogoUploadArea = document.getElementById('bulk-logo-upload-area');
-    const bulkLogoPreview = document.getElementById('bulk-logo-preview');
-    const bulkInputType = document.getElementById('bulk-input-type');
-    const bulkListFields = document.getElementById('bulk-list-fields');
-    const bulkRangeFields = document.getElementById('bulk-range-fields');
-    const bulkCsvFields = document.getElementById('bulk-csv-fields');
-    const rangeStart = document.getElementById('range-start');
-    const rangeEnd = document.getElementById('range-end');
-    const rangePrefix = document.getElementById('range-prefix');
-    const rangeSuffix = document.getElementById('range-suffix');
-    const borderPreview = document.getElementById('border-preview');
-    const bulkBorderPreview = document.getElementById('bulk-border-preview');
-    const scannerStatus = document.getElementById('scanner-status');
-    const scannerGuides = document.getElementById('scanner-guides');
+    function initVideoConverter() {
+      const elements = {
+        dropZone: document.getElementById('dropZone'),
+        videoInput: document.getElementById('videoInput'),
+        dropZoneText: document.getElementById('dropZoneText'),
+        fileInfo: document.getElementById('fileInfo'),
+        fileName: document.getElementById('fileName'),
+        fileSize: document.getElementById('fileSize'),
+        fileType: document.getElementById('fileType'),
+        fileDimensions: document.getElementById('fileDimensions'),
+        convertBtn: document.getElementById('convertBtn'),
+        progressContainer: document.getElementById('progressContainer'),
+        progressMessage: document.getElementById('progressMessage'),
+        progressFill: document.getElementById('progressFill'),
+        progressPercent: document.getElementById('progressPercent'),
+        resultContainer: document.getElementById('resultContainer'),
+        downloadLink: document.getElementById('downloadLink'),
+        convertError: document.getElementById('convert-error'),
+        convertSuccess: document.getElementById('convert-success'),
+        convertLoading: document.getElementById('convert-loading'),
+        outputFormat: document.getElementById('outputFormat'),
+        quality: document.getElementById('quality'),
+        framerate: document.getElementById('framerate'),
+        resolution: document.getElementById('resolution'),
+        aspectRatio: document.getElementById('aspectRatio'),
+        muteAudio: document.getElementById('mute-audio'),
+        normalizeAudio: document.getElementById('normalize-audio'),
+        cancelBtn: document.getElementById('cancelBtn')
+      };
 
-    // Global variables
-    let currentStream = null;
-    let logoImage = null;
-    let bulkLogoImage = null;
-    let generatedQR = null;
-    let bulkQRs = [];
-    let previewTimeout = null;
+      let cancelRequested = false;
 
-    // Setup Event Listeners Function
-    function setupEventListeners() {
-      tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-          tabs.forEach(t => {
-            t.classList.remove('active');
-            t.setAttribute('aria-selected', 'false');
-          });
-          tabContents.forEach(c => c.classList.remove('active'));
-          tab.classList.add('active');
-          tab.setAttribute('aria-selected', 'true');
-          document.getElementById(`${tab.dataset.tab}-tab`).classList.add('active');
-          
-          if (currentStream) stopScanner();
-        });
-        tab.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            tab.click();
-          }
-        });
-      });
-
-      if (sizeSlider) sizeSlider.addEventListener('input', updateSizeValue);
-      
-      if (borderSize) borderSize.addEventListener('input', () => {
-        updateBorderSizeValue();
-        updateBorderPreview();
-      });
-      
-      if (borderColor) borderColor.addEventListener('input', updateBorderPreview);
-      
-      if (logoSize) logoSize.addEventListener('input', updateLogoSizeValue);
-      
-      if (bulkLogoSize) bulkLogoSize.addEventListener('input', updateBulkLogoSizeValue);
-      
-      if (bulkSizeSlider) bulkSizeSlider.addEventListener('input', () => {
-        bulkSizeValue.textContent = `${bulkSizeSlider.value}px`;
-      });
-      
-      if (bulkBorderSize) bulkBorderSize.addEventListener('input', () => {
-        bulkBorderSizeValue.textContent = `${bulkBorderSize.value}px`;
-        updateBulkBorderPreview();
-      });
-      
-      if (bulkBorderColor) bulkBorderColor.addEventListener('input', updateBulkBorderPreview);
-
-      if (fgColor) fgColor.addEventListener('change', saveQRPreferences);
-      if (bgColor) bgColor.addEventListener('change', saveQRPreferences);
-
-      if (logoUploadArea) logoUploadArea.addEventListener('click', () => logoUpload.click());
-      if (logoUpload) logoUpload.addEventListener('change', handleLogoUpload);
-      
-      if (bulkLogoUploadArea) bulkLogoUploadArea.addEventListener('click', () => bulkLogoUpload.click());
-      if (bulkLogoUpload) bulkLogoUpload.addEventListener('change', handleBulkLogoUpload);
-
-      ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-        if (logoUploadArea) logoUploadArea.addEventListener(eventName, preventDefaults, false);
-        if (bulkLogoUploadArea) bulkLogoUploadArea.addEventListener(eventName, preventDefaults, false);
-      });
-
-      ['dragenter', 'dragover'].forEach(eventName => {
-        if (logoUploadArea) logoUploadArea.addEventListener(eventName, highlight, false);
-        if (bulkLogoUploadArea) bulkLogoUploadArea.addEventListener(eventName, highlight, false);
-      });
-
-      ['dragleave', 'drop'].forEach(eventName => {
-        if (logoUploadArea) logoUploadArea.addEventListener(eventName, unhighlight, false);
-        if (bulkLogoUploadArea) bulkLogoUploadArea.addEventListener(eventName, unhighlight, false);
-      });
-
-      if (logoUploadArea) logoUploadArea.addEventListener('drop', handleDrop, false);
-      if (bulkLogoUploadArea) bulkLogoUploadArea.addEventListener('drop', handleBulkDrop, false);
-
-      if (qrInput) qrInput.addEventListener('blur', autoFormatURL);
-      if (qrInput) qrInput.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') generateQR();
-      });
-
-      if (qrType) qrType.addEventListener('change', toggleQRTypeFields);
-
-      if (startScanBtn) startScanBtn.addEventListener('click', startScanner);
-      if (stopScanBtn) stopScanBtn.addEventListener('click', stopScanner);
-
-      if (fileUpload) fileUpload.addEventListener('change', handleFileUpload);
-      if (bulkFileUpload) bulkFileUpload.addEventListener('change', handleBulkFileUpload);
-    }
-
-    // Initialize the page
-    document.addEventListener('DOMContentLoaded', () => {
-      updateSizeValue();
-      updateBorderSizeValue();
-      updateLogoSizeValue();
-      updateBulkLogoSizeValue();
-      updateBorderPreview();
-      updateBulkBorderPreview();
-      setupEventListeners();  // Now defined before this call
-      toggleQRTypeFields();
-      initBulkInputType();
-    });
-
-    function initBulkInputType() {
-      const bulkTypeRadios = document.querySelectorAll('input[name="bulk-type"]');
-      const bulkInputLabels = document.querySelectorAll('#bulk-input-type label');
-      
-      // Function to update active state
-      function updateActiveState() {
-        // Remove active class from all labels
-        bulkInputLabels.forEach(label => label.classList.remove('active'));
-        
-        // Find the checked radio and add active class to its parent label
-        const checkedRadio = document.querySelector('input[name="bulk-type"]:checked');
-        if (checkedRadio) {
-          checkedRadio.closest('label').classList.add('active');
+      function showError(message) {
+        if (elements.convertError) {
+          elements.convertError.textContent = message;
+          elements.convertError.style.display = 'block';
         }
       }
-      
-      // Set initial active state
-      updateActiveState();
-      
-      bulkTypeRadios.forEach(radio => {
-        radio.addEventListener('change', () => {
-          // Update the active state
-          updateActiveState();
-          
-          bulkListFields.style.display = 'none';
-          bulkRangeFields.style.display = 'none';
-          bulkCsvFields.style.display = 'none';
-          
-          if (radio.value === 'list') {
-            bulkListFields.style.display = 'block';
-          } else if (radio.value === 'range') {
-            bulkRangeFields.style.display = 'block';
-          } else if (radio.value === 'csv') {
-            bulkCsvFields.style.display = 'block';
-          }
-        });
-      });
-    }
 
-    function updateBorderPreview() {
-      if (!borderPreview) return;
-      
-      const borderSizeVal = parseInt(borderSize.value);
-      const borderColorVal = borderColor.value;
-      
-      if (borderSizeVal > 0) {
-        borderPreview.style.border = `${borderSizeVal}px solid ${borderColorVal}`;
-        if (logoUploadArea) logoUploadArea.classList.add('border-active');
-      } else {
-        borderPreview.style.border = 'none';
-        if (logoUploadArea) logoUploadArea.classList.remove('border-active');
-      }
-    }
-    
-    function updateBulkBorderPreview() {
-      if (!bulkBorderPreview) return;
-      
-      const borderSizeVal = parseInt(bulkBorderSize.value);
-      const borderColorVal = bulkBorderColor.value;
-      
-      if (borderSizeVal > 0) {
-        bulkBorderPreview.style.border = `${borderSizeVal}px solid ${borderColorVal}`;
-        if (bulkLogoUploadArea) bulkLogoUploadArea.classList.add('border-active');
-      } else {
-        bulkBorderPreview.style.border = 'none';
-        if (bulkLogoUploadArea) bulkLogoUploadArea.classList.remove('border-active');
-      }
-    }
-
-    function preventDefaults(e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-
-    function highlight() {
-      this.classList.add('drag-over');
-    }
-
-    function unhighlight() {
-      this.classList.remove('drag-over');
-    }
-
-    function handleDrop(e) {
-      const dt = e.dataTransfer;
-      const files = dt.files;
-
-      if (files.length) {
-        logoUpload.files = files;
-        handleLogoUpload({ target: { files } });
-      }
-    }
-    
-    function handleBulkDrop(e) {
-      const dt = e.dataTransfer;
-      const files = dt.files;
-
-      if (files.length) {
-        bulkLogoUpload.files = files;
-        handleBulkLogoUpload({ target: { files } });
-      }
-    }
-
-    function updateSizeValue() {
-      if (sizeValue && sizeSlider) {
-        sizeValue.textContent = `${sizeSlider.value}px`;
-      }
-    }
-    
-    function updateBorderSizeValue() {
-      if (borderSizeValue && borderSize) {
-        borderSizeValue.textContent = `${borderSize.value}px`;
-      }
-    }
-    
-    function updateLogoSizeValue() {
-      if (logoSizeValue && logoSize) {
-        logoSizeValue.textContent = `${logoSize.value}%`;
-      }
-    }
-    
-    function updateBulkLogoSizeValue() {
-      if (bulkLogoSizeValue && bulkLogoSize) {
-        bulkLogoSizeValue.textContent = `${bulkLogoSize.value}%`;
-      }
-    }
-
-    function handleLogoUpload(e) {
-      const file = e.target.files[0];
-      if (!file) return;
-      if (!file.type.match('image.*')) {
-        showError(qrError, 'Please upload a valid image file');
-        return;
-      }
-
-      const reader = new FileReader();
-      reader.onload = function(event) {
-        logoImage = new Image();
-        logoImage.onload = function() {
-          if (logoPreview) {
-            logoPreview.innerHTML = '';
-            const previewContainer = document.createElement('div');
-            previewContainer.className = 'border-preview';
-            
-            const img = document.createElement('img');
-            img.src = event.target.result;
-            img.alt = 'Uploaded logo';
-            img.style.maxWidth = '100%';
-            img.style.maxHeight = '100%';
-            img.style.objectFit = 'contain';
-            
-            const borderIndicator = document.createElement('div');
-            borderIndicator.className = 'border-indicator';
-            borderIndicator.id = 'border-preview';
-            
-            previewContainer.appendChild(img);
-            previewContainer.appendChild(borderIndicator);
-            logoPreview.appendChild(previewContainer);
-          }
-          
-          updateBorderPreview();
-        };
-        logoImage.src = event.target.result;
-      };
-      reader.readAsDataURL(file);
-    }
-    
-    function handleBulkLogoUpload(e) {
-      const file = e.target.files[0];
-      if (!file) return;
-      if (!file.type.match('image.*')) {
-        showError(bulkError, 'Please upload a valid image file');
-        return;
-      }
-
-      const reader = new FileReader();
-      reader.onload = function(event) {
-        bulkLogoImage = new Image();
-        bulkLogoImage.onload = function() {
-          if (bulkLogoPreview) {
-            bulkLogoPreview.innerHTML = '';
-            const previewContainer = document.createElement('div');
-            previewContainer.className = 'border-preview';
-            
-            const img = document.createElement('img');
-            img.src = event.target.result;
-            img.alt = 'Uploaded logo for bulk';
-            img.style.maxWidth = '100%';
-            img.style.maxHeight = '100%';
-            img.style.objectFit = 'contain';
-            
-            const borderIndicator = document.createElement('div');
-            borderIndicator.className = 'border-indicator';
-            borderIndicator.id = 'bulk-border-preview';
-            
-            previewContainer.appendChild(img);
-            previewContainer.appendChild(borderIndicator);
-            bulkLogoPreview.appendChild(previewContainer);
-          }
-          
-          updateBulkBorderPreview();
-        };
-        bulkLogoImage.src = event.target.result;
-      };
-      reader.readAsDataURL(file);
-    }
-
-    function autoFormatURL() {
-      const input = qrInput.value.trim();
-      if (!input) return;
-
-      if (input.includes('.') && !input.startsWith('http://') && !input.startsWith('https://')) {
-        qrInput.value = `https://${input}`;
-      }
-    }
-
-    function toggleQRTypeFields() {
-      const type = qrType.value;
-      document.querySelectorAll('.qr-type-fields').forEach(field => field.classList.remove('active'));
-      document.getElementById(`${type}-fields`).classList.add('active');
-    }
-
-    function sanitizeFilename(str) {
-      return str.replace(/[^a-zA-Z0-9-]+$/g, '_').slice(0, 50);
-    }
-
-    // New modular functions
-    function getQRContent(type) {
-      switch(type) {
-        case 'url':
-          const url = qrInput.value.trim();
-          if (!url) throw new Error('URL is required');
-          if (!url.startsWith('http://') && !url.startsWith('https://')) {
-            return 'http://' + url;
-          }
-          return url;
-          
-        case 'vcard':
-          const name = vcardName.value.trim();
-          const phone = vcardPhone.value.trim();
-          const email = vcardEmail.value.trim();
-          
-          if (!name || !phone || !email) throw new Error('All vCard fields are required');
-          if (!isValidEmail(email)) throw new Error('Invalid email format');
-          
-          return `BEGIN:VCARD\nVERSION:3.0\nFN:${name}\nTEL:${phone}\nEMAIL:${email}\nEND:VCARD`;
-          
-        case 'wifi':
-          const ssid = wifiSsid.value.trim();
-          const password = wifiPassword.value.trim();
-          const encryption = wifiType.value;
-          
-          if (!ssid) throw new Error('Network name is required');
-          if (encryption !== 'nopass' && !password) throw new Error('Password is required');
-          
-          return `WIFI:S:${ssid};T:${encryption};P:${password};;`;
-          
-        case 'email':
-          const emailAddr = emailAddress.value.trim();
-          const subject = emailSubject.value.trim();
-          const body = emailBody.value.trim();
-          
-          if (!emailAddr) throw new Error('Email address is required');
-          if (!isValidEmail(emailAddr)) throw new Error('Invalid email format');
-          
-          return `mailto:${emailAddr}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-          
-        default:
-          const input = qrInput.value.trim();
-          if (!input) throw new Error('Content is required');
-          return input;
-      }
-    }
-
-    function createQRCanvas(content, options) {
-      return new Promise((resolve, reject) => {
-        try {
-          QRCode.toCanvas(content, {
-            width: options.size,
-            margin: 1,
-            color: {
-              dark: options.fgColor,
-              light: options.bgColor
-            },
-            errorCorrectionLevel: 'H'
-          }, (error, canvas) => {
-            if (error) {
-              reject(error);
-            } else {
-              resolve(canvas);
-            }
-          });
-        } catch (error) {
-          reject(error);
+      function showSuccess(message) {
+        if (elements.convertSuccess) {
+          elements.convertSuccess.textContent = message;
+          elements.convertSuccess.style.display = 'block';
         }
-      });
-    }
+      }
 
-    function addLogoToQR(qrCanvas, logo, borderSize, borderColor, logoSizePercent) {
-      return new Promise((resolve) => {
-        if (!logo) {
-          resolve(qrCanvas);
+      function hideMessages() {
+        if (elements.convertError) elements.convertError.style.display = 'none';
+        if (elements.convertSuccess) elements.convertSuccess.style.display = 'none';
+      }
+
+      function showLoading() {
+        if (elements.convertLoading) elements.convertLoading.style.display = 'block';
+      }
+
+      function hideLoading() {
+        if (elements.convertLoading) elements.convertLoading.style.display = 'none';
+      }
+
+      function updateProgress(percent, msg) {
+        const percentValue = Math.min(100, Math.max(0, percent));
+        if (elements.progressFill) elements.progressFill.style.width = `${percentValue}%`;
+        if (elements.progressMessage) elements.progressMessage.textContent = msg;
+        if (elements.progressPercent) elements.progressPercent.textContent = `${Math.round(percentValue)}%`;
+      }
+
+      async function processFile(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        hideMessages();
+        showLoading();
+
+        const allowedTypes = [
+          'video/mp4', 'video/webm', 'video/quicktime',
+          'video/x-msvideo', 'video/x-matroska'
+        ];
+        const allowedExtensions = ['.mp4', '.webm', '.mov', '.avi', '.mkv'];
+        const ext = '.' + file.name.split('.').pop().toLowerCase();
+
+        if (!allowedTypes.includes(file.type) && !allowedExtensions.includes(ext)) {
+          showError('Invalid file type. Please select a supported format (MP4, WEBM, MOV, AVI, or MKV).');
+          hideLoading();
           return;
         }
-        
+
+        if (file.size > 100 * 1024 * 1024) {
+          showError('File size exceeds 100MB limit. Please select a smaller file.');
+          hideLoading();
+          return;
+        }
+
         try {
-          // Ensure logo doesn't break QR code scannability
-          const maxSafeSize = qrCanvas.width * 0.25; // Max 25% of QR size
-          const actualLogoSize = Math.min(
-            qrCanvas.width * (logoSizePercent / 100), 
-            maxSafeSize
-          );
-          
-          const ctx = qrCanvas.getContext('2d');
-          
-          // Draw border if border size is greater than 0
-          if (borderSize > 0) {
-            ctx.fillStyle = borderColor;
-            const centerX = qrCanvas.width / 2;
-            const centerY = qrCanvas.height / 2;
-            const borderWidth = actualLogoSize + borderSize * 2;
-            
-            // Ensure border doesn't cover critical QR patterns
-            const maxBorderWidth = qrCanvas.width * 0.35;
-            const safeBorderWidth = Math.min(borderWidth, maxBorderWidth);
-            
-            ctx.fillRect(
-              centerX - safeBorderWidth/2,
-              centerY - safeBorderWidth/2,
-              safeBorderWidth,
-              safeBorderWidth
-            );
-          }
-          
-          // Draw logo
-          ctx.drawImage(
-            logo,
-            (qrCanvas.width - actualLogoSize) / 2,
-            (qrCanvas.height - actualLogoSize) / 2,
-            actualLogoSize,
-            actualLogoSize
-          );
-          
-          resolve(qrCanvas);
-        } catch (error) {
-          console.error('Error adding logo to QR:', error);
-          resolve(qrCanvas); // Resolve without logo if error occurs
-        }
-      });
-    }
+          inputFile = file;
+          elements.dropZoneText.innerHTML = `Ready to convert:<br><strong>${file.name}</strong>`;
+          elements.fileInfo.style.display = 'block';
+          elements.fileName.textContent = file.name;
+          elements.fileSize.textContent = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
+          elements.fileType.textContent = file.type || 'Unknown';
 
-    // Updated generateQR function
-    async function generateQR() {
-      try {
-        const type = qrType.value;
-        const content = getQRContent(type);
-        
-        const qrOptions = {
-          size: parseInt(sizeSlider.value),
-          fgColor: fgColor.value,
-          bgColor: transparentBg.checked ? '#00000000' : bgColor.value
-        };
-        
-        qrLoading.style.display = 'block';
-        qrError.style.display = 'none';
-        qrSuccess.style.display = 'none';
-        
-        // Create QR canvas
-        const generatedCanvas = await createQRCanvas(content, qrOptions);
-        
-        // Add logo and border
-        const finalCanvas = await addLogoToQR(
-          generatedCanvas, 
-          logoImage, 
-          parseInt(borderSize.value), 
-          borderColor.value,
-          parseInt(logoSize.value)
-        );
-        
-        // Display results
-        qrCanvas.width = finalCanvas.width;
-        qrCanvas.height = finalCanvas.height;
-        const ctx = qrCanvas.getContext('2d');
-        ctx.drawImage(finalCanvas, 0, 0);
-        
-        generatedQR = { data: qrCanvas.toDataURL('image/png'), content };
-        
-        qrLoading.style.display = 'none';
-        qrSuccess.style.display = 'block';
-        qrSuccess.textContent = 'QR Code generated successfully!';
-        downloadBtn.style.display = 'block';
-        qrCanvas.style.display = 'block';
-        
-        // Test QR scannability
-        testQRScannability(finalCanvas, content);
-      } catch (error) {
-        qrLoading.style.display = 'none';
-        showError(qrError, error.message || 'Error generating QR code');
-        console.error('QR generation error:', error);
-      }
-    }
-    
-    function testQRScannability(canvas, originalContent) {
-      try {
-        const ctx = canvas.getContext('2d');
-        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        const code = jsQR(imageData.data, imageData.width, imageData.height);
-        
-        if (!code) {
-          qrSuccess.innerHTML += '<br><span class="scanner-error"><i class="fas fa-exclamation-circle"></i> Warning: QR code may be difficult to scan</span>';
-        } else if (code.data !== originalContent) {
-          qrSuccess.innerHTML += `<br><span class="scanner-error"><i class="fas fa-exclamation-circle"></i> Content mismatch: ${code.data.substr(0, 20)}...</span>`;
-        } else {
-          qrSuccess.innerHTML += '<br><span class="scanner-success"><i class="fas fa-check-circle"></i> QR code scans successfully</span>';
-        }
-      } catch (e) {
-        console.log('QR test error:', e);
-      }
-    }
+          const video = document.createElement('video');
+          video.src = URL.createObjectURL(file);
+          video.style.display = 'none';
+          document.body.appendChild(video);
 
-    // Updated bulk generation
-    async function generateBulkQR() {
-      try {
-        let inputs = [];
-        const bulkType = document.querySelector('input[name="bulk-type"]:checked').value;
-        
-        if (bulkType === 'list') {
-          inputs = bulkInput.value.trim().split('\n').filter(line => line.trim() !== '');
-        } 
-        else if (bulkType === 'range') {
-          const start = parseInt(rangeStart.value);
-          const end = parseInt(rangeEnd.value);
-          const prefix = rangePrefix.value.trim();
-          const suffix = rangeSuffix.value.trim();
-          
-          if (isNaN(start) || isNaN(end) || start > end) {
-            throw new Error('Please enter valid start and end numbers');
-          }
-          
-          if (end - start > 1000) {
-            throw new Error('Range is too large (max 1000 items)');
-          }
-          
-          for (let i = start; i <= end; i++) {
-            inputs.push(`${prefix}${i}${suffix}`);
-          }
-        }
-        else if (bulkType === 'csv') {
-          const fileInput = document.getElementById('bulk-file-upload');
-          if (!fileInput.files.length) throw new Error('Please select a CSV file');
-          
-          const file = fileInput.files[0];
-          const text = await new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onload = () => resolve(reader.result);
-            reader.onerror = () => reject(reader.error);
-            reader.readAsText(file);
+          await new Promise((resolve, reject) => {
+            video.onloadedmetadata = () => {
+              const width = video.videoWidth;
+              const height = video.videoHeight;
+              elements.fileDimensions.textContent = `${width}×${height}`;
+              document.body.removeChild(video);
+              URL.revokeObjectURL(video.src);
+              resolve();
+            };
+            video.onerror = () => reject(new Error('Failed to load video metadata'));
           });
-          
-          const results = Papa.parse(text, { header: true });
-          if (results.errors.length) throw new Error('Error parsing CSV file');
-          
-          inputs = results.data.map(row => {
-            // Get the first non-empty value in the row
-            return Object.values(row).find(val => val && val.trim() !== '') || '';
-          }).filter(val => val.trim() !== '');
+
+          elements.convertBtn.disabled = false;
+          showSuccess('Video loaded successfully!');
+        } catch (error) {
+          showError('Error processing video: ' + error.message);
+          elements.convertBtn.disabled = true;
+        } finally {
+          hideLoading();
         }
-
-        if (inputs.length === 0) throw new Error('Please enter at least one item');
-        if (inputs.length > 1000) throw new Error('For performance, limit to 1000 items at a time');
-
-        bulkQRs = [];
-        bulkSuccess.style.display = 'none';
-        bulkError.style.display = 'none';
-        bulkLoading.style.display = 'block';
-
-        // Process in batches
-        const batchSize = 5;
-        for (let i = 0; i < inputs.length; i += batchSize) {
-          const batch = inputs.slice(i, i + batchSize);
-          await processBatch(batch, i, inputs.length);
-        }
-
-        createBulkZip();
-      } catch (error) {
-        bulkLoading.style.display = 'none';
-        showError(bulkError, error.message || 'Error generating bulk QR codes');
-        console.error('Bulk QR error:', error);
       }
-    }
 
-    async function processBatch(batch, startIndex, total) {
-      for (let j = 0; j < batch.length; j++) {
-        const index = startIndex + j;
-        const input = batch[j];
-        bulkProgress.textContent = `Generating QR codes: ${index + 1}/${total}`;
-        
+      async function convertVideo() {
+        if (!inputFile) return;
+
+        hideMessages();
+        showLoading();
+        elements.progressContainer.style.display = 'block';
+        elements.resultContainer.style.display = 'none';
+        elements.convertBtn.disabled = true;
+        cancelRequested = false;
+
         try {
-          const qrOptions = {
-            size: parseInt(bulkSizeSlider.value),
-            fgColor: bulkFgColor.value,
-            bgColor: bulkTransparentBg.checked ? '#00000000' : bulkBgColor.value
-          };
+          // Initialize FFmpeg
+          await initFFmpeg();
           
-          // Create QR canvas
-          const generatedCanvas = await createQRCanvas(input, qrOptions);
-          
-          // Add logo and border
-          const finalCanvas = await addLogoToQR(
-            generatedCanvas, 
-            bulkLogoImage, 
-            parseInt(bulkBorderSize.value), 
-            bulkBorderColor.value,
-            parseInt(bulkLogoSize.value)
-          );
-          
-          bulkQRs.push({
-            content: input,
-            dataURL: finalCanvas.toDataURL('image/png')
+          // Set up progress handler
+          ffmpeg.setProgress(({ ratio }) => {
+            const percent = Math.round(ratio * 100);
+            updateProgress(percent, `Processing video... ${percent}% complete`);
           });
+
+          // Get settings from UI
+          const outputFormat = elements.outputFormat.value;
+          const quality = elements.quality.value;
+          const framerate = elements.framerate.value;
+          const resolution = elements.resolution.value;
+          const aspectRatio = elements.aspectRatio.value;
+          const muteAudio = elements.muteAudio.checked;
+          const normalizeAudio = elements.normalizeAudio.checked;
+
+          // Prepare input filename
+          const inputExt = inputFile.name.split('.').pop() || 'mp4';
+          const inputName = `input.${inputExt}`;
+          const outputName = `output.${outputFormat}`;
+
+          // Write file to FFmpeg FS
+          updateProgress(10, 'Loading video file...');
+          ffmpeg.FS('writeFile', inputName, await fetchFile(inputFile));
+
+          // Build FFmpeg command
+          const args = ['-i', inputName];
+
+          // Handle quality settings
+          if (outputFormat === 'mp4') {
+            if (quality === 'high') args.push('-crf', '18');
+            else if (quality === 'medium') args.push('-crf', '23');
+            else if (quality === 'low') args.push('-crf', '28');
+          } else if (outputFormat === 'webm') {
+            if (quality === 'high') args.push('-crf', '10');
+            else if (quality === 'medium') args.push('-crf', '20');
+            else if (quality === 'low') args.push('-crf', '30');
+          }
+
+          // Handle framerate
+          if (framerate !== 'original') {
+            args.push('-r', framerate);
+          }
+
+          // Handle resolution
+          if (resolution !== 'original') {
+            let resolutionValue;
+            switch (resolution) {
+              case '1080p': resolutionValue = '1920x1080'; break;
+              case '720p': resolutionValue = '1280x720'; break;
+              case '480p': resolutionValue = '854x480'; break;
+              case '360p': resolutionValue = '640x360'; break;
+            }
+            args.push('-s', resolutionValue);
+          }
+
+          // Handle audio
+          if (muteAudio) {
+            args.push('-an');
+          } else if (normalizeAudio) {
+            args.push('-af', 'loudnorm=I=-16:TP=-1.5:LRA=11');
+          }
+
+          // Add output filename
+          args.push(outputName);
+
+          // Run FFmpeg conversion
+          updateProgress(20, 'Starting conversion...');
+          await ffmpeg.run(...args);
+
+          // Check if conversion was canceled
+          if (cancelRequested) {
+            updateProgress(0, 'Conversion canceled');
+            showError('Conversion was canceled');
+            return;
+          }
+
+          // Read output file
+          updateProgress(90, 'Finalizing conversion...');
+          const data = ffmpeg.FS('readFile', outputName);
+
+          // Create download URL
+          let mimeType;
+          switch (outputFormat) {
+            case 'mp4': mimeType = 'video/mp4'; break;
+            case 'webm': mimeType = 'video/webm'; break;
+            case 'gif': mimeType = 'image/gif'; break;
+          }
+
+          const videoUrl = URL.createObjectURL(new Blob([data.buffer], { type: mimeType }));
+          elements.downloadLink.href = videoUrl;
+          elements.downloadLink.download = `converted.${outputFormat}`;
+          elements.resultContainer.style.display = 'block';
+
+          // Clean up
+          ffmpeg.FS('unlink', inputName);
+          ffmpeg.FS('unlink', outputName);
+
+          // Show success
+          updateProgress(100, 'Conversion complete!');
+          showSuccess('Video converted successfully!');
         } catch (error) {
-          console.error('Error generating QR code for: ' + input, error);
-          // Add placeholder for failed generation
-          bulkQRs.push({
-            content: input,
-            error: true,
-            message: error.message || 'Failed to generate QR code'
-          });
+          if (!cancelRequested) {
+            console.error('Conversion error:', error);
+            showError(`Conversion failed: ${error.message || 'Unknown error'}`);
+            updateProgress(0, 'Conversion failed');
+          }
+        } finally {
+          hideLoading();
+          elements.convertBtn.disabled = false;
         }
       }
-    }
 
-    function createBulkZip() {
-      try {
-        const zip = new JSZip();
-        const prefix = bulkFilename.value.trim() || 'qr-codes';
-        let successCount = 0;
-
-        for (const item of bulkQRs) {
-          if (!item.error) {
-            const filename = `${sanitizeFilename(item.content)}.png`;
-            const data = item.dataURL.split(',')[1];
-            zip.file(filename, data, { base64: true });
-            successCount++;
-          }
-        }
-
-        if (successCount === 0) {
-          throw new Error('No QR codes were generated successfully');
-        }
-
-        zip.generateAsync({ type: 'blob' }).then(content => {
-          saveAs(content, `${prefix}.zip`);
-          bulkLoading.style.display = 'none';
-          bulkSuccess.style.display = 'block';
-          bulkSuccess.textContent = `Successfully generated and downloaded ${successCount} QR codes!`;
-          
-          if (successCount < bulkQRs.length) {
-            bulkSuccess.textContent += ` (${bulkQRs.length - successCount} failed)`;
+      function initializeConverter() {
+        // Drag and Drop Setup
+        elements.dropZone.addEventListener('click', () => elements.videoInput.click());
+        elements.dropZone.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          elements.dropZone.classList.add('drag-over');
+        });
+        elements.dropZone.addEventListener('dragenter', (e) => {
+          e.preventDefault();
+          elements.dropZone.classList.add('drag-over');
+        });
+        elements.dropZone.addEventListener('dragleave', () => {
+          elements.dropZone.classList.remove('drag-over');
+        });
+        elements.dropZone.addEventListener('drop', (e) => {
+          e.preventDefault();
+          elements.dropZone.classList.remove('drag-over');
+          const files = e.dataTransfer.files;
+          if (files.length > 0) {
+            elements.videoInput.files = files;
+            elements.videoInput.dispatchEvent(new Event('change'));
           }
         });
-      } catch (error) {
-        bulkLoading.style.display = 'none';
-        showError(bulkError, error.message || 'Error creating ZIP file');
-        console.error('ZIP creation error:', error);
-      }
-    }
 
-    // Email validation function
-    function isValidEmail(email) {
-      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      return re.test(email);
-    }
+        // File Input
+        elements.videoInput.addEventListener('change', processFile);
 
-    function downloadQR() {
-      if (!generatedQR) {
-        showError(qrError, 'Please generate a QR code first');
-        return;
-      }
+        // Convert Button
+        elements.convertBtn.addEventListener('click', convertVideo);
 
-      const filename = sanitizeFilename(generatedQR.content) + '.png';
-      const a = document.createElement('a');
-      a.href = generatedQR.data;
-      a.download = filename;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    }
-
-    function startScanner() {
-      scannerOverlay.style.display = 'flex';
-      scanResult.innerHTML = '<p>Scanning... Point camera at QR code</p>';
-      updateScannerStatus('Scanning...', 'scanner-loading');
-      
-      // Add scanning guides
-      scannerGuides.innerHTML = `
-        <div class="guide-line horizontal" style="top: 33%"></div>
-        <div class="guide-line horizontal" style="top: 66%"></div>
-        <div class="guide-line vertical" style="left: 33%"></div>
-        <div class="guide-line vertical" style="left: 66%"></div>
-      `;
-      scannerGuides.style.display = 'block';
-
-      navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
-        .then(stream => {
-          currentStream = stream;
-          video.srcObject = stream;
-          video.play();
-
-          requestAnimationFrame(scanQR);
-        })
-        .catch(err => {
-          console.error('Camera error: ', err);
-          scanResult.innerHTML = `<p class="error">Error accessing camera: ${err.message}</p>`;
-          updateScannerStatus('Camera Error', 'scanner-error');
+        // Cancel Button
+        elements.cancelBtn.addEventListener('click', () => {
+          cancelRequested = true;
+          if (ffmpeg) {
+            ffmpeg.exit();
+          }
         });
-    }
-    
-    function updateScannerStatus(message, className) {
-      scannerStatus.textContent = message;
-      scannerStatus.className = `scanner-status ${className}`;
-      scannerStatus.style.display = 'block';
-    }
 
-    function stopScanner() {
-      if (currentStream) {
-        currentStream.getTracks().forEach(track => track.stop());
-        currentStream = null;
-      }
-      scannerOverlay.style.display = 'none';
-      
-      // Remove scanning guides
-      scannerGuides.style.display = 'none';
-      
-      // Hide status
-      scannerStatus.style.display = 'none';
-    }
-
-    function scanQR() {
-      if (!currentStream) return;
-
-      if (video.readyState === video.HAVE_ENOUGH_DATA) {
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-
-        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        const code = jsQR(imageData.data, imageData.width, imageData.height);
-
-        if (code) {
-          scanResult.innerHTML = `
-            <p><strong>QR Code detected!</strong></p>
-            <p><strong>Content:</strong> ${code.data}</p>
-            <button onclick="useScannedContent('${code.data.replace(/'/g, "\\'")}')">
-              Generate this QR
-            </button>
-          `;
-          updateScannerStatus('QR Code Detected!', 'scanner-success');
-        }
-      }
-
-      requestAnimationFrame(scanQR);
-    }
-
-    function useScannedContent(content) {
-      stopScanner();
-      qrType.value = 'url';
-      toggleQRTypeFields();
-      qrInput.value = content;
-      tabs[0].click();
-      generateQR();
-    }
-
-    function scanQRFromImage(img) {
-      updateScannerStatus('Processing image...', 'scanner-loading');
-      
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
-      canvas.width = img.width;
-      canvas.height = img.height;
-
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-      const code = jsQR(imageData.data, imageData.width, canvas.height);
-
-      if (code) {
-        scanResult.innerHTML = `
-          <p><strong>QR Code detected in image!</strong></p>
-          <p><strong>Content:</strong> ${code.data}</p>
-          <button onclick="useScannedContent('${code.data.replace(/'/g, "\\'")}')">
-            Generate this QR
-          </button>
-        `;
-        updateScannerStatus('QR Code Found!', 'scanner-success');
-      } else {
-        scanResult.innerHTML = '<p class="error"><i class="fas fa-exclamation-circle"></i> No QR code found in the image</p>';
-        updateScannerStatus('No QR Found', 'scanner-error');
-      }
-    }
-
-    function handleFileUpload(e) {
-      const file = e.target.files[0];
-      if (!file) return;
-      
-      if (!file.type.match('image.*')) {
-        scanResult.innerHTML = '<p class="error"><i class="fas fa-exclamation-circle"></i> Please upload a valid image file</p>';
-        updateScannerStatus('Invalid File', 'scanner-error');
-        return;
-      }
-
-      updateScannerStatus('Processing image...', 'scanner-loading');
-      
-      const reader = new FileReader();
-      reader.onload = function(event) {
-        const img = new Image();
-        img.onload = function() {
-          scanQRFromImage(img);
-        };
-        img.onerror = function() {
-          scanResult.innerHTML = '<p class="error"><i class="fas fa-exclamation-circle"></i> Error loading image</p>';
-          updateScannerStatus('Image Error', 'scanner-error');
-        };
-        img.src = event.target.result;
-      };
-      reader.readAsDataURL(file);
-    }
-
-    function handleBulkFileUpload(e) {
-      const file = e.target.files[0];
-      if (!file || !file.name.endsWith('.csv')) {
-        showError(bulkError, 'Please upload a valid CSV file');
-        return;
-      }
-
-      const reader = new FileReader();
-      reader.onload = function(event) {
-        const text = event.target.result;
-        const lines = text.split('\n').map(line => line.trim()).filter(line => line);
-        bulkInput.value = lines.join('\n');
-      };
-      reader.readAsText(file);
-    }
-
-    function showError(element, message) {
-      element.textContent = message;
-      element.style.display = 'block';
-    }
-    
-    function saveQRPreferences() {
-      const preferences = {
-        fgColor: fgColor.value,
-        bgColor: bgColor.value,
-        size: sizeSlider.value,
-        borderSize: borderSize.value,
-        borderColor: borderColor.value,
-        logoSize: logoSize.value
-      };
-      localStorage.setItem(PREFERENCES_KEY, JSON.stringify(preferences));
-    }
-
-    function loadQRPreferences() {
-      const preferencesStr = localStorage.getItem(PREFERENCES_KEY);
-      if (preferencesStr) {
-        try {
-          const preferences = JSON.parse(preferencesStr);
-          
-          if (fgColor) fgColor.value = preferences.fgColor || '#000000';
-          if (bgColor) bgColor.value = preferences.bgColor || '#FFFFFF';
-          
-          if (sizeSlider) {
-            sizeSlider.value = preferences.size || '256';
+        // Keyboard accessibility for drag zone
+        elements.dropZone.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            elements.videoInput.click();
           }
-          
-          if (borderSize) {
-            borderSize.value = preferences.borderSize || '5';
-          }
-          
-          if (borderColor) borderColor.value = preferences.borderColor || '#FFFFFF';
-          
-          if (logoSize) {
-            logoSize.value = preferences.logoSize || '15';
-          }
-        } catch (e) {
-          console.error('Failed to parse QR preferences:', e);
-        }
+        });
+      }
+
+      initializeConverter();
+    }
+
+    async function initFFmpeg() {
+      if (!ffmpeg) {
+        ffmpeg = createFFmpeg({ 
+          log: true,
+          corePath: 'https://unpkg.com/@ffmpeg/core@0.10.0/dist/ffmpeg-core.js'
+        });
+      }
+      
+      if (!ffmpeg.isLoaded()) {
+        document.getElementById('progressMessage').textContent = 'Loading FFmpeg engine...';
+        await ffmpeg.load();
       }
     }
+
+    document.addEventListener('DOMContentLoaded', initVideoConverter);
   </script>
+  
+  <!-- Shared JavaScript -->
+  <script src="/js/main.js"></script>
 </body>
 </html>
