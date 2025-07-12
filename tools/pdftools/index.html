@@ -20,7 +20,9 @@
   <!-- PDF.js for PDF rendering -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
   
+  <!-- Shared CSS -->
   <style>
+    /* ========== SHARED STYLES ========== */
     :root {
       --primary: #4361ee;
       --primary-dark: #3a56d4;
@@ -130,6 +132,71 @@
       outline-offset: 2px;
     }
 
+    /* Dropdown Menu */
+    .dropdown {
+      position: relative;
+    }
+
+    .dropdown-toggle::after {
+      content: '\f078'; /* Font Awesome chevron-down */
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      margin-left: 8px;
+      font-size: 0.8rem;
+    }
+
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: white;
+      box-shadow: var(--box-shadow);
+      border-radius: var(--border-radius);
+      min-width: 240px;
+      max-height: 400px;
+      overflow-y: auto;
+      z-index: 1000;
+      list-style: none;
+      padding: 10px 0;
+    }
+
+    .dropdown-menu li {
+      margin: 0;
+    }
+
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      padding: 10px 20px;
+      color: var(--dark);
+      text-decoration: none;
+      font-weight: 500;
+      transition: var(--transition);
+    }
+
+    .dropdown-item i {
+      margin-right: 10px;
+      font-size: 1.2rem;
+      color: var(--primary);
+    }
+
+    .dropdown-item:hover, .dropdown-item:focus {
+      background: rgba(67, 97, 238, 0.1);
+      color: var(--primary);
+    }
+
+    .nav-item.dropdown:hover .dropdown-menu,
+    .nav-item.dropdown .dropdown-menu.active {
+      display: block;
+    }
+
+    .dropdown-error {
+      font-size: 0.9rem;
+      color: red;
+      padding: 10px 20px;
+    }
+
     .mobile-menu-btn {
       display: none;
       background: none;
@@ -148,7 +215,7 @@
       outline-offset: 2px;
     }
 
-    /* Mobile Menu Backdrop */
+    /* Mobile Menu */
     .mobile-backdrop {
       position: fixed;
       top: 0;
@@ -161,32 +228,31 @@
       opacity: 0;
       transition: opacity 0.3s ease;
     }
-    
+
     .mobile-backdrop.active {
       display: block;
       opacity: 1;
     }
-    
-    /* Mobile Navigation */
+
     .mobile-nav {
       position: fixed;
       top: 0;
       left: 0;
-      width: 100%;
+      width: 280px;
       height: 100vh;
       background: white;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
       z-index: 2000;
       transform: translateX(-100%);
       transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
       overflow-y: auto;
-      display: flex;
-      flex-direction: column;
+      display: block;
     }
-    
+
     .mobile-nav.active {
       transform: translateX(0);
     }
-    
+
     .mobile-nav-header {
       padding: 20px;
       display: flex;
@@ -194,7 +260,7 @@
       align-items: center;
       border-bottom: 1px solid var(--light-gray);
     }
-    
+
     .close-mobile-menu {
       background: none;
       border: none;
@@ -209,47 +275,472 @@
       align-items: center;
       justify-content: center;
     }
-    
+
     .close-mobile-menu:hover, .close-mobile-menu:focus {
       background: rgba(0, 0, 0, 0.05);
       outline: 2px solid var(--primary);
       outline-offset: 2px;
     }
-    
+
     .mobile-nav-menu {
       list-style: none;
       padding: 20px;
-      flex: 1;
     }
-    
+
     .mobile-nav-item {
       margin-bottom: 10px;
     }
-    
+
     .mobile-nav-link {
       display: block;
-      padding: 15px 20px;
+      padding: 12px 15px;
       color: var(--dark);
       text-decoration: none;
       font-weight: 500;
       border-radius: var(--border-radius);
       transition: var(--transition);
-      font-size: 1.1rem;
     }
-    
+
     .mobile-nav-link:hover, .mobile-nav-link:focus {
       background: rgba(67, 97, 238, 0.1);
       color: var(--primary);
       outline: 2px solid var(--primary);
       outline-offset: 2px;
     }
-    
+
     .mobile-nav-link i {
       width: 24px;
       text-align: center;
       margin-right: 10px;
     }
 
+    .mobile-nav .dropdown-menu {
+      display: none;
+      list-style: none;
+      padding: 10px 15px 10px 30px;
+      background: rgba(0, 0, 0, 0.05);
+    }
+
+    .mobile-nav .dropdown-menu.active {
+      display: block;
+    }
+
+    .mobile-nav .dropdown-item {
+      display: flex;
+      align-items: center;
+      padding: 8px 20px;
+    }
+
+    .mobile-nav .dropdown-item i {
+      margin-right: 10px;
+      font-size: 1.2rem;
+      color: var(--primary);
+    }
+
+    .mobile-nav .dropdown-error {
+      font-size: 0.9rem;
+      color: red;
+      padding: 8px 20px;
+    }
+
+    /* Footer */
+    footer {
+      background: linear-gradient(135deg, var(--light) 0%, #f0f4ff 100%);
+      color: #000;
+      padding: 60px 0 30px;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+      padding-top: 30px;
+      text-align: center;
+    }
+
+    .footer-bottom a {
+      color: #000;
+      text-decoration: none;
+      transition: var(--transition);
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin: 0 10px;
+    }
+
+    .footer-bottom a:hover, .footer-bottom a:focus {
+      color: var(--primary);
+      text-decoration: underline;
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    .footer-links-row {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .footer-bottom p {
+      color: #000;
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin: 0;
+    }
+
+    /* Cookie Consent Styles */
+    #cookie-consent {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 95%;
+      max-width: 800px;
+      background: var(--light);
+      border-radius: var(--border-radius);
+      box-shadow: 0 5px 30px rgba(0, 0, 0, 0.15);
+      padding: 20px;
+      z-index: 1000;
+      display: none;
+    }
+
+    .cookie-content {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .cookie-text {
+      flex: 1;
+      min-width: 300px;
+      color: var(--dark);
+    }
+
+    .cookie-text p {
+      margin-bottom: 10px;
+      font-size: 0.95rem;
+    }
+
+    .cookie-text a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .cookie-text a:hover, .cookie-text a:focus {
+      text-decoration: underline;
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    .cookie-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .cookie-btn {
+      padding: 10px 20px;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 0.9rem;
+      border: none;
+      min-width: 180px;
+    }
+
+    .cookie-btn:focus {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    .reject-btn {
+      background: var(--light-gray);
+      color: var(--dark);
+    }
+
+    .reject-btn:hover {
+      background: #e0e0e0;
+    }
+
+    .accept-btn {
+      background: var(--primary);
+      color: white;
+    }
+
+    .accept-btn:hover {
+      background: var(--primary-dark);
+    }
+
+    .cookie-settings-btn {
+      background: transparent;
+      color: var(--gray);
+      text-decoration: underline;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      margin-top: 10px;
+      font-size: 0.85rem;
+    }
+
+    .cookie-settings-btn:hover, .cookie-settings-btn:focus {
+      color: var(--dark);
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    #cookie-settings {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    .settings-modal {
+      background: var(--light);
+      border-radius: var(--border-radius);
+      width: 95%;
+      max-width: 600px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 30px;
+      position: relative;
+      animation: slideUp 0.3s ease-out;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .settings-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .settings-header h2 {
+      font-size: 1.8rem;
+      margin: 0;
+    }
+
+    .close-settings {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--gray);
+      transition: var(--transition);
+      padding: 5px;
+      border-radius: 5px;
+    }
+
+    .close-settings:hover, .close-settings:focus {
+      color: var(--dark);
+      background: rgba(0, 0, 0, 0.05);
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    .settings-content {
+      margin-bottom: 20px;
+    }
+
+    .cookie-type {
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid var(--light-gray);
+    }
+
+    .cookie-type-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .cookie-type h3 {
+      margin: 0;
+      font-size: 1.2rem;
+    }
+
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 24px;
+    }
+
+    .toggle-switch input {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+      z-index: 1;
+    }
+
+    .slider {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: var(--gray);
+      transition: background-color 0.3s ease;
+      border-radius: 24px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: transform 0.3s ease;
+      border-radius: 50%;
+    }
+
+    .toggle-switch input:checked + .slider {
+      background-color: var(--primary);
+    }
+
+    .toggle-switch input:checked + .slider:before {
+      transform: translateX(26px);
+    }
+
+    .toggle-switch input:focus + .slider {
+      box-shadow: 0 0 0 2px var(--primary-dark);
+    }
+
+    .toggle-switch input:disabled + .slider {
+      background-color: var(--light-gray);
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .toggle-switch input:disabled + .slider:before {
+      background-color: #ddd;
+    }
+
+    .cookie-type p {
+      font-size: 0.9rem;
+      color: var(--gray);
+      margin-bottom: 10px;
+    }
+
+    .settings-buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .save-settings {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 25px;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .save-settings:hover, .save-settings:focus {
+      background: var(--primary-dark);
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    /* Accessibility Improvements */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 992px) {
+      .nav-menu {
+        display: none;
+      }
+      
+      .mobile-menu-btn {
+        display: block;
+      }
+      
+      .mobile-nav {
+        width: 100%;
+      }
+    }
+
+    @media (min-width: 993px) {
+      .mobile-nav {
+        display: none !important;
+      }
+      .mobile-backdrop {
+        display: none !important;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .footer-links-row {
+        flex-direction: column;
+        gap: 10px;
+      }
+      
+      .cookie-content {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .cookie-buttons {
+        width: 100%;
+      }
+      
+      .cookie-btn {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .header-container {
+        padding: 15px 0;
+      }
+      
+      .logo {
+        font-size: 1.5rem;
+      }
+      
+      .logo i {
+        font-size: 1.8rem;
+      }
+      
+      .settings-modal {
+        padding: 20px;
+      }
+    }
+    /* ========== END SHARED STYLES ========== */
+
+    /* ========== PDF TOOLS SPECIFIC STYLES ========== */
     /* Main Header Section */
     .main-header {
       text-align: center;
@@ -793,410 +1284,8 @@
       display: none;
     }
 
-    /* Practical Uses Section */
-    .uses-section {
-      background: linear-gradient(135deg, #4361ee, #7209b7);
-      color: white;
-      border-radius: var(--border-radius);
-      padding: 40px;
-      margin: 40px auto;
-      box-shadow: var(--box-shadow);
-      text-align: center;
-    }
-
-    .uses-section h2,
-    .uses-section p {
-      color: white !important;
-    }
-
-    .uses-section h2 i {
-      color: white !important;
-    }
-
-    .uses-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
-      margin-top: 25px;
-    }
-
-    .use-card {
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: var(--border-radius);
-      padding: 25px;
-      text-align: center;
-      backdrop-filter: blur(5px);
-      transition: var(--transition);
-    }
-
-    .use-card:hover {
-      transform: translateY(-5px);
-      background: rgba(255, 255, 255, 0.15);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-    }
-
-    .use-card i {
-      font-size: 2.5rem;
-      margin-bottom: 15px;
-      color: white;
-    }
-
-    .use-card h3 {
-      font-size: 1.3rem;
-      margin-bottom: 10px;
-      color: white;
-      font-weight: 500;
-    }
-
-    .use-card p {
-      font-size: 0.95rem;
-      color: rgba(255, 255, 255, 0.85);
-    }
-
-    /* Footer */
-    footer {
-      background: linear-gradient(135deg, var(--light) 0%, #f0f4ff 100%);
-      color: #000;
-      padding: 60px 0 30px;
-    }
-
-    .footer-bottom {
-      border-top: 1px solid rgba(0, 0, 0, 0.1);
-      padding-top: 30px;
-      text-align: center;
-    }
-
-    .footer-bottom a {
-      color: #000;
-      text-decoration: none;
-      transition: var(--transition);
-      font-weight: 600;
-      font-size: 1.1rem;
-      margin: 0 10px;
-    }
-
-    .footer-bottom a:hover, .footer-bottom a:focus {
-      color: var(--primary);
-      text-decoration: underline;
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-
-    .footer-links-row {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-    }
-    
-    .footer-bottom p {
-      color: #000;
-      font-weight: 600;
-      font-size: 1.1rem;
-      margin: 0;
-    }
-    
-    /* Cookie Consent Styles */
-    #cookie-consent {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 95%;
-      max-width: 800px;
-      background: var(--light);
-      border-radius: var(--border-radius);
-      box-shadow: 0 5px 30px rgba(0, 0, 0, 0.15);
-      padding: 20px;
-      z-index: 1000;
-      display: none;
-    }
-
-    .cookie-content {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 15px;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .cookie-text {
-      flex: 1;
-      min-width: 300px;
-      color: var(--dark);
-    }
-
-    .cookie-text p {
-      margin-bottom: 10px;
-      font-size: 0.95rem;
-    }
-
-    .cookie-text a {
-      color: var(--primary);
-      text-decoration: none;
-    }
-
-    .cookie-text a:hover, .cookie-text a:focus {
-      text-decoration: underline;
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-
-    .cookie-buttons {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .cookie-btn {
-      padding: 10px 20px;
-      border-radius: 50px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: var(--transition);
-      font-size: 0.9rem;
-      border: none;
-      min-width: 180px;
-    }
-
-    .cookie-btn:focus {
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-
-    .reject-btn {
-      background: var(--light-gray);
-      color: var(--dark);
-    }
-
-    .reject-btn:hover {
-      background: #e0e0e0;
-    }
-
-    .accept-btn {
-      background: var(--primary);
-      color: white;
-    }
-
-    .accept-btn:hover {
-      background: var(--primary-dark);
-    }
-
-    .cookie-settings-btn {
-      background: transparent;
-      color: var(--gray);
-      text-decoration: underline;
-      border: none;
-      cursor: pointer;
-      padding: 0;
-      margin-top: 10px;
-      font-size: 0.85rem;
-    }
-
-    .cookie-settings-btn:hover, .cookie-settings-btn:focus {
-      color: var(--dark);
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-
-    #cookie-settings {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.7);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 2000;
-      animation: fadeIn 0.3s ease-out;
-    }
-
-    .settings-modal {
-      background: var(--light);
-      border-radius: var(--border-radius);
-      width: 95%;
-      max-width: 600px;
-      max-height: 90vh;
-      overflow-y: auto;
-      padding: 30px;
-      position: relative;
-      animation: slideUp 0.3s ease-out;
-    }
-
-    @keyframes slideUp {
-      from { transform: translateY(20px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-
-    .settings-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-
-    .settings-header h2 {
-      font-size: 1.8rem;
-      margin: 0;
-    }
-
-    .close-settings {
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      cursor: pointer;
-      color: var(--gray);
-      transition: var(--transition);
-      padding: 5px;
-      border-radius: 5px;
-    }
-
-    .close-settings:hover, .close-settings:focus {
-      color: var(--dark);
-      background: rgba(0, 0, 0, 0.05);
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-
-    .settings-content {
-      margin-bottom: 20px;
-    }
-
-    .cookie-type {
-      margin-bottom: 20px;
-      padding-bottom: 15px;
-      border-bottom: 1px solid var(--light-gray);
-    }
-
-    .cookie-type-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-
-    .cookie-type h3 {
-      margin: 0;
-      font-size: 1.2rem;
-    }
-
-    .toggle-switch {
-      position: relative;
-      display: inline-block;
-      width: 50px;
-      height: 24px;
-    }
-
-    .toggle-switch input {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      opacity: 0;
-      cursor: pointer;
-      z-index: 1;
-    }
-
-    .slider {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: var(--gray);
-      transition: background-color 0.3s ease;
-      border-radius: 24px;
-    }
-
-    .slider:before {
-      position: absolute;
-      content: "";
-      height: 16px;
-      width: 16px;
-      left: 4px;
-      bottom: 4px;
-      background-color: white;
-      transition: transform 0.3s ease;
-      border-radius: 50%;
-    }
-
-    .toggle-switch input:checked + .slider {
-      background-color: var(--primary);
-    }
-
-    .toggle-switch input:checked + .slider:before {
-      transform: translateX(26px);
-    }
-
-    .toggle-switch input:focus + .slider {
-      box-shadow: 0 0 0 2px var(--primary-dark);
-    }
-
-    .toggle-switch input:disabled + .slider {
-      background-color: var(--light-gray);
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    .toggle-switch input:disabled + .slider:before {
-      background-color: #ddd;
-    }
-
-    .cookie-type p {
-      font-size: 0.9rem;
-      color: var(--gray);
-      margin-bottom: 10px;
-    }
-
-    .settings-buttons {
-      display: flex;
-      justify-content: flex-end;
-      gap: 10px;
-    }
-
-    .save-settings {
-      background: var(--primary);
-      color: white;
-      border: none;
-      padding: 10px 25px;
-      border-radius: 50px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-
-    .save-settings:hover, .save-settings:focus {
-      background: var(--primary-dark);
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-
-    /* Accessibility Improvements */
-    .sr-only {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      border: 0;
-    }
-
     /* Responsive Design */
     @media (max-width: 992px) {
-      .nav-menu {
-        display: none;
-      }
-      
-      .mobile-menu-btn {
-        display: block;
-      }
-      
       .guide-grid {
         grid-template-columns: 1fr;
       }
@@ -1206,38 +1295,7 @@
       }
     }
 
-    @media (min-width: 993px) {
-      .mobile-nav {
-        display: none !important;
-      }
-      .mobile-backdrop {
-        display: none !important;
-      }
-    }
-
     @media (max-width: 768px) {
-      .footer-links-row {
-        flex-direction: column;
-        gap: 10px;
-      }
-      
-      .cookie-content {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      
-      .cookie-buttons {
-        width: 100%;
-      }
-      
-      .cookie-btn {
-        width: 100%;
-      }
-
-      .uses-grid {
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      }
-      
       .page-range-container,
       .conversion-settings {
         padding: 15px;
@@ -1273,141 +1331,14 @@
         font-size: 2rem;
       }
     }
+    /* ========== END PDF TOOLS SPECIFIC STYLES ========== */
   </style>
 </head>
 <body>
-  <!-- Mobile Menu Backdrop -->
-  <div class="mobile-backdrop" id="mobile-backdrop"></div>
-  
-  <!-- Cookie Consent Banner -->
-  <div id="cookie-consent" role="dialog" aria-labelledby="cookie-consent-banner" aria-describedby="cookie-consent-desc">
-    <div class="sr-only" id="cookie-consent-banner">Cookie Consent</div>
-    <div class="cookie-content" id="cookie-consent-desc">
-      <div class="cookie-text">
-        <p>We use cookies to enhance your experience and analyze site traffic. By clicking "Accept All", you consent to our use of cookies. 
-          <a href="/privacy-policy.html" aria-label="Learn more about our Privacy Policy">Learn more</a> in our Privacy Policy.
-        </p>
-        <button class="cookie-settings-btn" id="open-settings" aria-label="Open cookie settings">Cookie Settings</button>
-      </div>
-      <div class="cookie-buttons">
-        <button class="cookie-btn reject-btn" id="reject-cookies" aria-label="Reject non-essential cookies">Reject Non-Essential</button>
-        <button class="cookie-btn accept-btn" id="accept-cookies" aria-label="Accept all cookies">Accept All</button>
-      </div>
-    </div>
-  </div>
-
-  <div id="cookie-settings" role="dialog" aria-labelledby="cookie-settings-title" aria-describedby="cookie-settings-desc">
-    <div class="settings-modal">
-      <div class="settings-header">
-        <h2 id="cookie-settings-title"><i class="fas fa-cookie-bite"></i> Cookie Settings</h2>
-        <button class="close-settings" id="close-settings" aria-label="Close cookie settings">×</button>
-      </div>
-      <div class="settings-content">
-        <p id="cookie-settings-desc">You can set your preferences for how we and our partners use cookies and similar technologies.</p>
-        
-        <div class="cookie-type">
-          <div class="cookie-type-header">
-            <h3>Essential Cookies</h3>
-            <label class="toggle-switch" for="essential-toggle">
-              <input type="checkbox" id="essential-toggle" checked disabled aria-label="Essential cookies (always enabled, cannot be disabled)" aria-describedby="essential-desc">
-              <span class="slider"></span>
-            </label>
-          </div>
-          <p id="essential-desc">These cookies are necessary for the website to function and cannot be switched off.</p>
-        </div>
-        
-        <div class="cookie-type">
-          <div class="cookie-type-header">
-            <h3>Analytics Cookies</h3>
-            <label class="toggle-switch" for="analytics-toggle">
-              <input type="checkbox" id="analytics-toggle" aria-label="Analytics cookies toggle" aria-describedby="analytics-desc">
-              <span class="slider"></span>
-            </label>
-          </div>
-          <p id="analytics-desc">These cookies allow us to count visits and traffic sources so we can measure and improve the performance of our site.</p>
-        </div>
-        
-        <div class="cookie-type">
-          <div class="cookie-type-header">
-            <h3>Advertising Cookies</h3>
-            <label class="toggle-switch" for="advertising-toggle">
-              <input type="checkbox" id="advertising-toggle" aria-label="Advertising cookies toggle" aria-describedby="advertising-desc">
-              <span class="slider"></span>
-            </label>
-          </div>
-          <p id="advertising-desc">These cookies may be set through our site by our advertising partners to build a profile of your interests.</p>
-        </div>
-      </div>
-      <div class="settings-buttons">
-        <button class="save-settings" id="save-settings" aria-label="Save cookie settings">Save Settings</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Header & Navigation -->
-  <header>
-    <div class="container">
-      <div class="header-container">
-        <a href="https://everytool.io/" class="logo" aria-label="EveryTool.io Home">
-          <i class="fas fa-tools"></i>
-          EveryTool.io
-        </a>
-        
-        <div class="nav-container">
-          <ul class="nav-menu">
-            <li class="nav-item">
-              <a href="https://everytool.io/" class="nav-link" aria-label="Home"><i class="fas fa-home"></i> Home</a>
-            </li>
-            <li class="nav-item">
-              <a href="/tools" class="nav-link" aria-label="Tools"><i class="fas fa-toolbox"></i> Tools</a>
-            </li>
-            <li class="nav-item">
-              <a href="/blog" class="nav-link" aria-label="Blog"><i class="fas fa-blog"></i> Blog</a>
-            </li>
-            <li class="nav-item">
-              <a href="/about" class="nav-link" aria-label="About"><i class="fas fa-address-card"></i> About</a>
-            </li>
-            <li class="nav-item">
-              <a href="/contact" class="nav-link" aria-label="Contact"><i class="fas fa-envelope"></i> Contact</a>
-            </li>
-          </ul>
-          <button class="mobile-menu-btn" id="mobile-menu-toggle" aria-label="Open mobile menu">
-            <i class="fas fa-bars"></i>
-          </button>
-        </div>
-      </div>
-    </div>
+  <!-- Header Placeholder -->
+  <header id="main-header">
+    <p class="error-message" style="display: none; color: red; text-align: center;">Failed to load header. Please try refreshing the page.</p>
   </header>
-
-  <!-- Mobile Navigation -->
-  <div class="mobile-nav" id="mobile-nav">
-    <div class="mobile-nav-header">
-      <a href="https://everytool.io/" class="logo" aria-label="EveryTool.io Home">
-        <i class="fas fa-tools"></i>
-        EveryTool.io
-      </a>
-      <button class="close-mobile-menu" id="close-mobile-menu" aria-label="Close mobile menu">
-        <i class="fas fa-times"></i>
-      </button>
-    </div>
-    <ul class="mobile-nav-menu">
-      <li class="mobile-nav-item">
-        <a href="https://everytool.io/" class="mobile-nav-link" aria-label="Home"><i class="fas fa-home"></i> Home</a>
-      </li>
-      <li class="mobile-nav-item">
-        <a href="/tools" class="mobile-nav-link" aria-label="Tools"><i class="fas fa-toolbox"></i> Tools</a>
-      </li>
-      <li class="mobile-nav-item">
-        <a href="/blog" class="mobile-nav-link" aria-label="Blog"><i class="fas fa-blog"></i> Blog</a>
-      </li>
-      <li class="mobile-nav-item">
-        <a href="/about" class="mobile-nav-link" aria-label="About"><i class="fas fa-address-card"></i> About</a>
-      </li>
-      <li class="mobile-nav-item">
-        <a href="/contact" class="mobile-nav-link" aria-label="Contact"><i class="fas fa-envelope"></i> Contact</a>
-      </li>
-    </ul>
-  </div>
 
   <!-- Main Header Section -->
   <section class="main-header">
@@ -1706,226 +1637,82 @@
     </div>
   </section>
 
-  <!-- Practical Uses for PDF Tools Section -->
-  <section class="uses-section">
-    <div class="container">
-      <h2><i class="fas fa-lightbulb"></i> Practical Uses for PDF Tools</h2>
-      <p>Explore how our PDF tools can enhance your projects:</p>
-      <div class="uses-grid">
-        <div class="use-card">
-          <i class="fas fa-briefcase"></i>
-          <h3>Business Reports</h3>
-          <p>Merge multiple reports into a single PDF for easy sharing.</p>
-        </div>
-        <div class="use-card">
-          <i class="fas fa-book"></i>
-          <h3>E-book Creation</h3>
-          <p>Combine chapters or convert manuscripts to PDF format.</p>
-        </div>
-        <div class="use-card">
-          <i class="fas fa-file-alt"></i>
-          <h3>Document Archiving</h3>
-          <p>Compress PDFs to save storage space without losing quality.</p>
-        </div>
-        <div class="use-card">
-          <i class="fas fa-envelope"></i>
-          <h3>Email Attachments</h3>
-          <p>Convert documents to PDF for professional email sharing.</p>
-        </div>
-        <div class="use-card">
-          <i class="fas fa-graduation-cap"></i>
-          <h3>Academic Papers</h3>
-          <p>Compress large research papers for easier sharing.</p>
-        </div>
-        <div class="use-card">
-          <i class="fas fa-images"></i>
-          <h3>Portfolio Creation</h3>
-          <p>Convert your artwork images to PDF to create a portfolio.</p>
-        </div>
-        <div class="use-card">
-          <i class="fas fa-file-image"></i>
-          <h3>Image to PDF</h3>
-          <p>Convert images to PDF for creating portfolios or reports.</p>
-        </div>
-        <div class="use-card">
-          <i class="fas fa-file-contract"></i>
-          <h3>Contract Management</h3>
-          <p>Merge signed contracts into one document for record keeping.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer>
-    <div class="container">
-      <div class="footer-bottom">
-        <div class="footer-links-row">
-          <a href="/privacy" aria-label="Privacy Policy">Privacy Policy</a>
-          <a href="/terms" aria-label="Terms of Service">Terms of Service</a>
-          <a href="/gdpr" aria-label="GDPR Compliance">GDPR Compliance</a>
-          <a href="#" id="open-settings-footer" aria-label="Open cookie settings">Cookie Settings</a>
-        </div>
-        <p>© 2025 EveryTool.io. All rights reserved.</p>
-      </div>
-    </div>
+  <!-- Footer Placeholder -->
+  <footer id="main-footer">
+    <p class="error-message" style="display: none; color: red; text-align: center;">Failed to load footer. Please try refreshing the page.</p>
   </footer>
 
+  <!-- Cookie Consent Banner -->
+  <div id="cookie-consent" role="dialog" aria-labelledby="cookie-consent-banner" aria-describedby="cookie-consent-desc">
+    <div class="sr-only" id="cookie-consent-banner">Cookie Consent</div>
+    <div class="cookie-content" id="cookie-consent-desc">
+      <div class="cookie-text">
+        <p>We use cookies to enhance your experience and analyze site traffic. By clicking "Accept All", you consent to our use of cookies. 
+          <a href="/privacy-policy.html" aria-label="Learn more about our Privacy Policy">Learn more</a> in our Privacy Policy.
+        </p>
+        <button class="cookie-settings-btn" id="open-settings" aria-label="Open cookie settings">Cookie Settings</button>
+      </div>
+      <div class="cookie-buttons">
+        <button class="cookie-btn reject-btn" id="reject-cookies" aria-label="Reject non-essential cookies">Reject Non-Essential</button>
+        <button class="cookie-btn accept-btn" id="accept-cookies" aria-label="Accept all cookies">Accept All</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cookie Settings Modal -->
+  <div id="cookie-settings" role="dialog" aria-labelledby="cookie-settings-title" aria-describedby="cookie-settings-desc">
+    <div class="settings-modal">
+      <div class="settings-header">
+        <h2 id="cookie-settings-title"><i class="fas fa-cookie-bite"></i> Cookie Settings</h2>
+        <button class="close-settings" id="close-settings" aria-label="Close cookie settings">×</button>
+      </div>
+      <div class="settings-content">
+        <p id="cookie-settings-desc">You can set your preferences for how we and our partners use cookies and similar technologies.</p>
+        
+        <div class="cookie-type">
+          <div class="cookie-type-header">
+            <h3>Essential Cookies</h3>
+            <label class="toggle-switch" for="essential-toggle">
+              <input type="checkbox" id="essential-toggle" checked disabled aria-label="Essential cookies (always enabled, cannot be disabled)" aria-describedby="essential-desc">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <p id="essential-desc">These cookies are necessary for the website to function and cannot be switched off.</p>
+        </div>
+        
+        <div class="cookie-type">
+          <div class="cookie-type-header">
+            <h3>Analytics Cookies</h3>
+            <label class="toggle-switch" for="analytics-toggle">
+              <input type="checkbox" id="analytics-toggle" aria-label="Analytics cookies toggle" aria-describedby="analytics-desc">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <p id="analytics-desc">These cookies allow us to count visits and traffic sources so we can measure and improve the performance of our site.</p>
+        </div>
+        
+        <div class="cookie-type">
+          <div class="cookie-type-header">
+            <h3>Advertising Cookies</h3>
+            <label class="toggle-switch" for="advertising-toggle">
+              <input type="checkbox" id="advertising-toggle" aria-label="Advertising cookies toggle" aria-describedby="advertising-desc">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <p id="advertising-desc">These cookies may be set through our site by our advertising partners to build a profile of your interests.</p>
+        </div>
+      </div>
+      <div class="settings-buttons">
+        <button class="save-settings" id="save-settings" aria-label="Save cookie settings">Save Settings</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="/js/main.js"></script>
   <script>
     // Set up PDF.js worker
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
-
-    // Mobile Menu Functionality
-    function initMobileMenu() {
-      const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
-      const closeMobileMenu = document.getElementById('close-mobile-menu');
-      const mobileNav = document.getElementById('mobile-nav');
-      const mobileBackdrop = document.getElementById('mobile-backdrop');
-      
-      function openMobileMenu() {
-        mobileNav.classList.add('active');
-        mobileBackdrop.classList.add('active');
-        document.body.classList.add('menu-open');
-        document.body.style.overflow = 'hidden';
-      }
-      
-      function closeMobileMenuHandler() {
-        mobileNav.classList.remove('active');
-        mobileBackdrop.classList.remove('active');
-        document.body.classList.remove('menu-open');
-        document.body.style.overflow = '';
-      }
-      
-      if (mobileMenuToggle) {
-        mobileMenuToggle.addEventListener('click', openMobileMenu);
-      }
-      
-      if (closeMobileMenu) {
-        closeMobileMenu.addEventListener('click', closeMobileMenuHandler);
-      }
-      
-      if (mobileBackdrop) {
-        mobileBackdrop.addEventListener('click', closeMobileMenuHandler);
-      }
-      
-      // Close menu when clicking on links
-      const mobileLinks = document.querySelectorAll('.mobile-nav-link');
-      mobileLinks.forEach(link => {
-        link.addEventListener('click', closeMobileMenuHandler);
-      });
-      
-      // Close menu when pressing Escape key
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && mobileNav.classList.contains('active')) {
-          closeMobileMenuHandler();
-        }
-      });
-    }
-
-    // Cookie Consent Functionality
-    function initCookieConsent() {
-      const COOKIE_CONSENT_KEY = 'cookieConsent';
-      
-      function getCookiePreferences() {
-        const preferences = localStorage.getItem(COOKIE_CONSENT_KEY);
-        return preferences ? JSON.parse(preferences) : { essential: true, analytics: false, advertising: false };
-      }
-      
-      function saveCookiePreferences(preferences) {
-        try {
-          localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(preferences));
-        } catch (e) {
-          console.warn('Failed to save cookie preferences:', e);
-        }
-      }
-      
-      function checkCookieConsent() {
-        const preferences = getCookiePreferences();
-        if (!preferences || !preferences.hasOwnProperty('essential')) {
-          const consent = document.getElementById('cookie-consent');
-          if (consent) consent.style.display = 'block';
-        } else {
-          const analyticsToggle = document.getElementById('analytics-toggle');
-          const advertisingToggle = document.getElementById('advertising-toggle');
-          if (analyticsToggle) analyticsToggle.checked = preferences.analytics;
-          if (advertisingToggle) advertisingToggle.checked = preferences.advertising;
-        }
-      }
-      
-      function openCookieSettings() {
-        const preferences = getCookiePreferences();
-        const analyticsToggle = document.getElementById('analytics-toggle');
-        const advertisingToggle = document.getElementById('advertising-toggle');
-        if (analyticsToggle) analyticsToggle.checked = preferences.analytics;
-        if (advertisingToggle) advertisingToggle.checked = preferences.advertising;
-        const settings = document.getElementById('cookie-settings');
-        if (settings) settings.style.display = 'flex';
-        // Focus the first focusable element in the modal
-        document.getElementById('analytics-toggle').focus();
-      }
-      
-      function closeCookieSettings() {
-        const settings = document.getElementById('cookie-settings');
-        if (settings) settings.style.display = 'none';
-        // Return focus to the button that opened the settings
-        document.getElementById('open-settings').focus();
-      }
-      
-      // Set up event listeners
-      const acceptBtn = document.getElementById('accept-cookies');
-      if (acceptBtn) {
-        acceptBtn.addEventListener('click', () => {
-          saveCookiePreferences({
-            essential: true,
-            analytics: true,
-            advertising: true
-          });
-          document.getElementById('cookie-consent').style.display = 'none';
-        });
-      }
-      
-      const rejectBtn = document.getElementById('reject-cookies');
-      if (rejectBtn) {
-        rejectBtn.addEventListener('click', () => {
-          saveCookiePreferences({
-            essential: true,
-            analytics: false,
-            advertising: false
-          });
-          document.getElementById('cookie-consent').style.display = 'none';
-        });
-      }
-      
-      const openSettingsBtn = document.getElementById('open-settings');
-      if (openSettingsBtn) openSettingsBtn.addEventListener('click', openCookieSettings);
-      
-      const closeSettingsBtn = document.getElementById('close-settings');
-      if (closeSettingsBtn) closeSettingsBtn.addEventListener('click', closeCookieSettings);
-      
-      const saveSettingsBtn = document.getElementById('save-settings');
-      if (saveSettingsBtn) {
-        saveSettingsBtn.addEventListener('click', () => {
-          saveCookiePreferences({
-            essential: true,
-            analytics: document.getElementById('analytics-toggle').checked,
-            advertising: document.getElementById('advertising-toggle').checked
-          });
-          closeCookieSettings();
-          document.getElementById('cookie-consent').style.display = 'none';
-        });
-      }
-      
-      const openSettingsFooter = document.getElementById('open-settings-footer');
-      if (openSettingsFooter) {
-        openSettingsFooter.addEventListener('click', (e) => {
-          e.preventDefault();
-          openCookieSettings();
-        });
-      }
-      
-      // Initialize cookie preferences
-      checkCookieConsent();
-    }
 
     // PDF Tools Functionality
     function initPDFTools() {
@@ -2560,18 +2347,8 @@
       setupPDFTools();
     }
 
-    // Initialize everything when DOM is loaded
-    document.addEventListener('DOMContentLoaded', () => {
-      initMobileMenu();
-      initCookieConsent();
-      initPDFTools();
-      
-      // Check cookie consent status
-      const preferences = localStorage.getItem('cookieConsent');
-      if (!preferences) {
-        document.getElementById('cookie-consent').style.display = 'block';
-      }
-    });
+    // Initialize PDF tools when DOM is loaded
+    document.addEventListener('DOMContentLoaded', initPDFTools);
   </script>
 </body>
 </html>
