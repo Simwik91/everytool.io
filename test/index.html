@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Contact EveryTool.io - Share feedback, report issues, or suggest new features for our privacy-focused online tools.">
-  <title>Contact Us - EveryTool.io</title>
+  <meta name="description" content="EveryTool.io - GDPR Compliance Information. Learn how we protect your data and privacy through client-side processing.">
+  <meta name="robots" content="index, follow">
+  <meta name="keywords" content="gdpr compliance, everytool privacy, data protection, client-side processing, privacy tools">
+  <title>GDPR Compliance - EveryTool.io</title>
   
   <!-- SEO Optimizations -->
-  <meta name="robots" content="index, follow">
-  <meta name="keywords" content="contact everytool, feedback, feature request, privacy tools, online tools">
-  <meta property="og:title" content="Contact Us - EveryTool.io">
-  <meta property="og:description" content="Get in touch with EveryTool.io to share feedback, report issues, or suggest new features for our privacy-focused tools.">
+  <meta property="og:title" content="GDPR Compliance - EveryTool.io">
+  <meta property="og:description" content="Learn how EveryTool.io's client-side architecture aligns with GDPR principles to protect your data and privacy.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://everytool.io/contact">
+  <meta property="og:url" content="https://everytool.io/gdpr">
   <meta property="og:image" content="https://everytool.io/social-preview.jpg">
   <meta name="twitter:card" content="summary_large_image">
   
@@ -20,7 +20,7 @@
   <link rel="preconnect" href="https://cdnjs.cloudflare.com">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.rel='stylesheet'">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
   <!-- Structured Data -->
@@ -28,9 +28,9 @@
   {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    "name": "Contact EveryTool.io",
-    "description": "Get in touch with EveryTool.io to share feedback, report issues, or suggest new features for our privacy-focused tools.",
-    "url": "https://everytool.io/contact",
+    "name": "GDPR Compliance - EveryTool.io",
+    "description": "Learn how EveryTool.io's client-side architecture aligns with GDPR principles to protect your data and privacy.",
+    "url": "https://everytool.io/gdpr",
     "publisher": {
       "@type": "Organization",
       "name": "EveryTool.io",
@@ -45,215 +45,235 @@
   <!-- Shared CSS -->
   <link rel="stylesheet" href="/css/styles.css">
   
-  <!-- Contact Page Specific Styles -->
+  <!-- GDPR Page Specific Styles -->
   <style>
-    /* Contact Hero Section */
-    .contact-hero {
+    .gdpr-hero {
+      padding: 80px 0 40px;
+      text-align: center;
       background: linear-gradient(135deg, var(--primary), var(--secondary));
       color: white;
-      border-radius: var(--border-radius);
-      padding: 80px 40px;
-      margin: 60px 0 40px;
-      box-shadow: var(--box-shadow);
-      text-align: center;
       position: relative;
       overflow: hidden;
     }
-    
-    .contact-hero:before {
+
+    .gdpr-hero::before {
       content: "";
       position: absolute;
       top: -50px;
-      right: -50px;
+      left: -50px;
       width: 200px;
       height: 200px;
       background: rgba(255, 255, 255, 0.1);
       border-radius: 50%;
     }
-    
-    .contact-hero:after {
+
+    .gdpr-hero::after {
       content: "";
       position: absolute;
       bottom: -80px;
-      left: -80px;
+      right: -80px;
       width: 250px;
       height: 250px;
       background: rgba(255, 255, 255, 0.1);
       border-radius: 50%;
     }
-    
-    .contact-hero h2 {
-      font-size: 2.5rem;
+
+    .gdpr-hero h1 {
+      font-size: 2.8rem;
       margin-bottom: 20px;
+      font-weight: 700;
       position: relative;
       z-index: 2;
     }
-    
-    .contact-hero p {
-      font-size: 1.25rem;
+
+    .gdpr-hero p {
+      font-size: 1.2rem;
       max-width: 800px;
       margin: 0 auto;
+      opacity: 0.9;
       position: relative;
       z-index: 2;
-      line-height: 1.7;
-      opacity: 0.9;
     }
-    
-    /* Contact Form Section */
-    .contact-form-container {
-      max-width: 800px;
-      margin: 0 auto 60px;
-    }
-    
-    .contact-card {
+
+    /* GDPR Content Styles */
+    .gdpr-content {
+      padding: 60px 0;
       background: white;
-      border-radius: var(--border-radius);
-      padding: 40px;
-      box-shadow: var(--box-shadow);
-      margin-bottom: 30px;
     }
-    
-    .contact-card h2 {
-      font-size: 2rem;
-      margin-bottom: 25px;
+
+    .gdpr-section {
+      margin-bottom: 50px;
+    }
+
+    .gdpr-section h2 {
       color: var(--primary);
-      text-align: center;
-    }
-    
-    .contact-card h2 i {
-      color: var(--secondary);
-      margin-right: 12px;
-    }
-    
-    .form-group {
       margin-bottom: 20px;
+      font-size: 2rem;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--light-gray);
     }
-    
-    label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: 500;
-      color: var(--dark);
-    }
-    
-    input, textarea, select {
-      width: 100%;
-      padding: 14px;
-      border: 1px solid var(--light-gray);
-      border-radius: var(--border-radius);
-      font-size: 1rem;
-      font-family: 'Poppins', sans-serif;
-      transition: var(--transition);
-    }
-    
-    input:focus, textarea:focus, select:focus {
-      outline: 2px solid var(--primary);
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
-    }
-    
-    textarea {
-      min-height: 150px;
-      resize: vertical;
-    }
-    
-    .btn {
-      display: inline-block;
-      padding: 16px 40px;
-      background: var(--primary);
-      color: white;
-      border: none;
-      border-radius: 50px;
-      font-size: 1.1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: var(--transition);
-      margin-top: 10px;
-      width: 100%;
-      text-align: center;
-    }
-    
-    .btn:hover, .btn:focus {
-      background: var(--primary-dark);
-      transform: translateY(-3px);
-      box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-    
-    .feature-request {
-      background: rgba(67, 97, 238, 0.05);
-      border-left: 4px solid var(--primary);
-      padding: 20px;
-      margin: 30px 0;
-      border-radius: 0 var(--border-radius) var(--border-radius) 0;
-    }
-    
-    .feature-request h3 {
+
+    .gdpr-section h3 {
+      color: var(--secondary);
+      margin: 25px 0 15px;
+      font-size: 1.5rem;
       display: flex;
       align-items: center;
       gap: 10px;
-      margin-bottom: 15px;
-      color: var(--primary);
-    }
-    
-    .feature-request ul {
-      margin-left: 25px;
-    }
-    
-    .feature-request li {
-      margin-bottom: 10px;
-      color: var(--gray);
-    }
-    
-    .success-message {
-      background: rgba(39, 174, 96, 0.1);
-      color: #27ae60;
-      padding: 15px;
-      border-radius: var(--border-radius);
-      margin: 20px 0;
-      display: none;
-      border-left: 4px solid #27ae60;
-      text-align: center;
-    }
-    
-    /* Responsive Design */
-    @media (max-width: 992px) {
-      .contact-hero {
-        padding: 60px 30px;
-      }
-      
-      .contact-card {
-        padding: 30px;
-      }
     }
 
+    .gdpr-section p {
+      margin-bottom: 15px;
+      color: #444;
+      line-height: 1.8;
+    }
+
+    .gdpr-section ul {
+      margin: 20px 0;
+      padding-left: 30px;
+    }
+
+    .gdpr-section li {
+      margin-bottom: 12px;
+      line-height: 1.6;
+      position: relative;
+      padding-left: 25px;
+      color: #444;
+    }
+
+    .gdpr-section li::before {
+      content: "•";
+      color: var(--primary);
+      font-weight: bold;
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+
+    .highlight-box {
+      background: rgba(67, 97, 238, 0.05);
+      border-left: 4px solid var(--primary);
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 0 var(--border-radius) var(--border-radius) 0;
+    }
+
+    .privacy-diagram {
+      display: flex;
+      justify-content: space-between;
+      margin: 40px 0;
+      flex-wrap: wrap;
+    }
+
+    .diagram-item {
+      flex: 1;
+      min-width: 300px;
+      text-align: center;
+      padding: 20px;
+      margin: 10px;
+      background: rgba(67, 97, 238, 0.03);
+      border-radius: var(--border-radius);
+      transition: var(--transition);
+    }
+    
+    .diagram-item:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--box-shadow);
+    }
+
+    .diagram-icon {
+      font-size: 3.5rem;
+      color: var(--primary);
+      margin-bottom: 15px;
+    }
+
+    .diagram-item h4 {
+      margin: 15px 0;
+      color: var(--dark);
+    }
+    
+    .diagram-item p {
+      color: #444;
+    }
+
+    .contact-card {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 30px;
+      box-shadow: var(--box-shadow);
+      margin: 30px 0;
+      border-top: 4px solid var(--primary);
+      text-align: center;
+    }
+
+    .contact-card h3 {
+      color: var(--primary);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .contact-card p {
+      margin-bottom: 15px;
+    }
+
+    .email-link {
+      display: inline-block;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin: 15px 0;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(67, 97, 238, 0.1);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .email-link:hover, .email-link:focus {
+      background: rgba(67, 97, 238, 0.2);
+      transform: translateY(-2px);
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    .last-updated {
+      text-align: center;
+      font-style: italic;
+      color: var(--gray);
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid var(--light-gray);
+    }
+
+    /* Responsive Adjustments */
     @media (max-width: 768px) {
-      .contact-hero h2 {
-        font-size: 2rem;
+      .gdpr-hero h1 {
+        font-size: 2.2rem;
       }
       
-      .contact-hero p {
+      .gdpr-hero p {
         font-size: 1.1rem;
       }
       
-      .contact-card h2 {
+      .gdpr-section h2 {
         font-size: 1.8rem;
+      }
+      
+      .privacy-diagram {
+        flex-direction: column;
       }
     }
 
     @media (max-width: 576px) {
-      .contact-hero {
-        padding: 50px 20px;
-        margin: 40px 0 30px;
+      .gdpr-hero {
+        padding: 50px 0 30px;
       }
       
-      .contact-hero h2 {
+      .gdpr-hero h1 {
         font-size: 1.8rem;
-      }
-      
-      .contact-card {
-        padding: 25px 20px;
       }
     }
   </style>
@@ -264,76 +284,126 @@
     <p class="error-message" style="display: none; color: red; text-align: center;">Failed to load header. Please try refreshing the page.</p>
   </header>
 
-  <!-- Contact Hero Section -->
-  <section class="contact-hero">
+  <!-- GDPR Hero Section -->
+  <section class="gdpr-hero">
     <div class="container">
-      <h2><i class="fas fa-comments"></i> Help Us Improve EveryTool.io</h2>
-      <p>Your feedback helps us create better tools. Share your thoughts, report issues, or suggest new features!</p>
+      <h1><i class="fas fa-shield-alt"></i> GDPR Compliance</h1>
+      <p>Learn how EveryTool.io's client-side architecture aligns with GDPR principles</p>
     </div>
   </section>
 
-  <!-- Contact Form Section -->
-  <div class="container">
-    <div class="contact-form-container">
-      <div class="contact-card">
-        <h2><i class="fas fa-envelope"></i> Send us a message</h2>
+  <!-- GDPR Content -->
+  <section class="gdpr-content">
+    <div class="container">
+      <div class="gdpr-section">
+        <h2>Our Privacy-First Approach</h2>
+        <p>At EveryTool.io, we've built our platform with privacy as the foundation. Unlike traditional web services, our tools run entirely within your browser - your data never touches our servers. This architecture fundamentally aligns with GDPR principles by design.</p>
         
-        <div class="success-message" id="success-message">
-          <i class="fas fa-check-circle"></i> Thank you for your message! We'll get back to you soon.
+        <div class="privacy-diagram">
+          <div class="diagram-item">
+            <div class="diagram-icon">
+              <i class="fas fa-laptop-code"></i>
+            </div>
+            <h4>Client-Side Processing</h4>
+            <p>All data processing happens in your browser using JavaScript</p>
+          </div>
+          
+          <div class="diagram-item">
+            <div class="diagram-icon">
+              <i class="fas fa-server"></i>
+            </div>
+            <h4>No Server Processing</h4>
+            <p>Your files and data never leave your device</p>
+          </div>
+          
+          <div class="diagram-item">
+            <div class="diagram-icon">
+              <i class="fas fa-database"></i>
+            </div>
+            <h4>No Data Storage</h4>
+            <p>We don't store any personal data or processed files</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="gdpr-section">
+        <h2>How Our Architecture Meets GDPR Requirements</h2>
+        
+        <div class="highlight-box">
+          <h3><i class="fas fa-user-shield"></i> Data Minimization</h3>
+          <p>We collect absolutely no personal data through our tools. The only information we might receive is what you voluntarily provide through our contact form, which we use solely to respond to your inquiry.</p>
         </div>
         
-        <form id="contact-form">
-          <div class="form-group">
-            <label for="name">Your Name</label>
-            <input type="text" id="name" name="name" placeholder="Enter your name" required aria-required="true" aria-label="Your name">
-          </div>
-          
-          <div class="form-group">
-            <label for="email">Email Address</label>
-            <input type="email" id="email" name="email" placeholder="Enter your email" required aria-required="true" aria-label="Your email address">
-          </div>
-          
-          <div class="form-group">
-            <label for="subject">Message Type</label>
-            <select id="subject" name="subject" required aria-required="true" aria-label="Select message type">
-              <option value="" disabled selected>Select message type</option>
-              <option value="feedback">Feedback on Existing Tool</option>
-              <option value="feature">Feature Request</option>
-              <option value="bug">Report a Bug</option>
-              <option value="gdpr">GDPR/Privacy Inquiry</option>
-              <option value="other">Other Inquiry</option>
-            </select>
-          </div>
-          
-          <div class="form-group">
-            <label for="message">Your Message</label>
-            <textarea id="message" name="message" placeholder="Tell us what you think..." required aria-required="true" aria-label="Your message"></textarea>
-          </div>
-          
-          <div class="feature-request">
-            <h3><i class="fas fa-lightbulb"></i> Feature Request Tips</h3>
-            <p>When suggesting a new feature, please include:</p>
-            <ul>
-              <li>What problem it would solve</li>
-              <li>How you imagine it would work</li>
-              <li>Any examples of similar features</li>
-            </ul>
-          </div>
-          
-          <button type="submit" class="btn" aria-label="Send message"><i class="fas fa-paper-plane"></i> Send Message</button>
-        </form>
+        <div class="highlight-box">
+          <h3><i class="fas fa-bullseye"></i> Purpose Limitation</h3>
+          <p>Since we don't collect or process personal data, there's no risk of using data beyond its original purpose. Any information you provide via our contact form is used exclusively to address your specific request.</p>
+        </div>
+        
+        <div class="highlight-box">
+          <h3><i class="fas fa-lock"></i> Security by Design</h3>
+          <p>By processing everything client-side, we eliminate server-related security risks. Your data remains entirely within your control and never leaves your browser.</p>
+        </div>
+      </div>
+
+      <div class="gdpr-section">
+        <h2>Your Rights Under GDPR</h2>
+        <p>While our architecture minimizes data collection, we fully respect your GDPR rights:</p>
+        
+        <ul>
+          <li><strong>Right to Access:</strong> You can request any information we might have about you (limited to contact form submissions).</li>
+          <li><strong>Right to Rectification:</strong> You can request correction of any information you believe is inaccurate.</li>
+          <li><strong>Right to Erasure:</strong> You can request deletion of any information you've submitted through our contact form.</li>
+          <li><strong>Right to Restrict Processing:</strong> Since we don't process personal data beyond responding to contact requests, this right is inherently respected.</li>
+          <li><strong>Right to Data Portability:</strong> You can request a copy of any information you've submitted to us.</li>
+        </ul>
+      </div>
+
+      <div class="gdpr-section">
+        <h2>Data Processing Explanation</h2>
+        <h3><i class="fas fa-window-restore"></i> Our Tools</h3>
+        <p>When you use any tool on EveryTool.io:</p>
+        <ul>
+          <li>All processing occurs within your browser using JavaScript</li>
+          <li>No data is transmitted to any server</li>
+          <li>No cookies or tracking are used during tool operation</li>
+          <li>Your original files never leave your device</li>
+          <li>Processed results are generated and downloaded directly from your browser</li>
+        </ul>
+        
+        <h3><i class="fas fa-envelope"></i> Contact Form</h3>
+        <p>If you choose to contact us through our form:</p>
+        <ul>
+          <li>We collect only the information you provide (name, email, message)</li>
+          <li>This information is used solely to respond to your inquiry</li>
+          <li>We delete messages after 90 days unless required to retain them for legal reasons</li>
+          <li>We never use your contact information for marketing purposes</li>
+        </ul>
+      </div>
+
+      <div class="contact-card">
+        <h3><i class="fas fa-headset"></i> Contact Us</h3>
+        <p>If you have questions about our GDPR compliance or wish to exercise your rights:</p>
+        <a href="/contact" class="email-link" aria-label="Contact us via our contact form to inquire about GDPR compliance">
+          <i class="fas fa-envelope"></i> Use Our Contact Form
+        </a>
+        <p>We respond to all legitimate requests within one month.</p>
+      </div>
+
+      <div class="last-updated">
+        <p><i class="fas fa-sync-alt"></i> Last Updated: June 23, 2025</p>
       </div>
     </div>
-  </div>
+  </section>
 
   <!-- Footer Placeholder -->
   <footer id="main-footer">
     <p class="error-message" style="display: none; color: red; text-align: center;">Failed to load footer. Please try refreshing the page.</p>
   </footer>
 
-  <!-- Cookie Consent Banner -->
-  <div id="cookie-consent">
-    <div class="cookie-content">
+  <!-- Shared Cookie Consent Banner -->
+  <div id="cookie-consent" role="dialog" aria-labelledby="cookie-consent-banner" aria-describedby="cookie-consent-desc">
+    <div class="sr-only" id="cookie-consent-banner">Cookie Consent</div>
+    <div class="cookie-content" id="cookie-consent-desc">
       <div class="cookie-text">
         <p>We use cookies to enhance your experience. Essential cookies are always on, but you can choose whether to allow analytics and advertising cookies.</p>
         <p>Learn more in our <a href="/privacy" aria-label="Privacy Policy">Privacy Policy</a>.</p>
@@ -346,7 +416,7 @@
     </div>
   </div>
 
-  <!-- Cookie Settings Modal -->
+  <!-- Shared Cookie Settings Modal -->
   <div id="cookie-settings">
     <div class="settings-modal">
       <div class="settings-header">
@@ -393,56 +463,5 @@
 
   <!-- JavaScript -->
   <script src="/js/main.js"></script>
-  
-  <!-- Contact Page Specific JS -->
-  <script>
-    // Initialize when DOM is loaded
-    document.addEventListener('DOMContentLoaded', () => {
-      // Contact Form Functionality
-      const form = document.getElementById('contact-form');
-      const textarea = document.getElementById('message');
-      const successMessage = document.getElementById('success-message');
-      
-      // Auto-resize textarea
-      if (textarea) {
-        textarea.addEventListener('input', function() {
-          this.style.height = 'auto';
-          this.style.height = (this.scrollHeight) + 'px';
-        });
-      }
-      
-      // Form submission
-      if (form) {
-        form.addEventListener('submit', function(e) {
-          e.preventDefault();
-          
-          // Show success message
-          if (successMessage) {
-            successMessage.style.display = 'block';
-            successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          }
-          
-          // Reset form after 5 seconds
-          setTimeout(() => {
-            form.reset();
-            if (successMessage) {
-              successMessage.style.display = 'none';
-            }
-            
-            // Reset textarea height
-            if (textarea) {
-              textarea.style.height = 'auto';
-            }
-          }, 5000);
-        });
-      }
-      
-      // Check cookie consent status
-      const preferences = localStorage.getItem('cookieConsent');
-      if (!preferences) {
-        document.getElementById('cookie-consent').style.display = 'block';
-      }
-    });
-  </script>
 </body>
 </html>
