@@ -5,124 +5,54 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Enhanced Resume Builder - EveryTool.io</title>
   
+  <!-- Performance Tuning -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
   <!-- Shared CSS -->
   <link rel="stylesheet" href="/css/styles.css">
   
   <!-- Resume Builder Specific Styles -->
   <style>
+    /* Resume Builder Specific Variables */
     :root {
-      --primary: #4361ee;
-      --primary-dark: #3a56d4;
-      --secondary: #7209b7;
-      --accent: #f72585;
-      --light: #f8f9fa;
-      --dark: #212529;
-      --gray: #6c757d;
-      --light-gray: #e9ecef;
-      --border-radius: 12px;
-      --box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-      --transition: all 0.3s ease;
+      --resume-primary: #4361ee;
+      --resume-primary-dark: #3a56d4;
+      --resume-secondary: #7209b7;
+      --resume-accent: #f72585;
+      --resume-light: #f8f9fa;
+      --resume-dark: #212529;
+      --resume-gray: #6c757d;
+      --resume-light-gray: #e9ecef;
+      --resume-border-radius: 12px;
+      --resume-box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+      --resume-transition: all 0.3s ease;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #f5f7ff 0%, #f0f4ff 100%);
-      color: var(--dark);
-      line-height: 1.6;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-    
-    body.menu-open {
-      overflow: hidden;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-
-    /* Header & Navigation - Replaced by shared component */
-    /* Footer - Replaced by shared component */
-
-    /* Hero Section */
-    .hero {
+    /* Resume Builder Specific Components */
+    .resume-builder-hero {
       padding: 60px 0 40px;
       text-align: center;
     }
 
-    .hero-content {
-      max-width: 800px;
-      margin: 0 auto;
-    }
-
-    .hero h1 {
-      font-size: 2.5rem;
-      margin-bottom: 20px;
-      font-weight: 700;
-      background: linear-gradient(90deg, var(--primary), var(--secondary));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      line-height: 1.2;
-    }
-
-    .hero p {
-      font-size: 1.2rem;
-      color: var(--gray);
-      margin-bottom: 40px;
-      max-width: 700px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    
-    .card {
-      background: var(--light);
-      border-radius: var(--border-radius);
-      box-shadow: var(--box-shadow);
+    .resume-builder-card {
+      background: var(--resume-light);
+      border-radius: var(--resume-border-radius);
+      box-shadow: var(--resume-box-shadow);
       padding: 30px;
       margin-bottom: 30px;
-      transition: var(--transition);
+      transition: var(--resume-transition);
     }
     
-    .card:hover {
+    .resume-builder-card:hover {
       transform: translateY(-5px);
       box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
     }
     
-    h2 {
-      font-size: 1.8rem;
-      margin-bottom: 25px;
-      color: var(--dark);
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      justify-content: center;
-    }
-    
-    h2 i {
-      color: var(--primary);
-    }
-    
-    h3 {
-      font-size: 1.4rem;
-      margin: 20px 0 15px;
-      color: var(--dark);
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      justify-content: center;
-    }
-    
-    .tabs {
+    .resume-builder-tabs {
       display: flex;
       justify-content: center;
       margin: 0 0 30px;
@@ -130,33 +60,33 @@
       flex-wrap: wrap;
     }
     
-    .tab {
+    .resume-builder-tab {
       padding: 12px 25px;
       cursor: pointer;
-      background: var(--light-gray);
+      background: var(--resume-light-gray);
       border-radius: 50px;
       font-weight: 500;
-      transition: var(--transition);
+      transition: var(--resume-transition);
       display: flex;
       align-items: center;
       gap: 8px;
       font-size: 1rem;
     }
     
-    .tab.active {
-      background: var(--primary);
+    .resume-builder-tab.active {
+      background: var(--resume-primary);
       color: white;
     }
     
-    .tab:hover:not(.active) {
+    .resume-builder-tab:hover:not(.active) {
       background: #dbe4ff;
     }
     
-    .tab-content {
+    .resume-builder-tab-content {
       display: none;
     }
     
-    .tab-content.active {
+    .resume-builder-tab-content.active {
       display: block;
       animation: fadeIn 0.4s ease;
     }
@@ -166,39 +96,216 @@
       to { opacity: 1; transform: translateY(0); }
     }
     
-    label {
+    .resume-builder-tool-row {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    
+    .resume-builder-tool-col {
+      flex: 1;
+    }
+    
+    .resume-builder-preview {
+      background: #f8f9ff;
+      border: 1px solid #e9ecef;
+      border-radius: var(--resume-border-radius);
+      padding: 25px;
+      min-height: 400px;
+      margin-top: 30px;
+      position: relative;
+    }
+
+    .resume-builder-header {
+      text-align: center;
+      margin-bottom: 30px;
+      border-bottom: 2px solid var(--resume-primary);
+      padding-bottom: 20px;
+    }
+
+    .resume-builder-name {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--resume-primary);
+      margin-bottom: 5px;
+    }
+
+    .resume-builder-title {
+      font-size: 1.2rem;
+      color: var(--resume-gray);
+    }
+
+    .resume-builder-contact {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    .resume-builder-section {
+      margin-bottom: 25px;
+    }
+
+    .resume-builder-item {
+      margin-bottom: 15px;
+    }
+
+    .resume-builder-item-header {
+      display: flex;
+      justify-content: space-between;
+      font-weight: 600;
+    }
+
+    .resume-builder-item-title {
+      font-size: 1.1rem;
+    }
+
+    .resume-builder-item-subtitle {
+      color: var(--resume-gray);
+      font-style: italic;
+      margin-bottom: 5px;
+    }
+
+    .resume-builder-item-desc {
+      color: var(--resume-dark);
+      line-height: 1.5;
+    }
+
+    .resume-builder-skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .resume-builder-skill-tag {
+      background: #f0f4ff;
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+    }
+
+    .resume-builder-action-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 30px;
+    }
+
+    .resume-builder-features-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+      margin-top: 25px;
+    }
+
+    .resume-builder-feature-card {
+      background: white;
+      border-radius: var(--resume-border-radius);
+      padding: 30px;
+      text-align: center;
+      box-shadow: var(--resume-box-shadow);
+      transition: var(--resume-transition);
+      height: 100%;
+    }
+
+    .resume-builder-feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    }
+
+    .resume-builder-guide-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+      margin-top: 25px;
+    }
+    
+    .resume-builder-guide-item {
+      padding: 25px;
+      background: #f8f9ff;
+      border-radius: var(--resume-border-radius);
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .resume-builder-template-controls {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin: 20px 0;
+      flex-wrap: wrap;
+    }
+    
+    .resume-builder-color-picker {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 15px 0;
+    }
+    
+    .resume-builder-color-preview {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: var(--resume-primary);
+    }
+    
+    .resume-builder-font-selector {
+      margin: 15px 0;
+    }
+    
+    .resume-builder-required:after {
+      content: " *";
+      color: #e74c3c;
+    }
+    
+    .resume-builder-validation-error {
+      color: #e74c3c;
+      font-size: 0.85rem;
+      margin-top: 5px;
+      display: none;
+    }
+    
+    /* Resume Builder Form Elements */
+    .resume-builder label {
       display: block;
       margin-bottom: 8px;
       font-weight: 500;
-      color: var(--dark);
+      color: var(--resume-dark);
     }
     
-    textarea, input, select, button {
+    .resume-builder textarea, 
+    .resume-builder input, 
+    .resume-builder select, 
+    .resume-builder button {
       margin: 0.5em auto;
       padding: 15px;
       width: 100%;
       font-size: 1rem;
       border-radius: 10px;
-      border: 1px solid var(--light-gray);
+      border: 1px solid var(--resume-light-gray);
       background: white;
       display: block;
-      transition: var(--transition);
+      transition: var(--resume-transition);
       font-family: inherit;
       resize: vertical;
     }
     
-    textarea {
+    .resume-builder textarea {
       min-height: 150px;
     }
     
-    input:focus, select:focus, textarea:focus {
+    .resume-builder input:focus, 
+    .resume-builder select:focus, 
+    .resume-builder textarea:focus {
       outline: none;
-      border-color: var(--primary);
+      border-color: var(--resume-primary);
       box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
     }
     
-    button {
-      background: var(--primary);
+    .resume-builder button {
+      background: var(--resume-primary);
       color: white;
       border: none;
       cursor: pointer;
@@ -208,39 +315,41 @@
       align-items: center;
       justify-content: center;
       gap: 10px;
-      transition: var(--transition);
+      transition: var(--resume-transition);
     }
     
-    button:hover, button:focus {
-      background: var(--primary-dark);
+    .resume-builder button:hover, 
+    .resume-builder button:focus {
+      background: var(--resume-primary-dark);
       transform: translateY(-2px);
       box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
-      outline: 2px solid var(--primary);
+      outline: 2px solid var(--resume-primary);
       outline-offset: 2px;
     }
     
-    .btn-secondary {
-      background: var(--secondary);
+    .resume-builder .btn-secondary {
+      background: var(--resume-secondary);
     }
     
-    .btn-secondary:hover {
+    .resume-builder .btn-secondary:hover {
       background: #6517a0;
     }
     
-    .btn-outline {
+    .resume-builder .btn-outline {
       background: transparent;
-      border: 2px solid var(--primary);
-      color: var(--primary);
+      border: 2px solid var(--resume-primary);
+      color: var(--resume-primary);
     }
     
-    .btn-outline:hover, .btn-outline:focus {
-      background: var(--primary);
+    .resume-builder .btn-outline:hover, 
+    .resume-builder .btn-outline:focus {
+      background: var(--resume-primary);
       color: white;
-      outline: 2px solid var(--primary);
+      outline: 2px solid var(--resume-primary);
       outline-offset: 2px;
     }
 
-    .btn-group {
+    .resume-builder .btn-group {
       display: flex;
       justify-content: center;
       gap: 15px;
@@ -248,330 +357,41 @@
       flex-wrap: wrap;
     }
 
-    .btn-group button {
+    .resume-builder .btn-group button {
       width: auto;
       min-width: 180px;
       flex: 1;
     }
 
-    .tool-row {
-      display: flex;
-      gap: 15px;
-      margin-bottom: 20px;
-    }
-    
-    .tool-col {
-      flex: 1;
-    }
-    
-    .resume-preview {
-      background: #f8f9ff;
-      border: 1px solid #e9ecef;
-      border-radius: var(--border-radius);
-      padding: 25px;
-      min-height: 400px;
-      margin-top: 30px;
-      position: relative;
-    }
-
-    .resume-header {
-      text-align: center;
-      margin-bottom: 30px;
-      border-bottom: 2px solid var(--primary);
-      padding-bottom: 20px;
-    }
-
-    .resume-name {
-      font-size: 2.2rem;
-      font-weight: 700;
-      color: var(--primary);
-      margin-bottom: 5px;
-    }
-
-    .resume-title {
-      font-size: 1.2rem;
-      color: var(--gray);
-    }
-
-    .resume-contact {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      margin-top: 10px;
-      flex-wrap: wrap;
-    }
-
-    .resume-section {
-      margin-bottom: 25px;
-    }
-
-    .resume-section h3 {
-      font-size: 1.3rem;
-      border-bottom: 1px solid var(--light-gray);
-      padding-bottom: 5px;
-      margin-bottom: 15px;
-      color: var(--primary);
-    }
-
-    .resume-item {
-      margin-bottom: 15px;
-    }
-
-    .resume-item-header {
-      display: flex;
-      justify-content: space-between;
-      font-weight: 600;
-    }
-
-    .resume-item-title {
-      font-size: 1.1rem;
-    }
-
-    .resume-item-subtitle {
-      color: var(--gray);
-      font-style: italic;
-      margin-bottom: 5px;
-    }
-
-    .resume-item-desc {
-      color: var(--dark);
-      line-height: 1.5;
-    }
-
-    .resume-skills {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .skill-tag {
-      background: #f0f4ff;
-      padding: 5px 15px;
-      border-radius: 20px;
-      font-size: 0.9rem;
-    }
-
-    .action-buttons {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      margin-top: 30px;
-    }
-
-    .features-section {
-      margin: 40px auto;
-    }
-
-    /* Features grid layout - 2 cards per row */
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 30px;
-      margin-top: 25px;
-    }
-
-    .feature-card {
-      background: white;
-      border-radius: var(--border-radius);
-      padding: 30px;
-      text-align: center;
-      box-shadow: var(--box-shadow);
-      transition: var(--transition);
-      height: 100%;
-    }
-
-    .feature-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-    }
-
-    .feature-card i {
-      font-size: 3rem;
-      color: var(--primary);
-      margin-bottom: 20px;
-      background: #f0f4ff;
-      width: 90px;
-      height: 90px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      margin: 0 auto 20px;
-    }
-
-    .feature-card h3 {
-      font-size: 1.6rem;
-      margin-bottom: 15px;
-      color: var(--dark);
-    }
-
-    .feature-card p {
-      margin-bottom: 20px;
-      color: var(--gray);
-      font-size: 1.1rem;
-    }
-
-    /* Resume Creation Guide */
-    .guide-section {
-      background: var(--light);
-      border-radius: var(--border-radius);
-      padding: 40px;
-      margin: 40px auto;
-      box-shadow: var(--box-shadow);
-      text-align: center;
-    }
-    
-    .guide-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 30px;
-      margin-top: 25px;
-    }
-    
-    .guide-item {
-      padding: 25px;
-      background: #f8f9ff;
-      border-radius: var(--border-radius);
-      text-align: center;
-      font-size: 14px;
-    }
-    
-    .guide-item h3 {
-      font-size: 1.5rem;
-      margin-bottom: 15px;
-      color: var(--primary);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      justify-content: center;
-    }
-    
-    .guide-item h3 i {
-      font-size: 1.8rem;
-    }
-    
-    .guide-item p {
-      font-size: 1rem;
-      color: #444;
-    }
-
-    .error {
-      color: #e74c3c;
-      padding: 15px;
-      background: rgba(231, 76, 60, 0.1);
-      border-radius: var(--border-radius);
-      margin: 20px 0;
-      border-left: 4px solid #e74c3c;
-      display: none;
-    }
-
-    .success {
-      color: #27ae60;
-      padding: 15px;
-      background: rgba(39, 174, 96, 0.1);
-      border-radius: var(--border-radius);
-      margin: 20px 0;
-      border-left: 4px solid #27ae60;
-      display: none;
-    }
-
-    /* New Styles for Enhanced Features */
-    .template-controls {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      margin: 20px 0;
-    }
-    
-    .color-picker {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin: 15px 0;
-    }
-    
-    .color-preview {
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      background: var(--primary);
-    }
-    
-    .font-selector {
-      margin: 15px 0;
-    }
-    
-    .required:after {
-      content: " *";
-      color: #e74c3c;
-    }
-    
-    .validation-error {
-      color: #e74c3c;
-      font-size: 0.85rem;
-      margin-top: 5px;
-      display: none;
-    }
-    
     /* Responsive Design */
     @media (max-width: 992px) {
-      .tool-row {
+      .resume-builder-tool-row {
         flex-direction: column;
       }
       
-      .features-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .guide-grid {
+      .resume-builder-features-grid,
+      .resume-builder-guide-grid {
         grid-template-columns: 1fr;
       }
     }
 
     @media (max-width: 768px) {
-      .hero h1 {
-        font-size: 2rem;
-      }
-      
-      .section-title {
-        font-size: 2rem;
-      }
-      
-      .btn-group {
+      .resume-builder .btn-group,
+      .resume-builder-action-buttons {
         flex-direction: column;
       }
       
-      .btn-group button {
+      .resume-builder .btn-group button {
         width: 100%;
-      }
-      
-      .action-buttons {
-        flex-direction: column;
       }
     }
 
     @media (max-width: 576px) {
-      .hero {
-        padding: 40px 0 20px;
-      }
-      
-      .hero h1 {
-        font-size: 1.8rem;
-      }
-      
-      .card {
+      .resume-builder-card {
         padding: 20px;
       }
       
-      h2 {
-        font-size: 1.5rem;
-      }
-      
-      h3 {
-        font-size: 1.2rem;
-      }
-      
-      .tab {
+      .resume-builder-tab {
         padding: 10px 15px;
         font-size: 0.9rem;
       }
@@ -585,7 +405,7 @@
   </header>
 
   <!-- Hero Section -->
-  <section class="hero">
+  <section class="resume-builder-hero">
     <div class="container">
       <div class="hero-content">
         <h1>Enhanced Resume Builder</h1>
@@ -597,23 +417,23 @@
   <!-- Features Section -->
   <div class="container">
     <div class="features-section">
-      <div class="features-grid">
-        <div class="feature-card">
+      <div class="resume-builder-features-grid">
+        <div class="resume-builder-feature-card">
           <i class="fas fa-layer-group"></i>
           <h3>Professional Templates</h3>
           <p>Choose from ATS-friendly templates designed to get you noticed</p>
         </div>
-        <div class="feature-card">
+        <div class="resume-builder-feature-card">
           <i class="fas fa-file-pdf"></i>
           <h3>PDF Export</h3>
           <p>Download your resume as a professional PDF with one click</p>
         </div>
-        <div class="feature-card">
+        <div class="resume-builder-feature-card">
           <i class="fas fa-lightbulb"></i>
           <h3>Content Suggestions</h3>
           <p>Get AI-powered suggestions for improving your resume content</p>
         </div>
-        <div class="feature-card">
+        <div class="resume-builder-feature-card">
           <i class="fas fa-sliders-h"></i>
           <h3>Advanced Customization</h3>
           <p>Change colors, fonts, and section order to match your needs</p>
@@ -625,20 +445,20 @@
     <div class="guide-section">
       <h2><i class="fas fa-book"></i> Resume Creation Guide</h2>
       <p>Follow these steps to create your perfect resume:</p>
-      <div class="guide-grid">
-        <div class="guide-item">
+      <div class="resume-builder-guide-grid">
+        <div class="resume-builder-guide-item">
           <h3><i class="fas fa-user"></i> Personal Details</h3>
           <p>Start with your name, contact information, and professional summary</p>
         </div>
-        <div class="guide-item">
+        <div class="resume-builder-guide-item">
           <h3><i class="fas fa-briefcase"></i> Work Experience</h3>
           <p>List your relevant work history, starting with your most recent position</p>
         </div>
-        <div class="guide-item">
+        <div class="resume-builder-guide-item">
           <h3><i class="fas fa-graduation-cap"></i> Education</h3>
           <p>Add your degrees, certifications, and educational achievements</p>
         </div>
-        <div class="guide-item">
+        <div class="resume-builder-guide-item">
           <h3><i class="fas fa-star"></i> Skills & Expertise</h3>
           <p>Highlight your professional skills and areas of expertise</p>
         </div>
@@ -646,75 +466,75 @@
     </div>
 
     <!-- Main Resume Builder Card -->
-    <div class="card">
-      <div class="tabs" role="tablist">
-        <div class="tab active" data-tab="personal" role="tab" aria-selected="true" tabindex="0">
+    <div class="resume-builder-card resume-builder">
+      <div class="resume-builder-tabs" role="tablist">
+        <div class="resume-builder-tab active" data-tab="personal" role="tab" aria-selected="true" tabindex="0">
           <i class="fas fa-user"></i> Personal
         </div>
-        <div class="tab" data-tab="experience" role="tab" aria-selected="false" tabindex="0">
+        <div class="resume-builder-tab" data-tab="experience" role="tab" aria-selected="false" tabindex="0">
           <i class="fas fa-briefcase"></i> Experience
         </div>
-        <div class="tab" data-tab="education" role="tab" aria-selected="false" tabindex="0">
+        <div class="resume-builder-tab" data-tab="education" role="tab" aria-selected="false" tabindex="0">
           <i class="fas fa-graduation-cap"></i> Education
         </div>
-        <div class="tab" data-tab="projects" role="tab" aria-selected="false" tabindex="0">
+        <div class="resume-builder-tab" data-tab="projects" role="tab" aria-selected="false" tabindex="0">
           <i class="fas fa-project-diagram"></i> Projects
         </div>
-        <div class="tab" data-tab="skills" role="tab" aria-selected="false" tabindex="0">
+        <div class="resume-builder-tab" data-tab="skills" role="tab" aria-selected="false" tabindex="0">
           <i class="fas fa-star"></i> Skills
         </div>
-        <div class="tab" data-tab="certifications" role="tab" aria-selected="false" tabindex="0">
+        <div class="resume-builder-tab" data-tab="certifications" role="tab" aria-selected="false" tabindex="0">
           <i class="fas fa-award"></i> Certifications
         </div>
-        <div class="tab" data-tab="preview" role="tab" aria-selected="false" tabindex="0">
+        <div class="resume-builder-tab" data-tab="preview" role="tab" aria-selected="false" tabindex="0">
           <i class="fas fa-eye"></i> Preview
         </div>
       </div>
 
       <!-- Personal Information -->
-      <div class="tab-content active" id="personal-tab" role="tabpanel">
+      <div class="resume-builder-tab-content active" id="personal-tab" role="tabpanel">
         <h2><i class="fas fa-user"></i> Personal Information</h2>
         <p>Add your contact details and professional summary.</p>
         
-        <div class="tool-row">
-          <div class="tool-col">
-            <label for="fullName" class="required">Full Name</label>
+        <div class="resume-builder-tool-row">
+          <div class="resume-builder-tool-col">
+            <label for="fullName" class="resume-builder-required">Full Name</label>
             <input type="text" id="fullName" placeholder="John Doe" aria-label="Enter your full name" required>
-            <div class="validation-error" id="nameError">Please enter your name</div>
+            <div class="resume-builder-validation-error" id="nameError">Please enter your name</div>
           </div>
-          <div class="tool-col">
-            <label for="jobTitle" class="required">Professional Title</label>
+          <div class="resume-builder-tool-col">
+            <label for="jobTitle" class="resume-builder-required">Professional Title</label>
             <input type="text" id="jobTitle" placeholder="e.g. Software Engineer" aria-label="Enter your professional title" required>
-            <div class="validation-error" id="titleError">Please enter your professional title</div>
+            <div class="resume-builder-validation-error" id="titleError">Please enter your professional title</div>
           </div>
         </div>
         
-        <div class="tool-row">
-          <div class="tool-col">
-            <label for="email" class="required">Email</label>
+        <div class="resume-builder-tool-row">
+          <div class="resume-builder-tool-col">
+            <label for="email" class="resume-builder-required">Email</label>
             <input type="email" id="email" placeholder="john@example.com" aria-label="Enter your email" required>
-            <div class="validation-error" id="emailError">Please enter a valid email</div>
+            <div class="resume-builder-validation-error" id="emailError">Please enter a valid email</div>
           </div>
-          <div class="tool-col">
+          <div class="resume-builder-tool-col">
             <label for="phone">Phone</label>
             <input type="tel" id="phone" placeholder="(123) 456-7890" aria-label="Enter your phone number">
           </div>
         </div>
         
-        <div class="tool-row">
-          <div class="tool-col">
+        <div class="resume-builder-tool-row">
+          <div class="resume-builder-tool-col">
             <label for="location">Location</label>
             <input type="text" id="location" placeholder="City, State" aria-label="Enter your location">
           </div>
-          <div class="tool-col">
+          <div class="resume-builder-tool-col">
             <label for="website">Website/Portfolio</label>
             <input type="url" id="website" placeholder="https://yourportfolio.com" aria-label="Enter your website or portfolio">
           </div>
         </div>
         
-        <label for="summary" class="required">Professional Summary</label>
+        <label for="summary" class="resume-builder-required">Professional Summary</label>
         <textarea id="summary" placeholder="Experienced professional with 5+ years in..." aria-label="Enter your professional summary" required></textarea>
-        <div class="validation-error" id="summaryError">Please write a professional summary</div>
+        <div class="resume-builder-validation-error" id="summaryError">Please write a professional summary</div>
         
         <div class="btn-group">
           <button id="nextExperienceBtn" aria-label="Go to experience section">
@@ -724,32 +544,32 @@
       </div>
 
       <!-- Work Experience -->
-      <div class="tab-content" id="experience-tab" role="tabpanel">
+      <div class="resume-builder-tab-content" id="experience-tab" role="tabpanel">
         <h2><i class="fas fa-briefcase"></i> Work Experience</h2>
         <p>Add your work history, starting with your most recent position.</p>
         
         <div id="experienceContainer">
           <div class="experience-item">
-            <div class="tool-row">
-              <div class="tool-col">
-                <label for="jobTitle1" class="required">Job Title</label>
+            <div class="resume-builder-tool-row">
+              <div class="resume-builder-tool-col">
+                <label for="jobTitle1" class="resume-builder-required">Job Title</label>
                 <input type="text" id="jobTitle1" placeholder="Senior Developer" aria-label="Enter job title" required>
-                <div class="validation-error">Please enter job title</div>
+                <div class="resume-builder-validation-error">Please enter job title</div>
               </div>
-              <div class="tool-col">
-                <label for="company1" class="required">Company</label>
+              <div class="resume-builder-tool-col">
+                <label for="company1" class="resume-builder-required">Company</label>
                 <input type="text" id="company1" placeholder="Tech Solutions Inc." aria-label="Enter company name" required>
-                <div class="validation-error">Please enter company name</div>
+                <div class="resume-builder-validation-error">Please enter company name</div>
               </div>
             </div>
             
-            <div class="tool-row">
-              <div class="tool-col">
-                <label for="startDate1" class="required">Start Date</label>
+            <div class="resume-builder-tool-row">
+              <div class="resume-builder-tool-col">
+                <label for="startDate1" class="resume-builder-required">Start Date</label>
                 <input type="month" id="startDate1" aria-label="Enter start date" required>
-                <div class="validation-error">Please select start date</div>
+                <div class="resume-builder-validation-error">Please select start date</div>
               </div>
-              <div class="tool-col">
+              <div class="resume-builder-tool-col">
                 <label for="endDate1">End Date</label>
                 <input type="month" id="endDate1" aria-label="Enter end date">
                 <div style="margin-top: 5px;">
@@ -759,9 +579,9 @@
               </div>
             </div>
             
-            <label for="jobDescription1" class="required">Description</label>
+            <label for="jobDescription1" class="resume-builder-required">Description</label>
             <textarea id="jobDescription1" placeholder="Describe your responsibilities and achievements..." aria-label="Enter job description" required></textarea>
-            <div class="validation-error">Please enter job description</div>
+            <div class="resume-builder-validation-error">Please enter job description</div>
           </div>
         </div>
         
@@ -780,31 +600,31 @@
       </div>
 
       <!-- Education -->
-      <div class="tab-content" id="education-tab" role="tabpanel">
+      <div class="resume-builder-tab-content" id="education-tab" role="tabpanel">
         <h2><i class="fas fa-graduation-cap"></i> Education</h2>
         <p>Add your educational background.</p>
         
         <div id="educationContainer">
           <div class="education-item">
-            <div class="tool-row">
-              <div class="tool-col">
-                <label for="degree1" class="required">Degree/Certificate</label>
+            <div class="resume-builder-tool-row">
+              <div class="resume-builder-tool-col">
+                <label for="degree1" class="resume-builder-required">Degree/Certificate</label>
                 <input type="text" id="degree1" placeholder="e.g. Bachelor of Science" aria-label="Enter degree or certificate" required>
-                <div class="validation-error">Please enter degree</div>
+                <div class="resume-builder-validation-error">Please enter degree</div>
               </div>
-              <div class="tool-col">
-                <label for="institution1" class="required">Institution</label>
+              <div class="resume-builder-tool-col">
+                <label for="institution1" class="resume-builder-required">Institution</label>
                 <input type="text" id="institution1" placeholder="University Name" aria-label="Enter institution name" required>
-                <div class="validation-error">Please enter institution</div>
+                <div class="resume-builder-validation-error">Please enter institution</div>
               </div>
             </div>
             
-            <div class="tool-row">
-              <div class="tool-col">
+            <div class="resume-builder-tool-row">
+              <div class="resume-builder-tool-col">
                 <label for="eduStartDate1">Start Date</label>
                 <input type="month" id="eduStartDate1" aria-label="Enter education start date">
               </div>
-              <div class="tool-col">
+              <div class="resume-builder-tool-col">
                 <label for="eduEndDate1">End Date</label>
                 <input type="month" id="eduEndDate1" aria-label="Enter education end date">
                 <div style="margin-top: 5px;">
@@ -814,12 +634,12 @@
               </div>
             </div>
             
-            <div class="tool-row">
-              <div class="tool-col">
+            <div class="resume-builder-tool-row">
+              <div class="resume-builder-tool-col">
                 <label for="gpa1">GPA (optional)</label>
                 <input type="text" id="gpa1" placeholder="e.g. 3.8" aria-label="Enter GPA">
               </div>
-              <div class="tool-col">
+              <div class="resume-builder-tool-col">
                 <label for="location1">Location</label>
                 <input type="text" id="location1" placeholder="City, State" aria-label="Enter institution location">
               </div>
@@ -842,34 +662,34 @@
       </div>
 
       <!-- Projects Section -->
-      <div class="tab-content" id="projects-tab" role="tabpanel">
+      <div class="resume-builder-tab-content" id="projects-tab" role="tabpanel">
         <h2><i class="fas fa-project-diagram"></i> Projects</h2>
         <p>Add your significant projects and accomplishments.</p>
         
         <div id="projectsContainer">
           <div class="project-item">
-            <div class="tool-row">
-              <div class="tool-col">
-                <label for="projectName1" class="required">Project Name</label>
+            <div class="resume-builder-tool-row">
+              <div class="resume-builder-tool-col">
+                <label for="projectName1" class="resume-builder-required">Project Name</label>
                 <input type="text" id="projectName1" placeholder="e.g. E-commerce Platform" aria-label="Enter project name" required>
-                <div class="validation-error">Please enter project name</div>
+                <div class="resume-builder-validation-error">Please enter project name</div>
               </div>
-              <div class="tool-col">
+              <div class="resume-builder-tool-col">
                 <label for="projectDate1">Date</label>
                 <input type="month" id="projectDate1" aria-label="Enter project date">
               </div>
             </div>
             
-            <div class="tool-row">
-              <div class="tool-col">
+            <div class="resume-builder-tool-row">
+              <div class="resume-builder-tool-col">
                 <label for="projectLink1">Project URL</label>
                 <input type="url" id="projectLink1" placeholder="https://project.example.com" aria-label="Enter project URL">
               </div>
             </div>
             
-            <label for="projectDescription1" class="required">Description</label>
+            <label for="projectDescription1" class="resume-builder-required">Description</label>
             <textarea id="projectDescription1" placeholder="Describe the project and your contributions..." aria-label="Enter project description" required></textarea>
-            <div class="validation-error">Please enter project description</div>
+            <div class="resume-builder-validation-error">Please enter project description</div>
           </div>
         </div>
         
@@ -888,17 +708,17 @@
       </div>
 
       <!-- Skills -->
-      <div class="tab-content" id="skills-tab" role="tabpanel">
+      <div class="resume-builder-tab-content" id="skills-tab" role="tabpanel">
         <h2><i class="fas fa-star"></i> Skills</h2>
         <p>Add your professional skills and expertise.</p>
         
         <div id="skillsContainer">
-          <div class="tool-row">
-            <div class="tool-col">
+          <div class="resume-builder-tool-row">
+            <div class="resume-builder-tool-col">
               <label for="skill1">Skill</label>
               <input type="text" id="skill1" placeholder="e.g. JavaScript" aria-label="Enter skill">
             </div>
-            <div class="tool-col">
+            <div class="resume-builder-tool-col">
               <label for="skillLevel1">Proficiency Level</label>
               <select id="skillLevel1" aria-label="Select proficiency level">
                 <option value="beginner">Beginner</option>
@@ -928,30 +748,30 @@
       </div>
 
       <!-- Certifications -->
-      <div class="tab-content" id="certifications-tab" role="tabpanel">
+      <div class="resume-builder-tab-content" id="certifications-tab" role="tabpanel">
         <h2><i class="fas fa-award"></i> Certifications</h2>
         <p>Add your professional certifications and licenses.</p>
         
         <div id="certificationsContainer">
           <div class="certification-item">
-            <div class="tool-row">
-              <div class="tool-col">
-                <label for="certName1" class="required">Certification Name</label>
+            <div class="resume-builder-tool-row">
+              <div class="resume-builder-tool-col">
+                <label for="certName1" class="resume-builder-required">Certification Name</label>
                 <input type="text" id="certName1" placeholder="e.g. AWS Certified Developer" aria-label="Enter certification name" required>
-                <div class="validation-error">Please enter certification name</div>
+                <div class="resume-builder-validation-error">Please enter certification name</div>
               </div>
-              <div class="tool-col">
+              <div class="resume-builder-tool-col">
                 <label for="certIssuer1">Issuing Organization</label>
                 <input type="text" id="certIssuer1" placeholder="e.g. Amazon Web Services" aria-label="Enter issuing organization">
               </div>
             </div>
             
-            <div class="tool-row">
-              <div class="tool-col">
+            <div class="resume-builder-tool-row">
+              <div class="resume-builder-tool-col">
                 <label for="certDate1">Date Issued</label>
                 <input type="month" id="certDate1" aria-label="Enter certification date">
               </div>
-              <div class="tool-col">
+              <div class="resume-builder-tool-col">
                 <label for="certExpiry1">Expiration Date</label>
                 <input type="month" id="certExpiry1" aria-label="Enter expiration date">
               </div>
@@ -977,17 +797,17 @@
       </div>
 
       <!-- Preview -->
-      <div class="tab-content" id="preview-tab" role="tabpanel">
+      <div class="resume-builder-tab-content" id="preview-tab" role="tabpanel">
         <h2><i class="fas fa-eye"></i> Resume Preview</h2>
         <p>Review your resume before downloading.</p>
         
-        <div class="template-controls">
-          <div class="color-picker">
+        <div class="resume-builder-template-controls">
+          <div class="resume-builder-color-picker">
             <span>Accent Color:</span>
-            <div class="color-preview" id="colorPreview"></div>
+            <div class="resume-builder-color-preview" id="colorPreview"></div>
             <input type="color" id="colorSelector" value="#4361ee">
           </div>
-          <div class="font-selector">
+          <div class="resume-builder-font-selector">
             <label for="fontSelector">Font:</label>
             <select id="fontSelector">
               <option value="Poppins, sans-serif">Poppins</option>
@@ -998,11 +818,11 @@
           </div>
         </div>
         
-        <div class="resume-preview" id="resumePreview">
-          <div class="resume-header">
-            <div class="resume-name" id="previewName">John Doe</div>
-            <div class="resume-title" id="previewTitle">Software Engineer</div>
-            <div class="resume-contact">
+        <div class="resume-builder-preview" id="resumePreview">
+          <div class="resume-builder-header">
+            <div class="resume-builder-name" id="previewName">John Doe</div>
+            <div class="resume-builder-title" id="previewTitle">Software Engineer</div>
+            <div class="resume-builder-contact">
               <div id="previewEmail">john@example.com</div>
               <div id="previewPhone">(123) 456-7890</div>
               <div id="previewLocation">San Francisco, CA</div>
@@ -1010,69 +830,69 @@
             </div>
           </div>
           
-          <div class="resume-section">
+          <div class="resume-builder-section">
             <h3>Summary</h3>
             <div id="previewSummary">Experienced software engineer with 5+ years in developing web applications...</div>
           </div>
           
-          <div class="resume-section">
+          <div class="resume-builder-section">
             <h3>Work Experience</h3>
-            <div class="resume-item" id="previewExperience1">
-              <div class="resume-item-header">
-                <div class="resume-item-title">Senior Developer</div>
+            <div class="resume-builder-item" id="previewExperience1">
+              <div class="resume-builder-item-header">
+                <div class="resume-builder-item-title">Senior Developer</div>
                 <div id="previewExperienceDates">Jan 2020 - Present</div>
               </div>
-              <div class="resume-item-subtitle" id="previewExperienceCompany">Tech Solutions Inc., San Francisco, CA</div>
-              <div class="resume-item-desc" id="previewExperienceDesc">Lead development team in creating innovative web applications...</div>
+              <div class="resume-builder-item-subtitle" id="previewExperienceCompany">Tech Solutions Inc., San Francisco, CA</div>
+              <div class="resume-builder-item-desc" id="previewExperienceDesc">Lead development team in creating innovative web applications...</div>
             </div>
           </div>
           
-          <div class="resume-section">
+          <div class="resume-builder-section">
             <h3>Projects</h3>
-            <div class="resume-item" id="previewProject1">
-              <div class="resume-item-header">
-                <div class="resume-item-title">E-commerce Platform</div>
+            <div class="resume-builder-item" id="previewProject1">
+              <div class="resume-builder-item-header">
+                <div class="resume-builder-item-title">E-commerce Platform</div>
                 <div id="previewProjectDate">2021</div>
               </div>
-              <div class="resume-item-desc" id="previewProjectDesc">Developed a full-featured e-commerce platform using React and Node.js...</div>
+              <div class="resume-builder-item-desc" id="previewProjectDesc">Developed a full-featured e-commerce platform using React and Node.js...</div>
             </div>
           </div>
           
-          <div class="resume-section">
+          <div class="resume-builder-section">
             <h3>Education</h3>
-            <div class="resume-item" id="previewEducation1">
-              <div class="resume-item-header">
-                <div class="resume-item-title">Bachelor of Computer Science</div>
+            <div class="resume-builder-item" id="previewEducation1">
+              <div class="resume-builder-item-header">
+                <div class="resume-builder-item-title">Bachelor of Computer Science</div>
                 <div id="previewEducationDates">2015 - 2019</div>
               </div>
-              <div class="resume-item-subtitle" id="previewEducationSchool">University of Technology, San Francisco, CA</div>
-              <div class="resume-item-desc" id="previewEducationGPA">GPA: 3.8</div>
+              <div class="resume-builder-item-subtitle" id="previewEducationSchool">University of Technology, San Francisco, CA</div>
+              <div class="resume-builder-item-desc" id="previewEducationGPA">GPA: 3.8</div>
             </div>
           </div>
           
-          <div class="resume-section">
+          <div class="resume-builder-section">
             <h3>Skills</h3>
-            <div class="resume-skills" id="previewSkills">
-              <div class="skill-tag">JavaScript</div>
-              <div class="skill-tag">React</div>
-              <div class="skill-tag">Node.js</div>
-              <div class="skill-tag">Python</div>
-              <div class="skill-tag">Project Management</div>
+            <div class="resume-builder-skills" id="previewSkills">
+              <div class="resume-builder-skill-tag">JavaScript</div>
+              <div class="resume-builder-skill-tag">React</div>
+              <div class="resume-builder-skill-tag">Node.js</div>
+              <div class="resume-builder-skill-tag">Python</div>
+              <div class="resume-builder-skill-tag">Project Management</div>
             </div>
           </div>
           
-          <div class="resume-section">
+          <div class="resume-builder-section">
             <h3>Certifications</h3>
-            <div class="resume-item" id="previewCertification1">
-              <div class="resume-item-header">
-                <div class="resume-item-title">AWS Certified Developer</div>
+            <div class="resume-builder-item" id="previewCertification1">
+              <div class="resume-builder-item-header">
+                <div class="resume-builder-item-title">AWS Certified Developer</div>
                 <div id="previewCertificationDate">2022</div>
               </div>
             </div>
           </div>
         </div>
         
-        <div class="action-buttons">
+        <div class="resume-builder-action-buttons">
           <button class="btn-outline" id="backCertificationsBtn" aria-label="Edit resume">
             <i class="fas fa-edit"></i> Edit Resume
           </button>
@@ -1169,10 +989,10 @@
       
       // Tab Switching
       function switchTab(tabName) {
-        document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
-        document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+        document.querySelectorAll('.resume-builder-tab').forEach(tab => tab.classList.remove('active'));
+        document.querySelectorAll('.resume-builder-tab-content').forEach(content => content.classList.remove('active'));
         
-        document.querySelector(`.tab[data-tab="${tabName}"]`).classList.add('active');
+        document.querySelector(`.resume-builder-tab[data-tab="${tabName}"]`).classList.add('active');
         document.getElementById(`${tabName}-tab`).classList.add('active');
         
         // Update preview when switching to preview tab
@@ -1182,7 +1002,7 @@
       }
       
       // Initialize Tabs
-      document.querySelectorAll('.tab').forEach(tab => {
+      document.querySelectorAll('.resume-builder-tab').forEach(tab => {
         tab.addEventListener('click', () => switchTab(tab.dataset.tab));
         tab.addEventListener('keydown', e => {
           if (e.key === 'Enter' || e.key === ' ') {
@@ -1210,7 +1030,7 @@
       // Color selector
       document.getElementById('colorSelector').addEventListener('input', function() {
         const color = this.value;
-        document.documentElement.style.setProperty('--primary', color);
+        document.documentElement.style.setProperty('--resume-primary', color);
         document.getElementById('colorPreview').style.background = color;
       });
       
@@ -1255,26 +1075,26 @@
         experienceItem.style.paddingTop = '20px';
         experienceItem.style.borderTop = '1px solid #eee';
         experienceItem.innerHTML = `
-          <div class="tool-row">
-            <div class="tool-col">
-              <label for="jobTitle${count}" class="required">Job Title</label>
+          <div class="resume-builder-tool-row">
+            <div class="resume-builder-tool-col">
+              <label for="jobTitle${count}" class="resume-builder-required">Job Title</label>
               <input type="text" id="jobTitle${count}" placeholder="Senior Developer" aria-label="Enter job title" required>
-              <div class="validation-error">Please enter job title</div>
+              <div class="resume-builder-validation-error">Please enter job title</div>
             </div>
-            <div class="tool-col">
-              <label for="company${count}" class="required">Company</label>
+            <div class="resume-builder-tool-col">
+              <label for="company${count}" class="resume-builder-required">Company</label>
               <input type="text" id="company${count}" placeholder="Tech Solutions Inc." aria-label="Enter company name" required>
-              <div class="validation-error">Please enter company name</div>
+              <div class="resume-builder-validation-error">Please enter company name</div>
             </div>
           </div>
           
-          <div class="tool-row">
-            <div class="tool-col">
-              <label for="startDate${count}" class="required">Start Date</label>
+          <div class="resume-builder-tool-row">
+            <div class="resume-builder-tool-col">
+              <label for="startDate${count}" class="resume-builder-required">Start Date</label>
               <input type="month" id="startDate${count}" aria-label="Enter start date" required>
-              <div class="validation-error">Please select start date</div>
+              <div class="resume-builder-validation-error">Please select start date</div>
             </div>
-            <div class="tool-col">
+            <div class="resume-builder-tool-col">
               <label for="endDate${count}">End Date</label>
               <input type="month" id="endDate${count}" aria-label="Enter end date">
               <div style="margin-top: 5px;">
@@ -1284,9 +1104,9 @@
             </div>
           </div>
           
-          <label for="jobDescription${count}" class="required">Description</label>
+          <label for="jobDescription${count}" class="resume-builder-required">Description</label>
           <textarea id="jobDescription${count}" placeholder="Describe your responsibilities and achievements..." aria-label="Enter job description" required></textarea>
-          <div class="validation-error">Please enter job description</div>
+          <div class="resume-builder-validation-error">Please enter job description</div>
         `;
         
         container.appendChild(experienceItem);
@@ -1303,25 +1123,25 @@
         educationItem.style.paddingTop = '20px';
         educationItem.style.borderTop = '1px solid #eee';
         educationItem.innerHTML = `
-          <div class="tool-row">
-            <div class="tool-col">
-              <label for="degree${count}" class="required">Degree/Certificate</label>
+          <div class="resume-builder-tool-row">
+            <div class="resume-builder-tool-col">
+              <label for="degree${count}" class="resume-builder-required">Degree/Certificate</label>
               <input type="text" id="degree${count}" placeholder="e.g. Bachelor of Science" aria-label="Enter degree or certificate" required>
-              <div class="validation-error">Please enter degree</div>
+              <div class="resume-builder-validation-error">Please enter degree</div>
             </div>
-            <div class="tool-col">
-              <label for="institution${count}" class="required">Institution</label>
+            <div class="resume-builder-tool-col">
+              <label for="institution${count}" class="resume-builder-required">Institution</label>
               <input type="text" id="institution${count}" placeholder="University Name" aria-label="Enter institution name" required>
-              <div class="validation-error">Please enter institution</div>
+              <div class="resume-builder-validation-error">Please enter institution</div>
             </div>
           </div>
           
-          <div class="tool-row">
-            <div class="tool-col">
+          <div class="resume-builder-tool-row">
+            <div class="resume-builder-tool-col">
               <label for="eduStartDate${count}">Start Date</label>
               <input type="month" id="eduStartDate${count}" aria-label="Enter education start date">
             </div>
-            <div class="tool-col">
+            <div class="resume-builder-tool-col">
               <label for="eduEndDate${count}">End Date</label>
               <input type="month" id="eduEndDate${count}" aria-label="Enter education end date">
               <div style="margin-top: 5px;">
@@ -1331,12 +1151,12 @@
             </div>
           </div>
           
-          <div class="tool-row">
-            <div class="tool-col">
+          <div class="resume-builder-tool-row">
+            <div class="resume-builder-tool-col">
               <label for="gpa${count}">GPA (optional)</label>
               <input type="text" id="gpa${count}" placeholder="e.g. 3.8" aria-label="Enter GPA">
             </div>
-            <div class="tool-col">
+            <div class="resume-builder-tool-col">
               <label for="location${count}">Location</label>
               <input type="text" id="location${count}" placeholder="City, State" aria-label="Enter institution location">
             </div>
@@ -1357,28 +1177,28 @@
         projectItem.style.paddingTop = '20px';
         projectItem.style.borderTop = '1px solid #eee';
         projectItem.innerHTML = `
-          <div class="tool-row">
-            <div class="tool-col">
-              <label for="projectName${count}" class="required">Project Name</label>
+          <div class="resume-builder-tool-row">
+            <div class="resume-builder-tool-col">
+              <label for="projectName${count}" class="resume-builder-required">Project Name</label>
               <input type="text" id="projectName${count}" placeholder="e.g. E-commerce Platform" aria-label="Enter project name" required>
-              <div class="validation-error">Please enter project name</div>
+              <div class="resume-builder-validation-error">Please enter project name</div>
             </div>
-            <div class="tool-col">
+            <div class="resume-builder-tool-col">
               <label for="projectDate${count}">Date</label>
               <input type="month" id="projectDate${count}" aria-label="Enter project date">
             </div>
           </div>
           
-          <div class="tool-row">
-            <div class="tool-col">
+          <div class="resume-builder-tool-row">
+            <div class="resume-builder-tool-col">
               <label for="projectLink${count}">Project URL</label>
               <input type="url" id="projectLink${count}" placeholder="https://project.example.com" aria-label="Enter project URL">
             </div>
           </div>
           
-          <label for="projectDescription${count}" class="required">Description</label>
+          <label for="projectDescription${count}" class="resume-builder-required">Description</label>
           <textarea id="projectDescription${count}" placeholder="Describe the project and your contributions..." aria-label="Enter project description" required></textarea>
-          <div class="validation-error">Please enter project description</div>
+          <div class="resume-builder-validation-error">Please enter project description</div>
         `;
         
         container.appendChild(projectItem);
@@ -1387,7 +1207,7 @@
       // Add skill button
       document.getElementById('addSkillBtn').addEventListener('click', function() {
         const container = document.getElementById('skillsContainer');
-        const count = container.querySelectorAll('.tool-row').length + 1;
+        const count = container.querySelectorAll('.resume-builder-tool-row').length + 1;
         
         if (count > 5) {
           alert('You can add additional skills in the "Additional Skills" field below');
@@ -1395,13 +1215,13 @@
         }
         
         const skillRow = document.createElement('div');
-        skillRow.className = 'tool-row';
+        skillRow.className = 'resume-builder-tool-row';
         skillRow.innerHTML = `
-          <div class="tool-col">
+          <div class="resume-builder-tool-col">
             <label for="skill${count}">Skill</label>
             <input type="text" id="skill${count}" placeholder="e.g. JavaScript" aria-label="Enter skill">
           </div>
-          <div class="tool-col">
+          <div class="resume-builder-tool-col">
             <label for="skillLevel${count}">Proficiency Level</label>
             <select id="skillLevel${count}" aria-label="Select proficiency level">
               <option value="beginner">Beginner</option>
@@ -1426,24 +1246,24 @@
         certificationItem.style.paddingTop = '20px';
         certificationItem.style.borderTop = '1px solid #eee';
         certificationItem.innerHTML = `
-          <div class="tool-row">
-            <div class="tool-col">
-              <label for="certName${count}" class="required">Certification Name</label>
+          <div class="resume-builder-tool-row">
+            <div class="resume-builder-tool-col">
+              <label for="certName${count}" class="resume-builder-required">Certification Name</label>
               <input type="text" id="certName${count}" placeholder="e.g. AWS Certified Developer" aria-label="Enter certification name" required>
-              <div class="validation-error">Please enter certification name</div>
+              <div class="resume-builder-validation-error">Please enter certification name</div>
             </div>
-            <div class="tool-col">
+            <div class="resume-builder-tool-col">
               <label for="certIssuer${count}">Issuing Organization</label>
               <input type="text" id="certIssuer${count}" placeholder="e.g. Amazon Web Services" aria-label="Enter issuing organization">
             </div>
           </div>
           
-          <div class="tool-row">
-            <div class="tool-col">
+          <div class="resume-builder-tool-row">
+            <div class="resume-builder-tool-col">
               <label for="certDate${count}">Date Issued</label>
               <input type="month" id="certDate${count}" aria-label="Enter certification date">
             </div>
-            <div class="tool-col">
+            <div class="resume-builder-tool-col">
               <label for="certExpiry${count}">Expiration Date</label>
               <input type="month" id="certExpiry${count}" aria-label="Enter expiration date">
             </div>
@@ -1484,7 +1304,7 @@
         document.getElementById('previewSummary').textContent = document.getElementById('summary').value || 'Experienced professional with 5+ years in...';
         
         // Experience
-        document.querySelector('#previewExperience1 .resume-item-title').textContent = document.getElementById('jobTitle1').value || 'Job Title';
+        document.querySelector('#previewExperience1 .resume-builder-item-title').textContent = document.getElementById('jobTitle1').value || 'Job Title';
         document.getElementById('previewExperienceDates').textContent = 
           (document.getElementById('startDate1').value || 'Start') + ' - ' + 
           (document.getElementById('endDate1').value ? document.getElementById('endDate1').value : (document.getElementById('currentJob1').checked ? 'Present' : 'End'));
@@ -1492,12 +1312,12 @@
         document.getElementById('previewExperienceDesc').textContent = document.getElementById('jobDescription1').value || 'Job description...';
         
         // Projects
-        document.querySelector('#previewProject1 .resume-item-title').textContent = document.getElementById('projectName1').value || 'Project Name';
+        document.querySelector('#previewProject1 .resume-builder-item-title').textContent = document.getElementById('projectName1').value || 'Project Name';
         document.getElementById('previewProjectDate').textContent = document.getElementById('projectDate1').value || 'Date';
         document.getElementById('previewProjectDesc').textContent = document.getElementById('projectDescription1').value || 'Project description...';
         
         // Education
-        document.querySelector('#previewEducation1 .resume-item-title').textContent = document.getElementById('degree1').value || 'Degree';
+        document.querySelector('#previewEducation1 .resume-builder-item-title').textContent = document.getElementById('degree1').value || 'Degree';
         document.getElementById('previewEducationDates').textContent = 
           (document.getElementById('eduStartDate1').value || 'Start') + ' - ' + 
           (document.getElementById('eduEndDate1').value ? document.getElementById('eduEndDate1').value : (document.getElementById('currentEducation1').checked ? 'Present' : 'End'));
@@ -1505,7 +1325,7 @@
         document.getElementById('previewEducationGPA').textContent = document.getElementById('gpa1').value ? `GPA: ${document.getElementById('gpa1').value}` : '';
         
         // Certifications
-        document.querySelector('#previewCertification1 .resume-item-title').textContent = document.getElementById('certName1').value || 'Certification';
+        document.querySelector('#previewCertification1 .resume-builder-item-title').textContent = document.getElementById('certName1').value || 'Certification';
         document.getElementById('previewCertificationDate').textContent = document.getElementById('certDate1').value || 'Date';
         
         // Update skills preview
@@ -1516,7 +1336,7 @@
           const skill = document.getElementById(`skill${i}`)?.value;
           if (skill) {
             const skillTag = document.createElement('div');
-            skillTag.className = 'skill-tag';
+            skillTag.className = 'resume-builder-skill-tag';
             skillTag.textContent = skill;
             skillsContainer.appendChild(skillTag);
           }
@@ -1527,7 +1347,7 @@
           additionalSkills.split(',').forEach(skill => {
             if (skill.trim()) {
               const skillTag = document.createElement('div');
-              skillTag.className = 'skill-tag';
+              skillTag.className = 'resume-builder-skill-tag';
               skillTag.textContent = skill.trim();
               skillsContainer.appendChild(skillTag);
             }
@@ -1535,7 +1355,7 @@
         }
         
         if (skillsContainer.children.length === 0) {
-          skillsContainer.innerHTML = '<div class="skill-tag">JavaScript</div><div class="skill-tag">React</div><div class="skill-tag">Node.js</div>';
+          skillsContainer.innerHTML = '<div class="resume-builder-skill-tag">JavaScript</div><div class="resume-builder-skill-tag">React</div><div class="resume-builder-skill-tag">Node.js</div>';
         }
       }
       
@@ -1544,7 +1364,7 @@
         let isValid = true;
         
         document.querySelectorAll('[required]').forEach(field => {
-          const errorElement = field.nextElementSibling?.classList?.contains('validation-error') ? 
+          const errorElement = field.nextElementSibling?.classList?.contains('resume-builder-validation-error') ? 
                               field.nextElementSibling : 
                               field.parentElement.nextElementSibling;
           
@@ -1564,7 +1384,7 @@
       }
       
       // Add form validation on tab change
-      document.querySelectorAll('.tab').forEach(tab => {
+      document.querySelectorAll('.resume-builder-tab').forEach(tab => {
         tab.addEventListener('click', function() {
           if (this.dataset.tab !== 'preview') {
             validateForm();
