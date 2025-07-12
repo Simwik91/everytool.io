@@ -27,12 +27,227 @@
   <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.rel='stylesheet'">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "EveryTool.io Tools",
+    "description": "Free tools for various tasks, running directly in your browser",
+    "applicationCategory": "Utilities",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "operatingSystem": "All",
+    "publisher": {
+      "@type": "Organization",
+      "name": "EveryTool.io",
+      "url": "https://everytool.io",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://everytool.io/logo.png"
+      }
+    },
+    "datePublished": "2025-06-24",
+    "dateModified": "2025-06-24"
+  }
+  </script>
+  
   <!-- Shared CSS -->
   <link rel="stylesheet" href="/css/styles.css">
   
   <!-- Tools Page Specific Styles -->
   <style>
-    /* ... (existing tools page styles remain unchanged) ... */
+    /* Hero Section */
+    .tools-hero {
+      padding: 80px 0 60px;
+      text-align: center;
+      background: linear-gradient(135deg, #f8f9fa 0%, #f0f4ff 100%);
+    }
+    
+    .tools-hero-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .tools-hero h1 {
+      font-size: 3.2rem;
+      margin-bottom: 20px;
+      font-weight: 700;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1.2;
+    }
+    
+    .tools-hero p {
+      font-size: 1.3rem;
+      color: var(--gray);
+      margin-bottom: 40px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .search-container {
+      max-width: 600px;
+      margin: 0 auto;
+      position: relative;
+    }
+    
+    .search-input {
+      width: 100%;
+      padding: 15px 50px 15px 20px;
+      font-size: 1.1rem;
+      border: 2px solid var(--light-gray);
+      border-radius: 50px;
+      outline: none;
+      transition: var(--transition);
+      color: #444;
+    }
+    
+    .search-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 10px rgba(67, 97, 238, 0.2);
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+    
+    .search-icon {
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray);
+      font-size: 1.2rem;
+    }
+    
+    /* Tools Section */
+    .tools-section {
+      padding: 70px 0;
+      background: white;
+    }
+    
+    .tools-section .section-header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+    
+    .tools-section .section-title {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      font-weight: 700;
+      color: var(--dark);
+    }
+    
+    .tools-section .section-subtitle {
+      font-size: 1.2rem;
+      color: #444;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+    }
+    
+    .tool-card {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 30px;
+      text-align: center;
+      box-shadow: var(--box-shadow);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+      border: 1px solid var(--light-gray);
+    }
+    
+    .tool-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    }
+    
+    .tool-icon {
+      font-size: 3rem;
+      color: var(--primary);
+      margin-bottom: 20px;
+      background: rgba(67, 97, 238, 0.1);
+      width: 80px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      margin: 0 auto 20px;
+    }
+    
+    .tool-card h3 {
+      font-size: 1.4rem;
+      margin-bottom: 15px;
+      color: var(--dark);
+    }
+    
+    .tool-card p {
+      color: #444;
+      margin-bottom: 20px;
+      flex-grow: 1;
+    }
+    
+    .tool-card a {
+      display: inline-block;
+      background: var(--primary);
+      color: white;
+      padding: 10px 20px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    
+    .tool-card a:hover, .tool-card a:focus {
+      background: var(--primary-dark);
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+    
+    /* Responsive Design for Tools Page */
+    @media (max-width: 768px) {
+      .tools-hero h1 {
+        font-size: 2.3rem;
+      }
+      
+      .tools-hero p {
+        font-size: 1.1rem;
+      }
+      
+      .tools-section .section-title {
+        font-size: 2rem;
+      }
+      
+      .tools-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    @media (max-width: 576px) {
+      .tools-hero h1 {
+        font-size: 2rem;
+      }
+      
+      .tools-grid {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 <body>
@@ -42,9 +257,9 @@
   </header>
 
   <!-- Hero Section -->
-  <section class="hero">
+  <section class="tools-hero">
     <div class="container">
-      <div class="hero-content">
+      <div class="tools-hero-content">
         <h1>Discover Our Free, Easy-to-Use Tools</h1>
         <p>Explore a wide range of tools designed to simplify your tasks.</p>
         <div class="search-container">
@@ -56,7 +271,7 @@
   </section>
 
   <!-- Tools Section -->
-  <section class="tools" id="tools">
+  <section class="tools-section">
     <div class="container">
       <div class="section-header">
         <h2 class="section-title">Our Tools</h2>
@@ -64,7 +279,61 @@
       </div>
       
       <div class="tools-grid" id="tools-grid">
-        <!-- ... (existing tool cards remain unchanged) ... -->
+        <article class="tool-card">
+          <div class="tool-icon"><i class="fas fa-barcode"></i></div>
+          <h3>Barcode Generator</h3>
+          <p>Generate Barcodes for products or inventories.</p>
+          <a href="https://everytool.io/tools/barcodegenerator" aria-label="Go to Barcode Generator tool">Go to Tool</a>
+        </article>
+        
+        <article class="tool-card">
+          <div class="tool-icon"><i class="fas fa-qrcode"></i></div>
+          <h3>QR Generator</h3>
+          <p>Create QR codes for URLs, text, or contact details.</p>
+          <a href="https://everytool.io/tools/qrgenerator" aria-label="Go to QR Generator tool">Go to Tool</a>
+        </article>
+        
+        <article class="tool-card">
+          <div class="tool-icon"><i class="fas fa-image"></i></div>
+          <h3>Image Tools</h3>
+          <p>Edit, resize, or convert images with ease.</p>
+          <a href="https://everytool.io/tools/imagetools" aria-label="Go to Image Tools">Go to Tool</a>
+        </article>
+        
+        <article class="tool-card">
+          <div class="tool-icon"><i class="fas fa-video"></i></div>
+          <h3>Video Tools</h3>
+          <p>Trim, convert, or compress videos quickly.</p>
+          <a href="https://everytool.io/tools/videotools" aria-label="Go to Video Tools">Go to Tool</a>
+        </article>
+        
+        <article class="tool-card">
+          <div class="tool-icon"><i class="fas fa-font"></i></div>
+          <h3>Text Tools</h3>
+          <p>Format, count, or generate text content.</p>
+          <a href="https://everytool.io/tools/texttools" aria-label="Go to Text Tools">Go to Tool</a>
+        </article>
+        
+        <article class="tool-card">
+          <div class="tool-icon"><i class="fas fa-file-export"></i></div>
+          <h3>File Converter</h3>
+          <p>Convert files between various formats.</p>
+          <a href="https://everytool.io/tools/fileconverter" aria-label="Go to File Converter">Go to Tool</a>
+        </article>
+        
+        <article class="tool-card">
+          <div class="tool-icon"><i class="fas fa-file-pdf"></i></div>
+          <h3>PDF Tools</h3>
+          <p>Edit, merge, or compress PDF files.</p>
+          <a href="https://everytool.io/tools/pdftools" aria-label="Go to PDF Tools">Go to Tool</a>
+        </article>
+        
+        <article class="tool-card">
+          <div class="tool-icon"><i class="fas fa-briefcase"></i></div>
+          <h3>Resume Builder</h3>
+          <p>Build resumes with professional templates.</p>
+          <a href="https://everytool.io/tools/resumebuilder" aria-label="Go to Resume Builder">Go to Tool</a>
+        </article>
       </div>
     </div>
   </section>
@@ -143,113 +412,117 @@
   <!-- JavaScript -->
   <script src="/js/main.js"></script>
   <script>
-    // Define tools page specific functions
-    function initSearch() {
-      const toolsData = [
-        { name: "Barcode Generator", description: "Generate Barcodes for products or inventories.", url: "/tools/barcodegenerator", icon: "fas fa-barcode" },
-        { name: "QR Generator", description: "Create QR codes for URLs, text, or contact details.", url: "/tools/qrgenerator", icon: "fas fa-qrcode" },
-        { name: "Image Tools", description: "Edit, resize, or convert images with ease.", url: "/tools/imagetools", icon: "fas fa-image" },
-        { name: "Video Tools", description: "Trim, convert, or compress videos quickly.", url: "/tools/videotools", icon: "fas fa-video" },
-        { name: "Text Tools", description: "Format, count, or generate text content.", url: "/tools/texttools", icon: "fas fa-font" },
-        { name: "File Converter", description: "Convert files between various formats.", url: "/tools/fileconverter", icon: "fas fa-file-export" },
-        { name: "PDF Tools", description: "Edit, merge, or compress PDF files.", url: "/tools/pdftools", icon: "fas fa-file-pdf" },
-        { name: "Career Tools", description: "Build resumes or prepare for interviews.", url: "/tools/resumebuilder", icon: "fas fa-briefcase" }
-      ];
+    // Tools page specific JavaScript
+    document.addEventListener('DOMContentLoaded', () => {
+      // Search Functionality
+      const initSearch = () => {
+        const toolsData = [
+          { name: "Barcode Generator", description: "Generate Barcodes for products or inventories.", url: "/tools/barcodegenerator", icon: "fas fa-barcode" },
+          { name: "QR Generator", description: "Create QR codes for URLs, text, or contact details.", url: "/tools/qrgenerator", icon: "fas fa-qrcode" },
+          { name: "Image Tools", description: "Edit, resize, or convert images with ease.", url: "/tools/imagetools", icon: "fas fa-image" },
+          { name: "Video Tools", description: "Trim, convert, or compress videos quickly.", url: "/tools/videotools", icon: "fas fa-video" },
+          { name: "Text Tools", description: "Format, count, or generate text content.", url: "/tools/texttools", icon: "fas fa-font" },
+          { name: "File Converter", description: "Convert files between various formats.", url: "/tools/fileconverter", icon: "fas fa-file-export" },
+          { name: "PDF Tools", description: "Edit, merge, or compress PDF files.", url: "/tools/pdftools", icon: "fas fa-file-pdf" },
+          { name: "Resume Builder", description: "Build resumes with professional templates.", url: "/tools/resumebuilder", icon: "fas fa-briefcase" }
+        ];
 
-      function renderTools(searchTerm = '') {
-        const toolsGrid = document.getElementById('tools-grid');
-        toolsGrid.innerHTML = '';
+        function renderTools(searchTerm = '') {
+          const toolsGrid = document.getElementById('tools-grid');
+          toolsGrid.innerHTML = '';
 
-        const term = searchTerm.toLowerCase().trim();
-        toolsData.forEach(tool => {
-          if (!term || 
-              tool.name.toLowerCase().includes(term) || 
-              tool.description.toLowerCase().includes(term)) {
-            const card = document.createElement('article');
-            card.className = 'tool-card';
-            card.innerHTML = `
-              <div class="tool-icon">
-                <i class="${tool.icon}"></i>
-              </div>
-              <h3>${tool.name}</h3>
-              <p>${tool.description}</p>
-              <a href="https://everytool.io${tool.url}" aria-label="Go to ${tool.name} tool">Go to Tool</a>
-            `;
-            toolsGrid.appendChild(card);
-          }
-        });
-      }
-
-      const searchInput = document.getElementById('tool-search');
-      searchInput.addEventListener('input', () => {
-        renderTools(searchInput.value);
-      });
-
-      renderTools();
-    }
-
-    function initAccessibility() {
-      // Keyboard navigation for toggle switches
-      document.querySelectorAll('.toggle-switch input').forEach(toggle => {
-        toggle.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            if (!toggle.disabled) {
-              toggle.checked = !toggle.checked;
-              toggle.dispatchEvent(new Event('change'));
+          const term = searchTerm.toLowerCase().trim();
+          toolsData.forEach(tool => {
+            if (!term || 
+                tool.name.toLowerCase().includes(term) || 
+                tool.description.toLowerCase().includes(term)) {
+              const card = document.createElement('article');
+              card.className = 'tool-card';
+              card.innerHTML = `
+                <div class="tool-icon">
+                  <i class="${tool.icon}"></i>
+                </div>
+                <h3>${tool.name}</h3>
+                <p>${tool.description}</p>
+                <a href="https://everytool.io${tool.url}" aria-label="Go to ${tool.name} tool">Go to Tool</a>
+              `;
+              toolsGrid.appendChild(card);
             }
-          }
-        });
-      });
+          });
+        }
 
-      // Focus management for modals
-      const settingsModal = document.querySelector('.settings-modal');
-      if (settingsModal) {
-        const focusableElements = settingsModal.querySelectorAll('button, input');
-        const firstFocusable = focusableElements[0];
-        const lastFocusable = focusableElements[focusableElements.length - 1];
-        
-        document.querySelector('.close-settings').addEventListener('keydown', (e) => {
-          if (e.key === 'Tab' && e.shiftKey) {
-            e.preventDefault();
-            lastFocusable.focus();
-          }
+        const searchInput = document.getElementById('tool-search');
+        if (searchInput) {
+          searchInput.addEventListener('input', () => {
+            renderTools(searchInput.value);
+          });
+        }
+
+        renderTools();
+      };
+
+      // Accessibility Functions
+      const initAccessibility = () => {
+        // Keyboard navigation for toggle switches
+        document.querySelectorAll('.toggle-switch input').forEach(toggle => {
+          toggle.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              if (!toggle.disabled) {
+                toggle.checked = !toggle.checked;
+                toggle.dispatchEvent(new Event('change'));
+              }
+            }
+          });
         });
-        
-        settingsModal.addEventListener('keydown', (e) => {
-          if (e.key === 'Tab') {
-            if (e.shiftKey && document.activeElement === firstFocusable) {
+
+        // Focus management for modals
+        const settingsModal = document.querySelector('.settings-modal');
+        if (settingsModal) {
+          const focusableElements = settingsModal.querySelectorAll('button, input');
+          const firstFocusable = focusableElements[0];
+          const lastFocusable = focusableElements[focusableElements.length - 1];
+          
+          document.querySelector('.close-settings').addEventListener('keydown', (e) => {
+            if (e.key === 'Tab' && e.shiftKey) {
               e.preventDefault();
               lastFocusable.focus();
-            } else if (!e.shiftKey && document.activeElement === lastFocusable) {
-              e.preventDefault();
-              firstFocusable.focus();
             }
-          } else if (e.key === 'Escape') {
-            document.getElementById('close-settings').click();
-          }
-        });
-      }
-      
-      // Focus styles for all interactive elements
-      const focusableElements = document.querySelectorAll(
-        'a, button, input, textarea, select, [tabindex]:not([tabindex="-1"])'
-      );
-      
-      focusableElements.forEach(el => {
-        el.addEventListener('focus', () => {
-          el.style.outline = '2px solid var(--primary)';
-          el.style.outlineOffset = '2px';
-        });
+          });
+          
+          settingsModal.addEventListener('keydown', (e) => {
+            if (e.key === 'Tab') {
+              if (e.shiftKey && document.activeElement === firstFocusable) {
+                e.preventDefault();
+                lastFocusable.focus();
+              } else if (!e.shiftKey && document.activeElement === lastFocusable) {
+                e.preventDefault();
+                firstFocusable.focus();
+              }
+            } else if (e.key === 'Escape') {
+              document.getElementById('close-settings').click();
+            }
+          });
+        }
         
-        el.addEventListener('blur', () => {
-          el.style.outline = 'none';
+        // Focus styles for all interactive elements
+        const focusableElements = document.querySelectorAll(
+          'a, button, input, textarea, select, [tabindex]:not([tabindex="-1"])'
+        );
+        
+        focusableElements.forEach(el => {
+          el.addEventListener('focus', () => {
+            el.style.outline = '2px solid var(--primary)';
+            el.style.outlineOffset = '2px';
+          });
+          
+          el.addEventListener('blur', () => {
+            el.style.outline = 'none';
+          });
         });
-      });
-    }
+      };
 
-    // Initialize tools page specific functions
-    document.addEventListener('DOMContentLoaded', () => {
+      // Initialize tools page specific functions
       initSearch();
       initAccessibility();
     });
