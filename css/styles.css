@@ -172,7 +172,7 @@ header {
   padding: 10px 20px;
 }
 
-/* FIX: Increased z-index for hamburger menu */
+/* FIX: Hamburger button styling */
 .mobile-menu-btn {
   display: none;
   background: none;
@@ -182,7 +182,8 @@ header {
   cursor: pointer;
   padding: 10px;
   border-radius: 5px;
-  z-index: 2002; /* Increased from 2001 to 2002 */
+  z-index: 2003; /* Increased z-index */
+  position: relative;
 }
 
 .mobile-menu-btn:hover, .mobile-menu-btn:focus {
@@ -225,21 +226,23 @@ header {
   display: block;
 }
 
-/* FIX: Added z-index to active state */
+/* FIX: Active mobile nav styling */
 .mobile-nav.active {
   transform: translateX(0);
-  z-index: 2001; /* Added z-index for active state */
+  z-index: 2002; /* Higher z-index */
 }
 
-/* FIX: Added right padding for close button */
+/* FIX: Mobile nav header with close button positioning */
 .mobile-nav-header {
   padding: 20px 15px; /* Added right padding */
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid var(--light-gray);
+  position: relative;
 }
 
+/* FIX: Close button styling */
 .close-mobile-menu {
   background: none;
   border: none;
@@ -253,6 +256,10 @@ header {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 2004; /* Highest z-index */
 }
 
 .close-mobile-menu:hover, .close-mobile-menu:focus {
@@ -293,27 +300,56 @@ header {
   margin-right: 10px;
 }
 
+/* FIX: Mobile dropdown menu styling */
 .mobile-nav .dropdown-menu {
   display: none;
   list-style: none;
-  padding: 10px 15px 10px 30px;
-  background: rgba(0, 0, 0, 0.05);
+  padding: 10px 15px;
+  background: rgba(0, 0, 0, 0.03);
+  border-radius: var(--border-radius);
+  margin-top: 5px;
+  margin-bottom: 15px;
 }
 
 .mobile-nav .dropdown-menu.active {
   display: block;
 }
 
+/* FIX: Mobile dropdown item styling */
 .mobile-nav .dropdown-item {
   display: flex;
   align-items: center;
-  padding: 8px 20px;
+  padding: 12px 15px;
+  margin: 8px 0;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 8px;
+  transition: var(--transition);
+}
+
+.mobile-nav .dropdown-item:hover {
+  background: rgba(67, 97, 238, 0.1);
 }
 
 .mobile-nav .dropdown-item i {
   margin-right: 10px;
   font-size: 1.2rem;
   color: var(--primary);
+  min-width: 25px;
+  text-align: center;
+}
+
+/* FIX: Mobile dropdown toggle indicator */
+.mobile-nav .dropdown-toggle::after {
+  content: '\f078';
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
+  margin-left: 8px;
+  font-size: 0.8rem;
+  transition: transform 0.3s ease;
+}
+
+.mobile-nav .dropdown-toggle[aria-expanded="true"]::after {
+  transform: rotate(180deg);
 }
 
 .mobile-nav .dropdown-error {
@@ -972,5 +1008,16 @@ footer {
   
   .settings-modal {
     padding: 20px;
+  }
+  
+  /* FIX: Mobile dropdown item spacing */
+  .mobile-nav .dropdown-item {
+    padding: 12px 15px;
+    margin: 8px 0;
+  }
+  
+  /* FIX: Mobile nav width adjustment */
+  .mobile-nav {
+    width: 100%;
   }
 }
