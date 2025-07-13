@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Create professional resumes with our privacy-focused resume builder. All processing happens in your browser - your data never leaves your device.">
-  <title>Enhanced Resume Builder - EveryTool.io</title>
+  <title>QR Code Generator with Logo Size Control - EveryTool.io</title>
+  <meta name="description" content="Generate custom QR codes with logo size control, colors, vCard, Wi-Fi, bulk processing - all processed in your browser for privacy.">
   
   <!-- Performance Tuning -->
   <link rel="preconnect" href="https://cdnjs.cloudflare.com">
@@ -13,16 +13,12 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
-  <!-- PDF Libraries -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  
   <!-- Shared CSS -->
   <link rel="stylesheet" href="/css/styles.css">
   
-  <!-- Resume Builder Specific Styles -->
+  <!-- QR Generator Specific Styles -->
   <style>
-    /* Resume Builder Specific Styles */
+    /* QR Generator Specific Styles */
     .hero {
       padding: 60px 0 40px;
       text-align: center;
@@ -136,29 +132,17 @@
       to { opacity: 1; transform: translateY(0); }
     }
     
-    label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: 500;
-      color: var(--dark);
-    }
-    
-    textarea, input, select, button {
+    input, select, button, textarea {
       margin: 0.5em auto;
       padding: 15px;
       width: 100%;
       font-size: 1rem;
       border-radius: 10px;
       border: 1px solid var(--light-gray);
-      background: white;
+      background: var(--light);
       display: block;
       transition: var(--transition);
-      font-family: inherit;
-      resize: vertical;
-    }
-    
-    textarea {
-      min-height: 150px;
+      font-family: 'Poppins', sans-serif;
     }
     
     input:focus, select:focus, textarea:focus {
@@ -178,7 +162,6 @@
       align-items: center;
       justify-content: center;
       gap: 10px;
-      transition: var(--transition);
     }
     
     button:hover, button:focus {
@@ -189,199 +172,351 @@
       outline-offset: 2px;
     }
     
-    .btn-secondary {
-      background: var(--secondary);
-    }
-    
-    .btn-secondary:hover {
-      background: #6517a0;
-    }
-    
-    .btn-outline {
-      background: transparent;
-      border: 2px solid var(--primary);
+    button.secondary {
+      background: var(--light);
       color: var(--primary);
+      border: 2px solid var(--primary);
     }
     
-    .btn-outline:hover, .btn-outline:focus {
-      background: var(--primary);
-      color: white;
+    button.secondary:hover, button.secondary:focus {
+      background: #f0f4ff;
       outline: 2px solid var(--primary);
       outline-offset: 2px;
     }
-
-    .btn-group {
+    
+    canvas {
+      margin: 1.5em auto;
+      display: block;
+      max-width: 100%;
+      border-radius: 12px;
+      background: var(--light);
+      padding: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      border: 1px solid var(--light-gray);
+    }
+    
+    .color-group {
       display: flex;
       justify-content: center;
-      gap: 15px;
+      gap: 25px;
       margin: 1.5em 0;
       flex-wrap: wrap;
     }
-
-    .btn-group button {
-      width: auto;
-      min-width: 180px;
-      flex: 1;
-    }
-
-    .tool-row {
+    
+    .color-input {
       display: flex;
-      gap: 15px;
-      margin-bottom: 20px;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+      max-width: 200px;
     }
     
-    .tool-col {
-      flex: 1;
-    }
-    
-    .resume-preview {
-      background: #f8f9ff;
-      border: 1px solid #e9ecef;
-      border-radius: var(--border-radius);
-      padding: 25px;
-      min-height: 400px;
-      margin-top: 30px;
-      position: relative;
-    }
-
-    .resume-header {
-      text-align: center;
-      margin-bottom: 30px;
-      border-bottom: 2px solid var(--primary);
-      padding-bottom: 20px;
-    }
-
-    .resume-name {
-      font-size: 2.2rem;
-      font-weight: 700;
-      color: var(--primary);
-      margin-bottom: 5px;
-    }
-
-    .resume-title {
-      font-size: 1.2rem;
-      color: var(--gray);
-    }
-
-    .resume-contact {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      margin-top: 10px;
-      flex-wrap: wrap;
-    }
-
-    .resume-section {
-      margin-bottom: 25px;
-    }
-
-    .resume-section h3 {
-      font-size: 1.3rem;
-      border-bottom: 1px solid var(--light-gray);
-      padding-bottom: 5px;
-      margin-bottom: 15px;
-      color: var(--primary);
-    }
-
-    .resume-item {
-      margin-bottom: 15px;
-    }
-
-    .resume-item-header {
-      display: flex;
-      justify-content: space-between;
-      font-weight: 600;
-    }
-
-    .resume-item-title {
-      font-size: 1.1rem;
-    }
-
-    .resume-item-subtitle {
-      color: var(--gray);
-      font-style: italic;
-      margin-bottom: 5px;
-    }
-
-    .resume-item-desc {
+    .color-input label {
+      font-weight: 500;
       color: var(--dark);
-      line-height: 1.5;
     }
-
-    .resume-skills {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
+    
+    .color-input input[type="color"] {
+      width: 60px;
+      height: 60px;
+      padding: 5px;
+      cursor: pointer;
+      border-radius: 12px;
+      border: 2px solid var(--light-gray);
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
     }
-
-    .skill-tag {
-      background: #f0f4ff;
-      padding: 5px 15px;
-      border-radius: 20px;
-      font-size: 0.9rem;
+    
+    .color-input input[type="color"]::-webkit-color-swatch {
+      border: none;
+      border-radius: 8px;
     }
-
-    .action-buttons {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      margin-top: 30px;
-    }
-
-    .features-section {
-      margin: 40px auto;
-    }
-
-    /* Features grid layout - 2 cards per row */
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 30px;
-      margin-top: 25px;
-    }
-
-    .feature-card {
-      background: white;
+    
+    .logo-upload-area {
+      border: 2px dashed var(--light-gray);
       border-radius: var(--border-radius);
       padding: 30px;
-      text-align: center;
-      box-shadow: var(--box-shadow);
+      margin: 1.5em auto;
+      cursor: pointer;
       transition: var(--transition);
-      height: 100%;
+      background: #fafbff;
+      text-align: center;
+      position: relative;
     }
-
-    .feature-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    
+    .logo-upload-area:hover, .logo-upload-area.drag-over {
+      border-color: var(--primary);
+      background: #f0f4ff;
     }
-
-    .feature-card i {
+    
+    .logo-upload-area i {
       font-size: 3rem;
       color: var(--primary);
-      margin-bottom: 20px;
-      background: #f0f4ff;
-      width: 90px;
-      height: 90px;
+      margin-bottom: 15px;
+    }
+    
+    .logo-preview {
+      width: 120px;
+      height: 120px;
+      margin: 1em auto;
       display: flex;
       align-items: center;
       justify-content: center;
+      overflow: hidden;
+      border-radius: 12px;
+      border: 1px solid var(--light-gray);
+      background: var(--light);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
+    
+    .logo-preview img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+    
+    .loading {
+      display: none;
+      text-align: center;
+      padding: 30px;
+    }
+    
+    .spinner {
+      border: 4px solid rgba(0, 0, 0, 0.1);
+      border-left-color: var(--primary);
       border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
       margin: 0 auto 20px;
     }
-
-    .feature-card h3 {
-      font-size: 1.6rem;
-      margin-bottom: 15px;
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .error {
+      color: #e74c3c;
+      padding: 15px;
+      background: rgba(231, 76, 60, 0.1);
+      border-radius: var(--border-radius);
+      margin: 20px 0;
+      display: none;
+      border-left: 4px solid #e74c3c;
+    }
+    
+    .success {
+      color: #27ae60;
+      padding: 15px;
+      background: rgba(39, 174, 96, 0.1);
+      border-radius: var(--border-radius);
+      margin: 20px 0;
+      display: none;
+      border-left: 4px solid #27ae60;
+    }
+    
+    .scanner-container {
+      position: relative;
+      width: 100%;
+      height: 350px;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      margin: 1.5em auto;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      background: #000;
+    }
+    
+    #scanner-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .scanner-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.4);
+    }
+    
+    .scanner-box {
+      width: 250px;
+      height: 250px;
+      border: 3px solid white;
+      box-shadow: 0 0 0 1000px rgba(0, 0, 0, 0.4);
+    }
+    
+    .size-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 1.5em 0;
+    }
+    
+    .size-controls {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      width: 100%;
+      max-width: 500px;
+      margin: 0.5em auto;
+    }
+    
+    .size-slider {
+      flex: 1;
+      height: 8px;
+      border-radius: 4px;
+      background: var(--light-gray);
+      outline: none;
+      -webkit-appearance: none;
+    }
+    
+    .size-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--primary);
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      transition: var(--transition);
+    }
+    
+    .size-slider::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+    }
+    
+    .size-value {
+      min-width: 80px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: var(--primary);
+    }
+    
+    .border-controls {
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      margin: 1.5em 0;
+      flex-wrap: wrap;
+    }
+    
+    .border-control {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+      max-width: 200px;
+    }
+    
+    .border-control label {
+      font-weight: 500;
       color: var(--dark);
     }
-
-    .feature-card p {
-      margin-bottom: 20px;
-      color: var(--gray);
-      font-size: 1.1rem;
+    
+    .border-control input[type="range"] {
+      width: 100%;
     }
-
-    /* Resume Creation Guide */
+    
+    .border-control input[type="color"] {
+      width: 60px;
+      height: 60px;
+      padding: 5px;
+      cursor: pointer;
+      border-radius: 12px;
+      border: 2px solid var(--light-gray);
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .border-control input[type="color"]::-webkit-color-swatch {
+      border: none;
+      border-radius: 8px;
+    }
+    
+    .file-upload-container {
+      position: relative;
+      width: 100%;
+      margin: 1.5em auto;
+    }
+    
+    .file-upload-label {
+      display: block;
+      padding: 25px;
+      background: #fafbff;
+      border: 2px dashed var(--light-gray);
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      transition: var(--transition);
+      text-align: center;
+    }
+    
+    .file-upload-label:hover {
+      border-color: var(--primary);
+      background: #f0f4ff;
+    }
+    
+    .file-upload-label i {
+      color: var(--primary);
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+    }
+    
+    .file-upload-input {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+    
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+    
+    /* Features grid - 2 cards per row */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 25px;
+      margin: 30px 0;
+    }
+    
+    .feature {
+      background: var(--light);
+      border-radius: var(--border-radius);
+      padding: 25px;
+      text-align: center;
+      box-shadow: var(--box-shadow);
+      transition: var(--transition);
+    }
+    
+    .feature:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    }
+    
+    .feature i {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      color: var(--primary);
+    }
+    
     .guide-section {
       background: var(--light);
       border-radius: var(--border-radius);
@@ -422,79 +557,266 @@
     
     .guide-item p {
       font-size: 1rem;
-      color: #444;
-    }
-
-    .error {
-      color: #e74c3c;
-      padding: 15px;
-      background: rgba(231, 76, 60, 0.1);
-      border-radius: var(--border-radius);
-      margin: 20px 0;
-      border-left: 4px solid #e74c3c;
-      display: none;
-    }
-
-    .success {
-      color: #27ae60;
-      padding: 15px;
-      background: rgba(39, 174, 96, 0.1);
-      border-radius: var(--border-radius);
-      margin: 20px 0;
-      border-left: 4px solid #27ae60;
-      display: none;
+      color: var(--gray);
     }
     
-    /* Template Controls */
-    .template-controls {
+    .qr-type-fields {
+      display: none;
+      margin: 1em 0;
+    }
+    
+    .qr-type-fields.active {
+      display: block;
+    }
+    
+    .input-type-toggle {
       display: flex;
-      justify-content: center;
-      margin: 20px 0;
       gap: 15px;
-      flex-wrap: wrap;
+      margin: 20px 0;
+      justify-content: center;
     }
     
-    .color-picker {
+    .input-type-toggle label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      padding: 10px 20px;
+      background: var(--light-gray);
+      border-radius: 50px;
+      transition: var(--transition);
+    }
+    
+    .input-type-toggle label.active {
+      background: var(--primary);
+      color: white;
+    }
+    
+    .input-type-toggle input[type="radio"] {
+      display: none;
+    }
+    
+    .range-controls {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin: 20px 0;
+    }
+    
+    .border-preview {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      margin: 0 auto;
+      border-radius: 12px;
+      background: var(--light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border: 1px solid var(--light-gray);
+    }
+    
+    .border-preview .logo-placeholder {
+      width: 70%;
+      height: 70%;
+      background: #4361ee;
+      border-radius: 8px;
+    }
+    
+    .border-preview .border-indicator {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0px solid #000;
+      box-sizing: border-box;
+      pointer-events: none;
+    }
+    
+    .border-note {
+      font-size: 0.85rem;
+      color: var(--gray);
+      text-align: center;
+      margin-top: 10px;
+      font-style: italic;
+    }
+    
+    .border-active {
+      background: rgba(67, 97, 238, 0.05);
+      border: 2px dashed var(--primary);
+    }
+    
+    .toggle-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      margin: 1em 0;
+      padding: 10px;
+      border-radius: 50px;
+      background: #f0f4ff;
+      max-width: 300px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .toggle-label {
+      font-weight: 500;
+      color: var(--dark);
+      font-size: 1rem;
+    }
+    
+    .toggle-switch-visual {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 30px;
+    }
+    
+    .toggle-switch-visual input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 34px;
+    }
+    
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 22px;
+      width: 22px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+    
+    input:checked + .toggle-slider {
+      background-color: var(--primary);
+    }
+    
+    input:checked + .toggle-slider:before {
+      transform: translateX(30px);
+    }
+    
+    .logo-options-container {
+      margin: 1.5em 0;
+      border: 1px solid var(--light-gray);
+      border-radius: var(--border-radius);
+      padding: 20px;
+      background: #fafbff;
+    }
+    
+    .logo-options-header {
       display: flex;
       align-items: center;
       gap: 10px;
-      margin: 15px 0;
+      margin-bottom: 15px;
+      justify-content: center;
     }
     
-    .color-preview {
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      background: var(--primary);
+    .logo-options-header i {
+      color: var(--primary);
+      font-size: 1.5rem;
     }
     
-    .font-selector {
-      margin: 15px 0;
+    .logo-options-content {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
     }
     
-    .required:after {
-      content: " *";
-      color: #e74c3c;
+    .logo-upload-container {
+      flex: 1;
+      min-width: 300px;
     }
     
-    .validation-error {
-      color: #e74c3c;
-      font-size: 0.85rem;
-      margin-top: 5px;
-      display: none;
+    .border-controls-container {
+      flex: 1;
+      min-width: 300px;
     }
     
+    /* Scanner status styles */
+    .scanner-status {
+      position: absolute;
+      top: 10px;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      color: white;
+      font-weight: bold;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+      z-index: 10;
+    }
+    
+    .scanner-success {
+      color: #4ade80;
+    }
+    
+    .scanner-error {
+      color: #f87171;
+    }
+    
+    .scanner-loading {
+      color: #60a5fa;
+    }
+    
+    .scanner-box {
+      position: relative;
+      width: 250px;
+      height: 250px;
+      border: 3px solid white;
+      box-shadow: 0 0 0 1000px rgba(0, 0, 0, 0.4);
+    }
+    
+    .scanner-guides {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+    
+    .guide-line {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.5);
+    }
+    
+    .guide-line.horizontal {
+      width: 100%;
+      height: 1px;
+      left: 0;
+    }
+    
+    .guide-line.vertical {
+      width: 1px;
+      height: 100%;
+      top: 0;
+    }
+
     /* Responsive Design */
     @media (max-width: 992px) {
-      .tool-row {
-        flex-direction: column;
-      }
-      
-      .features-grid {
+      .guide-grid {
         grid-template-columns: 1fr;
       }
       
-      .guide-grid {
+      .features {
         grid-template-columns: 1fr;
       }
     }
@@ -508,20 +830,47 @@
         font-size: 2rem;
       }
       
-      .btn-group {
+      .input-type-toggle {
         flex-direction: column;
+        gap: 8px;
       }
       
-      .btn-group button {
+      .input-type-toggle label {
         width: 100%;
+        justify-content: center;
       }
       
-      .action-buttons {
+      .logo-options-content {
         flex-direction: column;
+      }
+      
+      .scanner-container {
+        height: 280px;
+      }
+      
+      .tab {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+      }
+      
+      .guide-section {
+        padding: 25px;
       }
     }
 
     @media (max-width: 576px) {
+      .header-container {
+        padding: 15px 0;
+      }
+      
+      .logo {
+        font-size: 1.5rem;
+      }
+      
+      .logo i {
+        font-size: 1.8rem;
+      }
+      
       .hero {
         padding: 40px 0 20px;
       }
@@ -541,11 +890,6 @@
       h3 {
         font-size: 1.2rem;
       }
-      
-      .tab {
-        padding: 10px 15px;
-        font-size: 0.9rem;
-      }
     }
   </style>
 </head>
@@ -559,497 +903,416 @@
   <section class="hero">
     <div class="container">
       <div class="hero-content">
-        <h1>Enhanced Resume Builder</h1>
-        <p>Create professional resumes in minutes with our advanced builder. ATS-friendly templates, real-time preview, and client-side processing.</p>
+        <h1>QR Code Generator</h1>
+        <p>Create custom QR codes with logos, colors, vCard, Wi-Fi, bulk processing, and number range generation - all processing happens in your browser.</p>
       </div>
     </div>
   </section>
 
-  <!-- Features Section -->
+  <!-- QR Generator Content -->
   <div class="container">
-    <div class="features-section">
-      <div class="features-grid">
-        <div class="feature-card">
-          <i class="fas fa-layer-group"></i>
-          <h3>Professional Templates</h3>
-          <p>Choose from ATS-friendly templates designed to get you noticed</p>
-        </div>
-        <div class="feature-card">
-          <i class="fas fa-file-pdf"></i>
-          <h3>PDF Export</h3>
-          <p>Download your resume as a professional PDF with one click</p>
-        </div>
-        <div class="feature-card">
-          <i class="fas fa-lightbulb"></i>
-          <h3>Content Suggestions</h3>
-          <p>Get AI-powered suggestions for improving your resume content</p>
-        </div>
-        <div class="feature-card">
-          <i class="fas fa-sliders-h"></i>
-          <h3>Advanced Customization</h3>
-          <p>Change colors, fonts, and section order to match your needs</p>
-        </div>
+    <!-- Features with 2 cards per row -->
+    <div class="features">
+      <div class="feature">
+        <i class="fas fa-paint-brush"></i>
+        <h3>Custom Design</h3>
+        <p>Create QR codes with custom colors and embedded logos for brand recognition</p>
+      </div>
+      <div class="feature">
+        <i class="fas fa-layer-group"></i>
+        <h3>Bulk Generation</h3>
+        <p>Generate multiple QR codes at once including sequential numbers</p>
+      </div>
+      <div class="feature">
+        <i class="fas fa-camera"></i>
+        <h3>QR Scanner</h3>
+        <p>Scan any QR code using your device's camera or upload an image</p>
+      </div>
+      <div class="feature">
+        <i class="fas fa-ruler-combined"></i>
+        <h3>Logo Size Control</h3>
+        <p>Adjust logo size precisely within your QR codes</p>
       </div>
     </div>
 
-    <!-- Resume Creation Guide -->
+    <!-- Updated QR Code Creation Guide -->
     <div class="guide-section">
-      <h2><i class="fas fa-book"></i> Resume Creation Guide</h2>
-      <p>Follow these steps to create your perfect resume:</p>
+      <h2><i class="fas fa-book"></i> QR Code Creation Guide</h2>
       <div class="guide-grid">
         <div class="guide-item">
-          <h3><i class="fas fa-user"></i> Personal Details</h3>
-          <p>Start with your name, contact information, and professional summary</p>
+          <h3><i class="fas fa-keyboard"></i> Select QR Type</h3>
+          <p>Choose the type of QR code (e.g., URL, vCard, Wi-Fi) to encode your data.</p>
         </div>
         <div class="guide-item">
-          <h3><i class="fas fa-briefcase"></i> Work Experience</h3>
-          <p>List your relevant work history, starting with your most recent position</p>
+          <h3><i class="fas fa-upload"></i> Add Logo (Optional)</h3>
+          <p>Upload a logo to place in the center of your QR code with a customizable border.</p>
         </div>
         <div class="guide-item">
-          <h3><i class="fas fa-graduation-cap"></i> Education</h3>
-          <p>Add your degrees, certifications, and educational achievements</p>
+          <h3><i class="fas fa-paint-brush"></i> Customize Design</h3>
+          <p>Select colors, size, and add a border around your logo to make it stand out.</p>
         </div>
         <div class="guide-item">
-          <h3><i class="fas fa-star"></i> Skills & Expertise</h3>
-          <p>Highlight your professional skills and areas of expertise</p>
+          <h3><i class="fas fa-download"></i> Generate & Download</h3>
+          <p>Create your QR code, test it, and download as a PNG or ZIP for bulk.</p>
         </div>
       </div>
     </div>
 
-    <!-- Main Resume Builder Card -->
     <div class="card">
       <div class="tabs" role="tablist">
-        <div class="tab active" data-tab="personal" role="tab" aria-selected="true" tabindex="0">
-          <i class="fas fa-user"></i> Personal
+        <div class="tab active" data-tab="single" role="tab" aria-selected="true" tabindex="0">
+          <i class="fas fa-qrcode"></i> Single QR Code
         </div>
-        <div class="tab" data-tab="experience" role="tab" aria-selected="false" tabindex="0">
-          <i class="fas fa-briefcase"></i> Experience
+        <div class="tab" data-tab="bulk" role="tab" aria-selected="false" tabindex="0">
+          <i class="fas fa-layer-group"></i> Bulk QR Codes
         </div>
-        <div class="tab" data-tab="education" role="tab" aria-selected="false" tabindex="0">
-          <i class="fas fa-graduation-cap"></i> Education
-        </div>
-        <div class="tab" data-tab="projects" role="tab" aria-selected="false" tabindex="0">
-          <i class="fas fa-project-diagram"></i> Projects
-        </div>
-        <div class="tab" data-tab="skills" role="tab" aria-selected="false" tabindex="0">
-          <i class="fas fa-star"></i> Skills
-        </div>
-        <div class="tab" data-tab="certifications" role="tab" aria-selected="false" tabindex="0">
-          <i class="fas fa-award"></i> Certifications
-        </div>
-        <div class="tab" data-tab="preview" role="tab" aria-selected="false" tabindex="0">
-          <i class="fas fa-eye"></i> Preview
+        <div class="tab" data-tab="scan" role="tab" aria-selected="false" tabindex="0">
+          <i class="fas fa-camera"></i> Scan QR Code
         </div>
       </div>
 
-      <!-- Personal Information -->
-      <div class="tab-content active" id="personal-tab" role="tabpanel">
-        <h2><i class="fas fa-user"></i> Personal Information</h2>
-        <p>Add your contact details and professional summary.</p>
+      <div class="tab-content active" id="single-tab" role="tabpanel">
+        <h2><i class="fas fa-qrcode"></i> Create Your QR Code</h2>
         
-        <div class="tool-row">
-          <div class="tool-col">
-            <label for="fullName" class="required">Full Name</label>
-            <input type="text" id="fullName" placeholder="John Doe" aria-label="Enter your full name" required>
-            <div class="validation-error" id="nameError">Please enter your name</div>
-          </div>
-          <div class="tool-col">
-            <label for="jobTitle" class="required">Professional Title</label>
-            <input type="text" id="jobTitle" placeholder="e.g. Software Engineer" aria-label="Enter your professional title" required>
-            <div class="validation-error" id="titleError">Please enter your professional title</div>
-          </div>
-        </div>
-        
-        <div class="tool-row">
-          <div class="tool-col">
-            <label for="email" class="required">Email</label>
-            <input type="email" id="email" placeholder="john@example.com" aria-label="Enter your email" required>
-            <div class="validation-error" id="emailError">Please enter a valid email</div>
-          </div>
-          <div class="tool-col">
-            <label for="phone">Phone</label>
-            <input type="tel" id="phone" placeholder="(123) 456-7890" aria-label="Enter your phone number">
-          </div>
-        </div>
-        
-        <div class="tool-row">
-          <div class="tool-col">
-            <label for="location">Location</label>
-            <input type="text" id="location" placeholder="City, State" aria-label="Enter your location">
-          </div>
-          <div class="tool-col">
-            <label for="website">Website/Portfolio</label>
-            <input type="url" id="website" placeholder="https://yourportfolio.com" aria-label="Enter your website or portfolio">
-          </div>
-        </div>
-        
-        <label for="summary" class="required">Professional Summary</label>
-        <textarea id="summary" placeholder="Experienced professional with 5+ years in..." aria-label="Enter your professional summary" required></textarea>
-        <div class="validation-error" id="summaryError">Please write a professional summary</div>
-        
-        <div class="btn-group">
-          <button id="nextExperienceBtn" aria-label="Go to experience section">
-            Next: Experience <i class="fas fa-arrow-right"></i>
-          </button>
-        </div>
-      </div>
+        <label for="qr-type">QR Code Type:</label>
+        <select id="qr-type" aria-label="Select QR code type">
+          <option value="url">URL/Text</option>
+          <option value="vcard">vCard (Contact)</option>
+          <option value="wifi">Wi-Fi</option>
+          <option value="sms">SMS</option>
+          <option value="email">Email</option>
+        </select>
 
-      <!-- Work Experience -->
-      <div class="tab-content" id="experience-tab" role="tabpanel">
-        <h2><i class="fas fa-briefcase"></i> Work Experience</h2>
-        <p>Add your work history, starting with your most recent position.</p>
-        
-        <div id="experienceContainer">
-          <div class="experience-item">
-            <div class="tool-row">
-              <div class="tool-col">
-                <label for="jobTitle1" class="required">Job Title</label>
-                <input type="text" id="jobTitle1" placeholder="Senior Developer" aria-label="Enter job title" required>
-                <div class="validation-error">Please enter job title</div>
-              </div>
-              <div class="tool-col">
-                <label for="company1" class="required">Company</label>
-                <input type="text" id="company1" placeholder="Tech Solutions Inc." aria-label="Enter company name" required>
-                <div class="validation-error">Please enter company name</div>
+        <div class="qr-type-fields active" id="url-fields">
+          <label for="qr-input">Enter QR Code Content:</label>
+          <input type="text" id="qr-input" placeholder="Enter URL or text..." autofocus aria-label="Enter URL or text content">
+        </div>
+
+        <div class="qr-type-fields" id="vcard-fields">
+          <label for="vcard-name">Full Name:</label>
+          <input type="text" id="vcard-name" placeholder="John Doe" aria-label="Enter full name">
+          <label for="vcard-phone">Phone Number:</label>
+          <input type="tel" id="vcard-phone" placeholder="+1234567890" aria-label="Enter phone number">
+          <label for="vcard-email">Email:</label>
+          <input type="email" id="vcard-email" placeholder="john@example.com" aria-label="Enter email address">
+        </div>
+
+        <div class="qr-type-fields" id="wifi-fields">
+          <label for="wifi-ssid">Wi-Fi SSID:</label>
+          <input type="text" id="wifi-ssid" placeholder="Network Name" aria-label="Enter Wi-Fi SSID">
+          <label for="wifi-password">Password:</label>
+          <input type="text" id="wifi-password" placeholder="Password" aria-label="Enter Wi-Fi password">
+          <label for="wifi-type">Encryption Type:</label>
+          <select id="wifi-type" aria-label="Select Wi-Fi encryption type">
+            <option value="WPA">WPA/WPA2</option>
+            <option value="WEP">WEP</option>
+            <option value="nopass">No Password</option>
+          </select>
+        </div>
+
+        <div class="qr-type-fields" id="sms-fields">
+          <label for="sms-phone">Phone Number:</label>
+          <input type="tel" id="sms-phone" placeholder="+1234567890" aria-label="Enter phone number for SMS">
+          <label for="sms-message">Message:</label>
+          <textarea id="sms-message" placeholder="Enter your message" aria-label="Enter SMS message"></textarea>
+        </div>
+
+        <div class="qr-type-fields" id="email-fields">
+          <label for="email-address">Recipient Email:</label>
+          <input type="email" id="email-address" placeholder="recipient@example.com" aria-label="Enter recipient email">
+          <label for="email-subject">Subject:</label>
+          <input type="text" id="email-subject" placeholder="Subject" aria-label="Enter email subject">
+          <label for="email-body">Body:</label>
+          <textarea id="email-body" placeholder="Enter email body" aria-label="Enter email body"></textarea>
+        </div>
+
+        <div class="error" id="input-error">Please fill in all required fields</div>
+
+        <div class="logo-options-container">
+          <div class="logo-options-header">
+            <i class="fas fa-image"></i>
+            <h3>Logo & Border Options</h3>
+          </div>
+          
+          <div class="logo-options-content">
+            <div class="logo-upload-container">
+              <div class="logo-upload-area" id="logo-upload-area">
+                <label for="logo-upload" class="visually-hidden">Upload Logo</label>
+                <i class="fas fa-cloud-upload-alt"></i>
+                <p>Drag & drop your logo here<br>or click to select a file</p>
+                <div class="logo-preview" id="logo-preview">
+                  <div class="border-preview">
+                    <div class="logo-placeholder"></div>
+                    <div class="border-indicator" id="border-preview"></div>
+                  </div>
+                </div>
+                <input type="file" id="logo-upload" accept="image/*" style="display:none" aria-label="Upload logo image">
               </div>
             </div>
             
-            <div class="tool-row">
-              <div class="tool-col">
-                <label for="startDate1" class="required">Start Date</label>
-                <input type="month" id="startDate1" aria-label="Enter start date" required>
-                <div class="validation-error">Please select start date</div>
-              </div>
-              <div class="tool-col">
-                <label for="endDate1">End Date</label>
-                <input type="month" id="endDate1" aria-label="Enter end date">
-                <div style="margin-top: 5px;">
-                  <input type="checkbox" id="currentJob1" aria-label="I currently work here">
-                  <label for="currentJob1">I currently work here</label>
+            <div class="border-controls-container">
+              <div class="border-controls">
+                <div class="border-control">
+                  <label for="border-size">Border Size:</label>
+                  <div class="size-controls">
+                    <input type="range" id="border-size" class="size-slider" min="0" max="20" value="5" step="1" aria-label="Adjust logo border size">
+                    <div class="size-value" id="border-size-value">5px</div>
+                  </div>
+                </div>
+                <div class="border-control">
+                  <label for="border-color">Border Color:</label>
+                  <input type="color" id="border-color" value="#FFFFFF" aria-label="Select logo border color">
+                </div>
+                <!-- New Logo Size Control -->
+                <div class="border-control">
+                  <label for="logo-size">Logo Size:</label>
+                  <div class="size-controls">
+                    <input type="range" id="logo-size" class="size-slider" min="5" max="25" value="15" step="1" aria-label="Adjust logo size">
+                    <div class="size-value" id="logo-size-value">15%</div>
+                  </div>
                 </div>
               </div>
+              <div class="border-note" id="border-note">
+                <i class="fas fa-info-circle"></i> Border settings only apply when a logo is uploaded
+              </div>
             </div>
-            
-            <label for="jobDescription1" class="required">Description</label>
-            <textarea id="jobDescription1" placeholder="Describe your responsibilities and achievements..." aria-label="Enter job description" required></textarea>
-            <div class="validation-error">Please enter job description</div>
+          </div>
+        </div>
+
+        <div class="color-group">
+          <div class="color-input">
+            <label for="fg-color">Foreground Color</label>
+            <input type="color" id="fg-color" value="#000000" aria-label="Select foreground color">
+          </div>
+          <div class="color-input">
+            <label for="bg-color">Background Color</label>
+            <input type="color" id="bg-color" value="#FFFFFF" aria-label="Select background color">
           </div>
         </div>
         
-        <button id="addExperienceBtn" style="margin: 15px 0;" aria-label="Add another position">
-          <i class="fas fa-plus"></i> Add Another Position
-        </button>
-        
+        <div class="toggle-container">
+          <span class="toggle-label">Transparent Background</span>
+          <label class="toggle-switch-visual">
+            <input type="checkbox" id="transparent-bg" aria-label="Make background transparent">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="size-group">
+          <label for="size-slider">QR Code Size:</label>
+          <div class="size-controls">
+            <input type="range" id="size-slider" class="size-slider" min="128" max="1024" value="256" step="32" aria-label="Adjust QR code size">
+            <div class="size-value" id="size-value">256px</div>
+          </div>
+        </div>
+
         <div class="btn-group">
-          <button class="btn-outline" id="backPersonalBtn" aria-label="Go back to personal section">
-            <i class="fas fa-arrow-left"></i> Back
+          <button onclick="generateQR()" aria-label="Generate QR code">
+            <i class="fas fa-bolt"></i> Generate QR Code
           </button>
-          <button id="nextEducationBtn" aria-label="Go to education section">
-            Next: Education <i class="fas fa-arrow-right"></i>
+          <button id="download-btn" onclick="downloadQR()" style="display:none" aria-label="Download QR code">
+            <i class="fas fa-download"></i> Download QR Code
           </button>
         </div>
+
+        <div class="loading" id="qr-loading">
+          <div class="spinner"></div>
+          Generating QR code...
+        </div>
+        <div class="error" id="qr-error"></div>
+        <div class="success" id="qr-success"></div>
+
+        <canvas id="qr-canvas" width="256" height="256" style="display:none;" aria-label="Generated QR code"></canvas>
       </div>
 
-      <!-- Education -->
-      <div class="tab-content" id="education-tab" role="tabpanel">
-        <h2><i class="fas fa-graduation-cap"></i> Education</h2>
-        <p>Add your educational background.</p>
+      <div class="tab-content" id="bulk-tab" role="tabpanel">
+        <h2><i class="fas fa-layer-group"></i> Bulk QR Code Generation</h2>
         
-        <div id="educationContainer">
-          <div class="education-item">
-            <div class="tool-row">
-              <div class="tool-col">
-                <label for="degree1" class="required">Degree/Certificate</label>
-                <input type="text" id="degree1" placeholder="e.g. Bachelor of Science" aria-label="Enter degree or certificate" required>
-                <div class="validation-error">Please enter degree</div>
-              </div>
-              <div class="tool-col">
-                <label for="institution1" class="required">Institution</label>
-                <input type="text" id="institution1" placeholder="University Name" aria-label="Enter institution name" required>
-                <div class="validation-error">Please enter institution</div>
+        <div class="input-type-toggle" id="bulk-input-type">
+          <label class="active">
+            <input type="radio" name="bulk-type" value="list" checked>
+            <i class="fas fa-list"></i> List
+          </label>
+          <label>
+            <input type="radio" name="bulk-type" value="range">
+            <i class="fas fa-sort-numeric-up"></i> Number Range
+          </label>
+          <label>
+            <input type="radio" name="bulk-type" value="csv">
+            <i class="fas fa-file-csv"></i> CSV Upload
+          </label>
+        </div>
+        
+        <!-- List Input Fields -->
+        <div id="bulk-list-fields" class="bulk-format-content" style="display: block;">
+          <label for="bulk-input">Enter URLs or text (one per line):</label>
+          <textarea id="bulk-input" rows="5" placeholder="https://example.com/page1
+https://example.com/page2
+Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
+        </div>
+        
+        <!-- Number Range Input Fields -->
+        <div id="bulk-range-fields" class="bulk-format-content" style="display: none;">
+          <div class="range-controls">
+            <div>
+              <label for="range-start">Start Number:</label>
+              <input type="number" id="range-start" min="1" value="1" placeholder="1">
+            </div>
+            <div>
+              <label for="range-end">End Number:</label>
+              <input type="number" id="range-end" min="1" value="10" placeholder="10">
+            </div>
+            <div>
+              <label for="range-prefix">Prefix (Optional):</label>
+              <input type="text" id="range-prefix" placeholder="QR-">
+            </div>
+            <div>
+              <label for="range-suffix">Suffix (Optional):</label>
+              <input type="text" id="range-suffix" placeholder="-code">
+            </div>
+          </div>
+        </div>
+        
+        <!-- CSV Upload Format -->
+        <div id="bulk-csv-fields" class="bulk-format-content" style="display: none;">
+          <div class="file-upload-container">
+            <label for="bulk-file-upload" class="file-upload-label">
+              <i class="fas fa-cloud-upload-alt"></i>
+              <p>Upload a CSV file with URLs or text<br>(one per row)</p>
+            </label>
+            <input type="file" id="bulk-file-upload" class="file-upload-input" accept=".csv" aria-label="Upload CSV file for bulk QR codes">
+          </div>
+        </div>
+
+        <label for="bulk-filename">File Name Prefix:</label>
+        <input type="text" id="bulk-filename" value="qr-codes" aria-label="Enter file name prefix for bulk QR codes">
+
+        <!-- Bulk QR design options -->
+        <div class="logo-options-container">
+          <div class="logo-options-header">
+            <i class="fas fa-image"></i>
+            <h3>Logo & Border Options</h3>
+          </div>
+          
+          <div class="logo-options-content">
+            <div class="logo-upload-container">
+              <div class="logo-upload-area" id="bulk-logo-upload-area">
+                <label for="bulk-logo-upload" class="visually-hidden">Upload Logo for Bulk</label>
+                <i class="fas fa-cloud-upload-alt"></i>
+                <p>Drag & drop your logo here<br>or click to select a file</p>
+                <div class="logo-preview" id="bulk-logo-preview">
+                  <div class="border-preview">
+                    <div class="logo-placeholder"></div>
+                    <div class="border-indicator" id="bulk-border-preview"></div>
+                  </div>
+                </div>
+                <input type="file" id="bulk-logo-upload" accept="image/*" style="display:none" aria-label="Upload logo image for bulk">
               </div>
             </div>
             
-            <div class="tool-row">
-              <div class="tool-col">
-                <label for="eduStartDate1">Start Date</label>
-                <input type="month" id="eduStartDate1" aria-label="Enter education start date">
-              </div>
-              <div class="tool-col">
-                <label for="eduEndDate1">End Date</label>
-                <input type="month" id="eduEndDate1" aria-label="Enter education end date">
-                <div style="margin-top: 5px;">
-                  <input type="checkbox" id="currentEducation1" aria-label="Currently studying">
-                  <label for="currentEducation1">Currently studying</label>
+            <div class="border-controls-container">
+              <div class="border-controls">
+                <div class="border-control">
+                  <label for="bulk-border-size">Border Size:</label>
+                  <div class="size-controls">
+                    <input type="range" id="bulk-border-size" class="size-slider" min="0" max="20" value="5" step="1" aria-label="Adjust logo border size for bulk">
+                    <div class="size-value" id="bulk-border-size-value">5px</div>
+                  </div>
+                </div>
+                <div class="border-control">
+                  <label for="bulk-border-color">Border Color:</label>
+                  <input type="color" id="bulk-border-color" value="#FFFFFF" aria-label="Select logo border color for bulk">
+                </div>
+                <!-- New Logo Size Control for Bulk -->
+                <div class="border-control">
+                  <label for="bulk-logo-size">Logo Size:</label>
+                  <div class="size-controls">
+                    <input type="range" id="bulk-logo-size" class="size-slider" min="5" max="25" value="15" step="1" aria-label="Adjust logo size for bulk">
+                    <div class="size-value" id="bulk-logo-size-value">15%</div>
+                  </div>
                 </div>
               </div>
-            </div>
-            
-            <div class="tool-row">
-              <div class="tool-col">
-                <label for="gpa1">GPA (optional)</label>
-                <input type="text" id="gpa1" placeholder="e.g. 3.8" aria-label="Enter GPA">
-              </div>
-              <div class="tool-col">
-                <label for="location1">Location</label>
-                <input type="text" id="location1" placeholder="City, State" aria-label="Enter institution location">
+              <div class="border-note" id="bulk-border-note">
+                <i class="fas fa-info-circle"></i> Border settings only apply when a logo is uploaded
               </div>
             </div>
           </div>
         </div>
         
-        <button id="addEducationBtn" style="margin: 15px 0;" aria-label="Add another education entry">
-          <i class="fas fa-plus"></i> Add Another Education
-        </button>
+        <div class="color-group">
+          <div class="color-input">
+            <label for="bulk-fg-color">Foreground Color</label>
+            <input type="color" id="bulk-fg-color" value="#000000" aria-label="Select foreground color for bulk">
+          </div>
+          <div class="color-input">
+            <label for="bulk-bg-color">Background Color</label>
+            <input type="color" id="bulk-bg-color" value="#FFFFFF" aria-label="Select background color for bulk">
+          </div>
+        </div>
         
+        <div class="toggle-container">
+          <span class="toggle-label">Transparent Background</span>
+          <label class="toggle-switch-visual">
+            <input type="checkbox" id="bulk-transparent-bg" aria-label="Make background transparent for bulk">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="size-group">
+          <label for="bulk-size-slider">QR Code Size:</label>
+          <div class="size-controls">
+            <input type="range" id="bulk-size-slider" class="size-slider" min="128" max="1024" value="256" step="32" aria-label="Adjust QR code size for bulk">
+            <div class="size-value" id="bulk-size-value">256px</div>
+          </div>
+        </div>
+
         <div class="btn-group">
-          <button class="btn-outline" id="backExperienceBtn" aria-label="Go back to experience section">
-            <i class="fas fa-arrow-left"></i> Back
-          </button>
-          <button id="nextProjectsBtn" aria-label="Go to projects section">
-            Next: Projects <i class="fas fa-arrow-right"></i>
+          <button onclick="generateBulkQR()" aria-label="Generate and download bulk QR codes as ZIP">
+            <i class="fas fa-file-archive"></i> Generate & Download as ZIP
           </button>
         </div>
+
+        <div class="loading" id="bulk-loading">
+          <div class="spinner"></div>
+          <div id="bulk-progress">Generating QR codes: 0/0</div>
+        </div>
+
+        <div class="success" id="bulk-success"></div>
+        <div class="error" id="bulk-error"></div>
       </div>
 
-      <!-- Projects Section -->
-      <div class="tab-content" id="projects-tab" role="tabpanel">
-        <h2><i class="fas fa-project-diagram"></i> Projects</h2>
-        <p>Add your significant projects and accomplishments.</p>
-        
-        <div id="projectsContainer">
-          <div class="project-item">
-            <div class="tool-row">
-              <div class="tool-col">
-                <label for="projectName1" class="required">Project Name</label>
-                <input type="text" id="projectName1" placeholder="e.g. E-commerce Platform" aria-label="Enter project name" required>
-                <div class="validation-error">Please enter project name</div>
-              </div>
-              <div class="tool-col">
-                <label for="projectDate1">Date</label>
-                <input type="month" id="projectDate1" aria-label="Enter project date">
-              </div>
-            </div>
-            
-            <div class="tool-row">
-              <div class="tool-col">
-                <label for="projectLink1">Project URL</label>
-                <input type="url" id="projectLink1" placeholder="https://project.example.com" aria-label="Enter project URL">
-              </div>
-            </div>
-            
-            <label for="projectDescription1" class="required">Description</label>
-            <textarea id="projectDescription1" placeholder="Describe the project and your contributions..." aria-label="Enter project description" required></textarea>
-            <div class="validation-error">Please enter project description</div>
-          </div>
-        </div>
-        
-        <button id="addProjectBtn" style="margin: 15px 0;" aria-label="Add another project">
-          <i class="fas fa-plus"></i> Add Another Project
-        </button>
-        
-        <div class="btn-group">
-          <button class="btn-outline" id="backEducationBtn" aria-label="Go back to education section">
-            <i class="fas fa-arrow-left"></i> Back
-          </button>
-          <button id="nextSkillsBtn" aria-label="Go to skills section">
-            Next: Skills <i class="fas fa-arrow-right"></i>
-          </button>
-        </div>
-      </div>
+      <div class="tab-content" id="scan-tab" role="tabpanel">
+        <h2><i class="fas fa-camera"></i> QR Code Scanner</h2>
 
-      <!-- Skills -->
-      <div class="tab-content" id="skills-tab" role="tabpanel">
-        <h2><i class="fas fa-star"></i> Skills</h2>
-        <p>Add your professional skills and expertise.</p>
-        
-        <div id="skillsContainer">
-          <div class="tool-row">
-            <div class="tool-col">
-              <label for="skill1">Skill</label>
-              <input type="text" id="skill1" placeholder="e.g. JavaScript" aria-label="Enter skill">
-            </div>
-            <div class="tool-col">
-              <label for="skillLevel1">Proficiency Level</label>
-              <select id="skillLevel1" aria-label="Select proficiency level">
-                <option value="beginner">Beginner</option>
-                <option value="intermediate">Intermediate</option>
-                <option value="advanced">Advanced</option>
-                <option value="expert">Expert</option>
-              </select>
-            </div>
+        <div class="scanner-container">
+          <video id="scanner-video" aria-label="Camera feed for QR code scanning"></video>
+          <div class="scanner-overlay" id="scanner-overlay">
+            <div class="scanner-box"></div>
+            <div class="scanner-status" id="scanner-status" style="display:none;"></div>
+            <div class="scanner-guides" id="scanner-guides" style="display:none;"></div>
           </div>
         </div>
-        
-        <button id="addSkillBtn" style="margin: 15px 0;" aria-label="Add another skill">
-          <i class="fas fa-plus"></i> Add Another Skill
-        </button>
-        
-        <label for="additionalSkills">Additional Skills (comma separated)</label>
-        <textarea id="additionalSkills" placeholder="e.g. Project Management, Communication, Leadership" aria-label="Enter additional skills"></textarea>
-        
-        <div class="btn-group">
-          <button class="btn-outline" id="backProjectsBtn" aria-label="Go back to projects section">
-            <i class="fas fa-arrow-left"></i> Back
-          </button>
-          <button id="nextCertificationsBtn" aria-label="Go to certifications section">
-            Next: Certifications <i class="fas fa-arrow-right"></i>
-          </button>
-        </div>
-      </div>
 
-      <!-- Certifications -->
-      <div class="tab-content" id="certifications-tab" role="tabpanel">
-        <h2><i class="fas fa-award"></i> Certifications</h2>
-        <p>Add your professional certifications and licenses.</p>
-        
-        <div id="certificationsContainer">
-          <div class="certification-item">
-            <div class="tool-row">
-              <div class="tool-col">
-                <label for="certName1" class="required">Certification Name</label>
-                <input type="text" id="certName1" placeholder="e.g. AWS Certified Developer" aria-label="Enter certification name" required>
-                <div class="validation-error">Please enter certification name</div>
-              </div>
-              <div class="tool-col">
-                <label for="certIssuer1">Issuing Organization</label>
-                <input type="text" id="certIssuer1" placeholder="e.g. Amazon Web Services" aria-label="Enter issuing organization">
-              </div>
-            </div>
-            
-            <div class="tool-row">
-              <div class="tool-col">
-                <label for="certDate1">Date Issued</label>
-                <input type="month" id="certDate1" aria-label="Enter certification date">
-              </div>
-              <div class="tool-col">
-                <label for="certExpiry1">Expiration Date</label>
-                <input type="month" id="certExpiry1" aria-label="Enter expiration date">
-              </div>
-            </div>
-            
-            <label for="certLink1">Credential URL</label>
-            <input type="url" id="certLink1" placeholder="https://credential.example.com" aria-label="Enter credential URL">
-          </div>
-        </div>
-        
-        <button id="addCertificationBtn" style="margin: 15px 0;" aria-label="Add another certification">
-          <i class="fas fa-plus"></i> Add Another Certification
-        </button>
-        
         <div class="btn-group">
-          <button class="btn-outline" id="backSkillsBtn" aria-label="Go back to skills section">
-            <i class="fas fa-arrow-left"></i> Back
+          <button id="start-scan" aria-label="Start camera scanner">
+            <i class="fas fa-play"></i> Start Camera Scanner
           </button>
-          <button id="previewResumeBtn" aria-label="Preview resume">
-            Preview Resume <i class="fas fa-eye"></i>
+          <button id="stop-scan" class="secondary" aria-label="Stop camera scanner">
+            <i class="fas fa-stop"></i> Stop Scanner
           </button>
         </div>
-      </div>
 
-      <!-- Preview -->
-      <div class="tab-content" id="preview-tab" role="tabpanel">
-        <h2><i class="fas fa-eye"></i> Resume Preview</h2>
-        <p>Review your resume before downloading.</p>
-        
-        <div class="template-controls">
-          <div class="color-picker">
-            <span>Accent Color:</span>
-            <div class="color-preview" id="colorPreview"></div>
-            <input type="color" id="colorSelector" value="#4361ee">
-          </div>
-          <div class="font-selector">
-            <label for="fontSelector">Font:</label>
-            <select id="fontSelector">
-              <option value="Poppins, sans-serif">Poppins</option>
-              <option value="Arial, sans-serif">Arial</option>
-              <option value="Georgia, serif">Georgia</option>
-              <option value="'Courier New', monospace">Courier New</option>
-            </select>
-          </div>
+        <h3>Or Scan from Image File</h3>
+        <div class="file-upload-container">
+          <label for="file-upload" class="file-upload-label">
+            <i class="fas fa-cloud-upload-alt"></i>
+            <p>Drag & drop a QR code image here<br>or click to select a file</p>
+          </label>
+          <input type="file" id="file-upload" class="file-upload-input" accept="image/*" aria-label="Upload QR code image for scanning">
         </div>
-        
-        <div class="resume-preview" id="resumePreview">
-          <div class="resume-header">
-            <div class="resume-name" id="previewName">John Doe</div>
-            <div class="resume-title" id="previewTitle">Software Engineer</div>
-            <div class="resume-contact">
-              <div id="previewEmail">john@example.com</div>
-              <div id="previewPhone">(123) 456-7890</div>
-              <div id="previewLocation">San Francisco, CA</div>
-              <div id="previewWebsite">portfolio.com</div>
-            </div>
-          </div>
-          
-          <div class="resume-section">
-            <h3>Summary</h3>
-            <div id="previewSummary">Experienced software engineer with 5+ years in developing web applications...</div>
-          </div>
-          
-          <div class="resume-section">
-            <h3>Work Experience</h3>
-            <div class="resume-item" id="previewExperience1">
-              <div class="resume-item-header">
-                <div class="resume-item-title">Senior Developer</div>
-                <div id="previewExperienceDates">Jan 2020 - Present</div>
-              </div>
-              <div class="resume-item-subtitle" id="previewExperienceCompany">Tech Solutions Inc., San Francisco, CA</div>
-              <div class="resume-item-desc" id="previewExperienceDesc">Lead development team in creating innovative web applications...</div>
-            </div>
-          </div>
-          
-          <div class="resume-section">
-            <h3>Projects</h3>
-            <div class="resume-item" id="previewProject1">
-              <div class="resume-item-header">
-                <div class="resume-item-title">E-commerce Platform</div>
-                <div id="previewProjectDate">2021</div>
-              </div>
-              <div class="resume-item-desc" id="previewProjectDesc">Developed a full-featured e-commerce platform using React and Node.js...</div>
-            </div>
-          </div>
-          
-          <div class="resume-section">
-            <h3>Education</h3>
-            <div class="resume-item" id="previewEducation1">
-              <div class="resume-item-header">
-                <div class="resume-item-title">Bachelor of Computer Science</div>
-                <div id="previewEducationDates">2015 - 2019</div>
-              </div>
-              <div class="resume-item-subtitle" id="previewEducationSchool">University of Technology, San Francisco, CA</div>
-              <div class="resume-item-desc" id="previewEducationGPA">GPA: 3.8</div>
-            </div>
-          </div>
-          
-          <div class="resume-section">
-            <h3>Skills</h3>
-            <div class="resume-skills" id="previewSkills">
-              <div class="skill-tag">JavaScript</div>
-              <div class="skill-tag">React</div>
-              <div class="skill-tag">Node.js</div>
-              <div class="skill-tag">Python</div>
-              <div class="skill-tag">Project Management</div>
-            </div>
-          </div>
-          
-          <div class="resume-section">
-            <h3>Certifications</h3>
-            <div class="resume-item" id="previewCertification1">
-              <div class="resume-item-header">
-                <div class="resume-item-title">AWS Certified Developer</div>
-                <div id="previewCertificationDate">2022</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <div class="action-buttons">
-          <button class="btn-outline" id="backCertificationsBtn" aria-label="Edit resume">
-            <i class="fas fa-edit"></i> Edit Resume
-          </button>
-          <button id="downloadPdfBtn" aria-label="Download resume as PDF">
-            <i class="fas fa-download"></i> Download PDF
-          </button>
+
+        <div class="scan-result" id="scan-result" role="region" aria-live="polite">
+          <p>Scan results will appear here</p>
         </div>
       </div>
     </div>
@@ -1061,591 +1324,1051 @@
   </footer>
 
   <!-- Cookie Consent Banner -->
-  <div id="cookie-consent" role="dialog" aria-labelledby="cookie-consent-banner" aria-describedby="cookie-consent-desc">
-    <div class="sr-only" id="cookie-consent-banner">Cookie Consent</div>
-    <div class="cookie-content" id="cookie-consent-desc">
+  <div id="cookie-consent">
+    <div class="cookie-content">
       <div class="cookie-text">
-        <p>We use cookies to enhance your experience and analyze site traffic. By clicking "Accept All", you consent to our use of cookies. 
-          <a href="/privacy-policy.html" aria-label="Learn more about our Privacy Policy">Learn more</a> in our Privacy Policy.
-        </p>
-        <button class="cookie-settings-btn" id="open-settings" aria-label="Open cookie settings">Cookie Settings</button>
+        <p>We use cookies to enhance your experience. Essential cookies are always on, but you can choose whether to allow analytics and advertising cookies.</p>
+        <p>Learn more in our <a href="/privacy" aria-label="Privacy Policy">Privacy Policy</a>.</p>
       </div>
       <div class="cookie-buttons">
-        <button class="cookie-btn reject-btn" id="reject-cookies" aria-label="Reject non-essential cookies">Reject Non-Essential</button>
-        <button class="cookie-btn accept-btn" id="accept-cookies" aria-label="Accept all cookies">Accept All</button>
+        <button class="cookie-btn reject-btn" id="reject-cookies">Reject Non-Essential</button>
+        <button class="cookie-btn accept-btn" id="accept-cookies">Accept All</button>
       </div>
+      <button class="cookie-settings-btn" id="open-settings">Customize Settings</button>
     </div>
   </div>
 
   <!-- Cookie Settings Modal -->
-  <div id="cookie-settings" role="dialog" aria-labelledby="cookie-settings-title" aria-describedby="cookie-settings-desc">
+  <div id="cookie-settings">
     <div class="settings-modal">
       <div class="settings-header">
-        <h2 id="cookie-settings-title"><i class="fas fa-cookie-bite"></i> Cookie Settings</h2>
-        <button class="close-settings" id="close-settings" aria-label="Close cookie settings">×</button>
+        <h2>Cookie Settings</h2>
+        <button class="close-settings" aria-label="Close settings"><i class="fas fa-times"></i></button>
       </div>
       <div class="settings-content">
-        <p id="cookie-settings-desc">You can set your preferences for how we and our partners use cookies and similar technologies.</p>
-        
         <div class="cookie-type">
           <div class="cookie-type-header">
             <h3>Essential Cookies</h3>
-            <label class="toggle-switch" for="essential-toggle">
-              <input type="checkbox" id="essential-toggle" checked disabled aria-label="Essential cookies (always enabled, cannot be disabled)" aria-describedby="essential-desc">
+            <div class="toggle-switch">
+              <input type="checkbox" id="essential-toggle" checked disabled>
               <span class="slider"></span>
-            </label>
+            </div>
           </div>
-          <p id="essential-desc">These cookies are necessary for the website to function and cannot be switched off.</p>
+          <p>These cookies are necessary for the website to function and cannot be disabled.</p>
         </div>
-        
         <div class="cookie-type">
           <div class="cookie-type-header">
             <h3>Analytics Cookies</h3>
-            <label class="toggle-switch" for="analytics-toggle">
-              <input type="checkbox" id="analytics-toggle" aria-label="Analytics cookies toggle" aria-describedby="analytics-desc">
+            <div class="toggle-switch">
+              <input type="checkbox" id="analytics-toggle">
               <span class="slider"></span>
-            </label>
+            </div>
           </div>
-          <p id="analytics-desc">These cookies allow us to count visits and traffic sources so we can measure and improve the performance of our site.</p>
+          <p>These cookies help us understand how visitors interact with our website, providing insights to improve our services.</p>
         </div>
-        
         <div class="cookie-type">
           <div class="cookie-type-header">
             <h3>Advertising Cookies</h3>
-            <label class="toggle-switch" for="advertising-toggle">
-              <input type="checkbox" id="advertising-toggle" aria-label="Advertising cookies toggle" aria-describedby="advertising-desc">
+            <div class="toggle-switch">
+              <input type="checkbox" id="advertising-toggle">
               <span class="slider"></span>
-            </label>
+            </div>
           </div>
-          <p id="advertising-desc">These cookies may be set through our site by our advertising partners to build a profile of your interests.</p>
+          <p>These cookies are used to deliver personalized advertisements based on your interests.</p>
         </div>
       </div>
       <div class="settings-buttons">
-        <button class="save-settings" id="save-settings" aria-label="Save cookie settings">Save Settings</button>
+        <button class="save-settings" id="save-settings">Save Settings</button>
       </div>
     </div>
   </div>
 
-  <!-- JavaScript -->
+  <!-- JavaScript Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+  
+  <!-- Shared JavaScript -->
   <script src="/js/main.js"></script>
   
-  <!-- Resume Builder Specific JavaScript -->
+  <!-- QR Generator Specific JavaScript -->
   <script>
-    // Resume Builder Functionality
-    function initializeResumeBuilder() {
-      let resumeData = {};
+    // Constants
+    const PREFERENCES_KEY = 'qrPreferences';
+
+    // DOM Elements
+    const qrType = document.getElementById('qr-type');
+    const qrInput = document.getElementById('qr-input');
+    const vcardName = document.getElementById('vcard-name');
+    const vcardPhone = document.getElementById('vcard-phone');
+    const vcardEmail = document.getElementById('vcard-email');
+    const wifiSsid = document.getElementById('wifi-ssid');
+    const wifiPassword = document.getElementById('wifi-password');
+    const wifiType = document.getElementById('wifi-type');
+    const smsPhone = document.getElementById('sms-phone');
+    const smsMessage = document.getElementById('sms-message');
+    const emailAddress = document.getElementById('email-address');
+    const emailSubject = document.getElementById('email-subject');
+    const emailBody = document.getElementById('email-body');
+    const qrCanvas = document.getElementById('qr-canvas');
+    const fgColor = document.getElementById('fg-color');
+    const bgColor = document.getElementById('bg-color');
+    const transparentBg = document.getElementById('transparent-bg');
+    const bulkTransparentBg = document.getElementById('bulk-transparent-bg');
+    const sizeSlider = document.getElementById('size-slider');
+    const sizeValue = document.getElementById('size-value');
+    const borderSize = document.getElementById('border-size');
+    const borderSizeValue = document.getElementById('border-size-value');
+    const borderColor = document.getElementById('border-color');
+    const logoSize = document.getElementById('logo-size');
+    const logoSizeValue = document.getElementById('logo-size-value');
+    const bulkLogoSize = document.getElementById('bulk-logo-size');
+    const bulkLogoSizeValue = document.getElementById('bulk-logo-size-value');
+    const logoUpload = document.getElementById('logo-upload');
+    const logoUploadArea = document.getElementById('logo-upload-area');
+    const logoPreview = document.getElementById('logo-preview');
+    const qrLoading = document.getElementById('qr-loading');
+    const qrError = document.getElementById('qr-error');
+    const qrSuccess = document.getElementById('qr-success');
+    const downloadBtn = document.getElementById('download-btn');
+    const video = document.getElementById('scanner-video');
+    const scanResult = document.getElementById('scan-result');
+    const startScanBtn = document.getElementById('start-scan');
+    const stopScanBtn = document.getElementById('stop-scan');
+    const scannerOverlay = document.getElementById('scanner-overlay');
+    const tabs = document.querySelectorAll('.tab');
+    const tabContents = document.querySelectorAll('.tab-content');
+    const bulkInput = document.getElementById('bulk-input');
+    const bulkFileUpload = document.getElementById('bulk-file-upload');
+    const bulkFilename = document.getElementById('bulk-filename');
+    const bulkLoading = document.getElementById('bulk-loading');
+    const bulkProgress = document.getElementById('bulk-progress');
+    const bulkSuccess = document.getElementById('bulk-success');
+    const bulkError = document.getElementById('bulk-error');
+    const fileUpload = document.getElementById('file-upload');
+    const bulkFgColor = document.getElementById('bulk-fg-color');
+    const bulkBgColor = document.getElementById('bulk-bg-color');
+    const bulkSizeSlider = document.getElementById('bulk-size-slider');
+    const bulkSizeValue = document.getElementById('bulk-size-value');
+    const bulkBorderSize = document.getElementById('bulk-border-size');
+    const bulkBorderSizeValue = document.getElementById('bulk-border-size-value');
+    const bulkBorderColor = document.getElementById('bulk-border-color');
+    const bulkLogoUpload = document.getElementById('bulk-logo-upload');
+    const bulkLogoUploadArea = document.getElementById('bulk-logo-upload-area');
+    const bulkLogoPreview = document.getElementById('bulk-logo-preview');
+    const bulkInputType = document.getElementById('bulk-input-type');
+    const bulkListFields = document.getElementById('bulk-list-fields');
+    const bulkRangeFields = document.getElementById('bulk-range-fields');
+    const bulkCsvFields = document.getElementById('bulk-csv-fields');
+    const rangeStart = document.getElementById('range-start');
+    const rangeEnd = document.getElementById('range-end');
+    const rangePrefix = document.getElementById('range-prefix');
+    const rangeSuffix = document.getElementById('range-suffix');
+    const borderPreview = document.getElementById('border-preview');
+    const bulkBorderPreview = document.getElementById('bulk-border-preview');
+    const scannerStatus = document.getElementById('scanner-status');
+    const scannerGuides = document.getElementById('scanner-guides');
+
+    // Global variables
+    let currentStream = null;
+    let logoImage = null;
+    let bulkLogoImage = null;
+    let generatedQR = null;
+    let bulkQRs = [];
+    let previewTimeout = null;
+
+    // Initialize the page
+    document.addEventListener('DOMContentLoaded', () => {
+      updateSizeValue();
+      updateBorderSizeValue();
+      updateLogoSizeValue();
+      updateBulkLogoSizeValue();
+      updateBorderPreview();
+      updateBulkBorderPreview();
+      setupEventListeners();
+      toggleQRTypeFields();
+      initBulkInputType();
+      loadQRPreferences();
+    });
+
+    function initBulkInputType() {
+      const bulkTypeRadios = document.querySelectorAll('input[name="bulk-type"]');
+      const bulkInputLabels = document.querySelectorAll('#bulk-input-type label');
       
-      // Tab Switching
-      function switchTab(tabName) {
-        document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
-        document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+      // Function to update active state
+      function updateActiveState() {
+        // Remove active class from all labels
+        bulkInputLabels.forEach(label => label.classList.remove('active'));
         
-        document.querySelector(`.tab[data-tab="${tabName}"]`).classList.add('active');
-        document.getElementById(`${tabName}-tab`).classList.add('active');
-        
-        // Update preview when switching to preview tab
-        if (tabName === 'preview') {
-          updateResumePreview();
+        // Find the checked radio and add active class to its parent label
+        const checkedRadio = document.querySelector('input[name="bulk-type"]:checked');
+        if (checkedRadio) {
+          checkedRadio.closest('label').classList.add('active');
         }
       }
       
-      // Initialize Tabs
-      document.querySelectorAll('.tab').forEach(tab => {
-        tab.addEventListener('click', () => switchTab(tab.dataset.tab));
-        tab.addEventListener('keydown', e => {
+      // Set initial active state
+      updateActiveState();
+      
+      bulkTypeRadios.forEach(radio => {
+        radio.addEventListener('change', () => {
+          // Update the active state
+          updateActiveState();
+          
+          bulkListFields.style.display = 'none';
+          bulkRangeFields.style.display = 'none';
+          bulkCsvFields.style.display = 'none';
+          
+          if (radio.value === 'list') {
+            bulkListFields.style.display = 'block';
+          } else if (radio.value === 'range') {
+            bulkRangeFields.style.display = 'block';
+          } else if (radio.value === 'csv') {
+            bulkCsvFields.style.display = 'block';
+          }
+        });
+      });
+    }
+
+    // Set up all event listeners
+    function setupEventListeners() {
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          tabs.forEach(t => {
+            t.classList.remove('active');
+            t.setAttribute('aria-selected', 'false');
+          });
+          tabContents.forEach(c => c.classList.remove('active'));
+          tab.classList.add('active');
+          tab.setAttribute('aria-selected', 'true');
+          document.getElementById(`${tab.dataset.tab}-tab`).classList.add('active');
+          
+          if (currentStream) stopScanner();
+        });
+        tab.addEventListener('keydown', (e) => {
           if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
             tab.click();
           }
         });
       });
+
+      if (sizeSlider) sizeSlider.addEventListener('input', updateSizeValue);
       
-      // Navigation buttons
-      document.getElementById('nextExperienceBtn').addEventListener('click', () => switchTab('experience'));
-      document.getElementById('nextEducationBtn').addEventListener('click', () => switchTab('education'));
-      document.getElementById('nextProjectsBtn').addEventListener('click', () => switchTab('projects'));
-      document.getElementById('nextSkillsBtn').addEventListener('click', () => switchTab('skills'));
-      document.getElementById('nextCertificationsBtn').addEventListener('click', () => switchTab('certifications'));
-      document.getElementById('previewResumeBtn').addEventListener('click', () => switchTab('preview'));
-      
-      document.getElementById('backPersonalBtn').addEventListener('click', () => switchTab('personal'));
-      document.getElementById('backExperienceBtn').addEventListener('click', () => switchTab('experience'));
-      document.getElementById('backEducationBtn').addEventListener('click', () => switchTab('education'));
-      document.getElementById('backProjectsBtn').addEventListener('click', () => switchTab('projects'));
-      document.getElementById('backSkillsBtn').addEventListener('click', () => switchTab('skills'));
-      document.getElementById('backCertificationsBtn').addEventListener('click', () => switchTab('certifications'));
-      
-      // Color selector
-      document.getElementById('colorSelector').addEventListener('input', function() {
-        const color = this.value;
-        document.documentElement.style.setProperty('--primary', color);
-        document.getElementById('colorPreview').style.background = color;
+      if (borderSize) borderSize.addEventListener('input', () => {
+        updateBorderSizeValue();
+        updateBorderPreview();
       });
       
-      // Font selector
-      document.getElementById('fontSelector').addEventListener('change', function() {
-        document.getElementById('resumePreview').style.fontFamily = this.value;
+      if (borderColor) borderColor.addEventListener('input', updateBorderPreview);
+      
+      if (logoSize) logoSize.addEventListener('input', updateLogoSizeValue);
+      
+      if (bulkLogoSize) bulkLogoSize.addEventListener('input', updateBulkLogoSizeValue);
+      
+      if (bulkSizeSlider) bulkSizeSlider.addEventListener('input', () => {
+        bulkSizeValue.textContent = `${bulkSizeSlider.value}px`;
       });
       
-      // Download button
-      document.getElementById('downloadPdfBtn').addEventListener('click', function() {
-        // Check if jsPDF is loaded correctly
-        if (typeof window.jspdf === 'undefined' || typeof window.jspdf.jsPDF === 'undefined' || typeof html2canvas === 'undefined') {
-          alert('PDF libraries are still loading. Please try again in a moment.');
-          return;
-        }
-        
-        const element = document.getElementById('resumePreview');
-        const { jsPDF } = window.jspdf;  // Access jsPDF correctly
-        
-        html2canvas(element).then(canvas => {
-          const imgData = canvas.toDataURL('image/png');
-          const pdf = new jsPDF('p', 'mm', 'a4');
-          const imgProps = pdf.getImageProperties(imgData);
-          const pdfWidth = pdf.internal.pageSize.getWidth();
-          const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-          
-          pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-          pdf.save('resume.pdf');
-        }).catch(error => {
-          console.error('Error generating PDF:', error);
-          alert('Failed to generate PDF. Please try again.');
-        });
+      if (bulkBorderSize) bulkBorderSize.addEventListener('input', () => {
+        bulkBorderSizeValue.textContent = `${bulkBorderSize.value}px`;
+        updateBulkBorderPreview();
       });
       
-      // Add experience button
-      document.getElementById('addExperienceBtn').addEventListener('click', function() {
-        const container = document.getElementById('experienceContainer');
-        const count = container.querySelectorAll('.experience-item').length + 1;
-        
-        const experienceItem = document.createElement('div');
-        experienceItem.className = 'experience-item';
-        experienceItem.style.marginTop = '20px';
-        experienceItem.style.paddingTop = '20px';
-        experienceItem.style.borderTop = '1px solid #eee';
-        experienceItem.innerHTML = `
-          <div class="tool-row">
-            <div class="tool-col">
-              <label for="jobTitle${count}" class="required">Job Title</label>
-              <input type="text" id="jobTitle${count}" placeholder="Senior Developer" aria-label="Enter job title" required>
-              <div class="validation-error">Please enter job title</div>
-            </div>
-            <div class="tool-col">
-              <label for="company${count}" class="required">Company</label>
-              <input type="text" id="company${count}" placeholder="Tech Solutions Inc." aria-label="Enter company name" required>
-              <div class="validation-error">Please enter company name</div>
-            </div>
-          </div>
-          
-          <div class="tool-row">
-            <div class="tool-col">
-              <label for="startDate${count}" class="required">Start Date</label>
-              <input type="month" id="startDate${count}" aria-label="Enter start date" required>
-              <div class="validation-error">Please select start date</div>
-            </div>
-            <div class="tool-col">
-              <label for="endDate${count}">End Date</label>
-              <input type="month" id="endDate${count}" aria-label="Enter end date">
-              <div style="margin-top: 5px;">
-                <input type="checkbox" id="currentJob${count}" aria-label="I currently work here">
-                <label for="currentJob${count}">I currently work here</label>
-              </div>
-            </div>
-          </div>
-          
-          <label for="jobDescription${count}" class="required">Description</label>
-          <textarea id="jobDescription${count}" placeholder="Describe your responsibilities and achievements..." aria-label="Enter job description" required></textarea>
-          <div class="validation-error">Please enter job description</div>
-        `;
-        
-        container.appendChild(experienceItem);
-      });
+      if (bulkBorderColor) bulkBorderColor.addEventListener('input', updateBulkBorderPreview);
+
+      if (fgColor) fgColor.addEventListener('change', saveQRPreferences);
+      if (bgColor) bgColor.addEventListener('change', saveQRPreferences);
+
+      if (logoUploadArea) logoUploadArea.addEventListener('click', () => logoUpload.click());
+      if (logoUpload) logoUpload.addEventListener('change', handleLogoUpload);
       
-      // Add education button
-      document.getElementById('addEducationBtn').addEventListener('click', function() {
-        const container = document.getElementById('educationContainer');
-        const count = container.querySelectorAll('.education-item').length + 1;
-        
-        const educationItem = document.createElement('div');
-        educationItem.className = 'education-item';
-        educationItem.style.marginTop = '20px';
-        educationItem.style.paddingTop = '20px';
-        educationItem.style.borderTop = '1px solid #eee';
-        educationItem.innerHTML = `
-          <div class="tool-row">
-            <div class="tool-col">
-              <label for="degree${count}" class="required">Degree/Certificate</label>
-              <input type="text" id="degree${count}" placeholder="e.g. Bachelor of Science" aria-label="Enter degree or certificate" required>
-              <div class="validation-error">Please enter degree</div>
-            </div>
-            <div class="tool-col">
-              <label for="institution${count}" class="required">Institution</label>
-              <input type="text" id="institution${count}" placeholder="University Name" aria-label="Enter institution name" required>
-              <div class="validation-error">Please enter institution</div>
-            </div>
-          </div>
-          
-          <div class="tool-row">
-            <div class="tool-col">
-              <label for="eduStartDate${count}">Start Date</label>
-              <input type="month" id="eduStartDate${count}" aria-label="Enter education start date">
-            </div>
-            <div class="tool-col">
-              <label for="eduEndDate${count}">End Date</label>
-              <input type="month" id="eduEndDate${count}" aria-label="Enter education end date">
-              <div style="margin-top: 5px;">
-                <input type="checkbox" id="currentEducation${count}" aria-label="Currently studying">
-                <label for="currentEducation${count}">Currently studying</label>
-              </div>
-            </div>
-          </div>
-          
-          <div class="tool-row">
-            <div class="tool-col">
-              <label for="gpa${count}">GPA (optional)</label>
-              <input type="text" id="gpa${count}" placeholder="e.g. 3.8" aria-label="Enter GPA">
-            </div>
-            <div class="tool-col">
-              <label for="location${count}">Location</label>
-              <input type="text" id="location${count}" placeholder="City, State" aria-label="Enter institution location">
-            </div>
-          </div>
-        `;
-        
-        container.appendChild(educationItem);
+      if (bulkLogoUploadArea) bulkLogoUploadArea.addEventListener('click', () => bulkLogoUpload.click());
+      if (bulkLogoUpload) bulkLogoUpload.addEventListener('change', handleBulkLogoUpload);
+
+      ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        if (logoUploadArea) logoUploadArea.addEventListener(eventName, preventDefaults, false);
+        if (bulkLogoUploadArea) bulkLogoUploadArea.addEventListener(eventName, preventDefaults, false);
       });
-      
-      // Add project button
-      document.getElementById('addProjectBtn').addEventListener('click', function() {
-        const container = document.getElementById('projectsContainer');
-        const count = container.querySelectorAll('.project-item').length + 1;
-        
-        const projectItem = document.createElement('div');
-        projectItem.className = 'project-item';
-        projectItem.style.marginTop = '20px';
-        projectItem.style.paddingTop = '20px';
-        projectItem.style.borderTop = '1px solid #eee';
-        projectItem.innerHTML = `
-          <div class="tool-row">
-            <div class="tool-col">
-              <label for="projectName${count}" class="required">Project Name</label>
-              <input type="text" id="projectName${count}" placeholder="e.g. E-commerce Platform" aria-label="Enter project name" required>
-              <div class="validation-error">Please enter project name</div>
-            </div>
-            <div class="tool-col">
-              <label for="projectDate${count}">Date</label>
-              <input type="month" id="projectDate${count}" aria-label="Enter project date">
-            </div>
-          </div>
-          
-          <div class="tool-row">
-            <div class="tool-col">
-              <label for="projectLink${count}">Project URL</label>
-              <input type="url" id="projectLink${count}" placeholder="https://project.example.com" aria-label="Enter project URL">
-            </div>
-          </div>
-          
-          <label for="projectDescription${count}" class="required">Description</label>
-          <textarea id="projectDescription${count}" placeholder="Describe the project and your contributions..." aria-label="Enter project description" required></textarea>
-          <div class="validation-error">Please enter project description</div>
-        `;
-        
-        container.appendChild(projectItem);
+
+      ['dragenter', 'dragover'].forEach(eventName => {
+        if (logoUploadArea) logoUploadArea.addEventListener(eventName, highlight, false);
+        if (bulkLogoUploadArea) bulkLogoUploadArea.addEventListener(eventName, highlight, false);
       });
-      
-      // Add skill button
-      document.getElementById('addSkillBtn').addEventListener('click', function() {
-        const container = document.getElementById('skillsContainer');
-        const count = container.querySelectorAll('.tool-row').length + 1;
-        
-        if (count > 5) {
-          alert('You can add additional skills in the "Additional Skills" field below');
-          return;
-        }
-        
-        const skillRow = document.createElement('div');
-        skillRow.className = 'tool-row';
-        skillRow.innerHTML = `
-          <div class="tool-col">
-            <label for="skill${count}">Skill</label>
-            <input type="text" id="skill${count}" placeholder="e.g. JavaScript" aria-label="Enter skill">
-          </div>
-          <div class="tool-col">
-            <label for="skillLevel${count}">Proficiency Level</label>
-            <select id="skillLevel${count}" aria-label="Select proficiency level">
-              <option value="beginner">Beginner</option>
-              <option value="intermediate">Intermediate</option>
-              <option value="advanced">Advanced</option>
-              <option value="expert">Expert</option>
-            </select>
-          </div>
-        `;
-        
-        container.appendChild(skillRow);
+
+      ['dragleave', 'drop'].forEach(eventName => {
+        if (logoUploadArea) logoUploadArea.addEventListener(eventName, unhighlight, false);
+        if (bulkLogoUploadArea) bulkLogoUploadArea.addEventListener(eventName, unhighlight, false);
       });
-      
-      // Add certification button
-      document.getElementById('addCertificationBtn').addEventListener('click', function() {
-        const container = document.getElementById('certificationsContainer');
-        const count = container.querySelectorAll('.certification-item').length + 1;
-        
-        const certificationItem = document.createElement('div');
-        certificationItem.className = 'certification-item';
-        certificationItem.style.marginTop = '20px';
-        certificationItem.style.paddingTop = '20px';
-        certificationItem.style.borderTop = '1px solid #eee';
-        certificationItem.innerHTML = `
-          <div class="tool-row">
-            <div class="tool-col">
-              <label for="certName${count}" class="required">Certification Name</label>
-              <input type="text" id="certName${count}" placeholder="e.g. AWS Certified Developer" aria-label="Enter certification name" required>
-              <div class="validation-error">Please enter certification name</div>
-            </div>
-            <div class="tool-col">
-              <label for="certIssuer${count}">Issuing Organization</label>
-              <input type="text" id="certIssuer${count}" placeholder="e.g. Amazon Web Services" aria-label="Enter issuing organization">
-            </div>
-          </div>
-          
-          <div class="tool-row">
-            <div class="tool-col">
-              <label for="certDate${count}">Date Issued</label>
-              <input type="month" id="certDate${count}" aria-label="Enter certification date">
-            </div>
-            <div class="tool-col">
-              <label for="certExpiry${count}">Expiration Date</label>
-              <input type="month" id="certExpiry${count}" aria-label="Enter expiration date">
-            </div>
-          </div>
-          
-          <label for="certLink${count}">Credential URL</label>
-          <input type="url" id="certLink${count}" placeholder="https://credential.example.com" aria-label="Enter credential URL">
-        `;
-        
-        container.appendChild(certificationItem);
+
+      if (logoUploadArea) logoUploadArea.addEventListener('drop', handleDrop, false);
+      if (bulkLogoUploadArea) bulkLogoUploadArea.addEventListener('drop', handleBulkDrop, false);
+
+      if (qrInput) qrInput.addEventListener('blur', autoFormatURL);
+      if (qrInput) qrInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') generateQR();
       });
+
+      if (qrType) qrType.addEventListener('change', toggleQRTypeFields);
+
+      if (startScanBtn) startScanBtn.addEventListener('click', startScanner);
+      if (stopScanBtn) stopScanBtn.addEventListener('click', stopScanner);
+
+      if (fileUpload) fileUpload.addEventListener('change', handleFileUpload);
+      if (bulkFileUpload) bulkFileUpload.addEventListener('change', handleBulkFileUpload);
+    }
+    
+    function updateBorderPreview() {
+      if (!borderPreview) return;
       
-      // Initialize with today's date for date fields
-      function setCurrentDate(elementId) {
-        const today = new Date();
-        const year = today.getFullYear();
-        const month = String(today.getMonth() + 1).padStart(2, '0');
-        document.getElementById(elementId).value = `${year}-${month}`;
+      const borderSizeVal = parseInt(borderSize.value);
+      const borderColorVal = borderColor.value;
+      
+      if (borderSizeVal > 0) {
+        borderPreview.style.border = `${borderSizeVal}px solid ${borderColorVal}`;
+        if (logoUploadArea) logoUploadArea.classList.add('border-active');
+      } else {
+        borderPreview.style.border = 'none';
+        if (logoUploadArea) logoUploadArea.classList.remove('border-active');
       }
+    }
+    
+    function updateBulkBorderPreview() {
+      if (!bulkBorderPreview) return;
       
-      // Set initial dates
-      setCurrentDate('startDate1');
-      setCurrentDate('endDate1');
-      setCurrentDate('eduStartDate1');
-      setCurrentDate('eduEndDate1');
-      setCurrentDate('projectDate1');
-      setCurrentDate('certDate1');
+      const borderSizeVal = parseInt(bulkBorderSize.value);
+      const borderColorVal = bulkBorderColor.value;
       
-      // Update resume preview
-      function updateResumePreview() {
-        // Personal info
-        document.getElementById('previewName').textContent = document.getElementById('fullName').value || 'John Doe';
-        document.getElementById('previewTitle').textContent = document.getElementById('jobTitle').value || 'Professional Title';
-        document.getElementById('previewEmail').textContent = document.getElementById('email').value || 'email@example.com';
-        document.getElementById('previewPhone').textContent = document.getElementById('phone').value || '(123) 456-7890';
-        document.getElementById('previewLocation').textContent = document.getElementById('location').value || 'City, State';
-        document.getElementById('previewWebsite').textContent = document.getElementById('website').value || 'yourwebsite.com';
-        document.getElementById('previewSummary').textContent = document.getElementById('summary').value || 'Experienced professional with 5+ years in...';
-        
-        // Experience
-        document.querySelector('#previewExperience1 .resume-item-title').textContent = document.getElementById('jobTitle1').value || 'Job Title';
-        document.getElementById('previewExperienceDates').textContent = 
-          (document.getElementById('startDate1').value || 'Start') + ' - ' + 
-          (document.getElementById('endDate1').value ? document.getElementById('endDate1').value : (document.getElementById('currentJob1').checked ? 'Present' : 'End'));
-        document.getElementById('previewExperienceCompany').textContent = document.getElementById('company1').value || 'Company, Location';
-        document.getElementById('previewExperienceDesc').textContent = document.getElementById('jobDescription1').value || 'Job description...';
-        
-        // Projects
-        document.querySelector('#previewProject1 .resume-item-title').textContent = document.getElementById('projectName1').value || 'Project Name';
-        document.getElementById('previewProjectDate').textContent = document.getElementById('projectDate1').value || 'Date';
-        document.getElementById('previewProjectDesc').textContent = document.getElementById('projectDescription1').value || 'Project description...';
-        
-        // Education
-        document.querySelector('#previewEducation1 .resume-item-title').textContent = document.getElementById('degree1').value || 'Degree';
-        document.getElementById('previewEducationDates').textContent = 
-          (document.getElementById('eduStartDate1').value || 'Start') + ' - ' + 
-          (document.getElementById('eduEndDate1').value ? document.getElementById('eduEndDate1').value : (document.getElementById('currentEducation1').checked ? 'Present' : 'End'));
-        document.getElementById('previewEducationSchool').textContent = document.getElementById('institution1').value || 'Institution, Location';
-        document.getElementById('previewEducationGPA').textContent = document.getElementById('gpa1').value ? `GPA: ${document.getElementById('gpa1').value}` : '';
-        
-        // Certifications
-        document.querySelector('#previewCertification1 .resume-item-title').textContent = document.getElementById('certName1').value || 'Certification';
-        document.getElementById('previewCertificationDate').textContent = document.getElementById('certDate1').value || 'Date';
-        
-        // Update skills preview
-        const skillsContainer = document.getElementById('previewSkills');
-        skillsContainer.innerHTML = '';
-        
-        for (let i = 1; i <= 3; i++) {
-          const skill = document.getElementById(`skill${i}`)?.value;
-          if (skill) {
-            const skillTag = document.createElement('div');
-            skillTag.className = 'skill-tag';
-            skillTag.textContent = skill;
-            skillsContainer.appendChild(skillTag);
-          }
-        }
-        
-        const additionalSkills = document.getElementById('additionalSkills').value;
-        if (additionalSkills) {
-          additionalSkills.split(',').forEach(skill => {
-            if (skill.trim()) {
-              const skillTag = document.createElement('div');
-              skillTag.className = 'skill-tag';
-              skillTag.textContent = skill.trim();
-              skillsContainer.appendChild(skillTag);
-            }
-          });
-        }
-        
-        if (skillsContainer.children.length === 0) {
-          skillsContainer.innerHTML = '<div class="skill-tag">JavaScript</div><div class="skill-tag">React</div><div class="skill-tag">Node.js</div>';
-        }
+      if (borderSizeVal > 0) {
+        bulkBorderPreview.style.border = `${borderSizeVal}px solid ${borderColorVal}`;
+        if (bulkLogoUploadArea) bulkLogoUploadArea.classList.add('border-active');
+      } else {
+        bulkBorderPreview.style.border = 'none';
+        if (bulkLogoUploadArea) bulkLogoUploadArea.classList.remove('border-active');
       }
-      
-      // Form validation
-      function validateForm() {
-        let isValid = true;
-        
-        document.querySelectorAll('[required]').forEach(field => {
-          const errorElement = field.nextElementSibling?.classList?.contains('validation-error') ? 
-                              field.nextElementSibling : 
-                              field.parentElement.nextElementSibling;
-          
-          if (!field.value.trim()) {
-            if (errorElement) {
-              errorElement.style.display = 'block';
-            }
-            isValid = false;
-          } else {
-            if (errorElement) {
-              errorElement.style.display = 'none';
-            }
-          }
-        });
-        
-        return isValid;
-      }
-      
-      // Add form validation on tab change
-      document.querySelectorAll('.tab').forEach(tab => {
-        tab.addEventListener('click', function() {
-          if (this.dataset.tab !== 'preview') {
-            validateForm();
-          }
-        });
-      });
-      
-      // Auto-save functionality
-      function autoSaveData() {
-        const formData = {
-          personal: {
-            fullName: document.getElementById('fullName').value,
-            jobTitle: document.getElementById('jobTitle').value,
-            email: document.getElementById('email').value,
-            phone: document.getElementById('phone').value,
-            location: document.getElementById('location').value,
-            website: document.getElementById('website').value,
-            summary: document.getElementById('summary').value
-          },
-          experience: [],
-          education: [],
-          projects: [],
-          skills: [],
-          certifications: []
-        };
-        
-        // Save experience
-        document.querySelectorAll('.experience-item').forEach((item, index) => {
-          formData.experience.push({
-            jobTitle: document.getElementById(`jobTitle${index+1}`)?.value,
-            company: document.getElementById(`company${index+1}`)?.value,
-            startDate: document.getElementById(`startDate${index+1}`)?.value,
-            endDate: document.getElementById(`endDate${index+1}`)?.value,
-            current: document.getElementById(`currentJob${index+1}`)?.checked,
-            description: document.getElementById(`jobDescription${index+1}`)?.value
-          });
-        });
-        
-        localStorage.setItem('resumeData', JSON.stringify(formData));
-      }
-      
-      // Load saved data
-      function loadSavedData() {
-        const savedData = localStorage.getItem('resumeData');
-        if (savedData) {
-          const formData = JSON.parse(savedData);
-          
-          // Personal section
-          document.getElementById('fullName').value = formData.personal.fullName || '';
-          document.getElementById('jobTitle').value = formData.personal.jobTitle || '';
-          document.getElementById('email').value = formData.personal.email || '';
-          document.getElementById('phone').value = formData.personal.phone || '';
-          document.getElementById('location').value = formData.personal.location || '';
-          document.getElementById('website').value = formData.personal.website || '';
-          document.getElementById('summary').value = formData.personal.summary || '';
-          
-          // Experience section - SAFE CHECK ADDED
-          if (formData.experience && Array.isArray(formData.experience)) {
-            formData.experience.forEach((exp, index) => {
-              if (index > 0) {
-                document.getElementById('addExperienceBtn').click();
-              }
-              document.getElementById(`jobTitle${index+1}`).value = exp.jobTitle || '';
-              document.getElementById(`company${index+1}`).value = exp.company || '';
-              document.getElementById(`startDate${index+1}`).value = exp.startDate || '';
-              document.getElementById(`endDate${index+1}`).value = exp.endDate || '';
-              if (exp.current) document.getElementById(`currentJob${index+1}`).checked = true;
-              document.getElementById(`jobDescription${index+1}`).value = exp.description || '';
-            });
-          }
-          
-          // Update UI
-          updateResumePreview();
-        }
-      }
-      
-      // Debounce function for performance
-      function debounce(func, timeout = 1000){
-        let timer;
-        return (...args) => {
-          clearTimeout(timer);
-          timer = setTimeout(() => { func.apply(this, args); }, timeout);
-        };
-      }
-      
-      const saveData = debounce(autoSaveData);
-      
-      // Set up auto-save on input
-      document.querySelectorAll('input, textarea, select').forEach(input => {
-        input.addEventListener('input', () => {
-          saveData();
-          
-          // Real-time validation
-          if (input.hasAttribute('required') && !input.value.trim()) {
-            input.nextElementSibling.style.display = 'block';
-          } else {
-            input.nextElementSibling.style.display = 'none';
-          }
-        });
-      });
-      
-      // Initialize saved data
-      loadSavedData();
-      
-      // Initialize preview
-      updateResumePreview();
     }
 
-    // Initialize when DOM is loaded
-    document.addEventListener('DOMContentLoaded', () => {
-      initializeResumeBuilder();
-    });
+    function preventDefaults(e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+    function highlight() {
+      this.classList.add('drag-over');
+    }
+
+    function unhighlight() {
+      this.classList.remove('drag-over');
+    }
+
+    function handleDrop(e) {
+      const dt = e.dataTransfer;
+      const files = dt.files;
+
+      if (files.length) {
+        logoUpload.files = files;
+        handleLogoUpload({ target: { files } });
+      }
+    }
+    
+    function handleBulkDrop(e) {
+      const dt = e.dataTransfer;
+      const files = dt.files;
+
+      if (files.length) {
+        bulkLogoUpload.files = files;
+        handleBulkLogoUpload({ target: { files } });
+      }
+    }
+
+    function updateSizeValue() {
+      if (sizeValue && sizeSlider) {
+        sizeValue.textContent = `${sizeSlider.value}px`;
+      }
+    }
+    
+    function updateBorderSizeValue() {
+      if (borderSizeValue && borderSize) {
+        borderSizeValue.textContent = `${borderSize.value}px`;
+      }
+    }
+    
+    function updateLogoSizeValue() {
+      if (logoSizeValue && logoSize) {
+        logoSizeValue.textContent = `${logoSize.value}%`;
+      }
+    }
+    
+    function updateBulkLogoSizeValue() {
+      if (bulkLogoSizeValue && bulkLogoSize) {
+        bulkLogoSizeValue.textContent = `${bulkLogoSize.value}%`;
+      }
+    }
+
+    function handleLogoUpload(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      if (!file.type.match('image.*')) {
+        showError(qrError, 'Please upload a valid image file');
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        logoImage = new Image();
+        logoImage.onload = function() {
+          if (logoPreview) {
+            logoPreview.innerHTML = '';
+            const previewContainer = document.createElement('div');
+            previewContainer.className = 'border-preview';
+            
+            const img = document.createElement('img');
+            img.src = event.target.result;
+            img.alt = 'Uploaded logo';
+            img.style.maxWidth = '100%';
+            img.style.maxHeight = '100%';
+            img.style.objectFit = 'contain';
+            
+            const borderIndicator = document.createElement('div');
+            borderIndicator.className = 'border-indicator';
+            borderIndicator.id = 'border-preview';
+            
+            previewContainer.appendChild(img);
+            previewContainer.appendChild(borderIndicator);
+            logoPreview.appendChild(previewContainer);
+          }
+          
+          updateBorderPreview();
+        };
+        logoImage.src = event.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+    
+    function handleBulkLogoUpload(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      if (!file.type.match('image.*')) {
+        showError(bulkError, 'Please upload a valid image file');
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        bulkLogoImage = new Image();
+        bulkLogoImage.onload = function() {
+          if (bulkLogoPreview) {
+            bulkLogoPreview.innerHTML = '';
+            const previewContainer = document.createElement('div');
+            previewContainer.className = 'border-preview';
+            
+            const img = document.createElement('img');
+            img.src = event.target.result;
+            img.alt = 'Uploaded logo for bulk';
+            img.style.maxWidth = '100%';
+            img.style.maxHeight = '100%';
+            img.style.objectFit = 'contain';
+            
+            const borderIndicator = document.createElement('div');
+            borderIndicator.className = 'border-indicator';
+            borderIndicator.id = 'bulk-border-preview';
+            
+            previewContainer.appendChild(img);
+            previewContainer.appendChild(borderIndicator);
+            bulkLogoPreview.appendChild(previewContainer);
+          }
+          
+          updateBulkBorderPreview();
+        };
+        bulkLogoImage.src = event.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function autoFormatURL() {
+      const input = qrInput.value.trim();
+      if (!input) return;
+
+      if (input.includes('.') && !input.startsWith('http://') && !input.startsWith('https://')) {
+        qrInput.value = `https://${input}`;
+      }
+    }
+
+    function toggleQRTypeFields() {
+      const type = qrType.value;
+      document.querySelectorAll('.qr-type-fields').forEach(field => field.classList.remove('active'));
+      document.getElementById(`${type}-fields`).classList.add('active');
+    }
+
+    function sanitizeFilename(str) {
+      return str.replace(/[^a-zA-Z0-9-]+$/g, '_').slice(0, 50);
+    }
+
+    // New modular functions
+    function getQRContent(type) {
+      switch(type) {
+        case 'url':
+          const url = qrInput.value.trim();
+          if (!url) throw new Error('URL is required');
+          if (!url.startsWith('http://') && !url.startsWith('https://')) {
+            return 'http://' + url;
+          }
+          return url;
+          
+        case 'vcard':
+          const name = vcardName.value.trim();
+          const phone = vcardPhone.value.trim();
+          const email = vcardEmail.value.trim();
+          
+          if (!name || !phone || !email) throw new Error('All vCard fields are required');
+          if (!isValidEmail(email)) throw new Error('Invalid email format');
+          
+          return `BEGIN:VCARD\nVERSION:3.0\nFN:${name}\nTEL:${phone}\nEMAIL:${email}\nEND:VCARD`;
+          
+        case 'wifi':
+          const ssid = wifiSsid.value.trim();
+          const password = wifiPassword.value.trim();
+          const encryption = wifiType.value;
+          
+          if (!ssid) throw new Error('Network name is required');
+          if (encryption !== 'nopass' && !password) throw new Error('Password is required');
+          
+          return `WIFI:S:${ssid};T:${encryption};P:${password};;`;
+          
+        case 'email':
+          const emailAddr = emailAddress.value.trim();
+          const subject = emailSubject.value.trim();
+          const body = emailBody.value.trim();
+          
+          if (!emailAddr) throw new Error('Email address is required');
+          if (!isValidEmail(emailAddr)) throw new Error('Invalid email format');
+          
+          return `mailto:${emailAddr}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+          
+        default:
+          const input = qrInput.value.trim();
+          if (!input) throw new Error('Content is required');
+          return input;
+      }
+    }
+
+    function createQRCanvas(content, options) {
+      return new Promise((resolve, reject) => {
+        try {
+          QRCode.toCanvas(content, {
+            width: options.size,
+            margin: 1,
+            color: {
+              dark: options.fgColor,
+              light: options.bgColor
+            },
+            errorCorrectionLevel: 'H'
+          }, (error, canvas) => {
+            if (error) {
+              reject(error);
+            } else {
+              resolve(canvas);
+            }
+          });
+        } catch (error) {
+          reject(error);
+        }
+      });
+    }
+
+    function addLogoToQR(qrCanvas, logo, borderSize, borderColor, logoSizePercent) {
+      return new Promise((resolve) => {
+        if (!logo) {
+          resolve(qrCanvas);
+          return;
+        }
+        
+        try {
+          // Ensure logo doesn't break QR code scannability
+          const maxSafeSize = qrCanvas.width * 0.25; // Max 25% of QR size
+          const actualLogoSize = Math.min(
+            qrCanvas.width * (logoSizePercent / 100), 
+            maxSafeSize
+          );
+          
+          const ctx = qrCanvas.getContext('2d');
+          
+          // Draw border if border size is greater than 0
+          if (borderSize > 0) {
+            ctx.fillStyle = borderColor;
+            const centerX = qrCanvas.width / 2;
+            const centerY = qrCanvas.height / 2;
+            const borderWidth = actualLogoSize + borderSize * 2;
+            
+            // Ensure border doesn't cover critical QR patterns
+            const maxBorderWidth = qrCanvas.width * 0.35;
+            const safeBorderWidth = Math.min(borderWidth, maxBorderWidth);
+            
+            ctx.fillRect(
+              centerX - safeBorderWidth/2,
+              centerY - safeBorderWidth/2,
+              safeBorderWidth,
+              safeBorderWidth
+            );
+          }
+          
+          // Draw logo
+          ctx.drawImage(
+            logo,
+            (qrCanvas.width - actualLogoSize) / 2,
+            (qrCanvas.height - actualLogoSize) / 2,
+            actualLogoSize,
+            actualLogoSize
+          );
+          
+          resolve(qrCanvas);
+        } catch (error) {
+          console.error('Error adding logo to QR:', error);
+          resolve(qrCanvas); // Resolve without logo if error occurs
+        }
+      });
+    }
+
+    // Updated generateQR function
+    async function generateQR() {
+      try {
+        const type = qrType.value;
+        const content = getQRContent(type);
+        
+        const qrOptions = {
+          size: parseInt(sizeSlider.value),
+          fgColor: fgColor.value,
+          bgColor: transparentBg.checked ? '#00000000' : bgColor.value
+        };
+        
+        qrLoading.style.display = 'block';
+        qrError.style.display = 'none';
+        qrSuccess.style.display = 'none';
+        
+        // Create QR canvas
+        const generatedCanvas = await createQRCanvas(content, qrOptions);
+        
+        // Add logo and border
+        const finalCanvas = await addLogoToQR(
+          generatedCanvas, 
+          logoImage, 
+          parseInt(borderSize.value), 
+          borderColor.value,
+          parseInt(logoSize.value)
+        );
+        
+        // Display results
+        qrCanvas.width = finalCanvas.width;
+        qrCanvas.height = finalCanvas.height;
+        const ctx = qrCanvas.getContext('2d');
+        ctx.drawImage(finalCanvas, 0, 0);
+        
+        generatedQR = { data: qrCanvas.toDataURL('image/png'), content };
+        
+        qrLoading.style.display = 'none';
+        qrSuccess.style.display = 'block';
+        qrSuccess.textContent = 'QR Code generated successfully!';
+        downloadBtn.style.display = 'block';
+        qrCanvas.style.display = 'block';
+        
+        // Test QR scannability
+        testQRScannability(finalCanvas, content);
+      } catch (error) {
+        qrLoading.style.display = 'none';
+        showError(qrError, error.message || 'Error generating QR code');
+        console.error('QR generation error:', error);
+      }
+    }
+    
+    function testQRScannability(canvas, originalContent) {
+      try {
+        const ctx = canvas.getContext('2d');
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const code = jsQR(imageData.data, imageData.width, imageData.height);
+        
+        if (!code) {
+          qrSuccess.innerHTML += '<br><span class="scanner-error"><i class="fas fa-exclamation-circle"></i> Warning: QR code may be difficult to scan</span>';
+        } else if (code.data !== originalContent) {
+          qrSuccess.innerHTML += `<br><span class="scanner-error"><i class="fas fa-exclamation-circle"></i> Content mismatch: ${code.data.substr(0, 20)}...</span>`;
+        } else {
+          qrSuccess.innerHTML += '<br><span class="scanner-success"><i class="fas fa-check-circle"></i> QR code scans successfully</span>';
+        }
+      } catch (e) {
+        console.log('QR test error:', e);
+      }
+    }
+
+    // Updated bulk generation
+    async function generateBulkQR() {
+      try {
+        let inputs = [];
+        const bulkType = document.querySelector('input[name="bulk-type"]:checked').value;
+        
+        if (bulkType === 'list') {
+          inputs = bulkInput.value.trim().split('\n').filter(line => line.trim() !== '');
+        } 
+        else if (bulkType === 'range') {
+          const start = parseInt(rangeStart.value);
+          const end = parseInt(rangeEnd.value);
+          const prefix = rangePrefix.value.trim();
+          const suffix = rangeSuffix.value.trim();
+          
+          if (isNaN(start) || isNaN(end) || start > end) {
+            throw new Error('Please enter valid start and end numbers');
+          }
+          
+          if (end - start > 1000) {
+            throw new Error('Range is too large (max 1000 items)');
+          }
+          
+          for (let i = start; i <= end; i++) {
+            inputs.push(`${prefix}${i}${suffix}`);
+          }
+        }
+        else if (bulkType === 'csv') {
+          const fileInput = document.getElementById('bulk-file-upload');
+          if (!fileInput.files.length) throw new Error('Please select a CSV file');
+          
+          const file = fileInput.files[0];
+          const text = await new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = () => reject(reader.error);
+            reader.readAsText(file);
+          });
+          
+          const results = Papa.parse(text, { header: true });
+          if (results.errors.length) throw new Error('Error parsing CSV file');
+          
+          inputs = results.data.map(row => {
+            // Get the first non-empty value in the row
+            return Object.values(row).find(val => val && val.trim() !== '') || '';
+          }).filter(val => val.trim() !== '');
+        }
+
+        if (inputs.length === 0) throw new Error('Please enter at least one item');
+        if (inputs.length > 1000) throw new Error('For performance, limit to 1000 items at a time');
+
+        bulkQRs = [];
+        bulkSuccess.style.display = 'none';
+        bulkError.style.display = 'none';
+        bulkLoading.style.display = 'block';
+
+        // Process in batches
+        const batchSize = 5;
+        for (let i = 0; i < inputs.length; i += batchSize) {
+          const batch = inputs.slice(i, i + batchSize);
+          await processBatch(batch, i, inputs.length);
+        }
+
+        createBulkZip();
+      } catch (error) {
+        bulkLoading.style.display = 'none';
+        showError(bulkError, error.message || 'Error generating bulk QR codes');
+        console.error('Bulk QR error:', error);
+      }
+    }
+
+    async function processBatch(batch, startIndex, total) {
+      for (let j = 0; j < batch.length; j++) {
+        const index = startIndex + j;
+        const input = batch[j];
+        bulkProgress.textContent = `Generating QR codes: ${index + 1}/${total}`;
+        
+        try {
+          const qrOptions = {
+            size: parseInt(bulkSizeSlider.value),
+            fgColor: bulkFgColor.value,
+            bgColor: bulkTransparentBg.checked ? '#00000000' : bulkBgColor.value
+          };
+          
+          // Create QR canvas
+          const generatedCanvas = await createQRCanvas(input, qrOptions);
+          
+          // Add logo and border
+          const finalCanvas = await addLogoToQR(
+            generatedCanvas, 
+            bulkLogoImage, 
+            parseInt(bulkBorderSize.value), 
+            bulkBorderColor.value,
+            parseInt(bulkLogoSize.value)
+          );
+          
+          bulkQRs.push({
+            content: input,
+            dataURL: finalCanvas.toDataURL('image/png')
+          });
+        } catch (error) {
+          console.error('Error generating QR code for: ' + input, error);
+          // Add placeholder for failed generation
+          bulkQRs.push({
+            content: input,
+            error: true,
+            message: error.message || 'Failed to generate QR code'
+          });
+        }
+      }
+    }
+
+    function createBulkZip() {
+      try {
+        const zip = new JSZip();
+        const prefix = bulkFilename.value.trim() || 'qr-codes';
+        let successCount = 0;
+
+        for (const item of bulkQRs) {
+          if (!item.error) {
+            const filename = `${sanitizeFilename(item.content)}.png`;
+            const data = item.dataURL.split(',')[1];
+            zip.file(filename, data, { base64: true });
+            successCount++;
+          }
+        }
+
+        if (successCount === 0) {
+          throw new Error('No QR codes were generated successfully');
+        }
+
+        zip.generateAsync({ type: 'blob' }).then(content => {
+          saveAs(content, `${prefix}.zip`);
+          bulkLoading.style.display = 'none';
+          bulkSuccess.style.display = 'block';
+          bulkSuccess.textContent = `Successfully generated and downloaded ${successCount} QR codes!`;
+          
+          if (successCount < bulkQRs.length) {
+            bulkSuccess.textContent += ` (${bulkQRs.length - successCount} failed)`;
+          }
+        });
+      } catch (error) {
+        bulkLoading.style.display = 'none';
+        showError(bulkError, error.message || 'Error creating ZIP file');
+        console.error('ZIP creation error:', error);
+      }
+    }
+
+    // Email validation function
+    function isValidEmail(email) {
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return re.test(email);
+    }
+
+    function downloadQR() {
+      if (!generatedQR) {
+        showError(qrError, 'Please generate a QR code first');
+        return;
+      }
+
+      const filename = sanitizeFilename(generatedQR.content) + '.png';
+      const a = document.createElement('a');
+      a.href = generatedQR.data;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+
+    function startScanner() {
+      scannerOverlay.style.display = 'flex';
+      scanResult.innerHTML = '<p>Scanning... Point camera at QR code</p>';
+      updateScannerStatus('Scanning...', 'scanner-loading');
+      
+      // Add scanning guides
+      scannerGuides.innerHTML = `
+        <div class="guide-line horizontal" style="top: 33%"></div>
+        <div class="guide-line horizontal" style="top: 66%"></div>
+        <div class="guide-line vertical" style="left: 33%"></div>
+        <div class="guide-line vertical" style="left: 66%"></div>
+      `;
+      scannerGuides.style.display = 'block';
+
+      navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+        .then(stream => {
+          currentStream = stream;
+          video.srcObject = stream;
+          video.play();
+
+          requestAnimationFrame(scanQR);
+        })
+        .catch(err => {
+          console.error('Camera error: ', err);
+          scanResult.innerHTML = `<p class="error">Error accessing camera: ${err.message}</p>`;
+          updateScannerStatus('Camera Error', 'scanner-error');
+        });
+    }
+    
+    function updateScannerStatus(message, className) {
+      scannerStatus.textContent = message;
+      scannerStatus.className = `scanner-status ${className}`;
+      scannerStatus.style.display = 'block';
+    }
+
+    function stopScanner() {
+      if (currentStream) {
+        currentStream.getTracks().forEach(track => track.stop());
+        currentStream = null;
+      }
+      scannerOverlay.style.display = 'none';
+      
+      // Remove scanning guides
+      scannerGuides.style.display = 'none';
+      
+      // Hide status
+      scannerStatus.style.display = 'none';
+    }
+
+    function scanQR() {
+      if (!currentStream) return;
+
+      if (video.readyState === video.HAVE_ENOUGH_DATA) {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const code = jsQR(imageData.data, imageData.width, imageData.height);
+
+        if (code) {
+          scanResult.innerHTML = `
+            <p><strong>QR Code detected!</strong></p>
+            <p><strong>Content:</strong> ${code.data}</p>
+            <button onclick="useScannedContent('${code.data.replace(/'/g, "\\'")}')">
+              Generate this QR
+            </button>
+          `;
+          updateScannerStatus('QR Code Detected!', 'scanner-success');
+        }
+      }
+
+      requestAnimationFrame(scanQR);
+    }
+
+    function useScannedContent(content) {
+      stopScanner();
+      qrType.value = 'url';
+      toggleQRTypeFields();
+      qrInput.value = content;
+      tabs[0].click();
+      generateQR();
+    }
+
+    function scanQRFromImage(img) {
+      updateScannerStatus('Processing image...', 'scanner-loading');
+      
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = img.width;
+      canvas.height = img.height;
+
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const code = jsQR(imageData.data, imageData.width, canvas.height);
+
+      if (code) {
+        scanResult.innerHTML = `
+          <p><strong>QR Code detected in image!</strong></p>
+          <p><strong>Content:</strong> ${code.data}</p>
+          <button onclick="useScannedContent('${code.data.replace(/'/g, "\\'")}')">
+            Generate this QR
+          </button>
+        `;
+        updateScannerStatus('QR Code Found!', 'scanner-success');
+      } else {
+        scanResult.innerHTML = '<p class="error"><i class="fas fa-exclamation-circle"></i> No QR code found in the image</p>';
+        updateScannerStatus('No QR Found', 'scanner-error');
+      }
+    }
+
+    function handleFileUpload(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      
+      if (!file.type.match('image.*')) {
+        scanResult.innerHTML = '<p class="error"><i class="fas fa-exclamation-circle"></i> Please upload a valid image file</p>';
+        updateScannerStatus('Invalid File', 'scanner-error');
+        return;
+      }
+
+      updateScannerStatus('Processing image...', 'scanner-loading');
+      
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        const img = new Image();
+        img.onload = function() {
+          scanQRFromImage(img);
+        };
+        img.onerror = function() {
+          scanResult.innerHTML = '<p class="error"><i class="fas fa-exclamation-circle"></i> Error loading image</p>';
+          updateScannerStatus('Image Error', 'scanner-error');
+        };
+        img.src = event.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function handleBulkFileUpload(e) {
+      const file = e.target.files[0];
+      if (!file || !file.name.endsWith('.csv')) {
+        showError(bulkError, 'Please upload a valid CSV file');
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        const text = event.target.result;
+        const lines = text.split('\n').map(line => line.trim()).filter(line => line);
+        bulkInput.value = lines.join('\n');
+      };
+      reader.readAsText(file);
+    }
+
+    function showError(element, message) {
+      element.textContent = message;
+      element.style.display = 'block';
+    }
+    
+    function saveQRPreferences() {
+      const preferences = {
+        fgColor: fgColor.value,
+        bgColor: bgColor.value,
+        size: sizeSlider.value,
+        borderSize: borderSize.value,
+        borderColor: borderColor.value,
+        logoSize: logoSize.value
+      };
+      localStorage.setItem(PREFERENCES_KEY, JSON.stringify(preferences));
+    }
+
+    function loadQRPreferences() {
+      const preferencesStr = localStorage.getItem(PREFERENCES_KEY);
+      if (preferencesStr) {
+        try {
+          const preferences = JSON.parse(preferencesStr);
+          
+          if (fgColor) fgColor.value = preferences.fgColor || '#000000';
+          if (bgColor) bgColor.value = preferences.bgColor || '#FFFFFF';
+          
+          if (sizeSlider) {
+            sizeSlider.value = preferences.size || '256';
+          }
+          
+          if (borderSize) {
+            borderSize.value = preferences.borderSize || '5';
+          }
+          
+          if (borderColor) borderColor.value = preferences.borderColor || '#FFFFFF';
+          
+          if (logoSize) {
+            logoSize.value = preferences.logoSize || '15';
+          }
+        } catch (e) {
+          console.error('Failed to parse QR preferences:', e);
+        }
+      }
+    }
   </script>
 </body>
 </html>
