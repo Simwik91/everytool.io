@@ -172,6 +172,7 @@ header {
   padding: 10px 20px;
 }
 
+/* FIX: Increased z-index for hamburger menu */
 .mobile-menu-btn {
   display: none;
   background: none;
@@ -181,7 +182,7 @@ header {
   cursor: pointer;
   padding: 10px;
   border-radius: 5px;
-  z-index: 2001;
+  z-index: 2002; /* Increased from 2001 to 2002 */
 }
 
 .mobile-menu-btn:hover, .mobile-menu-btn:focus {
@@ -224,12 +225,15 @@ header {
   display: block;
 }
 
+/* FIX: Added z-index to active state */
 .mobile-nav.active {
   transform: translateX(0);
+  z-index: 2001; /* Added z-index for active state */
 }
 
+/* FIX: Added right padding for close button */
 .mobile-nav-header {
-  padding: 20px;
+  padding: 20px 15px; /* Added right padding */
   display: flex;
   justify-content: space-between;
   align-items: center;
