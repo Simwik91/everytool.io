@@ -1,5 +1,7 @@
+// main.js - Fixed version for mobile menu issues
+
 function initMobileMenu() {
-  console.log('Initializing mobile menu');
+  console.log('Initializing mobile menu with fixes');
   const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
   const closeMobileMenu = document.getElementById('close-mobile-menu');
   const mobileNav = document.getElementById('mobile-nav');
@@ -14,6 +16,9 @@ function initMobileMenu() {
       const toggle = menu.parentElement.querySelector('.dropdown-toggle');
       if (toggle) toggle.setAttribute('aria-expanded', 'false');
     });
+    
+    // Show hamburger menu after closing
+    if (mobileMenuToggle) mobileMenuToggle.style.display = 'block';
   }
   
   if (mobileMenuToggle) {
@@ -21,6 +26,9 @@ function initMobileMenu() {
       mobileNav.classList.add('active');
       mobileBackdrop.classList.add('active');
       document.body.classList.add('menu-open');
+      
+      // Hide hamburger menu while mobile nav is open
+      mobileMenuToggle.style.display = 'none';
     });
   } else {
     console.warn('Mobile menu toggle not found');
@@ -49,17 +57,32 @@ function initMobileMenu() {
       e.preventDefault();
       const dropdownMenu = toggle.parentElement.querySelector('.dropdown-menu');
       const isOpen = dropdownMenu.classList.contains('active');
+      
+      // Close other dropdowns before opening this one
       document.querySelectorAll('.mobile-nav .dropdown-menu').forEach(menu => {
-        menu.classList.remove('active');
-        const otherToggle = menu.parentElement.querySelector('.dropdown-toggle');
-        if (otherToggle) otherToggle.setAttribute('aria-expanded', 'false');
+        if (menu !== dropdownMenu) {
+          menu.classList.remove('active');
+          const otherToggle = menu.parentElement.querySelector('.dropdown-toggle');
+          if (otherToggle) otherToggle.setAttribute('aria-expanded', 'false');
+        }
       });
+      
+      // Toggle current dropdown
       dropdownMenu.classList.toggle('active');
       toggle.setAttribute('aria-expanded', !isOpen);
+      
+      // Close dropdown when clicking outside
+      document.addEventListener('click', function closeDropdownOnOutsideClick(e) {
+        if (!dropdownMenu.contains(e.target) && !toggle.contains(e.target)) {
+          dropdownMenu.classList.remove('active');
+          toggle.setAttribute('aria-expanded', 'false');
+          document.removeEventListener('click', closeDropdownOnOutsideClick);
+        }
+      });
     });
   });
 
-  // NEW: Close mobile menu when clicking outside
+  // Close mobile menu when clicking outside
   document.addEventListener('click', (e) => {
     if (mobileNav.classList.contains('active') && 
         !e.target.closest('#mobile-nav') && 
@@ -77,16 +100,23 @@ function initDesktopDropdown() {
       e.preventDefault();
       const dropdownMenu = toggle.parentElement.querySelector('.dropdown-menu');
       const isOpen = dropdownMenu.classList.contains('active');
+      
+      // Close other dropdowns before opening this one
       document.querySelectorAll('.nav-menu .dropdown-menu').forEach(menu => {
-        menu.classList.remove('active');
-        const otherToggle = menu.parentElement.querySelector('.dropdown-toggle');
-        if (otherToggle) otherToggle.setAttribute('aria-expanded', 'false');
+        if (menu !== dropdownMenu) {
+          menu.classList.remove('active');
+          const otherToggle = menu.parentElement.querySelector('.dropdown-toggle');
+          if (otherToggle) otherToggle.setAttribute('aria-expanded', 'false');
+        }
       });
+      
+      // Toggle current dropdown
       dropdownMenu.classList.toggle('active');
       toggle.setAttribute('aria-expanded', !isOpen);
     });
   });
 
+  // Close dropdowns when clicking outside
   document.addEventListener('click', (e) => {
     if (!e.target.closest('.dropdown')) {
       document.querySelectorAll('.nav-menu .dropdown-menu').forEach(menu => {
@@ -108,19 +138,39 @@ function populateToolsDropdown(basePath, retryCount = 0, maxRetries = 2) {
     .then(tools => {
       const desktopDropdown = document.querySelector('.nav-menu .dropdown-menu');
       const mobileDropdown = document.querySelector('.mobile-nav .dropdown-menu');
+      
       if (!desktopDropdown || !mobileDropdown) {
         console.warn('Dropdown menus not found');
         return;
       }
-      const items = tools.map(tool => `
-        <li>
-          <a href="${tool.url}" class="dropdown-item" aria-label="${tool.description}" title="${tool.description}">
-            <i class="${tool.icon}"></i> ${tool.category}
-          </a>
-        </li>
-      `).join('');
-      desktopDropdown.innerHTML = items;
-      mobileDropdown.innerHTML = items;
+      
+      // Create desktop dropdown items
+      let desktopItems = '';
+      tools.forEach(tool => {
+        desktopItems += `
+          <li>
+            <a href="${tool.url}" class="dropdown-item" aria-label="${tool.description}" title="${tool.description}">
+              <i class="${tool.icon}"></i> ${tool.category}
+            </a>
+          </li>
+        `;
+      });
+      desktopDropdown.innerHTML = desktopItems;
+      
+      // Create mobile dropdown items with better spacing
+      let mobileItems = '';
+      tools.forEach(tool => {
+        mobileItems += `
+          <li>
+            <a href="${tool.url}" class="dropdown-item" aria-label="${tool.description}" title="${tool.description}" style="padding: 12px 20px; margin: 8px 0; display: flex; align-items: center; gap: 12px;">
+              <i class="${tool.icon}" style="font-size: 1.2rem;"></i> 
+              <span>${tool.category}</span>
+            </a>
+          </li>
+        `;
+      });
+      mobileDropdown.innerHTML = mobileItems;
+      
       console.log('Tools dropdown populated successfully');
     })
     .catch(error => {
