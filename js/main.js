@@ -58,6 +58,15 @@ function initMobileMenu() {
       toggle.setAttribute('aria-expanded', !isOpen);
     });
   });
+
+  // NEW: Close mobile menu when clicking outside
+  document.addEventListener('click', (e) => {
+    if (mobileNav.classList.contains('active') && 
+        !e.target.closest('#mobile-nav') && 
+        !e.target.closest('.mobile-menu-btn')) {
+      closeMobileNav();
+    }
+  });
 }
 
 function initDesktopDropdown() {
