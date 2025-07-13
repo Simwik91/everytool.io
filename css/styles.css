@@ -358,6 +358,52 @@ header {
   padding: 8px 20px;
 }
 
+/* ==================== */
+/* MOBILE DROPDOWN FIXES */
+/* ==================== */
+.mobile-nav .dropdown-menu {
+  background: rgba(67, 97, 238, 0.05); /* Lighter background */
+  padding: 8px 0; /* Reduced padding */
+  margin: 5px 0 15px;
+}
+
+.mobile-nav .dropdown-item {
+  padding: 12px 25px 12px 50px; /* Increased left padding for icons */
+  margin: 8px 0;
+  position: relative;
+  border-left: 3px solid transparent; /* Indicator bar */
+  transition: var(--transition);
+}
+
+.mobile-nav .dropdown-item:hover {
+  border-left-color: var(--primary); /* Active indicator */
+  background: rgba(67, 97, 238, 0.08);
+  transform: translateX(5px); /* Subtle movement on hover */
+}
+
+.mobile-nav .dropdown-item i {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.3rem;
+  width: 24px;
+  text-align: center;
+  margin-right: 0;
+}
+
+/* Category headers */
+.mobile-nav .dropdown-category {
+  padding: 12px 20px;
+  font-weight: 600;
+  color: var(--primary);
+  background: rgba(67, 97, 238, 0.1);
+  border-left: 3px solid var(--primary);
+  margin: 10px 10px 5px;
+  border-radius: 4px;
+  font-size: 0.95rem;
+}
+
 /* Hero Section */
 .hero {
   padding: 80px 0 60px;
@@ -1010,13 +1056,22 @@ footer {
     padding: 20px;
   }
   
-  /* FIX: Mobile dropdown item spacing */
+  /* Mobile dropdown adjustments */
   .mobile-nav .dropdown-item {
-    padding: 12px 15px;
+    padding: 12px 15px 12px 45px; /* Adjust padding for small screens */
     margin: 8px 0;
   }
   
-  /* FIX: Mobile nav width adjustment */
+  .mobile-nav .dropdown-item i {
+    left: 15px; /* Adjust icon position */
+    font-size: 1.2rem; /* Slightly smaller icons */
+  }
+  
+  .mobile-nav .dropdown-category {
+    padding: 10px 15px; /* Slightly smaller padding */
+    font-size: 0.9rem; /* Slightly smaller font */
+  }
+  
   .mobile-nav {
     width: 100%;
   }
