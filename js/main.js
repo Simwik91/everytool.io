@@ -1,4 +1,4 @@
-// main.js - Fixed version for mobile menu issues
+// main.js - Updated version with category grouping for mobile dropdown
 
 function initMobileMenu() {
   console.log('Initializing mobile menu with fixes');
@@ -157,21 +157,32 @@ function populateToolsDropdown(basePath, retryCount = 0, maxRetries = 2) {
       });
       desktopDropdown.innerHTML = desktopItems;
       
-      // Create mobile dropdown items with better spacing
+      // Create mobile dropdown items with category grouping
       let mobileItems = '';
+      let currentCategory = null;
+      
       tools.forEach(tool => {
+        // Add category header if category changes
+        if (tool.category !== currentCategory) {
+          currentCategory = tool.category;
+          mobileItems += `
+            <div class="dropdown-category">${tool.category}</div>
+          `;
+        }
+        
         mobileItems += `
           <li>
-            <a href="${tool.url}" class="dropdown-item" aria-label="${tool.description}" title="${tool.description}" style="padding: 12px 20px; margin: 8px 0; display: flex; align-items: center; gap: 12px;">
-              <i class="${tool.icon}" style="font-size: 1.2rem;"></i> 
-              <span>${tool.category}</span>
+            <a href="${tool.url}" class="dropdown-item" aria-label="${tool.description}" title="${tool.description}">
+              <i class="${tool.icon}"></i>
+              ${tool.description}
             </a>
           </li>
         `;
       });
+      
       mobileDropdown.innerHTML = mobileItems;
       
-      console.log('Tools dropdown populated successfully');
+      console.log('Tools dropdown populated successfully with category grouping');
     })
     .catch(error => {
       console.error('Error loading tools:', error);
