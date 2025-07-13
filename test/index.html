@@ -12,11 +12,29 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
-  <!-- Shared CSS -->
-  <link rel="stylesheet" href="/css/styles.css">
-  
-  <!-- Resume Builder Specific Styles -->
   <style>
+    /* Global Styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f5f7ff 0%, #f0f4ff 100%);
+      color: #212529;
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
     /* Resume Builder Specific Variables */
     :root {
       --resume-primary: #4361ee;
@@ -32,20 +50,178 @@
       --resume-transition: all 0.3s ease;
     }
 
-    /* Body Content Container */
-    .resume-builder-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
+    /* Header Styles */
+    header {
+      background: white;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      padding: 15px 0;
     }
 
-    /* Resume Builder Specific Components */
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--resume-primary);
+      text-decoration: none;
+    }
+
+    .logo i {
+      margin-right: 10px;
+      font-size: 2.2rem;
+    }
+
+    /* Hero Section */
     .resume-builder-hero {
       padding: 60px 0 40px;
       text-align: center;
       background: linear-gradient(135deg, #f5f7ff 0%, #f0f4ff 100%);
     }
 
+    .resume-builder-hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      font-weight: 700;
+      background: linear-gradient(90deg, var(--resume-primary), var(--resume-secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1.2;
+    }
+
+    .resume-builder-hero p {
+      font-size: 1.2rem;
+      color: var(--resume-gray);
+      margin-bottom: 40px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Features Section */
+    .features-section {
+      padding: 40px 0;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+      margin-top: 25px;
+    }
+
+    .feature-card {
+      background: white;
+      border-radius: var(--resume-border-radius);
+      padding: 30px;
+      text-align: center;
+      box-shadow: var(--resume-box-shadow);
+      transition: var(--resume-transition);
+      height: 100%;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    }
+
+    .feature-card i {
+      font-size: 3rem;
+      color: var(--resume-primary);
+      margin-bottom: 20px;
+      background: #f0f4ff;
+      width: 90px;
+      height: 90px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      margin: 0 auto 20px;
+    }
+
+    .feature-card h3 {
+      font-size: 1.6rem;
+      margin-bottom: 15px;
+      color: var(--resume-dark);
+    }
+
+    .feature-card p {
+      margin-bottom: 20px;
+      color: var(--resume-gray);
+      font-size: 1.1rem;
+    }
+
+    /* Resume Creation Guide */
+    .guide-section {
+      padding: 40px 0;
+      text-align: center;
+    }
+
+    .guide-section h2 {
+      font-size: 1.8rem;
+      margin-bottom: 15px;
+      color: var(--resume-dark);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .guide-section h2 i {
+      color: var(--resume-primary);
+    }
+
+    .guide-section p {
+      margin-bottom: 25px;
+      color: var(--resume-gray);
+      font-size: 1.1rem;
+    }
+
+    .guide-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+      margin-top: 25px;
+    }
+    
+    .guide-item {
+      padding: 25px;
+      background: #f8f9ff;
+      border-radius: var(--resume-border-radius);
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .guide-item h3 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      color: var(--resume-primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: center;
+    }
+    
+    .guide-item h3 i {
+      font-size: 1.8rem;
+      color: var(--resume-primary);
+    }
+    
+    .guide-item p {
+      font-size: 1rem;
+      color: #444;
+    }
+
+    /* Resume Builder Card */
     .resume-builder-card {
       background: var(--resume-light);
       border-radius: var(--resume-border-radius);
@@ -200,43 +376,6 @@
       margin-top: 30px;
     }
 
-    .resume-builder-features-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 30px;
-      margin-top: 25px;
-    }
-
-    .resume-builder-feature-card {
-      background: white;
-      border-radius: var(--resume-border-radius);
-      padding: 30px;
-      text-align: center;
-      box-shadow: var(--resume-box-shadow);
-      transition: var(--resume-transition);
-      height: 100%;
-    }
-
-    .resume-builder-feature-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-    }
-
-    .resume-builder-guide-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 30px;
-      margin-top: 25px;
-    }
-    
-    .resume-builder-guide-item {
-      padding: 25px;
-      background: #f8f9ff;
-      border-radius: var(--resume-border-radius);
-      text-align: center;
-      font-size: 14px;
-    }
-
     .resume-builder-template-controls {
       display: flex;
       justify-content: center;
@@ -371,14 +510,59 @@
       flex: 1;
     }
 
+    /* Footer */
+    footer {
+      background: linear-gradient(135deg, #f8f9fa 0%, #f0f4ff 100%);
+      color: #000;
+      padding: 60px 0 30px;
+      margin-top: 40px;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+      padding-top: 30px;
+      text-align: center;
+    }
+
+    .footer-links-row {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    
+    .footer-bottom a {
+      color: #000;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin: 0 10px;
+    }
+
+    .footer-bottom a:hover, .footer-bottom a:focus {
+      color: var(--resume-primary);
+      text-decoration: underline;
+      outline: 2px solid var(--resume-primary);
+      outline-offset: 2px;
+    }
+    
+    .footer-bottom p {
+      color: #000;
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin: 0;
+    }
+
     /* Responsive Design */
     @media (max-width: 992px) {
       .resume-builder-tool-row {
         flex-direction: column;
       }
       
-      .resume-builder-features-grid,
-      .resume-builder-guide-grid {
+      .features-grid,
+      .guide-grid {
         grid-template-columns: 1fr;
       }
     }
@@ -403,18 +587,31 @@
         padding: 10px 15px;
         font-size: 0.9rem;
       }
+      
+      .resume-builder-hero h1 {
+        font-size: 2rem;
+      }
+      
+      .resume-builder-hero p {
+        font-size: 1rem;
+      }
     }
   </style>
 </head>
 <body>
-  <!-- Header Placeholder -->
-  <header id="main-header">
-    <p class="error-message" style="display: none; color: red; text-align: center;">Failed to load header. Please try refreshing the page.</p>
+  <!-- Header -->
+  <header>
+    <div class="container header-container">
+      <a href="https://everytool.io/" class="logo" aria-label="EveryTool.io Home">
+        <i class="fas fa-tools"></i>
+        EveryTool.io
+      </a>
+    </div>
   </header>
 
   <!-- Hero Section -->
   <section class="resume-builder-hero">
-    <div class="resume-builder-container">
+    <div class="container">
       <div class="hero-content">
         <h1>Enhanced Resume Builder</h1>
         <p>Create professional resumes in minutes with our advanced builder. ATS-friendly templates, real-time preview, and client-side processing.</p>
@@ -422,27 +619,26 @@
     </div>
   </section>
 
-  <!-- Main Content -->
-  <div class="resume-builder-container">
+  <div class="container">
     <!-- Features Section -->
     <div class="features-section">
-      <div class="resume-builder-features-grid">
-        <div class="resume-builder-feature-card">
+      <div class="features-grid">
+        <div class="feature-card">
           <i class="fas fa-layer-group"></i>
           <h3>Professional Templates</h3>
           <p>Choose from ATS-friendly templates designed to get you noticed</p>
         </div>
-        <div class="resume-builder-feature-card">
+        <div class="feature-card">
           <i class="fas fa-file-pdf"></i>
           <h3>PDF Export</h3>
           <p>Download your resume as a professional PDF with one click</p>
         </div>
-        <div class="resume-builder-feature-card">
+        <div class="feature-card">
           <i class="fas fa-lightbulb"></i>
           <h3>Content Suggestions</h3>
           <p>Get AI-powered suggestions for improving your resume content</p>
         </div>
-        <div class="resume-builder-feature-card">
+        <div class="feature-card">
           <i class="fas fa-sliders-h"></i>
           <h3>Advanced Customization</h3>
           <p>Change colors, fonts, and section order to match your needs</p>
@@ -454,20 +650,20 @@
     <div class="guide-section">
       <h2><i class="fas fa-book"></i> Resume Creation Guide</h2>
       <p>Follow these steps to create your perfect resume:</p>
-      <div class="resume-builder-guide-grid">
-        <div class="resume-builder-guide-item">
+      <div class="guide-grid">
+        <div class="guide-item">
           <h3><i class="fas fa-user"></i> Personal Details</h3>
           <p>Start with your name, contact information, and professional summary</p>
         </div>
-        <div class="resume-builder-guide-item">
+        <div class="guide-item">
           <h3><i class="fas fa-briefcase"></i> Work Experience</h3>
           <p>List your relevant work history, starting with your most recent position</p>
         </div>
-        <div class="resume-builder-guide-item">
+        <div class="guide-item">
           <h3><i class="fas fa-graduation-cap"></i> Education</h3>
           <p>Add your degrees, certifications, and educational achievements</p>
         </div>
-        <div class="resume-builder-guide-item">
+        <div class="guide-item">
           <h3><i class="fas fa-star"></i> Skills & Expertise</h3>
           <p>Highlight your professional skills and areas of expertise</p>
         </div>
@@ -913,82 +1109,24 @@
     </div>
   </div>
 
-  <!-- Footer Placeholder -->
-  <footer id="main-footer">
-    <p class="error-message" style="display: none; color: red; text-align: center;">Failed to load footer. Please try refreshing the page.</p>
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-bottom">
+        <div class="footer-links-row">
+          <a href="/privacy" aria-label="Privacy Policy">Privacy Policy</a>
+          <a href="/terms" aria-label="Terms of Service">Terms of Service</a>
+          <a href="/gdpr" aria-label="GDPR Compliance">GDPR Compliance</a>
+          <a href="#" id="open-settings-footer" aria-label="Open cookie settings">Cookie Settings</a>
+        </div>
+        <p>© 2025 EveryTool.io. All rights reserved.</p>
+      </div>
+    </div>
   </footer>
-
-  <!-- Cookie Consent Banner -->
-  <div id="cookie-consent" role="dialog" aria-labelledby="cookie-consent-banner" aria-describedby="cookie-consent-desc">
-    <div class="sr-only" id="cookie-consent-banner">Cookie Consent</div>
-    <div class="cookie-content" id="cookie-consent-desc">
-      <div class="cookie-text">
-        <p>We use cookies to enhance your experience and analyze site traffic. By clicking "Accept All", you consent to our use of cookies. 
-          <a href="/privacy-policy.html" aria-label="Learn more about our Privacy Policy">Learn more</a> in our Privacy Policy.
-        </p>
-        <button class="cookie-settings-btn" id="open-settings" aria-label="Open cookie settings">Cookie Settings</button>
-      </div>
-      <div class="cookie-buttons">
-        <button class="cookie-btn reject-btn" id="reject-cookies" aria-label="Reject non-essential cookies">Reject Non-Essential</button>
-        <button class="cookie-btn accept-btn" id="accept-cookies" aria-label="Accept all cookies">Accept All</button>
-      </div>
-    </div>
-  </div>
-
-  <div id="cookie-settings" role="dialog" aria-labelledby="cookie-settings-title" aria-describedby="cookie-settings-desc">
-    <div class="settings-modal">
-      <div class="settings-header">
-        <h2 id="cookie-settings-title"><i class="fas fa-cookie-bite"></i> Cookie Settings</h2>
-        <button class="close-settings" id="close-settings" aria-label="Close cookie settings">×</button>
-      </div>
-      <div class="settings-content">
-        <p id="cookie-settings-desc">You can set your preferences for how we and our partners use cookies and similar technologies.</p>
-        
-        <div class="cookie-type">
-          <div class="cookie-type-header">
-            <h3>Essential Cookies</h3>
-            <label class="toggle-switch" for="essential-toggle">
-              <input type="checkbox" id="essential-toggle" checked disabled aria-label="Essential cookies (always enabled, cannot be disabled)" aria-describedby="essential-desc">
-              <span class="slider"></span>
-            </label>
-          </div>
-          <p id="essential-desc">These cookies are necessary for the website to function and cannot be switched off.</p>
-        </div>
-        
-        <div class="cookie-type">
-          <div class="cookie-type-header">
-            <h3>Analytics Cookies</h3>
-            <label class="toggle-switch" for="analytics-toggle">
-              <input type="checkbox" id="analytics-toggle" aria-label="Analytics cookies toggle" aria-describedby="analytics-desc">
-              <span class="slider"></span>
-            </label>
-          </div>
-          <p id="analytics-desc">These cookies allow us to count visits and traffic sources so we can measure and improve the performance of our site.</p>
-        </div>
-        
-        <div class="cookie-type">
-          <div class="cookie-type-header">
-            <h3>Advertising Cookies</h3>
-            <label class="toggle-switch" for="advertising-toggle">
-              <input type="checkbox" id="advertising-toggle" aria-label="Advertising cookies toggle" aria-describedby="advertising-desc">
-              <span class="slider"></span>
-            </label>
-          </div>
-          <p id="advertising-desc">These cookies may be set through our site by our advertising partners to build a profile of your interests.</p>
-        </div>
-      </div>
-      <div class="settings-buttons">
-        <button class="save-settings" id="save-settings" aria-label="Save cookie settings">Save Settings</button>
-      </div>
-    </div>
-  </div>
 
   <!-- JavaScript Libraries -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  
-  <!-- Shared JavaScript -->
-  <script src="/js/main.js"></script>
   
   <!-- Resume Builder Specific JavaScript -->
   <script>
