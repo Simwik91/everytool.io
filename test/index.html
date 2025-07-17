@@ -423,10 +423,61 @@
     }
     
     .scanner-box {
+      position: relative;
       width: 250px;
       height: 250px;
       border: 3px solid white;
       box-shadow: 0 0 0 1000px rgba(0, 0, 0, 0.4);
+    }
+    
+    .scanner-guides {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+    
+    .guide-line {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.5);
+    }
+    
+    .guide-line.horizontal {
+      width: 100%;
+      height: 1px;
+      left: 0;
+    }
+    
+    .guide-line.vertical {
+      width: 1px;
+      height: 100%;
+      top: 0;
+    }
+    
+    .scanner-status {
+      position: absolute;
+      top: 10px;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      color: white;
+      font-weight: bold;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+      z-index: 10;
+    }
+    
+    .scanner-success {
+      color: #4ade80;
+    }
+    
+    .scanner-error {
+      color: #f87171;
+    }
+    
+    .scanner-loading {
+      color: #60a5fa;
     }
     
     .size-group {
@@ -829,65 +880,6 @@
       min-width: 300px;
     }
     
-    /* Scanner status styles */
-    .scanner-status {
-      position: absolute;
-      top: 10px;
-      left: 0;
-      width: 100%;
-      text-align: center;
-      color: white;
-      font-weight: bold;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
-      z-index: 10;
-    }
-    
-    .scanner-success {
-      color: #4ade80;
-    }
-    
-    .scanner-error {
-      color: #f87171;
-    }
-    
-    .scanner-loading {
-      color: #60a5fa;
-    }
-    
-    .scanner-box {
-      position: relative;
-      width: 250px;
-      height: 250px;
-      border: 3px solid white;
-      box-shadow: 0 0 0 1000px rgba(0, 0, 0, 0.4);
-    }
-    
-    .scanner-guides {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-    }
-    
-    .guide-line {
-      position: absolute;
-      background: rgba(255, 255, 255, 0.5);
-    }
-    
-    .guide-line.horizontal {
-      width: 100%;
-      height: 1px;
-      left: 0;
-    }
-    
-    .guide-line.vertical {
-      width: 1px;
-      height: 100%;
-      top: 0;
-    }
-    
     /* NEW: Text options container */
     .text-options-container {
       margin-top: 25px;
@@ -957,7 +949,7 @@
       font-size: 16px;
       overflow: hidden;
       text-overflow: ellipsis;
-      white-space: nowrap;
+      white-space: normal;
     }
     
     /* NEW: Size and text toggle container */
@@ -1001,259 +993,6 @@
     
     .suffix-prefix-group input {
       margin: 0.25em 0;
-    }
-
-    /* Footer styles */
-    #main-footer {
-      background-color: var(--dark);
-      color: white;
-      padding: 40px 0 20px;
-      margin-top: auto;
-    }
-
-    .footer-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 30px;
-      margin-bottom: 30px;
-    }
-
-    .footer-column h3 {
-      color: white;
-      margin-bottom: 20px;
-      font-size: 1.3rem;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .footer-column ul {
-      list-style: none;
-    }
-
-    .footer-column ul li {
-      margin-bottom: 12px;
-    }
-
-    .footer-column ul li a {
-      color: #adb5bd;
-      text-decoration: none;
-      transition: var(--transition);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .footer-column ul li a:hover {
-      color: white;
-    }
-
-    .footer-bottom {
-      text-align: center;
-      padding-top: 20px;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      color: #adb5bd;
-      font-size: 0.9rem;
-    }
-
-    /* Cookie Consent Banner */
-    #cookie-consent {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      background: rgba(0, 0, 0, 0.9);
-      color: white;
-      padding: 20px;
-      z-index: 1000;
-      display: none;
-    }
-
-    .cookie-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-    }
-
-    .cookie-text {
-      flex: 1;
-      min-width: 300px;
-    }
-
-    .cookie-text p {
-      margin-bottom: 10px;
-    }
-
-    .cookie-text a {
-      color: var(--primary);
-      text-decoration: none;
-    }
-
-    .cookie-text a:hover {
-      text-decoration: underline;
-    }
-
-    .cookie-buttons {
-      display: flex;
-      gap: 10px;
-    }
-
-    .cookie-btn {
-      padding: 10px 20px;
-      border-radius: 5px;
-      cursor: pointer;
-      font-weight: 500;
-      transition: var(--transition);
-    }
-
-    .reject-btn {
-      background: transparent;
-      border: 1px solid white;
-      color: white;
-    }
-
-    .accept-btn {
-      background: var(--primary);
-      color: white;
-      border: none;
-    }
-
-    .cookie-settings-btn {
-      background: transparent;
-      border: none;
-      color: #adb5bd;
-      cursor: pointer;
-      text-decoration: underline;
-    }
-
-    .cookie-settings-btn:hover {
-      color: white;
-    }
-
-    /* Cookie Settings Modal */
-    #cookie-settings {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.7);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 1001;
-    }
-
-    .settings-modal {
-      background: white;
-      border-radius: var(--border-radius);
-      width: 90%;
-      max-width: 600px;
-      max-height: 90vh;
-      overflow-y: auto;
-      box-shadow: var(--box-shadow);
-    }
-
-    .settings-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px;
-      border-bottom: 1px solid var(--light-gray);
-    }
-
-    .settings-header h2 {
-      margin: 0;
-    }
-
-    .close-settings {
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      cursor: pointer;
-      color: var(--gray);
-    }
-
-    .settings-content {
-      padding: 20px;
-    }
-
-    .cookie-type {
-      margin-bottom: 20px;
-      padding-bottom: 20px;
-      border-bottom: 1px solid var(--light-gray);
-    }
-
-    .cookie-type-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-
-    .toggle-switch {
-      position: relative;
-      display: inline-block;
-      width: 50px;
-      height: 24px;
-    }
-
-    .toggle-switch input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-
-    .slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: #ccc;
-      transition: .4s;
-      border-radius: 24px;
-    }
-
-    .slider:before {
-      position: absolute;
-      content: "";
-      height: 16px;
-      width: 16px;
-      left: 4px;
-      bottom: 4px;
-      background-color: white;
-      transition: .4s;
-      border-radius: 50%;
-    }
-
-    input:checked + .slider {
-      background-color: var(--primary);
-    }
-
-    input:checked + .slider:before {
-      transform: translateX(26px);
-    }
-
-    .settings-buttons {
-      padding: 20px;
-      text-align: right;
-      border-top: 1px solid var(--light-gray);
-    }
-
-    .save-settings {
-      background: var(--primary);
-      color: white;
-      border: none;
-      padding: 10px 25px;
-      border-radius: 5px;
-      cursor: pointer;
-      font-weight: 500;
     }
 
     /* Responsive Design */
@@ -2401,9 +2140,9 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
       if (!textPreview) return;
       
       const enabled = textEnabled.checked;
-      const prefix = prefixInput.value.trim();
-      const suffix = suffixInput.value.trim();
-      const content = customText.value.trim() || qrInput.value.trim() || "Preview text";
+      const prefix = prefixInput.value;
+      const suffix = suffixInput.value;
+      const content = customText.value || qrInput.value || "Preview text";
       const text = prefix + content + suffix;
       
       if (!enabled) {
@@ -2425,9 +2164,9 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
       if (!bulkTextPreview) return;
       
       const enabled = bulkTextEnabled.checked;
-      const prefix = bulkPrefixInput.value.trim();
-      const suffix = bulkSuffixInput.value.trim();
-      const content = bulkCustomText.value.trim() || "QR Code Content";
+      const prefix = bulkPrefixInput.value;
+      const suffix = bulkSuffixInput.value;
+      const content = bulkCustomText.value || "QR Code Content";
       const text = prefix + content + suffix;
       
       if (!enabled) {
@@ -2763,13 +2502,13 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
         // NEW: Add text below QR if enabled
         const textOptions = {
           enabled: textEnabled.checked,
-          text: customText.value.trim() || content,
+          text: customText.value || content,
           color: textColor.value,
           size: textSize.value,
           alignment: textAlignment.value,
           bgColor: transparentBg.checked ? 'transparent' : bgColor.value,
-          prefix: prefixInput.value.trim(),
-          suffix: suffixInput.value.trim()
+          prefix: prefixInput.value,
+          suffix: suffixInput.value
         };
         
         const finalCanvas = await addTextToQR(logoCanvas, content, textOptions);
@@ -2827,8 +2566,8 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
         else if (bulkType === 'range') {
           const start = parseInt(rangeStart.value);
           const end = parseInt(rangeEnd.value);
-          const prefix = rangePrefix.value.trim();
-          const suffix = rangeSuffix.value.trim();
+          const prefix = rangePrefix.value;
+          const suffix = rangeSuffix.value;
           
           if (isNaN(start) || isNaN(end) || start > end) {
             throw new Error('Please enter valid start and end numbers');
@@ -2878,8 +2617,8 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
           size: bulkTextSize.value,
           alignment: bulkTextAlignment.value,
           bgColor: bulkTransparentBg.checked ? 'transparent' : bulkBgColor.value,
-          prefix: bulkPrefixInput.value.trim(),
-          suffix: bulkSuffixInput.value.trim()
+          prefix: bulkPrefixInput.value,
+          suffix: bulkSuffixInput.value
         };
 
         // Process in batches
@@ -2925,7 +2664,7 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
           // NEW: Add text below QR if enabled
           const textOptions = {
             ...bulkTextOptions,
-            text: bulkCustomText.value.trim() || input
+            text: bulkCustomText.value || input
           };
           
           const finalCanvas = await addTextToQR(logoCanvas, input, textOptions);
@@ -3234,19 +2973,19 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
       const saveSettingsBtn = document.getElementById('save-settings');
       
       // Check if user has already made a choice
-      if (!localStorage.getItem('cookie_consent')) {
+      if (!localStorage.getItem('cookieConsent')) {
         cookieConsent.style.display = 'block';
       }
       
       // Accept cookies
       acceptCookiesBtn.addEventListener('click', () => {
-        localStorage.setItem('cookie_consent', 'accepted');
+        localStorage.setItem('cookieConsent', 'accepted');
         cookieConsent.style.display = 'none';
       });
       
       // Reject non-essential cookies
       rejectCookiesBtn.addEventListener('click', () => {
-        localStorage.setItem('cookie_consent', 'rejected');
+        localStorage.setItem('cookieConsent', 'rejected');
         cookieConsent.style.display = 'none';
         document.getElementById('analytics-toggle').checked = false;
         document.getElementById('advertising-toggle').checked = false;
@@ -3264,7 +3003,7 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
       
       // Save settings
       saveSettingsBtn.addEventListener('click', () => {
-        localStorage.setItem('cookie_consent', 'custom');
+        localStorage.setItem('cookieConsent', 'custom');
         cookieConsent.style.display = 'none';
         cookieSettings.style.display = 'none';
       });
