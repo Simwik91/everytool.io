@@ -18,6 +18,7 @@
       --primary: #4361ee;
       --primary-dark: #3a56d4;
       --secondary: #7209b7;
+      --accent: #f72585;
       --light: #ffffff;
       --dark: #2b2d42;
       --gray: #6c757d;
@@ -38,7 +39,68 @@
       line-height: 1.6;
       color: var(--dark);
       background-color: #f5f7ff;
-      padding-bottom: 40px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    /* Header Styles */
+    header {
+      background: var(--light);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      padding: 15px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: var(--primary);
+      text-decoration: none;
+    }
+    
+    .logo i {
+      font-size: 2rem;
+      color: var(--secondary);
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 25px;
+    }
+    
+    .nav-links a {
+      color: var(--dark);
+      text-decoration: none;
+      font-weight: 500;
+      transition: var(--transition);
+    }
+    
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+    
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--dark);
     }
     
     .container {
@@ -46,6 +108,7 @@
       max-width: 1200px;
       margin: 0 auto;
       padding: 0 20px;
+      flex: 1;
     }
     
     .hero {
@@ -893,6 +956,12 @@
       max-width: 500px;
     }
     
+    .text-display-preview span.prefix,
+    .text-display-preview span.suffix {
+      margin: 0 5px;
+      color: #999;
+    }
+    
     .text-display-controls {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -978,6 +1047,239 @@
       margin-top: 20px;
     }
 
+    /* Footer Styles */
+    footer {
+      background: var(--dark);
+      color: white;
+      padding: 50px 0 20px;
+      margin-top: auto;
+    }
+    
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 30px;
+    }
+    
+    .footer-col h3 {
+      color: white;
+      margin-bottom: 20px;
+      font-size: 1.3rem;
+      font-weight: 600;
+    }
+    
+    .footer-col ul {
+      list-style: none;
+      padding: 0;
+    }
+    
+    .footer-col ul li {
+      margin-bottom: 10px;
+    }
+    
+    .footer-col a {
+      color: #bbb;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    
+    .footer-col a:hover {
+      color: white;
+    }
+    
+    .copyright {
+      text-align: center;
+      padding-top: 30px;
+      margin-top: 30px;
+      border-top: 1px solid #444;
+      color: #999;
+      font-size: 0.9rem;
+    }
+    
+    /* Cookie Consent Styles */
+    #cookie-consent {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.9);
+      color: white;
+      padding: 20px;
+      z-index: 1000;
+      display: none;
+    }
+    
+    .cookie-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+    
+    .cookie-text {
+      flex: 1;
+      min-width: 300px;
+    }
+    
+    .cookie-text p {
+      margin-bottom: 5px;
+    }
+    
+    .cookie-text a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+    
+    .cookie-buttons {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .cookie-btn {
+      padding: 10px 20px;
+      border-radius: 50px;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .reject-btn {
+      background: #666;
+      color: white;
+    }
+    
+    .accept-btn {
+      background: var(--primary);
+      color: white;
+    }
+    
+    .cookie-settings-btn {
+      background: transparent;
+      border: none;
+      color: #bbb;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+    
+    #cookie-settings {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 1001;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .settings-modal {
+      background: white;
+      border-radius: var(--border-radius);
+      width: 90%;
+      max-width: 600px;
+      padding: 30px;
+      position: relative;
+    }
+    
+    .settings-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .settings-header h2 {
+      margin: 0;
+    }
+    
+    .close-settings {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    
+    .cookie-type {
+      padding: 15px 0;
+      border-bottom: 1px solid var(--light-gray);
+    }
+    
+    .cookie-type-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 24px;
+    }
+    
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    
+    .toggle-switch .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 34px;
+    }
+    
+    .toggle-switch .slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+    
+    .toggle-switch input:checked + .slider {
+      background-color: var(--primary);
+    }
+    
+    .toggle-switch input:checked + .slider:before {
+      transform: translateX(26px);
+    }
+    
+    .settings-buttons {
+      margin-top: 20px;
+      text-align: right;
+    }
+    
+    .save-settings {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
     /* Responsive Design */
     @media (max-width: 992px) {
       .guide-grid {
@@ -990,6 +1292,10 @@
       
       .text-display-controls {
         grid-template-columns: 1fr;
+      }
+      
+      .footer-container {
+        grid-template-columns: repeat(2, 1fr);
       }
     }
 
@@ -1033,6 +1339,24 @@
         flex-direction: column;
         align-items: center;
       }
+      
+      .header-container {
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      
+      .mobile-menu-btn {
+        display: block;
+      }
+      
+      .footer-container {
+        grid-template-columns: 1fr;
+      }
     }
 
     @media (max-width: 576px) {
@@ -1071,6 +1395,30 @@
   </style>
 </head>
 <body>
+  <!-- Header -->
+  <header>
+    <div class="header-container">
+      <a href="/" class="logo">
+        <i class="fas fa-qrcode"></i>
+        <span>QR Generator</span>
+      </a>
+      
+      <nav>
+        <ul class="nav-links">
+          <li><a href="/">Home</a></li>
+          <li><a href="/tools">All Tools</a></li>
+          <li><a href="/features">Features</a></li>
+          <li><a href="/pricing">Pricing</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+      </nav>
+      
+      <button class="mobile-menu-btn" aria-label="Toggle navigation menu">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+  </header>
+
   <!-- Hero Section -->
   <section class="hero">
     <div class="container">
@@ -1607,6 +1955,115 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
     </div>
   </div>
 
+  <!-- Footer -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-col">
+        <h3>QR Generator</h3>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/features">Features</a></li>
+          <li><a href="/pricing">Pricing</a></li>
+          <li><a href="/examples">Examples</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-col">
+        <h3>Tools</h3>
+        <ul>
+          <li><a href="/tools/qr-generator">QR Generator</a></li>
+          <li><a href="/tools/barcode-generator">Barcode Generator</a></li>
+          <li><a href="/tools/pdf-tools">PDF Tools</a></li>
+          <li><a href="/tools/image-converter">Image Converter</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-col">
+        <h3>Resources</h3>
+        <ul>
+          <li><a href="/blog">Blog</a></li>
+          <li><a href="/tutorials">Tutorials</a></li>
+          <li><a href="/faq">FAQ</a></li>
+          <li><a href="/api">API</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-col">
+        <h3>Company</h3>
+        <ul>
+          <li><a href="/about">About Us</a></li>
+          <li><a href="/contact">Contact</a></li>
+          <li><a href="/privacy">Privacy Policy</a></li>
+          <li><a href="/terms">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="copyright">
+      <p>&copy; 2023 QR Generator. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Cookie Consent Banner -->
+  <div id="cookie-consent">
+    <div class="cookie-content">
+      <div class="cookie-text">
+        <p>We use cookies to enhance your experience. Essential cookies are always on, but you can choose whether to allow analytics and advertising cookies.</p>
+        <p>Learn more in our <a href="/privacy" aria-label="Privacy Policy">Privacy Policy</a>.</p>
+      </div>
+      <div class="cookie-buttons">
+        <button class="cookie-btn reject-btn" id="reject-cookies">Reject Non-Essential</button>
+        <button class="cookie-btn accept-btn" id="accept-cookies">Accept All</button>
+      </div>
+      <button class="cookie-settings-btn" id="open-settings">Customize Settings</button>
+    </div>
+  </div>
+
+  <!-- Cookie Settings Modal -->
+  <div id="cookie-settings">
+    <div class="settings-modal">
+      <div class="settings-header">
+        <h2>Cookie Settings</h2>
+        <button class="close-settings" aria-label="Close settings"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="settings-content">
+        <div class="cookie-type">
+          <div class="cookie-type-header">
+            <h3>Essential Cookies</h3>
+            <div class="toggle-switch">
+              <input type="checkbox" id="essential-toggle" checked disabled>
+              <span class="slider"></span>
+            </div>
+          </div>
+          <p>These cookies are necessary for the website to function and cannot be disabled.</p>
+        </div>
+        <div class="cookie-type">
+          <div class="cookie-type-header">
+            <h3>Analytics Cookies</h3>
+            <div class="toggle-switch">
+              <input type="checkbox" id="analytics-toggle">
+              <span class="slider"></span>
+            </div>
+          </div>
+          <p>These cookies help us understand how visitors interact with our website, providing insights to improve our services.</p>
+        </div>
+        <div class="cookie-type">
+          <div class="cookie-type-header">
+            <h3>Advertising Cookies</h3>
+            <div class="toggle-switch">
+              <input type="checkbox" id="advertising-toggle">
+              <span class="slider"></span>
+            </div>
+          </div>
+          <p>These cookies are used to deliver personalized advertisements based on your interests.</p>
+        </div>
+      </div>
+      <div class="settings-buttons">
+        <button class="save-settings" id="save-settings">Save Settings</button>
+      </div>
+    </div>
+  </div>
+
   <!-- JavaScript Libraries -->
   <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
@@ -1713,6 +2170,15 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
     const bulkTextColor = document.getElementById('bulk-text-color');
     const bulkTextSize = document.getElementById('bulk-text-size');
     const bulkTextAlign = document.getElementById('bulk-text-align');
+    
+    // Cookie elements
+    const cookieConsent = document.getElementById('cookie-consent');
+    const cookieSettings = document.getElementById('cookie-settings');
+    const rejectCookiesBtn = document.getElementById('reject-cookies');
+    const acceptCookiesBtn = document.getElementById('accept-cookies');
+    const openSettingsBtn = document.getElementById('open-settings');
+    const closeSettingsBtn = document.querySelector('.close-settings');
+    const saveSettingsBtn = document.getElementById('save-settings');
 
     // Global variables
     let currentStream = null;
@@ -1738,6 +2204,9 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
       // Initialize text display functionality
       initTextDisplay();
       initBulkTextDisplay();
+      
+      // Initialize cookie consent
+      initCookieConsent();
     });
 
     function initTextDisplay() {
@@ -1761,6 +2230,16 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
       });
     }
     
+    function buildDisplayText(mainText, prefix = "", suffix = "") {
+      // Add proper spacing between prefix, main text, and suffix
+      let parts = [];
+      if (prefix) parts.push(prefix);
+      if (mainText) parts.push(mainText);
+      if (suffix) parts.push(suffix);
+      
+      return parts.join(" ");
+    }
+    
     function updateTextPreview() {
       if (!showTextDisplay.checked) return;
       
@@ -1776,20 +2255,38 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
         }
       }
       
-      // Add prefix and suffix
+      // Get prefix and suffix
       const prefix = textPrefix.value.trim();
       const suffix = textSuffix.value.trim();
-      displayText = `${prefix}${displayText}${suffix}`.trim();
+      const fullText = buildDisplayText(displayText, prefix, suffix);
       
-      // Update preview
-      textPreview.textContent = displayText;
+      // Update preview with proper spacing
+      textPreview.innerHTML = '';
+      if (prefix) {
+        const prefixSpan = document.createElement('span');
+        prefixSpan.className = 'prefix';
+        prefixSpan.textContent = prefix;
+        textPreview.appendChild(prefixSpan);
+      }
+      
+      const mainSpan = document.createElement('span');
+      mainSpan.textContent = displayText;
+      textPreview.appendChild(mainSpan);
+      
+      if (suffix) {
+        const suffixSpan = document.createElement('span');
+        suffixSpan.className = 'suffix';
+        suffixSpan.textContent = suffix;
+        textPreview.appendChild(suffixSpan);
+      }
+      
       textPreview.style.color = textColor.value;
       textPreview.style.fontSize = textSize.value;
       textPreview.style.textAlign = textAlign.value;
       
       // Update the actual display if QR is generated
       if (generatedQR) {
-        updateQRTextDisplay(displayText);
+        updateQRTextDisplay(fullText);
       }
     }
     
@@ -2333,16 +2830,17 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
         
         // Add text if enabled
         let displayText = '';
+        let textCanvas = finalCanvas;
         if (showTextDisplay.checked) {
           displayText = customText.value.trim();
           if (!displayText) {
             displayText = content;
           }
           
-          // Add prefix and suffix
+          // Add prefix and suffix with proper spacing
           const prefix = textPrefix.value.trim();
           const suffix = textSuffix.value.trim();
-          displayText = `${prefix}${displayText}${suffix}`.trim();
+          displayText = buildDisplayText(displayText, prefix, suffix);
           
           // Create text options
           const textOptions = {
@@ -2355,25 +2853,19 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
           };
           
           // Add text to the QR
-          const textCanvas = await addTextToQR(finalCanvas, displayText, textOptions);
-          
-          // Display results
-          qrCanvas.width = textCanvas.width;
-          qrCanvas.height = textCanvas.height;
-          const ctx = qrCanvas.getContext('2d');
-          ctx.drawImage(textCanvas, 0, 0);
-        } else {
-          // Display without text
-          qrCanvas.width = finalCanvas.width;
-          qrCanvas.height = finalCanvas.height;
-          const ctx = qrCanvas.getContext('2d');
-          ctx.drawImage(finalCanvas, 0, 0);
+          textCanvas = await addTextToQR(finalCanvas, displayText, textOptions);
         }
+        
+        // Display results
+        qrCanvas.width = textCanvas.width;
+        qrCanvas.height = textCanvas.height;
+        const ctx = qrCanvas.getContext('2d');
+        ctx.drawImage(textCanvas, 0, 0);
         
         generatedQR = { 
           data: qrCanvas.toDataURL('image/png'), 
           content,
-          canvas: qrCanvas
+          canvas: textCanvas
         };
         
         qrLoading.style.display = 'none';
@@ -2522,17 +3014,18 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
           );
           
           // Add text if enabled
+          let displayText = input;
           let textCanvas = finalCanvas;
           if (textOptions) {
-            let displayText = bulkCustomText.value.trim();
+            displayText = bulkCustomText.value.trim();
             if (!displayText) {
               displayText = input;
             }
             
-            // Add prefix and suffix
+            // Add prefix and suffix with proper spacing
             const prefix = bulkTextPrefix.value.trim();
             const suffix = bulkTextSuffix.value.trim();
-            displayText = `${prefix}${displayText}${suffix}`.trim();
+            displayText = buildDisplayText(displayText, prefix, suffix);
             
             // Add text to the QR
             textCanvas = await addTextToQR(finalCanvas, displayText, textOptions);
@@ -2614,10 +3107,10 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
             displayText = generatedQR.content;
           }
           
-          // Add prefix and suffix
+          // Add prefix and suffix with proper spacing
           const prefix = textPrefix.value.trim();
           const suffix = textSuffix.value.trim();
-          displayText = `${prefix}${displayText}${suffix}`.trim();
+          displayText = buildDisplayText(displayText, prefix, suffix);
         }
         
         const filename = sanitizeFilename(displayText || generatedQR.content) + '.png';
@@ -2791,6 +3284,48 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
     function showError(element, message) {
       element.textContent = message;
       element.style.display = 'block';
+    }
+    
+    function initCookieConsent() {
+      // Check if user has already made a choice
+      const consent = localStorage.getItem('cookieConsent');
+      
+      if (!consent) {
+        // Show cookie consent banner if no choice has been made
+        cookieConsent.style.display = 'block';
+      }
+      
+      // Set up event listeners for cookie buttons
+      rejectCookiesBtn.addEventListener('click', () => {
+        localStorage.setItem('cookieConsent', 'rejected');
+        cookieConsent.style.display = 'none';
+      });
+      
+      acceptCookiesBtn.addEventListener('click', () => {
+        localStorage.setItem('cookieConsent', 'accepted');
+        cookieConsent.style.display = 'none';
+      });
+      
+      openSettingsBtn.addEventListener('click', () => {
+        cookieSettings.style.display = 'flex';
+      });
+      
+      closeSettingsBtn.addEventListener('click', () => {
+        cookieSettings.style.display = 'none';
+      });
+      
+      saveSettingsBtn.addEventListener('click', () => {
+        const analytics = document.getElementById('analytics-toggle').checked;
+        const advertising = document.getElementById('advertising-toggle').checked;
+        
+        // Save user preferences
+        localStorage.setItem('cookieConsent', 'custom');
+        localStorage.setItem('cookieAnalytics', analytics);
+        localStorage.setItem('cookieAdvertising', advertising);
+        
+        cookieSettings.style.display = 'none';
+        cookieConsent.style.display = 'none';
+      });
     }
     
     function saveQRPreferences() {
