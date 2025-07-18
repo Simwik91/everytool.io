@@ -3,15 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>QR Code Generator with Logo Size Control - EveryTool.io</title>
-  <meta name="description" content="Generate custom QR codes with logo size control, colors, vCard, Wi-Fi, bulk processing - all processed in your browser for privacy.">
-  
-  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  
+  <title>QR Code Generator with Logo Size Control</title>
   <style>
     :root {
       --primary: #4361ee;
@@ -34,7 +26,7 @@
     }
     
     body {
-      font-family: 'Poppins', sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
       color: var(--dark);
       line-height: 1.6;
@@ -168,7 +160,6 @@
       background: var(--light);
       display: block;
       transition: var(--transition);
-      font-family: 'Poppins', sans-serif;
     }
     
     input:focus, select:focus, textarea:focus {
@@ -398,11 +389,6 @@
       max-width: 200px;
     }
     
-    .border-control label {
-      font-weight: 500;
-      color: var(--dark);
-    }
-    
     .file-upload-container {
       position: relative;
       width: 100%;
@@ -429,16 +415,6 @@
       color: var(--primary);
       font-size: 2.5rem;
       margin-bottom: 15px;
-    }
-    
-    .file-upload-input {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      opacity: 0;
-      cursor: pointer;
     }
     
     /* Features grid - 2 cards per row */
@@ -1338,7 +1314,7 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
   </div>
 
   <div class="footer">
-    <p>&copy; 2023 EveryTool.io - QR Code Generator | All processing happens in your browser for privacy</p>
+    <p>&copy; 2023 QR Code Generator | All processing happens in your browser for privacy</p>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
@@ -2154,7 +2130,8 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
       return re.test(email);
     }
 
-    function downloadQR() {
+    // Fixed downloadQR function with async keyword
+    async function downloadQR() {
       if (!generatedQR) {
         showError(qrError, 'Please generate a QR code first');
         return;
@@ -2215,7 +2192,12 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
         // Draw QR code
         const qrImgElement = new Image();
         qrImgElement.src = generatedQR.data;
-        await new Promise(resolve => qrImgElement.onload = resolve);
+        
+        // Wait for image to load
+        await new Promise(resolve => {
+          qrImgElement.onload = resolve;
+        });
+        
         ctx.drawImage(qrImgElement, (canvas.width - qrImgElement.width) / 2, 0);
         
         // Draw text
