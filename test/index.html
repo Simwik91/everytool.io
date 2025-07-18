@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>QR Code Generator with Logo Size Control - EveryTool.io</title>
+  <title>QR Code Generator with Logo Size Control</title>
   <meta name="description" content="Generate custom QR codes with logo size control, colors, vCard, Wi-Fi, bulk processing - all processed in your browser for privacy.">
   
   <!-- Performance Tuning -->
@@ -13,15 +13,48 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
-  <!-- Shared CSS -->
-  <link rel="stylesheet" href="/css/styles.css">
-  
   <!-- QR Generator Specific Styles -->
   <style>
-    /* QR Generator Specific Styles */
+    :root {
+      --primary: #4361ee;
+      --primary-dark: #3a56d4;
+      --secondary: #7209b7;
+      --light: #ffffff;
+      --dark: #2b2d42;
+      --gray: #6c757d;
+      --light-gray: #f8f9fa;
+      --border-radius: 12px;
+      --box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      line-height: 1.6;
+      color: var(--dark);
+      background-color: #f5f7ff;
+      padding-bottom: 40px;
+    }
+    
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
     .hero {
       padding: 60px 0 40px;
       text-align: center;
+      background: linear-gradient(135deg, #f5f7ff 0%, #e6eeff 100%);
+      margin-bottom: 40px;
+      border-bottom: 1px solid #e0e7ff;
     }
 
     .hero-content {
@@ -918,6 +951,33 @@
       border: 1px solid var(--light-gray);
       background: var(--light);
     }
+    
+    /* QR Result Container */
+    .qr-result-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 20px 0;
+      gap: 15px;
+    }
+    
+    .qr-text-container {
+      background: white;
+      padding: 15px;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 500px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+    
+    .btn-group {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
 
     /* Responsive Design */
     @media (max-width: 992px) {
@@ -969,6 +1029,11 @@
       .guide-section {
         padding: 25px;
       }
+      
+      .btn-group {
+        flex-direction: column;
+        align-items: center;
+      }
     }
 
     @media (max-width: 576px) {
@@ -1007,11 +1072,6 @@
   </style>
 </head>
 <body>
-  <!-- Header Placeholder -->
-  <header id="main-header">
-    <p class="error-message" style="display: none; color: red; text-align: center;">Failed to load header. Please try refreshing the page.</p>
-  </header>
-
   <!-- Hero Section -->
   <section class="hero">
     <div class="container">
@@ -1294,8 +1354,10 @@
         <div class="error" id="qr-error"></div>
         <div class="success" id="qr-success"></div>
 
-        <canvas id="qr-canvas" width="256" height="256" style="display:none;" aria-label="Generated QR code"></canvas>
-        <div id="qr-text-display" style="margin: 15px auto; max-width: 500px; display: none;"></div>
+        <div class="qr-result-container">
+          <canvas id="qr-canvas" width="256" height="256" style="display:none;" aria-label="Generated QR code"></canvas>
+          <div class="qr-text-container" id="qr-text-display" style="display: none;"></div>
+        </div>
       </div>
 
       <div class="tab-content" id="bulk-tab" role="tabpanel">
@@ -1546,82 +1608,14 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
     </div>
   </div>
 
-  <!-- Footer Placeholder -->
-  <footer id="main-footer">
-    <p class="error-message" style="display: none; color: red; text-align: center;">Failed to load footer. Please try refreshing the page.</p>
-  </footer>
-
-  <!-- Cookie Consent Banner -->
-  <div id="cookie-consent">
-    <div class="cookie-content">
-      <div class="cookie-text">
-        <p>We use cookies to enhance your experience. Essential cookies are always on, but you can choose whether to allow analytics and advertising cookies.</p>
-        <p>Learn more in our <a href="/privacy" aria-label="Privacy Policy">Privacy Policy</a>.</p>
-      </div>
-      <div class="cookie-buttons">
-        <button class="cookie-btn reject-btn" id="reject-cookies">Reject Non-Essential</button>
-        <button class="cookie-btn accept-btn" id="accept-cookies">Accept All</button>
-      </div>
-      <button class="cookie-settings-btn" id="open-settings">Customize Settings</button>
-    </div>
-  </div>
-
-  <!-- Cookie Settings Modal -->
-  <div id="cookie-settings">
-    <div class="settings-modal">
-      <div class="settings-header">
-        <h2>Cookie Settings</h2>
-        <button class="close-settings" aria-label="Close settings"><i class="fas fa-times"></i></button>
-      </div>
-      <div class="settings-content">
-        <div class="cookie-type">
-          <div class="cookie-type-header">
-            <h3>Essential Cookies</h3>
-            <div class="toggle-switch">
-              <input type="checkbox" id="essential-toggle" checked disabled>
-              <span class="slider"></span>
-            </div>
-          </div>
-          <p>These cookies are necessary for the website to function and cannot be disabled.</p>
-        </div>
-        <div class="cookie-type">
-          <div class="cookie-type-header">
-            <h3>Analytics Cookies</h3>
-            <div class="toggle-switch">
-              <input type="checkbox" id="analytics-toggle">
-              <span class="slider"></span>
-            </div>
-          </div>
-          <p>These cookies help us understand how visitors interact with our website, providing insights to improve our services.</p>
-        </div>
-        <div class="cookie-type">
-          <div class="cookie-type-header">
-            <h3>Advertising Cookies</h3>
-            <div class="toggle-switch">
-              <input type="checkbox" id="advertising-toggle">
-              <span class="slider"></span>
-            </div>
-          </div>
-          <p>These cookies are used to deliver personalized advertisements based on your interests.</p>
-        </div>
-      </div>
-      <div class="settings-buttons">
-        <button class="save-settings" id="save-settings">Save Settings</button>
-      </div>
-    </div>
-  </div>
-
   <!-- JavaScript Libraries -->
   <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
-  <!-- Add html2canvas for capturing QR with text -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  
-  <!-- Shared JavaScript -->
-  <script src="/js/main.js"></script>
+  <!-- html-to-image library for better text rendering -->
+  <script src="https://unpkg.com/html-to-image@1.11.11/dist/html-to-image.js"></script>
   
   <!-- QR Generator Specific JavaScript -->
   <script>
@@ -1813,8 +1807,6 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
       textElement.style.color = textColor.value;
       textElement.style.fontSize = textSize.value;
       textElement.style.textAlign = textAlign.value;
-      textElement.style.margin = '15px auto';
-      textElement.style.padding = '10px';
       textElement.style.maxWidth = '500px';
       textElement.style.wordBreak = 'break-word';
       
@@ -2293,7 +2285,11 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
         const ctx = qrCanvas.getContext('2d');
         ctx.drawImage(finalCanvas, 0, 0);
         
-        generatedQR = { data: qrCanvas.toDataURL('image/png'), content };
+        generatedQR = { 
+          data: qrCanvas.toDataURL('image/png'), 
+          content,
+          canvas: finalCanvas
+        };
         
         qrLoading.style.display = 'none';
         qrSuccess.style.display = 'block';
@@ -2485,32 +2481,34 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
       return re.test(email);
     }
 
-    function downloadQR() {
+    async function downloadQR() {
       if (!generatedQR) {
         showError(qrError, 'Please generate a QR code first');
         return;
       }
 
-      // If text display is enabled, capture the QR and text together
+      // Create container for QR and text
+      const container = document.createElement('div');
+      container.style.display = 'flex';
+      container.style.flexDirection = 'column';
+      container.style.alignItems = 'center';
+      container.style.gap = '15px';
+      container.style.backgroundColor = transparentBg.checked ? 'transparent' : bgColor.value;
+      container.style.padding = '20px';
+      container.style.borderRadius = '12px';
+      container.style.position = 'fixed';
+      container.style.top = '-9999px'; // Move off-screen
+
+      // Add QR code
+      const qrImg = document.createElement('img');
+      qrImg.src = generatedQR.data;
+      qrImg.style.maxWidth = '100%';
+      container.appendChild(qrImg);
+
+      // Add text if enabled
+      let displayText = '';
       if (showTextDisplay.checked) {
-        // Create a container for the QR and text
-        const container = document.createElement('div');
-        container.style.display = 'flex';
-        container.style.flexDirection = 'column';
-        container.style.alignItems = 'center';
-        container.style.gap = '15px';
-        container.style.backgroundColor = 'white';
-        container.style.padding = '20px';
-        container.style.borderRadius = '12px';
-        
-        // Add QR code
-        const qrImg = document.createElement('img');
-        qrImg.src = generatedQR.data;
-        qrImg.style.maxWidth = '100%';
-        container.appendChild(qrImg);
-        
-        // Add text if enabled
-        let displayText = customText.value.trim();
+        displayText = customText.value.trim();
         if (!displayText) {
           displayText = generatedQR.content;
         }
@@ -2530,26 +2528,33 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
           textElement.style.wordBreak = 'break-word';
           container.appendChild(textElement);
         }
+      }
+
+      document.body.appendChild(container);
+      
+      try {
+        // Use html-to-image to capture the container
+        const dataUrl = await htmlToImage.toPng(container);
         
-        // Use html2canvas to capture the container
-        html2canvas(container).then(canvas => {
-          const filename = sanitizeFilename(displayText || generatedQR.content) + '.png';
-          const a = document.createElement('a');
-          a.href = canvas.toDataURL('image/png');
-          a.download = filename;
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-        });
-      } else {
-        // Just download the QR code
-        const filename = sanitizeFilename(generatedQR.content) + '.png';
+        // Download the image
+        const filename = sanitizeFilename(displayText || generatedQR.content) + '.png';
         const a = document.createElement('a');
-        a.href = generatedQR.data;
+        a.href = dataUrl;
         a.download = filename;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
+      } catch (error) {
+        console.error('Error capturing with text:', error);
+        // Fallback to downloading just the QR code
+        const a = document.createElement('a');
+        a.href = generatedQR.data;
+        a.download = sanitizeFilename(generatedQR.content) + '.png';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      } finally {
+        document.body.removeChild(container);
       }
     }
 
