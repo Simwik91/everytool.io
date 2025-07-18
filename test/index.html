@@ -14,92 +14,14 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
   <!-- Shared CSS -->
+  <link rel="stylesheet" href="/css/styles.css">
+  
+  <!-- QR Generator Specific Styles -->
   <style>
-    /* CSS variables */
-    :root {
-      --primary: #4361ee;
-      --primary-dark: #3a56d4;
-      --secondary: #7209b7;
-      --light: #ffffff;
-      --dark: #212529;
-      --gray: #6c757d;
-      --light-gray: #e9ecef;
-      --border-radius: 12px;
-      --box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-      --transition: all 0.3s ease;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: 'Poppins', sans-serif;
-      line-height: 1.6;
-      color: var(--dark);
-      background-color: #f8f9fa;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-
-    /* Header styles */
-    #main-header {
-      background-color: var(--light);
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      padding: 15px 0;
-    }
-
-    .header-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: var(--primary);
-      text-decoration: none;
-    }
-
-    .logo i {
-      color: var(--secondary);
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 25px;
-    }
-
-    .nav-links a {
-      color: var(--dark);
-      text-decoration: none;
-      font-weight: 500;
-      transition: var(--transition);
-    }
-
-    .nav-links a:hover {
-      color: var(--primary);
-    }
-
     /* QR Generator Specific Styles */
     .hero {
       padding: 60px 0 40px;
       text-align: center;
-      background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
     }
 
     .hero-content {
@@ -423,61 +345,10 @@
     }
     
     .scanner-box {
-      position: relative;
       width: 250px;
       height: 250px;
       border: 3px solid white;
       box-shadow: 0 0 0 1000px rgba(0, 0, 0, 0.4);
-    }
-    
-    .scanner-guides {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-    }
-    
-    .guide-line {
-      position: absolute;
-      background: rgba(255, 255, 255, 0.5);
-    }
-    
-    .guide-line.horizontal {
-      width: 100%;
-      height: 1px;
-      left: 0;
-    }
-    
-    .guide-line.vertical {
-      width: 1px;
-      height: 100%;
-      top: 0;
-    }
-    
-    .scanner-status {
-      position: absolute;
-      top: 10px;
-      left: 0;
-      width: 100%;
-      text-align: center;
-      color: white;
-      font-weight: bold;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
-      z-index: 10;
-    }
-    
-    .scanner-success {
-      color: #4ade80;
-    }
-    
-    .scanner-error {
-      color: #f87171;
-    }
-    
-    .scanner-loading {
-      color: #60a5fa;
     }
     
     .size-group {
@@ -880,14 +751,75 @@
       min-width: 300px;
     }
     
-    /* NEW: Text options container */
-    .text-options-container {
-      margin-top: 25px;
-      padding-top: 25px;
-      border-top: 1px solid var(--light-gray);
+    /* Scanner status styles */
+    .scanner-status {
+      position: absolute;
+      top: 10px;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      color: white;
+      font-weight: bold;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+      z-index: 10;
     }
     
-    .text-options-header {
+    .scanner-success {
+      color: #4ade80;
+    }
+    
+    .scanner-error {
+      color: #f87171;
+    }
+    
+    .scanner-loading {
+      color: #60a5fa;
+    }
+    
+    .scanner-box {
+      position: relative;
+      width: 250px;
+      height: 250px;
+      border: 3px solid white;
+      box-shadow: 0 0 0 1000px rgba(0, 0, 0, 0.4);
+    }
+    
+    .scanner-guides {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+    
+    .guide-line {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.5);
+    }
+    
+    .guide-line.horizontal {
+      width: 100%;
+      height: 1px;
+      left: 0;
+    }
+    
+    .guide-line.vertical {
+      width: 1px;
+      height: 100%;
+      top: 0;
+    }
+
+    /* Text Display Options */
+    .text-display-container {
+      margin: 1.5em 0;
+      border: 1px solid var(--light-gray);
+      border-radius: var(--border-radius);
+      padding: 20px;
+      background: #fafbff;
+    }
+    
+    .text-display-header {
       display: flex;
       align-items: center;
       gap: 10px;
@@ -895,104 +827,96 @@
       justify-content: center;
     }
     
-    .text-options-header i {
+    .text-display-header i {
       color: var(--primary);
       font-size: 1.5rem;
     }
     
-    .text-options-content {
+    .text-display-content {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    
+    .text-display-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+    
+    .text-display-preview {
+      margin: 15px auto;
+      padding: 15px;
+      border: 1px dashed var(--light-gray);
+      border-radius: var(--border-radius);
+      background: white;
+      text-align: center;
+      min-height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 500px;
+    }
+    
+    .text-display-controls {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 15px;
+      margin-top: 15px;
     }
     
-    .text-color-group {
+    .text-display-control {
       display: flex;
       flex-direction: column;
-      align-items: center;
       gap: 8px;
     }
     
-    .text-color-group input[type="color"] {
-      width: 40px;
-      height: 40px;
-      padding: 3px;
-      border-radius: 8px;
-      border: 1px solid var(--light-gray);
+    .text-display-control label {
+      font-weight: 500;
+      color: var(--dark);
+    }
+    
+    .text-display-control input[type="color"] {
+      width: 60px;
+      height: 60px;
+      padding: 5px;
       cursor: pointer;
+      border-radius: 12px;
+      border: 2px solid var(--light-gray);
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
     }
     
-    .text-control {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
+    .text-display-control input[type="color"]::-webkit-color-swatch {
+      border: none;
+      border-radius: 8px;
     }
     
-    .text-control label {
-      font-weight: 500;
-      color: var(--dark);
-      font-size: 0.9rem;
-    }
-    
-    .text-control input[type="range"] {
-      width: 100%;
-    }
-    
-    .text-preview {
-      margin-top: 10px;
+    .text-display-control select {
       padding: 10px;
-      background: white;
       border-radius: 8px;
       border: 1px solid var(--light-gray);
-      min-height: 40px;
-      text-align: center;
-      font-size: 16px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: normal;
+      background: var(--light);
     }
     
-    /* NEW: Size and text toggle container */
-    .size-and-text-toggle {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 20px;
-    }
-    
-    .size-group {
-      margin: 0;
-      flex: 1;
-      min-width: 300px;
-    }
-    
-    .text-toggle-container {
+    .text-display-group {
       display: flex;
       flex-direction: column;
-      align-items: center;
       gap: 10px;
-      flex: 1;
-      min-width: 300px;
     }
     
-    .text-toggle-label {
+    .text-display-group label {
       font-weight: 500;
       color: var(--dark);
-      margin-bottom: 5px;
     }
     
-    .suffix-prefix-group {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 15px;
-      margin-bottom: 15px;
-      width: 100%;
-    }
-    
-    .suffix-prefix-group input {
-      margin: 0.25em 0;
+    .text-display-group input[type="text"] {
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid var(--light-gray);
+      background: var(--light);
     }
 
     /* Responsive Design */
@@ -1002,6 +926,10 @@
       }
       
       .features {
+        grid-template-columns: 1fr;
+      }
+      
+      .text-display-controls {
         grid-template-columns: 1fr;
       }
     }
@@ -1041,22 +969,6 @@
       .guide-section {
         padding: 25px;
       }
-      
-      .text-options-content {
-        grid-template-columns: 1fr;
-      }
-      
-      .size-and-text-toggle {
-        flex-direction: column;
-      }
-      
-      .size-group, .text-toggle-container {
-        min-width: 100%;
-      }
-      
-      .nav-links {
-        display: none;
-      }
     }
 
     @media (max-width: 576px) {
@@ -1091,38 +1003,13 @@
       h3 {
         font-size: 1.2rem;
       }
-      
-      .suffix-prefix-group {
-        grid-template-columns: 1fr;
-      }
-      
-      .cookie-buttons {
-        flex-direction: column;
-        width: 100%;
-      }
-      
-      .cookie-btn {
-        width: 100%;
-      }
     }
   </style>
 </head>
 <body>
-  <!-- Header -->
+  <!-- Header Placeholder -->
   <header id="main-header">
-    <div class="container header-container">
-      <a href="/" class="logo">
-        <i class="fas fa-qrcode"></i>
-        <span>EveryTool.io</span>
-      </a>
-      <nav class="nav-links">
-        <a href="/">Home</a>
-        <a href="/tools">Tools</a>
-        <a href="/features">Features</a>
-        <a href="/pricing">Pricing</a>
-        <a href="/contact">Contact</a>
-      </nav>
-    </div>
+    <p class="error-message" style="display: none; color: red; text-align: center;">Failed to load header. Please try refreshing the page.</p>
   </header>
 
   <!-- Hero Section -->
@@ -1324,69 +1211,70 @@
           </label>
         </div>
 
-        <!-- NEW: Size and Text Toggle Group -->
-        <div class="size-and-text-toggle">
-          <div class="size-group">
-            <label for="size-slider">QR Code Size:</label>
-            <div class="size-controls">
-              <input type="range" id="size-slider" class="size-slider" min="128" max="1024" value="256" step="32" aria-label="Adjust QR code size">
-              <div class="size-value" id="size-value">256px</div>
-            </div>
-          </div>
-          
-          <div class="text-toggle-container">
-            <div class="text-toggle-label">Display Text Below QR</div>
-            <label class="toggle-switch-visual">
-              <input type="checkbox" id="text-enabled">
-              <span class="toggle-slider"></span>
-            </label>
+        <div class="size-group">
+          <label for="size-slider">QR Code Size:</label>
+          <div class="size-controls">
+            <input type="range" id="size-slider" class="size-slider" min="128" max="1024" value="256" step="32" aria-label="Adjust QR code size">
+            <div class="size-value" id="size-value">256px</div>
           </div>
         </div>
-        
-        <!-- NEW: Text Options Container -->
-        <div class="text-options-container">
-          <div class="text-options-content">
-            <div class="text-control">
-              <label for="custom-text">Custom Text (optional):</label>
-              <input type="text" id="custom-text" placeholder="Leave blank to use QR content">
-            </div>
-            
-            <div class="suffix-prefix-group">
-              <div>
-                <label for="prefix">Prefix (optional):</label>
-                <input type="text" id="prefix" placeholder="Add before text">
-              </div>
-              <div>
-                <label for="suffix">Suffix (optional):</label>
-                <input type="text" id="suffix" placeholder="Add after text">
-              </div>
-            </div>
-            
-            <div class="text-color-group">
-              <label for="text-color">Text Color:</label>
-              <input type="color" id="text-color" value="#000000">
-            </div>
-            
-            <div class="text-control">
-              <label for="text-size">Font Size:</label>
-              <div class="size-controls">
-                <input type="range" id="text-size" class="size-slider" min="12" max="36" value="16" step="1">
-                <div class="size-value" id="text-size-value">16px</div>
-              </div>
-            </div>
-            
-            <div class="text-control">
-              <label for="text-alignment">Text Alignment:</label>
-              <select id="text-alignment">
-                <option value="center">Center</option>
-                <option value="left">Left</option>
-                <option value="right">Right</option>
-              </select>
-            </div>
+
+        <!-- New Text Display Options -->
+        <div class="text-display-container">
+          <div class="text-display-header">
+            <i class="fas fa-font"></i>
+            <h3>Text Display Options</h3>
           </div>
           
-          <div class="text-preview" id="text-preview">
-            Preview text will appear here
+          <div class="text-display-content">
+            <div class="text-display-toggle">
+              <label class="toggle-label">Display Text Below QR</label>
+              <label class="toggle-switch-visual">
+                <input type="checkbox" id="show-text-display">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            
+            <div class="text-display-group" id="text-display-fields" style="display: none;">
+              <label for="custom-text">Custom Text (optional, overrides QR content):</label>
+              <input type="text" id="custom-text" placeholder="Enter custom text to display below QR code">
+              
+              <label for="text-prefix">Text Prefix (optional):</label>
+              <input type="text" id="text-prefix" placeholder="Prefix to add before the text">
+              
+              <label for="text-suffix">Text Suffix (optional):</label>
+              <input type="text" id="text-suffix" placeholder="Suffix to add after the text">
+              
+              <div class="text-display-controls">
+                <div class="text-display-control">
+                  <label for="text-color">Text Color:</label>
+                  <input type="color" id="text-color" value="#000000">
+                </div>
+                
+                <div class="text-display-control">
+                  <label for="text-size">Text Size:</label>
+                  <select id="text-size">
+                    <option value="12px">Small</option>
+                    <option value="16px" selected>Medium</option>
+                    <option value="20px">Large</option>
+                    <option value="24px">Extra Large</option>
+                  </select>
+                </div>
+                
+                <div class="text-display-control">
+                  <label for="text-align">Text Alignment:</label>
+                  <select id="text-align">
+                    <option value="left">Left</option>
+                    <option value="center" selected>Center</option>
+                    <option value="right">Right</option>
+                  </select>
+                </div>
+              </div>
+              
+              <div class="text-display-preview" id="text-preview">
+                Preview will appear here
+              </div>
+            </div>
           </div>
         </div>
 
@@ -1407,6 +1295,7 @@
         <div class="success" id="qr-success"></div>
 
         <canvas id="qr-canvas" width="256" height="256" style="display:none;" aria-label="Generated QR code"></canvas>
+        <div id="qr-text-display" style="margin: 15px auto; max-width: 500px; display: none;"></div>
       </div>
 
       <div class="tab-content" id="bulk-tab" role="tabpanel">
@@ -1542,69 +1431,11 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
           </label>
         </div>
 
-        <!-- NEW: Size and Text Toggle Group for Bulk -->
-        <div class="size-and-text-toggle">
-          <div class="size-group">
-            <label for="bulk-size-slider">QR Code Size:</label>
-            <div class="size-controls">
-              <input type="range" id="bulk-size-slider" class="size-slider" min="128" max="1024" value="256" step="32" aria-label="Adjust QR code size for bulk">
-              <div class="size-value" id="bulk-size-value">256px</div>
-            </div>
-          </div>
-          
-          <div class="text-toggle-container">
-            <div class="text-toggle-label">Display Text Below QR</div>
-            <label class="toggle-switch-visual">
-              <input type="checkbox" id="bulk-text-enabled">
-              <span class="toggle-slider"></span>
-            </label>
-          </div>
-        </div>
-        
-        <!-- NEW: Text Options for Bulk -->
-        <div class="text-options-container">
-          <div class="text-options-content">
-            <div class="text-control">
-              <label for="bulk-custom-text">Custom Text (optional):</label>
-              <input type="text" id="bulk-custom-text" placeholder="Leave blank to use QR content">
-            </div>
-            
-            <div class="suffix-prefix-group">
-              <div>
-                <label for="bulk-prefix">Prefix (optional):</label>
-                <input type="text" id="bulk-prefix" placeholder="Add before text">
-              </div>
-              <div>
-                <label for="bulk-suffix">Suffix (optional):</label>
-                <input type="text" id="bulk-suffix" placeholder="Add after text">
-              </div>
-            </div>
-            
-            <div class="text-color-group">
-              <label for="bulk-text-color">Text Color:</label>
-              <input type="color" id="bulk-text-color" value="#000000">
-            </div>
-            
-            <div class="text-control">
-              <label for="bulk-text-size">Font Size:</label>
-              <div class="size-controls">
-                <input type="range" id="bulk-text-size" class="size-slider" min="12" max="36" value="16" step="1">
-                <div class="size-value" id="bulk-text-size-value">16px</div>
-              </div>
-            </div>
-            
-            <div class="text-control">
-              <label for="bulk-text-alignment">Text Alignment:</label>
-              <select id="bulk-text-alignment">
-                <option value="center">Center</option>
-                <option value="left">Left</option>
-                <option value="right">Right</option>
-              </select>
-            </div>
-          </div>
-          
-          <div class="text-preview" id="bulk-text-preview">
-            Preview text will appear here
+        <div class="size-group">
+          <label for="bulk-size-slider">QR Code Size:</label>
+          <div class="size-controls">
+            <input type="range" id="bulk-size-slider" class="size-slider" min="128" max="1024" value="256" step="32" aria-label="Adjust QR code size for bulk">
+            <div class="size-value" id="bulk-size-value">256px</div>
           </div>
         </div>
 
@@ -1660,37 +1491,9 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
     </div>
   </div>
 
-  <!-- Footer -->
+  <!-- Footer Placeholder -->
   <footer id="main-footer">
-    <div class="container">
-      <div class="footer-container">
-        <div class="footer-column">
-          <h3><i class="fas fa-qrcode"></i> QR Generator</h3>
-          <p>Create custom QR codes with logos, colors, and advanced options. All processing happens in your browser for maximum privacy.</p>
-        </div>
-        <div class="footer-column">
-          <h3><i class="fas fa-link"></i> Quick Links</h3>
-          <ul>
-            <li><a href="/"><i class="fas fa-home"></i> Home</a></li>
-            <li><a href="/tools"><i class="fas fa-tools"></i> Tools</a></li>
-            <li><a href="/features"><i class="fas fa-star"></i> Features</a></li>
-            <li><a href="/pricing"><i class="fas fa-tag"></i> Pricing</a></li>
-            <li><a href="/contact"><i class="fas fa-envelope"></i> Contact</a></li>
-          </ul>
-        </div>
-        <div class="footer-column">
-          <h3><i class="fas fa-shield-alt"></i> Legal</h3>
-          <ul>
-            <li><a href="/privacy"><i class="fas fa-user-shield"></i> Privacy Policy</a></li>
-            <li><a href="/terms"><i class="fas fa-file-contract"></i> Terms of Service</a></li>
-            <li><a href="/cookies"><i class="fas fa-cookie-bite"></i> Cookie Policy</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p>&copy; 2023 EveryTool.io. All rights reserved.</p>
-      </div>
-    </div>
+    <p class="error-message" style="display: none; color: red; text-align: center;">Failed to load footer. Please try refreshing the page.</p>
   </footer>
 
   <!-- Cookie Consent Banner -->
@@ -1759,6 +1562,9 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+  
+  <!-- Shared JavaScript -->
+  <script src="/js/main.js"></script>
   
   <!-- QR Generator Specific JavaScript -->
   <script>
@@ -1837,27 +1643,18 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
     const bulkBorderPreview = document.getElementById('bulk-border-preview');
     const scannerStatus = document.getElementById('scanner-status');
     const scannerGuides = document.getElementById('scanner-guides');
-
-    // NEW: Text Options Elements
-    const textEnabled = document.getElementById('text-enabled');
+    
+    // New text display elements
+    const showTextDisplay = document.getElementById('show-text-display');
+    const textDisplayFields = document.getElementById('text-display-fields');
     const customText = document.getElementById('custom-text');
+    const textPrefix = document.getElementById('text-prefix');
+    const textSuffix = document.getElementById('text-suffix');
     const textColor = document.getElementById('text-color');
     const textSize = document.getElementById('text-size');
-    const textSizeValue = document.getElementById('text-size-value');
-    const textAlignment = document.getElementById('text-alignment');
+    const textAlign = document.getElementById('text-align');
     const textPreview = document.getElementById('text-preview');
-    const prefixInput = document.getElementById('prefix');
-    const suffixInput = document.getElementById('suffix');
-    
-    const bulkTextEnabled = document.getElementById('bulk-text-enabled');
-    const bulkCustomText = document.getElementById('bulk-custom-text');
-    const bulkTextColor = document.getElementById('bulk-text-color');
-    const bulkTextSize = document.getElementById('bulk-text-size');
-    const bulkTextSizeValue = document.getElementById('bulk-text-size-value');
-    const bulkTextAlignment = document.getElementById('bulk-text-alignment');
-    const bulkTextPreview = document.getElementById('bulk-text-preview');
-    const bulkPrefixInput = document.getElementById('bulk-prefix');
-    const bulkSuffixInput = document.getElementById('bulk-suffix');
+    const qrTextDisplay = document.getElementById('qr-text-display');
 
     // Global variables
     let currentStream = null;
@@ -1879,14 +1676,75 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
       toggleQRTypeFields();
       initBulkInputType();
       loadQRPreferences();
-      setupCookieConsent();
       
-      // NEW: Initialize text options
-      updateTextSizeValue();
-      updateBulkTextSizeValue();
-      updateTextPreview();
-      updateBulkTextPreview();
+      // Initialize text display functionality
+      initTextDisplay();
     });
+
+    function initTextDisplay() {
+      // Toggle text display fields
+      showTextDisplay.addEventListener('change', function() {
+        textDisplayFields.style.display = this.checked ? 'block' : 'none';
+        updateTextPreview();
+      });
+      
+      // Update preview when any text-related field changes
+      const textFields = [customText, textPrefix, textSuffix, textColor, textSize, textAlign];
+      textFields.forEach(field => {
+        field.addEventListener('input', updateTextPreview);
+      });
+    }
+    
+    function updateTextPreview() {
+      if (!showTextDisplay.checked) return;
+      
+      let displayText = customText.value.trim();
+      
+      // If no custom text, use QR content
+      if (!displayText) {
+        const type = qrType.value;
+        try {
+          displayText = getQRContent(type);
+        } catch {
+          displayText = "QR code content will appear here";
+        }
+      }
+      
+      // Add prefix and suffix
+      const prefix = textPrefix.value.trim();
+      const suffix = textSuffix.value.trim();
+      displayText = `${prefix} ${displayText} ${suffix}`.trim();
+      
+      // Update preview
+      textPreview.textContent = displayText;
+      textPreview.style.color = textColor.value;
+      textPreview.style.fontSize = textSize.value;
+      textPreview.style.textAlign = textAlign.value;
+      
+      // Update the actual display if QR is generated
+      if (generatedQR) {
+        updateQRTextDisplay(displayText);
+      }
+    }
+    
+    function updateQRTextDisplay(text) {
+      qrTextDisplay.innerHTML = '';
+      qrTextDisplay.style.display = showTextDisplay.checked ? 'block' : 'none';
+      
+      if (!showTextDisplay.checked) return;
+      
+      const textElement = document.createElement('div');
+      textElement.textContent = text;
+      textElement.style.color = textColor.value;
+      textElement.style.fontSize = textSize.value;
+      textElement.style.textAlign = textAlign.value;
+      textElement.style.margin = '15px auto';
+      textElement.style.padding = '10px';
+      textElement.style.maxWidth = '500px';
+      textElement.style.wordBreak = 'break-word';
+      
+      qrTextDisplay.appendChild(textElement);
+    }
 
     function initBulkInputType() {
       const bulkTypeRadios = document.querySelectorAll('input[name="bulk-type"]');
@@ -2013,23 +1871,6 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
 
       if (fileUpload) fileUpload.addEventListener('change', handleFileUpload);
       if (bulkFileUpload) bulkFileUpload.addEventListener('change', handleBulkFileUpload);
-      
-      // NEW: Text options event listeners
-      if (textEnabled) textEnabled.addEventListener('change', updateTextPreview);
-      if (customText) customText.addEventListener('input', updateTextPreview);
-      if (textColor) textColor.addEventListener('input', updateTextPreview);
-      if (textSize) textSize.addEventListener('input', updateTextSizeValue);
-      if (textAlignment) textAlignment.addEventListener('change', updateTextPreview);
-      if (prefixInput) prefixInput.addEventListener('input', updateTextPreview);
-      if (suffixInput) suffixInput.addEventListener('input', updateTextPreview);
-      
-      if (bulkTextEnabled) bulkTextEnabled.addEventListener('change', updateBulkTextPreview);
-      if (bulkCustomText) bulkCustomText.addEventListener('input', updateBulkTextPreview);
-      if (bulkTextColor) bulkTextColor.addEventListener('input', updateBulkTextPreview);
-      if (bulkTextSize) bulkTextSize.addEventListener('input', updateBulkTextSizeValue);
-      if (bulkTextAlignment) bulkTextAlignment.addEventListener('change', updateBulkTextPreview);
-      if (bulkPrefixInput) bulkPrefixInput.addEventListener('input', updateBulkTextPreview);
-      if (bulkSuffixInput) bulkSuffixInput.addEventListener('input', updateBulkTextPreview);
     }
     
     function updateBorderPreview() {
@@ -2117,70 +1958,6 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
       if (bulkLogoSizeValue && bulkLogoSize) {
         bulkLogoSizeValue.textContent = `${bulkLogoSize.value}%`;
       }
-    }
-    
-    // NEW: Text size value update
-    function updateTextSizeValue() {
-      if (textSizeValue && textSize) {
-        textSizeValue.textContent = `${textSize.value}px`;
-        updateTextPreview();
-      }
-    }
-    
-    // NEW: Bulk text size value update
-    function updateBulkTextSizeValue() {
-      if (bulkTextSizeValue && bulkTextSize) {
-        bulkTextSizeValue.textContent = `${bulkTextSize.value}px`;
-        updateBulkTextPreview();
-      }
-    }
-    
-    // NEW: Update text preview
-    function updateTextPreview() {
-      if (!textPreview) return;
-      
-      const enabled = textEnabled.checked;
-      const prefix = prefixInput.value || '';
-      const suffix = suffixInput.value || '';
-      const content = customText.value || qrInput.value || "Preview text";
-      const text = prefix + content + suffix;
-      
-      if (!enabled) {
-        textPreview.textContent = "Text display is disabled";
-        textPreview.style.color = "#888";
-        textPreview.style.fontSize = "14px";
-        textPreview.style.textAlign = "center";
-        return;
-      }
-      
-      textPreview.textContent = text;
-      textPreview.style.color = textColor.value;
-      textPreview.style.fontSize = `${textSize.value}px`;
-      textPreview.style.textAlign = textAlignment.value;
-    }
-    
-    // NEW: Update bulk text preview
-    function updateBulkTextPreview() {
-      if (!bulkTextPreview) return;
-      
-      const enabled = bulkTextEnabled.checked;
-      const prefix = bulkPrefixInput.value || '';
-      const suffix = bulkSuffixInput.value || '';
-      const content = bulkCustomText.value || "QR Code Content";
-      const text = prefix + content + suffix;
-      
-      if (!enabled) {
-        bulkTextPreview.textContent = "Text display is disabled";
-        bulkTextPreview.style.color = "#888";
-        bulkTextPreview.style.fontSize = "14px";
-        bulkTextPreview.style.textAlign = "center";
-        return;
-      }
-      
-      bulkTextPreview.textContent = text;
-      bulkTextPreview.style.color = bulkTextColor.value;
-      bulkTextPreview.style.fontSize = `${bulkTextSize.value}px`;
-      bulkTextPreview.style.textAlign = bulkTextAlignment.value;
     }
 
     function handleLogoUpload(e) {
@@ -2282,14 +2059,14 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
       return str.replace(/[^a-zA-Z0-9-]+$/g, '_').slice(0, 50);
     }
 
-    // NEW: Function to get QR content
+    // New modular functions
     function getQRContent(type) {
       switch(type) {
         case 'url':
-          let url = qrInput.value.trim();
+          const url = qrInput.value.trim();
           if (!url) throw new Error('URL is required');
           if (!url.startsWith('http://') && !url.startsWith('https://')) {
-            url = 'http://' + url;
+            return 'http://' + url;
           }
           return url;
           
@@ -2330,7 +2107,6 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
       }
     }
 
-    // New function to create QR canvas
     function createQRCanvas(content, options) {
       return new Promise((resolve, reject) => {
         try {
@@ -2355,7 +2131,6 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
       });
     }
 
-    // New function to add logo to QR
     function addLogoToQR(qrCanvas, logo, borderSize, borderColor, logoSizePercent) {
       return new Promise((resolve) => {
         if (!logo) {
@@ -2409,68 +2184,6 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
       });
     }
 
-    // New function to add text to QR canvas
-    function addTextToQR(qrCanvas, content, textOptions) {
-      return new Promise((resolve) => {
-        if (!textOptions.enabled) {
-          resolve(qrCanvas);
-          return;
-        }
-        
-        try {
-          const fontSize = parseInt(textOptions.size);
-          const padding = 15;
-          const textHeight = fontSize + padding;
-          
-          // Create a new canvas with extra space for text
-          const textCanvas = document.createElement('canvas');
-          textCanvas.width = qrCanvas.width;
-          textCanvas.height = qrCanvas.height + textHeight;
-          
-          const ctx = textCanvas.getContext('2d');
-          
-          // Set background color
-          ctx.fillStyle = textOptions.bgColor;
-          ctx.fillRect(0, 0, textCanvas.width, textCanvas.height);
-          
-          // Draw QR code
-          ctx.drawImage(qrCanvas, 0, 0);
-          
-          // Prepare text with prefix/suffix
-          const prefix = textOptions.prefix || '';
-          const suffix = textOptions.suffix || '';
-          const text = prefix + (textOptions.text || content) + suffix;
-          
-          // Draw text
-          ctx.fillStyle = textOptions.color;
-          ctx.font = `${fontSize}px Arial, sans-serif`;
-          
-          // Set text alignment
-          ctx.textAlign = textOptions.alignment;
-          
-          // Calculate x position based on alignment
-          let x = textCanvas.width / 2;
-          if (textOptions.alignment === 'left') {
-            x = padding;
-          } else if (textOptions.alignment === 'right') {
-            x = textCanvas.width - padding;
-          }
-          
-          // Draw text below QR code
-          ctx.fillText(
-            text, 
-            x, 
-            qrCanvas.height + fontSize
-          );
-          
-          resolve(textCanvas);
-        } catch (error) {
-          console.error('Error adding text to QR:', error);
-          resolve(qrCanvas); // Return original canvas if error
-        }
-      });
-    }
-
     // Updated generateQR function
     async function generateQR() {
       try {
@@ -2491,27 +2204,13 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
         const generatedCanvas = await createQRCanvas(content, qrOptions);
         
         // Add logo and border
-        const logoCanvas = await addLogoToQR(
+        const finalCanvas = await addLogoToQR(
           generatedCanvas, 
           logoImage, 
           parseInt(borderSize.value), 
           borderColor.value,
           parseInt(logoSize.value)
         );
-        
-        // NEW: Add text below QR if enabled
-        const textOptions = {
-          enabled: textEnabled.checked,
-          text: customText.value || content,
-          color: textColor.value,
-          size: textSize.value,
-          alignment: textAlignment.value,
-          bgColor: transparentBg.checked ? 'transparent' : bgColor.value,
-          prefix: prefixInput.value,
-          suffix: suffixInput.value
-        };
-        
-        const finalCanvas = await addTextToQR(logoCanvas, content, textOptions);
         
         // Display results
         qrCanvas.width = finalCanvas.width;
@@ -2527,8 +2226,11 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
         downloadBtn.style.display = 'block';
         qrCanvas.style.display = 'block';
         
+        // Update text display
+        updateTextPreview();
+        
         // Test QR scannability
-        testQRScannability(logoCanvas, content); // Test without text
+        testQRScannability(finalCanvas, content);
       } catch (error) {
         qrLoading.style.display = 'none';
         showError(qrError, error.message || 'Error generating QR code');
@@ -2566,8 +2268,8 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
         else if (bulkType === 'range') {
           const start = parseInt(rangeStart.value);
           const end = parseInt(rangeEnd.value);
-          const prefix = rangePrefix.value;
-          const suffix = rangeSuffix.value;
+          const prefix = rangePrefix.value.trim();
+          const suffix = rangeSuffix.value.trim();
           
           if (isNaN(start) || isNaN(end) || start > end) {
             throw new Error('Please enter valid start and end numbers');
@@ -2610,22 +2312,11 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
         bulkError.style.display = 'none';
         bulkLoading.style.display = 'block';
 
-        // NEW: Get bulk text options
-        const bulkTextOptions = {
-          enabled: bulkTextEnabled.checked,
-          color: bulkTextColor.value,
-          size: bulkTextSize.value,
-          alignment: bulkTextAlignment.value,
-          bgColor: bulkTransparentBg.checked ? 'transparent' : bulkBgColor.value,
-          prefix: bulkPrefixInput.value,
-          suffix: bulkSuffixInput.value
-        };
-
         // Process in batches
         const batchSize = 5;
         for (let i = 0; i < inputs.length; i += batchSize) {
           const batch = inputs.slice(i, i + batchSize);
-          await processBatch(batch, i, inputs.length, bulkTextOptions);
+          await processBatch(batch, i, inputs.length);
         }
 
         createBulkZip();
@@ -2636,7 +2327,7 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
       }
     }
 
-    async function processBatch(batch, startIndex, total, bulkTextOptions) {
+    async function processBatch(batch, startIndex, total) {
       for (let j = 0; j < batch.length; j++) {
         const index = startIndex + j;
         const input = batch[j];
@@ -2653,21 +2344,13 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
           const generatedCanvas = await createQRCanvas(input, qrOptions);
           
           // Add logo and border
-          const logoCanvas = await addLogoToQR(
+          const finalCanvas = await addLogoToQR(
             generatedCanvas, 
             bulkLogoImage, 
             parseInt(bulkBorderSize.value), 
             bulkBorderColor.value,
             parseInt(bulkLogoSize.value)
           );
-          
-          // NEW: Add text below QR if enabled
-          const textOptions = {
-            ...bulkTextOptions,
-            text: bulkCustomText.value || input
-          };
-          
-          const finalCanvas = await addTextToQR(logoCanvas, input, textOptions);
           
           bulkQRs.push({
             content: input,
@@ -2733,13 +2416,62 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
         return;
       }
 
-      const filename = sanitizeFilename(generatedQR.content) + '.png';
-      const a = document.createElement('a');
-      a.href = generatedQR.data;
-      a.download = filename;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
+      // Create a container for QR and text if text display is enabled
+      if (showTextDisplay.checked) {
+        const container = document.createElement('div');
+        container.style.display = 'flex';
+        container.style.flexDirection = 'column';
+        container.style.alignItems = 'center';
+        container.style.gap = '15px';
+        
+        // Add QR code
+        const qrImg = document.createElement('img');
+        qrImg.src = generatedQR.data;
+        qrImg.style.maxWidth = '100%';
+        container.appendChild(qrImg);
+        
+        // Add text if enabled
+        let displayText = customText.value.trim();
+        if (!displayText) {
+          displayText = generatedQR.content;
+        }
+        
+        // Add prefix and suffix
+        const prefix = textPrefix.value.trim();
+        const suffix = textSuffix.value.trim();
+        displayText = `${prefix} ${displayText} ${suffix}`.trim();
+        
+        if (displayText) {
+          const textElement = document.createElement('div');
+          textElement.textContent = displayText;
+          textElement.style.color = textColor.value;
+          textElement.style.fontSize = textSize.value;
+          textElement.style.textAlign = textAlign.value;
+          textElement.style.maxWidth = '500px';
+          textElement.style.wordBreak = 'break-word';
+          container.appendChild(textElement);
+        }
+        
+        // Convert container to image
+        html2canvas(container).then(canvas => {
+          const filename = sanitizeFilename(displayText || generatedQR.content) + '.png';
+          const a = document.createElement('a');
+          a.href = canvas.toDataURL('image/png');
+          a.download = filename;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        });
+      } else {
+        // Just download the QR code
+        const filename = sanitizeFilename(generatedQR.content) + '.png';
+        const a = document.createElement('a');
+        a.href = generatedQR.data;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      }
     }
 
     function startScanner() {
@@ -2911,14 +2643,13 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
         borderSize: borderSize.value,
         borderColor: borderColor.value,
         logoSize: logoSize.value,
-        // NEW: Save text preferences
-        textEnabled: textEnabled.checked,
+        showTextDisplay: showTextDisplay.checked,
         customText: customText.value,
+        textPrefix: textPrefix.value,
+        textSuffix: textSuffix.value,
         textColor: textColor.value,
         textSize: textSize.value,
-        textAlignment: textAlignment.value,
-        prefix: prefixInput.value,
-        suffix: suffixInput.value
+        textAlign: textAlign.value
       };
       localStorage.setItem(PREFERENCES_KEY, JSON.stringify(preferences));
     }
@@ -2946,67 +2677,23 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
             logoSize.value = preferences.logoSize || '15';
           }
           
-          // NEW: Load text preferences
-          if (textEnabled) textEnabled.checked = preferences.textEnabled || false;
-          if (customText) customText.value = preferences.customText || '';
-          if (textColor) textColor.value = preferences.textColor || '#000000';
-          if (textSize) textSize.value = preferences.textSize || '16';
-          if (textAlignment) textAlignment.value = preferences.textAlignment || 'center';
-          if (prefixInput) prefixInput.value = preferences.prefix || '';
-          if (suffixInput) suffixInput.value = preferences.suffix || '';
+          // Load text display preferences
+          if (showTextDisplay) {
+            showTextDisplay.checked = preferences.showTextDisplay || false;
+            textDisplayFields.style.display = showTextDisplay.checked ? 'block' : 'none';
+          }
           
-          updateTextSizeValue();
-          updateTextPreview();
+          if (customText) customText.value = preferences.customText || '';
+          if (textPrefix) textPrefix.value = preferences.textPrefix || '';
+          if (textSuffix) textSuffix.value = preferences.textSuffix || '';
+          if (textColor) textColor.value = preferences.textColor || '#000000';
+          if (textSize) textSize.value = preferences.textSize || '16px';
+          if (textAlign) textAlign.value = preferences.textAlign || 'center';
+          
         } catch (e) {
           console.error('Failed to parse QR preferences:', e);
         }
       }
-    }
-    
-    function setupCookieConsent() {
-      const cookieConsent = document.getElementById('cookie-consent');
-      const cookieSettings = document.getElementById('cookie-settings');
-      const acceptCookiesBtn = document.getElementById('accept-cookies');
-      const rejectCookiesBtn = document.getElementById('reject-cookies');
-      const openSettingsBtn = document.getElementById('open-settings');
-      const closeSettingsBtn = document.querySelector('.close-settings');
-      const saveSettingsBtn = document.getElementById('save-settings');
-      
-      // Check if user has already made a choice
-      if (!localStorage.getItem('cookieConsent')) {
-        cookieConsent.style.display = 'block';
-      }
-      
-      // Accept cookies
-      acceptCookiesBtn.addEventListener('click', () => {
-        localStorage.setItem('cookieConsent', 'accepted');
-        cookieConsent.style.display = 'none';
-      });
-      
-      // Reject non-essential cookies
-      rejectCookiesBtn.addEventListener('click', () => {
-        localStorage.setItem('cookieConsent', 'rejected');
-        cookieConsent.style.display = 'none';
-        document.getElementById('analytics-toggle').checked = false;
-        document.getElementById('advertising-toggle').checked = false;
-      });
-      
-      // Open settings
-      openSettingsBtn.addEventListener('click', () => {
-        cookieSettings.style.display = 'flex';
-      });
-      
-      // Close settings
-      closeSettingsBtn.addEventListener('click', () => {
-        cookieSettings.style.display = 'none';
-      });
-      
-      // Save settings
-      saveSettingsBtn.addEventListener('click', () => {
-        localStorage.setItem('cookieConsent', 'custom');
-        cookieConsent.style.display = 'none';
-        cookieSettings.style.display = 'none';
-      });
     }
   </script>
 </body>
