@@ -13,7 +13,6 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
-  <!-- QR Generator Specific Styles -->
   <style>
     :root {
       --primary: #4361ee;
@@ -1614,8 +1613,6 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
-  <!-- html-to-image library for better text rendering -->
-  <script src="https://unpkg.com/html-to-image@1.11.11/dist/html-to-image.js"></script>
   
   <!-- QR Generator Specific JavaScript -->
   <script>
@@ -2425,7 +2422,8 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
           
           bulkQRs.push({
             content: input,
-            dataURL: finalCanvas.toDataURL('image/png')
+            dataURL: finalCanvas.toDataURL('image/png'),
+            canvas: finalCanvas
           });
         } catch (error) {
           console.error('Error generating QR code for: ' + input, error);
@@ -2447,6 +2445,7 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
 
         for (const item of bulkQRs) {
           if (!item.error) {
+            // For bulk, we don't include text in the image
             const filename = `${sanitizeFilename(item.content)}.png`;
             const data = item.dataURL.split(',')[1];
             zip.file(filename, data, { base64: true });
@@ -2487,56 +2486,72 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
         return;
       }
 
-      // Create container for QR and text
-      const container = document.createElement('div');
-      container.style.display = 'flex';
-      container.style.flexDirection = 'column';
-      container.style.alignItems = 'center';
-      container.style.gap = '15px';
-      container.style.backgroundColor = transparentBg.checked ? 'transparent' : bgColor.value;
-      container.style.padding = '20px';
-      container.style.borderRadius = '12px';
-      container.style.position = 'fixed';
-      container.style.top = '-9999px'; // Move off-screen
-
-      // Add QR code
-      const qrImg = document.createElement('img');
-      qrImg.src = generatedQR.data;
-      qrImg.style.maxWidth = '100%';
-      container.appendChild(qrImg);
-
-      // Add text if enabled
-      let displayText = '';
-      if (showTextDisplay.checked) {
-        displayText = customText.value.trim();
-        if (!displayText) {
-          displayText = generatedQR.content;
-        }
-        
-        // Add prefix and suffix
-        const prefix = textPrefix.value.trim();
-        const suffix = textSuffix.value.trim();
-        displayText = `${prefix}${displayText}${suffix}`.trim();
-        
-        if (displayText) {
-          const textElement = document.createElement('div');
-          textElement.textContent = displayText;
-          textElement.style.color = textColor.value;
-          textElement.style.fontSize = textSize.value;
-          textElement.style.textAlign = textAlign.value;
-          textElement.style.maxWidth = '500px';
-          textElement.style.wordBreak = 'break-word';
-          container.appendChild(textElement);
-        }
-      }
-
-      document.body.appendChild(container);
-      
       try {
-        // Use html-to-image to capture the container
-        const dataUrl = await htmlToImage.toPng(container);
+        const qrCanvas = generatedQR.canvas;
+        const qrWidth = qrCanvas.width;
+        const qrHeight = qrCanvas.height;
         
-        // Download the image
+        // Create the final canvas with space for text
+        const padding = 20;
+        let displayText = '';
+        let textHeight = 0;
+        
+        // Check if text is enabled and get the text
+        if (showTextDisplay.checked) {
+          displayText = customText.value.trim();
+          if (!displayText) {
+            displayText = generatedQR.content;
+          }
+          
+          // Add prefix and suffix
+          const prefix = textPrefix.value.trim();
+          const suffix = textSuffix.value.trim();
+          displayText = `${prefix}${displayText}${suffix}`.trim();
+          
+          // Calculate text height based on font size
+          const fontSize = parseInt(textSize.value);
+          textHeight = fontSize * 2; // Approximate height for text
+        }
+        
+        // Create final canvas
+        const finalCanvas = document.createElement('canvas');
+        finalCanvas.width = qrWidth;
+        finalCanvas.height = qrHeight + (displayText ? textHeight + padding : 0);
+        const ctx = finalCanvas.getContext('2d');
+        
+        // Fill background if not transparent
+        if (!transparentBg.checked) {
+          ctx.fillStyle = bgColor.value;
+          ctx.fillRect(0, 0, finalCanvas.width, finalCanvas.height);
+        }
+        
+        // Draw QR code
+        ctx.drawImage(qrCanvas, 0, 0);
+        
+        // Draw text if enabled
+        if (displayText) {
+          ctx.fillStyle = textColor.value;
+          ctx.font = `${textSize.value} 'Poppins', sans-serif`;
+          ctx.textAlign = textAlign.value;
+          
+          // Calculate text position
+          let textX;
+          if (textAlign.value === 'left') {
+            textX = padding;
+          } else if (textAlign.value === 'right') {
+            textX = finalCanvas.width - padding;
+          } else {
+            textX = finalCanvas.width / 2;
+          }
+          
+          const textY = qrHeight + padding;
+          
+          // Draw text
+          ctx.fillText(displayText, textX, textY);
+        }
+        
+        // Convert to data URL and download
+        const dataUrl = finalCanvas.toDataURL('image/png');
         const filename = sanitizeFilename(displayText || generatedQR.content) + '.png';
         const a = document.createElement('a');
         a.href = dataUrl;
@@ -2545,7 +2560,7 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
         a.click();
         document.body.removeChild(a);
       } catch (error) {
-        console.error('Error capturing with text:', error);
+        console.error('Error generating download:', error);
         // Fallback to downloading just the QR code
         const a = document.createElement('a');
         a.href = generatedQR.data;
@@ -2553,8 +2568,6 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
-      } finally {
-        document.body.removeChild(container);
       }
     }
 
