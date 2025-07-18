@@ -2140,8 +2140,8 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
       if (!textPreview) return;
       
       const enabled = textEnabled.checked;
-      const prefix = prefixInput.value;
-      const suffix = suffixInput.value;
+      const prefix = prefixInput.value || '';
+      const suffix = suffixInput.value || '';
       const content = customText.value || qrInput.value || "Preview text";
       const text = prefix + content + suffix;
       
@@ -2164,8 +2164,8 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
       if (!bulkTextPreview) return;
       
       const enabled = bulkTextEnabled.checked;
-      const prefix = bulkPrefixInput.value;
-      const suffix = bulkSuffixInput.value;
+      const prefix = bulkPrefixInput.value || '';
+      const suffix = bulkSuffixInput.value || '';
       const content = bulkCustomText.value || "QR Code Content";
       const text = prefix + content + suffix;
       
