@@ -2531,6 +2531,13 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
           container.appendChild(textElement);
         }
         
+        // Create a temporary container in the DOM
+        const tempContainer = document.createElement('div');
+        tempContainer.style.position = 'fixed';
+        tempContainer.style.left = '-9999px';
+        tempContainer.appendChild(container);
+        document.body.appendChild(tempContainer);
+        
         // Use html2canvas to capture the container
         html2canvas(container).then(canvas => {
           const filename = sanitizeFilename(displayText || generatedQR.content) + '.png';
@@ -2540,17 +2547,29 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
           document.body.appendChild(a);
           a.click();
           document.body.removeChild(a);
+          
+          // Clean up the temporary container
+          document.body.removeChild(tempContainer);
+        }).catch(error => {
+          console.error('Error capturing with html2canvas:', error);
+          // Fallback to just downloading the QR code
+          downloadQRImageOnly();
+          // Clean up the temporary container
+          document.body.removeChild(tempContainer);
         });
       } else {
-        // Just download the QR code
-        const filename = sanitizeFilename(generatedQR.content) + '.png';
-        const a = document.createElement('a');
-        a.href = generatedQR.data;
-        a.download = filename;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
+        downloadQRImageOnly();
       }
+    }
+
+    function downloadQRImageOnly() {
+      const filename = sanitizeFilename(generatedQR.content) + '.png';
+      const a = document.createElement('a');
+      a.href = generatedQR.data;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
     }
 
     function startScanner() {
