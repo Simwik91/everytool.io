@@ -1684,6 +1684,58 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
   <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
   
+  <!-- Fixed main.js integration -->
+  <script>
+    // This script replaces the problematic basePath logic in main.js
+    document.addEventListener('DOMContentLoaded', () => {
+      // Determine the correct base path for the current location
+      const pathSegments = window.location.pathname.split('/');
+      // Remove the last two segments (tools/qr-generator/)
+      pathSegments.splice(-2, 2);
+      const basePath = pathSegments.join('/') || '';
+      
+      // Fetch Header
+      fetch(`${basePath}/includes/header.html`)
+        .then(response => {
+          if (!response.ok) throw new Error(`Failed to fetch header: ${response.status} ${response.statusText}`);
+          return response.text();
+        })
+        .then(data => {
+          const header = document.querySelector('#main-header');
+          if (header) {
+            header.innerHTML = data;
+          } else {
+            const headerError = document.querySelector('#main-header .error-message');
+            if (headerError) headerError.style.display = 'block';
+          }
+        })
+        .catch(error => {
+          const headerError = document.querySelector('#main-header .error-message');
+          if (headerError) headerError.style.display = 'block';
+        });
+      
+      // Fetch Footer
+      fetch(`${basePath}/includes/footer.html`)
+        .then(response => {
+          if (!response.ok) throw new Error(`Failed to fetch footer: ${response.status} ${response.statusText}`);
+          return response.text();
+        })
+        .then(data => {
+          const footer = document.querySelector('#main-footer');
+          if (footer) {
+            footer.innerHTML = data;
+          } else {
+            const footerError = document.querySelector('#main-footer .error-message');
+            if (footerError) footerError.style.display = 'block';
+          }
+        })
+        .catch(error => {
+          const footerError = document.querySelector('#main-footer .error-message');
+          if (footerError) footerError.style.display = 'block';
+        });
+    });
+  </script>
+  
   <!-- QR Generator Specific JavaScript -->
   <script>
     // Constants
@@ -2971,23 +3023,6 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
         }
       }
     }
-
-    // Cookie consent initialization
-    const preferences = localStorage.getItem('cookieConsent');
-    if (!preferences) {
-        document.getElementById('cookie-consent').style.display = 'block';
-    }
-
-    // Add event listeners for cookie buttons
-    document.getElementById('accept-cookies')?.addEventListener('click', () => {
-        localStorage.setItem('cookieConsent', 'accepted');
-        document.getElementById('cookie-consent').style.display = 'none';
-    });
-
-    document.getElementById('reject-cookies')?.addEventListener('click', () => {
-        localStorage.setItem('cookieConsent', 'rejected');
-        document.getElementById('cookie-consent').style.display = 'none';
-    });
   </script>
 </body>
 </html>
