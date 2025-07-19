@@ -39,9 +39,364 @@
       color: var(--dark);
       background-color: #f5f7ff;
       padding-bottom: 40px;
+    }
+
+    /* Header Styles */
+    #main-header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      padding: 1rem 0;
+      box-shadow: var(--box-shadow);
+      position: relative;
+      z-index: 100;
+    }
+
+    .header-container {
       display: flex;
-      flex-direction: column;
-      min-height: 100vh;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: white;
+      text-decoration: none;
+    }
+
+    .logo i {
+      font-size: 1.8rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: var(--transition);
+    }
+
+    .nav-links a:hover {
+      opacity: 0.8;
+    }
+
+    /* Footer Styles */
+    #main-footer {
+      background-color: var(--dark);
+      color: white;
+      padding: 2rem 0;
+      margin-top: 40px;
+    }
+
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 30px;
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .footer-logo i {
+      font-size: 1.8rem;
+      color: var(--primary);
+    }
+
+    .footer-logo-text {
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    .footer-links h3 {
+      color: white;
+      margin-bottom: 15px;
+      font-size: 1.1rem;
+    }
+
+    .footer-links ul {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 8px;
+    }
+
+    .footer-links a {
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .footer-links a:hover {
+      color: white;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding-top: 20px;
+      margin-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    /* Cookie Consent Styles */
+    #cookie-consent {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: var(--dark);
+      color: white;
+      padding: 15px 20px;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+      z-index: 999;
+      display: none;
+    }
+
+    .cookie-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+    }
+
+    .cookie-text {
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .cookie-text p {
+      margin-bottom: 5px;
+      font-size: 0.9rem;
+    }
+
+    .cookie-text a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .cookie-text a:hover {
+      text-decoration: underline;
+    }
+
+    .cookie-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .cookie-btn {
+      padding: 8px 16px;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      font-weight: 500;
+      transition: var(--transition);
+    }
+
+    .reject-btn {
+      background-color: transparent;
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .reject-btn:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .accept-btn {
+      background-color: var(--primary);
+      color: white;
+    }
+
+    .accept-btn:hover {
+      background-color: var(--primary-dark);
+    }
+
+    .cookie-settings-btn {
+      background: none;
+      border: none;
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: underline;
+      cursor: pointer;
+      font-size: 0.8rem;
+      margin-top: 5px;
+    }
+
+    .cookie-settings-btn:hover {
+      color: white;
+    }
+
+    #cookie-settings {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .settings-modal {
+      background-color: white;
+      border-radius: var(--border-radius);
+      max-width: 600px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: var(--box-shadow);
+    }
+
+    .settings-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      border-bottom: 1px solid var(--light-gray);
+    }
+
+    .settings-header h2 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+
+    .close-settings {
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: var(--gray);
+    }
+
+    .settings-content {
+      padding: 20px;
+    }
+
+    .cookie-type {
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--light-gray);
+    }
+
+    .cookie-type:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .cookie-type-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .cookie-type-header h3 {
+      margin: 0;
+      font-size: 1.1rem;
+    }
+
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 24px;
+    }
+
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 24px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: var(--primary);
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(26px);
+    }
+
+    input:disabled + .slider {
+      background-color: var(--gray);
+      cursor: not-allowed;
+    }
+
+    .settings-buttons {
+      padding: 20px;
+      text-align: right;
+    }
+
+    .save-settings {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .save-settings:hover {
+      background-color: var(--primary-dark);
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
     }
     
     .container {
@@ -49,7 +404,6 @@
       max-width: 1200px;
       margin: 0 auto;
       padding: 0 20px;
-      flex: 1;
     }
     
     .hero {
@@ -982,354 +1336,6 @@
       margin-top: 20px;
     }
 
-    /* Header Styles */
-    header {
-      background: var(--primary);
-      color: white;
-      padding: 15px 0;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
-    
-    .header-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-    
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 1.8rem;
-      font-weight: 700;
-    }
-    
-    .logo i {
-      font-size: 2rem;
-    }
-    
-    .nav-menu {
-      display: flex;
-      gap: 30px;
-    }
-    
-    .nav-link {
-      color: white;
-      text-decoration: none;
-      font-weight: 500;
-      transition: var(--transition);
-    }
-    
-    .nav-link:hover {
-      opacity: 0.8;
-    }
-    
-    /* Footer Styles */
-    footer {
-      background: var(--dark);
-      color: white;
-      padding: 40px 0 20px;
-      margin-top: auto;
-    }
-    
-    .footer-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 30px;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-    
-    .footer-section h3 {
-      color: white;
-      margin-bottom: 20px;
-      font-size: 1.4rem;
-    }
-    
-    .footer-links {
-      list-style: none;
-    }
-    
-    .footer-links li {
-      margin-bottom: 10px;
-    }
-    
-    .footer-links a {
-      color: #ddd;
-      text-decoration: none;
-      transition: var(--transition);
-    }
-    
-    .footer-links a:hover {
-      color: var(--primary);
-    }
-    
-    .social-links {
-      display: flex;
-      gap: 15px;
-      margin-top: 15px;
-    }
-    
-    .social-links a {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.1);
-      color: white;
-      font-size: 1.2rem;
-      transition: var(--transition);
-    }
-    
-    .social-links a:hover {
-      background: var(--primary);
-      transform: translateY(-3px);
-    }
-    
-    .copyright {
-      text-align: center;
-      padding-top: 30px;
-      margin-top: 30px;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      color: #aaa;
-      font-size: 0.9rem;
-    }
-
-    /* Cookie Consent Styles */
-    #cookie-consent {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      max-width: 90%;
-      width: 800px;
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-      z-index: 1000;
-      display: none;
-    }
-    
-    .cookie-content {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
-    
-    .cookie-text p {
-      margin-bottom: 10px;
-      color: var(--dark);
-    }
-    
-    .cookie-text a {
-      color: var(--primary);
-      text-decoration: none;
-    }
-    
-    .cookie-text a:hover {
-      text-decoration: underline;
-    }
-    
-    .cookie-buttons {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    
-    .cookie-btn {
-      padding: 10px 20px;
-      border-radius: 50px;
-      border: none;
-      cursor: pointer;
-      font-weight: 500;
-      transition: var(--transition);
-    }
-    
-    .reject-btn {
-      background: #f0f4ff;
-      color: var(--primary);
-    }
-    
-    .accept-btn {
-      background: var(--primary);
-      color: white;
-    }
-    
-    .cookie-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-    }
-    
-    .cookie-settings-btn {
-      background: none;
-      border: none;
-      color: var(--primary);
-      cursor: pointer;
-      font-weight: 500;
-      text-align: left;
-      padding: 5px 0;
-      align-self: flex-start;
-    }
-    
-    #cookie-settings {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.5);
-      z-index: 1001;
-      display: none;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    .settings-modal {
-      background: white;
-      border-radius: 10px;
-      padding: 25px;
-      max-width: 90%;
-      width: 600px;
-      max-height: 90vh;
-      overflow: auto;
-    }
-    
-    .settings-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-    
-    .settings-header h2 {
-      margin: 0;
-      color: var(--dark);
-      font-size: 1.8rem;
-    }
-    
-    .close-settings {
-      background: none;
-      border: none;
-      color: var(--dark);
-      font-size: 1.5rem;
-      cursor: pointer;
-    }
-    
-    .cookie-type {
-      margin-bottom: 20px;
-      padding-bottom: 20px;
-      border-bottom: 1px solid var(--light-gray);
-    }
-    
-    .cookie-type:last-child {
-      border-bottom: none;
-      margin-bottom: 0;
-      padding-bottom: 0;
-    }
-    
-    .cookie-type-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-    
-    .cookie-type-header h3 {
-      margin: 0;
-      color: var(--dark);
-      font-size: 1.2rem;
-    }
-    
-    .toggle-switch {
-      position: relative;
-      display: inline-block;
-      width: 60px;
-      height: 34px;
-    }
-    
-    .toggle-switch input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-    
-    .slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: #ccc;
-      transition: .4s;
-      border-radius: 34px;
-    }
-    
-    .slider:before {
-      position: absolute;
-      content: "";
-      height: 26px;
-      width: 26px;
-      left: 4px;
-      bottom: 4px;
-      background-color: white;
-      transition: .4s;
-      border-radius: 50%;
-    }
-    
-    input:checked + .slider {
-      background-color: var(--primary);
-    }
-    
-    input:checked + .slider:before {
-      transform: translateX(26px);
-    }
-    
-    input:disabled + .slider {
-      background-color: #777;
-      cursor: not-allowed;
-    }
-    
-    .settings-buttons {
-      margin-top: 20px;
-      text-align: right;
-    }
-    
-    .save-settings {
-      background: var(--primary);
-      color: white;
-      border: none;
-      border-radius: 50px;
-      padding: 10px 25px;
-      cursor: pointer;
-      font-weight: 500;
-      transition: var(--transition);
-    }
-    
-    .save-settings:hover {
-      background: var(--primary-dark);
-      transform: translateY(-2px);
-      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-    }
-    
-    .sr-only {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      border: 0;
-    }
-
     /* Responsive Design */
     @media (max-width: 992px) {
       .guide-grid {
@@ -1345,7 +1351,7 @@
       }
       
       .footer-container {
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        grid-template-columns: 1fr;
       }
     }
 
@@ -1390,20 +1396,16 @@
         align-items: center;
       }
       
-      .nav-menu {
-        display: none;
-      }
-      
-      #cookie-consent {
-        width: 90%;
-      }
-      
-      .cookie-buttons {
+      .cookie-content {
         flex-direction: column;
       }
       
-      .cookie-btn {
+      .cookie-buttons {
         width: 100%;
+      }
+      
+      .cookie-btn {
+        flex: 1;
       }
     }
 
@@ -1440,25 +1442,25 @@
         font-size: 1.2rem;
       }
       
-      .settings-modal {
-        padding: 15px;
+      .nav-links {
+        display: none;
       }
     }
   </style>
 </head>
 <body>
-  <!-- Header Placeholder -->
+  <!-- Header Section -->
   <header id="main-header">
     <div class="header-container">
-      <div class="logo">
+      <a href="#" class="logo">
         <i class="fas fa-qrcode"></i>
         <span>QR Generator</span>
-      </div>
-      <nav class="nav-menu">
-        <a href="#" class="nav-link">Home</a>
-        <a href="#" class="nav-link">Features</a>
-        <a href="#" class="nav-link">Pricing</a>
-        <a href="#" class="nav-link">Contact</a>
+      </a>
+      <nav class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#guide">Guide</a>
+        <a href="#generator">Generator</a>
+        <a href="#about">About</a>
       </nav>
     </div>
     <p class="error-message" style="display: none; color: red; text-align: center;">Failed to load header. Please try refreshing the page.</p>
@@ -1477,7 +1479,7 @@
   <!-- QR Generator Content -->
   <div class="container">
     <!-- Features with 2 cards per row -->
-    <div class="features">
+    <div class="features" id="features">
       <div class="feature">
         <i class="fas fa-paint-brush"></i>
         <h3>Custom Design</h3>
@@ -1501,7 +1503,7 @@
     </div>
 
     <!-- Updated QR Code Creation Guide -->
-    <div class="guide-section">
+    <div class="guide-section" id="guide">
       <h2><i class="fas fa-book"></i> QR Code Creation Guide</h2>
       <div class="guide-grid">
         <div class="guide-item">
@@ -1523,7 +1525,7 @@
       </div>
     </div>
 
-    <div class="card">
+    <div class="card" id="generator">
       <div class="tabs" role="tablist">
         <div class="tab active" data-tab="single" role="tab" aria-selected="true" tabindex="0">
           <i class="fas fa-qrcode"></i> Single QR Code
@@ -2000,55 +2002,41 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
     </div>
   </div>
 
-  <!-- Footer Placeholder -->
+  <!-- Footer Section -->
   <footer id="main-footer">
     <div class="footer-container">
-      <div class="footer-section">
-        <h3>QR Generator</h3>
-        <p>Create custom QR codes with logos, colors, and advanced options. All processing happens in your browser for privacy.</p>
-        <div class="social-links">
-          <a href="#"><i class="fab fa-facebook-f"></i></a>
-          <a href="#"><i class="fab fa-twitter"></i></a>
-          <a href="#"><i class="fab fa-instagram"></i></a>
-          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+      <div class="footer-about">
+        <div class="footer-logo">
+          <i class="fas fa-qrcode"></i>
+          <span class="footer-logo-text">QR Generator</span>
         </div>
+        <p>Create custom QR codes with logos, colors, and more. All processing happens in your browser for maximum privacy.</p>
       </div>
-      <div class="footer-section">
+      <div class="footer-links">
         <h3>Quick Links</h3>
-        <ul class="footer-links">
-          <li><a href="#">Home</a></li>
-          <li><a href="#">Features</a></li>
-          <li><a href="#">Pricing</a></li>
-          <li><a href="#">Contact</a></li>
-          <li><a href="#">Privacy Policy</a></li>
+        <ul>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#guide">Guide</a></li>
+          <li><a href="#generator">Generator</a></li>
+          <li><a href="#about">About</a></li>
         </ul>
       </div>
-      <div class="footer-section">
+      <div class="footer-links">
         <h3>Resources</h3>
-        <ul class="footer-links">
-          <li><a href="#">Documentation</a></li>
-          <li><a href="#">Tutorials</a></li>
-          <li><a href="#">API</a></li>
-          <li><a href="#">FAQ</a></li>
-          <li><a href="#">Support</a></li>
-        </ul>
-      </div>
-      <div class="footer-section">
-        <h3>Contact Us</h3>
-        <ul class="footer-links">
-          <li><i class="fas fa-envelope"></i> support@qrg.com</li>
-          <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
-          <li><i class="fas fa-map-marker-alt"></i> San Francisco, CA</li>
+        <ul>
+          <li><a href="/privacy">Privacy Policy</a></li>
+          <li><a href="/terms">Terms of Service</a></li>
+          <li><a href="/contact">Contact Us</a></li>
         </ul>
       </div>
     </div>
-    <div class="copyright">
-      &copy; 2023 QR Generator. All rights reserved.
+    <div class="footer-bottom">
+      <p>&copy; 2023 QR Generator. All rights reserved.</p>
     </div>
     <p class="error-message" style="display: none; color: red; text-align: center;">Failed to load footer. Please try refreshing the page.</p>
   </footer>
 
-  <!-- Shared Cookie Consent Banner -->
+  <!-- Cookie Consent Banner -->
   <div id="cookie-consent" role="dialog" aria-labelledby="cookie-consent-banner" aria-describedby="cookie-consent-desc">
     <div class="sr-only" id="cookie-consent-banner">Cookie Consent</div>
     <div class="cookie-content" id="cookie-consent-desc">
@@ -2064,7 +2052,7 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
     </div>
   </div>
 
-  <!-- Shared Cookie Settings Modal -->
+  <!-- Cookie Settings Modal -->
   <div id="cookie-settings">
     <div class="settings-modal">
       <div class="settings-header">
@@ -2219,10 +2207,10 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
 
     // Cookie consent elements
     const cookieConsent = document.getElementById('cookie-consent');
-    const cookieSettings = document.getElementById('cookie-settings');
     const acceptCookiesBtn = document.getElementById('accept-cookies');
     const rejectCookiesBtn = document.getElementById('reject-cookies');
     const openSettingsBtn = document.getElementById('open-settings');
+    const cookieSettings = document.getElementById('cookie-settings');
     const closeSettingsBtn = document.querySelector('.close-settings');
     const saveSettingsBtn = document.getElementById('save-settings');
     const analyticsToggle = document.getElementById('analytics-toggle');
@@ -2235,11 +2223,6 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
     let generatedQR = null;
     let bulkQRs = [];
     let previewTimeout = null;
-    let cookiePreferences = {
-      essential: true,
-      analytics: false,
-      advertising: false
-    };
 
     // Initialize the page
     document.addEventListener('DOMContentLoaded', () => {
@@ -2253,83 +2236,90 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
       toggleQRTypeFields();
       initBulkInputType();
       loadQRPreferences();
+      checkCookieConsent();
       
       // Initialize text display functionality
       initTextDisplay();
       initBulkTextDisplay();
-      
-      // Initialize cookie consent
-      initCookieConsent();
     });
 
-    function initCookieConsent() {
-      // Check for existing cookie consent
-      const savedConsent = localStorage.getItem(COOKIE_CONSENT_KEY);
+    function checkCookieConsent() {
+      const consent = localStorage.getItem(COOKIE_CONSENT_KEY);
       
-      if (savedConsent) {
-        cookiePreferences = JSON.parse(savedConsent);
-        // Apply preferences
-        analyticsToggle.checked = cookiePreferences.analytics;
-        advertisingToggle.checked = cookiePreferences.advertising;
-      } else {
-        // Show cookie banner if no consent saved
+      if (!consent) {
+        // Show cookie consent banner if no consent has been given
         cookieConsent.style.display = 'block';
+      } else {
+        const consentData = JSON.parse(consent);
+        // Apply cookie settings based on stored preferences
+        applyCookieSettings(consentData);
       }
+    }
+
+    function applyCookieSettings(settings) {
+      // Here you would implement your actual cookie handling logic
+      // For example, initializing or disabling analytics based on settings
+      console.log('Applying cookie settings:', settings);
       
-      // Setup event listeners for cookie buttons
+      // Set the toggle states in the settings modal
+      analyticsToggle.checked = settings.analytics;
+      advertisingToggle.checked = settings.advertising;
+    }
+
+    function initCookieConsent() {
       acceptCookiesBtn.addEventListener('click', () => {
-        cookiePreferences.analytics = true;
-        cookiePreferences.advertising = true;
-        saveCookiePreferences();
+        const consentData = {
+          essential: true,
+          analytics: true,
+          advertising: true,
+          timestamp: new Date().toISOString()
+        };
+        localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(consentData));
         cookieConsent.style.display = 'none';
+        applyCookieSettings(consentData);
       });
-      
+
       rejectCookiesBtn.addEventListener('click', () => {
-        cookiePreferences.analytics = false;
-        cookiePreferences.advertising = false;
-        saveCookiePreferences();
+        const consentData = {
+          essential: true,
+          analytics: false,
+          advertising: false,
+          timestamp: new Date().toISOString()
+        };
+        localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(consentData));
         cookieConsent.style.display = 'none';
+        applyCookieSettings(consentData);
       });
-      
+
       openSettingsBtn.addEventListener('click', () => {
         cookieSettings.style.display = 'flex';
       });
-      
+
       closeSettingsBtn.addEventListener('click', () => {
         cookieSettings.style.display = 'none';
       });
-      
+
       saveSettingsBtn.addEventListener('click', () => {
-        cookiePreferences.analytics = analyticsToggle.checked;
-        cookiePreferences.advertising = advertisingToggle.checked;
-        saveCookiePreferences();
+        const consentData = {
+          essential: true,
+          analytics: analyticsToggle.checked,
+          advertising: advertisingToggle.checked,
+          timestamp: new Date().toISOString()
+        };
+        localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(consentData));
         cookieSettings.style.display = 'none';
         cookieConsent.style.display = 'none';
+        applyCookieSettings(consentData);
       });
-      
-      // Close settings when clicking outside modal
+
+      // Close modal when clicking outside
       cookieSettings.addEventListener('click', (e) => {
         if (e.target === cookieSettings) {
           cookieSettings.style.display = 'none';
         }
       });
     }
-    
-    function saveCookiePreferences() {
-      localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(cookiePreferences));
-      
-      // Apply preferences to your analytics/advertising scripts here
-      if (cookiePreferences.analytics) {
-        console.log('Analytics cookies enabled');
-        // Initialize analytics scripts
-      }
-      
-      if (cookiePreferences.advertising) {
-        console.log('Advertising cookies enabled');
-        // Initialize advertising scripts
-      }
-    }
-    
+
     function initTextDisplay() {
       // Toggle text display fields
       showTextDisplay.addEventListener('change', function() {
@@ -2532,6 +2522,9 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
 
       if (fileUpload) fileUpload.addEventListener('change', handleFileUpload);
       if (bulkFileUpload) bulkFileUpload.addEventListener('change', handleBulkFileUpload);
+      
+      // Initialize cookie consent functionality
+      initCookieConsent();
     }
     
     function updateBorderPreview() {
