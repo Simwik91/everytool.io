@@ -48,65 +48,6 @@
       padding: 0 20px;
     }
     
-    /* Header and Footer Styles */
-    #main-header, #main-footer {
-      width: 100%;
-    }
-    
-    .error-message {
-      color: #e74c3c;
-      padding: 15px;
-      background: rgba(231, 76, 60, 0.1);
-      border-radius: var(--border-radius);
-      margin: 20px 0;
-      border-left: 4px solid #e74c3c;
-    }
-    
-    /* Cookie Consent Styles */
-    #cookie-consent {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: var(--dark);
-      color: white;
-      padding: 15px;
-      z-index: 10000;
-      display: none;
-    }
-    
-    .cookie-buttons {
-      display: flex;
-      gap: 10px;
-      margin-top: 10px;
-    }
-    
-    .cookie-buttons button {
-      padding: 8px 15px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    
-    #accept-cookies {
-      background: var(--primary);
-      color: white;
-    }
-    
-    #reject-cookies {
-      background: var(--gray);
-      color: white;
-    }
-    
-    #cookie-settings {
-      display: none;
-      margin-top: 15px;
-      padding: 15px;
-      background: rgba(255,255,255,0.1);
-      border-radius: 5px;
-    }
-    
-    /* Rest of your existing styles */
     .hero {
       padding: 60px 0 40px;
       text-align: center;
@@ -1130,10 +1071,6 @@
   </style>
 </head>
 <body>
-  <header id="main-header">
-    <p class="error-message">Loading header...</p>
-  </header>
-
   <!-- Hero Section -->
   <section class="hero">
     <div class="container">
@@ -1206,28 +1143,467 @@
         </div>
       </div>
 
-      <!-- Rest of your existing content -->
-      <!-- ... (all your existing tab content sections) ... -->
-    </div>
-  </div>
+      <div class="tab-content active" id="single-tab" role="tabpanel">
+        <h2><i class="fas fa-qrcode"></i> Create Your QR Code</h2>
+        
+        <label for="qr-type">QR Code Type:</label>
+        <select id="qr-type" aria-label="Select QR code type">
+          <option value="url">URL/Text</option>
+          <option value="vcard">vCard (Contact)</option>
+          <option value="wifi">Wi-Fi</option>
+          <option value="sms">SMS</option>
+          <option value="email">Email</option>
+        </select>
 
-  <footer id="main-footer">
-    <p class="error-message">Loading footer...</p>
-  </footer>
+        <div class="qr-type-fields active" id="url-fields">
+          <label for="qr-input">Enter QR Code Content:</label>
+          <input type="text" id="qr-input" placeholder="Enter URL or text..." autofocus aria-label="Enter URL or text content">
+        </div>
 
-  <div id="cookie-consent">
-    <p>We use cookies to enhance your experience. By continuing to visit this site you agree to our use of cookies.</p>
-    <div class="cookie-buttons">
-      <button id="accept-cookies">Accept All</button>
-      <button id="reject-cookies">Reject All</button>
-      <button id="customize-cookies">Customize</button>
-    </div>
-    <div id="cookie-settings">
-      <h3>Cookie Preferences</h3>
-      <label><input type="checkbox" name="necessary" checked disabled> Necessary Cookies</label>
-      <label><input type="checkbox" name="analytics"> Analytics Cookies</label>
-      <label><input type="checkbox" name="marketing"> Marketing Cookies</label>
-      <button id="save-settings">Save Preferences</button>
+        <div class="qr-type-fields" id="vcard-fields">
+          <label for="vcard-name">Full Name:</label>
+          <input type="text" id="vcard-name" placeholder="John Doe" aria-label="Enter full name">
+          <label for="vcard-phone">Phone Number:</label>
+          <input type="tel" id="vcard-phone" placeholder="+1234567890" aria-label="Enter phone number">
+          <label for="vcard-email">Email:</label>
+          <input type="email" id="vcard-email" placeholder="john@example.com" aria-label="Enter email address">
+        </div>
+
+        <div class="qr-type-fields" id="wifi-fields">
+          <label for="wifi-ssid">Wi-Fi SSID:</label>
+          <input type="text" id="wifi-ssid" placeholder="Network Name" aria-label="Enter Wi-Fi SSID">
+          <label for="wifi-password">Password:</label>
+          <input type="text" id="wifi-password" placeholder="Password" aria-label="Enter Wi-Fi password">
+          <label for="wifi-type">Encryption Type:</label>
+          <select id="wifi-type" aria-label="Select Wi-Fi encryption type">
+            <option value="WPA">WPA/WPA2</option>
+            <option value="WEP">WEP</option>
+            <option value="nopass">No Password</option>
+          </select>
+        </div>
+
+        <div class="qr-type-fields" id="sms-fields">
+          <label for="sms-phone">Phone Number:</label>
+          <input type="tel" id="sms-phone" placeholder="+1234567890" aria-label="Enter phone number for SMS">
+          <label for="sms-message">Message:</label>
+          <textarea id="sms-message" placeholder="Enter your message" aria-label="Enter SMS message"></textarea>
+        </div>
+
+        <div class="qr-type-fields" id="email-fields">
+          <label for="email-address">Recipient Email:</label>
+          <input type="email" id="email-address" placeholder="recipient@example.com" aria-label="Enter recipient email">
+          <label for="email-subject">Subject:</label>
+          <input type="text" id="email-subject" placeholder="Subject" aria-label="Enter email subject">
+          <label for="email-body">Body:</label>
+          <textarea id="email-body" placeholder="Enter email body" aria-label="Enter email body"></textarea>
+        </div>
+
+        <div class="error" id="input-error">Please fill in all required fields</div>
+
+        <div class="logo-options-container">
+          <div class="logo-options-header">
+            <i class="fas fa-image"></i>
+            <h3>Logo & Border Options</h3>
+          </div>
+          
+          <div class="logo-options-content">
+            <div class="logo-upload-container">
+              <div class="logo-upload-area" id="logo-upload-area">
+                <label for="logo-upload" class="visually-hidden">Upload Logo</label>
+                <i class="fas fa-cloud-upload-alt"></i>
+                <p>Drag & drop your logo here<br>or click to select a file</p>
+                <div class="logo-preview" id="logo-preview">
+                  <div class="border-preview">
+                    <div class="logo-placeholder"></div>
+                    <div class="border-indicator" id="border-preview"></div>
+                  </div>
+                </div>
+                <input type="file" id="logo-upload" accept="image/*" style="display:none" aria-label="Upload logo image">
+              </div>
+            </div>
+            
+            <div class="border-controls-container">
+              <div class="border-controls">
+                <div class="border-control">
+                  <label for="border-size">Border Size:</label>
+                  <div class="size-controls">
+                    <input type="range" id="border-size" class="size-slider" min="0" max="20" value="5" step="1" aria-label="Adjust logo border size">
+                    <div class="size-value" id="border-size-value">5px</div>
+                  </div>
+                </div>
+                <div class="border-control">
+                  <label for="border-color">Border Color:</label>
+                  <input type="color" id="border-color" value="#FFFFFF" aria-label="Select logo border color">
+                </div>
+                <!-- New Logo Size Control -->
+                <div class="border-control">
+                  <label for="logo-size">Logo Size:</label>
+                  <div class="size-controls">
+                    <input type="range" id="logo-size" class="size-slider" min="5" max="25" value="15" step="1" aria-label="Adjust logo size">
+                    <div class="size-value" id="logo-size-value">15%</div>
+                  </div>
+                </div>
+              </div>
+              <div class="border-note" id="border-note">
+                <i class="fas fa-info-circle"></i> Border settings only apply when a logo is uploaded
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="color-group">
+          <div class="color-input">
+            <label for="fg-color">Foreground Color</label>
+            <input type="color" id="fg-color" value="#000000" aria-label="Select foreground color">
+          </div>
+          <div class="color-input">
+            <label for="bg-color">Background Color</label>
+            <input type="color" id="bg-color" value="#FFFFFF" aria-label="Select background color">
+          </div>
+        </div>
+        
+        <div class="toggle-container">
+          <span class="toggle-label">Transparent Background</span>
+          <label class="toggle-switch-visual">
+            <input type="checkbox" id="transparent-bg" aria-label="Make background transparent">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="size-group">
+          <label for="size-slider">QR Code Size:</label>
+          <div class="size-controls">
+            <input type="range" id="size-slider" class="size-slider" min="128" max="1024" value="256" step="32" aria-label="Adjust QR code size">
+            <div class="size-value" id="size-value">256px</div>
+          </div>
+        </div>
+
+        <!-- New Text Display Options -->
+        <div class="text-display-container">
+          <div class="text-display-header">
+            <i class="fas fa-font"></i>
+            <h3>Text Display Options</h3>
+          </div>
+          
+          <div class="text-display-content">
+            <div class="text-display-toggle">
+              <label class="toggle-label">Display Text Below QR</label>
+              <label class="toggle-switch-visual">
+                <input type="checkbox" id="show-text-display">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            
+            <div class="text-display-group" id="text-display-fields" style="display: none;">
+              <label for="custom-text">Custom Text (optional, overrides QR content):</label>
+              <input type="text" id="custom-text" placeholder="Enter custom text to display below QR code">
+              
+              <label for="text-prefix">Text Prefix (optional):</label>
+              <input type="text" id="text-prefix" placeholder="Prefix to add before the text">
+              
+              <label for="text-suffix">Text Suffix (optional):</label>
+              <input type="text" id="text-suffix" placeholder="Suffix to add after the text">
+              
+              <div class="text-display-controls">
+                <div class="text-display-control">
+                  <label for="text-color">Text Color:</label>
+                  <input type="color" id="text-color" value="#000000">
+                </div>
+                
+                <div class="text-display-control">
+                  <label for="text-size">Text Size:</label>
+                  <select id="text-size">
+                    <option value="12px">Small</option>
+                    <option value="16px" selected>Medium</option>
+                    <option value="20px">Large</option>
+                    <option value="24px">Extra Large</option>
+                  </select>
+                </div>
+                
+                <div class="text-display-control">
+                  <label for="text-align">Text Alignment:</label>
+                  <select id="text-align">
+                    <option value="left">Left</option>
+                    <option value="center" selected>Center</option>
+                    <option value="right">Right</option>
+                  </select>
+                </div>
+              </div>
+              
+              <div class="text-display-preview" id="text-preview">
+                Preview will appear here
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="btn-group">
+          <button onclick="generateQR()" aria-label="Generate QR code">
+            <i class="fas fa-bolt"></i> Generate QR Code
+          </button>
+          <button id="download-btn" onclick="downloadQR()" style="display:none" aria-label="Download QR code">
+            <i class="fas fa-download"></i> Download QR Code
+          </button>
+        </div>
+
+        <div class="loading" id="qr-loading">
+          <div class="spinner"></div>
+          Generating QR code...
+        </div>
+        <div class="error" id="qr-error"></div>
+        <div class="success" id="qr-success"></div>
+
+        <div class="qr-result-container">
+          <canvas id="qr-canvas" width="256" height="256" style="display:none;" aria-label="Generated QR code"></canvas>
+          <div class="qr-text-container" id="qr-text-display" style="display: none;"></div>
+        </div>
+      </div>
+
+      <div class="tab-content" id="bulk-tab" role="tabpanel">
+        <h2><i class="fas fa-layer-group"></i> Bulk QR Code Generation</h2>
+        
+        <div class="input-type-toggle" id="bulk-input-type">
+          <label class="active">
+            <input type="radio" name="bulk-type" value="list" checked>
+            <i class="fas fa-list"></i> List
+          </label>
+          <label>
+            <input type="radio" name="bulk-type" value="range">
+            <i class="fas fa-sort-numeric-up"></i> Number Range
+          </label>
+          <label>
+            <input type="radio" name="bulk-type" value="csv">
+            <i class="fas fa-file-csv"></i> CSV Upload
+          </label>
+        </div>
+        
+        <!-- List Input Fields -->
+        <div id="bulk-list-fields" class="bulk-format-content" style="display: block;">
+          <label for="bulk-input">Enter URLs or text (one per line):</label>
+          <textarea id="bulk-input" rows="5" placeholder="https://example.com/page1
+https://example.com/page2
+Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
+        </div>
+        
+        <!-- Number Range Input Fields -->
+        <div id="bulk-range-fields" class="bulk-format-content" style="display: none;">
+          <div class="range-controls">
+            <div>
+              <label for="range-start">Start Number:</label>
+              <input type="number" id="range-start" min="1" value="1" placeholder="1">
+            </div>
+            <div>
+              <label for="range-end">End Number:</label>
+              <input type="number" id="range-end" min="1" value="10" placeholder="10">
+            </div>
+            <div>
+              <label for="range-prefix">Prefix (Optional):</label>
+              <input type="text" id="range-prefix" placeholder="QR-">
+            </div>
+            <div>
+              <label for="range-suffix">Suffix (Optional):</label>
+              <input type="text" id="range-suffix" placeholder="-code">
+            </div>
+          </div>
+        </div>
+        
+        <!-- CSV Upload Format -->
+        <div id="bulk-csv-fields" class="bulk-format-content" style="display: none;">
+          <div class="file-upload-container">
+            <label for="bulk-file-upload" class="file-upload-label">
+              <i class="fas fa-cloud-upload-alt"></i>
+              <p>Upload a CSV file with URLs or text<br>(one per row)</p>
+            </label>
+            <input type="file" id="bulk-file-upload" class="file-upload-input" accept=".csv" aria-label="Upload CSV file for bulk QR codes">
+          </div>
+        </div>
+
+        <label for="bulk-filename">File Name Prefix:</label>
+        <input type="text" id="bulk-filename" value="qr-codes" aria-label="Enter file name prefix for bulk QR codes">
+
+        <!-- Bulk QR design options -->
+        <div class="logo-options-container">
+          <div class="logo-options-header">
+            <i class="fas fa-image"></i>
+            <h3>Logo & Border Options</h3>
+          </div>
+          
+          <div class="logo-options-content">
+            <div class="logo-upload-container">
+              <div class="logo-upload-area" id="bulk-logo-upload-area">
+                <label for="bulk-logo-upload" class="visually-hidden">Upload Logo for Bulk</label>
+                <i class="fas fa-cloud-upload-alt"></i>
+                <p>Drag & drop your logo here<br>or click to select a file</p>
+                <div class="logo-preview" id="bulk-logo-preview">
+                  <div class="border-preview">
+                    <div class="logo-placeholder"></div>
+                    <div class="border-indicator" id="bulk-border-preview"></div>
+                  </div>
+                </div>
+                <input type="file" id="bulk-logo-upload" accept="image/*" style="display:none" aria-label="Upload logo image for bulk">
+              </div>
+            </div>
+            
+            <div class="border-controls-container">
+              <div class="border-controls">
+                <div class="border-control">
+                  <label for="bulk-border-size">Border Size:</label>
+                  <div class="size-controls">
+                    <input type="range" id="bulk-border-size" class="size-slider" min="0" max="20" value="5" step="1" aria-label="Adjust logo border size for bulk">
+                    <div class="size-value" id="bulk-border-size-value">5px</div>
+                  </div>
+                </div>
+                <div class="border-control">
+                  <label for="bulk-border-color">Border Color:</label>
+                  <input type="color" id="bulk-border-color" value="#FFFFFF" aria-label="Select logo border color for bulk">
+                </div>
+                <!-- New Logo Size Control for Bulk -->
+                <div class="border-control">
+                  <label for="bulk-logo-size">Logo Size:</label>
+                  <div class="size-controls">
+                    <input type="range" id="bulk-logo-size" class="size-slider" min="5" max="25" value="15" step="1" aria-label="Adjust logo size for bulk">
+                    <div class="size-value" id="bulk-logo-size-value">15%</div>
+                  </div>
+                </div>
+              </div>
+              <div class="border-note" id="bulk-border-note">
+                <i class="fas fa-info-circle"></i> Border settings only apply when a logo is uploaded
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="color-group">
+          <div class="color-input">
+            <label for="bulk-fg-color">Foreground Color</label>
+            <input type="color" id="bulk-fg-color" value="#000000" aria-label="Select foreground color for bulk">
+          </div>
+          <div class="color-input">
+            <label for="bulk-bg-color">Background Color</label>
+            <input type="color" id="bulk-bg-color" value="#FFFFFF" aria-label="Select background color for bulk">
+          </div>
+        </div>
+        
+        <div class="toggle-container">
+          <span class="toggle-label">Transparent Background</span>
+          <label class="toggle-switch-visual">
+            <input type="checkbox" id="bulk-transparent-bg" aria-label="Make background transparent for bulk">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="size-group">
+          <label for="bulk-size-slider">QR Code Size:</label>
+          <div class="size-controls">
+            <input type="range" id="bulk-size-slider" class="size-slider" min="128" max="1024" value="256" step="32" aria-label="Adjust QR code size for bulk">
+            <div class="size-value" id="bulk-size-value">256px</div>
+          </div>
+        </div>
+
+        <!-- Text Display Options for Bulk -->
+        <div class="text-display-container">
+          <div class="text-display-header">
+            <i class="fas fa-font"></i>
+            <h3>Text Display Options for Bulk</h3>
+          </div>
+          
+          <div class="text-display-content">
+            <div class="text-display-toggle">
+              <label class="toggle-label">Add Text to All QR Codes</label>
+              <label class="toggle-switch-visual">
+                <input type="checkbox" id="bulk-show-text-display">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            
+            <div class="text-display-group" id="bulk-text-display-fields" style="display: none;">
+              <label for="bulk-custom-text">Custom Text (optional, overrides QR content):</label>
+              <input type="text" id="bulk-custom-text" placeholder="Enter custom text to display below all QR codes">
+              
+              <label for="bulk-text-prefix">Text Prefix (optional):</label>
+              <input type="text" id="bulk-text-prefix" placeholder="Prefix to add before the text">
+              
+              <label for="bulk-text-suffix">Text Suffix (optional):</label>
+              <input type="text" id="bulk-text-suffix" placeholder="Suffix to add after the text">
+              
+              <div class="text-display-controls">
+                <div class="text-display-control">
+                  <label for="bulk-text-color">Text Color:</label>
+                  <input type="color" id="bulk-text-color" value="#000000">
+                </div>
+                
+                <div class="text-display-control">
+                  <label for="bulk-text-size">Text Size:</label>
+                  <select id="bulk-text-size">
+                    <option value="12px">Small</option>
+                    <option value="16px" selected>Medium</option>
+                    <option value="20px">Large</option>
+                    <option value="24px">Extra Large</option>
+                  </select>
+                </div>
+                
+                <div class="text-display-control">
+                  <label for="bulk-text-align">Text Alignment:</label>
+                  <select id="bulk-text-align">
+                    <option value="left">Left</option>
+                    <option value="center" selected>Center</option>
+                    <option value="right">Right</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="btn-group">
+          <button onclick="generateBulkQR()" aria-label="Generate and download bulk QR codes as ZIP">
+            <i class="fas fa-file-archive"></i> Generate & Download as ZIP
+          </button>
+        </div>
+
+        <div class="loading" id="bulk-loading">
+          <div class="spinner"></div>
+          <div id="bulk-progress">Generating QR codes: 0/0</div>
+        </div>
+
+        <div class="success" id="bulk-success"></div>
+        <div class="error" id="bulk-error"></div>
+      </div>
+
+      <div class="tab-content" id="scan-tab" role="tabpanel">
+        <h2><i class="fas fa-camera"></i> QR Code Scanner</h2>
+
+        <div class="scanner-container">
+          <video id="scanner-video" aria-label="Camera feed for QR code scanning"></video>
+          <div class="scanner-overlay" id="scanner-overlay">
+            <div class="scanner-box"></div>
+            <div class="scanner-status" id="scanner-status" style="display:none;"></div>
+            <div class="scanner-guides" id="scanner-guides" style="display:none;"></div>
+          </div>
+        </div>
+
+        <div class="btn-group">
+          <button id="start-scan" aria-label="Start camera scanner">
+            <i class="fas fa-play"></i> Start Camera Scanner
+          </button>
+          <button id="stop-scan" class="secondary" aria-label="Stop camera scanner">
+            <i class="fas fa-stop"></i> Stop Scanner
+          </button>
+        </div>
+
+        <h3>Or Scan from Image File</h3>
+        <div class="file-upload-container">
+          <label for="file-upload" class="file-upload-label">
+            <i class="fas fa-cloud-upload-alt"></i>
+            <p>Drag & drop a QR code image here<br>or click to select a file</p>
+          </label>
+          <input type="file" id="file-upload" class="file-upload-input" accept="image/*" aria-label="Upload QR code image for scanning">
+        </div>
+
+        <div class="scan-result" id="scan-result" role="region" aria-live="polite">
+          <p>Scan results will appear here</p>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -1242,9 +1618,6 @@
   <script>
     // Constants
     const PREFERENCES_KEY = 'qrPreferences';
-    const basePath = window.location.pathname.includes('/qr-generator/') 
-      ? '/qr-generator/' 
-      : '/';
 
     // DOM Elements
     const qrType = document.getElementById('qr-type');
@@ -1341,12 +1714,6 @@
     const bulkTextSize = document.getElementById('bulk-text-size');
     const bulkTextAlign = document.getElementById('bulk-text-align');
 
-    // Cookie consent elements
-    const acceptCookiesBtn = document.getElementById('accept-cookies');
-    const rejectCookiesBtn = document.getElementById('reject-cookies');
-    const customizeCookiesBtn = document.getElementById('customize-cookies');
-    const saveSettingsBtn = document.getElementById('save-settings');
-
     // Global variables
     let currentStream = null;
     let logoImage = null;
@@ -1371,154 +1738,33 @@
       // Initialize text display functionality
       initTextDisplay();
       initBulkTextDisplay();
-      
-      // Load header and footer
-      loadHeader();
-      loadFooter();
-      
-      // Initialize cookie consent
-      initCookieConsent();
     });
-
-    function loadHeader() {
-      const header = document.querySelector('#main-header');
-      if (!header) {
-        console.warn('Header element not found');
-        return;
-      }
-      
-      fetch(`${basePath}includes/header.html`)
-        .then(response => {
-          if (!response.ok) throw new Error('Failed to load header');
-          return response.text();
-        })
-        .then(html => {
-          header.innerHTML = html;
-          // If you have navigation initialization, call it here
-          // initNavigation();
-        })
-        .catch(error => {
-          console.error('Error loading header:', error);
-          const errorMsg = header.querySelector('.error-message');
-          if (errorMsg) errorMsg.textContent = 'Failed to load header.';
-        });
-    }
-
-    function loadFooter() {
-      const footer = document.querySelector('#main-footer');
-      if (!footer) {
-        console.warn('Footer element not found');
-        return;
-      }
-      
-      fetch(`${basePath}includes/footer.html`)
-        .then(response => {
-          if (!response.ok) throw new Error('Failed to load footer');
-          return response.text();
-        })
-        .then(html => {
-          footer.innerHTML = html;
-        })
-        .catch(error => {
-          console.error('Error loading footer:', error);
-          const errorMsg = footer.querySelector('.error-message');
-          if (errorMsg) errorMsg.textContent = 'Failed to load footer.';
-        });
-    }
-
-    function initCookieConsent() {
-      const consent = document.getElementById('cookie-consent');
-      if (!consent) return;
-      
-      // Check if preferences are already set
-      const preferences = localStorage.getItem('cookiePreferences');
-      if (!preferences) {
-        showCookieConsent();
-      }
-      
-      // Set up event listeners
-      if (acceptCookiesBtn) {
-        acceptCookiesBtn.addEventListener('click', () => {
-          saveCookiePreferences({ necessary: true, analytics: true, marketing: true });
-          hideCookieConsent();
-        });
-      }
-      
-      if (rejectCookiesBtn) {
-        rejectCookiesBtn.addEventListener('click', () => {
-          saveCookiePreferences({ necessary: true, analytics: false, marketing: false });
-          hideCookieConsent();
-        });
-      }
-      
-      if (customizeCookiesBtn) {
-        customizeCookiesBtn.addEventListener('click', () => {
-          const settings = document.getElementById('cookie-settings');
-          if (settings) settings.style.display = 'block';
-        });
-      }
-      
-      if (saveSettingsBtn) {
-        saveSettingsBtn.addEventListener('click', () => {
-          const settings = {
-            necessary: true,
-            analytics: document.querySelector('input[name="analytics"]')?.checked || false,
-            marketing: document.querySelector('input[name="marketing"]')?.checked || false
-          };
-          saveCookiePreferences(settings);
-          hideCookieConsent();
-        });
-      }
-    }
-
-    function showCookieConsent() {
-      const consent = document.getElementById('cookie-consent');
-      if (consent) consent.style.display = 'block';
-    }
-
-    function hideCookieConsent() {
-      const consent = document.getElementById('cookie-consent');
-      if (consent) consent.style.display = 'none';
-    }
-
-    function saveCookiePreferences(prefs) {
-      localStorage.setItem('cookiePreferences', JSON.stringify(prefs));
-      // You might want to reload analytics scripts here based on preferences
-    }
 
     function initTextDisplay() {
       // Toggle text display fields
-      if (showTextDisplay) {
-        showTextDisplay.addEventListener('change', function() {
-          if (textDisplayFields) {
-            textDisplayFields.style.display = this.checked ? 'block' : 'none';
-            updateTextPreview();
-          }
-        });
-      }
+      showTextDisplay.addEventListener('change', function() {
+        textDisplayFields.style.display = this.checked ? 'block' : 'none';
+        updateTextPreview();
+      });
       
       // Update preview when any text-related field changes
       const textFields = [customText, textPrefix, textSuffix, textColor, textSize, textAlign];
       textFields.forEach(field => {
-        if (field) field.addEventListener('input', updateTextPreview);
+        field.addEventListener('input', updateTextPreview);
       });
     }
     
     function initBulkTextDisplay() {
       // Toggle bulk text display fields
-      if (bulkShowTextDisplay) {
-        bulkShowTextDisplay.addEventListener('change', function() {
-          if (bulkTextDisplayFields) {
-            bulkTextDisplayFields.style.display = this.checked ? 'block' : 'none';
-          }
-        });
-      }
+      bulkShowTextDisplay.addEventListener('change', function() {
+        bulkTextDisplayFields.style.display = this.checked ? 'block' : 'none';
+      });
     }
     
     function updateTextPreview() {
-      if (!showTextDisplay || !showTextDisplay.checked) return;
+      if (!showTextDisplay.checked) return;
       
-      let displayText = customText?.value.trim() || '';
+      let displayText = customText.value.trim();
       
       // If no custom text, use QR content
       if (!displayText) {
@@ -1531,8 +1777,8 @@
       }
       
       // Add prefix and suffix with spaces
-      const prefixVal = textPrefix?.value.trim() || '';
-      const suffixVal = textSuffix?.value.trim() || '';
+      const prefixVal = textPrefix.value.trim();
+      const suffixVal = textSuffix.value.trim();
       
       if (prefixVal || suffixVal) {
         const parts = [];
@@ -1543,12 +1789,10 @@
       }
       
       // Update preview
-      if (textPreview) {
-        textPreview.textContent = displayText;
-        textPreview.style.color = textColor?.value || '#000000';
-        textPreview.style.fontSize = textSize?.value || '16px';
-        textPreview.style.textAlign = textAlign?.value || 'center';
-      }
+      textPreview.textContent = displayText;
+      textPreview.style.color = textColor.value;
+      textPreview.style.fontSize = textSize.value;
+      textPreview.style.textAlign = textAlign.value;
       
       // Update the actual display if QR is generated
       if (generatedQR) {
@@ -1557,18 +1801,16 @@
     }
     
     function updateQRTextDisplay(text) {
-      if (!qrTextDisplay) return;
-      
       qrTextDisplay.innerHTML = '';
-      qrTextDisplay.style.display = showTextDisplay?.checked ? 'block' : 'none';
+      qrTextDisplay.style.display = showTextDisplay.checked ? 'block' : 'none';
       
-      if (!showTextDisplay?.checked) return;
+      if (!showTextDisplay.checked) return;
       
       const textElement = document.createElement('div');
       textElement.textContent = text;
-      textElement.style.color = textColor?.value || '#000000';
-      textElement.style.fontSize = textSize?.value || '16px';
-      textElement.style.textAlign = textAlign?.value || 'center';
+      textElement.style.color = textColor.value;
+      textElement.style.fontSize = textSize.value;
+      textElement.style.textAlign = textAlign.value;
       textElement.style.maxWidth = '500px';
       textElement.style.wordBreak = 'break-word';
       
@@ -1599,16 +1841,16 @@
           // Update the active state
           updateActiveState();
           
-          if (bulkListFields) bulkListFields.style.display = 'none';
-          if (bulkRangeFields) bulkRangeFields.style.display = 'none';
-          if (bulkCsvFields) bulkCsvFields.style.display = 'none';
+          bulkListFields.style.display = 'none';
+          bulkRangeFields.style.display = 'none';
+          bulkCsvFields.style.display = 'none';
           
           if (radio.value === 'list') {
-            if (bulkListFields) bulkListFields.style.display = 'block';
+            bulkListFields.style.display = 'block';
           } else if (radio.value === 'range') {
-            if (bulkRangeFields) bulkRangeFields.style.display = 'block';
+            bulkRangeFields.style.display = 'block';
           } else if (radio.value === 'csv') {
-            if (bulkCsvFields) bulkCsvFields.style.display = 'block';
+            bulkCsvFields.style.display = 'block';
           }
         });
       });
@@ -1651,11 +1893,11 @@
       if (bulkLogoSize) bulkLogoSize.addEventListener('input', updateBulkLogoSizeValue);
       
       if (bulkSizeSlider) bulkSizeSlider.addEventListener('input', () => {
-        if (bulkSizeValue) bulkSizeValue.textContent = `${bulkSizeSlider.value}px`;
+        bulkSizeValue.textContent = `${bulkSizeSlider.value}px`;
       });
       
       if (bulkBorderSize) bulkBorderSize.addEventListener('input', () => {
-        if (bulkBorderSizeValue) bulkBorderSizeValue.textContent = `${bulkBorderSize.value}px`;
+        bulkBorderSizeValue.textContent = `${bulkBorderSize.value}px`;
         updateBulkBorderPreview();
       });
       
@@ -1888,6 +2130,7 @@
       return str.replace(/[^a-zA-Z0-9-]+$/g, '_').slice(0, 50);
     }
 
+    // New modular functions
     function getQRContent(type) {
       switch(type) {
         case 'url':
@@ -2012,6 +2255,7 @@
       });
     }
 
+    // New function to add text to QR
     function addTextToQR(qrCanvas, text, options) {
       return new Promise((resolve) => {
         // If text is not enabled, return the original canvas
@@ -2066,6 +2310,7 @@
       });
     }
 
+    // Updated generateQR function
     async function generateQR() {
       try {
         const type = qrType.value;
@@ -2181,6 +2426,7 @@
       }
     }
 
+    // Updated bulk generation
     async function generateBulkQR() {
       try {
         let inputs = [];
@@ -2366,6 +2612,7 @@
       }
     }
 
+    // Email validation function
     function isValidEmail(email) {
       const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       return re.test(email);
