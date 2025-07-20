@@ -3,10 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Free online audio tools: convert, extract, edit, and enhance audio files in your browser. Supports MP3, WAV, FLAC, AAC, and more.">
+  <meta name="keywords" content="audio converter, free audio toolkit, online audio tools, convert audio, extract audio from video, audio editor, audio toolkit">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="Free Audio Tools - EveryTool.io">
+  <meta property="og:description" content="Convert, extract, and edit audio files with customizable settings. Free, fast, and secure in-browser processing.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://everytool.io/audiotools">
+  <meta property="og:image" content="https://everytool.io/social-preview-audio.jpg">
+  <meta name="twitter:card" content="summary_large_image">
   <title>Advanced Audio Tools - EveryTool.io</title>
+  
+  <!-- Performance Optimization -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.rel='stylesheet'">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Libraries -->
   <script src="https://unpkg.com/wavesurfer.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/pizzicato@0.6.4/dist/Pizzicato.js"></script>
+  
   <style>
+    /* Core styles from privacy policy page */
     :root {
       --primary: #4361ee;
       --primary-dark: #3a56d4;
@@ -28,7 +48,7 @@
     }
 
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Poppins', sans-serif;
       line-height: 1.6;
       color: var(--dark);
       background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
@@ -227,7 +247,6 @@
       background: var(--light);
       display: block;
       transition: var(--transition);
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     
     input:focus, select:focus, textarea:focus {
@@ -247,7 +266,6 @@
       align-items: center;
       justify-content: center;
       gap: 10px;
-      transition: var(--transition);
     }
     
     button:hover, button:focus {
@@ -746,6 +764,152 @@
       font-size: 0.9rem;
     }
     
+    /* Cookie Consent Styles (from privacy policy) */
+    #cookie-consent {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      right: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+      background: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      padding: 20px;
+      z-index: 1000;
+      display: none;
+      animation: slideUp 0.5s ease;
+    }
+    
+    @keyframes slideUp {
+      from { transform: translateY(100px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    
+    .cookie-content {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+    }
+    
+    .cookie-text {
+      flex: 1;
+      min-width: 300px;
+    }
+    
+    .cookie-buttons {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .cookie-btn {
+      padding: 10px 20px;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      border: none;
+    }
+    
+    .reject-btn {
+      background: var(--light-gray);
+      color: var(--dark);
+    }
+    
+    .accept-btn {
+      background: var(--primary);
+      color: white;
+    }
+    
+    .cookie-settings-btn {
+      background: none;
+      border: none;
+      color: var(--primary);
+      font-weight: 600;
+      cursor: pointer;
+      padding: 10px 0;
+      width: 100%;
+      text-align: center;
+    }
+    
+    #cookie-settings {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 1001;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .settings-modal {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 30px;
+      max-width: 600px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      animation: scaleIn 0.3s ease;
+    }
+    
+    @keyframes scaleIn {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    
+    .settings-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .settings-header h2 {
+      margin: 0;
+    }
+    
+    .close-settings {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--gray);
+    }
+    
+    .cookie-type {
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid var(--light-gray);
+    }
+    
+    .cookie-type-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    
+    .settings-buttons {
+      margin-top: 20px;
+      text-align: right;
+    }
+    
+    .save-settings {
+      background: var(--primary);
+      color: white;
+      padding: 10px 25px;
+      border-radius: 50px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+    }
+    
     /* Responsive Design */
     @media (max-width: 768px) {
       .hero h1 {
@@ -775,26 +939,43 @@
         flex-direction: column;
         gap: 10px;
       }
+      
+      .cookie-content {
+        flex-direction: column;
+      }
+      
+      .cookie-buttons {
+        width: 100%;
+      }
+      
+      .cookie-btn {
+        flex: 1;
+      }
+    }
+    
+    @media (max-width: 576px) {
+      .hero {
+        padding: 60px 0 20px;
+      }
+      
+      .card {
+        padding: 20px;
+      }
+      
+      h2 {
+        font-size: 1.5rem;
+      }
+      
+      h3 {
+        font-size: 1.2rem;
+      }
     }
   </style>
 </head>
 <body>
-  <!-- Header -->
-  <header>
-    <div class="header-container">
-      <div class="logo">
-        <i class="fas fa-wave-square"></i>
-        <span>EveryTool.io</span>
-      </div>
-      <nav>
-        <ul>
-          <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
-          <li><a href="#" class="active"><i class="fas fa-music"></i> Audio Tools</a></li>
-          <li><a href="#"><i class="fas fa-video"></i> Video Tools</a></li>
-          <li><a href="#"><i class="fas fa-image"></i> Image Tools</a></li>
-        </ul>
-      </nav>
-    </div>
+  <!-- Header Placeholder (exact same as privacy policy) -->
+  <header id="main-header">
+    <p class="error-message" style="display: none; color: red; text-align: center;">Failed to load header. Please try refreshing the page.</p>
   </header>
 
   <!-- Hero Section -->
@@ -1182,36 +1363,71 @@
     </div>
   </div>
 
-  <!-- Footer -->
-  <footer>
-    <div class="footer-content">
-      <div class="footer-column">
-        <h3>EveryTool.io</h3>
-        <p>Your all-in-one toolkit for media processing. Free, fast, and secure browser-based tools.</p>
-      </div>
-      <div class="footer-column">
-        <h3>Tools</h3>
-        <ul class="footer-links">
-          <li><a href="#"><i class="fas fa-music"></i> Audio Tools</a></li>
-          <li><a href="#"><i class="fas fa-video"></i> Video Tools</a></li>
-          <li><a href="#"><i class="fas fa-image"></i> Image Tools</a></li>
-          <li><a href="#"><i class="fas fa-file"></i> Document Tools</a></li>
-        </ul>
-      </div>
-      <div class="footer-column">
-        <h3>Resources</h3>
-        <ul class="footer-links">
-          <li><a href="#"><i class="fas fa-book"></i> Documentation</a></li>
-          <li><a href="#"><i class="fas fa-shield-alt"></i> Privacy Policy</a></li>
-          <li><a href="#"><i class="fas fa-file-contract"></i> Terms of Service</a></li>
-          <li><a href="#"><i class="fas fa-envelope"></i> Contact Us</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="copyright">
-      <p>&copy; 2023 EveryTool.io. All rights reserved.</p>
-    </div>
+  <!-- Footer Placeholder (exact same as privacy policy) -->
+  <footer id="main-footer">
+    <p class="error-message" style="display: none; color: red; text-align: center;">Failed to load footer. Please try refreshing the page.</p>
   </footer>
+
+  <!-- Cookie Consent Banner (exact same as privacy policy) -->
+  <div id="cookie-consent" role="dialog" aria-labelledby="cookie-consent-banner" aria-describedby="cookie-consent-desc">
+    <div class="sr-only" id="cookie-consent-banner">Cookie Consent</div>
+    <div class="cookie-content" id="cookie-consent-desc">
+      <div class="cookie-text">
+        <p>We use cookies to enhance your experience. Essential cookies are always on, but you can choose whether to allow analytics and advertising cookies.</p>
+        <p>Learn more in our <a href="/privacy" aria-label="Privacy Policy">Privacy Policy</a>.</p>
+      </div>
+      <div class="cookie-buttons">
+        <button class="cookie-btn reject-btn" id="reject-cookies">Reject Non-Essential</button>
+        <button class="cookie-btn accept-btn" id="accept-cookies">Accept All</button>
+      </div>
+      <button class="cookie-settings-btn" id="open-settings">Customize Settings</button>
+    </div>
+  </div>
+
+  <!-- Cookie Settings Modal (exact same as privacy policy) -->
+  <div id="cookie-settings">
+    <div class="settings-modal">
+      <div class="settings-header">
+        <h2>Cookie Settings</h2>
+        <button class="close-settings" aria-label="Close settings"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="settings-content">
+        <div class="cookie-type">
+          <div class="cookie-type-header">
+            <h3>Essential Cookies</h3>
+            <div class="toggle-switch">
+              <input type="checkbox" id="essential-toggle" checked disabled>
+              <span class="slider"></span>
+            </div>
+          </div>
+          <p>These cookies are necessary for the website to function and cannot be disabled.</p>
+        </div>
+        <div class="cookie-type">
+          <div class="cookie-type-header">
+            <h3>Analytics Cookies</h3>
+            <div class="toggle-switch">
+              <input type="checkbox" id="analytics-toggle">
+              <span class="slider"></span>
+            </div>
+          </div>
+          <p>These cookies help us understand how visitors interact with our website, providing insights to improve our services.</p>
+        </div>
+        <div class="cookie-type">
+          <div class="cookie-type-header">
+            <h3>Advertising Cookies</h3>
+            <div class="toggle-switch">
+              <input type="checkbox" id="advertising-toggle">
+              <span class="slider"></span>
+            </div>
+          </div>
+          <p>These cookies are used to deliver personalized advertisements based on your interests.</p>
+        </div>
+      </div>
+      <div class="settings-buttons">
+        <button class="save-settings" id="save-settings">Save Settings</button>
+      </div>
+    </div>
+  </div>
 
   <!-- Font Awesome Icons -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
@@ -1722,20 +1938,67 @@
       applyEffectsBtn.addEventListener('click', simulateProcessing);
       processBatchBtn.addEventListener('click', simulateProcessing);
       
-      // Keyboard accessibility
-      document.addEventListener('keydown', (e) => {
-        if (e.target === dropZone && (e.key === 'Enter' || e.key === ' ')) {
-          audioInput.click();
-        }
+      // Cookie functionality (same as privacy policy)
+      const cookieConsent = document.getElementById('cookie-consent');
+      const cookieSettings = document.getElementById('cookie-settings');
+      const acceptCookiesBtn = document.getElementById('accept-cookies');
+      const rejectCookiesBtn = document.getElementById('reject-cookies');
+      const openSettingsBtn = document.getElementById('open-settings');
+      const closeSettingsBtn = document.querySelector('.close-settings');
+      const saveSettingsBtn = document.getElementById('save-settings');
+      const analyticsToggle = document.getElementById('analytics-toggle');
+      const advertisingToggle = document.getElementById('advertising-toggle');
+      
+      // Show cookie consent if not already set
+      if (!localStorage.getItem('cookieConsent')) {
+        setTimeout(() => {
+          cookieConsent.style.display = 'block';
+        }, 1000);
+      }
+      
+      // Handle cookie acceptance
+      acceptCookiesBtn.addEventListener('click', () => {
+        localStorage.setItem('cookieConsent', 'all');
+        cookieConsent.style.display = 'none';
+        // Enable analytics and advertising
       });
       
-      // Initialize quality slider value
-      qualityValue.textContent = `${qualitySlider.value} kbps`;
-      reverbValue.textContent = `${reverbLevel.value}%`;
-      delayTimeValue.textContent = `${delayTime.value}s`;
-      delayFeedbackValue.textContent = `${delayFeedback.value}%`;
-      distortionValue.textContent = `${distortionAmount.value}%`;
-      filterFrequencyValue.textContent = `${filterFrequency.value} Hz`;
+      // Handle rejection of non-essential cookies
+      rejectCookiesBtn.addEventListener('click', () => {
+        localStorage.setItem('cookieConsent', 'essential');
+        cookieConsent.style.display = 'none';
+        // Disable analytics and advertising
+      });
+      
+      // Open cookie settings
+      openSettingsBtn.addEventListener('click', () => {
+        cookieSettings.style.display = 'flex';
+      });
+      
+      // Close cookie settings
+      closeSettingsBtn.addEventListener('click', () => {
+        cookieSettings.style.display = 'none';
+      });
+      
+      // Save cookie settings
+      saveSettingsBtn.addEventListener('click', () => {
+        const settings = {
+          analytics: analyticsToggle.checked,
+          advertising: advertisingToggle.checked
+        };
+        localStorage.setItem('cookieSettings', JSON.stringify(settings));
+        localStorage.setItem('cookieConsent', 'custom');
+        cookieSettings.style.display = 'none';
+        cookieConsent.style.display = 'none';
+      });
+      
+      // Load saved cookie settings
+      const savedSettings = localStorage.getItem('cookieSettings');
+      if (savedSettings) {
+        const settings = JSON.parse(savedSettings);
+        analyticsToggle.checked = settings.analytics;
+        advertisingToggle.checked = settings.advertising;
+      }
     });
   </script>
 </body>
