@@ -23,10 +23,11 @@
   
   <!-- Libraries -->
   <script src="https://unpkg.com/wavesurfer.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/pizzicato@0.6.4/dist/Pizzicato.js"></script>
+  <!-- Using a different CDN to avoid CORB issues -->
+  <script src="https://cdn.jsdelivr.net/npm/pizzicato@0.6.4/dist/Pizzicato.min.js"></script>
   
   <style>
-    /* Core styles from privacy policy page */
+    /* Core styles */
     :root {
       --primary: #4361ee;
       --primary-dark: #3a56d4;
@@ -764,7 +765,7 @@
       font-size: 0.9rem;
     }
     
-    /* Cookie Consent Styles (from privacy policy) */
+    /* Cookie Consent Styles */
     #cookie-consent {
       position: fixed;
       bottom: 20px;
@@ -973,9 +974,22 @@
   </style>
 </head>
 <body>
-  <!-- Header Placeholder (exact same as privacy policy) -->
+  <!-- Header Placeholder -->
   <header id="main-header">
-    <p class="error-message" style="display: none; color: red; text-align: center;">Failed to load header. Please try refreshing the page.</p>
+    <div class="header-container">
+      <div class="logo">
+        <i class="fas fa-wave-square"></i>
+        <span>EveryTool.io</span>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
+          <li><a href="#" class="active"><i class="fas fa-music"></i> Audio Tools</a></li>
+          <li><a href="#"><i class="fas fa-video"></i> Video Tools</a></li>
+          <li><a href="#"><i class="fas fa-image"></i> Image Tools</a></li>
+        </ul>
+      </nav>
+    </div>
   </header>
 
   <!-- Hero Section -->
@@ -1363,12 +1377,38 @@
     </div>
   </div>
 
-  <!-- Footer Placeholder (exact same as privacy policy) -->
+  <!-- Footer Placeholder -->
   <footer id="main-footer">
-    <p class="error-message" style="display: none; color: red; text-align: center;">Failed to load footer. Please try refreshing the page.</p>
+    <div class="footer-content">
+      <div class="footer-column">
+        <h3>EveryTool.io</h3>
+        <p>Your all-in-one toolkit for media processing. Free, fast, and secure browser-based tools.</p>
+      </div>
+      <div class="footer-column">
+        <h3>Tools</h3>
+        <ul class="footer-links">
+          <li><a href="#"><i class="fas fa-music"></i> Audio Tools</a></li>
+          <li><a href="#"><i class="fas fa-video"></i> Video Tools</a></li>
+          <li><a href="#"><i class="fas fa-image"></i> Image Tools</a></li>
+          <li><a href="#"><i class="fas fa-file"></i> Document Tools</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>Resources</h3>
+        <ul class="footer-links">
+          <li><a href="#"><i class="fas fa-book"></i> Documentation</a></li>
+          <li><a href="#"><i class="fas fa-shield-alt"></i> Privacy Policy</a></li>
+          <li><a href="#"><i class="fas fa-file-contract"></i> Terms of Service</a></li>
+          <li><a href="#"><i class="fas fa-envelope"></i> Contact Us</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="copyright">
+      <p>&copy; 2023 EveryTool.io. All rights reserved.</p>
+    </div>
   </footer>
 
-  <!-- Cookie Consent Banner (exact same as privacy policy) -->
+  <!-- Cookie Consent Banner -->
   <div id="cookie-consent" role="dialog" aria-labelledby="cookie-consent-banner" aria-describedby="cookie-consent-desc">
     <div class="sr-only" id="cookie-consent-banner">Cookie Consent</div>
     <div class="cookie-content" id="cookie-consent-desc">
@@ -1384,7 +1424,7 @@
     </div>
   </div>
 
-  <!-- Cookie Settings Modal (exact same as privacy policy) -->
+  <!-- Cookie Settings Modal -->
   <div id="cookie-settings">
     <div class="settings-modal">
       <div class="settings-header">
@@ -1432,6 +1472,7 @@
   <!-- Font Awesome Icons -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
   
+  <!-- Main JavaScript for the audio tools -->
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       // Tab switching functionality
@@ -1938,7 +1979,7 @@
       applyEffectsBtn.addEventListener('click', simulateProcessing);
       processBatchBtn.addEventListener('click', simulateProcessing);
       
-      // Cookie functionality (same as privacy policy)
+      // Cookie functionality
       const cookieConsent = document.getElementById('cookie-consent');
       const cookieSettings = document.getElementById('cookie-settings');
       const acceptCookiesBtn = document.getElementById('accept-cookies');
@@ -2001,5 +2042,8 @@
       }
     });
   </script>
+  
+  <!-- Main JavaScript for header/footer and other shared functionality -->
+  <script src="/js/main.js"></script>
 </body>
 </html>
