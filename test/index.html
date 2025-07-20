@@ -808,7 +808,7 @@
       </div>
     </div>
 
-    <!-- Text Display Options for Single Barcode -->
+    <!-- Unified Text Display Options -->
     <div class="text-display-container">
       <div class="text-display-header">
         <i class="fas fa-font"></i>
@@ -825,14 +825,8 @@
         </div>
         
         <div class="text-display-group" id="text-display-fields" style="display: none;">
-          <label for="custom-text">Custom Text (optional, overrides barcode content):</label>
+          <label for="custom-text">Custom Text (optional):</label>
           <input type="text" id="custom-text" placeholder="Enter custom text to display below barcode">
-          
-          <label for="text-prefix">Text Prefix (optional):</label>
-          <input type="text" id="text-prefix" placeholder="Prefix to add before the text">
-          
-          <label for="text-suffix">Text Suffix (optional):</label>
-          <input type="text" id="text-suffix" placeholder="Suffix to add after the text">
           
           <div class="text-display-controls">
             <div class="text-display-control">
@@ -862,61 +856,6 @@
           
           <div class="text-display-preview" id="text-preview">
             Preview will appear here
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Text Display Options for Bulk Barcodes -->
-    <div class="text-display-container">
-      <div class="text-display-header">
-        <i class="fas fa-font"></i>
-        <h3>Text Display Options for Bulk</h3>
-      </div>
-      
-      <div class="text-display-content">
-        <div class="text-display-toggle">
-          <label class="toggle-label">Add Text to All Barcodes</label>
-          <label class="toggle-switch-visual">
-            <input type="checkbox" id="bulk-show-text-display">
-            <span class="toggle-slider"></span>
-          </label>
-        </div>
-        
-        <div class="text-display-group" id="bulk-text-display-fields" style="display: none;">
-          <label for="bulk-custom-text">Custom Text (optional, overrides barcode content):</label>
-          <input type="text" id="bulk-custom-text" placeholder="Enter custom text to display below all barcodes">
-          
-          <label for="bulk-text-prefix">Text Prefix (optional):</label>
-          <input type="text" id="bulk-text-prefix" placeholder="Prefix to add before the text">
-          
-          <label for="bulk-text-suffix">Text Suffix (optional):</label>
-          <input type="text" id="bulk-text-suffix" placeholder="Suffix to add after the text">
-          
-          <div class="text-display-controls">
-            <div class="text-display-control">
-              <label for="bulk-text-color">Text Color:</label>
-              <input type="color" id="bulk-text-color" value="#000000">
-            </div>
-            
-            <div class="text-display-control">
-              <label for="bulk-text-size">Text Size:</label>
-              <select id="bulk-text-size">
-                <option value="12px">Small</option>
-                <option value="16px" selected>Medium</option>
-                <option value="20px">Large</option>
-                <option value="24px">Extra Large</option>
-              </select>
-            </div>
-            
-            <div class="text-display-control">
-              <label for="bulk-text-align">Text Alignment:</label>
-              <select id="bulk-text-align">
-                <option value="left">Left</option>
-                <option value="center" selected>Center</option>
-                <option value="right">Right</option>
-              </select>
-            </div>
           </div>
         </div>
       </div>
@@ -1169,24 +1108,12 @@
         showTextDisplay: document.getElementById('show-text-display'),
         textDisplayFields: document.getElementById('text-display-fields'),
         customText: document.getElementById('custom-text'),
-        textPrefix: document.getElementById('text-prefix'),
-        textSuffix: document.getElementById('text-suffix'),
         textColor: document.getElementById('text-color'),
         textSize: document.getElementById('text-size'),
         textAlign: document.getElementById('text-align'),
         textPreview: document.getElementById('text-preview'),
         barcodeTextDisplay: document.getElementById('barcode-text-display'),
-        customBarcodeTextDisplay: document.getElementById('custom-barcode-text-display'),
-        
-        // Bulk text display elements
-        bulkShowTextDisplay: document.getElementById('bulk-show-text-display'),
-        bulkTextDisplayFields: document.getElementById('bulk-text-display-fields'),
-        bulkCustomText: document.getElementById('bulk-custom-text'),
-        bulkTextPrefix: document.getElementById('bulk-text-prefix'),
-        bulkTextSuffix: document.getElementById('bulk-text-suffix'),
-        bulkTextColor: document.getElementById('bulk-text-color'),
-        bulkTextSize: document.getElementById('bulk-text-size'),
-        bulkTextAlign: document.getElementById('bulk-text-align')
+        customBarcodeTextDisplay: document.getElementById('custom-barcode-text-display')
       };
 
       const barcodeConfig = {
@@ -1331,16 +1258,9 @@
         });
         
         // Update preview when any text-related field changes
-        const textFields = [elements.customText, elements.textPrefix, elements.textSuffix, elements.textColor, elements.textSize, elements.textAlign];
+        const textFields = [elements.customText, elements.textColor, elements.textSize, elements.textAlign];
         textFields.forEach(field => {
           field.addEventListener('input', updateTextPreview);
-        });
-      }
-
-      function initBulkTextDisplay() {
-        // Toggle bulk text display fields
-        elements.bulkShowTextDisplay.addEventListener('change', function() {
-          elements.bulkTextDisplayFields.style.display = this.checked ? 'block' : 'none';
         });
       }
 
@@ -1358,18 +1278,6 @@
           } catch {
             displayText = "Barcode content will appear here";
           }
-        }
-        
-        // Add prefix and suffix with spaces
-        const prefixVal = elements.textPrefix.value.trim();
-        const suffixVal = elements.textSuffix.value.trim();
-        
-        if (prefixVal || suffixVal) {
-          const parts = [];
-          if (prefixVal) parts.push(prefixVal);
-          if (displayText) parts.push(displayText);
-          if (suffixVal) parts.push(suffixVal);
-          displayText = parts.join(' ');
         }
         
         // Update preview
@@ -1502,18 +1410,6 @@
               displayText = finalCode;
             }
             
-            // Add prefix and suffix with spaces
-            const prefixVal = elements.textPrefix.value.trim();
-            const suffixVal = elements.textSuffix.value.trim();
-            
-            if (prefixVal || suffixVal) {
-              const parts = [];
-              if (prefixVal) parts.push(prefixVal);
-              if (displayText) parts.push(displayText);
-              if (suffixVal) parts.push(suffixVal);
-              displayText = parts.join(' ');
-            }
-            
             // Create text options
             const textOptions = {
               enabled: true,
@@ -1619,12 +1515,12 @@
 
         // Prepare text options if enabled
         let textOptions = null;
-        if (elements.bulkShowTextDisplay.checked) {
+        if (elements.showTextDisplay.checked) {
           textOptions = {
             enabled: true,
-            size: elements.bulkTextSize.value,
-            color: elements.bulkTextColor.value,
-            align: elements.bulkTextAlign.value,
+            size: elements.textSize.value,
+            color: elements.textColor.value,
+            align: elements.textAlign.value,
             transparent: elements.transparentBg.checked,
             bgColor: elements.backgroundColor.value
           };
@@ -1659,21 +1555,9 @@
               // Add text if enabled
               let finalCanvas = canvas;
               if (textOptions) {
-                let displayText = elements.bulkCustomText.value.trim();
+                let displayText = elements.customText.value.trim();
                 if (!displayText) {
                   displayText = code;
-                }
-                
-                // Add prefix and suffix with spaces
-                const prefixVal = elements.bulkTextPrefix.value.trim();
-                const suffixVal = elements.bulkTextSuffix.value.trim();
-                
-                if (prefixVal || suffixVal) {
-                  const parts = [];
-                  if (prefixVal) parts.push(prefixVal);
-                  if (displayText) parts.push(displayText);
-                  if (suffixVal) parts.push(suffixVal);
-                  displayText = parts.join(' ');
                 }
                 
                 // Add text to the barcode
@@ -1706,7 +1590,6 @@
         
         // Initialize text display UI
         initTextDisplay();
-        initBulkTextDisplay();
         
         // Tabs functionality
         elements.tabs.forEach(tab => {
