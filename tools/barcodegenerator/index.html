@@ -451,6 +451,185 @@
       margin-top: 20px;
     }
     
+    /* Text Display Options */
+    .text-display-container {
+      margin: 1.5em 0;
+      border: 1px solid var(--light-gray);
+      border-radius: var(--border-radius);
+      padding: 20px;
+      background: #fafbff;
+    }
+
+    .text-display-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+      justify-content: center;
+    }
+
+    .text-display-header i {
+      color: var(--primary);
+      font-size: 1.5rem;
+    }
+
+    .text-display-content {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .text-display-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+
+    .text-display-preview {
+      margin: 15px auto;
+      padding: 15px;
+      border: 1px dashed var(--light-gray);
+      border-radius: var(--border-radius);
+      background: white;
+      text-align: center;
+      min-height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 500px;
+    }
+
+    .text-display-controls {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .text-display-control {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .text-display-control label {
+      font-weight: 500;
+      color: var(--dark);
+    }
+
+    .text-display-control input[type="color"] {
+      width: 60px;
+      height: 60px;
+      padding: 5px;
+      cursor: pointer;
+      border-radius: 12px;
+      border: 2px solid var(--light-gray);
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .text-display-control input[type="color"]::-webkit-color-swatch {
+      border: none;
+      border-radius: 8px;
+    }
+
+    .text-display-control select {
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid var(--light-gray);
+      background: var(--light);
+    }
+
+    .text-display-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .text-display-group label {
+      font-weight: 500;
+      color: var(--dark);
+    }
+
+    .text-display-group input[type="text"] {
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid var(--light-gray);
+      background: var(--light);
+    }
+
+    /* Barcode Result Container */
+    .barcode-result-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 20px 0;
+      gap: 15px;
+    }
+
+    .barcode-text-container {
+      background: white;
+      padding: 15px;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 500px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
+    /* Toggle switch styles */
+    .toggle-switch-visual {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 34px;
+    }
+
+    .toggle-switch-visual input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 34px;
+    }
+
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 26px;
+      width: 26px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+
+    input:checked + .toggle-slider {
+      background-color: var(--primary);
+    }
+
+    input:checked + .toggle-slider:before {
+      transform: translateX(26px);
+    }
+
+    .toggle-label {
+      font-weight: 500;
+      color: var(--dark);
+    }
+
     /* Responsive Design for Barcode Generator */
     @media (max-width: 768px) {
       .hero h1 {
@@ -489,6 +668,10 @@
       .color-options {
         flex-direction: column;
         align-items: center;
+      }
+
+      .text-display-controls {
+        grid-template-columns: 1fr;
       }
     }
 
@@ -625,6 +808,59 @@
       </div>
     </div>
 
+    <!-- Unified Text Display Options -->
+    <div class="text-display-container">
+      <div class="text-display-header">
+        <i class="fas fa-font"></i>
+        <h3>Text Display Options</h3>
+      </div>
+      
+      <div class="text-display-content">
+        <div class="text-display-toggle">
+          <label class="toggle-label">Display Text Below Barcode</label>
+          <label class="toggle-switch-visual">
+            <input type="checkbox" id="show-text-display">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        
+        <div class="text-display-group" id="text-display-fields" style="display: none;">
+          <label for="custom-text">Custom Text (optional):</label>
+          <input type="text" id="custom-text" placeholder="Enter custom text to display below barcode">
+          
+          <div class="text-display-controls">
+            <div class="text-display-control">
+              <label for="text-color">Text Color:</label>
+              <input type="color" id="text-color" value="#000000">
+            </div>
+            
+            <div class="text-display-control">
+              <label for="text-size">Text Size:</label>
+              <select id="text-size">
+                <option value="12px">Small</option>
+                <option value="16px" selected>Medium</option>
+                <option value="20px">Large</option>
+                <option value="24px">Extra Large</option>
+              </select>
+            </div>
+            
+            <div class="text-display-control">
+              <label for="text-align">Text Alignment:</label>
+              <select id="text-align">
+                <option value="left">Left</option>
+                <option value="center" selected>Center</option>
+                <option value="right">Right</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="text-display-preview" id="text-preview">
+            Preview will appear here
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="card">
       <div class="tabs" role="tablist">
         <div class="tab active" data-tab="single" role="tab" aria-selected="true" tabindex="0">
@@ -671,7 +907,10 @@
           <div class="spinner"></div>
           Generating Barcode...
         </div>
-        <canvas id="ean-canvas" style="display: none;" aria-label="Generated barcode"></canvas>
+        <div class="barcode-result-container">
+          <canvas id="ean-canvas" style="display: none;" aria-label="Generated barcode"></canvas>
+          <div class="barcode-text-container" id="barcode-text-display" style="display: none;"></div>
+        </div>
       </div>
 
       <div class="tab-content" id="batch-tab" role="tabpanel">
@@ -741,7 +980,10 @@
         </div>
         <div class="error" id="custom-error"></div>
         <div class="success" id="custom-success"></div>
-        <canvas id="custom-canvas" style="display: none;" aria-label="Generated custom barcode"></canvas>
+        <div class="barcode-result-container">
+          <canvas id="custom-canvas" style="display: none;" aria-label="Generated custom barcode"></canvas>
+          <div class="barcode-text-container" id="custom-barcode-text-display" style="display: none;"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -860,7 +1102,18 @@
         barColorPreview: document.getElementById('bar-color-preview'),
         backgroundColorPreview: document.getElementById('background-color-preview'),
         barColorValue: document.getElementById('bar-color-value'),
-        backgroundColorValue: document.getElementById('background-color-value')
+        backgroundColorValue: document.getElementById('background-color-value'),
+        
+        // Text display elements
+        showTextDisplay: document.getElementById('show-text-display'),
+        textDisplayFields: document.getElementById('text-display-fields'),
+        customText: document.getElementById('custom-text'),
+        textColor: document.getElementById('text-color'),
+        textSize: document.getElementById('text-size'),
+        textAlign: document.getElementById('text-align'),
+        textPreview: document.getElementById('text-preview'),
+        barcodeTextDisplay: document.getElementById('barcode-text-display'),
+        customBarcodeTextDisplay: document.getElementById('custom-barcode-text-display')
       };
 
       const barcodeConfig = {
@@ -997,13 +1250,127 @@
         return str.replace(/[^a-zA-Z0-9-]+/g, '_').slice(0, 50) || 'barcode';
       }
 
-      function generateBarcode({ canvas, code, type, errorElement, successElement, downloadButton, svgDownloadButton, loadingElement }) {
+      function initTextDisplay() {
+        // Toggle text display fields
+        elements.showTextDisplay.addEventListener('change', function() {
+          elements.textDisplayFields.style.display = this.checked ? 'block' : 'none';
+          updateTextPreview();
+        });
+        
+        // Update preview when any text-related field changes
+        const textFields = [elements.customText, elements.textColor, elements.textSize, elements.textAlign];
+        textFields.forEach(field => {
+          field.addEventListener('input', updateTextPreview);
+        });
+      }
+
+      function updateTextPreview() {
+        if (!elements.showTextDisplay.checked) return;
+        
+        let displayText = elements.customText.value.trim();
+        
+        // If no custom text, use barcode content
+        if (!displayText) {
+          const type = elements.eanType.value;
+          try {
+            const input = elements.eanInput.value.trim();
+            displayText = input || generateRandomBarcode(type);
+          } catch {
+            displayText = "Barcode content will appear here";
+          }
+        }
+        
+        // Update preview
+        elements.textPreview.textContent = displayText;
+        elements.textPreview.style.color = elements.textColor.value;
+        elements.textPreview.style.fontSize = elements.textSize.value;
+        elements.textPreview.style.textAlign = elements.textAlign.value;
+        
+        // Update the actual display if barcode is generated
+        if (elements.singleCanvas.dataset.code) {
+          updateBarcodeTextDisplay(displayText, elements.barcodeTextDisplay);
+        }
+      }
+
+      function updateBarcodeTextDisplay(text, container) {
+        container.innerHTML = '';
+        container.style.display = elements.showTextDisplay.checked ? 'block' : 'none';
+        
+        if (!elements.showTextDisplay.checked) return;
+        
+        const textElement = document.createElement('div');
+        textElement.textContent = text;
+        textElement.style.color = elements.textColor.value;
+        textElement.style.fontSize = elements.textSize.value;
+        textElement.style.textAlign = elements.textAlign.value;
+        textElement.style.maxWidth = '500px';
+        textElement.style.wordBreak = 'break-word';
+        
+        container.appendChild(textElement);
+      }
+
+      function addTextToBarcode(barcodeCanvas, text, options) {
+        return new Promise((resolve) => {
+          // If text is not enabled, return the original canvas
+          if (!options.enabled || !text) {
+            resolve(barcodeCanvas);
+            return;
+          }
+          
+          const barcodeWidth = barcodeCanvas.width;
+          const barcodeHeight = barcodeCanvas.height;
+          
+          // Create the final canvas with space for text
+          const padding = 20;
+          const fontSize = parseInt(options.size);
+          const textHeight = fontSize * 2; // Approximate height for text
+          
+          const finalCanvas = document.createElement('canvas');
+          finalCanvas.width = barcodeWidth;
+          finalCanvas.height = barcodeHeight + textHeight + padding;
+          const ctx = finalCanvas.getContext('2d');
+          
+          // Fill background if not transparent
+          if (!options.transparent) {
+            ctx.fillStyle = options.bgColor;
+            ctx.fillRect(0, 0, finalCanvas.width, finalCanvas.height);
+          }
+          
+          // Draw barcode
+          ctx.drawImage(barcodeCanvas, 0, 0);
+          
+          // Draw text
+          ctx.fillStyle = options.color;
+          ctx.font = `${options.size} 'Poppins', sans-serif`;
+          ctx.textAlign = options.align;
+          
+          // Calculate text position
+          let textX;
+          if (options.align === 'left') {
+            textX = padding;
+          } else if (options.align === 'right') {
+            textX = finalCanvas.width - padding;
+          } else {
+            textX = finalCanvas.width / 2;
+          }
+          
+          const textY = barcodeHeight + padding;
+          
+          // Draw text
+          ctx.fillText(text, textX, textY);
+          
+          resolve(finalCanvas);
+        });
+      }
+
+      async function generateBarcode({ canvas, code, type, errorElement, successElement, downloadButton, svgDownloadButton, loadingElement, textContainer }) {
         const ctx = canvas.getContext('2d');
         hideElements();
         loadingElement.style.display = 'block';
         downloadButton.style.display = 'none';
         svgDownloadButton.style.display = 'none';
         canvas.style.display = 'none';
+        if (textContainer) textContainer.style.display = 'none';
 
         if (!validateInput(code, type)) {
           showError(errorElement, 'Invalid input format for selected barcode type');
@@ -1035,6 +1402,36 @@
             textColor: elements.barColor.value,
             background: elements.transparentBg.checked ? 'transparent' : elements.backgroundColor.value
           });
+
+          // Add text if enabled
+          if (elements.showTextDisplay.checked && textContainer) {
+            let displayText = elements.customText.value.trim();
+            if (!displayText) {
+              displayText = finalCode;
+            }
+            
+            // Create text options
+            const textOptions = {
+              enabled: true,
+              size: elements.textSize.value,
+              color: elements.textColor.value,
+              align: elements.textAlign.value,
+              transparent: elements.transparentBg.checked,
+              bgColor: elements.backgroundColor.value
+            };
+            
+            // Add text to the barcode
+            const textCanvas = await addTextToBarcode(canvas, displayText, textOptions);
+            
+            // Display results
+            canvas.width = textCanvas.width;
+            canvas.height = textCanvas.height;
+            const newCtx = canvas.getContext('2d');
+            newCtx.drawImage(textCanvas, 0, 0);
+            
+            // Update text display
+            updateBarcodeTextDisplay(displayText, textContainer);
+          }
 
           downloadButton.style.display = 'inline-block';
           svgDownloadButton.style.display = 'inline-block';
@@ -1116,6 +1513,19 @@
         hideElements();
         elements.batchLoading.style.display = 'block';
 
+        // Prepare text options if enabled
+        let textOptions = null;
+        if (elements.showTextDisplay.checked) {
+          textOptions = {
+            enabled: true,
+            size: elements.textSize.value,
+            color: elements.textColor.value,
+            align: elements.textAlign.value,
+            transparent: elements.transparentBg.checked,
+            bgColor: elements.backgroundColor.value
+          };
+        }
+
         try {
           const zip = new JSZip();
           const canvas = document.createElement('canvas');
@@ -1142,7 +1552,19 @@
                 background: elements.transparentBg.checked ? 'transparent' : elements.backgroundColor.value
               });
 
-              const dataUrl = canvas.toDataURL('image/png', 1.0);
+              // Add text if enabled
+              let finalCanvas = canvas;
+              if (textOptions) {
+                let displayText = elements.customText.value.trim();
+                if (!displayText) {
+                  displayText = code;
+                }
+                
+                // Add text to the barcode
+                finalCanvas = await addTextToBarcode(canvas, displayText, textOptions);
+              }
+
+              const dataUrl = finalCanvas.toDataURL('image/png', 1.0);
               const imgData = dataUrl.replace(/^data:image\/png;base64,/, '');
               zip.file(`${sanitizeFilename(code)}.png`, imgData, { base64: true });
             } catch (err) {
@@ -1165,6 +1587,9 @@
       function initializeBarcodeGenerator() {
         // Initialize color selection UI
         initColorSelection();
+        
+        // Initialize text display UI
+        initTextDisplay();
         
         // Tabs functionality
         elements.tabs.forEach(tab => {
@@ -1204,7 +1629,8 @@
           successElement: elements.singleSuccess,
           downloadButton: elements.downloadBtn,
           svgDownloadButton: elements.downloadSvgBtn,
-          loadingElement: elements.singleLoading
+          loadingElement: elements.singleLoading,
+          textContainer: elements.barcodeTextDisplay
         }));
 
         elements.downloadBtn.addEventListener('click', () => downloadBarcode(elements.singleCanvas, elements.singleError));
@@ -1226,7 +1652,8 @@
             successElement: elements.customSuccess,
             downloadButton: elements.customDownloadBtn,
             svgDownloadButton: elements.customSvgDownloadBtn,
-            loadingElement: elements.customLoading
+            loadingElement: elements.customLoading,
+            textContainer: elements.customBarcodeTextDisplay
           });
         });
 
