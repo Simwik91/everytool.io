@@ -1,0 +1,1423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Free online audio tools: convert, extract, edit, and enhance audio files in your browser. Supports MP3, WAV, FLAC, AAC, and more.">
+  <meta name="keywords" content="audio converter, free audio toolkit, online audio tools, convert audio, extract audio from video, audio editor, audio toolkit">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="Free Audio Tools - EveryTool.io">
+  <meta property="og:description" content="Convert, extract, and edit audio files with customizable settings. Free, fast, and secure in-browser processing.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://everytool.io/audiotools">
+  <meta property="og:image" content="https://everytool.io/social-preview-audio.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <title>Free Audio Tools - EveryTool.io</title>
+  
+  <!-- Performance Optimization -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.rel='stylesheet'">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary: #4361ee;
+      --primary-dark: #3a56d4;
+      --secondary: #7209b7;
+      --accent: #f72585;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --gray: #6c757d;
+      --light-gray: #e9ecef;
+      --border-radius: 12px;
+      --box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      line-height: 1.6;
+      color: var(--dark);
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+      min-height: 100vh;
+      padding-bottom: 50px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Header Styles */
+    header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      padding: 15px 0;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 1.5rem;
+    }
+
+    .logo i {
+      color: #ffd43b;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 25px;
+    }
+
+    nav a {
+      color: rgba(255, 255, 255, 0.9);
+      text-decoration: none;
+      font-weight: 500;
+      transition: var(--transition);
+      padding: 5px 10px;
+      border-radius: 5px;
+    }
+
+    nav a:hover {
+      color: white;
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 80px 0 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(67, 97, 238, 0.08) 0%, rgba(114, 9, 183, 0.08) 100%);
+      z-index: -1;
+    }
+
+    .hero-content {
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero h1 {
+      font-size: 2.8rem;
+      margin-bottom: 20px;
+      font-weight: 800;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1.2;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: var(--gray);
+      margin-bottom: 40px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .card {
+      background: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      padding: 30px;
+      margin-bottom: 30px;
+      transition: var(--transition);
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
+    }
+    
+    h2 {
+      font-size: 1.8rem;
+      margin-bottom: 25px;
+      color: var(--dark);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: center;
+    }
+    
+    h2 i {
+      color: var(--primary);
+    }
+    
+    h3 {
+      font-size: 1.4rem;
+      margin: 20px 0 15px;
+      color: var(--dark);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      justify-content: center;
+    }
+    
+    .tabs {
+      display: flex;
+      justify-content: center;
+      margin: 0 0 30px;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    
+    .tab {
+      padding: 12px 25px;
+      cursor: pointer;
+      background: var(--light-gray);
+      border-radius: 50px;
+      font-weight: 500;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1rem;
+    }
+    
+    .tab.active {
+      background: var(--primary);
+      color: white;
+    }
+    
+    .tab:hover:not(.active) {
+      background: #dbe4ff;
+    }
+    
+    .tab-content {
+      display: none;
+    }
+    
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.4s ease;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    input, select, button, textarea {
+      margin: 0.5em auto;
+      padding: 15px;
+      width: 100%;
+      font-size: 1rem;
+      border-radius: 10px;
+      border: 1px solid var(--light-gray);
+      background: var(--light);
+      display: block;
+      transition: var(--transition);
+      font-family: 'Poppins', sans-serif;
+    }
+    
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+    }
+    
+    button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      padding: 15px 20px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    
+    button:hover, button:focus {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+    
+    button:disabled {
+      background: #9ec5e6;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+    
+    .loading {
+      display: none;
+      text-align: center;
+      padding: 30px;
+    }
+    
+    .spinner {
+      border: 4px solid rgba(0, 0, 0, 0.1);
+      border-left-color: var(--primary);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 20px;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .error {
+      color: #e74c3c;
+      padding: 15px;
+      background: rgba(231, 76, 60, 0.1);
+      border-radius: var(--border-radius);
+      margin: 20px 0;
+      display: none;
+      border-left: 4px solid #e74c3c;
+    }
+    
+    .success {
+      color: #27ae60;
+      padding: 15px;
+      background: rgba(39, 174, 96, 0.1);
+      border-radius: var(--border-radius);
+      margin: 20px 0;
+      display: none;
+      border-left: 4px solid #27ae60;
+    }
+
+    .drag-drop-area {
+      width: 100%;
+      max-width: 500px;
+      margin: 2em auto;
+      padding: 2em;
+      border: 2px dashed var(--light-gray);
+      border-radius: var(--border-radius);
+      background: white;
+      color: var(--gray);
+      cursor: pointer;
+      transition: var(--transition);
+      text-align: center;
+      font-size: 1rem;
+    }
+
+    .drag-drop-area.drag-over {
+      background: #e6f0fa;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+    }
+
+    .drag-drop-area p {
+      margin: 0.5em 0;
+    }
+
+    .file-info {
+      width: 100%;
+      max-width: 500px;
+      margin: 1em auto;
+      padding: 15px;
+      background: var(--light);
+      border-radius: var(--border-radius);
+      text-align: left;
+    }
+
+    .file-detail {
+      display: flex;
+      justify-content: space-between;
+      margin: 0.3rem 0;
+      font-size: 0.9rem;
+    }
+
+    .settings-grid {
+      width: 100%;
+      max-width: 500px;
+      margin: 1em auto;
+    }
+
+    .setting-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .description {
+      font-size: 0.9em;
+      color: var(--gray);
+      margin-bottom: 0.5em;
+    }
+
+    .toggle-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 0.5em 0;
+    }
+
+    .toggle-switch {
+      position: relative;
+      width: 50px;
+      height: 24px;
+    }
+
+    .toggle-switch input {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+      z-index: 1;
+    }
+
+    .slider {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: var(--gray);
+      transition: background-color 0.3s ease;
+      border-radius: 24px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: transform 0.3s ease;
+      border-radius: 50%;
+    }
+
+    .toggle-switch input:checked + .slider {
+      background-color: var(--primary);
+    }
+
+    .toggle-switch input:checked + .slider:before {
+      transform: translateX(26px);
+    }
+
+    .toggle-switch input:focus + .slider {
+      box-shadow: 0 0 0 2px var(--primary-dark);
+    }
+
+    .toggle-switch input:disabled + .slider {
+      background-color: var(--light-gray);
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .toggle-switch input:disabled + .slider:before {
+      background-color: #ddd;
+    }
+
+    .progress-container {
+      width: 100%;
+      max-width: 500px;
+      margin: 1.5em auto;
+      padding: 15px;
+      background: var(--light);
+      border-radius: var(--border-radius);
+      display: none;
+    }
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+      font-size: 0.95rem;
+    }
+
+    .progress-bar {
+      height: 10px;
+      background: var(--light-gray);
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: 5px;
+      transition: width 0.4s ease;
+    }
+
+    .result-container {
+      width: 100%;
+      max-width: 500px;
+      margin: 1.5em auto;
+      padding: 1.2rem;
+      background: rgba(39, 174, 96, 0.08);
+      border: 1px dashed #27ae60;
+      border-radius: var(--border-radius);
+      display: none;
+      text-align: center;
+    }
+
+    .download-btn {
+      background: #27ae60;
+      color: white;
+      padding: 15px 25px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: var(--transition);
+      margin-top: 15px;
+    }
+
+    .download-btn:hover, .download-btn:focus {
+      background: #219653;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+      outline: 2px solid #27ae60;
+      outline-offset: 2px;
+    }
+    
+    /* Features grid - 2 cards per row */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 25px;
+      margin: 30px 0;
+    }
+    
+    .feature {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 25px;
+      text-align: center;
+      box-shadow: var(--box-shadow);
+      transition: var(--transition);
+    }
+    
+    .feature:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    }
+    
+    .feature i {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      color: var(--primary);
+    }
+    
+    .guide-section {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 40px;
+      margin: 40px auto;
+      box-shadow: var(--box-shadow);
+      text-align: center;
+    }
+    
+    .guide-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+      margin-top: 25px;
+    }
+    
+    .guide-item {
+      padding: 25px;
+      background: #f8f9ff;
+      border-radius: var(--border-radius);
+      text-align: center;
+      font-size: 14px;
+    }
+    
+    .guide-item h3 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: center;
+    }
+    
+    .guide-item h3 i {
+      font-size: 1.8rem;
+    }
+    
+    .guide-item p {
+      font-size: 1rem;
+      color: var(--gray);
+    }
+
+    .range-container {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin: 15px 0;
+    }
+
+    .range-container input[type="range"] {
+      flex: 1;
+      height: 8px;
+      -webkit-appearance: none;
+      background: var(--light-gray);
+      border-radius: 10px;
+      outline: none;
+    }
+
+    .range-container input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--primary);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .range-container input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.1);
+    }
+
+    .range-value {
+      min-width: 50px;
+      text-align: right;
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    .trim-container {
+      display: flex;
+      gap: 15px;
+      margin: 15px 0;
+    }
+
+    .trim-container input {
+      flex: 1;
+      padding: 12px;
+      text-align: center;
+    }
+
+    .audio-preview {
+      width: 100%;
+      max-width: 500px;
+      margin: 20px auto;
+      display: none;
+    }
+
+    .audio-preview audio {
+      width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+    
+    /* Footer Styles */
+    footer {
+      background: linear-gradient(135deg, #2c3e50 0%, #1a2530 100%);
+      color: white;
+      padding: 40px 0 20px;
+      margin-top: 60px;
+    }
+
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .footer-column h3 {
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+      color: white;
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 10px;
+      display: inline-block;
+    }
+
+    .footer-links {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+
+    .footer-links a {
+      color: #b0bec5;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .footer-links a:hover {
+      color: white;
+      padding-left: 5px;
+    }
+
+    .copyright {
+      text-align: center;
+      padding-top: 30px;
+      margin-top: 30px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      color: #b0bec5;
+      font-size: 0.9rem;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 992px) {
+      .guide-grid, .features, .footer-content {
+        grid-template-columns: 1fr;
+      }
+      
+      .trim-container {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+      
+      .tab {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+      }
+      
+      .guide-section {
+        padding: 25px;
+      }
+      
+      nav ul {
+        gap: 15px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .hero {
+        padding: 60px 0 20px;
+      }
+      
+      .card {
+        padding: 20px;
+      }
+      
+      h2 {
+        font-size: 1.5rem;
+      }
+      
+      h3 {
+        font-size: 1.2rem;
+      }
+      
+      .header-container {
+        flex-direction: column;
+        gap: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="header-container">
+      <div class="logo">
+        <i class="fas fa-wave-square"></i>
+        <span>EveryTool.io</span>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
+          <li><a href="#" class="active"><i class="fas fa-music"></i> Audio Tools</a></li>
+          <li><a href="#"><i class="fas fa-video"></i> Video Tools</a></li>
+          <li><a href="#"><i class="fas fa-image"></i> Image Tools</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <h1>Audio Tools</h1>
+        <p>Convert, extract, and enhance audio files. All processing happens in your browser - your audio never leaves your device.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <div class="container">
+    <!-- Features section - 2 cards per row -->
+    <div class="features">
+      <div class="feature">
+        <i class="fas fa-exchange-alt"></i>
+        <h3>Multiple Formats</h3>
+        <p>Convert between MP3, WAV, FLAC, AAC, and OGG formats with ease</p>
+      </div>
+      <div class="feature">
+        <i class="fas fa-film"></i>
+        <h3>Extract Audio</h3>
+        <p>Extract audio tracks from video files (MP4, MOV, AVI, etc.)</p>
+      </div>
+      <div class="feature">
+        <i class="fas fa-sliders-h"></i>
+        <h3>Audio Editing</h3>
+        <p>Trim, fade, adjust volume and normalize your audio files</p>
+      </div>
+      <div class="feature">
+        <i class="fas fa-shield-alt"></i>
+        <h3>Privacy First</h3>
+        <p>All processing happens in your browser - no data is uploaded</p>
+      </div>
+    </div>
+
+    <!-- Audio Creation Guide -->
+    <div class="guide-section">
+      <h2><i class="fas fa-book"></i> Audio Tools Guide</h2>
+      <p>Follow these steps to process your audio files:</p>
+      <div class="guide-grid">
+        <div class="guide-item">
+          <h3><i class="fas fa-upload"></i> Upload File</h3>
+          <p>Upload your audio or video file (MP3, WAV, MP4, MOV, etc.)</p>
+        </div>
+        <div class="guide-item">
+          <h3><i class="fas fa-sliders-h"></i> Adjust Settings</h3>
+          <p>Customize output format, quality, and editing options</p>
+        </div>
+        <div class="guide-item">
+          <h3><i class="fas fa-cogs"></i> Process Audio</h3>
+          <p>Click "Process Audio" to apply your selected settings</p>
+        </div>
+        <div class="guide-item">
+          <h3><i class="fas fa-download"></i> Download</h3>
+          <p>Save your processed audio file to your device</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Audio Tools Card -->
+    <div class="card">
+      <h2><i class="fas fa-music"></i> Audio Tools</h2>
+      <p><i>Convert, extract, and edit audio files with customizable settings</i></p>
+      
+      <div class="tabs">
+        <div class="tab active" data-tab="convert">
+          <i class="fas fa-exchange-alt"></i> Convert Audio
+        </div>
+        <div class="tab" data-tab="extract">
+          <i class="fas fa-film"></i> Extract from Video
+        </div>
+        <div class="tab" data-tab="edit">
+          <i class="fas fa-edit"></i> Edit Audio
+        </div>
+      </div>
+      
+      <!-- Convert Audio Tab -->
+      <div class="tab-content active" id="convert-tab">
+        <div class="drag-drop-area" id="dropZone" role="button" aria-label="Choose or drag and drop audio file">
+          <p id="dropZoneText"><i class="fas fa-upload"></i> Choose file or drag and drop here</p>
+          <p>Supported audio formats: MP3, WAV, FLAC, AAC, OGG</p>
+          <p>Max file size: 100MB</p>
+        </div>
+        <input type="file" id="audioInput" accept="audio/*" style="display: none;" aria-label="Upload audio for conversion" />
+        <div class="error" id="convert-error" role="alert"></div>
+        <div class="success" id="convert-success" role="alert"></div>
+        <div class="loading" id="convert-loading">
+          <div class="spinner"></div>
+          Processing Audio...
+        </div>
+        <div id="fileInfo" class="file-info" style="display: none;">
+          <div class="file-detail"><span>Name:</span> <span id="fileName">No file selected</span></div>
+          <div class="file-detail"><span>Size:</span> <span id="fileSize">-</span></div>
+          <div class="file-detail"><span>Type:</span> <span id="fileType">-</span></div>
+          <div class="file-detail"><span>Duration:</span> <span id="fileDuration">-</span></div>
+        </div>
+        
+        <div class="audio-preview" id="audioPreview">
+          <audio id="previewPlayer" controls></audio>
+        </div>
+        
+        <div class="settings-grid">
+          <div class="setting-group">
+            <p class="description">Choose the output format for your converted audio.</p>
+            <select id="outputFormat" aria-label="Select output format">
+              <option value="mp3">MP3</option>
+              <option value="wav">WAV</option>
+              <option value="flac">FLAC</option>
+              <option value="aac">AAC</option>
+              <option value="ogg">OGG</option>
+            </select>
+          </div>
+          
+          <div class="setting-group">
+            <p class="description">Select audio quality (bitrate). Higher values mean better quality but larger files.</p>
+            <select id="quality" aria-label="Select audio quality">
+              <option value="320">High (320 kbps)</option>
+              <option value="256" selected>Medium (256 kbps)</option>
+              <option value="192">Standard (192 kbps)</option>
+              <option value="128">Low (128 kbps)</option>
+            </select>
+          </div>
+        </div>
+        
+        <button id="convertBtn" disabled aria-label="Convert audio with selected settings">
+          <i class="fas fa-exchange-alt"></i> Convert Audio
+        </button>
+      </div>
+      
+      <!-- Extract from Video Tab -->
+      <div class="tab-content" id="extract-tab">
+        <div class="drag-drop-area" id="videoDropZone" role="button" aria-label="Choose or drag and drop video file">
+          <p id="videoDropText"><i class="fas fa-upload"></i> Choose video file or drag and drop here</p>
+          <p>Supported video formats: MP4, MOV, AVI, MKV, WEBM</p>
+          <p>Max file size: 100MB</p>
+        </div>
+        <input type="file" id="videoInput" accept="video/*" style="display: none;" aria-label="Upload video for audio extraction" />
+        <div class="error" id="extract-error" role="alert"></div>
+        <div class="success" id="extract-success" role="alert"></div>
+        <div class="loading" id="extract-loading">
+          <div class="spinner"></div>
+          Extracting Audio...
+        </div>
+        <div id="videoFileInfo" class="file-info" style="display: none;">
+          <div class="file-detail"><span>Name:</span> <span id="videoFileName">No file selected</span></div>
+          <div class="file-detail"><span>Size:</span> <span id="videoFileSize">-</span></div>
+          <div class="file-detail"><span>Type:</span> <span id="videoFileType">-</span></div>
+          <div class="file-detail"><span>Duration:</span> <span id="videoFileDuration">-</span></div>
+        </div>
+        
+        <div class="settings-grid">
+          <div class="setting-group">
+            <p class="description">Choose the output format for your extracted audio.</p>
+            <select id="extractFormat" aria-label="Select extraction format">
+              <option value="mp3">MP3</option>
+              <option value="wav">WAV</option>
+              <option value="flac">FLAC</option>
+            </select>
+          </div>
+        </div>
+        
+        <button id="extractBtn" disabled aria-label="Extract audio from video">
+          <i class="fas fa-film"></i> Extract Audio
+        </button>
+      </div>
+      
+      <!-- Edit Audio Tab -->
+      <div class="tab-content" id="edit-tab">
+        <div class="drag-drop-area" id="editDropZone" role="button" aria-label="Choose or drag and drop audio file">
+          <p id="editDropText"><i class="fas fa-upload"></i> Choose audio file or drag and drop here</p>
+          <p>Supported formats: MP3, WAV, FLAC, AAC, OGG</p>
+          <p>Max file size: 100MB</p>
+        </div>
+        <input type="file" id="editInput" accept="audio/*" style="display: none;" aria-label="Upload audio for editing" />
+        <div class="error" id="edit-error" role="alert"></div>
+        <div class="success" id="edit-success" role="alert"></div>
+        <div class="loading" id="edit-loading">
+          <div class="spinner"></div>
+          Editing Audio...
+        </div>
+        <div id="editFileInfo" class="file-info" style="display: none;">
+          <div class="file-detail"><span>Name:</span> <span id="editFileName">No file selected</span></div>
+          <div class="file-detail"><span>Size:</span> <span id="editFileSize">-</span></div>
+          <div class="file-detail"><span>Type:</span> <span id="editFileType">-</span></div>
+          <div class="file-detail"><span>Duration:</span> <span id="editFileDuration">-</span></div>
+        </div>
+        
+        <div class="audio-preview" id="editAudioPreview">
+          <audio id="editPreviewPlayer" controls></audio>
+        </div>
+        
+        <div class="settings-grid">
+          <div class="setting-group">
+            <h3><i class="fas fa-cut"></i> Trim Audio</h3>
+            <div class="trim-container">
+              <div>
+                <label for="startTime">Start (seconds)</label>
+                <input type="number" id="startTime" min="0" value="0" step="0.1">
+              </div>
+              <div>
+                <label for="endTime">End (seconds)</label>
+                <input type="number" id="endTime" min="0" value="0" step="0.1">
+              </div>
+            </div>
+          </div>
+          
+          <div class="setting-group">
+            <h3><i class="fas fa-volume-up"></i> Volume Adjustment</h3>
+            <div class="range-container">
+              <label for="volume">Volume:</label>
+              <input type="range" id="volume" min="-12" max="12" value="0" step="0.5">
+              <span class="range-value" id="volumeValue">0 dB</span>
+            </div>
+          </div>
+          
+          <div class="setting-group">
+            <h3><i class="fas fa-waveform"></i> Audio Effects</h3>
+            <div class="toggle-container">
+              <label for="normalize">Normalize Audio</label>
+              <label class="toggle-switch">
+                <input type="checkbox" id="normalize" aria-label="Toggle normalize audio">
+                <span class="slider"></span>
+              </label>
+            </div>
+            <div class="toggle-container">
+              <label for="fadeIn">Fade In</label>
+              <label class="toggle-switch">
+                <input type="checkbox" id="fadeIn" aria-label="Toggle fade in">
+                <span class="slider"></span>
+              </label>
+            </div>
+            <div class="toggle-container">
+              <label for="fadeOut">Fade Out</label>
+              <label class="toggle-switch">
+                <input type="checkbox" id="fadeOut" aria-label="Toggle fade out">
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+        
+        <button id="editBtn" disabled aria-label="Edit audio with selected settings">
+          <i class="fas fa-edit"></i> Apply Edits
+        </button>
+      </div>
+      
+      <!-- Progress and Result Containers -->
+      <div id="progressContainer" class="progress-container">
+        <div class="progress-header">
+          <span>Processing Progress</span>
+          <span id="progressPercent">0%</span>
+        </div>
+        <div class="progress-bar">
+          <div id="progressFill" class="progress-fill"></div>
+        </div>
+        <p id="progressMessage">Initializing processing...</p>
+        <button id="cancelBtn" style="margin-top: 15px; background: #e74c3c;">Cancel Processing</button>
+      </div>
+      <div id="resultContainer" class="result-container">
+        <p>Processing Complete!</p>
+        <a id="downloadLink" class="download-btn" aria-label="Download processed audio"><i class="fas fa-download"></i> Download Processed Audio</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-column">
+        <h3>EveryTool.io</h3>
+        <p>Your all-in-one toolkit for media processing. Free, fast, and secure browser-based tools.</p>
+      </div>
+      <div class="footer-column">
+        <h3>Tools</h3>
+        <ul class="footer-links">
+          <li><a href="#"><i class="fas fa-music"></i> Audio Tools</a></li>
+          <li><a href="#"><i class="fas fa-video"></i> Video Tools</a></li>
+          <li><a href="#"><i class="fas fa-image"></i> Image Tools</a></li>
+          <li><a href="#"><i class="fas fa-file"></i> Document Tools</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>Resources</h3>
+        <ul class="footer-links">
+          <li><a href="#"><i class="fas fa-book"></i> Documentation</a></li>
+          <li><a href="#"><i class="fas fa-shield-alt"></i> Privacy Policy</a></li>
+          <li><a href="#"><i class="fas fa-file-contract"></i> Terms of Service</a></li>
+          <li><a href="#"><i class="fas fa-envelope"></i> Contact Us</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="copyright">
+      <p>&copy; 2023 EveryTool.io. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Tab switching functionality
+      const tabs = document.querySelectorAll('.tab');
+      const tabContents = document.querySelectorAll('.tab-content');
+      
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          // Remove active class from all tabs and contents
+          tabs.forEach(t => t.classList.remove('active'));
+          tabContents.forEach(c => c.classList.remove('active'));
+          
+          // Add active class to clicked tab
+          tab.classList.add('active');
+          
+          // Show corresponding content
+          const tabId = tab.getAttribute('data-tab');
+          document.getElementById(`${tabId}-tab`).classList.add('active');
+          
+          // Reset any error/success messages
+          document.querySelectorAll('.error, .success').forEach(el => {
+            el.style.display = 'none';
+          });
+        });
+      });
+      
+      // Volume slider functionality
+      const volumeSlider = document.getElementById('volume');
+      const volumeValue = document.getElementById('volumeValue');
+      
+      if (volumeSlider && volumeValue) {
+        volumeSlider.addEventListener('input', () => {
+          volumeValue.textContent = `${volumeSlider.value} dB`;
+        });
+      }
+      
+      // File handling for convert tab
+      const dropZone = document.getElementById('dropZone');
+      const audioInput = document.getElementById('audioInput');
+      const dropZoneText = document.getElementById('dropZoneText');
+      const fileInfo = document.getElementById('fileInfo');
+      const fileName = document.getElementById('fileName');
+      const fileSize = document.getElementById('fileSize');
+      const fileType = document.getElementById('fileType');
+      const fileDuration = document.getElementById('fileDuration');
+      const audioPreview = document.getElementById('audioPreview');
+      const previewPlayer = document.getElementById('previewPlayer');
+      const convertBtn = document.getElementById('convertBtn');
+      
+      // File handling for extract tab
+      const videoDropZone = document.getElementById('videoDropZone');
+      const videoInput = document.getElementById('videoInput');
+      const videoDropText = document.getElementById('videoDropText');
+      const videoFileInfo = document.getElementById('videoFileInfo');
+      const videoFileName = document.getElementById('videoFileName');
+      const videoFileSize = document.getElementById('videoFileSize');
+      const videoFileType = document.getElementById('videoFileType');
+      const videoFileDuration = document.getElementById('videoFileDuration');
+      const extractBtn = document.getElementById('extractBtn');
+      
+      // File handling for edit tab
+      const editDropZone = document.getElementById('editDropZone');
+      const editInput = document.getElementById('editInput');
+      const editDropText = document.getElementById('editDropText');
+      const editFileInfo = document.getElementById('editFileInfo');
+      const editFileName = document.getElementById('editFileName');
+      const editFileSize = document.getElementById('editFileSize');
+      const editFileType = document.getElementById('editFileType');
+      const editFileDuration = document.getElementById('editFileDuration');
+      const editAudioPreview = document.getElementById('editAudioPreview');
+      const editPreviewPlayer = document.getElementById('editPreviewPlayer');
+      const editBtn = document.getElementById('editBtn');
+      
+      // Progress elements
+      const progressContainer = document.getElementById('progressContainer');
+      const progressFill = document.getElementById('progressFill');
+      const progressPercent = document.getElementById('progressPercent');
+      const progressMessage = document.getElementById('progressMessage');
+      const cancelBtn = document.getElementById('cancelBtn');
+      
+      // Result elements
+      const resultContainer = document.getElementById('resultContainer');
+      const downloadLink = document.getElementById('downloadLink');
+      
+      // Error/Success messages
+      const convertError = document.getElementById('convert-error');
+      const convertSuccess = document.getElementById('convert-success');
+      const convertLoading = document.getElementById('convert-loading');
+      
+      // Simulate audio processing
+      function simulateProcessing() {
+        progressContainer.style.display = 'block';
+        resultContainer.style.display = 'none';
+        convertLoading.style.display = 'block';
+        
+        let progress = 0;
+        const interval = setInterval(() => {
+          progress += Math.floor(Math.random() * 10) + 1;
+          if (progress >= 100) {
+            progress = 100;
+            clearInterval(interval);
+            
+            // Show success
+            setTimeout(() => {
+              progressContainer.style.display = 'none';
+              resultContainer.style.display = 'block';
+              convertLoading.style.display = 'none';
+              convertSuccess.textContent = 'Processing completed successfully!';
+              convertSuccess.style.display = 'block';
+              
+              // Set a mock download URL
+              downloadLink.href = 'https://everytool.io/sample-audio.mp3';
+              downloadLink.download = 'processed-audio.mp3';
+            }, 500);
+          }
+          
+          updateProgress(progress, `Processing... ${progress}% complete`);
+        }, 200);
+        
+        // Cancel button functionality
+        cancelBtn.onclick = () => {
+          clearInterval(interval);
+          updateProgress(0, 'Processing canceled');
+          convertError.textContent = 'Processing was canceled by the user';
+          convertError.style.display = 'block';
+          convertLoading.style.display = 'none';
+          
+          setTimeout(() => {
+            progressContainer.style.display = 'none';
+          }, 2000);
+        };
+      }
+      
+      function updateProgress(percent, msg) {
+        const percentValue = Math.min(100, Math.max(0, percent));
+        progressFill.style.width = `${percentValue}%`;
+        progressMessage.textContent = msg;
+        progressPercent.textContent = `${Math.round(percentValue)}%`;
+      }
+      
+      // Handle file selection for convert tab
+      function handleFileSelect(file, isAudio = true) {
+        if (!file) return;
+        
+        // Reset messages
+        convertError.style.display = 'none';
+        convertSuccess.style.display = 'none';
+        
+        // Basic validation
+        const maxSize = 100 * 1024 * 1024; // 100MB
+        if (file.size > maxSize) {
+          convertError.textContent = 'File size exceeds 100MB limit. Please select a smaller file.';
+          convertError.style.display = 'block';
+          return;
+        }
+        
+        // Update UI
+        const fileType = file.type || 'Unknown';
+        const fileName = file.name;
+        const fileSize = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
+        
+        if (isAudio) {
+          dropZoneText.innerHTML = `Ready to convert:<br><strong>${fileName}</strong>`;
+          fileName.textContent = fileName;
+          fileSize.textContent = fileSize;
+          fileType.textContent = fileType;
+          fileInfo.style.display = 'block';
+          
+          // Generate preview URL
+          const fileURL = URL.createObjectURL(file);
+          previewPlayer.src = fileURL;
+          audioPreview.style.display = 'block';
+          
+          // Set duration
+          const audio = new Audio(fileURL);
+          audio.addEventListener('loadedmetadata', () => {
+            const duration = Math.round(audio.duration);
+            fileDuration.textContent = `${Math.floor(duration/60)}:${(duration%60).toString().padStart(2, '0')}`;
+          });
+          
+          convertBtn.disabled = false;
+        } else {
+          videoDropText.innerHTML = `Ready to extract:<br><strong>${fileName}</strong>`;
+          videoFileName.textContent = fileName;
+          videoFileSize.textContent = fileSize;
+          videoFileType.textContent = fileType;
+          videoFileInfo.style.display = 'block';
+          
+          // Set duration
+          const video = document.createElement('video');
+          video.src = URL.createObjectURL(file);
+          video.addEventListener('loadedmetadata', () => {
+            const duration = Math.round(video.duration);
+            videoFileDuration.textContent = `${Math.floor(duration/60)}:${(duration%60).toString().padStart(2, '0')}`;
+          });
+          
+          extractBtn.disabled = false;
+        }
+        
+        convertSuccess.textContent = 'File loaded successfully!';
+        convertSuccess.style.display = 'block';
+      }
+      
+      // Handle file selection for edit tab
+      function handleEditFileSelect(file) {
+        if (!file) return;
+        
+        // Reset messages
+        document.getElementById('edit-error').style.display = 'none';
+        document.getElementById('edit-success').style.display = 'none';
+        
+        // Basic validation
+        const maxSize = 100 * 1024 * 1024; // 100MB
+        if (file.size > maxSize) {
+          document.getElementById('edit-error').textContent = 'File size exceeds 100MB limit. Please select a smaller file.';
+          document.getElementById('edit-error').style.display = 'block';
+          return;
+        }
+        
+        // Update UI
+        const fileName = file.name;
+        const fileSize = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
+        const fileType = file.type || 'Unknown';
+        
+        editDropText.innerHTML = `Ready to edit:<br><strong>${fileName}</strong>`;
+        editFileName.textContent = fileName;
+        editFileSize.textContent = fileSize;
+        editFileType.textContent = fileType;
+        editFileInfo.style.display = 'block';
+        
+        // Generate preview URL
+        const fileURL = URL.createObjectURL(file);
+        editPreviewPlayer.src = fileURL;
+        editAudioPreview.style.display = 'block';
+        
+        // Set duration
+        const audio = new Audio(fileURL);
+        audio.addEventListener('loadedmetadata', () => {
+          const duration = Math.round(audio.duration);
+          editFileDuration.textContent = `${Math.floor(duration/60)}:${(duration%60).toString().padStart(2, '0')}`;
+          
+          // Set end time to full duration by default
+          document.getElementById('endTime').value = duration;
+        });
+        
+        editBtn.disabled = false;
+        
+        document.getElementById('edit-success').textContent = 'File loaded successfully!';
+        document.getElementById('edit-success').style.display = 'block';
+      }
+      
+      // Set up event listeners for convert tab
+      dropZone.addEventListener('click', () => audioInput.click());
+      dropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('drag-over');
+      });
+      dropZone.addEventListener('dragenter', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('drag-over');
+      });
+      dropZone.addEventListener('dragleave', () => {
+        dropZone.classList.remove('drag-over');
+      });
+      dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('drag-over');
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+          handleFileSelect(files[0]);
+        }
+      });
+      audioInput.addEventListener('change', (e) => {
+        if (e.target.files.length > 0) {
+          handleFileSelect(e.target.files[0]);
+        }
+      });
+      
+      // Set up event listeners for extract tab
+      videoDropZone.addEventListener('click', () => videoInput.click());
+      videoDropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        videoDropZone.classList.add('drag-over');
+      });
+      videoDropZone.addEventListener('dragenter', (e) => {
+        e.preventDefault();
+        videoDropZone.classList.add('drag-over');
+      });
+      videoDropZone.addEventListener('dragleave', () => {
+        videoDropZone.classList.remove('drag-over');
+      });
+      videoDropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        videoDropZone.classList.remove('drag-over');
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+          handleFileSelect(files[0], false);
+        }
+      });
+      videoInput.addEventListener('change', (e) => {
+        if (e.target.files.length > 0) {
+          handleFileSelect(e.target.files[0], false);
+        }
+      });
+      
+      // Set up event listeners for edit tab
+      editDropZone.addEventListener('click', () => editInput.click());
+      editDropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        editDropZone.classList.add('drag-over');
+      });
+      editDropZone.addEventListener('dragenter', (e) => {
+        e.preventDefault();
+        editDropZone.classList.add('drag-over');
+      });
+      editDropZone.addEventListener('dragleave', () => {
+        editDropZone.classList.remove('drag-over');
+      });
+      editDropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        editDropZone.classList.remove('drag-over');
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+          handleEditFileSelect(files[0]);
+        }
+      });
+      editInput.addEventListener('change', (e) => {
+        if (e.target.files.length > 0) {
+          handleEditFileSelect(e.target.files[0]);
+        }
+      });
+      
+      // Process buttons
+      convertBtn.addEventListener('click', simulateProcessing);
+      extractBtn.addEventListener('click', simulateProcessing);
+      editBtn.addEventListener('click', simulateProcessing);
+      
+      // Keyboard accessibility
+      document.addEventListener('keydown', (e) => {
+        if (e.target === dropZone && (e.key === 'Enter' || e.key === ' ')) {
+          audioInput.click();
+        }
+      });
+    });
+  </script>
+</body>
+</html>
