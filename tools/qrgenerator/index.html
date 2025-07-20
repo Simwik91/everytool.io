@@ -810,6 +810,134 @@
       top: 0;
     }
 
+    /* Text Display Options */
+    .text-display-container {
+      margin: 1.5em 0;
+      border: 1px solid var(--light-gray);
+      border-radius: var(--border-radius);
+      padding: 20px;
+      background: #fafbff;
+    }
+
+    .text-display-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+      justify-content: center;
+    }
+
+    .text-display-header i {
+      color: var(--primary);
+      font-size: 1.5rem;
+    }
+
+    .text-display-content {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .text-display-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+
+    .text-display-preview {
+      margin: 15px auto;
+      padding: 15px;
+      border: 1px dashed var(--light-gray);
+      border-radius: var(--border-radius);
+      background: white;
+      text-align: center;
+      min-height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 500px;
+    }
+
+    .text-display-controls {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .text-display-control {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .text-display-control label {
+      font-weight: 500;
+      color: var(--dark);
+    }
+
+    .text-display-control input[type="color"] {
+      width: 60px;
+      height: 60px;
+      padding: 5px;
+      cursor: pointer;
+      border-radius: 12px;
+      border: 2px solid var(--light-gray);
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .text-display-control input[type="color"]::-webkit-color-swatch {
+      border: none;
+      border-radius: 8px;
+    }
+
+    .text-display-control select {
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid var(--light-gray);
+      background: var(--light);
+    }
+
+    .text-display-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .text-display-group label {
+      font-weight: 500;
+      color: var(--dark);
+    }
+
+    .text-display-group input[type="text"] {
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid var(--light-gray);
+      background: var(--light);
+    }
+
+    /* QR Result Container */
+    .qr-result-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 20px 0;
+      gap: 15px;
+    }
+
+    .qr-text-container {
+      background: white;
+      padding: 15px;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 500px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
     /* Responsive Design */
     @media (max-width: 992px) {
       .guide-grid {
@@ -855,6 +983,10 @@
       
       .guide-section {
         padding: 25px;
+      }
+      
+      .text-display-controls {
+        grid-template-columns: 1fr;
       }
     }
 
@@ -1106,6 +1238,65 @@
           </div>
         </div>
 
+        <!-- Text Display Options for Single QR -->
+        <div class="text-display-container">
+          <div class="text-display-header">
+            <i class="fas fa-font"></i>
+            <h3>Text Display Options</h3>
+          </div>
+          
+          <div class="text-display-content">
+            <div class="text-display-toggle">
+              <label class="toggle-label">Display Text Below QR</label>
+              <label class="toggle-switch-visual">
+                <input type="checkbox" id="show-text-display">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            
+            <div class="text-display-group" id="text-display-fields" style="display: none;">
+              <label for="custom-text">Custom Text (optional, overrides QR content):</label>
+              <input type="text" id="custom-text" placeholder="Enter custom text to display below QR code">
+              
+              <label for="text-prefix">Text Prefix (optional):</label>
+              <input type="text" id="text-prefix" placeholder="Prefix to add before the text">
+              
+              <label for="text-suffix">Text Suffix (optional):</label>
+              <input type="text" id="text-suffix" placeholder="Suffix to add after the text">
+              
+              <div class="text-display-controls">
+                <div class="text-display-control">
+                  <label for="text-color">Text Color:</label>
+                  <input type="color" id="text-color" value="#000000">
+                </div>
+                
+                <div class="text-display-control">
+                  <label for="text-size">Text Size:</label>
+                  <select id="text-size">
+                    <option value="12px">Small</option>
+                    <option value="16px" selected>Medium</option>
+                    <option value="20px">Large</option>
+                    <option value="24px">Extra Large</option>
+                  </select>
+                </div>
+                
+                <div class="text-display-control">
+                  <label for="text-align">Text Alignment:</label>
+                  <select id="text-align">
+                    <option value="left">Left</option>
+                    <option value="center" selected>Center</option>
+                    <option value="right">Right</option>
+                  </select>
+                </div>
+              </div>
+              
+              <div class="text-display-preview" id="text-preview">
+                Preview will appear here
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="btn-group">
           <button onclick="generateQR()" aria-label="Generate QR code">
             <i class="fas fa-bolt"></i> Generate QR Code
@@ -1122,7 +1313,10 @@
         <div class="error" id="qr-error"></div>
         <div class="success" id="qr-success"></div>
 
-        <canvas id="qr-canvas" width="256" height="256" style="display:none;" aria-label="Generated QR code"></canvas>
+        <div class="qr-result-container">
+          <canvas id="qr-canvas" width="256" height="256" style="display:none;" aria-label="Generated QR code"></canvas>
+          <div class="qr-text-container" id="qr-text-display" style="display: none;"></div>
+        </div>
       </div>
 
       <div class="tab-content" id="bulk-tab" role="tabpanel">
@@ -1263,6 +1457,61 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
           <div class="size-controls">
             <input type="range" id="bulk-size-slider" class="size-slider" min="128" max="1024" value="256" step="32" aria-label="Adjust QR code size for bulk">
             <div class="size-value" id="bulk-size-value">256px</div>
+          </div>
+        </div>
+
+        <!-- Text Display Options for Bulk QR -->
+        <div class="text-display-container">
+          <div class="text-display-header">
+            <i class="fas fa-font"></i>
+            <h3>Text Display Options for Bulk</h3>
+          </div>
+          
+          <div class="text-display-content">
+            <div class="text-display-toggle">
+              <label class="toggle-label">Add Text to All QR Codes</label>
+              <label class="toggle-switch-visual">
+                <input type="checkbox" id="bulk-show-text-display">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            
+            <div class="text-display-group" id="bulk-text-display-fields" style="display: none;">
+              <label for="bulk-custom-text">Custom Text (optional, overrides QR content):</label>
+              <input type="text" id="bulk-custom-text" placeholder="Enter custom text to display below all QR codes">
+              
+              <label for="bulk-text-prefix">Text Prefix (optional):</label>
+              <input type="text" id="bulk-text-prefix" placeholder="Prefix to add before the text">
+              
+              <label for="bulk-text-suffix">Text Suffix (optional):</label>
+              <input type="text" id="bulk-text-suffix" placeholder="Suffix to add after the text">
+              
+              <div class="text-display-controls">
+                <div class="text-display-control">
+                  <label for="bulk-text-color">Text Color:</label>
+                  <input type="color" id="bulk-text-color" value="#000000">
+                </div>
+                
+                <div class="text-display-control">
+                  <label for="bulk-text-size">Text Size:</label>
+                  <select id="bulk-text-size">
+                    <option value="12px">Small</option>
+                    <option value="16px" selected>Medium</option>
+                    <option value="20px">Large</option>
+                    <option value="24px">Extra Large</option>
+                  </select>
+                </div>
+                
+                <div class="text-display-control">
+                  <label for="bulk-text-align">Text Alignment:</label>
+                  <select id="bulk-text-align">
+                    <option value="left">Left</option>
+                    <option value="center" selected>Center</option>
+                    <option value="right">Right</option>
+                  </select>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -1471,6 +1720,28 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
     const scannerStatus = document.getElementById('scanner-status');
     const scannerGuides = document.getElementById('scanner-guides');
 
+    // Text display elements
+    const showTextDisplay = document.getElementById('show-text-display');
+    const textDisplayFields = document.getElementById('text-display-fields');
+    const customText = document.getElementById('custom-text');
+    const textPrefix = document.getElementById('text-prefix');
+    const textSuffix = document.getElementById('text-suffix');
+    const textColor = document.getElementById('text-color');
+    const textSize = document.getElementById('text-size');
+    const textAlign = document.getElementById('text-align');
+    const textPreview = document.getElementById('text-preview');
+    const qrTextDisplay = document.getElementById('qr-text-display');
+
+    // Bulk text display elements
+    const bulkShowTextDisplay = document.getElementById('bulk-show-text-display');
+    const bulkTextDisplayFields = document.getElementById('bulk-text-display-fields');
+    const bulkCustomText = document.getElementById('bulk-custom-text');
+    const bulkTextPrefix = document.getElementById('bulk-text-prefix');
+    const bulkTextSuffix = document.getElementById('bulk-text-suffix');
+    const bulkTextColor = document.getElementById('bulk-text-color');
+    const bulkTextSize = document.getElementById('bulk-text-size');
+    const bulkTextAlign = document.getElementById('bulk-text-align');
+
     // Global variables
     let currentStream = null;
     let logoImage = null;
@@ -1490,8 +1761,87 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
       setupEventListeners();
       toggleQRTypeFields();
       initBulkInputType();
+      initTextDisplay();
+      initBulkTextDisplay();
       loadQRPreferences();
     });
+
+    function initTextDisplay() {
+      // Toggle text display fields
+      showTextDisplay.addEventListener('change', function() {
+        textDisplayFields.style.display = this.checked ? 'block' : 'none';
+        updateTextPreview();
+      });
+      
+      // Update preview when any text-related field changes
+      const textFields = [customText, textPrefix, textSuffix, textColor, textSize, textAlign];
+      textFields.forEach(field => {
+        field.addEventListener('input', updateTextPreview);
+      });
+    }
+
+    function initBulkTextDisplay() {
+      // Toggle bulk text display fields
+      bulkShowTextDisplay.addEventListener('change', function() {
+        bulkTextDisplayFields.style.display = this.checked ? 'block' : 'none';
+      });
+    }
+
+    function updateTextPreview() {
+      if (!showTextDisplay.checked) return;
+      
+      let displayText = customText.value.trim();
+      
+      // If no custom text, use QR content
+      if (!displayText) {
+        const type = qrType.value;
+        try {
+          displayText = getQRContent(type);
+        } catch {
+          displayText = "QR code content will appear here";
+        }
+      }
+      
+      // Add prefix and suffix with spaces
+      const prefixVal = textPrefix.value.trim();
+      const suffixVal = textSuffix.value.trim();
+      
+      if (prefixVal || suffixVal) {
+        const parts = [];
+        if (prefixVal) parts.push(prefixVal);
+        if (displayText) parts.push(displayText);
+        if (suffixVal) parts.push(suffixVal);
+        displayText = parts.join(' ');
+      }
+      
+      // Update preview
+      textPreview.textContent = displayText;
+      textPreview.style.color = textColor.value;
+      textPreview.style.fontSize = textSize.value;
+      textPreview.style.textAlign = textAlign.value;
+      
+      // Update the actual display if QR is generated
+      if (generatedQR) {
+        updateQRTextDisplay(displayText);
+      }
+    }
+
+    function updateQRTextDisplay(text) {
+      qrTextDisplay.innerHTML = '';
+      qrTextDisplay.style.display = showTextDisplay.checked ? 'block' : 'none';
+      
+      if (!showTextDisplay.checked) return;
+      
+      const textElement = document.createElement('div');
+      textElement.textContent = text;
+      textElement.style.color = textColor.value;
+      textElement.style.fontSize = textSize.value;
+      textElement.style.textAlign = textAlign.value;
+      textElement.style.maxWidth = '500px';
+      textElement.style.wordBreak = 'break-word';
+      
+      qrTextDisplay.appendChild(textElement);
+    }
 
     function initBulkInputType() {
       const bulkTypeRadios = document.querySelectorAll('input[name="bulk-type"]');
@@ -1931,6 +2281,60 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
       });
     }
 
+    function addTextToQR(qrCanvas, text, options) {
+      return new Promise((resolve) => {
+        // If text is not enabled, return the original canvas
+        if (!options.enabled || !text) {
+          resolve(qrCanvas);
+          return;
+        }
+        
+        const qrWidth = qrCanvas.width;
+        const qrHeight = qrCanvas.height;
+        
+        // Create the final canvas with space for text
+        const padding = 20;
+        const fontSize = parseInt(options.size);
+        const textHeight = fontSize * 2; // Approximate height for text
+        
+        const finalCanvas = document.createElement('canvas');
+        finalCanvas.width = qrWidth;
+        finalCanvas.height = qrHeight + textHeight + padding;
+        const ctx = finalCanvas.getContext('2d');
+        
+        // Fill background if not transparent
+        if (!options.transparent) {
+          ctx.fillStyle = options.bgColor;
+          ctx.fillRect(0, 0, finalCanvas.width, finalCanvas.height);
+        }
+        
+        // Draw QR code
+        ctx.drawImage(qrCanvas, 0, 0);
+        
+        // Draw text
+        ctx.fillStyle = options.color;
+        ctx.font = `${options.size} 'Poppins', sans-serif`;
+        ctx.textAlign = options.align;
+        
+        // Calculate text position
+        let textX;
+        if (options.align === 'left') {
+          textX = padding;
+        } else if (options.align === 'right') {
+          textX = finalCanvas.width - padding;
+        } else {
+          textX = finalCanvas.width / 2;
+        }
+        
+        const textY = qrHeight + padding;
+        
+        // Draw text
+        ctx.fillText(text, textX, textY);
+        
+        resolve(finalCanvas);
+      });
+    }
+
     // Updated generateQR function
     async function generateQR() {
       try {
@@ -1959,11 +2363,47 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
           parseInt(logoSize.value)
         );
         
+        // Add text if enabled
+        let displayText = '';
+        let textCanvas = finalCanvas;
+        
+        if (showTextDisplay.checked) {
+          displayText = customText.value.trim();
+          if (!displayText) {
+            displayText = content;
+          }
+          
+          // Add prefix and suffix with spaces
+          const prefixVal = textPrefix.value.trim();
+          const suffixVal = textSuffix.value.trim();
+          
+          if (prefixVal || suffixVal) {
+            const parts = [];
+            if (prefixVal) parts.push(prefixVal);
+            if (displayText) parts.push(displayText);
+            if (suffixVal) parts.push(suffixVal);
+            displayText = parts.join(' ');
+          }
+          
+          // Create text options
+          const textOptions = {
+            enabled: true,
+            size: textSize.value,
+            color: textColor.value,
+            align: textAlign.value,
+            transparent: transparentBg.checked,
+            bgColor: bgColor.value
+          };
+          
+          // Add text to the QR
+          textCanvas = await addTextToQR(finalCanvas, displayText, textOptions);
+        }
+        
         // Display results
-        qrCanvas.width = finalCanvas.width;
-        qrCanvas.height = finalCanvas.height;
+        qrCanvas.width = textCanvas.width;
+        qrCanvas.height = textCanvas.height;
         const ctx = qrCanvas.getContext('2d');
-        ctx.drawImage(finalCanvas, 0, 0);
+        ctx.drawImage(textCanvas, 0, 0);
         
         generatedQR = { data: qrCanvas.toDataURL('image/png'), content };
         
@@ -1973,8 +2413,11 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
         downloadBtn.style.display = 'block';
         qrCanvas.style.display = 'block';
         
+        // Update text display
+        updateQRTextDisplay(displayText);
+        
         // Test QR scannability
-        testQRScannability(finalCanvas, content);
+        testQRScannability(textCanvas, content);
       } catch (error) {
         qrLoading.style.display = 'none';
         showError(qrError, error.message || 'Error generating QR code');
@@ -2056,11 +2499,24 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
         bulkError.style.display = 'none';
         bulkLoading.style.display = 'block';
 
+        // Prepare text options if enabled
+        let textOptions = null;
+        if (bulkShowTextDisplay.checked) {
+          textOptions = {
+            enabled: true,
+            size: bulkTextSize.value,
+            color: bulkTextColor.value,
+            align: bulkTextAlign.value,
+            transparent: bulkTransparentBg.checked,
+            bgColor: bulkBgColor.value
+          };
+        }
+
         // Process in batches
         const batchSize = 5;
         for (let i = 0; i < inputs.length; i += batchSize) {
           const batch = inputs.slice(i, i + batchSize);
-          await processBatch(batch, i, inputs.length);
+          await processBatch(batch, i, inputs.length, textOptions);
         }
 
         createBulkZip();
@@ -2071,7 +2527,7 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
       }
     }
 
-    async function processBatch(batch, startIndex, total) {
+    async function processBatch(batch, startIndex, total, textOptions) {
       for (let j = 0; j < batch.length; j++) {
         const index = startIndex + j;
         const input = batch[j];
@@ -2096,9 +2552,33 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
             parseInt(bulkLogoSize.value)
           );
           
+          // Add text if enabled
+          let textCanvas = finalCanvas;
+          if (textOptions) {
+            let displayText = bulkCustomText.value.trim();
+            if (!displayText) {
+              displayText = input;
+            }
+            
+            // Add prefix and suffix with spaces
+            const prefixVal = bulkTextPrefix.value.trim();
+            const suffixVal = bulkTextSuffix.value.trim();
+            
+            if (prefixVal || suffixVal) {
+              const parts = [];
+              if (prefixVal) parts.push(prefixVal);
+              if (displayText) parts.push(displayText);
+              if (suffixVal) parts.push(suffixVal);
+              displayText = parts.join(' ');
+            }
+            
+            // Add text to the QR
+            textCanvas = await addTextToQR(finalCanvas, displayText, textOptions);
+          }
+          
           bulkQRs.push({
             content: input,
-            dataURL: finalCanvas.toDataURL('image/png')
+            dataURL: textCanvas.toDataURL('image/png')
           });
         } catch (error) {
           console.error('Error generating QR code for: ' + input, error);
@@ -2337,7 +2817,21 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
         size: sizeSlider.value,
         borderSize: borderSize.value,
         borderColor: borderColor.value,
-        logoSize: logoSize.value
+        logoSize: logoSize.value,
+        showTextDisplay: showTextDisplay.checked,
+        customText: customText.value,
+        textPrefix: textPrefix.value,
+        textSuffix: textSuffix.value,
+        textColor: textColor.value,
+        textSize: textSize.value,
+        textAlign: textAlign.value,
+        bulkShowTextDisplay: bulkShowTextDisplay.checked,
+        bulkCustomText: bulkCustomText.value,
+        bulkTextPrefix: bulkTextPrefix.value,
+        bulkTextSuffix: bulkTextSuffix.value,
+        bulkTextColor: bulkTextColor.value,
+        bulkTextSize: bulkTextSize.value,
+        bulkTextAlign: bulkTextAlign.value
       };
       localStorage.setItem(PREFERENCES_KEY, JSON.stringify(preferences));
     }
@@ -2364,6 +2858,33 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
           if (logoSize) {
             logoSize.value = preferences.logoSize || '15';
           }
+          
+          // Load text display preferences
+          if (showTextDisplay) {
+            showTextDisplay.checked = preferences.showTextDisplay || false;
+            textDisplayFields.style.display = showTextDisplay.checked ? 'block' : 'none';
+          }
+          
+          if (customText) customText.value = preferences.customText || '';
+          if (textPrefix) textPrefix.value = preferences.textPrefix || '';
+          if (textSuffix) textSuffix.value = preferences.textSuffix || '';
+          if (textColor) textColor.value = preferences.textColor || '#000000';
+          if (textSize) textSize.value = preferences.textSize || '16px';
+          if (textAlign) textAlign.value = preferences.textAlign || 'center';
+          
+          // Load bulk text display preferences
+          if (bulkShowTextDisplay) {
+            bulkShowTextDisplay.checked = preferences.bulkShowTextDisplay || false;
+            bulkTextDisplayFields.style.display = bulkShowTextDisplay.checked ? 'block' : 'none';
+          }
+          
+          if (bulkCustomText) bulkCustomText.value = preferences.bulkCustomText || '';
+          if (bulkTextPrefix) bulkTextPrefix.value = preferences.bulkTextPrefix || '';
+          if (bulkTextSuffix) bulkTextSuffix.value = preferences.bulkTextSuffix || '';
+          if (bulkTextColor) bulkTextColor.value = preferences.bulkTextColor || '#000000';
+          if (bulkTextSize) bulkTextSize.value = preferences.bulkTextSize || '16px';
+          if (bulkTextAlign) bulkTextAlign.value = preferences.bulkTextAlign || 'center';
+          
         } catch (e) {
           console.error('Failed to parse QR preferences:', e);
         }
