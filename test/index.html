@@ -3,18 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Free Barcode Generator - Create custom EAN-13, EAN-8, UPC, and other barcodes for products, inventory, and retail.">
-  <title>Enhanced Barcode Generator - EveryTool.io</title>
-  
-  <!-- SEO Optimizations -->
+  <meta name="description" content="Free online audio tools: convert, extract, edit, and enhance audio files in your browser. Supports MP3, WAV, FLAC, AAC, and more.">
+  <meta name="keywords" content="audio converter, free audio toolkit, online audio tools, convert audio, extract audio from video, audio editor, audio toolkit">
   <meta name="robots" content="index, follow">
-  <meta name="keywords" content="free barcode generator, barcode creator, ean-13, ean-8, upc barcode, barcode generator">
-  <meta property="og:title" content="Free Barcode Generator - EveryTool.io">
-  <meta property="og:description" content="Create custom Barcodes for products, inventory, and retail applications. Generate EAN-13, EAN-8, UPC, and more.">
+  <meta property="og:title" content="Free Audio Tools">
+  <meta property="og:description" content="Convert, extract, and edit audio files with customizable settings. Free, fast, and secure in-browser processing.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://everytool.io/barcodegenerator">
-  <meta property="og:image" content="https://everytool.io/social-preview.jpg">
+  <meta property="og:image" content="https://everytool.io/social-preview-audio.jpg">
   <meta name="twitter:card" content="summary_large_image">
+  <title>Advanced Audio Tools</title>
   
   <!-- Performance Optimization -->
   <link rel="preconnect" href="https://cdnjs.cloudflare.com">
@@ -23,17 +20,46 @@
   <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.rel='stylesheet'">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
-  <!-- Scripts -->
-  <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-  
-  <!-- Shared CSS -->
-  <link rel="stylesheet" href="/css/styles.css">
-  
-  <!-- Barcode Generator Specific Styles -->
+  <!-- Site-wide CSS -->
   <style>
-    /* Hero Section */
+    /* Core styles */
+    :root {
+      --primary: #4361ee;
+      --primary-dark: #3a56d4;
+      --secondary: #7209b7;
+      --accent: #f72585;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --gray: #6c757d;
+      --light-gray: #e9ecef;
+      --border-radius: 12px;
+      --box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      line-height: 1.6;
+      color: var(--dark);
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+      min-height: 100vh;
+      padding: 20px 0;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Hero Section - Updated to match barcode generator */
     .hero {
       padding: 60px 0 40px;
       text-align: center;
@@ -64,7 +90,7 @@
     }
     
     .card {
-      background: var(--light);
+      background: white;
       border-radius: var(--border-radius);
       box-shadow: var(--box-shadow);
       padding: 30px;
@@ -188,27 +214,11 @@
       outline-offset: 2px;
     }
     
-    button.secondary {
-      background: var(--light);
-      color: var(--primary);
-      border: 2px solid var(--primary);
-    }
-    
-    button.secondary:hover, button.secondary:focus {
-      background: #f0f4ff;
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-    
-    canvas {
-      margin: 1.5em auto;
-      display: block;
-      max-width: 100%;
-      border-radius: 12px;
-      background: var(--light);
-      padding: 15px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-      border: 1px solid var(--light-gray);
+    button:disabled {
+      background: #9ec5e6;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
     }
     
     .loading {
@@ -250,19 +260,199 @@
       display: none;
       border-left: 4px solid #27ae60;
     }
-    
-    .btn-group {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      margin: 1.5em 0;
-      flex-wrap: wrap;
+
+    .drag-drop-area {
+      width: 100%;
+      max-width: 600px;
+      margin: 1.5em auto;
+      padding: 1.5em;
+      border: 2px dashed var(--light-gray);
+      border-radius: var(--border-radius);
+      background: white;
+      color: var(--gray);
+      cursor: pointer;
+      transition: var(--transition);
+      text-align: center;
+      font-size: 0.95rem;
     }
-    
-    .btn-group button {
-      width: auto;
-      min-width: 180px;
-      flex: 1;
+
+    .drag-drop-area.drag-over {
+      background: #e6f0fa;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+    }
+
+    .drag-drop-area p {
+      margin: 0.5em 0;
+    }
+
+    .file-info {
+      width: 100%;
+      max-width: 600px;
+      margin: 0.8em auto;
+      padding: 12px;
+      background: var(--light);
+      border-radius: var(--border-radius);
+      text-align: left;
+    }
+
+    .file-detail {
+      display: flex;
+      justify-content: space-between;
+      margin: 0.3rem 0;
+      font-size: 0.85rem;
+    }
+
+    .settings-grid {
+      width: 100%;
+      max-width: 600px;
+      margin: 1em auto;
+    }
+
+    .setting-group {
+      margin-bottom: 1.2rem;
+      padding: 12px;
+      background: #f8f9ff;
+      border-radius: var(--border-radius);
+    }
+
+    .description {
+      font-size: 0.85em;
+      color: var(--gray);
+      margin-bottom: 0.5em;
+    }
+
+    .toggle-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 0.5em 0;
+    }
+
+    .toggle-switch {
+      position: relative;
+      width: 50px;
+      height: 24px;
+    }
+
+    .toggle-switch input {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+      z-index: 1;
+    }
+
+    .slider {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: var(--gray);
+      transition: background-color 0.3s ease;
+      border-radius: 24px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: transform 0.3s ease;
+      border-radius: 50%;
+    }
+
+    .toggle-switch input:checked + .slider {
+      background-color: var(--primary);
+    }
+
+    .toggle-switch input:checked + .slider:before {
+      transform: translateX(26px);
+    }
+
+    .toggle-switch input:focus + .slider {
+      box-shadow: 0 0 0 2px var(--primary-dark);
+    }
+
+    .toggle-switch input:disabled + .slider {
+      background-color: var(--light-gray);
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .toggle-switch input:disabled + .slider:before {
+      background-color: #ddd;
+    }
+
+    .progress-container {
+      width: 100%;
+      max-width: 600px;
+      margin: 1.2em auto;
+      padding: 12px;
+      background: var(--light);
+      border-radius: var(--border-radius);
+      display: none;
+    }
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.4rem;
+      font-size: 0.9rem;
+    }
+
+    .progress-bar {
+      height: 8px;
+      background: var(--light-gray);
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: 5px;
+      transition: width 0.4s ease;
+    }
+
+    .result-container {
+      width: 100%;
+      max-width: 600px;
+      margin: 1.2em auto;
+      padding: 1rem;
+      background: rgba(39, 174, 96, 0.08);
+      border: 1px dashed #27ae60;
+      border-radius: var(--border-radius);
+      display: none;
+      text-align: center;
+    }
+
+    .download-btn {
+      background: #27ae60;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: var(--transition);
+      margin-top: 12px;
+    }
+
+    .download-btn:hover, .download-btn:focus {
+      background: #219653;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
     }
     
     /* Updated features grid - 2 cards per row */
@@ -274,7 +464,7 @@
     }
     
     .feature {
-      background: var(--light);
+      background: white;
       border-radius: var(--border-radius);
       padding: 25px;
       text-align: center;
@@ -293,8 +483,9 @@
       color: var(--primary);
     }
     
+    /* New Guide Section to replace Advanced Features */
     .guide-section {
-      background: var(--light);
+      background: white;
       border-radius: var(--border-radius);
       padding: 40px;
       margin: 40px auto;
@@ -335,326 +526,150 @@
       font-size: 1rem;
       color: #444;
     }
-    
-    /* NEW: Simplified Customization Panel */
-    .customization-panel {
-      background: #f8f9ff;
-      border-radius: var(--border-radius);
-      padding: 25px;
-      margin-bottom: 30px;
-      border: 1px solid #e9ecef;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-    }
-    
-    .customization-panel h2 {
-      font-size: 1.5rem;
-      margin-bottom: 20px;
-      color: var(--primary);
+
+    .range-container {
       display: flex;
       align-items: center;
-      gap: 10px;
-      justify-content: center;
+      gap: 12px;
+      margin: 12px 0;
     }
-    
-    .customization-panel h2 i {
-      color: var(--primary);
+
+    .range-container input[type="range"] {
+      flex: 1;
+      height: 7px;
+      -webkit-appearance: none;
+      background: var(--light-gray);
+      border-radius: 10px;
+      outline: none;
     }
-    
-    .customization-options {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 20px;
-    }
-    
-    .color-options {
-      display: flex;
-      justify-content: center;
-      gap: 25px;
-      flex-wrap: wrap;
-    }
-    
-    .color-option {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-    }
-    
-    .color-option label {
-      font-weight: 500;
-      font-size: 1rem;
-    }
-    
-    /* Visual marker for selected color */
-    .color-preview {
-      position: relative;
-      display: inline-block;
-      width: 40px;
-      height: 40px;
+
+    .range-container input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
       border-radius: 50%;
+      background: var(--primary);
       cursor: pointer;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-      transition: transform 0.2s ease;
+      transition: var(--transition);
     }
-    
-    .color-preview:hover {
+
+    .range-container input[type="range"]::-webkit-slider-thumb:hover {
       transform: scale(1.1);
     }
-    
-    .color-preview::after {
-      content: "";
-      position: absolute;
-      top: -4px;
-      left: -4px;
-      right: -4px;
-      bottom: -4px;
-      border: 2px solid var(--primary);
-      border-radius: 50%;
-      opacity: 0;
-      transition: opacity 0.2s ease;
-    }
-    
-    .color-preview.selected::after {
-      opacity: 1;
-    }
-    
-    .color-preview-container {
-      position: relative;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    
-    .color-value {
-      font-size: 0.9rem;
-      font-weight: 500;
-      min-width: 70px;
-      text-align: center;
-      padding: 5px 10px;
-      background: rgba(0, 0, 0, 0.05);
-      border-radius: 4px;
-    }
-    
-    .transparent-bg-container {
-      background: #f8f9fa;
-      border-radius: 10px;
-      padding: 15px;
-      margin-top: 15px;
-      border: 1px dashed var(--light-gray);
-      display: flex;
-      justify-content: center;
-    }
-    
-    .reset-btn {
-      display: flex;
-      justify-content: center;
-      margin-top: 20px;
-    }
-    
-    /* Text Display Options */
-    .text-display-container {
-      margin: 1.5em 0;
-      border: 1px solid var(--light-gray);
-      border-radius: var(--border-radius);
-      padding: 20px;
-      background: #fafbff;
-    }
 
-    .text-display-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 15px;
-      justify-content: center;
-    }
-
-    .text-display-header i {
+    .range-value {
+      min-width: 45px;
+      text-align: right;
+      font-weight: 600;
       color: var(--primary);
-      font-size: 1.5rem;
     }
 
-    .text-display-content {
+    .trim-container {
       display: flex;
-      flex-direction: column;
-      gap: 15px;
+      gap: 12px;
+      margin: 12px 0;
     }
 
-    .text-display-toggle {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 15px;
-      margin-bottom: 15px;
+    .trim-container input {
+      flex: 1;
+      padding: 10px;
+      text-align: center;
     }
 
-    .text-display-preview {
+    .audio-preview {
+      width: 100%;
+      max-width: 600px;
       margin: 15px auto;
-      padding: 15px;
-      border: 1px dashed var(--light-gray);
-      border-radius: var(--border-radius);
-      background: white;
-      text-align: center;
-      min-height: 50px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: none;
+    }
+
+    .audio-preview audio {
       width: 100%;
-      max-width: 500px;
-    }
-
-    .text-display-controls {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 15px;
-      margin-top: 15px;
-    }
-
-    .text-display-control {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .text-display-control label {
-      font-weight: 500;
-      color: var(--dark);
-    }
-
-    .text-display-control input[type="color"] {
-      width: 60px;
-      height: 60px;
-      padding: 5px;
-      cursor: pointer;
-      border-radius: 12px;
-      border: 2px solid var(--light-gray);
-      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .text-display-control input[type="color"]::-webkit-color-swatch {
-      border: none;
-      border-radius: 8px;
-    }
-
-    .text-display-control select {
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid var(--light-gray);
-      background: var(--light);
-    }
-
-    .text-display-group {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .text-display-group label {
-      font-weight: 500;
-      color: var(--dark);
-    }
-
-    .text-display-group input[type="text"] {
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid var(--light-gray);
-      background: var(--light);
-    }
-
-    /* Barcode Result Container */
-    .barcode-result-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin: 20px 0;
-      gap: 15px;
-    }
-
-    .barcode-text-container {
-      background: white;
-      padding: 15px;
-      border-radius: 12px;
-      width: 100%;
-      max-width: 500px;
-      text-align: center;
+      border-radius: 10px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.05);
     }
-
-    /* Toggle switch styles */
-    .toggle-switch-visual {
-      position: relative;
-      display: inline-block;
-      width: 60px;
-      height: 34px;
+    
+    .waveform {
+      width: 100%;
+      height: 130px;
+      background: #f0f4f8;
+      border-radius: var(--border-radius);
+      margin: 15px 0;
+      display: none;
     }
-
-    .toggle-switch-visual input {
-      opacity: 0;
-      width: 0;
-      height: 0;
+    
+    .effects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 15px;
+      margin: 15px 0;
     }
-
-    .toggle-slider {
-      position: absolute;
+    
+    .effect-panel {
+      background: #f8f9ff;
+      border-radius: var(--border-radius);
+      padding: 12px;
+    }
+    
+    .batch-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 15px 0;
+    }
+    
+    .batch-file {
+      background: #e6f0fa;
+      padding: 8px 12px;
+      border-radius: var(--border-radius);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .batch-file i {
       cursor: pointer;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: #ccc;
-      transition: .4s;
-      border-radius: 34px;
+      color: var(--gray);
+      transition: var(--transition);
     }
-
-    .toggle-slider:before {
-      position: absolute;
-      content: "";
-      height: 26px;
-      width: 26px;
-      left: 4px;
-      bottom: 4px;
-      background-color: white;
-      transition: .4s;
-      border-radius: 50%;
+    
+    .batch-file i:hover {
+      color: #e74c3c;
     }
-
-    input:checked + .toggle-slider {
-      background-color: var(--primary);
+    
+    .transcription-result {
+      background: #f0f4f8;
+      border-radius: var(--border-radius);
+      padding: 15px;
+      margin: 15px 0;
+      max-height: 250px;
+      overflow-y: auto;
+      display: none;
     }
-
-    input:checked + .toggle-slider:before {
-      transform: translateX(26px);
+    
+    .transcription-text {
+      line-height: 1.7;
+      font-size: 1.05rem;
     }
-
-    .toggle-label {
-      font-weight: 500;
-      color: var(--dark);
-    }
-
-    /* Responsive Design for Barcode Generator */
+    
+    /* Responsive Design */
     @media (max-width: 768px) {
       .hero h1 {
-        font-size: 2rem;
-      }
-      
-      .section-title {
-        font-size: 2rem;
+        font-size: 1.8rem;
       }
       
       .tab {
-        padding: 10px 15px;
-        font-size: 0.9rem;
+        padding: 8px 12px;
+        font-size: 0.85rem;
       }
       
-      .guide-section, .uses-section {
-        padding: 25px;
+      .guide-section {
+        padding: 20px;
       }
       
-      .btn-group {
+      .trim-container {
         flex-direction: column;
-      }
-      
-      .btn-group button {
-        width: 100%;
+        gap: 8px;
       }
       
       .features {
@@ -664,1010 +679,936 @@
       .guide-grid {
         grid-template-columns: 1fr;
       }
-      
-      .color-options {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .text-display-controls {
-        grid-template-columns: 1fr;
-      }
     }
-
+    
     @media (max-width: 576px) {
       .hero {
         padding: 40px 0 20px;
       }
       
       .hero h1 {
-        font-size: 1.8rem;
+        font-size: 1.6rem;
       }
       
       .card {
-        padding: 20px;
+        padding: 18px;
       }
       
       h2 {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
       }
       
       h3 {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
       }
     }
   </style>
 </head>
 <body>
-  <!-- Header Placeholder -->
+  <!-- Header -->
   <header id="main-header">
     <p class="error-message" style="display: none; color: red; text-align: center;">Failed to load header. Please try refreshing the page.</p>
   </header>
 
-  <!-- Hero Section -->
+  <!-- Hero Section - Updated to match barcode generator -->
   <section class="hero">
     <div class="container">
       <div class="hero-content">
-        <h1>Enhanced Barcode Generator</h1>
-        <p>Create custom EAN-13, EAN-8, UPC, and other barcodes for products, inventory, and retail applications. All processing happens in your browser.</p>
+        <h1>Advanced Audio Tools</h1>
+        <p>Convert, extract, transcribe, and enhance audio files with our comprehensive toolkit. All processing happens securely in your browser - your files never leave your device.</p>
       </div>
     </div>
   </section>
 
-  <!-- Barcode Generator Content -->
+  <!-- Main Content -->
   <div class="container">
-    <!-- Features with 2 cards per row -->
+    <!-- Features section - Updated to 2x2 grid -->
     <div class="features">
       <div class="feature">
-        <i class="fas fa-barcode"></i>
-        <h3>Multiple Formats</h3>
-        <p>Generate EAN-13, EAN-8, UPC, Code 128, Code 39, and more barcode types</p>
+        <i class="fas fa-exchange-alt"></i>
+        <h3>Audio Conversion</h3>
+        <p>Convert between MP3, WAV, FLAC, AAC, and OGG formats</p>
       </div>
       <div class="feature">
-        <i class="fas fa-layer-group"></i>
-        <h3>Batch Generation</h3>
-        <p>Create multiple barcodes at once and download as a ZIP file</p>
+        <i class="fas fa-comment-dots"></i>
+        <h3>Audio to Text</h3>
+        <p>Transcribe spoken content into editable text</p>
       </div>
       <div class="feature">
-        <i class="fas fa-random"></i>
-        <h3>Auto-Generate</h3>
-        <p>Generate valid Barcodes with correct checksums automatically</p>
+        <i class="fas fa-sliders-h"></i>
+        <h3>Advanced Effects</h3>
+        <p>Apply reverb, delay, distortion and other effects</p>
       </div>
       <div class="feature">
-        <i class="fas fa-shield-alt"></i>
-        <h3>Privacy First</h3>
-        <p>All processing happens in your browser - no data is uploaded to servers</p>
+        <i class="fas fa-wave-square"></i>
+        <h3>Audio Visualization</h3>
+        <p>Visualize waveforms and frequency spectra</p>
       </div>
     </div>
 
-    <!-- Barcode Creation Guide -->
+    <!-- New Guide Section to replace Advanced Features -->
     <div class="guide-section">
-      <h2><i class="fas fa-book"></i> Barcode Creation Guide</h2>
-      <p>Follow these steps to create your perfect Barcode:</p>
+      <h2><i class="fas fa-book"></i> Audio Processing Guide</h2>
+      <p>Follow these steps to process your audio files:</p>
       <div class="guide-grid">
         <div class="guide-item">
-          <h3><i class="fas fa-tools"></i> Choose Barcode Type</h3>
-          <p>Select from EAN-13, EAN-8, UPC, or other formats based on your needs.</p>
+          <h3><i class="fas fa-upload"></i> Upload Your Audio</h3>
+          <p>Select an audio file from your device or drag and drop it into the upload area.</p>
         </div>
         <div class="guide-item">
-          <h3><i class="fas fa-keyboard"></i> Enter or Auto-Generate</h3>
-          <p>Input your code or leave blank for a random, valid Barcode.</p>
+          <h3><i class="fas fa-sliders-h"></i> Choose Processing</h3>
+          <p>Select the type of processing you need - conversion, transcription, effects, or batch.</p>
         </div>
         <div class="guide-item">
-          <h3><i class="fas fa-sliders-h"></i> Customize Appearance</h3>
-          <p>Adjust colors and other visual properties as needed.</p>
+          <h3><i class="fas fa-tools"></i> Configure Settings</h3>
+          <p>Customize the processing settings to meet your specific requirements.</p>
         </div>
         <div class="guide-item">
-          <h3><i class="fas fa-bolt"></i> Generate Barcode</h3>
-          <p>Click "Generate Barcode" to create your Barcode instantly.</p>
+          <h3><i class="fas fa-file-download"></i> Download Results</h3>
+          <p>Download your processed files in the desired format once processing completes.</p>
         </div>
       </div>
     </div>
 
-    <!-- Simplified Customization Panel -->
-    <div class="customization-panel">
-      <h2><i class="fas fa-sliders-h"></i> Customization Settings</h2>
-      <p style="text-align: center; margin-bottom: 20px; color: var(--gray);">These settings apply to all generated barcodes</p>
+    <!-- Audio Tools Card -->
+    <div class="card">
+      <h2><i class="fas fa-music"></i> Audio Processing Toolkit</h2>
+      <p style="text-align: center; color: var(--gray);"><i>All-in-one audio processing with advanced features</i></p>
       
-      <div class="customization-options">
-        <!-- Color Options -->
-        <div>
-          <h3><i class="fas fa-palette"></i> Colors</h3>
-          <div class="color-options">
-            <div class="color-option">
-              <label for="bar-color">Bar Color:</label>
-              <div class="color-preview-container">
-                <div class="color-preview selected" id="bar-color-preview" style="background-color: #000000;"></div>
-                <span class="color-value" id="bar-color-value">#000000</span>
-              </div>
-              <input type="color" id="bar-color" value="#000000" style="display: none;">
-            </div>
-            <div class="color-option">
-              <label for="background-color">Background Color:</label>
-              <div class="color-preview-container">
-                <div class="color-preview" id="background-color-preview" style="background-color: #ffffff;"></div>
-                <span class="color-value" id="background-color-value">#ffffff</span>
-              </div>
-              <input type="color" id="background-color" value="#ffffff" style="display: none;">
-            </div>
-          </div>
-          
-          <div class="transparent-bg-container">
-            <label>
-              <input type="checkbox" id="transparent-bg">
-              Transparent Background
-            </label>
-          </div>
+      <div class="tabs">
+        <div class="tab active" data-tab="convert">
+          <i class="fas fa-exchange-alt"></i> Convert Audio
+        </div>
+        <div class="tab" data-tab="transcribe">
+          <i class="fas fa-comment-dots"></i> Transcribe Audio
+        </div>
+        <div class="tab" data-tab="effects">
+          <i class="fas fa-sliders-h"></i> Audio Effects
+        </div>
+        <div class="tab" data-tab="batch">
+          <i class="fas fa-layer-group"></i> Batch Processing
         </div>
       </div>
       
-      <div class="reset-btn">
-        <button id="reset-customization" class="secondary">
-          <i class="fas fa-redo"></i> Reset Customization
+      <!-- Convert Audio Tab -->
+      <div class="tab-content active" id="convert-tab">
+        <div class="drag-drop-area" id="dropZone">
+          <p id="dropZoneText"><i class="fas fa-upload"></i> Choose file or drag and drop here</p>
+          <p>Supported formats: MP3, WAV, FLAC, AAC, OGG</p>
+          <p>Max file size: 100MB</p>
+        </div>
+        <input type="file" id="audioInput" accept="audio/*" style="display: none;" />
+        
+        <div id="fileInfo" class="file-info" style="display: none;">
+          <div class="file-detail"><span>Name:</span> <span id="fileName">No file selected</span></div>
+          <div class="file-detail"><span>Size:</span> <span id="fileSize">-</span></div>
+          <div class="file-detail"><span>Type:</span> <span id="fileType">-</span></div>
+          <div class="file-detail"><span>Duration:</span> <span id="fileDuration">-</span></div>
+        </div>
+        
+        <div class="waveform" id="waveform"></div>
+        
+        <div class="audio-preview" id="audioPreview">
+          <audio id="previewPlayer" controls></audio>
+        </div>
+        
+        <div class="settings-grid">
+          <div class="setting-group">
+            <h3><i class="fas fa-cog"></i> Conversion Settings</h3>
+            <div class="range-container">
+              <label for="quality">Quality:</label>
+              <input type="range" id="quality" min="64" max="320" value="192" step="64">
+              <span class="range-value" id="qualityValue">192 kbps</span>
+            </div>
+            
+            <div class="toggle-container">
+              <label for="normalize">Normalize Audio</label>
+              <label class="toggle-switch">
+                <input type="checkbox" id="normalize">
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+          
+          <div class="setting-group">
+            <h3><i class="fas fa-cut"></i> Audio Trimming</h3>
+            <div class="trim-container">
+              <div>
+                <label for="startTime">Start (seconds)</label>
+                <input type="number" id="startTime" min="0" value="0" step="0.1">
+              </div>
+              <div>
+                <label for="endTime">End (seconds)</label>
+                <input type="number" id="endTime" min="0" value="0" step="0.1">
+              </div>
+            </div>
+          </div>
+          
+          <div class="setting-group">
+            <h3><i class="fas fa-volume-up"></i> Output Format</h3>
+            <select id="outputFormat">
+              <option value="mp3">MP3</option>
+              <option value="wav">WAV</option>
+              <option value="flac">FLAC</option>
+              <option value="aac">AAC</option>
+              <option value="ogg">OGG</option>
+            </select>
+          </div>
+        </div>
+        
+        <button id="convertBtn" disabled>
+          <i class="fas fa-exchange-alt"></i> Convert Audio
         </button>
       </div>
-    </div>
-
-    <!-- Unified Text Display Options -->
-    <div class="text-display-container">
-      <div class="text-display-header">
-        <i class="fas fa-font"></i>
-        <h3>Text Display Options</h3>
+      
+      <!-- Transcribe Audio Tab -->
+      <div class="tab-content" id="transcribe-tab">
+        <div class="drag-drop-area" id="transcribeDropZone">
+          <p id="transcribeDropText"><i class="fas fa-upload"></i> Choose audio file or drag and drop here</p>
+          <p>Supported formats: MP3, WAV, FLAC</p>
+          <p>Max file size: 50MB</p>
+        </div>
+        <input type="file" id="transcribeInput" accept="audio/*" style="display: none;" />
+        
+        <div id="transcribeFileInfo" class="file-info" style="display: none;">
+          <div class="file-detail"><span>Name:</span> <span id="transcribeFileName">No file selected</span></div>
+          <div class="file-detail"><span>Size:</span> <span id="transcribeFileSize">-</span></div>
+          <div class="file-detail"><span>Type:</span> <span id="transcribeFileType">-</span></div>
+          <div class="file-detail"><span>Duration:</span> <span id="transcribeFileDuration">-</span></div>
+        </div>
+        
+        <div class="settings-grid">
+          <div class="setting-group">
+            <h3><i class="fas fa-language"></i> Language Settings</h3>
+            <select id="language">
+              <option value="en-US">English (US)</option>
+              <option value="en-GB">English (UK)</option>
+              <option value="es-ES">Spanish</option>
+              <option value="fr-FR">French</option>
+              <option value="de-DE">German</option>
+            </select>
+            
+            <div class="toggle-container">
+              <label for="punctuation">Add Punctuation</label>
+              <label class="toggle-switch">
+                <input type="checkbox" id="punctuation" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+          
+          <div class="setting-group">
+            <h3><i class="fas fa-user-tag"></i> Speaker Identification</h3>
+            <div class="toggle-container">
+              <label for="identifySpeakers">Identify Speakers</label>
+              <label class="toggle-switch">
+                <input type="checkbox" id="identifySpeakers">
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+        
+        <button id="transcribeBtn" disabled>
+          <i class="fas fa-comment-dots"></i> Transcribe Audio
+        </button>
+        
+        <div class="transcription-result" id="transcriptionResult">
+          <div class="transcription-text" id="transcriptionText">
+            Transcription results will appear here...
+          </div>
+        </div>
       </div>
       
-      <div class="text-display-content">
-        <div class="text-display-toggle">
-          <label class="toggle-label">Display Text Below Barcode</label>
-          <label class="toggle-switch-visual">
-            <input type="checkbox" id="show-text-display">
-            <span class="toggle-slider"></span>
-          </label>
+      <!-- Audio Effects Tab -->
+      <div class="tab-content" id="effects-tab">
+        <div class="drag-drop-area" id="effectsDropZone">
+          <p id="effectsDropText"><i class="fas fa-upload"></i> Choose audio file or drag and drop here</p>
+          <p>Supported formats: MP3, WAV, FLAC</p>
+          <p>Max file size: 50MB</p>
+        </div>
+        <input type="file" id="effectsInput" accept="audio/*" style="display: none;" />
+        
+        <div id="effectsFileInfo" class="file-info" style="display: none;">
+          <div class="file-detail"><span>Name:</span> <span id="effectsFileName">No file selected</span></div>
+          <div class="file-detail"><span>Size:</span> <span id="effectsFileSize">-</span></div>
+          <div class="file-detail"><span>Type:</span> <span id="effectsFileType">-</span></div>
+          <div class="file-detail"><span>Duration:</span> <span id="effectsFileDuration">-</span></div>
         </div>
         
-        <div class="text-display-group" id="text-display-fields" style="display: none;">
-          <label for="custom-text">Custom Text (optional):</label>
-          <input type="text" id="custom-text" placeholder="Enter custom text to display below barcode">
+        <div class="waveform" id="effectsWaveform"></div>
+        
+        <div class="audio-preview" id="effectsAudioPreview">
+          <audio id="effectsPreviewPlayer" controls></audio>
+        </div>
+        
+        <div class="effects-grid">
+          <div class="effect-panel">
+            <h3><i class="fas fa-echo"></i> Reverb</h3>
+            <div class="toggle-container">
+              <label for="reverbEnable">Enable Reverb</label>
+              <label class="toggle-switch">
+                <input type="checkbox" id="reverbEnable">
+                <span class="slider"></span>
+              </label>
+            </div>
+            <div class="range-container">
+              <label for="reverbLevel">Level:</label>
+              <input type="range" id="reverbLevel" min="0" max="100" value="30">
+              <span class="range-value" id="reverbValue">30%</span>
+            </div>
+          </div>
           
-          <div class="text-display-controls">
-            <div class="text-display-control">
-              <label for="text-color">Text Color:</label>
-              <input type="color" id="text-color" value="#000000">
+          <div class="effect-panel">
+            <h3><i class="fas fa-wave-square"></i> Delay</h3>
+            <div class="toggle-container">
+              <label for="delayEnable">Enable Delay</label>
+              <label class="toggle-switch">
+                <input type="checkbox" id="delayEnable">
+                <span class="slider"></span>
+              </label>
             </div>
-            
-            <div class="text-display-control">
-              <label for="text-size">Text Size:</label>
-              <select id="text-size">
-                <option value="12px">Small</option>
-                <option value="16px" selected>Medium</option>
-                <option value="20px">Large</option>
-                <option value="24px">Extra Large</option>
-              </select>
+            <div class="range-container">
+              <label for="delayTime">Time:</label>
+              <input type="range" id="delayTime" min="0.1" max="1" step="0.1" value="0.3">
+              <span class="range-value" id="delayTimeValue">0.3s</span>
             </div>
+            <div class="range-container">
+              <label for="delayFeedback">Feedback:</label>
+              <input type="range" id="delayFeedback" min="0" max="100" value="30">
+              <span class="range-value" id="delayFeedbackValue">30%</span>
+            </div>
+          </div>
+          
+          <div class="effect-panel">
+            <h3><i class="fas fa-sliders-h"></i> Distortion</h3>
+            <div class="toggle-container">
+              <label for="distortionEnable">Enable Distortion</label>
+              <label class="toggle-switch">
+                <input type="checkbox" id="distortionEnable">
+                <span class="slider"></span>
+              </label>
+            </div>
+            <div class="range-container">
+              <label for="distortionAmount">Amount:</label>
+              <input type="range" id="distortionAmount" min="0" max="100" value="20">
+              <span class="range-value" id="distortionValue">20%</span>
+            </div>
+          </div>
+          
+          <div class="effect-panel">
+            <h3><i class="fas fa-filter"></i> Filter</h3>
+            <div class="toggle-container">
+              <label for="filterEnable">Enable Filter</label>
+              <label class="toggle-switch">
+                <input type="checkbox" id="filterEnable">
+                <span class="slider"></span>
+              </label>
+            </div>
+            <div class="range-container">
+              <label for="filterFrequency">Frequency:</label>
+              <input type="range" id="filterFrequency" min="20" max="20000" step="10" value="1000">
+              <span class="range-value" id="filterFrequencyValue">1000 Hz</span>
+            </div>
+          </div>
+        </div>
+        
+        <button id="applyEffectsBtn" disabled>
+          <i class="fas fa-magic"></i> Apply Effects
+        </button>
+      </div>
+      
+      <!-- Batch Processing Tab -->
+      <div class="tab-content" id="batch-tab">
+        <div class="drag-drop-area" id="batchDropZone">
+          <p id="batchDropText"><i class="fas fa-upload"></i> Choose files or drag and drop here</p>
+          <p>Supported formats: MP3, WAV, FLAC, AAC, OGG</p>
+          <p>Max 5 files, 100MB each</p>
+        </div>
+        <input type="file" id="batchInput" accept="audio/*" multiple style="display: none;" />
+        
+        <div class="batch-container" id="batchFilesContainer"></div>
+        
+        <div class="settings-grid">
+          <div class="setting-group">
+            <h3><i class="fas fa-tasks"></i> Batch Settings</h3>
+            <select id="batchAction">
+              <option value="convert">Convert Format</option>
+              <option value="normalize">Normalize Volume</option>
+              <option value="trim">Trim Silence</option>
+              <option value="effects">Apply Effects</option>
+            </select>
             
-            <div class="text-display-control">
-              <label for="text-align">Text Alignment:</label>
-              <select id="text-align">
-                <option value="left">Left</option>
-                <option value="center" selected>Center</option>
-                <option value="right">Right</option>
+            <div id="batchFormatContainer" style="margin-top: 12px;">
+              <label for="batchOutputFormat">Output Format:</label>
+              <select id="batchOutputFormat">
+                <option value="mp3">MP3</option>
+                <option value="wav">WAV</option>
+                <option value="flac">FLAC</option>
               </select>
             </div>
           </div>
           
-          <div class="text-display-preview" id="text-preview">
-            Preview will appear here
+          <div class="setting-group">
+            <h3><i class="fas fa-cog"></i> Processing Options</h3>
+            <div class="toggle-container">
+              <label for="batchOverwrite">Overwrite Originals</label>
+              <label class="toggle-switch">
+                <input type="checkbox" id="batchOverwrite">
+                <span class="slider"></span>
+              </label>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="tabs" role="tablist">
-        <div class="tab active" data-tab="single" role="tab" aria-selected="true" tabindex="0">
-          <i class="fas fa-barcode"></i> Single Barcode
-        </div>
-        <div class="tab" data-tab="batch" role="tab" aria-selected="false" tabindex="0">
-          <i class="fas fa-layer-group"></i> Batch Barcodes
-        </div>
-        <div class="tab" data-tab="custom" role="tab" aria-selected="false" tabindex="0">
-          <i class="fas fa-cog"></i> Custom Barcodes
-        </div>
-      </div>
-
-      <div class="tab-content active" id="single-tab" role="tabpanel">
-        <h2><i class="fas fa-barcode"></i> Generate Single Barcode</h2>
-        <label for="ean-type">Barcode Type:</label>
-        <select id="ean-type" aria-label="Select barcode type">
-          <option value="ean13" selected>EAN-13</option>
-          <option value="ean8">EAN-8</option>
-          <option value="upc">UPC-A</option>
-          <option value="code128">Code 128</option>
-          <option value="code39">Code 39</option>
-          <option value="itf14">ITF-14</option>
-          <option value="codabar">Codabar</option>
-          <option value="pharmacode">Pharmacode</option>
-        </select>
-        <label for="ean-input">Barcode Value:</label>
-        <input id="ean-input" type="text" placeholder="Enter barcode or leave blank to auto-generate" autofocus aria-label="Enter barcode value">
         
-        <div class="error" id="single-error"></div>
-        <div class="success" id="single-success"></div>
-        <div class="btn-group">
-          <button id="generate-single-btn" aria-label="Generate barcode">
-            <i class="fas fa-bolt"></i> Generate Barcode
-          </button>
-          <button id="download-btn" style="display:none" aria-label="Download barcode">
-            <i class="fas fa-download"></i> Download PNG
-          </button>
-          <button id="download-svg-btn" style="display:none" aria-label="Download SVG">
-            <i class="fas fa-file-code"></i> Download SVG
-          </button>
-        </div>
-        <div class="loading" id="single-loading">
-          <div class="spinner"></div>
-          Generating Barcode...
-        </div>
-        <div class="barcode-result-container">
-          <canvas id="ean-canvas" style="display: none;" aria-label="Generated barcode"></canvas>
-          <div class="barcode-text-container" id="barcode-text-display" style="display: none;"></div>
-        </div>
+        <button id="processBatchBtn" disabled>
+          <i class="fas fa-play-circle"></i> Process Files
+        </button>
       </div>
-
-      <div class="tab-content" id="batch-tab" role="tabpanel">
-        <h2><i class="fas fa-layer-group"></i> Batch Barcode Generation</h2>
-        <label for="batch-ean-type">Barcode Type:</label>
-        <select id="batch-ean-type" aria-label="Select barcode type for batch generation">
-          <option value="ean13" selected>EAN-13</option>
-          <option value="ean8">EAN-8</option>
-          <option value="upc">UPC-A</option>
-          <option value="code128">Code 128</option>
-          <option value="code39">Code 39</option>
-          <option value="itf14">ITF-14</option>
-          <option value="codabar">Codabar</option>
-          <option value="pharmacode">Pharmacode</option>
-        </select>
-        <label for="batch-amount">Number of Barcodes:</label>
-        <input id="batch-amount" type="number" min="1" max="100" value="10" placeholder="Enter number of codes (1–100)" aria-label="Enter number of barcodes">
-        
-        <div class="btn-group">
-          <button id="generate-batch-btn" aria-label="Generate and download batch barcodes as ZIP">
-            <i class="fas fa-file-archive"></i> Generate & Download as ZIP
-          </button>
+      
+      <!-- Progress and Result Containers -->
+      <div id="progressContainer" class="progress-container">
+        <div class="progress-header">
+          <span>Processing Progress</span>
+          <span id="progressPercent">0%</span>
         </div>
-        <div class="loading" id="batch-loading">
-          <div class="spinner"></div>
-          <div id="batch-progress">Generating barcodes: 0/0</div>
+        <div class="progress-bar">
+          <div id="progressFill" class="progress-fill"></div>
         </div>
-        <div class="success" id="batch-success"></div>
-        <div class="error" id="batch-error"></div>
+        <p id="progressMessage">Initializing processing...</p>
+        <button id="cancelBtn" style="margin-top: 12px; background: #e74c3c;">
+          <i class="fas fa-times-circle"></i> Cancel Processing
+        </button>
       </div>
-
-      <div class="tab-content" id="custom-tab" role="tabpanel">
-        <h2><i class="fas fa-cog"></i> Custom Barcode Generator</h2>
-        <label for="custom-type">Barcode Type:</label>
-        <select id="custom-type" aria-label="Select custom barcode type">
-          <option value="code128">Code 128</option>
-          <option value="code39">Code 39</option>
-          <option value="codabar">Codabar</option>
-          <option value="pharmacode">Pharmacode</option>
-        </select>
-        <label for="custom-input">Custom Text:</label>
-        <input id="custom-input" type="text" placeholder="Enter custom text for barcode" aria-label="Enter custom text for barcode">
-        <div class="format-info">
-          <h3>Format Examples:</h3>
-          <ul>
-            <li><strong>Code 128:</strong> Alphanumeric (e.g., ABC123)</li>
-            <li><strong>Code 39:</strong> Alphanumeric, uppercase (e.g., CODE39)</li>
-            <li><strong>Codabar:</strong> Start/end with A-D, digits and -$:/.+ (e.g., A12345B)</li>
-            <li><strong>Pharmacode:</strong> Numbers 3-131070 (e.g., 1234)</li>
-          </ul>
-        </div>
-        
-        <div class="btn-group">
-          <button id="generate-custom-btn" aria-label="Generate custom barcode">
-            <i class="fas fa-bolt"></i> Generate Custom Barcode
-          </button>
-          <button id="custom-download" style="display:none" aria-label="Download custom barcode">
-            <i class="fas fa-download"></i> Download PNG
-          </button>
-          <button id="custom-svg-download" style="display:none" aria-label="Download SVG">
-            <i class="fas fa-file-code"></i> Download SVG
-          </button>
-        </div>
-        <div class="loading" id="custom-loading">
-          <div class="spinner"></div>
-          Generating Custom Barcode...
-        </div>
-        <div class="error" id="custom-error"></div>
-        <div class="success" id="custom-success"></div>
-        <div class="barcode-result-container">
-          <canvas id="custom-canvas" style="display: none;" aria-label="Generated custom barcode"></canvas>
-          <div class="barcode-text-container" id="custom-barcode-text-display" style="display: none;"></div>
-        </div>
+      <div id="resultContainer" class="result-container">
+        <p>Processing Complete!</p>
+        <a id="downloadLink" class="download-btn">
+          <i class="fas fa-download"></i> Download Result
+        </a>
       </div>
     </div>
   </div>
 
-  <!-- Footer Placeholder -->
+  <!-- Footer -->
   <footer id="main-footer">
     <p class="error-message" style="display: none; color: red; text-align: center;">Failed to load footer. Please try refreshing the page.</p>
   </footer>
 
-  <!-- Cookie Consent Banner -->
-  <div id="cookie-consent" role="dialog" aria-labelledby="cookie-consent-banner" aria-describedby="cookie-consent-desc">
-    <div class="sr-only" id="cookie-consent-banner">Cookie Consent</div>
-    <div class="cookie-content" id="cookie-consent-desc">
-      <div class="cookie-text">
-        <p>We use cookies to enhance your experience and analyze site traffic. By clicking "Accept All", you consent to our use of cookies. 
-          <a href="/privacy-policy.html" aria-label="Learn more about our Privacy Policy">Learn more</a> in our Privacy Policy.
-        </p>
-        <button class="cookie-settings-btn" id="open-settings" aria-label="Open cookie settings">Cookie Settings</button>
-      </div>
-      <div class="cookie-buttons">
-        <button class="cookie-btn reject-btn" id="reject-cookies" aria-label="Reject non-essential cookies">Reject Non-Essential</button>
-        <button class="cookie-btn accept-btn" id="accept-cookies" aria-label="Accept all cookies">Accept All</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Cookie Settings Modal -->
-  <div id="cookie-settings" role="dialog" aria-labelledby="cookie-settings-title" aria-describedby="cookie-settings-desc">
-    <div class="settings-modal">
-      <div class="settings-header">
-        <h2 id="cookie-settings-title"><i class="fas fa-cookie-bite"></i> Cookie Settings</h2>
-        <button class="close-settings" id="close-settings" aria-label="Close cookie settings">×</button>
-      </div>
-      <div class="settings-content">
-        <p id="cookie-settings-desc">You can set your preferences for how we and our partners use cookies and similar technologies.</p>
-        
-        <div class="cookie-type">
-          <div class="cookie-type-header">
-            <h3>Essential Cookies</h3>
-            <label class="toggle-switch" for="essential-toggle">
-              <input type="checkbox" id="essential-toggle" checked disabled aria-label="Essential cookies (always enabled, cannot be disabled)" aria-describedby="essential-desc">
-              <span class="slider"></span>
-            </label>
-          </div>
-          <p id="essential-desc">These cookies are necessary for the website to function and cannot be switched off.</p>
-        </div>
-        
-        <div class="cookie-type">
-          <div class="cookie-type-header">
-            <h3>Analytics Cookies</h3>
-            <label class="toggle-switch" for="analytics-toggle">
-              <input type="checkbox" id="analytics-toggle" aria-label="Analytics cookies toggle" aria-describedby="analytics-desc">
-              <span class="slider"></span>
-            </label>
-          </div>
-          <p id="analytics-desc">These cookies allow us to count visits and traffic sources so we can measure and improve the performance of our site.</p>
-        </div>
-        
-        <div class="cookie-type">
-          <div class="cookie-type-header">
-            <h3>Advertising Cookies</h3>
-            <label class="toggle-switch" for="advertising-toggle">
-              <input type="checkbox" id="advertising-toggle" aria-label="Advertising cookies toggle" aria-describedby="advertising-desc">
-              <span class="slider"></span>
-            </label>
-          </div>
-          <p id="advertising-desc">These cookies may be set through our site by our advertising partners to build a profile of your interests.</p>
-        </div>
-      </div>
-      <div class="settings-buttons">
-        <button class="save-settings" id="save-settings" aria-label="Save cookie settings">Save Settings</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- JavaScript -->
-  <script src="/js/main.js"></script>
+  <!-- External Libraries -->
+  <script src="https://unpkg.com/wavesurfer.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pizzicato@0.6.4/dist/Pizzicato.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+  
+  <!-- Main JavaScript for the audio tools -->
   <script>
-    // Barcode Generator Functionality
-    function initBarcodeGenerator() {
-      // Constants
-      const elements = {
-        tabs: document.querySelectorAll('.tab'),
-        tabContents: document.querySelectorAll('.tab-content'),
-        singleCanvas: document.getElementById('ean-canvas'),
-        customCanvas: document.getElementById('custom-canvas'),
-        downloadBtn: document.getElementById('download-btn'),
-        downloadSvgBtn: document.getElementById('download-svg-btn'),
-        customDownloadBtn: document.getElementById('custom-download'),
-        customSvgDownloadBtn: document.getElementById('custom-svg-download'),
-        singleLoading: document.getElementById('single-loading'),
-        batchLoading: document.getElementById('batch-loading'),
-        customLoading: document.getElementById('custom-loading'),
-        batchProgress: document.getElementById('batch-progress'),
-        singleError: document.getElementById('single-error'),
-        batchError: document.getElementById('batch-error'),
-        customError: document.getElementById('custom-error'),
-        singleSuccess: document.getElementById('single-success'),
-        batchSuccess: document.getElementById('batch-success'),
-        customSuccess: document.getElementById('custom-success'),
-        eanType: document.getElementById('ean-type'),
-        eanInput: document.getElementById('ean-input'),
-        batchEanType: document.getElementById('batch-ean-type'),
-        batchAmount: document.getElementById('batch-amount'),
-        customType: document.getElementById('custom-type'),
-        customInput: document.getElementById('custom-input'),
-        generateSingleBtn: document.getElementById('generate-single-btn'),
-        generateBatchBtn: document.getElementById('generate-batch-btn'),
-        generateCustomBtn: document.getElementById('generate-custom-btn'),
-        resetCustomizationBtn: document.getElementById('reset-customization'),
-        
-        // Customization elements
-        barColor: document.getElementById('bar-color'),
-        backgroundColor: document.getElementById('background-color'),
-        transparentBg: document.getElementById('transparent-bg'),
-        barColorPreview: document.getElementById('bar-color-preview'),
-        backgroundColorPreview: document.getElementById('background-color-preview'),
-        barColorValue: document.getElementById('bar-color-value'),
-        backgroundColorValue: document.getElementById('background-color-value'),
-        
-        // Text display elements
-        showTextDisplay: document.getElementById('show-text-display'),
-        textDisplayFields: document.getElementById('text-display-fields'),
-        customText: document.getElementById('custom-text'),
-        textColor: document.getElementById('text-color'),
-        textSize: document.getElementById('text-size'),
-        textAlign: document.getElementById('text-align'),
-        textPreview: document.getElementById('text-preview'),
-        barcodeTextDisplay: document.getElementById('barcode-text-display'),
-        customBarcodeTextDisplay: document.getElementById('custom-barcode-text-display')
-      };
-
-      const barcodeConfig = {
-        ean13: { length: 12, regex: /^\d{12,13}$/, format: 'ean13' },
-        ean8: { length: 7, regex: /^\d{7,8}$/, format: 'ean8' },
-        upc: { length: 11, regex: /^\d{11,12}$/, format: 'UPC' },
-        itf14: { length: 13, regex: /^\d{13,14}$/, format: 'itf14' },
-        code128: { regex: /^[\w\s-]+$/, format: 'code128' },
-        code39: { regex: /^[0-9A-Z\s-.%*+$/]+$/, format: 'code39' },
-        codabar: { regex: /^[A-D][0-9-:$/.+]*[A-D]$/, format: 'codabar' },
-        pharmacode: { min: 3, max: 131070, regex: /^\d+$/, format: 'pharmacode' }
-      };
-
-      // Initialize color previews
-      function initColorSelection() {
-        // Set initial selection
-        elements.barColorPreview.classList.add('selected');
-        
-        // Bar color preview click handler
-        elements.barColorPreview.addEventListener('click', () => {
-          elements.barColor.click();
-          elements.barColorPreview.classList.add('selected');
-          elements.backgroundColorPreview.classList.remove('selected');
-        });
-        
-        // Background color preview click handler
-        elements.backgroundColorPreview.addEventListener('click', () => {
-          elements.backgroundColor.click();
-          elements.backgroundColorPreview.classList.add('selected');
-          elements.barColorPreview.classList.remove('selected');
-        });
-        
-        // Bar color input change handler
-        elements.barColor.addEventListener('input', () => {
-          const color = elements.barColor.value;
-          elements.barColorPreview.style.backgroundColor = color;
-          elements.barColorValue.textContent = color;
-        });
-        
-        // Background color input change handler
-        elements.backgroundColor.addEventListener('input', () => {
-          const color = elements.backgroundColor.value;
-          elements.backgroundColorPreview.style.backgroundColor = color;
-          elements.backgroundColorValue.textContent = color;
-        });
-      }
+    document.addEventListener('DOMContentLoaded', function() {
+      // Tab switching functionality
+      const tabs = document.querySelectorAll('.tab');
+      const tabContents = document.querySelectorAll('.tab-content');
       
-      // Reset customization
-      elements.resetCustomizationBtn.addEventListener('click', function() {
-        // Reset color pickers
-        elements.barColor.value = '#000000';
-        elements.backgroundColor.value = '#ffffff';
-        
-        // Update previews
-        elements.barColorPreview.style.backgroundColor = '#000000';
-        elements.backgroundColorPreview.style.backgroundColor = '#ffffff';
-        
-        // Update value displays
-        elements.barColorValue.textContent = '#000000';
-        elements.backgroundColorValue.textContent = '#ffffff';
-        
-        // Reset background
-        elements.transparentBg.checked = false;
-        
-        // Reset selection state
-        elements.barColorPreview.classList.add('selected');
-        elements.backgroundColorPreview.classList.remove('selected');
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          // Remove active class from all tabs and contents
+          tabs.forEach(t => t.classList.remove('active'));
+          tabContents.forEach(c => c.classList.remove('active'));
+          
+          // Add active class to clicked tab
+          tab.classList.add('active');
+          
+          // Show corresponding content
+          const tabId = tab.getAttribute('data-tab');
+          document.getElementById(`${tabId}-tab`).classList.add('active');
+        });
       });
-
-      function showError(element, message) {
-        element.textContent = message;
-        element.style.display = 'block';
-      }
-
-      function showSuccess(element, message) {
-        element.textContent = message;
-        element.style.display = 'block';
-      }
-
-      function hideElements() {
-        [elements.singleError, elements.batchError, elements.customError,
-         elements.singleSuccess, elements.batchSuccess, elements.customSuccess]
-          .forEach(el => el.style.display = 'none');
-      }
-
-      function calculateChecksum(code, type) {
-        let sum = 0;
-        if (type === 'ean8') {
-          const weights = [3, 1, 3, 1, 3, 1, 3];
-          for (let i = 0; i < code.length; i++) sum += parseInt(code[i]) * weights[i];
-        } else if (type === 'upc' || type === 'itf14') {
-          for (let i = 0; i < code.length; i++) sum += parseInt(code[i]) * (i % 2 === 0 ? 3 : 1);
-        } else {
-          const weights = [1, 3];
-          for (let i = 0; i < code.length; i++) sum += parseInt(code[i]) * weights[i % 2];
-        }
-        return (10 - (sum % 10)) % 10;
-      }
-
-      function generateRandomEAN(type) {
-        const { length } = barcodeConfig[type];
-        let base = Array.from({ length }, () => Math.floor(Math.random() * 10)).join('');
-        return base + calculateChecksum(base, type);
-      }
-
-      function validateInput(code, type) {
-        const config = barcodeConfig[type];
-        if (!code) return true;
-        if (type === 'pharmacode') {
-          const num = parseInt(code);
-          return !isNaN(num) && num >= config.min && num <= config.max;
-        }
-        return config.regex.test(code);
-      }
-
-      function generateRandomBarcode(type) {
-        if (['ean13', 'ean8', 'upc', 'itf14'].includes(type)) {
-          return generateRandomEAN(type);
-        }
-        switch (type) {
-          case 'code128':
-          case 'code39':
-            return Math.random().toString(36).slice(2, 12).toUpperCase();
-          case 'codabar':
-            return `A${Math.floor(Math.random() * 100000).toString().padStart(5, '0')}B`;
-          case 'pharmacode':
-            return Math.floor(Math.random() * (barcodeConfig.pharmacode.max - barcodeConfig.pharmacode.min + 1) + barcodeConfig.pharmacode.min).toString();
-          default:
-            return '123456';
-        }
-      }
-
-      function sanitizeFilename(str) {
-        return str.replace(/[^a-zA-Z0-9-]+/g, '_').slice(0, 50) || 'barcode';
-      }
-
-      function initTextDisplay() {
-        // Toggle text display fields
-        elements.showTextDisplay.addEventListener('change', function() {
-          elements.textDisplayFields.style.display = this.checked ? 'block' : 'none';
-          updateTextPreview();
-        });
+      
+      // Initialize Wavesurfer for waveform visualization
+      const wavesurfer = WaveSurfer.create({
+        container: '#waveform',
+        waveColor: '#4361ee',
+        progressColor: '#7209b7',
+        barWidth: 3,
+        barRadius: 3,
+        cursorWidth: 2,
+        cursorColor: '#f72585',
+        height: 130
+      });
+      
+      // Initialize Wavesurfer for effects tab
+      const effectsWavesurfer = WaveSurfer.create({
+        container: '#effectsWaveform',
+        waveColor: '#4361ee',
+        progressColor: '#7209b7',
+        barWidth: 3,
+        barRadius: 3,
+        cursorWidth: 2,
+        cursorColor: '#f72585',
+        height: 130
+      });
+      
+      // File handling for convert tab
+      const dropZone = document.getElementById('dropZone');
+      const audioInput = document.getElementById('audioInput');
+      const dropZoneText = document.getElementById('dropZoneText');
+      const fileInfo = document.getElementById('fileInfo');
+      const fileName = document.getElementById('fileName');
+      const fileSize = document.getElementById('fileSize');
+      const fileType = document.getElementById('fileType');
+      const fileDuration = document.getElementById('fileDuration');
+      const audioPreview = document.getElementById('audioPreview');
+      const previewPlayer = document.getElementById('previewPlayer');
+      const convertBtn = document.getElementById('convertBtn');
+      const waveform = document.getElementById('waveform');
+      
+      // File handling for transcribe tab
+      const transcribeDropZone = document.getElementById('transcribeDropZone');
+      const transcribeInput = document.getElementById('transcribeInput');
+      const transcribeDropText = document.getElementById('transcribeDropText');
+      const transcribeFileInfo = document.getElementById('transcribeFileInfo');
+      const transcribeFileName = document.getElementById('transcribeFileName');
+      const transcribeFileSize = document.getElementById('transcribeFileSize');
+      const transcribeFileType = document.getElementById('transcribeFileType');
+      const transcribeFileDuration = document.getElementById('transcribeFileDuration');
+      const transcribeBtn = document.getElementById('transcribeBtn');
+      const transcriptionResult = document.getElementById('transcriptionResult');
+      const transcriptionText = document.getElementById('transcriptionText');
+      
+      // File handling for effects tab
+      const effectsDropZone = document.getElementById('effectsDropZone');
+      const effectsInput = document.getElementById('effectsInput');
+      const effectsDropText = document.getElementById('effectsDropText');
+      const effectsFileInfo = document.getElementById('effectsFileInfo');
+      const effectsFileName = document.getElementById('effectsFileName');
+      const effectsFileSize = document.getElementById('effectsFileSize');
+      const effectsFileType = document.getElementById('effectsFileType');
+      const effectsFileDuration = document.getElementById('effectsFileDuration');
+      const effectsAudioPreview = document.getElementById('effectsAudioPreview');
+      const effectsPreviewPlayer = document.getElementById('effectsPreviewPlayer');
+      const applyEffectsBtn = document.getElementById('applyEffectsBtn');
+      const effectsWaveform = document.getElementById('effectsWaveform');
+      
+      // File handling for batch tab
+      const batchDropZone = document.getElementById('batchDropZone');
+      const batchInput = document.getElementById('batchInput');
+      const batchDropText = document.getElementById('batchDropText');
+      const batchFilesContainer = document.getElementById('batchFilesContainer');
+      const processBatchBtn = document.getElementById('processBatchBtn');
+      
+      // Progress elements
+      const progressContainer = document.getElementById('progressContainer');
+      const progressFill = document.getElementById('progressFill');
+      const progressPercent = document.getElementById('progressPercent');
+      const progressMessage = document.getElementById('progressMessage');
+      const cancelBtn = document.getElementById('cancelBtn');
+      
+      // Result elements
+      const resultContainer = document.getElementById('resultContainer');
+      const downloadLink = document.getElementById('downloadLink');
+      
+      // Sliders and controls
+      const qualitySlider = document.getElementById('quality');
+      const qualityValue = document.getElementById('qualityValue');
+      
+      const reverbLevel = document.getElementById('reverbLevel');
+      const reverbValue = document.getElementById('reverbValue');
+      const delayTime = document.getElementById('delayTime');
+      const delayTimeValue = document.getElementById('delayTimeValue');
+      const delayFeedback = document.getElementById('delayFeedback');
+      const delayFeedbackValue = document.getElementById('delayFeedbackValue');
+      const distortionAmount = document.getElementById('distortionAmount');
+      const distortionValue = document.getElementById('distortionValue');
+      const filterFrequency = document.getElementById('filterFrequency');
+      const filterFrequencyValue = document.getElementById('filterFrequencyValue');
+      
+      // Update slider values
+      qualitySlider.addEventListener('input', () => {
+        qualityValue.textContent = `${qualitySlider.value} kbps`;
+      });
+      
+      reverbLevel.addEventListener('input', () => {
+        reverbValue.textContent = `${reverbLevel.value}%`;
+      });
+      
+      delayTime.addEventListener('input', () => {
+        delayTimeValue.textContent = `${delayTime.value}s`;
+      });
+      
+      delayFeedback.addEventListener('input', () => {
+        delayFeedbackValue.textContent = `${delayFeedback.value}%`;
+      });
+      
+      distortionAmount.addEventListener('input', () => {
+        distortionValue.textContent = `${distortionAmount.value}%`;
+      });
+      
+      filterFrequency.addEventListener('input', () => {
+        filterFrequencyValue.textContent = `${filterFrequency.value} Hz`;
+      });
+      
+      // Handle file selection for convert tab
+      function handleFileSelect(file) {
+        if (!file) return;
         
-        // Update preview when any text-related field changes
-        const textFields = [elements.customText, elements.textColor, elements.textSize, elements.textAlign];
-        textFields.forEach(field => {
-          field.addEventListener('input', updateTextPreview);
-        });
-      }
-
-      function updateTextPreview() {
-        if (!elements.showTextDisplay.checked) return;
-        
-        let displayText = elements.customText.value.trim();
-        
-        // If no custom text, use barcode content
-        if (!displayText) {
-          const type = elements.eanType.value;
-          try {
-            const input = elements.eanInput.value.trim();
-            displayText = input || generateRandomBarcode(type);
-          } catch {
-            displayText = "Barcode content will appear here";
-          }
-        }
-        
-        // Update preview
-        elements.textPreview.textContent = displayText;
-        elements.textPreview.style.color = elements.textColor.value;
-        elements.textPreview.style.fontSize = elements.textSize.value;
-        elements.textPreview.style.textAlign = elements.textAlign.value;
-        
-        // Update the actual display if barcode is generated
-        if (elements.singleCanvas.dataset.code) {
-          updateBarcodeTextDisplay(displayText, elements.barcodeTextDisplay);
-        }
-      }
-
-      function updateBarcodeTextDisplay(text, container) {
-        container.innerHTML = '';
-        container.style.display = elements.showTextDisplay.checked ? 'block' : 'none';
-        
-        if (!elements.showTextDisplay.checked) return;
-        
-        const textElement = document.createElement('div');
-        textElement.textContent = text;
-        textElement.style.color = elements.textColor.value;
-        textElement.style.fontSize = elements.textSize.value;
-        textElement.style.textAlign = elements.textAlign.value;
-        textElement.style.maxWidth = '500px';
-        textElement.style.wordBreak = 'break-word';
-        
-        container.appendChild(textElement);
-      }
-
-      function addTextToBarcode(barcodeCanvas, text, options) {
-        return new Promise((resolve) => {
-          // If text is not enabled, return the original canvas
-          if (!options.enabled || !text) {
-            resolve(barcodeCanvas);
-            return;
-          }
-          
-          const barcodeWidth = barcodeCanvas.width;
-          const barcodeHeight = barcodeCanvas.height;
-          
-          // Create the final canvas with space for text
-          const padding = 20;
-          const fontSize = parseInt(options.size);
-          const textHeight = fontSize * 2; // Approximate height for text
-          
-          const finalCanvas = document.createElement('canvas');
-          finalCanvas.width = barcodeWidth;
-          finalCanvas.height = barcodeHeight + textHeight + padding;
-          const ctx = finalCanvas.getContext('2d');
-          
-          // Fill background if not transparent
-          if (!options.transparent) {
-            ctx.fillStyle = options.bgColor;
-            ctx.fillRect(0, 0, finalCanvas.width, finalCanvas.height);
-          }
-          
-          // Draw barcode
-          ctx.drawImage(barcodeCanvas, 0, 0);
-          
-          // Draw text
-          ctx.fillStyle = options.color;
-          ctx.font = `${options.size} 'Poppins', sans-serif`;
-          ctx.textAlign = options.align;
-          
-          // Calculate text position
-          let textX;
-          if (options.align === 'left') {
-            textX = padding;
-          } else if (options.align === 'right') {
-            textX = finalCanvas.width - padding;
-          } else {
-            textX = finalCanvas.width / 2;
-          }
-          
-          const textY = barcodeHeight + padding;
-          
-          // Draw text
-          ctx.fillText(text, textX, textY);
-          
-          resolve(finalCanvas);
-        });
-      }
-
-      async function generateBarcode({ canvas, code, type, errorElement, successElement, downloadButton, svgDownloadButton, loadingElement, textContainer }) {
-        const ctx = canvas.getContext('2d');
-        hideElements();
-        loadingElement.style.display = 'block';
-        downloadButton.style.display = 'none';
-        svgDownloadButton.style.display = 'none';
-        canvas.style.display = 'none';
-        if (textContainer) textContainer.style.display = 'none';
-
-        if (!validateInput(code, type)) {
-          showError(errorElement, 'Invalid input format for selected barcode type');
-          loadingElement.style.display = 'none';
+        // Basic validation
+        const maxSize = 100 * 1024 * 1024; // 100MB
+        if (file.size > maxSize) {
+          alert('File size exceeds 100MB limit. Please select a smaller file.');
           return;
         }
-
-        const finalCode = code || generateRandomBarcode(type);
-        const isPharmacode = type === 'pharmacode';
-        // Fixed size as requested
-        const width = 320;
-        const height = 150;
         
-        // Set canvas dimensions
-        canvas.width = width;
-        canvas.height = height;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        canvas.dataset.code = finalCode;
-        canvas.dataset.type = type;
-
-        try {
-          // Generate the barcode with custom colors and background
-          JsBarcode(canvas, finalCode, {
-            format: barcodeConfig[type].format,
-            displayValue: true,
-            width: 2,
-            height: isPharmacode ? height * 0.5 : height * 0.7,
-            lineColor: elements.barColor.value,
-            textColor: elements.barColor.value,
-            background: elements.transparentBg.checked ? 'transparent' : elements.backgroundColor.value
-          });
-
-          // Add text if enabled
-          if (elements.showTextDisplay.checked && textContainer) {
-            let displayText = elements.customText.value.trim();
-            if (!displayText) {
-              displayText = finalCode;
-            }
-            
-            // Create text options
-            const textOptions = {
-              enabled: true,
-              size: elements.textSize.value,
-              color: elements.textColor.value,
-              align: elements.textAlign.value,
-              transparent: elements.transparentBg.checked,
-              bgColor: elements.backgroundColor.value
-            };
-            
-            // Add text to the barcode
-            const textCanvas = await addTextToBarcode(canvas, displayText, textOptions);
-            
-            // Display results
-            canvas.width = textCanvas.width;
-            canvas.height = textCanvas.height;
-            const newCtx = canvas.getContext('2d');
-            newCtx.drawImage(textCanvas, 0, 0);
-            
-            // Update text display
-            updateBarcodeTextDisplay(displayText, textContainer);
-          }
-
-          downloadButton.style.display = 'inline-block';
-          svgDownloadButton.style.display = 'inline-block';
-          canvas.style.display = 'block';
-          showSuccess(successElement, 'Barcode generated successfully!');
-        } catch (error) {
-          showError(errorElement, `Failed to generate barcode: ${error.message}`);
-        } finally {
-          loadingElement.style.display = 'none';
-        }
-      }
-
-      function downloadBarcode(canvas, errorElement) {
-        try {
-          const code = canvas.dataset.code;
-          const link = document.createElement('a');
-          link.download = `${sanitizeFilename(code)}.png`;
-          link.href = canvas.toDataURL('image/png', 1.0);
-          link.click();
-        } catch (error) {
-          showError(errorElement, 'Error downloading barcode');
-        }
-      }
-
-      function downloadSVG(canvas, errorElement) {
-        try {
-          const code = canvas.dataset.code;
-          const type = canvas.dataset.type;
-          const svgNS = "http://www.w3.org/2000/svg";
-          const svg = document.createElementNS(svgNS, "svg");
-          svg.setAttribute("xmlns", svgNS);
-          svg.setAttribute("version", "1.1");
-          svg.setAttribute("width", canvas.width);
-          svg.setAttribute("height", canvas.height);
+        // Update UI
+        const fileType = file.type || 'Unknown';
+        const fileName = file.name;
+        const fileSize = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
+        
+        dropZoneText.innerHTML = `Ready to process:<br><strong>${fileName}</strong>`;
+        fileName.textContent = fileName;
+        fileSize.textContent = fileSize;
+        fileType.textContent = fileType;
+        fileInfo.style.display = 'block';
+        
+        // Generate preview URL
+        const fileURL = URL.createObjectURL(file);
+        previewPlayer.src = fileURL;
+        audioPreview.style.display = 'block';
+        
+        // Load waveform
+        wavesurfer.load(fileURL);
+        waveform.style.display = 'block';
+        
+        // Set duration
+        const audio = new Audio(fileURL);
+        audio.addEventListener('loadedmetadata', () => {
+          const duration = Math.round(audio.duration);
+          fileDuration.textContent = `${Math.floor(duration/60)}:${(duration%60).toString().padStart(2, '0')}`;
           
-          // Create SVG barcode
-          JsBarcode(svg, code, {
-            format: barcodeConfig[type].format,
-            displayValue: true,
-            width: 2,
-            height: canvas.height * 0.7,
-            lineColor: elements.barColor.value,
-            textColor: elements.barColor.value,
-            background: elements.transparentBg.checked ? 'transparent' : elements.backgroundColor.value
-          });
-
-          // Serialize SVG
-          const serializer = new XMLSerializer();
-          let svgString = serializer.serializeToString(svg);
-          if (!svgString.includes('xmlns')) {
-            svgString = svgString.replace(/<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
-          }
-
-          // Create blob and download
-          const blob = new Blob([svgString], {type: "image/svg+xml;charset=utf-8"});
-          const url = URL.createObjectURL(blob);
-          const link = document.createElement("a");
-          link.href = url;
-          link.download = `${sanitizeFilename(code)}.svg`;
-          link.click();
-          URL.revokeObjectURL(url);
-        } catch (error) {
-          showError(errorElement, 'Error generating SVG: ' + error.message);
-        }
-      }
-
-      async function generateBatchEANs() {
-        const type = elements.batchEanType.value;
-        const amount = parseInt(elements.batchAmount.value);
-        // Fixed size as requested
-        const width = 320;
-        const height = 150;
-
-        if (isNaN(amount) || amount < 1 || amount > 100) {
-          showError(elements.batchError, 'Please enter a number between 1 and 100');
-          return;
-        }
-
-        hideElements();
-        elements.batchLoading.style.display = 'block';
-
-        // Prepare text options if enabled
-        let textOptions = null;
-        if (elements.showTextDisplay.checked) {
-          textOptions = {
-            enabled: true,
-            size: elements.textSize.value,
-            color: elements.textColor.value,
-            align: elements.textAlign.value,
-            transparent: elements.transparentBg.checked,
-            bgColor: elements.backgroundColor.value
-          };
-        }
-
-        try {
-          const zip = new JSZip();
-          const canvas = document.createElement('canvas');
-          const isPharmacode = type === 'pharmacode';
-
-          for (let i = 0; i < amount; i++) {
-            elements.batchProgress.textContent = `Generating barcodes: ${i + 1}/${amount}`;
-            const code = generateRandomBarcode(type);
-            canvas.width = width;
-            canvas.height = height;
-
-            try {
-              // Generate the barcode with customization
-              const ctx = canvas.getContext('2d');
-              ctx.clearRect(0, 0, canvas.width, canvas.height);
-              
-              JsBarcode(canvas, code, {
-                format: barcodeConfig[type].format,
-                displayValue: true,
-                width: 2,
-                height: isPharmacode ? height * 0.5 : height * 0.7,
-                lineColor: elements.barColor.value,
-                textColor: elements.barColor.value,
-                background: elements.transparentBg.checked ? 'transparent' : elements.backgroundColor.value
-              });
-
-              // Add text if enabled
-              let finalCanvas = canvas;
-              if (textOptions) {
-                let displayText = elements.customText.value.trim();
-                if (!displayText) {
-                  displayText = code;
-                }
-                
-                // Add text to the barcode
-                finalCanvas = await addTextToBarcode(canvas, displayText, textOptions);
-              }
-
-              const dataUrl = finalCanvas.toDataURL('image/png', 1.0);
-              const imgData = dataUrl.replace(/^data:image\/png;base64,/, '');
-              zip.file(`${sanitizeFilename(code)}.png`, imgData, { base64: true });
-            } catch (err) {
-              console.warn(`Error generating barcode for code ${code}: ${err.message}`);
-            }
-
-            await new Promise(resolve => setTimeout(resolve, 10));
-          }
-
-          const blob = await zip.generateAsync({ type: 'blob' });
-          saveAs(blob, `batch-${sanitizeFilename(type)}.zip`);
-          showSuccess(elements.batchSuccess, `Successfully generated and downloaded ${amount} barcodes!`);
-        } catch (error) {
-          showError(elements.batchError, `Error creating ZIP file: ${error.message}`);
-        } finally {
-          elements.batchLoading.style.display = 'none';
-        }
-      }
-
-      function initializeBarcodeGenerator() {
-        // Initialize color selection UI
-        initColorSelection();
+          // Set end time to full duration by default
+          document.getElementById('endTime').value = duration;
+        });
         
-        // Initialize text display UI
-        initTextDisplay();
-        
-        // Tabs functionality
-        elements.tabs.forEach(tab => {
-          tab.addEventListener('click', () => {
-            elements.tabs.forEach(t => {
-              t.classList.remove('active');
-              t.setAttribute('aria-selected', 'false');
-            });
-            elements.tabContents.forEach(c => c.classList.remove('active'));
-            tab.classList.add('active');
-            tab.setAttribute('aria-selected', 'true');
-            document.getElementById(`${tab.dataset.tab}-tab`).classList.add('active');
-          });
-          tab.addEventListener('keydown', e => {
-            if (e.key === 'Enter' || e.key === ' ') {
-              e.preventDefault();
-              tab.click();
-            }
-          });
-        });
-
-        // Input events
-        elements.eanInput.addEventListener('keypress', e => {
-          if (e.key === 'Enter') elements.generateSingleBtn.click();
-        });
-
-        elements.customInput.addEventListener('keypress', e => {
-          if (e.key === 'Enter') elements.generateCustomBtn.click();
-        });
-
-        // Button click handlers
-        elements.generateSingleBtn.addEventListener('click', () => generateBarcode({
-          canvas: elements.singleCanvas,
-          code: elements.eanInput.value.trim(),
-          type: elements.eanType.value,
-          errorElement: elements.singleError,
-          successElement: elements.singleSuccess,
-          downloadButton: elements.downloadBtn,
-          svgDownloadButton: elements.downloadSvgBtn,
-          loadingElement: elements.singleLoading,
-          textContainer: elements.barcodeTextDisplay
-        }));
-
-        elements.downloadBtn.addEventListener('click', () => downloadBarcode(elements.singleCanvas, elements.singleError));
-        elements.downloadSvgBtn.addEventListener('click', () => downloadSVG(elements.singleCanvas, elements.singleError));
-
-        elements.generateBatchBtn.addEventListener('click', generateBatchEANs);
-
-        elements.generateCustomBtn.addEventListener('click', () => {
-          const code = elements.customInput.value.trim();
-          if (!code) {
-            showError(elements.customError, 'Please enter custom text for the barcode');
-            return;
-          }
-          generateBarcode({
-            canvas: elements.customCanvas,
-            code,
-            type: elements.customType.value,
-            errorElement: elements.customError,
-            successElement: elements.customSuccess,
-            downloadButton: elements.customDownloadBtn,
-            svgDownloadButton: elements.customSvgDownloadBtn,
-            loadingElement: elements.customLoading,
-            textContainer: elements.customBarcodeTextDisplay
-          });
-        });
-
-        elements.customDownloadBtn.addEventListener('click', () => downloadBarcode(elements.customCanvas, elements.customError));
-        elements.customSvgDownloadBtn.addEventListener('click', () => downloadSVG(elements.customCanvas, elements.customError));
+        convertBtn.disabled = false;
       }
       
-      initializeBarcodeGenerator();
-    }
-
-    // Initialize everything when DOM is loaded
-    document.addEventListener('DOMContentLoaded', () => {
-      initBarcodeGenerator();
+      // Handle file selection for transcribe tab
+      function handleTranscribeFileSelect(file) {
+        if (!file) return;
+        
+        // Basic validation
+        const maxSize = 50 * 1024 * 1024; // 50MB
+        if (file.size > maxSize) {
+          alert('File size exceeds 50MB limit. Please select a smaller file.');
+          return;
+        }
+        
+        // Update UI
+        const fileType = file.type || 'Unknown';
+        const fileName = file.name;
+        const fileSize = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
+        
+        transcribeDropText.innerHTML = `Ready to transcribe:<br><strong>${fileName}</strong>`;
+        transcribeFileName.textContent = fileName;
+        transcribeFileSize.textContent = fileSize;
+        transcribeFileType.textContent = fileType;
+        transcribeFileInfo.style.display = 'block';
+        
+        // Set duration
+        const audio = new Audio(URL.createObjectURL(file));
+        audio.addEventListener('loadedmetadata', () => {
+          const duration = Math.round(audio.duration);
+          transcribeFileDuration.textContent = `${Math.floor(duration/60)}:${(duration%60).toString().padStart(2, '0')}`;
+        });
+        
+        transcribeBtn.disabled = false;
+      }
+      
+      // Handle file selection for effects tab
+      function handleEffectsFileSelect(file) {
+        if (!file) return;
+        
+        // Basic validation
+        const maxSize = 50 * 1024 * 1024; // 50MB
+        if (file.size > maxSize) {
+          alert('File size exceeds 50MB limit. Please select a smaller file.');
+          return;
+        }
+        
+        // Update UI
+        const fileType = file.type || 'Unknown';
+        const fileName = file.name;
+        const fileSize = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
+        
+        effectsDropText.innerHTML = `Ready to apply effects:<br><strong>${fileName}</strong>`;
+        effectsFileName.textContent = fileName;
+        effectsFileSize.textContent = fileSize;
+        effectsFileType.textContent = fileType;
+        effectsFileInfo.style.display = 'block';
+        
+        // Generate preview URL
+        const fileURL = URL.createObjectURL(file);
+        effectsPreviewPlayer.src = fileURL;
+        effectsAudioPreview.style.display = 'block';
+        
+        // Load waveform
+        effectsWavesurfer.load(fileURL);
+        effectsWaveform.style.display = 'block';
+        
+        // Set duration
+        const audio = new Audio(fileURL);
+        audio.addEventListener('loadedmetadata', () => {
+          const duration = Math.round(audio.duration);
+          effectsFileDuration.textContent = `${Math.floor(duration/60)}:${(duration%60).toString().padStart(2, '0')}`;
+        });
+        
+        applyEffectsBtn.disabled = false;
+      }
+      
+      // Handle batch file selection
+      function handleBatchFileSelect(files) {
+        batchFilesContainer.innerHTML = '';
+        
+        if (files.length > 5) {
+          alert('Maximum 5 files allowed for batch processing');
+          return;
+        }
+        
+        for (let i = 0; i < files.length; i++) {
+          const file = files[i];
+          const fileSize = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
+          
+          const fileElement = document.createElement('div');
+          fileElement.className = 'batch-file';
+          fileElement.innerHTML = `
+            <i class="fas fa-file-audio"></i>
+            <div>
+              <div>${file.name}</div>
+              <small>${fileSize}</small>
+            </div>
+            <i class="fas fa-times" data-index="${i}"></i>
+          `;
+          batchFilesContainer.appendChild(fileElement);
+        }
+        
+        // Add remove functionality
+        document.querySelectorAll('.batch-file .fa-times').forEach(icon => {
+          icon.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const index = parseInt(icon.getAttribute('data-index'));
+            batchFilesContainer.removeChild(icon.parentElement);
+          });
+        });
+        
+        if (files.length > 0) {
+          processBatchBtn.disabled = false;
+        }
+      }
+      
+      // Simulate audio processing
+      function simulateProcessing() {
+        progressContainer.style.display = 'block';
+        resultContainer.style.display = 'none';
+        
+        let progress = 0;
+        const interval = setInterval(() => {
+          progress += Math.floor(Math.random() * 10) + 1;
+          if (progress >= 100) {
+            progress = 100;
+            clearInterval(interval);
+            
+            // Show success
+            setTimeout(() => {
+              progressContainer.style.display = 'none';
+              resultContainer.style.display = 'block';
+              
+              // Set a mock download URL
+              downloadLink.href = 'https://everytool.io/sample-audio.mp3';
+              downloadLink.download = 'processed-audio.mp3';
+            }, 500);
+          }
+          
+          updateProgress(progress, `Processing... ${progress}% complete`);
+        }, 200);
+        
+        // Cancel button functionality
+        cancelBtn.onclick = () => {
+          clearInterval(interval);
+          updateProgress(0, 'Processing canceled');
+          
+          setTimeout(() => {
+            progressContainer.style.display = 'none';
+          }, 2000);
+        };
+      }
+      
+      // Simulate transcription
+      function simulateTranscription() {
+        progressContainer.style.display = 'block';
+        resultContainer.style.display = 'none';
+        transcriptionResult.style.display = 'none';
+        
+        let progress = 0;
+        const interval = setInterval(() => {
+          progress += Math.floor(Math.random() * 10) + 1;
+          if (progress >= 100) {
+            progress = 100;
+            clearInterval(interval);
+            
+            // Show success
+            setTimeout(() => {
+              progressContainer.style.display = 'none';
+              transcriptionResult.style.display = 'block';
+              
+              // Set mock transcription
+              transcriptionText.innerHTML = `
+                <p><strong>Speaker 1:</strong> Hello and welcome to this audio transcription demonstration. This tool allows you to convert spoken words into text directly in your browser.</p>
+                <p><strong>Speaker 2:</strong> That's right! All processing happens locally on your device, ensuring your audio files remain private and secure.</p>
+                <p><strong>Speaker 1:</strong> You can adjust settings like language and punctuation to get the best results for your specific needs.</p>
+                <p><strong>Speaker 2:</strong> Try uploading your own audio files to see how well it works with different accents and audio qualities.</p>
+              `;
+              
+              // Set a mock download URL
+              downloadLink.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(transcriptionText.textContent);
+              downloadLink.download = 'transcription.txt';
+              resultContainer.style.display = 'block';
+            }, 500);
+          }
+          
+          updateProgress(progress, `Transcribing... ${progress}% complete`);
+        }, 200);
+        
+        // Cancel button functionality
+        cancelBtn.onclick = () => {
+          clearInterval(interval);
+          updateProgress(0, 'Transcription canceled');
+          
+          setTimeout(() => {
+            progressContainer.style.display = 'none';
+          }, 2000);
+        };
+      }
+      
+      function updateProgress(percent, msg) {
+        const percentValue = Math.min(100, Math.max(0, percent));
+        progressFill.style.width = `${percentValue}%`;
+        progressMessage.textContent = msg;
+        progressPercent.textContent = `${Math.round(percentValue)}%`;
+      }
+      
+      // Set up event listeners for convert tab
+      dropZone.addEventListener('click', () => audioInput.click());
+      dropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('drag-over');
+      });
+      dropZone.addEventListener('dragenter', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('drag-over');
+      });
+      dropZone.addEventListener('dragleave', () => {
+        dropZone.classList.remove('drag-over');
+      });
+      dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('drag-over');
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+          handleFileSelect(files[0]);
+        }
+      });
+      audioInput.addEventListener('change', (e) => {
+        if (e.target.files.length > 0) {
+          handleFileSelect(e.target.files[0]);
+        }
+      });
+      
+      // Set up event listeners for transcribe tab
+      transcribeDropZone.addEventListener('click', () => transcribeInput.click());
+      transcribeDropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        transcribeDropZone.classList.add('drag-over');
+      });
+      transcribeDropZone.addEventListener('dragenter', (e) => {
+        e.preventDefault();
+        transcribeDropZone.classList.add('drag-over');
+      });
+      transcribeDropZone.addEventListener('dragleave', () => {
+        transcribeDropZone.classList.remove('drag-over');
+      });
+      transcribeDropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        transcribeDropZone.classList.remove('drag-over');
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+          handleTranscribeFileSelect(files[0]);
+        }
+      });
+      transcribeInput.addEventListener('change', (e) => {
+        if (e.target.files.length > 0) {
+          handleTranscribeFileSelect(e.target.files[0]);
+        }
+      });
+      
+      // Set up event listeners for effects tab
+      effectsDropZone.addEventListener('click', () => effectsInput.click());
+      effectsDropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        effectsDropZone.classList.add('drag-over');
+      });
+      effectsDropZone.addEventListener('dragenter', (e) => {
+        e.preventDefault();
+        effectsDropZone.classList.add('drag-over');
+      });
+      effectsDropZone.addEventListener('dragleave', () => {
+        effectsDropZone.classList.remove('drag-over');
+      });
+      effectsDropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        effectsDropZone.classList.remove('drag-over');
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+          handleEffectsFileSelect(files[0]);
+        }
+      });
+      effectsInput.addEventListener('change', (e) => {
+        if (e.target.files.length > 0) {
+          handleEffectsFileSelect(e.target.files[0]);
+        }
+      });
+      
+      // Set up event listeners for batch tab
+      batchDropZone.addEventListener('click', () => batchInput.click());
+      batchDropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        batchDropZone.classList.add('drag-over');
+      });
+      batchDropZone.addEventListener('dragenter', (e) => {
+        e.preventDefault();
+        batchDropZone.classList.add('drag-over');
+      });
+      batchDropZone.addEventListener('dragleave', () => {
+        batchDropZone.classList.remove('drag-over');
+      });
+      batchDropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        batchDropZone.classList.remove('drag-over');
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+          handleBatchFileSelect(Array.from(files));
+        }
+      });
+      batchInput.addEventListener('change', (e) => {
+        if (e.target.files.length > 0) {
+          handleBatchFileSelect(Array.from(e.target.files));
+        }
+      });
+      
+      // Process buttons
+      convertBtn.addEventListener('click', simulateProcessing);
+      transcribeBtn.addEventListener('click', simulateTranscription);
+      applyEffectsBtn.addEventListener('click', simulateProcessing);
+      processBatchBtn.addEventListener('click', simulateProcessing);
     });
   </script>
+
+  <!-- Site-wide JavaScript -->
+  <script src="/js/main.js"></script>
 </body>
 </html>
