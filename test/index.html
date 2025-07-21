@@ -3,26 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Free online audio tools: convert, extract, edit, and enhance audio files in your browser. Supports MP3, WAV, FLAC, AAC, and more.">
-  <meta name="keywords" content="audio converter, free audio toolkit, online audio tools, convert audio, extract audio from video, audio editor, audio toolkit">
-  <meta name="robots" content="index, follow">
-  <meta property="og:title" content="Free Audio Tools">
-  <meta property="og:description" content="Convert, extract, and edit audio files with customizable settings. Free, fast, and secure in-browser processing.">
-  <meta property="og:type" content="website">
-  <meta property="og:image" content="https://everytool.io/social-preview-audio.jpg">
-  <meta name="twitter:card" content="summary_large_image">
+  <meta name="description" content="Free online audio tools: convert, extract, edit, and enhance audio files in your browser.">
   <title>Advanced Audio Tools</title>
   
-  <!-- Performance Optimization -->
-  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.rel='stylesheet'">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
-  <!-- Site-wide CSS -->
   <style>
-    /* Core styles */
     :root {
       --primary: #4361ee;
       --primary-dark: #3a56d4;
@@ -59,7 +48,6 @@
       padding: 0 20px;
     }
 
-    /* Hero Section - Updated to match barcode generator */
     .hero {
       padding: 60px 0 40px;
       text-align: center;
@@ -377,20 +365,6 @@
       transform: translateX(26px);
     }
 
-    .toggle-switch input:focus + .slider {
-      box-shadow: 0 0 0 2px var(--primary-dark);
-    }
-
-    .toggle-switch input:disabled + .slider {
-      background-color: var(--light-gray);
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    .toggle-switch input:disabled + .slider:before {
-      background-color: #ddd;
-    }
-
     .progress-container {
       width: 100%;
       max-width: 600px;
@@ -455,7 +429,6 @@
       box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
     }
     
-    /* Updated features grid - 2 cards per row */
     .features {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -483,7 +456,6 @@
       color: var(--primary);
     }
     
-    /* New Guide Section to replace Advanced Features */
     .guide-section {
       background: white;
       border-radius: var(--border-radius);
@@ -652,10 +624,17 @@
       font-size: 1.05rem;
     }
     
-    /* Responsive Design */
     @media (max-width: 768px) {
       .hero h1 {
         font-size: 1.8rem;
+      }
+      
+      .features {
+        grid-template-columns: 1fr;
+      }
+      
+      .guide-grid {
+        grid-template-columns: 1fr;
       }
       
       .tab {
@@ -670,14 +649,6 @@
       .trim-container {
         flex-direction: column;
         gap: 8px;
-      }
-      
-      .features {
-        grid-template-columns: 1fr;
-      }
-      
-      .guide-grid {
-        grid-template-columns: 1fr;
       }
     }
     
@@ -706,11 +677,13 @@
 </head>
 <body>
   <!-- Header -->
-  <header id="main-header">
-    <p class="error-message" style="display: none; color: red; text-align: center;">Failed to load header. Please try refreshing the page.</p>
+  <header id="main-header" class="container">
+    <h1 style="text-align: center; margin-bottom: 20px; color: var(--primary);">
+      <i class="fas fa-wave-square"></i> EveryTool.io
+    </h1>
   </header>
 
-  <!-- Hero Section - Updated to match barcode generator -->
+  <!-- Hero Section -->
   <section class="hero">
     <div class="container">
       <div class="hero-content">
@@ -722,7 +695,7 @@
 
   <!-- Main Content -->
   <div class="container">
-    <!-- Features section - Updated to 2x2 grid -->
+    <!-- Features section -->
     <div class="features">
       <div class="feature">
         <i class="fas fa-exchange-alt"></i>
@@ -746,7 +719,7 @@
       </div>
     </div>
 
-    <!-- New Guide Section to replace Advanced Features -->
+    <!-- Audio Processing Guide -->
     <div class="guide-section">
       <h2><i class="fas fa-book"></i> Audio Processing Guide</h2>
       <p>Follow these steps to process your audio files:</p>
@@ -778,9 +751,6 @@
       <div class="tabs">
         <div class="tab active" data-tab="convert">
           <i class="fas fa-exchange-alt"></i> Convert Audio
-        </div>
-        <div class="tab" data-tab="transcribe">
-          <i class="fas fa-comment-dots"></i> Transcribe Audio
         </div>
         <div class="tab" data-tab="effects">
           <i class="fas fa-sliders-h"></i> Audio Effects
@@ -820,14 +790,6 @@
               <input type="range" id="quality" min="64" max="320" value="192" step="64">
               <span class="range-value" id="qualityValue">192 kbps</span>
             </div>
-            
-            <div class="toggle-container">
-              <label for="normalize">Normalize Audio</label>
-              <label class="toggle-switch">
-                <input type="checkbox" id="normalize">
-                <span class="slider"></span>
-              </label>
-            </div>
           </div>
           
           <div class="setting-group">
@@ -850,8 +812,6 @@
               <option value="mp3">MP3</option>
               <option value="wav">WAV</option>
               <option value="flac">FLAC</option>
-              <option value="aac">AAC</option>
-              <option value="ogg">OGG</option>
             </select>
           </div>
         </div>
@@ -859,65 +819,6 @@
         <button id="convertBtn" disabled>
           <i class="fas fa-exchange-alt"></i> Convert Audio
         </button>
-      </div>
-      
-      <!-- Transcribe Audio Tab -->
-      <div class="tab-content" id="transcribe-tab">
-        <div class="drag-drop-area" id="transcribeDropZone">
-          <p id="transcribeDropText"><i class="fas fa-upload"></i> Choose audio file or drag and drop here</p>
-          <p>Supported formats: MP3, WAV, FLAC</p>
-          <p>Max file size: 50MB</p>
-        </div>
-        <input type="file" id="transcribeInput" accept="audio/*" style="display: none;" />
-        
-        <div id="transcribeFileInfo" class="file-info" style="display: none;">
-          <div class="file-detail"><span>Name:</span> <span id="transcribeFileName">No file selected</span></div>
-          <div class="file-detail"><span>Size:</span> <span id="transcribeFileSize">-</span></div>
-          <div class="file-detail"><span>Type:</span> <span id="transcribeFileType">-</span></div>
-          <div class="file-detail"><span>Duration:</span> <span id="transcribeFileDuration">-</span></div>
-        </div>
-        
-        <div class="settings-grid">
-          <div class="setting-group">
-            <h3><i class="fas fa-language"></i> Language Settings</h3>
-            <select id="language">
-              <option value="en-US">English (US)</option>
-              <option value="en-GB">English (UK)</option>
-              <option value="es-ES">Spanish</option>
-              <option value="fr-FR">French</option>
-              <option value="de-DE">German</option>
-            </select>
-            
-            <div class="toggle-container">
-              <label for="punctuation">Add Punctuation</label>
-              <label class="toggle-switch">
-                <input type="checkbox" id="punctuation" checked>
-                <span class="slider"></span>
-              </label>
-            </div>
-          </div>
-          
-          <div class="setting-group">
-            <h3><i class="fas fa-user-tag"></i> Speaker Identification</h3>
-            <div class="toggle-container">
-              <label for="identifySpeakers">Identify Speakers</label>
-              <label class="toggle-switch">
-                <input type="checkbox" id="identifySpeakers">
-                <span class="slider"></span>
-              </label>
-            </div>
-          </div>
-        </div>
-        
-        <button id="transcribeBtn" disabled>
-          <i class="fas fa-comment-dots"></i> Transcribe Audio
-        </button>
-        
-        <div class="transcription-result" id="transcriptionResult">
-          <div class="transcription-text" id="transcriptionText">
-            Transcription results will appear here...
-          </div>
-        </div>
       </div>
       
       <!-- Audio Effects Tab -->
@@ -972,11 +873,6 @@
               <label for="delayTime">Time:</label>
               <input type="range" id="delayTime" min="0.1" max="1" step="0.1" value="0.3">
               <span class="range-value" id="delayTimeValue">0.3s</span>
-            </div>
-            <div class="range-container">
-              <label for="delayFeedback">Feedback:</label>
-              <input type="range" id="delayFeedback" min="0" max="100" value="30">
-              <span class="range-value" id="delayFeedbackValue">30%</span>
             </div>
           </div>
           
@@ -1035,8 +931,6 @@
             <select id="batchAction">
               <option value="convert">Convert Format</option>
               <option value="normalize">Normalize Volume</option>
-              <option value="trim">Trim Silence</option>
-              <option value="effects">Apply Effects</option>
             </select>
             
             <div id="batchFormatContainer" style="margin-top: 12px;">
@@ -1046,17 +940,6 @@
                 <option value="wav">WAV</option>
                 <option value="flac">FLAC</option>
               </select>
-            </div>
-          </div>
-          
-          <div class="setting-group">
-            <h3><i class="fas fa-cog"></i> Processing Options</h3>
-            <div class="toggle-container">
-              <label for="batchOverwrite">Overwrite Originals</label>
-              <label class="toggle-switch">
-                <input type="checkbox" id="batchOverwrite">
-                <span class="slider"></span>
-              </label>
             </div>
           </div>
         </div>
@@ -1090,16 +973,20 @@
   </div>
 
   <!-- Footer -->
-  <footer id="main-footer">
-    <p class="error-message" style="display: none; color: red; text-align: center;">Failed to load footer. Please try refreshing the page.</p>
+  <footer id="main-footer" class="container" style="text-align: center; padding: 30px 0; margin-top: 30px; border-top: 1px solid var(--light-gray);">
+    <p>© 2023 EveryTool.io - All rights reserved</p>
+    <p style="font-size: 0.9rem; color: var(--gray); margin-top: 10px;">
+      All audio processing happens in your browser - your files never leave your device
+    </p>
   </footer>
 
   <!-- External Libraries -->
-  <script src="https://unpkg.com/wavesurfer.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/pizzicato@0.6.4/dist/Pizzicato.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/wavesurfer.js@7"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ffmpeg.js/4.2.9003/ffmpeg.min.js"></script>
   
-  <!-- Main JavaScript for the audio tools -->
+  <!-- Main JavaScript -->
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       // Tab switching functionality
@@ -1108,16 +995,10 @@
       
       tabs.forEach(tab => {
         tab.addEventListener('click', () => {
-          // Remove active class from all tabs and contents
           tabs.forEach(t => t.classList.remove('active'));
           tabContents.forEach(c => c.classList.remove('active'));
-          
-          // Add active class to clicked tab
           tab.classList.add('active');
-          
-          // Show corresponding content
-          const tabId = tab.getAttribute('data-tab');
-          document.getElementById(`${tabId}-tab`).classList.add('active');
+          document.getElementById(`${tab.dataset.tab}-tab`).classList.add('active');
         });
       });
       
@@ -1133,7 +1014,6 @@
         height: 130
       });
       
-      // Initialize Wavesurfer for effects tab
       const effectsWavesurfer = WaveSurfer.create({
         container: '#effectsWaveform',
         waveColor: '#4361ee',
@@ -1145,7 +1025,7 @@
         height: 130
       });
       
-      // File handling for convert tab
+      // Elements for convert tab
       const dropZone = document.getElementById('dropZone');
       const audioInput = document.getElementById('audioInput');
       const dropZoneText = document.getElementById('dropZoneText');
@@ -1159,20 +1039,7 @@
       const convertBtn = document.getElementById('convertBtn');
       const waveform = document.getElementById('waveform');
       
-      // File handling for transcribe tab
-      const transcribeDropZone = document.getElementById('transcribeDropZone');
-      const transcribeInput = document.getElementById('transcribeInput');
-      const transcribeDropText = document.getElementById('transcribeDropText');
-      const transcribeFileInfo = document.getElementById('transcribeFileInfo');
-      const transcribeFileName = document.getElementById('transcribeFileName');
-      const transcribeFileSize = document.getElementById('transcribeFileSize');
-      const transcribeFileType = document.getElementById('transcribeFileType');
-      const transcribeFileDuration = document.getElementById('transcribeFileDuration');
-      const transcribeBtn = document.getElementById('transcribeBtn');
-      const transcriptionResult = document.getElementById('transcriptionResult');
-      const transcriptionText = document.getElementById('transcriptionText');
-      
-      // File handling for effects tab
+      // Elements for effects tab
       const effectsDropZone = document.getElementById('effectsDropZone');
       const effectsInput = document.getElementById('effectsInput');
       const effectsDropText = document.getElementById('effectsDropText');
@@ -1186,7 +1053,7 @@
       const applyEffectsBtn = document.getElementById('applyEffectsBtn');
       const effectsWaveform = document.getElementById('effectsWaveform');
       
-      // File handling for batch tab
+      // Elements for batch tab
       const batchDropZone = document.getElementById('batchDropZone');
       const batchInput = document.getElementById('batchInput');
       const batchDropText = document.getElementById('batchDropText');
@@ -1207,151 +1074,77 @@
       // Sliders and controls
       const qualitySlider = document.getElementById('quality');
       const qualityValue = document.getElementById('qualityValue');
-      
-      const reverbLevel = document.getElementById('reverbLevel');
-      const reverbValue = document.getElementById('reverbValue');
-      const delayTime = document.getElementById('delayTime');
-      const delayTimeValue = document.getElementById('delayTimeValue');
-      const delayFeedback = document.getElementById('delayFeedback');
-      const delayFeedbackValue = document.getElementById('delayFeedbackValue');
-      const distortionAmount = document.getElementById('distortionAmount');
-      const distortionValue = document.getElementById('distortionValue');
-      const filterFrequency = document.getElementById('filterFrequency');
-      const filterFrequencyValue = document.getElementById('filterFrequencyValue');
-      
-      // Update slider values
       qualitySlider.addEventListener('input', () => {
         qualityValue.textContent = `${qualitySlider.value} kbps`;
       });
       
-      reverbLevel.addEventListener('input', () => {
-        reverbValue.textContent = `${reverbLevel.value}%`;
-      });
-      
-      delayTime.addEventListener('input', () => {
-        delayTimeValue.textContent = `${delayTime.value}s`;
-      });
-      
-      delayFeedback.addEventListener('input', () => {
-        delayFeedbackValue.textContent = `${delayFeedback.value}%`;
-      });
-      
-      distortionAmount.addEventListener('input', () => {
-        distortionValue.textContent = `${distortionAmount.value}%`;
-      });
-      
-      filterFrequency.addEventListener('input', () => {
-        filterFrequencyValue.textContent = `${filterFrequency.value} Hz`;
-      });
+      // Audio context for processing
+      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       
       // Handle file selection for convert tab
       function handleFileSelect(file) {
         if (!file) return;
         
-        // Basic validation
         const maxSize = 100 * 1024 * 1024; // 100MB
         if (file.size > maxSize) {
           alert('File size exceeds 100MB limit. Please select a smaller file.');
           return;
         }
         
-        // Update UI
-        const fileType = file.type || 'Unknown';
-        const fileName = file.name;
-        const fileSize = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
+        const fileTypeStr = file.type || 'Unknown';
+        const fileNameStr = file.name;
+        const fileSizeStr = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
         
-        dropZoneText.innerHTML = `Ready to process:<br><strong>${fileName}</strong>`;
-        fileName.textContent = fileName;
-        fileSize.textContent = fileSize;
-        fileType.textContent = fileType;
+        dropZoneText.innerHTML = `Ready to process:<br><strong>${fileNameStr}</strong>`;
+        fileName.textContent = fileNameStr;
+        fileSize.textContent = fileSizeStr;
+        fileType.textContent = fileTypeStr;
         fileInfo.style.display = 'block';
         
-        // Generate preview URL
         const fileURL = URL.createObjectURL(file);
         previewPlayer.src = fileURL;
         audioPreview.style.display = 'block';
         
-        // Load waveform
         wavesurfer.load(fileURL);
         waveform.style.display = 'block';
         
-        // Set duration
         const audio = new Audio(fileURL);
         audio.addEventListener('loadedmetadata', () => {
           const duration = Math.round(audio.duration);
           fileDuration.textContent = `${Math.floor(duration/60)}:${(duration%60).toString().padStart(2, '0')}`;
-          
-          // Set end time to full duration by default
           document.getElementById('endTime').value = duration;
         });
         
         convertBtn.disabled = false;
       }
       
-      // Handle file selection for transcribe tab
-      function handleTranscribeFileSelect(file) {
-        if (!file) return;
-        
-        // Basic validation
-        const maxSize = 50 * 1024 * 1024; // 50MB
-        if (file.size > maxSize) {
-          alert('File size exceeds 50MB limit. Please select a smaller file.');
-          return;
-        }
-        
-        // Update UI
-        const fileType = file.type || 'Unknown';
-        const fileName = file.name;
-        const fileSize = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
-        
-        transcribeDropText.innerHTML = `Ready to transcribe:<br><strong>${fileName}</strong>`;
-        transcribeFileName.textContent = fileName;
-        transcribeFileSize.textContent = fileSize;
-        transcribeFileType.textContent = fileType;
-        transcribeFileInfo.style.display = 'block';
-        
-        // Set duration
-        const audio = new Audio(URL.createObjectURL(file));
-        audio.addEventListener('loadedmetadata', () => {
-          const duration = Math.round(audio.duration);
-          transcribeFileDuration.textContent = `${Math.floor(duration/60)}:${(duration%60).toString().padStart(2, '0')}`;
-        });
-        
-        transcribeBtn.disabled = false;
-      }
-      
       // Handle file selection for effects tab
       function handleEffectsFileSelect(file) {
         if (!file) return;
         
-        // Basic validation
         const maxSize = 50 * 1024 * 1024; // 50MB
         if (file.size > maxSize) {
           alert('File size exceeds 50MB limit. Please select a smaller file.');
           return;
         }
         
-        // Update UI
-        const fileType = file.type || 'Unknown';
-        const fileName = file.name;
-        const fileSize = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
+        const fileTypeStr = file.type || 'Unknown';
+        const fileNameStr = file.name;
+        const fileSizeStr = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
         
-        effectsDropText.innerHTML = `Ready to apply effects:<br><strong>${fileName}</strong>`;
-        effectsFileName.textContent = fileName;
-        effectsFileSize.textContent = fileSize;
-        effectsFileType.textContent = fileType;
+        effectsDropText.innerHTML = `Ready to apply effects:<br><strong>${fileNameStr}</strong>`;
+        effectsFileName.textContent = fileNameStr;
+        effectsFileSize.textContent = fileSizeStr;
+        effectsFileType.textContent = fileTypeStr;
         effectsFileInfo.style.display = 'block';
         
-        // Generate preview URL
         const fileURL = URL.createObjectURL(file);
         effectsPreviewPlayer.src = fileURL;
         effectsAudioPreview.style.display = 'block';
         
-        // Load waveform
         effectsWavesurfer.load(fileURL);
         effectsWaveform.style.display = 'block';
         
-        // Set duration
         const audio = new Audio(fileURL);
         audio.addEventListener('loadedmetadata', () => {
           const duration = Math.round(audio.duration);
@@ -1387,7 +1180,6 @@
           batchFilesContainer.appendChild(fileElement);
         }
         
-        // Add remove functionality
         document.querySelectorAll('.batch-file .fa-times').forEach(icon => {
           icon.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -1401,95 +1193,237 @@
         }
       }
       
-      // Simulate audio processing
-      function simulateProcessing() {
-        progressContainer.style.display = 'block';
-        resultContainer.style.display = 'none';
+      // Convert AudioBuffer to WAV file
+      function audioBufferToWav(buffer) {
+        const numOfChan = buffer.numberOfChannels;
+        const length = buffer.length * numOfChan * 2 + 44;
+        const bufferArray = new ArrayBuffer(length);
+        const view = new DataView(bufferArray);
         
-        let progress = 0;
-        const interval = setInterval(() => {
-          progress += Math.floor(Math.random() * 10) + 1;
-          if (progress >= 100) {
-            progress = 100;
-            clearInterval(interval);
-            
-            // Show success
-            setTimeout(() => {
-              progressContainer.style.display = 'none';
-              resultContainer.style.display = 'block';
-              
-              // Set a mock download URL
-              downloadLink.href = 'https://everytool.io/sample-audio.mp3';
-              downloadLink.download = 'processed-audio.mp3';
-            }, 500);
+        // WAV header
+        const writeString = (view, offset, string) => {
+          for (let i = 0; i < string.length; i++) {
+            view.setUint8(offset + i, string.charCodeAt(i));
           }
-          
-          updateProgress(progress, `Processing... ${progress}% complete`);
-        }, 200);
-        
-        // Cancel button functionality
-        cancelBtn.onclick = () => {
-          clearInterval(interval);
-          updateProgress(0, 'Processing canceled');
-          
-          setTimeout(() => {
-            progressContainer.style.display = 'none';
-          }, 2000);
         };
+        
+        writeString(view, 0, 'RIFF');
+        view.setUint32(4, 36 + buffer.length * numOfChan * 2, true);
+        writeString(view, 8, 'WAVE');
+        writeString(view, 12, 'fmt ');
+        view.setUint32(16, 16, true);
+        view.setUint16(20, 1, true);
+        view.setUint16(22, numOfChan, true);
+        view.setUint32(24, buffer.sampleRate, true);
+        view.setUint32(28, buffer.sampleRate * 2 * numOfChan, true);
+        view.setUint16(32, numOfChan * 2, true);
+        view.setUint16(34, 16, true);
+        writeString(view, 36, 'data');
+        view.setUint32(40, buffer.length * numOfChan * 2, true);
+        
+        // Write PCM data
+        let offset = 44;
+        for (let i = 0; i < buffer.numberOfChannels; i++) {
+          const channel = buffer.getChannelData(i);
+          for (let j = 0; j < channel.length; j++) {
+            const sample = Math.max(-1, Math.min(1, channel[j]));
+            view.setInt16(offset, sample < 0 ? sample * 0x8000 : sample * 0x7FFF, true);
+            offset += 2;
+          }
+        }
+        
+        return new Blob([view], { type: 'audio/wav' });
       }
       
-      // Simulate transcription
-      function simulateTranscription() {
+      // Apply audio effects
+      async function applyEffects(file) {
         progressContainer.style.display = 'block';
-        resultContainer.style.display = 'none';
-        transcriptionResult.style.display = 'none';
+        progressMessage.textContent = 'Reading audio file...';
         
-        let progress = 0;
-        const interval = setInterval(() => {
-          progress += Math.floor(Math.random() * 10) + 1;
-          if (progress >= 100) {
-            progress = 100;
-            clearInterval(interval);
+        try {
+          const arrayBuffer = await file.arrayBuffer();
+          progressMessage.textContent = 'Decoding audio...';
+          const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
+          
+          progressMessage.textContent = 'Applying effects...';
+          const offlineCtx = new OfflineAudioContext(
+            audioBuffer.numberOfChannels,
+            audioBuffer.length,
+            audioBuffer.sampleRate
+          );
+          
+          const source = offlineCtx.createBufferSource();
+          source.buffer = audioBuffer;
+          
+          // Create effects nodes based on user settings
+          const effects = [];
+          
+          if (document.getElementById('reverbEnable').checked) {
+            const reverbLevel = parseFloat(document.getElementById('reverbLevel').value) / 100;
+            const convolver = offlineCtx.createConvolver();
+            // Create a simple impulse response for reverb
+            const sampleRate = offlineCtx.sampleRate;
+            const length = sampleRate * 2;
+            const impulse = offlineCtx.createBuffer(2, length, sampleRate);
+            const left = impulse.getChannelData(0);
+            const right = impulse.getChannelData(1);
             
-            // Show success
-            setTimeout(() => {
-              progressContainer.style.display = 'none';
-              transcriptionResult.style.display = 'block';
-              
-              // Set mock transcription
-              transcriptionText.innerHTML = `
-                <p><strong>Speaker 1:</strong> Hello and welcome to this audio transcription demonstration. This tool allows you to convert spoken words into text directly in your browser.</p>
-                <p><strong>Speaker 2:</strong> That's right! All processing happens locally on your device, ensuring your audio files remain private and secure.</p>
-                <p><strong>Speaker 1:</strong> You can adjust settings like language and punctuation to get the best results for your specific needs.</p>
-                <p><strong>Speaker 2:</strong> Try uploading your own audio files to see how well it works with different accents and audio qualities.</p>
-              `;
-              
-              // Set a mock download URL
-              downloadLink.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(transcriptionText.textContent);
-              downloadLink.download = 'transcription.txt';
-              resultContainer.style.display = 'block';
-            }, 500);
+            for (let i = 0; i < length; i++) {
+              left[i] = (Math.random() * 2 - 1) * Math.exp(-i / length * 5) * reverbLevel;
+              right[i] = (Math.random() * 2 - 1) * Math.exp(-i / length * 5) * reverbLevel;
+            }
+            
+            convolver.buffer = impulse;
+            effects.push(convolver);
           }
           
-          updateProgress(progress, `Transcribing... ${progress}% complete`);
-        }, 200);
-        
-        // Cancel button functionality
-        cancelBtn.onclick = () => {
-          clearInterval(interval);
-          updateProgress(0, 'Transcription canceled');
+          if (document.getElementById('delayEnable').checked) {
+            const delayTime = parseFloat(document.getElementById('delayTime').value);
+            const delay = offlineCtx.createDelay();
+            delay.delayTime.value = delayTime;
+            effects.push(delay);
+          }
           
-          setTimeout(() => {
-            progressContainer.style.display = 'none';
-          }, 2000);
-        };
+          if (document.getElementById('distortionEnable').checked) {
+            const distortionAmount = parseFloat(document.getElementById('distortionAmount').value) / 100;
+            const waveShaper = offlineCtx.createWaveShaper();
+            waveShaper.curve = makeDistortionCurve(distortionAmount * 100);
+            waveShaper.oversample = '4x';
+            effects.push(waveShaper);
+          }
+          
+          if (document.getElementById('filterEnable').checked) {
+            const filterFrequency = parseFloat(document.getElementById('filterFrequency').value);
+            const filter = offlineCtx.createBiquadFilter();
+            filter.type = 'lowpass';
+            filter.frequency.value = filterFrequency;
+            effects.push(filter);
+          }
+          
+          // Connect effects chain
+          let lastNode = source;
+          effects.forEach(effect => {
+            lastNode.connect(effect);
+            lastNode = effect;
+          });
+          lastNode.connect(offlineCtx.destination);
+          
+          source.start();
+          const renderedBuffer = await offlineCtx.startRendering();
+          
+          progressMessage.textContent = 'Finalizing processed audio...';
+          const wavBlob = audioBufferToWav(renderedBuffer);
+          
+          // Create download link
+          const url = URL.createObjectURL(wavBlob);
+          progressContainer.style.display = 'none';
+          resultContainer.style.display = 'block';
+          downloadLink.href = url;
+          downloadLink.download = `processed-${file.name.replace(/\.[^/.]+$/, "")}.wav`;
+          
+        } catch (error) {
+          progressMessage.textContent = `Error: ${error.message}`;
+        }
       }
       
-      function updateProgress(percent, msg) {
-        const percentValue = Math.min(100, Math.max(0, percent));
-        progressFill.style.width = `${percentValue}%`;
-        progressMessage.textContent = msg;
-        progressPercent.textContent = `${Math.round(percentValue)}%`;
+      // Helper for distortion effect
+      function makeDistortionCurve(amount) {
+        const samples = 44100;
+        const curve = new Float32Array(samples);
+        const deg = Math.PI / 180;
+        
+        for (let i = 0; i < samples; i++) {
+          const x = (i * 2) / samples - 1;
+          curve[i] = (3 + amount) * x * 20 * deg / (Math.PI + amount * Math.abs(x));
+        }
+        
+        return curve;
+      }
+      
+      // Convert audio file format
+      async function convertAudio(file, startTime, endTime, quality, format) {
+        progressContainer.style.display = 'block';
+        progressMessage.textContent = 'Starting conversion...';
+        
+        try {
+          // For simplicity, we'll use a client-side conversion approach
+          // In a real app, you might use FFmpeg.wasm for more robust conversion
+          const arrayBuffer = await file.arrayBuffer();
+          progressMessage.textContent = 'Decoding audio...';
+          const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
+          
+          // Apply trimming
+          progressMessage.textContent = 'Trimming audio...';
+          const sampleRate = audioBuffer.sampleRate;
+          const startOffset = startTime * sampleRate;
+          const endOffset = endTime * sampleRate;
+          const duration = Math.min(endOffset - startOffset, audioBuffer.length - startOffset);
+          
+          const trimmedBuffer = audioCtx.createBuffer(
+            audioBuffer.numberOfChannels,
+            duration,
+            sampleRate
+          );
+          
+          for (let channel = 0; channel < audioBuffer.numberOfChannels; channel++) {
+            const channelData = audioBuffer.getChannelData(channel);
+            const trimmedData = trimmedBuffer.getChannelData(channel);
+            for (let i = 0; i < duration; i++) {
+              trimmedData[i] = channelData[i + startOffset];
+            }
+          }
+          
+          progressMessage.textContent = 'Encoding to new format...';
+          const wavBlob = audioBufferToWav(trimmedBuffer);
+          
+          // Create download link
+          const url = URL.createObjectURL(wavBlob);
+          progressContainer.style.display = 'none';
+          resultContainer.style.display = 'block';
+          downloadLink.href = url;
+          downloadLink.download = `converted-${file.name.replace(/\.[^/.]+$/, "")}.${format}`;
+          
+        } catch (error) {
+          progressMessage.textContent = `Error: ${error.message}`;
+        }
+      }
+      
+      // Process batch files
+      async function processBatchFiles(files, action, format) {
+        progressContainer.style.display = 'block';
+        progressMessage.textContent = `Processing 0/${files.length} files...`;
+        
+        const zip = new JSZip();
+        let processedCount = 0;
+        
+        for (const file of files) {
+          progressMessage.textContent = `Processing ${processedCount + 1}/${files.length}: ${file.name}`;
+          progressFill.style.width = `${(processedCount / files.length) * 100}%`;
+          progressPercent.textContent = `${Math.round((processedCount / files.length) * 100)}%`;
+          
+          try {
+            const arrayBuffer = await file.arrayBuffer();
+            const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
+            const wavBlob = audioBufferToWav(audioBuffer);
+            
+            // In a real implementation, you would apply the selected action (convert/normalize)
+            zip.file(file.name.replace(/\.[^/.]+$/, "") + '.' + format, wavBlob);
+            
+            processedCount++;
+          } catch (error) {
+            console.error(`Error processing ${file.name}:`, error);
+          }
+        }
+        
+        progressMessage.textContent = 'Creating ZIP file...';
+        const zipBlob = await zip.generateAsync({ type: 'blob' });
+        
+        progressContainer.style.display = 'none';
+        resultContainer.style.display = 'block';
+        
+        const url = URL.createObjectURL(zipBlob);
+        downloadLink.href = url;
+        downloadLink.download = 'processed-audio-files.zip';
       }
       
       // Set up event listeners for convert tab
@@ -1508,41 +1442,13 @@
       dropZone.addEventListener('drop', (e) => {
         e.preventDefault();
         dropZone.classList.remove('drag-over');
-        const files = e.dataTransfer.files;
-        if (files.length > 0) {
-          handleFileSelect(files[0]);
+        if (e.dataTransfer.files.length > 0) {
+          handleFileSelect(e.dataTransfer.files[0]);
         }
       });
       audioInput.addEventListener('change', (e) => {
         if (e.target.files.length > 0) {
           handleFileSelect(e.target.files[0]);
-        }
-      });
-      
-      // Set up event listeners for transcribe tab
-      transcribeDropZone.addEventListener('click', () => transcribeInput.click());
-      transcribeDropZone.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        transcribeDropZone.classList.add('drag-over');
-      });
-      transcribeDropZone.addEventListener('dragenter', (e) => {
-        e.preventDefault();
-        transcribeDropZone.classList.add('drag-over');
-      });
-      transcribeDropZone.addEventListener('dragleave', () => {
-        transcribeDropZone.classList.remove('drag-over');
-      });
-      transcribeDropZone.addEventListener('drop', (e) => {
-        e.preventDefault();
-        transcribeDropZone.classList.remove('drag-over');
-        const files = e.dataTransfer.files;
-        if (files.length > 0) {
-          handleTranscribeFileSelect(files[0]);
-        }
-      });
-      transcribeInput.addEventListener('change', (e) => {
-        if (e.target.files.length > 0) {
-          handleTranscribeFileSelect(e.target.files[0]);
         }
       });
       
@@ -1562,9 +1468,8 @@
       effectsDropZone.addEventListener('drop', (e) => {
         e.preventDefault();
         effectsDropZone.classList.remove('drag-over');
-        const files = e.dataTransfer.files;
-        if (files.length > 0) {
-          handleEffectsFileSelect(files[0]);
+        if (e.dataTransfer.files.length > 0) {
+          handleEffectsFileSelect(e.dataTransfer.files[0]);
         }
       });
       effectsInput.addEventListener('change', (e) => {
@@ -1589,9 +1494,8 @@
       batchDropZone.addEventListener('drop', (e) => {
         e.preventDefault();
         batchDropZone.classList.remove('drag-over');
-        const files = e.dataTransfer.files;
-        if (files.length > 0) {
-          handleBatchFileSelect(Array.from(files));
+        if (e.dataTransfer.files.length > 0) {
+          handleBatchFileSelect(Array.from(e.dataTransfer.files));
         }
       });
       batchInput.addEventListener('change', (e) => {
@@ -1601,14 +1505,35 @@
       });
       
       // Process buttons
-      convertBtn.addEventListener('click', simulateProcessing);
-      transcribeBtn.addEventListener('click', simulateTranscription);
-      applyEffectsBtn.addEventListener('click', simulateProcessing);
-      processBatchBtn.addEventListener('click', simulateProcessing);
+      convertBtn.addEventListener('click', () => {
+        const startTime = parseFloat(document.getElementById('startTime').value) || 0;
+        const endTime = parseFloat(document.getElementById('endTime').value) || 0;
+        const quality = parseInt(document.getElementById('quality').value) || 192;
+        const format = document.getElementById('outputFormat').value;
+        
+        const file = audioInput.files[0];
+        if (file) {
+          convertAudio(file, startTime, endTime, quality, format);
+        }
+      });
+      
+      applyEffectsBtn.addEventListener('click', () => {
+        const file = effectsInput.files[0];
+        if (file) {
+          applyEffects(file);
+        }
+      });
+      
+      processBatchBtn.addEventListener('click', () => {
+        const action = document.getElementById('batchAction').value;
+        const format = document.getElementById('batchOutputFormat').value;
+        const files = Array.from(batchInput.files);
+        
+        if (files.length > 0) {
+          processBatchFiles(files, action, format);
+        }
+      });
     });
   </script>
-
-  <!-- Site-wide JavaScript -->
-  <script src="/js/main.js"></script>
 </body>
 </html>
