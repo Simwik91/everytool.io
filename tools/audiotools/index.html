@@ -660,6 +660,28 @@
       font-size: 1.05rem;
     }
     
+    /* FFmpeg loading indicator */
+    .ffmpeg-loading {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: white;
+      padding: 12px 16px;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 1000;
+    }
+    
+    .ffmpeg-loading .spinner {
+      width: 20px;
+      height: 20px;
+      border-width: 3px;
+      margin: 0;
+    }
+    
     /* Responsive Design */
     @media (max-width: 768px) {
       .hero h1 {
@@ -678,6 +700,12 @@
       .trim-container {
         flex-direction: column;
         gap: 8px;
+      }
+      
+      .ffmpeg-loading {
+        bottom: 10px;
+        right: 10px;
+        left: 10px;
       }
     }
     
@@ -705,7 +733,7 @@
   </style>
 </head>
 <body>
-  <!-- Header -->
+  <!-- Header Placeholder -->
   <header id="main-header">
     <p class="error-message" style="display: none; color: red; text-align: center;">Failed to load header. Please try refreshing the page.</p>
   </header>
@@ -1095,19 +1123,114 @@
     </div>
   </div>
 
-  <!-- Footer -->
+  <!-- Footer Placeholder -->
   <footer id="main-footer">
     <p class="error-message" style="display: none; color: red; text-align: center;">Failed to load footer. Please try refreshing the page.</p>
   </footer>
+
+  <!-- Shared Cookie Consent Banner -->
+  <div id="cookie-consent" role="dialog" aria-labelledby="cookie-consent-banner" aria-describedby="cookie-consent-desc">
+    <div class="sr-only" id="cookie-consent-banner">Cookie Consent</div>
+    <div class="cookie-content" id="cookie-consent-desc">
+      <div class="cookie-text">
+        <p>We use cookies to enhance your experience. Essential cookies are always on, but you can choose whether to allow analytics and advertising cookies.</p>
+        <p>Learn more in our <a href="/privacy" aria-label="Privacy Policy">Privacy Policy</a>.</p>
+      </div>
+      <div class="cookie-buttons">
+        <button class="cookie-btn reject-btn" id="reject-cookies">Reject Non-Essential</button>
+        <button class="cookie-btn accept-btn" id="accept-cookies">Accept All</button>
+      </div>
+      <button class="cookie-settings-btn" id="open-settings">Customize Settings</button>
+    </div>
+  </div>
+
+  <!-- Shared Cookie Settings Modal -->
+  <div id="cookie-settings">
+    <div class="settings-modal">
+      <div class="settings-header">
+        <h2>Cookie Settings</h2>
+        <button class="close-settings" aria-label="Close settings"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="settings-content">
+        <div class="cookie-type">
+          <div class="cookie-type-header">
+            <h3>Essential Cookies</h3>
+            <div class="toggle-switch">
+              <input type="checkbox" id="essential-toggle" checked disabled>
+              <span class="slider"></span>
+            </div>
+          </div>
+          <p>These cookies are necessary for the website to function and cannot be disabled.</p>
+        </div>
+        <div class="cookie-type">
+          <div class="cookie-type-header">
+            <h3>Analytics Cookies</h3>
+            <div class="toggle-switch">
+              <input type="checkbox" id="analytics-toggle">
+              <span class="slider"></span>
+            </div>
+          </div>
+          <p>These cookies help us understand how visitors interact with our website, providing insights to improve our services.</p>
+        </div>
+        <div class="cookie-type">
+          <div class="cookie-type-header">
+            <h3>Advertising Cookies</h3>
+            <div class="toggle-switch">
+              <input type="checkbox" id="advertising-toggle">
+              <span class="slider"></span>
+            </div>
+          </div>
+          <p>These cookies are used to deliver personalized advertisements based on your interests.</p>
+        </div>
+      </div>
+      <div class="settings-buttons">
+        <button class="save-settings" id="save-settings">Save Settings</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FFmpeg loading indicator -->
+  <div class="ffmpeg-loading" id="ffmpegLoading" style="display: none;">
+    <div class="spinner"></div>
+    <span>Loading audio processor...</span>
+  </div>
 
   <!-- External Libraries -->
   <script src="https://unpkg.com/wavesurfer.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/pizzicato@0.6.4/dist/Pizzicato.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+  <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js"></script>
   
   <!-- Main JavaScript for the audio tools -->
   <script>
     document.addEventListener('DOMContentLoaded', function() {
+      // Initialize FFmpeg in the background
+      const ffmpegLoading = document.getElementById('ffmpegLoading');
+      const { createFFmpeg, fetchFile } = FFmpeg;
+      const ffmpeg = createFFmpeg({ 
+        log: true,
+        progress: ({ ratio }) => {
+          // Update loading progress
+          const percent = Math.round(ratio * 100);
+          ffmpegLoading.querySelector('span').textContent = 
+            `Loading audio processor... ${percent}%`;
+        }
+      });
+      
+      // Load FFmpeg
+      (async function() {
+        try {
+          ffmpegLoading.style.display = 'flex';
+          await ffmpeg.load();
+          ffmpegLoading.style.display = 'none';
+          console.log('FFmpeg loaded successfully');
+        } catch (error) {
+          console.error('FFmpeg loading failed:', error);
+          ffmLoading.querySelector('span').textContent = 
+            'Failed to load audio processor. Some features may not work.';
+        }
+      })();
+      
       // Tab switching functionality
       const tabs = document.querySelectorAll('.tab');
       const tabContents = document.querySelectorAll('.tab-content');
