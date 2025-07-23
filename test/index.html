@@ -64,7 +64,7 @@
 
     /* Hero Section */
     .hero {
-      padding: 60px 0 40px;
+      padding: 80px 0 40px;
       text-align: center;
     }
 
@@ -74,22 +74,23 @@
     }
 
     .hero h1 {
-      font-size: 2.5rem;
-      margin-bottom: 20px;
+      font-size: 2.8rem;
+      margin-bottom: 25px;
       font-weight: 700;
       background: linear-gradient(90deg, var(--primary), var(--secondary));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      line-height: 1.2;
+      line-height: 1.3;
     }
 
     .hero p {
-      font-size: 1.2rem;
+      font-size: 1.25rem;
       color: #444;
-      margin-bottom: 40px;
+      margin-bottom: 50px;
       max-width: 700px;
       margin-left: auto;
       margin-right: auto;
+      line-height: 1.7;
     }
     
     .card {
@@ -119,6 +120,7 @@
     
     h2 i {
       color: var(--primary);
+      font-size: 1.1em;
     }
     
     h3 {
@@ -128,7 +130,7 @@
       font-weight: 600;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
       justify-content: center;
     }
     
@@ -136,7 +138,7 @@
       display: flex;
       justify-content: center;
       margin: 0 0 30px;
-      gap: 10px;
+      gap: 15px;
       flex-wrap: wrap;
     }
     
@@ -149,8 +151,14 @@
       transition: var(--transition);
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
       font-size: 1rem;
+      min-height: 44px;
+    }
+    
+    .tab i {
+      font-size: 1.1em;
+      min-width: 20px;
     }
     
     .tab.active {
@@ -690,12 +698,16 @@
     /* Responsive Design */
     @media (max-width: 768px) {
       .hero h1 {
-        font-size: 2rem;
+        font-size: 2.2rem;
+      }
+      
+      .hero p {
+        font-size: 1.1rem;
       }
       
       .tab {
-        padding: 8px 12px;
-        font-size: 0.85rem;
+        padding: 10px 20px;
+        font-size: 0.9rem;
       }
       
       .guide-section {
@@ -720,7 +732,7 @@
     
     @media (max-width: 576px) {
       .hero {
-        padding: 40px 0 20px;
+        padding: 60px 0 20px;
       }
       
       .hero h1 {
@@ -737,6 +749,14 @@
       
       h3 {
         font-size: 1.2rem;
+      }
+      
+      .tabs {
+        gap: 8px;
+      }
+      
+      .tab {
+        padding: 8px 16px;
       }
     }
   </style>
@@ -792,16 +812,20 @@
       
       <div class="tabs">
         <div class="tab active" data-tab="convert">
-          <i class="fas fa-exchange-alt"></i> Convert Audio
+          <i class="fas fa-exchange-alt"></i>
+          <span>Convert Audio</span>
         </div>
         <div class="tab" data-tab="transcribe">
-          <i class="fas fa-comment-dots"></i> Transcribe Audio
+          <i class="fas fa-comment-dots"></i>
+          <span>Transcribe Audio</span>
         </div>
         <div class="tab" data-tab="effects">
-          <i class="fas fa-sliders-h"></i> Audio Effects
+          <i class="fas fa-sliders-h"></i>
+          <span>Audio Effects</span>
         </div>
         <div class="tab" data-tab="batch">
-          <i class="fas fa-layer-group"></i> Batch Processing
+          <i class="fas fa-layer-group"></i>
+          <span>Batch Processing</span>
         </div>
       </div>
       
