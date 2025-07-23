@@ -22,205 +22,746 @@
   
   <!-- Site-wide CSS -->
   <link rel="stylesheet" href="/css/styles.css">
-  <link rel="stylesheet" href="/css/visuals.css">
   
-  <!-- Audio Page Specific Styles -->
-  <style id="audio-tools-styles">
-    /* Scoped styles for audio tools page only */
-    .audio-tools-page .hero {
-      padding: 80px 0 40px !important;
+  <!-- Page-specific styles -->
+  <style>
+    /* Core styles */
+    :root {
+      --primary: #4361ee;
+      --primary-dark: #3a56d4;
+      --secondary: #7209b7;
+      --accent: #f72585;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --gray: #6c757d;
+      --light-gray: #e9ecef;
+      --border-radius: 12px;
+      --box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      line-height: 1.6;
+      color: var(--dark);
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+      min-height: 100vh;
+      padding: 20px 0;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 80px 0 40px;
+      text-align: center;
+    }
+
+    .hero-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .hero h1 {
+      font-size: 2.8rem;
+      margin-bottom: 25px;
+      font-weight: 700;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1.3;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      color: #444;
+      margin-bottom: 50px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.7;
     }
     
-    .audio-tools-page .hero h1 {
-      font-size: 2.8rem !important;
-      margin-bottom: 25px !important;
-      line-height: 1.3 !important;
-      background: linear-gradient(90deg, #4361ee, #7209b7) !important;
-      -webkit-background-clip: text !important;
-      -webkit-text-fill-color: transparent !important;
+    .card {
+      background: var(--light);
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      padding: 30px;
+      margin-bottom: 30px;
+      transition: var(--transition);
     }
     
-    .audio-tools-page .hero p {
-      font-size: 1.25rem !important;
-      margin-bottom: 50px !important;
-      line-height: 1.7 !important;
-      color: #444 !important;
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
     }
     
-    /* Audio-specific tabs */
-    .audio-tools-page .audio-tabs-container .tabs {
-      gap: 15px !important;
-      margin: 0 0 30px !important;
+    h2 {
+      font-size: 1.8rem;
+      margin-bottom: 25px;
+      color: var(--dark);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: center;
     }
     
-    .audio-tools-page .audio-tabs-container .tab {
-      padding: 12px 25px !important;
-      gap: 10px !important;
-      min-height: 44px !important;
-      background: #e9ecef !important;
-      border-radius: 50px !important;
-      font-weight: 500 !important;
+    h2 i {
+      color: var(--primary);
+      font-size: 1.1em;
     }
     
-    .audio-tools-page .audio-tabs-container .tab i {
-      font-size: 1.1em !important;
-      min-width: 20px !important;
+    h3 {
+      font-size: 1.4rem;
+      margin: 20px 0 15px;
+      color: var(--dark);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: center;
     }
     
-    .audio-tools-page .audio-tabs-container .tab.active {
-      background: #4361ee !important;
-      color: white !important;
+    .tabs {
+      display: flex;
+      justify-content: center;
+      margin: 0 0 30px;
+      gap: 15px;
+      flex-wrap: wrap;
     }
     
-    .audio-tools-page .audio-tabs-container .tab:hover:not(.active) {
-      background: #dbe4ff !important;
+    .tab {
+      padding: 12px 25px;
+      cursor: pointer;
+      background: var(--light-gray);
+      border-radius: 50px;
+      font-weight: 500;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1rem;
+      min-height: 44px;
     }
     
-    /* Responsive adjustments */
+    .tab i {
+      font-size: 1.1em;
+      min-width: 20px;
+    }
+    
+    .tab.active {
+      background: var(--primary);
+      color: white;
+    }
+    
+    .tab:hover:not(.active) {
+      background: #dbe4ff;
+    }
+    
+    .tab-content {
+      display: none;
+    }
+    
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.4s ease;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    input, select, button, textarea {
+      margin: 0.5em auto;
+      padding: 15px;
+      width: 100%;
+      font-size: 1rem;
+      border-radius: 10px;
+      border: 1px solid var(--light-gray);
+      background: var(--light);
+      display: block;
+      transition: var(--transition);
+      font-family: 'Poppins', sans-serif;
+      color: #444;
+    }
+    
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+    }
+    
+    button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      padding: 15px 20px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    
+    button:hover, button:focus {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+    
+    button:disabled {
+      background: #9ec5e6;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+    
+    button.secondary {
+      background: var(--light);
+      color: var(--primary);
+      border: 2px solid var(--primary);
+    }
+    
+    button.secondary:hover, button.secondary:focus {
+      background: #f0f4ff;
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+    
+    .loading {
+      display: none;
+      text-align: center;
+      padding: 30px;
+    }
+    
+    .spinner {
+      border: 4px solid rgba(0, 0, 0, 0.1);
+      border-left-color: var(--primary);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 20px;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .error {
+      color: #e74c3c;
+      padding: 15px;
+      background: rgba(231, 76, 60, 0.1);
+      border-radius: var(--border-radius);
+      margin: 20px 0;
+      display: none;
+      border-left: 4px solid #e74c3c;
+    }
+    
+    .success {
+      color: #27ae60;
+      padding: 15px;
+      background: rgba(39, 174, 96, 0.1);
+      border-radius: var(--border-radius);
+      margin: 20px 0;
+      display: none;
+      border-left: 4px solid #27ae60;
+    }
+
+    .drag-drop-area {
+      width: 100%;
+      max-width: 600px;
+      margin: 1.5em auto;
+      padding: 1.5em;
+      border: 2px dashed var(--light-gray);
+      border-radius: var(--border-radius);
+      background: white;
+      color: var(--gray);
+      cursor: pointer;
+      transition: var(--transition);
+      text-align: center;
+      font-size: 0.95rem;
+    }
+
+    .drag-drop-area.drag-over {
+      background: #e6f0fa;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+    }
+
+    .drag-drop-area p {
+      margin: 0.5em 0;
+    }
+
+    .file-info {
+      width: 100%;
+      max-width: 600px;
+      margin: 0.8em auto;
+      padding: 12px;
+      background: var(--light);
+      border-radius: var(--border-radius);
+      text-align: left;
+    }
+
+    .file-detail {
+      display: flex;
+      justify-content: space-between;
+      margin: 0.3rem 0;
+      font-size: 0.85rem;
+    }
+
+    .settings-grid {
+      width: 100%;
+      max-width: 600px;
+      margin: 1em auto;
+    }
+
+    .setting-group {
+      margin-bottom: 1.2rem;
+      padding: 12px;
+      background: #f8f9ff;
+      border-radius: var(--border-radius);
+    }
+
+    .description {
+      font-size: 0.85em;
+      color: var(--gray);
+      margin-bottom: 0.5em;
+    }
+
+    .toggle-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 0.5em 0;
+    }
+
+    .toggle-switch {
+      position: relative;
+      width: 50px;
+      height: 24px;
+    }
+
+    .toggle-switch input {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+      z-index: 1;
+    }
+
+    .slider {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: var(--gray);
+      transition: background-color 0.3s ease;
+      border-radius: 24px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: transform 0.3s ease;
+      border-radius: 50%;
+    }
+
+    .toggle-switch input:checked + .slider {
+      background-color: var(--primary);
+    }
+
+    .toggle-switch input:checked + .slider:before {
+      transform: translateX(26px);
+    }
+
+    .toggle-switch input:focus + .slider {
+      box-shadow: 0 0 0 2px var(--primary-dark);
+    }
+
+    .toggle-switch input:disabled + .slider {
+      background-color: var(--light-gray);
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .toggle-switch input:disabled + .slider:before {
+      background-color: #ddd;
+    }
+
+    .progress-container {
+      width: 100%;
+      max-width: 600px;
+      margin: 1.2em auto;
+      padding: 12px;
+      background: var(--light);
+      border-radius: var(--border-radius);
+      display: none;
+    }
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.4rem;
+      font-size: 0.9rem;
+    }
+
+    .progress-bar {
+      height: 8px;
+      background: var(--light-gray);
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: 5px;
+      transition: width 0.4s ease;
+    }
+
+    .result-container {
+      width: 100%;
+      max-width: 600px;
+      margin: 1.2em auto;
+      padding: 1rem;
+      background: rgba(39, 174, 96, 0.08);
+      border: 1px dashed #27ae60;
+      border-radius: var(--border-radius);
+      display: none;
+      text-align: center;
+    }
+
+    .download-btn {
+      background: #27ae60;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: var(--transition);
+      margin-top: 12px;
+    }
+
+    .download-btn:hover, .download-btn:focus {
+      background: #219653;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+    }
+    
+    /* Features grid - 2 cards per row */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 25px;
+      margin: 30px 0;
+    }
+    
+    .feature {
+      background: var(--light);
+      border-radius: var(--border-radius);
+      padding: 25px;
+      text-align: center;
+      box-shadow: var(--box-shadow);
+      transition: var(--transition);
+    }
+    
+    .feature:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    }
+    
+    .feature i {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      color: var(--primary);
+    }
+    
+    .guide-section {
+      background: var(--light);
+      border-radius: var(--border-radius);
+      padding: 40px;
+      margin: 40px auto;
+      box-shadow: var(--box-shadow);
+      text-align: center;
+    }
+    
+    .guide-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+      margin-top: 25px;
+    }
+    
+    .guide-item {
+      padding: 25px;
+      background: #f8f9ff;
+      border-radius: var(--border-radius);
+      text-align: center;
+    }
+    
+    .guide-item h3 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: center;
+    }
+    
+    .guide-item h3 i {
+      font-size: 1.8rem;
+    }
+    
+    .guide-item p {
+      font-size: 1rem;
+      color: #444;
+    }
+
+    .range-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 12px 0;
+    }
+
+    .range-container input[type="range"] {
+      flex: 1;
+      height: 7px;
+      -webkit-appearance: none;
+      background: var(--light-gray);
+      border-radius: 10px;
+      outline: none;
+    }
+
+    .range-container input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--primary);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .range-container input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.1);
+    }
+
+    .range-value {
+      min-width: 45px;
+      text-align: right;
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    .trim-container {
+      display: flex;
+      gap: 12px;
+      margin: 12px 0;
+    }
+
+    .trim-container input {
+      flex: 1;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .audio-preview {
+      width: 100%;
+      max-width: 600px;
+      margin: 15px auto;
+      display: none;
+    }
+
+    .audio-preview audio {
+      width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+    
+    .waveform {
+      width: 100%;
+      height: 130px;
+      background: #f0f4f8;
+      border-radius: var(--border-radius);
+      margin: 15px 0;
+      display: none;
+    }
+    
+    .effects-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin: 15px 0;
+    }
+    
+    .effect-panel {
+      background: #f8f9ff;
+      border-radius: var(--border-radius);
+      padding: 12px;
+    }
+    
+    .batch-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 15px 0;
+    }
+    
+    .batch-file {
+      background: #e6f0fa;
+      padding: 8px 12px;
+      border-radius: var(--border-radius);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .batch-file i {
+      cursor: pointer;
+      color: var(--gray);
+      transition: var(--transition);
+    }
+    
+    .batch-file i:hover {
+      color: #e74c3c;
+    }
+    
+    .transcription-result {
+      background: #f0f4f8;
+      border-radius: var(--border-radius);
+      padding: 15px;
+      margin: 15px 0;
+      max-height: 250px;
+      overflow-y: auto;
+      display: none;
+    }
+    
+    .transcription-text {
+      line-height: 1.7;
+      font-size: 1.05rem;
+    }
+    
+    /* FFmpeg loading indicator */
+    .ffmpeg-loading {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: white;
+      padding: 12px 16px;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 1000;
+    }
+    
+    .ffmpeg-loading .spinner {
+      width: 20px;
+      height: 20px;
+      border-width: 3px;
+      margin: 0;
+    }
+    
+    /* Responsive Design */
     @media (max-width: 768px) {
-      .audio-tools-page .hero h1 {
-        font-size: 2.2rem !important;
+      .hero h1 {
+        font-size: 2.2rem;
       }
       
-      .audio-tools-page .hero p {
-        font-size: 1.1rem !important;
+      .hero p {
+        font-size: 1.1rem;
       }
       
-      .audio-tools-page .audio-tabs-container .tab {
-        padding: 10px 20px !important;
-        font-size: 0.9rem !important;
+      .tab {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+      }
+      
+      .guide-section {
+        padding: 25px;
+      }
+      
+      .features, .guide-grid, .effects-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .trim-container {
+        flex-direction: column;
+        gap: 8px;
+      }
+      
+      .ffmpeg-loading {
+        bottom: 10px;
+        right: 10px;
+        left: 10px;
       }
     }
     
     @media (max-width: 576px) {
-      .audio-tools-page .hero {
-        padding: 60px 0 20px !important;
+      .hero {
+        padding: 60px 0 20px;
       }
       
-      .audio-tools-page .hero h1 {
-        font-size: 1.8rem !important;
+      .hero h1 {
+        font-size: 1.8rem;
       }
       
-      .audio-tools-page .audio-tabs-container .tabs {
-        gap: 8px !important;
+      .card {
+        padding: 20px;
       }
       
-      .audio-tools-page .audio-tabs-container .tab {
-        padding: 8px 16px !important;
+      h2 {
+        font-size: 1.5rem;
       }
-    }
-    
-    /* Audio-specific card styles */
-    .audio-tools-page .audio-card {
-      background: #f8f9fa !important;
-      border-radius: 12px !important;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08) !important;
-      padding: 30px !important;
-      margin-bottom: 30px !important;
-      transition: all 0.3s ease !important;
-    }
-    
-    .audio-tools-page .audio-card:hover {
-      transform: translateY(-5px) !important;
-      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1) !important;
-    }
-    
-    /* Audio-specific drag and drop area */
-    .audio-tools-page .drag-drop-area {
-      width: 100% !important;
-      max-width: 600px !important;
-      margin: 1.5em auto !important;
-      padding: 1.5em !important;
-      border: 2px dashed #e9ecef !important;
-      border-radius: 12px !important;
-      background: white !important;
-      color: #6c757d !important;
-      cursor: pointer !important;
-      transition: all 0.3s ease !important;
-      text-align: center !important;
-      font-size: 0.95rem !important;
-    }
-    
-    .audio-tools-page .drag-drop-area.drag-over {
-      background: #e6f0fa !important;
-      border-color: #4361ee !important;
-      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2) !important;
-    }
-    
-    /* Audio-specific file info */
-    .audio-tools-page .file-info {
-      width: 100% !important;
-      max-width: 600px !important;
-      margin: 0.8em auto !important;
-      padding: 12px !important;
-      background: #f8f9fa !important;
-      border-radius: 12px !important;
-      text-align: left !important;
-    }
-    
-    /* Audio-specific settings grid */
-    .audio-tools-page .settings-grid {
-      width: 100% !important;
-      max-width: 600px !important;
-      margin: 1em auto !important;
-    }
-    
-    /* Audio-specific setting group */
-    .audio-tools-page .setting-group {
-      margin-bottom: 1.2rem !important;
-      padding: 12px !important;
-      background: #f8f9ff !important;
-      border-radius: 12px !important;
-    }
-    
-    /* Audio-specific buttons */
-    .audio-tools-page .audio-btn {
-      background: #4361ee !important;
-      color: white !important;
-      border: none !important;
-      cursor: pointer !important;
-      font-weight: 600 !important;
-      padding: 15px 20px !important;
-      display: inline-flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-      gap: 10px !important;
-      border-radius: 10px !important;
-      transition: all 0.3s ease !important;
-    }
-    
-    .audio-tools-page .audio-btn:hover {
-      background: #3a56d4 !important;
-      transform: translateY(-2px) !important;
-      box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3) !important;
-    }
-    
-    /* Audio-specific progress container */
-    .audio-tools-page .progress-container {
-      width: 100% !important;
-      max-width: 600px !important;
-      margin: 1.2em auto !important;
-      padding: 12px !important;
-      background: #f8f9fa !important;
-      border-radius: 12px !important;
-      display: none !important;
-    }
-    
-    /* Audio-specific result container */
-    .audio-tools-page .result-container {
-      width: 100% !important;
-      max-width: 600px !important;
-      margin: 1.2em auto !important;
-      padding: 1rem !important;
-      background: rgba(39, 174, 96, 0.08) !important;
-      border: 1px dashed #27ae60 !important;
-      border-radius: 12px !important;
-      display: none !important;
-      text-align: center !important;
+      
+      h3 {
+        font-size: 1.2rem;
+      }
+      
+      .tabs {
+        gap: 8px;
+      }
+      
+      .tab {
+        padding: 8px 16px;
+      }
     }
   </style>
 </head>
-<body class="audio-tools-page">
+<body>
   <!-- Header Placeholder -->
   <header id="main-header">
     <p class="error-message" style="display: none; color: red; text-align: center;">Failed to load header. Please try refreshing the page.</p>
@@ -238,7 +779,7 @@
 
   <!-- File Conversion Guide -->
   <div class="container">
-    <div class="guide-section audio-card">
+    <div class="guide-section">
       <h2><i class="fas fa-file-audio"></i> File Conversion Guide</h2>
       <p>Follow these simple steps to convert your files:</p>
       
@@ -266,7 +807,7 @@
   <!-- Main Content -->
   <div class="container">
     <!-- Audio Tools Card -->
-    <div class="card audio-tabs-container audio-card">
+    <div class="card">
       <h2><i class="fas fa-music"></i> Audio Processing Toolkit</h2>
       
       <div class="tabs">
@@ -297,7 +838,7 @@
         </div>
         <input type="file" id="audioInput" accept="audio/*" style="display: none;" />
         
-        <div id="fileInfo" class="file-info">
+        <div id="fileInfo" class="file-info" style="display: none;">
           <div class="file-detail"><span>Name:</span> <span id="fileName">No file selected</span></div>
           <div class="file-detail"><span>Size:</span> <span id="fileSize">-</span></div>
           <div class="file-detail"><span>Type:</span> <span id="fileType">-</span></div>
@@ -354,7 +895,7 @@
           </div>
         </div>
         
-        <button id="convertBtn" class="audio-btn" disabled>
+        <button id="convertBtn" disabled>
           <i class="fas fa-exchange-alt"></i> Convert Audio
         </button>
       </div>
@@ -368,7 +909,7 @@
         </div>
         <input type="file" id="transcribeInput" accept="audio/*" style="display: none;" />
         
-        <div id="transcribeFileInfo" class="file-info">
+        <div id="transcribeFileInfo" class="file-info" style="display: none;">
           <div class="file-detail"><span>Name:</span> <span id="transcribeFileName">No file selected</span></div>
           <div class="file-detail"><span>Size:</span> <span id="transcribeFileSize">-</span></div>
           <div class="file-detail"><span>Type:</span> <span id="transcribeFileType">-</span></div>
@@ -407,7 +948,7 @@
           </div>
         </div>
         
-        <button id="transcribeBtn" class="audio-btn" disabled>
+        <button id="transcribeBtn" disabled>
           <i class="fas fa-comment-dots"></i> Transcribe Audio
         </button>
         
@@ -427,7 +968,7 @@
         </div>
         <input type="file" id="effectsInput" accept="audio/*" style="display: none;" />
         
-        <div id="effectsFileInfo" class="file-info">
+        <div id="effectsFileInfo" class="file-info" style="display: none;">
           <div class="file-detail"><span>Name:</span> <span id="effectsFileName">No file selected</span></div>
           <div class="file-detail"><span>Size:</span> <span id="effectsFileSize">-</span></div>
           <div class="file-detail"><span>Type:</span> <span id="effectsFileType">-</span></div>
@@ -511,7 +1052,7 @@
           </div>
         </div>
         
-        <button id="applyEffectsBtn" class="audio-btn" disabled>
+        <button id="applyEffectsBtn" disabled>
           <i class="fas fa-magic"></i> Apply Effects
         </button>
       </div>
@@ -559,7 +1100,7 @@
           </div>
         </div>
         
-        <button id="processBatchBtn" class="audio-btn" disabled>
+        <button id="processBatchBtn" disabled>
           <i class="fas fa-play-circle"></i> Process Files
         </button>
       </div>
@@ -574,13 +1115,13 @@
           <div id="progressFill" class="progress-fill"></div>
         </div>
         <p id="progressMessage">Initializing processing...</p>
-        <button id="cancelBtn" class="audio-btn" style="background: #e74c3c;">
+        <button id="cancelBtn" style="margin-top: 12px; background: #e74c3c;">
           <i class="fas fa-times-circle"></i> Cancel Processing
         </button>
       </div>
       <div id="resultContainer" class="result-container">
         <p>Processing Complete!</p>
-        <a id="downloadLink" class="download-btn audio-btn" style="background: #27ae60;">
+        <a id="downloadLink" class="download-btn">
           <i class="fas fa-download"></i> Download Result
         </a>
       </div>
@@ -690,7 +1231,7 @@
           console.log('FFmpeg loaded successfully');
         } catch (error) {
           console.error('FFmpeg loading failed:', error);
-          ffmpegLoading.querySelector('span').textContent = 
+          ffmLoading.querySelector('span').textContent = 
             'Failed to load audio processor. Some features may not work.';
         }
       })();
