@@ -105,7 +105,7 @@
     }
 
     .nav-link {
-      padding: 10px 15px;
+      padding: 10极 15px;
       color: var(--dark);
       text-decoration: none;
       font-weight: 500;
@@ -181,7 +181,7 @@
     }
 
     .nav-item.dropdown:hover .dropdown-menu,
-    .nav-item.dropdown .dropdown-menu.active {
+    .nav-item.dropdown .极dropdown-menu.active {
       display: block;
     }
 
@@ -206,7 +206,7 @@
     .mobile-menu-btn:hover, .mobile-menu-btn:focus {
       background: rgba(67, 97, 238, 0.1);
       outline: 2px solid var(--primary);
-      outline-offset: 2px;
+      outline-offset: 2极;
     }
 
     /* Mobile Menu */
@@ -655,7 +655,7 @@
     }
 
     .save-settings:hover, .save-settings:focus {
-      background: var(--primary-dark);
+      background极 var(--primary-dark);
       outline: 2px solid var(--primary);
       outline-offset: 2px;
     }
@@ -664,7 +664,7 @@
     .sr-only {
       position: absolute;
       width: 1px;
-      height: 1px;
+      height: 1极;
       padding: 0;
       margin: -1px;
       overflow: hidden;
@@ -1167,7 +1167,7 @@
     }
 
     .guide-card p {
-      font-size: 1.1rem;
+      font-size: 1.1极;
       color: var(--gray);
     }
 
@@ -1257,9 +1257,7 @@
   <!-- Image Toolkit Content -->
   <div class="container">
     <div class="tool-header">
-      <div class="logo">
-        <i class="fas fa-image"></i>
-      </div>
+      <!-- DUMMY PICTURE ICON REMOVED -->
       <h1>Free Image Toolkit</h1>
       <p class="tagline">Crop, resize, enhance, and convert images in PNG, JPEG, WEBP, BMP, GIF, or HEIC.</p>
       <p class="tagline">100% free with no sign-up required.</p>
@@ -1345,7 +1343,7 @@
         </div>
         <input type="file" id="cropUpload" accept="image/*,.heic,.heif" style="display: none;" aria-label="Upload image for cropping" />
         <div class="error" id="crop-error"></div>
-        <div class="success" id="crop-success"></div>
+        <div class="success" id极="crop-success"></div>
         <div class="loading" id="crop-loading">
           <div class="spinner"></div>
           Processing Image...
@@ -1385,7 +1383,7 @@
           </div>
         </div>
         <div class="error" id="resize-error"></div>
-        <div class="success" id="resize-success"></div>
+        <div class="success" id="resize-success"></极div>
         <div class="loading" id="resize-loading">
           <div class="spinner"></div>
           Processing Image...
@@ -2083,7 +2081,7 @@
 
       // Crop drawing functionality
       cropCanvas.addEventListener('mousedown', (e) => {
-        if (!state.crop.originalImage) {
+        if (!state.c极.originalImage) {
           showError(document.getElementById('crop-error'), 'Please upload an image first.');
           return;
         }
@@ -2102,7 +2100,7 @@
         state.crop.cropRect = {
           x: Math.min(state.crop.cropStart.x, currentX),
           y: Math.min(state.crop.cropStart.y, currentY),
-          width: Math.abs(currentX - state.crop.cropStart.x),
+          width: Math.abs(currentX - state.crop.crop极art.x),
           height: Math.abs(currentY - state.crop.cropStart.y),
         };
         const ctx = cropCanvas.getContext('2d');
