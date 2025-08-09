@@ -489,77 +489,6 @@
       border: 0;
     }
     
-    /* Features grid - 2 cards per row */
-    .features {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 25px;
-      margin: 30px 0;
-    }
-    
-    .feature {
-      background: var(--light);
-      border-radius: var(--border-radius);
-      padding: 25px;
-      text-align: center;
-      box-shadow: var(--box-shadow);
-      transition: var(--transition);
-    }
-    
-    .feature:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-    }
-    
-    .feature i {
-      font-size: 2.5rem;
-      margin-bottom: 15px;
-      color: var(--primary);
-    }
-    
-    .guide-section {
-      background: var(--light);
-      border-radius: var(--border-radius);
-      padding: 40px;
-      margin: 40px auto;
-      box-shadow: var(--box-shadow);
-      text-align: center;
-    }
-    
-    .guide-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 30px;
-      margin-top: 25px;
-    }
-    
-    .guide-item {
-      padding: 25px;
-      background: #f8f9ff;
-      border-radius: var(--border-radius);
-      text-align: center;
-      font-size: 14px;
-    }
-    
-    .guide-item h3 {
-      font-size: 1.5rem;
-      margin-bottom: 15px;
-      color: var(--primary);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      justify-content: center;
-    }
-    
-    .guide-item h3 i {
-      font-size: 1.8rem;
-    }
-    
-    .guide-item p {
-      font-size: 1rem;
-      color: var(--gray);
-    }
-    
     .qr-type-fields {
       display: none;
       margin: 1em 0;
@@ -939,16 +868,6 @@
     }
 
     /* Responsive Design */
-    @media (max-width: 992px) {
-      .guide-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .features {
-        grid-template-columns: 1fr;
-      }
-    }
-
     @media (max-width: 768px) {
       .hero h1 {
         font-size: 2rem;
@@ -979,10 +898,6 @@
       .tab {
         padding: 10px 15px;
         font-size: 0.9rem;
-      }
-      
-      .guide-section {
-        padding: 25px;
       }
       
       .text-display-controls {
@@ -1043,53 +958,6 @@
 
   <!-- QR Generator Content -->
   <div class="container">
-    <!-- Features with 2 cards per row -->
-    <div class="features">
-      <div class="feature">
-        <i class="fas fa-paint-brush"></i>
-        <h3>Custom Design</h3>
-        <p>Create QR codes with custom colors and embedded logos for brand recognition</p>
-      </div>
-      <div class="feature">
-        <i class="fas fa-layer-group"></i>
-        <h3>Bulk Generation</h3>
-        <p>Generate multiple QR codes at once including sequential numbers</p>
-      </div>
-      <div class="feature">
-        <i class="fas fa-camera"></i>
-        <h3>QR Scanner</h3>
-        <p>Scan any QR code using your device's camera or upload an image</p>
-      </div>
-      <div class="feature">
-        <i class="fas fa-ruler-combined"></i>
-        <h3>Logo Size Control</h3>
-        <p>Adjust logo size precisely within your QR codes</p>
-      </div>
-    </div>
-
-    <!-- Updated QR Code Creation Guide -->
-    <div class="guide-section">
-      <h2><i class="fas fa-book"></i> QR Code Creation Guide</h2>
-      <div class="guide-grid">
-        <div class="guide-item">
-          <h3><i class="fas fa-keyboard"></i> Select QR Type</h3>
-          <p>Choose the type of QR code (e.g., URL, vCard, Wi-Fi) to encode your data.</p>
-        </div>
-        <div class="guide-item">
-          <h3><i class="fas fa-upload"></i> Add Logo (Optional)</h3>
-          <p>Upload a logo to place in the center of your QR code with a customizable border.</p>
-        </div>
-        <div class="guide-item">
-          <h3><i class="fas fa-paint-brush"></i> Customize Design</h3>
-          <p>Select colors, size, and add a border around your logo to make it stand out.</p>
-        </div>
-        <div class="guide-item">
-          <h3><i class="fas fa-download"></i> Generate & Download</h3>
-          <p>Create your QR code, test it, and download as a PNG or ZIP for bulk.</p>
-        </div>
-      </div>
-    </div>
-
     <div class="card">
       <div class="tabs" role="tablist">
         <div class="tab active" data-tab="single" role="tab" aria-selected="true" tabindex="0">
@@ -1349,16 +1217,16 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
         <div id="bulk-range-fields" class="bulk-format-content" style="display: none;">
           <div class="range-controls">
             <div>
+              <label for="range-prefix">Prefix (Optional):</label>
+              <input type="text" id="range-prefix" placeholder="QR-">
+            </div>
+            <div>
               <label for="range-start">Start Number:</label>
               <input type="number" id="range-start" min="1" value="1" placeholder="1">
             </div>
             <div>
               <label for="range-end">End Number:</label>
               <input type="number" id="range-end" min="1" value="10" placeholder="10">
-            </div>
-            <div>
-              <label for="range-prefix">Prefix (Optional):</label>
-              <input type="text" id="range-prefix" placeholder="QR-">
             </div>
             <div>
               <label for="range-suffix">Suffix (Optional):</label>
