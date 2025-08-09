@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Free Image Toolkit: Crop, resize, enhance, and convert images in PNG, JPEG, WEBP, BMP, GIF, or HEIC. Fast, free, no signup required.">
-  <title>Free Image Toolkit - Crop, Resize, Enhance, Convert</title>
+  <title>Free Image Toolkit - Crop, Resize, Convert</title>
   
   <!-- Performance Tuning -->
   <link rel="preconnect" href="https://cdnjs.cloudflare.com">
@@ -613,7 +613,7 @@
       background-color: var(--primary);
     }
 
-    .toggle-switch input:checked + .slider:before {
+    .toggle-switch input:checked + .极slider:before {
       transform: translateX(26px);
     }
 
@@ -758,23 +758,6 @@
       color: var(--gray);
       max-width: 700px;
       margin: 0 auto 25px;
-    }
-    
-    .privacy-note {
-      background: rgba(67, 97, 238, 0.1);
-      border-radius: var(--border-radius);
-      padding: 15px;
-      margin: 20px 0;
-      text-align: center;
-      border-left: 4px solid var(--primary);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-    }
-    
-    .privacy-note i {
-      font-size: 1.2rem;
     }
 
     .card {
@@ -960,59 +943,6 @@
       display: inline-block;
     }
 
-    .enhance-controls {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 15px;
-      margin-bottom: 20px;
-    }
-
-    .enhance-control {
-      background: #f8f9ff;
-      padding: 15px;
-      border-radius: var(--border-radius);
-    }
-
-    .enhance-control label {
-      display: block;
-      margin-bottom: 10px;
-      font-weight: 500;
-    }
-
-    .enhance-control input[type="range"] {
-      width: 100%;
-    }
-
-    .filter-options {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-
-    .filter-btn {
-      background: var(--light-gray);
-      border: none;
-      border-radius: 8px;
-      padding: 12px;
-      cursor: pointer;
-      transition: var(--transition);
-      font-size: 0.9rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 5px;
-    }
-
-    .filter-btn.active {
-      background: var(--primary);
-      color: white;
-    }
-
-    .filter-btn:hover:not(.active) {
-      background: #dbe4ff;
-    }
-
     .visually-hidden {
       position: absolute;
       top: -9999px;
@@ -1077,106 +1007,15 @@
       display: none;
     }
 
-    .features-section {
-      margin: 40px auto;
-    }
-
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 30px;
-      margin-top: 25px;
-    }
-
-    .feature-card {
-      background: white;
-      border-radius: var(--border-radius);
-      padding: 30px;
-      text-align: center;
-      box-shadow: var(--box-shadow);
-      transition: var(--transition);
-      font-size: 1.1rem;
-    }
-
-    .feature-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-    }
-
-    .feature-card i {
-      font-size: 3rem;
-      color: var(--primary);
-      margin-bottom: 20px;
-      background: #f0f4ff;
-      width: 90px;
-      height: 90px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      margin: 0 auto 20px;
-    }
-
-    .feature-card h3 {
-      font-size: 1.6rem;
-      margin-bottom: 15px;
-      color: var(--dark);
-    }
-
-    .feature-card p {
-      margin-bottom: 20px;
+    .file-size {
+      font-size: 0.9rem;
       color: var(--gray);
-      font-size: 1.1rem;
-    }
-
-    .guide-section {
-      background: white;
-      border-radius: var(--border-radius);
-      padding: 40px;
-      margin: 40px auto;
-      box-shadow: var(--box-shadow);
-    }
-
-    .guide-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 30px;
-      margin-top: 25px;
-    }
-
-    .guide-card {
-      padding: 25px;
-      background: #f8f9ff;
-      border-radius: var(--border-radius);
+      margin-top: 10px;
       text-align: center;
-      font-size: 1.1rem;
-    }
-
-    .guide-card h3 {
-      font-size: 1.5rem;
-      margin-bottom: 15px;
-      color: var(--primary);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      justify-content: center;
-    }
-
-    .guide-card h3 i {
-      font-size: 1.8rem;
-    }
-
-    .guide-card p {
-      font-size: 1.1极;
-      color: var(--gray);
     }
 
     /* Responsive Design for Image Toolkit */
     @media (max-width: 768px) {
-      .features-grid {
-        grid-template-columns: 1fr;
-      }
-      
       .card {
         padding: 20px;
       }
@@ -1205,22 +1044,6 @@
       .resize-controls input {
         width: 100%;
       }
-
-      .enhance-controls {
-        grid-template-columns: 1fr;
-      }
-
-      .filter-options {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .features-grid, .guide-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .guide-section {
-        padding: 25px;
-      }
     }
 
     @media (max-width: 480px) {
@@ -1230,20 +1053,6 @@
 
       .tool-header {
         padding: 20px 0 10px;
-      }
-
-      .feature-card i, .guide-card h3 i {
-        font-size: 2.5rem;
-        width: 70px;
-        height: 70px;
-      }
-
-      .feature-card h3, .guide-card h3 {
-        font-size: 1.4rem;
-      }
-
-      .feature-card p, .guide-card p {
-        font-size: 1rem;
       }
     }
   </style>
@@ -1257,63 +1066,9 @@
   <!-- Image Toolkit Content -->
   <div class="container">
     <div class="tool-header">
-      <!-- DUMMY PICTURE ICON REMOVED -->
       <h1>Free Image Toolkit</h1>
-      <p class="tagline">Crop, resize, enhance, and convert images in PNG, JPEG, WEBP, BMP, GIF, or HEIC.</p>
+      <p class="tagline">Crop, resize, and convert images in PNG, JPEG, WEBP, BMP, GIF, or HEIC.</p>
       <p class="tagline">100% free with no sign-up required.</p>
-    </div>
-
-    <div class="privacy-note">
-      <i class="fas fa-lock"></i>
-      <span>All processing happens locally in your browser—no data is uploaded</span>
-    </div>
-
-    <div class="features-section">
-      <div class="features-grid">
-        <div class="feature-card">
-          <i class="fas fa-tools"></i>
-          <h3>Versatile Editing</h3>
-          <p>Crop, resize, enhance and convert images with an intuitive interface</p>
-        </div>
-        <div class="feature-card">
-          <i class="fas fa-file-image"></i>
-          <h3>Multiple Format Support</h3>
-          <p>Work with PNG, JPEG, WEBP, BMP, GIF, and HEIC for maximum flexibility</p>
-        </div>
-        <div class="feature-card">
-          <i class="fas fa-bolt"></i>
-          <h3>Fast Processing</h3>
-          <p>Edit images instantly in your browser, no sign-up or downloads required</p>
-        </div>
-        <div class="feature-card">
-          <i class="fas fa-lock"></i>
-          <h3>Privacy First</h3>
-          <p>All processing happens locally in your browser—no data is uploaded</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="guide-section">
-      <h2><i class="fas fa-book"></i> Image Editing Guide</h2>
-      <p>Follow these simple steps to edit your images:</p>
-      <div class="guide-grid">
-        <div class="guide-card">
-          <h3><i class="fas fa-tools"></i> Choose Tool</h3>
-          <p>Select crop, resize, enhance or convert based on your needs.</p>
-        </div>
-        <div class="guide-card">
-          <h3><i class="fas fa-upload"></i> Upload Image</h3>
-          <p>Drag or browse to upload your image (PNG, JPEG, WEBP, BMP, GIF, HEIC).</p>
-        </div>
-        <div class="guide-card">
-          <h3><i class="fas fa-edit"></i> Edit Image</h3>
-          <p>Crop, resize, enhance or convert to a new format.</p>
-        </div>
-        <div class="guide-card">
-          <h3><i class="fas fa-download"></i> Download</h3>
-          <p>Save your edited image instantly.</p>
-        </div>
-      </div>
     </div>
 
     <div class="card">
@@ -1323,9 +1078,6 @@
         </div>
         <div class="tab" data-tab="resize">
           <i class="fas fa-expand"></i> Resize
-        </div>
-        <div class="tab" data-tab="enhance">
-          <i class="fas fa-sliders-h"></i> Enhance
         </div>
         <div class="tab" data-tab="convert">
           <i class="fas fa-exchange-alt"></i> Convert
@@ -1343,12 +1095,13 @@
         </div>
         <input type="file" id="cropUpload" accept="image/*,.heic,.heif" style="display: none;" aria-label="Upload image for cropping" />
         <div class="error" id="crop-error"></div>
-        <div class="success" id极="crop-success"></div>
+        <div class="success" id="crop-success"></div>
         <div class="loading" id="crop-loading">
           <div class="spinner"></div>
           Processing Image...
         </div>
         <canvas id="cropCanvas" width="300" height="200"></canvas>
+        <div class="file-size" id="crop-file-size"></div>
         <div class="btn-group">
           <button id="cropBtn" style="display: none;">
             <i class="fas fa-crop"></i> Crop Image
@@ -1356,7 +1109,7 @@
           <button id="resetCrop" style="display: none;">
             <i class="fas fa-undo"></i> Reset
           </button>
-          <button id="downloadCrop" style="display: none;">
+          <button id="downloadCrop" style极="display: none;">
             <i class="fas fa-download"></i> Download
           </button>
         </div>
@@ -1383,12 +1136,13 @@
           </div>
         </div>
         <div class="error" id="resize-error"></div>
-        <div class="success" id="resize-success"></极div>
+        <div class="success" id="resize-success"></div>
         <div class="loading" id="resize-loading">
           <div class="spinner"></div>
           Processing Image...
         </div>
         <canvas id="resizeCanvas" width="300" height="200"></canvas>
+        <div class="file-size" id="resize-file-size"></div>
         <div class="btn-group">
           <button id="resizeBtn" style="display: none;">
             <i class="fas fa-expand"></i> Resize Image
@@ -1397,84 +1151,6 @@
             <i class="fas fa-undo"></i> Reset
           </button>
           <button id="downloadResize" style="display: none;">
-            <i class="fas fa-download"></i> Download
-          </button>
-        </div>
-      </div>
-
-      <!-- Enhance Tab -->
-      <div class="tab-content" id="enhance-tab">
-        <h2><i class="fas fa-sliders-h"></i> Image Enhancement</h2>
-        <p><i>Adjust and enhance your images with filters and effects.</i></p>
-        <div class="drag-drop-area" id="enhanceDragArea">
-          <p><i class="fas fa-upload"></i> Choose file or drag and drop here</p>
-          <p>Supported formats: PNG, JPEG, WEBP, BMP, GIF, HEIC</p>
-          <p>Max file size: 10MB</p>
-        </div>
-        <input type="file" id="enhanceUpload" accept="image/*,.heic,.heif" style="display: none;" />
-        
-        <div class="enhance-controls">
-          <div class="enhance-control">
-            <label for="brightness">Brightness</label>
-            <input type="range" id="brightness" min="-100" max="100" value="0">
-          </div>
-          <div class="enhance-control">
-            <label for="contrast">Contrast</label>
-            <input type="range" id="contrast" min="-100" max="100" value="0">
-          </div>
-          <div class="enhance-control">
-            <label for="saturation">Saturation</label>
-            <input type="range" id="saturation" min="-100" max="100" value="0">
-          </div>
-          <div class="enhance-control">
-            <label for="blur">Blur</label>
-            <input type="range" id="blur" min="0" max="10" value="0">
-          </div>
-        </div>
-        
-        <div class="filter-options">
-          <button class="filter-btn active" data-filter="normal">
-            <i class="fas fa-image"></i>
-            Normal
-          </button>
-          <button class="filter-btn" data-filter="grayscale">
-            <i class="fas fa-moon"></i>
-            Grayscale
-          </button>
-          <button class="filter-btn" data-filter="sepia">
-            <i class="fas fa-coffee"></i>
-            Sepia
-          </button>
-          <button class="filter-btn" data-filter="vintage">
-            <i class="fas fa-camera-retro"></i>
-            Vintage
-          </button>
-          <button class="filter-btn" data-filter="invert">
-            <i class="fas fa-adjust"></i>
-            Invert
-          </button>
-          <button class="filter-btn" data-filter="posterize">
-            <i class="fas fa-paint-brush"></i>
-            Posterize
-          </button>
-        </div>
-        
-        <div class="error" id="enhance-error"></div>
-        <div class="success" id="enhance-success"></div>
-        <div class="loading" id="enhance-loading">
-          <div class="spinner"></div>
-          Applying Enhancements...
-        </div>
-        <canvas id="enhanceCanvas" width="300" height="200"></canvas>
-        
-        <div class="btn-group">
-          <button id="enhanceBtn" style="display: none;">
-            <i class="fas fa-magic"></i> Apply Enhancements
-          </button>
-          <button id="resetEnhance" style="display: none;">
-            <i class="fas fa-undo"></i> Reset
-          </button>
-          <button id="downloadEnhance" style="display: none;">
             <i class="fas fa-download"></i> Download
           </button>
         </div>
@@ -1505,6 +1181,7 @@
           Processing Image...
         </div>
         <canvas id="convertCanvas" width="300" height="200"></canvas>
+        <div class="file-size" id="convert-file-size"></div>
         <div class="btn-group">
           <button id="convertBtn" style="display: none;">
             <i class="fas fa-exchange-alt"></i> Convert & Download
@@ -1892,16 +1569,6 @@
         resizedImage: null,
         initialImage: null
       },
-      enhance: {
-        originalImage: null,
-        enhancedImage: null,
-        brightness: 0,
-        contrast: 0,
-        saturation: 0,
-        blur: 0,
-        filter: 'normal',
-        initialImage: null
-      },
       convert: {
         originalImage: null,
         convertedImage: null,
@@ -1939,6 +1606,16 @@
     function hideLoading(section) {
       const loading = document.getElementById(`${section}-loading`);
       if (loading) loading.style.display = 'none';
+    }
+
+    function updateFileSizeDisplay(section, dataUrl) {
+      const sizeDisplay = document.getElementById(`${section}-file-size`);
+      if (!sizeDisplay) return;
+      
+      // Calculate size from data URL
+      const sizeInBytes = Math.round((dataUrl.length * 3) / 4);
+      const sizeInKB = (sizeInBytes / 1024).toFixed(2);
+      sizeDisplay.textContent = `File size: ${sizeInKB} KB`;
     }
 
     async function loadImage(file) {
@@ -2081,7 +1758,7 @@
 
       // Crop drawing functionality
       cropCanvas.addEventListener('mousedown', (e) => {
-        if (!state.c极.originalImage) {
+        if (!state.crop.originalImage) {
           showError(document.getElementById('crop-error'), 'Please upload an image first.');
           return;
         }
@@ -2100,12 +1777,12 @@
         state.crop.cropRect = {
           x: Math.min(state.crop.cropStart.x, currentX),
           y: Math.min(state.crop.cropStart.y, currentY),
-          width: Math.abs(currentX - state.crop.crop极art.x),
+          width: Math.abs(currentX - state.crop.cropStart.x),
           height: Math.abs(currentY - state.crop.cropStart.y),
         };
         const ctx = cropCanvas.getContext('2d');
-        ctx.clearRect(0, 0, cropCanvas.width / pixelRatio, cropCanvas.height / pixelRatio);
-        ctx.drawImage(state.crop.originalImage, 0, 0, cropCanvas.width / pixelRatio, cropCanvas.height / pixelRatio);
+        ctx.clearRect(0, 0, canvas.width / pixelRatio, canvas.height / pixelRatio);
+        ctx.drawImage(state.crop.originalImage, 0, 0, canvas.width / pixelRatio, canvas.height / pixelRatio);
         ctx.strokeStyle = 'red';
         ctx.lineWidth = 2;
         ctx.strokeRect(state.crop.cropRect.x / pixelRatio, state.crop.cropRect.y / pixelRatio, state.crop.cropRect.width / pixelRatio, state.crop.cropRect.height / pixelRatio);
@@ -2138,6 +1815,7 @@
             state.crop.croppedImage = croppedCanvas;
             drawImageOnCanvas(croppedCanvas, 'cropCanvas');
             downloadCrop.style.display = 'inline-block';
+            updateFileSizeDisplay('crop', croppedCanvas.toDataURL('image/png'));
             showSuccess(document.getElementById('crop-success'), 'Image cropped successfully!');
           } catch (err) {
             showError(document.getElementById('crop-error'), 'Error cropping image: ' + err.message);
@@ -2215,6 +1893,7 @@
             state.resize.resizedImage = canvas;
             drawImageOnCanvas(state.resize.resizedImage, 'resizeCanvas');
             downloadResize.style.display = 'inline-block';
+            updateFileSizeDisplay('resize', canvas.toDataURL('image/png'));
             showSuccess(document.getElementById('resize-success'), 'Image resized successfully!');
           } catch (err) {
             showError(document.getElementById('resize-error'), 'Error resizing image: ' + err.message);
@@ -2238,198 +1917,6 @@
 
       resetResize.addEventListener('click', () => {
         resetToInitial('resize');
-      });
-
-      // Enhance Functionality
-      const enhanceUpload = document.getElementById('enhanceUpload');
-      const brightness = document.getElementById('brightness');
-      const contrast = document.getElementById('contrast');
-      const saturation = document.getElementById('saturation');
-      const blur = document.getElementById('blur');
-      const filterButtons = document.querySelectorAll('.filter-btn');
-      const enhanceBtn = document.getElementById('enhanceBtn');
-      const downloadEnhance = document.getElementById('downloadEnhance');
-      const resetEnhance = document.getElementById('resetEnhance');
-      
-      setupDragAndDrop(document.getElementById('enhanceDragArea'), enhanceUpload, 'enhance');
-      
-      filterButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-          filterButtons.forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-          state.enhance.filter = btn.dataset.filter;
-          applyEnhancements();
-        });
-      });
-      
-      [brightness, contrast, saturation, blur].forEach(slider => {
-        slider.addEventListener('input', applyEnhancements);
-      });
-      
-      function applyEnhancements() {
-        if (!state.enhance.originalImage) return;
-        
-        const canvas = document.getElementById('enhanceCanvas');
-        const ctx = canvas.getContext('2d');
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(state.enhance.originalImage, 0, 0, canvas.width, canvas.height);
-        
-        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        const data = imageData.data;
-        
-        // Apply brightness, contrast, saturation
-        const bVal = parseInt(brightness.value);
-        const cVal = parseInt(contrast.value);
-        const sVal = parseInt(saturation.value);
-        
-        const factor = 259 * (255 + cVal) / (255 * (259 - cVal));
-        
-        for (let i = 0; i < data.length; i += 4) {
-          // Apply brightness
-          data[i] = clamp(data[i] + bVal);
-          data[i+1] = clamp(data[i+1] + bVal);
-          data[i+2] = clamp(data[i+2] + bVal);
-          
-          // Apply contrast
-          data[i] = clamp(factor * (data[i] - 128) + 128);
-          data[i+1] = clamp(factor * (data[i+1] - 128) + 128);
-          data[i+2] = clamp(factor * (data[i+2] - 128) + 128);
-          
-          // Apply saturation
-          const gray = 0.2989 * data[i] + 0.5870 * data[i+1] + 0.1140 * data[i+2];
-          data[i] = clamp(gray + (data[i] - gray) * (sVal / 100 + 1));
-          data[i+1] = clamp(gray + (data[i+1] - gray) * (sVal / 100 + 1));
-          data[i+2] = clamp(gray + (data[i+2] - gray) * (sVal / 100 + 1));
-        }
-        
-        // Apply blur
-        const blurValue = parseInt(blur.value);
-        if (blurValue > 0) {
-          // Simplified blur implementation
-          const tempCanvas = document.createElement('canvas');
-          const tempCtx = tempCanvas.getContext('2d');
-          tempCanvas.width = canvas.width;
-          tempCanvas.height = canvas.height;
-          tempCtx.putImageData(imageData, 0, 0);
-          ctx.filter = `blur(${blurValue}px)`;
-          ctx.drawImage(tempCanvas, 0, 0);
-          ctx.filter = 'none';
-        } else {
-          ctx.putImageData(imageData, 0, 0);
-        }
-        
-        // Apply filters
-        if (state.enhance.filter === 'grayscale') {
-          const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-          const data = imageData.data;
-          for (let i = 0; i < data.length; i += 4) {
-            const avg = (data[i] + data[i+1] + data[i+2]) / 3;
-            data[i] = avg;
-            data[i+1] = avg;
-            data[i+2] = avg;
-          }
-          ctx.putImageData(imageData, 0, 0);
-        } else if (state.enhance.filter === 'sepia') {
-          const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-          const data = imageData.data;
-          for (let i = 0; i < data.length; i += 4) {
-            const r = data[i];
-            const g = data[i+1];
-            const b = data[i+2];
-            data[i] = clamp((r * 0.393) + (g * 0.769) + (b * 0.189));
-            data[i+1] = clamp((r * 0.349) + (g * 0.686) + (b * 0.168));
-            data[i+2] = clamp((r * 0.272) + (g * 0.534) + (b * 0.131));
-          }
-          ctx.putImageData(imageData, 0, 0);
-        } else if (state.enhance.filter === 'invert') {
-          const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-          const data = imageData.data;
-          for (let i = 0; i < data.length; i += 4) {
-            data[i] = 255 - data[i];
-            data[i+1] = 255 - data[i+1];
-            data[i+2] = 255 - data[i+2];
-          }
-          ctx.putImageData(imageData, 0, 0);
-        } else if (state.enhance.filter === 'vintage') {
-          const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-          const data = imageData.data;
-          for (let i = 0; i < data.length; i += 4) {
-            data[i] = clamp(data[i] * 0.9);
-            data[i+1] = clamp(data[i+1] * 0.7);
-            data[i+2] = clamp(data[i+2] * 0.4);
-          }
-          ctx.putImageData(imageData, 0, 0);
-        } else if (state.enhance.filter === 'posterize') {
-          const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-          const data = imageData.data;
-          const levels = 4;
-          for (let i = 0; i < data.length; i += 4) {
-            data[i] = Math.floor(data[i] / 64) * 64;
-            data[i+1] = Math.floor(data[i+1] / 64) * 64;
-            data[i+2] = Math.floor(data[i+2] / 64) * 64;
-          }
-          ctx.putImageData(imageData, 0, 0);
-        }
-        
-        enhanceBtn.style.display = 'inline-block';
-        downloadEnhance.style.display = 'inline-block';
-      }
-      
-      enhanceUpload.addEventListener('change', async (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-        
-        hideElements('enhance');
-        showLoading('enhance');
-        
-        try {
-          const img = await loadImage(file);
-          state.enhance.originalImage = img;
-          state.enhance.initialImage = img;
-          drawImageOnCanvas(img, 'enhanceCanvas');
-          applyEnhancements();
-          resetEnhance.style.display = 'inline-block';
-          downloadEnhance.style.display = 'inline-block';
-          showSuccess(document.getElementById('enhance-success'), 'Image loaded successfully!');
-        } catch (err) {
-          showError(document.getElementById('enhance-error'), err.message);
-          resetCanvas('enhanceCanvas');
-        } finally {
-          hideLoading('enhance');
-        }
-      });
-      
-      enhanceBtn.addEventListener('click', () => {
-        // Enhancements are applied in real-time, so this just triggers the preview
-        applyEnhancements();
-        showSuccess(document.getElementById('enhance-success'), 'Enhancements applied successfully!');
-      });
-      
-      downloadEnhance.addEventListener('click', () => {
-        const canvas = document.getElementById('enhanceCanvas');
-        const link = document.createElement('a');
-        link.download = 'enhanced-image.png';
-        link.href = canvas.toDataURL('image/png');
-        link.click();
-        showSuccess(document.getElementById('enhance-success'), 'Image downloaded successfully!');
-      });
-      
-      resetEnhance.addEventListener('click', () => {
-        resetToInitial('enhance');
-        // Reset sliders to default
-        document.getElementById('brightness').value = 0;
-        document.getElementById('contrast').value = 0;
-        document.getElementById('saturation').value = 0;
-        document.getElementById('blur').value = 0;
-        // Reset filter
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-          btn.classList.remove('active');
-          if (btn.dataset.filter === 'normal') {
-            btn.classList.add('active');
-          }
-        });
-        state.enhance.filter = 'normal';
-        applyEnhancements();
       });
       
       // Convert Functionality
@@ -2474,9 +1961,39 @@
             const ctx = canvas.getContext('2d');
             ctx.drawImage(state.convert.originalImage, 0, 0);
             
+            let mimeType, fileExtension;
+            switch(format) {
+              case 'jpeg':
+                mimeType = 'image/jpeg';
+                fileExtension = 'jpg';
+                break;
+              case 'png':
+                mimeType = 'image/png';
+                fileExtension = 'png';
+                break;
+              case 'webp':
+                mimeType = 'image/webp';
+                fileExtension = 'webp';
+                break;
+              case 'bmp':
+                mimeType = 'image/bmp';
+                fileExtension = 'bmp';
+                break;
+              case 'gif':
+                mimeType = 'image/gif';
+                fileExtension = 'gif';
+                break;
+              default:
+                mimeType = 'image/png';
+                fileExtension = 'png';
+            }
+            
+            const dataUrl = canvas.toDataURL(mimeType);
+            updateFileSizeDisplay('convert', dataUrl);
+            
             const link = document.createElement('a');
-            link.download = `converted-image.${format}`;
-            link.href = canvas.toDataURL(`image/${format}`);
+            link.download = `converted-image.${fileExtension}`;
+            link.href = dataUrl;
             link.click();
             showSuccess(document.getElementById('convert-success'), `Image converted to ${format.toUpperCase()} successfully!`);
           } catch (err) {
