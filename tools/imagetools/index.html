@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Free Image Toolkit: Crop, resize, enhance, and convert images in PNG, JPEG, WEBP, BMP, GIF, or HEIC. Fast, free, no signup required.">
+  <meta name="description" content="Free Image Toolkit: Crop, resize, and convert images in PNG, JPEG, WEBP, BMP, GIF, or HEIC. Fast, free, no signup required.">
   <title>Free Image Toolkit - Crop, Resize, Convert</title>
   
   <!-- Performance Tuning -->
@@ -105,7 +105,7 @@
     }
 
     .nav-link {
-      padding: 10极 15px;
+      padding: 10px 15px;
       color: var(--dark);
       text-decoration: none;
       font-weight: 500;
@@ -181,7 +181,7 @@
     }
 
     .nav-item.dropdown:hover .dropdown-menu,
-    .nav-item.dropdown .极dropdown-menu.active {
+    .nav-item.dropdown .dropdown-menu.active {
       display: block;
     }
 
@@ -206,7 +206,7 @@
     .mobile-menu-btn:hover, .mobile-menu-btn:focus {
       background: rgba(67, 97, 238, 0.1);
       outline: 2px solid var(--primary);
-      outline-offset: 2极;
+      outline-offset: 2px;
     }
 
     /* Mobile Menu */
@@ -613,7 +613,7 @@
       background-color: var(--primary);
     }
 
-    .toggle-switch input:checked + .极slider:before {
+    .toggle-switch input:checked + .slider:before {
       transform: translateX(26px);
     }
 
@@ -647,7 +647,7 @@
       background: var(--primary);
       color: white;
       border: none;
-      padding: 10px 25px;
+      padding: 10极 25px;
       border-radius: 50px;
       font-weight: 600;
       cursor: pointer;
@@ -655,7 +655,7 @@
     }
 
     .save-settings:hover, .save-settings:focus {
-      background极 var(--primary-dark);
+      background: var(--primary-dark);
       outline: 2px solid var(--primary);
       outline-offset: 2px;
     }
@@ -664,7 +664,7 @@
     .sr-only {
       position: absolute;
       width: 1px;
-      height: 1极;
+      height: 1px;
       padding: 0;
       margin: -1px;
       overflow: hidden;
@@ -943,6 +943,55 @@
       display: inline-block;
     }
 
+    .quality-controls {
+      margin: 20px 0;
+      padding: 15px;
+      background: #f8f9ff;
+      border-radius: var(--border-radius);
+    }
+    
+    .quality-slider-container {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 10px;
+    }
+    
+    .quality-slider {
+      flex: 1;
+    }
+    
+    .quality-value {
+      min-width: 60px;
+      text-align: center;
+      font-weight: 500;
+    }
+    
+    .quality-presets {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 15px;
+    }
+    
+    .quality-preset {
+      padding: 8px 15px;
+      background: var(--light-gray);
+      border-radius: 20px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .quality-preset:hover {
+      background: #dbe4ff;
+    }
+    
+    .quality-preset.active {
+      background: var(--primary);
+      color: white;
+    }
+
     .visually-hidden {
       position: absolute;
       top: -9999px;
@@ -1101,7 +1150,21 @@
           Processing Image...
         </div>
         <canvas id="cropCanvas" width="300" height="200"></canvas>
-        <div class="file-size" id="crop-file-size"></div>
+        <div class="quality-controls">
+          <h3><i class="fas fa-file-image"></i> Output Quality</h3>
+          <div class="quality-slider-container">
+            <input type="range" min="0" max="100" value="80" class="quality-slider" id="cropQuality">
+            <span class="quality-value" id="cropQualityValue">80%</span>
+          </div>
+          <div class="quality-presets">
+            <div class="quality-preset" data-value="100">Maximum (100%)</div>
+            <div class="quality-preset active" data-value="80">High (80%)</div>
+            <div class="quality-preset" data-value="60">Medium (60%)</div>
+            <div class="quality-preset" data-value="40">Low (40%)</div>
+            <div class="quality-preset" data-value="20">Very Low (20%)</div>
+          </div>
+          <div class="file-size" id="crop-file-size"></div>
+        </div>
         <div class="btn-group">
           <button id="cropBtn" style="display: none;">
             <i class="fas fa-crop"></i> Crop Image
@@ -1109,7 +1172,7 @@
           <button id="resetCrop" style="display: none;">
             <i class="fas fa-undo"></i> Reset
           </button>
-          <button id="downloadCrop" style极="display: none;">
+          <button id="downloadCrop" style="display: none;">
             <i class="fas fa-download"></i> Download
           </button>
         </div>
@@ -1127,7 +1190,7 @@
         <input type="file" id="resizeUpload" accept="image/*,.heic,.heif" style="display: none;" aria-label="Upload image for resizing" />
         <div class="resize-controls">
           <div>
-            <label for="resizeWidth">Width (px):</label>
+            <label for极="resizeWidth">Width (px):</label>
             <input type="number" id="resizeWidth" min="1" placeholder="Width (px)" aria-label="Width in pixels">
           </div>
           <div>
@@ -1142,7 +1205,21 @@
           Processing Image...
         </div>
         <canvas id="resizeCanvas" width="300" height="200"></canvas>
-        <div class="file-size" id="resize-file-size"></div>
+        <div class="quality-controls">
+          <h3><i class="fas fa-file-image"></i> Output Quality</h3>
+          <div class="quality-slider-container">
+            <input type="range" min="0" max="100" value="80" class="quality-slider" id="resizeQuality">
+            <span class="quality-value" id="resizeQualityValue">80%</span>
+          </div>
+          <div class="quality-presets">
+            <div class="quality-preset" data-value="100">Maximum (100%)</div>
+            <div class="quality-preset active" data-value="80">High (80%)</div>
+            <div class="quality-preset" data-value="60">Medium (60%)</div>
+            <div class="quality-preset" data-value="40">Low (40%)</div>
+            <div class="quality-preset" data-value="20">Very Low (20%)</div>
+          </div>
+          <div class="file-size" id="resize-file-size"></div>
+        </div>
         <div class="btn-group">
           <button id="resizeBtn" style="display: none;">
             <i class="fas fa-expand"></i> Resize Image
@@ -1181,7 +1258,21 @@
           Processing Image...
         </div>
         <canvas id="convertCanvas" width="300" height="200"></canvas>
-        <div class="file-size" id="convert-file-size"></div>
+        <div class="quality-controls">
+          <h3><i class="fas fa-file-image"></i> Output Quality</h3>
+          <div class="quality-slider-container">
+            <input type="range" min="0" max="100" value="80" class="quality-slider" id="convertQuality">
+            <span class="quality-value" id="convertQualityValue">80%</span>
+          </div>
+          <div class="quality-presets">
+            <div class="quality-preset" data-value="100">Maximum (100%)</div>
+            <div class="quality-preset active" data-value="80">High (80%)</div>
+            <div class="quality-preset" data-value="60">Medium (60%)</div>
+            <div class="quality-preset" data-value="40">Low (40%)</div>
+            <div class="quality-preset" data-value="20">Very Low (20%)</div>
+          </div>
+          <div class="file-size" id="convert-file-size"></div>
+        </div>
         <div class="btn-group">
           <button id="convertBtn" style="display: none;">
             <i class="fas fa-exchange-alt"></i> Convert & Download
@@ -1562,17 +1653,20 @@
         cropRect: null,
         isDrawing: false,
         cropStart: null,
-        initialImage: null
+        initialImage: null,
+        quality: 80
       },
       resize: {
         originalImage: null,
         resizedImage: null,
-        initialImage: null
+        initialImage: null,
+        quality: 80
       },
       convert: {
         originalImage: null,
         convertedImage: null,
-        initialImage: null
+        initialImage: null,
+        quality: 80
       }
     };
 
@@ -1608,14 +1702,41 @@
       if (loading) loading.style.display = 'none';
     }
 
-    function updateFileSizeDisplay(section, dataUrl) {
-      const sizeDisplay = document.getElementById(`${section}-file-size`);
-      if (!sizeDisplay) return;
-      
-      // Calculate size from data URL
+    function calculateFileSize(dataUrl) {
+      // Base64 encoding is about 4/3 the size of the binary data
       const sizeInBytes = Math.round((dataUrl.length * 3) / 4);
       const sizeInKB = (sizeInBytes / 1024).toFixed(2);
-      sizeDisplay.textContent = `File size: ${sizeInKB} KB`;
+      return sizeInKB;
+    }
+
+    function getDataUrlWithQuality(canvas, format, quality) {
+      switch(format) {
+        case 'jpeg':
+          return canvas.toDataURL('image/jpeg', quality / 100);
+        case 'webp':
+          return canvas.toDataURL('image/webp', quality / 100);
+        case 'png':
+          // PNG doesn't support quality, but we can reduce colors
+          return canvas.toDataURL('image/png');
+        case 'bmp':
+          return canvas.toDataURL('image/bmp');
+        case 'gif':
+          return canvas.toDataURL('image/gif');
+        default:
+          return canvas.toDataURL('image/png');
+      }
+    }
+
+    function updateFileSizeDisplay(section, canvas, format) {
+      const sizeDisplay = document.getElementById(`${section}-file-size`);
+      if (!sizeDisplay || !canvas) return;
+      
+      // Get data URL with current quality settings
+      const quality = state[section].quality;
+      const dataUrl = getDataUrlWithQuality(canvas, format, quality);
+      const sizeInKB = calculateFileSize(dataUrl);
+      
+      sizeDisplay.textContent = `Estimated file size: ${sizeInKB} KB (Quality: ${quality}%)`;
     }
 
     async function loadImage(file) {
@@ -1687,6 +1808,76 @@
       }
     }
 
+    function initQualityControls() {
+      // Initialize all quality sliders
+      document.querySelectorAll('.quality-slider').forEach(slider => {
+        const tab = slider.id.replace('Quality', '');
+        const valueDisplay = document.getElementById(`${tab}QualityValue`);
+        
+        slider.addEventListener('input', () => {
+          const value = slider.value;
+          valueDisplay.textContent = `${value}%`;
+          state[tab].quality = parseInt(value);
+          
+          // Update active preset
+          const presets = slider.closest('.quality-controls').querySelectorAll('.quality-preset');
+          presets.forEach(preset => preset.classList.remove('active'));
+          
+          // Find closest preset
+          let closestPreset = null;
+          let smallestDiff = Infinity;
+          presets.forEach(preset => {
+            const presetValue = parseInt(preset.dataset.value);
+            const diff = Math.abs(presetValue - value);
+            if (diff < smallestDiff) {
+              smallestDiff = diff;
+              closestPreset = preset;
+            }
+          });
+          
+          if (closestPreset && smallestDiff <= 10) {
+            closestPreset.classList.add('active');
+          }
+
+          // Update file size display if we have an image
+          if (state[tab].originalImage) {
+            const canvas = document.getElementById(`${tab}Canvas`);
+            const format = tab === 'convert' ? document.getElementById('outputFormat').value : 'jpeg';
+            updateFileSizeDisplay(tab, canvas, format);
+          }
+        });
+      });
+      
+      // Initialize quality presets
+      document.querySelectorAll('.quality-preset').forEach(preset => {
+        preset.addEventListener('click', () => {
+          const value = preset.dataset.value;
+          const controls = preset.closest('.quality-controls');
+          const slider = controls.querySelector('.quality-slider');
+          const valueDisplay = controls.querySelector('.quality-value');
+          
+          // Update UI
+          slider.value = value;
+          valueDisplay.textContent = `${value}%`;
+          
+          // Update active preset
+          controls.querySelectorAll('.quality-preset').forEach(p => p.classList.remove('active'));
+          preset.classList.add('active');
+          
+          // Update state
+          const tab = slider.id.replace('Quality', '');
+          state[tab].quality = parseInt(value);
+
+          // Update file size display if we have an image
+          if (state[tab].originalImage) {
+            const canvas = document.getElementById(`${tab}Canvas`);
+            const format = tab === 'convert' ? document.getElementById('outputFormat').value : 'jpeg';
+            updateFileSizeDisplay(tab, canvas, format);
+          }
+        });
+      });
+    }
+
     // Initialize Image Tools
     function initializeImageTools() {
       // Tabs
@@ -1697,7 +1888,7 @@
           document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
           
           tab.classList.add('active');
-          document.getElementById(`${tabName}-tab`).classList.add('active');
+          document.getElementById(`${tabName}-tab`).class极sList.add('active');
         });
       });
 
@@ -1747,6 +1938,7 @@
           drawImageOnCanvas(img, 'cropCanvas');
           cropBtn.style.display = 'inline-block';
           resetCrop.style.display = 'inline-block';
+          updateFileSizeDisplay('crop', cropCanvas, 'jpeg');
           showSuccess(document.getElementById('crop-success'), 'Image loaded successfully!');
         } catch (err) {
           showError(document.getElementById('crop-error'), err.message);
@@ -1781,8 +1973,8 @@
           height: Math.abs(currentY - state.crop.cropStart.y),
         };
         const ctx = cropCanvas.getContext('2d');
-        ctx.clearRect(0, 0, canvas.width / pixelRatio, canvas.height / pixelRatio);
-        ctx.drawImage(state.crop.originalImage, 0, 0, canvas.width / pixelRatio, canvas.height / pixelRatio);
+        ctx.clearRect(0, 0, cropCanvas.width / pixelRatio, cropCanvas.height / pixelRatio);
+        ctx.drawImage(state.crop.originalImage, 0, 0, cropCanvas.width / pixelRatio, cropCanvas.height / pixelRatio);
         ctx.strokeStyle = 'red';
         ctx.lineWidth = 2;
         ctx.strokeRect(state.crop.cropRect.x / pixelRatio, state.crop.cropRect.y / pixelRatio, state.crop.cropRect.width / pixelRatio, state.crop.cropRect.height / pixelRatio);
@@ -1815,7 +2007,7 @@
             state.crop.croppedImage = croppedCanvas;
             drawImageOnCanvas(croppedCanvas, 'cropCanvas');
             downloadCrop.style.display = 'inline-block';
-            updateFileSizeDisplay('crop', croppedCanvas.toDataURL('image/png'));
+            updateFileSizeDisplay('crop', croppedCanvas, 'jpeg');
             showSuccess(document.getElementById('crop-success'), 'Image cropped successfully!');
           } catch (err) {
             showError(document.getElementById('crop-error'), 'Error cropping image: ' + err.message);
@@ -1828,8 +2020,9 @@
       downloadCrop.addEventListener('click', () => {
         if (state.crop.croppedImage) {
           const link = document.createElement('a');
-          link.download = 'cropped-image.png';
-          link.href = state.crop.croppedImage.toDataURL('image/png');
+          link.download = 'cropped-image.jpg';
+          const quality = state.crop.quality / 100;
+          link.href = state.crop.croppedImage.toDataURL('image/jpeg', quality);
           link.click();
           showSuccess(document.getElementById('crop-success'), 'Image downloaded successfully!');
         } else {
@@ -1839,6 +2032,7 @@
 
       resetCrop.addEventListener('click', () => {
         resetToInitial('crop');
+        updateFileSizeDisplay('crop', cropCanvas, 'jpeg');
       });
 
       // Resize Functionality
@@ -1861,6 +2055,7 @@
           drawImageOnCanvas(img, 'resizeCanvas');
           resizeBtn.style.display = 'inline-block';
           resetResize.style.display = 'inline-block';
+          updateFileSizeDisplay('resize', resizeCanvas, 'jpeg');
           showSuccess(document.getElementById('resize-success'), 'Image loaded successfully!');
         } catch (err) {
           showError(document.getElementById('resize-error'), err.message);
@@ -1893,7 +2088,7 @@
             state.resize.resizedImage = canvas;
             drawImageOnCanvas(state.resize.resizedImage, 'resizeCanvas');
             downloadResize.style.display = 'inline-block';
-            updateFileSizeDisplay('resize', canvas.toDataURL('image/png'));
+            updateFileSizeDisplay('resize', canvas, 'jpeg');
             showSuccess(document.getElementById('resize-success'), 'Image resized successfully!');
           } catch (err) {
             showError(document.getElementById('resize-error'), 'Error resizing image: ' + err.message);
@@ -1906,8 +2101,9 @@
       downloadResize.addEventListener('click', () => {
         if (state.resize.resizedImage) {
           const link = document.createElement('a');
-          link.download = 'resized-image.png';
-          link.href = state.resize.resizedImage.toDataURL('image/png');
+          link.download = 'resized-image.jpg';
+          const quality = state.resize.quality / 100;
+          link.href = state.resize.resizedImage.toDataURL('image/jpeg', quality);
           link.click();
           showSuccess(document.getElementById('resize-success'), 'Image downloaded successfully!');
         } else {
@@ -1917,6 +2113,7 @@
 
       resetResize.addEventListener('click', () => {
         resetToInitial('resize');
+        updateFileSizeDisplay('resize', resizeCanvas, 'jpeg');
       });
       
       // Convert Functionality
@@ -1936,12 +2133,20 @@
           state.convert.initialImage = img;
           drawImageOnCanvas(img, 'convertCanvas');
           convertBtn.style.display = 'inline-block';
+          updateFileSizeDisplay('convert', convertCanvas, document.getElementById('outputFormat').value);
           showSuccess(document.getElementById('convert-success'), 'Image loaded successfully!');
         } catch (err) {
           showError(document.getElementById('convert-error'), err.message);
           resetCanvas('convertCanvas');
         } finally {
           hideLoading('convert');
+        }
+      });
+
+      // Update file size when format changes
+      document.getElementById('outputFormat').addEventListener('change', () => {
+        if (state.convert.originalImage) {
+          updateFileSizeDisplay('convert', convertCanvas, document.getElementById('outputFormat').value);
         }
       });
 
@@ -1988,8 +2193,9 @@
                 fileExtension = 'png';
             }
             
-            const dataUrl = canvas.toDataURL(mimeType);
-            updateFileSizeDisplay('convert', dataUrl);
+            const quality = state.convert.quality / 100;
+            const dataUrl = canvas.toDataURL(mimeType, format === 'png' ? undefined : quality);
+            updateFileSizeDisplay('convert', canvas, format);
             
             const link = document.createElement('a');
             link.download = `converted-image.${fileExtension}`;
@@ -2003,6 +2209,9 @@
           }
         }, 300);
       });
+
+      // Initialize quality controls
+      initQualityControls();
     }
     
     // Initialize everything when DOM is loaded
