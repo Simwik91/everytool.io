@@ -47,5 +47,12 @@
     "description": "Edit, merge, or compress PDF files.",
     "icon": "fas fa-file-pdf",
     "url": "/tools/pdftools"
+  },
+  {
+    "category": "Audio Tools",
+    "slug": "audio-tools",
+    "description": "Edit or convert Audio files.",
+    "icon": "fas fa-exchange-alt",
+    "url": "/tools/audiotools"
   }
 ]
