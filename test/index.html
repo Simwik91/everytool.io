@@ -431,6 +431,53 @@
       outline-offset: 2px;
     }
     
+    /* Trimming specific styles */
+    .trim-container {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: var(--light-gray);
+      border-radius: var(--border-radius);
+    }
+    
+    .trim-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 0.5rem;
+    }
+    
+    .trim-control {
+      flex: 1;
+      min-width: 120px;
+    }
+    
+    .trim-control label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+      color: var(--dark);
+    }
+    
+    .trim-control input {
+      margin: 0;
+      padding: 0.5rem;
+      width: 100%;
+    }
+    
+    .trim-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+      cursor: pointer;
+    }
+    
+    .trim-toggle h4 {
+      margin: 0;
+      font-size: 1rem;
+      color: var(--dark);
+    }
+    
     /* Responsive Design for Audio Converter */
     @media (max-width: 768px) {
       .hero h1 {
@@ -458,6 +505,15 @@
       
       h3 {
         font-size: 1.2rem;
+      }
+      
+      .trim-controls {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      
+      .trim-control {
+        width: 100%;
       }
     }
   </style>
@@ -560,6 +616,32 @@
             </label>
           </div>
         </div>
+        
+        <!-- Trimming Controls -->
+        <div class="setting-group">
+          <div class="trim-toggle" id="trim-toggle">
+            <h4><i class="fas fa-cut"></i> Trim Audio</h4>
+            <label class="toggle-switch">
+              <input type="checkbox" id="enable-trim">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <div class="trim-container" id="trim-container" style="display: none;">
+            <div class="trim-controls">
+              <div class="trim-control">
+                <label for="trim-start">Start Time (seconds)</label>
+                <input type="number" id="trim-start" min="0" value="0" step="0.1">
+              </div>
+              <div class="trim-control">
+                <label for="trim-end">End Time (seconds)</label>
+                <input type="number" id="trim-end" min="0" value="0" step="0.1">
+              </div>
+            </div>
+            <div id="duration-warning" style="color: #e74c3c; font-size: 0.8rem; margin-top: 0.5rem; display: none;">
+              End time must be greater than start time
+            </div>
+          </div>
+        </div>
       </div>
       <button id="convertBtn" disabled aria-label="Convert audio with selected settings">
         <i class="fas fa-exchange-alt"></i> Convert Audio
@@ -659,6 +741,7 @@
     // FFmpeg variables
     let ffmpeg = null;
     let inputFile = null;
+    let audioDuration = 0;
 
     function initAudioConverter() {
       const elements = {
@@ -686,7 +769,13 @@
         channels: document.getElementById('channels'),
         normalizeAudio: document.getElementById('normalize-audio'),
         removeSilence: document.getElementById('remove-silence'),
-        cancelBtn: document.getElementById('cancelBtn')
+        cancelBtn: document.getElementById('cancelBtn'),
+        enableTrim: document.getElementById('enable-trim'),
+        trimContainer: document.getElementById('trim-container'),
+        trimStart: document.getElementById('trim-start'),
+        trimEnd: document.getElementById('trim-end'),
+        durationWarning: document.getElementById('duration-warning'),
+        trimToggle: document.getElementById('trim-toggle')
       };
 
       let cancelRequested = false;
@@ -723,6 +812,25 @@
         if (elements.progressFill) elements.progressFill.style.width = `${percentValue}%`;
         if (elements.progressMessage) elements.progressMessage.textContent = msg;
         if (elements.progressPercent) elements.progressPercent.textContent = `${Math.round(percentValue)}%`;
+      }
+
+      function validateTrimTimes() {
+        if (!elements.enableTrim.checked) return true;
+        
+        const startTime = parseFloat(elements.trimStart.value) || 0;
+        const endTime = parseFloat(elements.trimEnd.value) || 0;
+        
+        if (endTime <= startTime) {
+          elements.durationWarning.style.display = 'block';
+          return false;
+        }
+        
+        if (endTime > audioDuration) {
+          elements.trimEnd.value = audioDuration.toFixed(1);
+        }
+        
+        elements.durationWarning.style.display = 'none';
+        return true;
       }
 
       async function processFile(e) {
@@ -766,10 +874,14 @@
 
           await new Promise((resolve, reject) => {
             audio.onloadedmetadata = () => {
-              const duration = audio.duration;
-              const minutes = Math.floor(duration / 60);
-              const seconds = Math.floor(duration % 60);
+              audioDuration = audio.duration;
+              const minutes = Math.floor(audioDuration / 60);
+              const seconds = Math.floor(audioDuration % 60);
               elements.fileDuration.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+              
+              // Set end time to full duration by default
+              elements.trimEnd.value = audioDuration.toFixed(1);
+              
               document.body.removeChild(audio);
               URL.revokeObjectURL(audio.src);
               resolve();
@@ -789,6 +901,12 @@
 
       async function convertAudio() {
         if (!inputFile) return;
+        
+        // Validate trim times
+        if (!validateTrimTimes()) {
+          showError('Please correct the trim times before converting');
+          return;
+        }
 
         hideMessages();
         showLoading();
@@ -814,6 +932,9 @@
           const channels = elements.channels.value;
           const normalizeAudio = elements.normalizeAudio.checked;
           const removeSilence = elements.removeSilence.checked;
+          const enableTrim = elements.enableTrim.checked;
+          const trimStart = parseFloat(elements.trimStart.value) || 0;
+          const trimEnd = parseFloat(elements.trimEnd.value) || audioDuration;
 
           // Prepare input filename
           const inputExt = inputFile.name.split('.').pop() || 'mp3';
@@ -826,6 +947,12 @@
 
           // Build FFmpeg command
           const args = ['-i', inputName];
+
+          // Handle trimming
+          if (enableTrim) {
+            args.push('-ss', trimStart.toString());
+            args.push('-to', trimEnd.toString());
+          }
 
           // Handle audio normalization
           if (normalizeAudio) {
@@ -950,6 +1077,24 @@
           if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
             elements.audioInput.click();
+          }
+        });
+        
+        // Trimming toggle
+        elements.enableTrim.addEventListener('change', () => {
+          elements.trimContainer.style.display = elements.enableTrim.checked ? 'block' : 'none';
+        });
+        
+        // Trim time validation
+        elements.trimStart.addEventListener('input', validateTrimTimes);
+        elements.trimEnd.addEventListener('input', validateTrimTimes);
+        
+        // Click handler for the entire trim toggle area
+        elements.trimToggle.addEventListener('click', (e) => {
+          if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'LABEL') {
+            elements.enableTrim.checked = !elements.enableTrim.checked;
+            elements.trimContainer.style.display = elements.enableTrim.checked ? 'block' : 'none';
+            elements.enableTrim.dispatchEvent(new Event('change'));
           }
         });
       }
