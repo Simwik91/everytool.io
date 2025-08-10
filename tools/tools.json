@@ -48,11 +48,4 @@
     "icon": "fas fa-file-pdf",
     "url": "/tools/pdftools"
   },
-  {
-    "category": "Resume Builder",
-    "slug": "resume-builder",
-    "description": "Build resumes.",
-    "icon": "fas fa-briefcase",
-    "url": "/tools/resumebuilder"
-  }
 ]
