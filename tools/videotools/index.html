@@ -431,88 +431,7 @@
       outline-offset: 2px;
     }
     
-    /* Features grid - 2 cards per row */
-    .features {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 25px;
-      margin: 30px 0;
-    }
-    
-    .feature {
-      background: var(--light);
-      border-radius: var(--border-radius);
-      padding: 25px;
-      text-align: center;
-      box-shadow: var(--box-shadow);
-      transition: var(--transition);
-    }
-    
-    .feature:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-    }
-    
-    .feature i {
-      font-size: 2.5rem;
-      margin-bottom: 15px;
-      color: var(--primary);
-    }
-    
-    .guide-section {
-      background: var(--light);
-      border-radius: var(--border-radius);
-      padding: 40px;
-      margin: 40px auto;
-      box-shadow: var(--box-shadow);
-      text-align: center;
-    }
-    
-    .guide-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 30px;
-      margin-top: 25px;
-    }
-    
-    .guide-item {
-      padding: 25px;
-      background: #f8f9ff;
-      border-radius: var(--border-radius);
-      text-align: center;
-      font-size: 14px;
-    }
-    
-    .guide-item h3 {
-      font-size: 1.5rem;
-      margin-bottom: 15px;
-      color: var(--primary);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      justify-content: center;
-    }
-    
-    .guide-item h3 i {
-      font-size: 1.8rem;
-    }
-    
-    .guide-item p {
-      font-size: 1rem;
-      color: var(--gray);
-    }
-    
     /* Responsive Design for Video Converter */
-    @media (max-width: 992px) {
-      .guide-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .features {
-        grid-template-columns: 1fr;
-      }
-    }
-
     @media (max-width: 768px) {
       .hero h1 {
         font-size: 2rem;
@@ -521,10 +440,6 @@
       .tab {
         padding: 10px 15px;
         font-size: 0.9rem;
-      }
-      
-      .guide-section {
-        padding: 25px;
       }
     }
 
@@ -563,55 +478,7 @@
     </div>
   </section>
 
-  <!-- Features section - 2 cards per row -->
   <div class="container">
-    <div class="features">
-      <div class="feature">
-        <i class="fas fa-exchange-alt"></i>
-        <h3>Multiple Formats</h3>
-        <p>Convert between MP4, WEBM, and GIF formats with just a few clicks</p>
-      </div>
-      <div class="feature">
-        <i class="fas fa-sliders-h"></i>
-        <h3>Custom Settings</h3>
-        <p>Adjust resolution, quality, framerate, and aspect ratio to your needs</p>
-      </div>
-      <div class="feature">
-        <i class="fas fa-bolt"></i>
-        <h3>Fast Processing</h3>
-        <p>Convert videos instantly in your browser with no server uploads</p>
-      </div>
-      <div class="feature">
-        <i class="fas fa-shield-alt"></i>
-        <h3>Privacy First</h3>
-        <p>All processing happens in your browser - no data is uploaded to servers</p>
-      </div>
-    </div>
-
-    <!-- Video Creation Guide -->
-    <div class="guide-section">
-      <h2><i class="fas fa-book"></i> Video Tools Guide</h2>
-      <p>Follow these steps to convert your videos:</p>
-      <div class="guide-grid">
-        <div class="guide-item">
-          <h3><i class="fas fa-upload"></i> Upload Video</h3>
-          <p>Drag or browse to upload your video (MP4, WEBM, MOV, AVI, MKV).</p>
-        </div>
-        <div class="guide-item">
-          <h3><i class="fas fa-sliders-h"></i> Adjust Settings</h3>
-          <p>Customize output format, quality, resolution, and audio options.</p>
-        </div>
-        <div class="guide-item">
-          <h3><i class="fas fa-exchange-alt"></i> Convert Video</h3>
-          <p>Click "Convert Video" to process with your chosen settings.</p>
-        </div>
-        <div class="guide-item">
-          <h3><i class="fas fa-download"></i> Download</h3>
-          <p>Save your converted video instantly to your device.</p>
-        </div>
-      </div>
-    </div>
-
     <div class="card">
       <h2><i class="fas fa-exchange-alt"></i> Video Converter</h2>
       <p><i>Convert videos to MP4, WEBM, or GIF with customizable settings.</i></p>
