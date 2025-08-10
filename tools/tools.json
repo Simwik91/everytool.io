@@ -47,5 +47,5 @@
     "description": "Edit, merge, or compress PDF files.",
     "icon": "fas fa-file-pdf",
     "url": "/tools/pdftools"
-  },
+  }
 ]
