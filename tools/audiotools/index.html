@@ -21,9 +21,6 @@
   <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.rel='stylesheet'">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
-  <!-- Shared CSS -->
-  <link rel="stylesheet" href="/css/styles.css">
-  
   <style>
     :root {
       --primary: #4361ee;
@@ -430,6 +427,29 @@
       outline: 2px solid #27ae60;
       outline-offset: 2px;
     }
+
+    .trim-container {
+      display: flex;
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .trim-input {
+      flex: 1;
+    }
+
+    .trim-input input {
+      width: 100%;
+      padding: 10px;
+      font-size: 0.9rem;
+    }
+
+    .trim-input label {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 0.9rem;
+      color: var(--gray);
+    }
     
     /* Responsive Design for Audio Converter */
     @media (max-width: 768px) {
@@ -440,6 +460,11 @@
       .tab {
         padding: 10px 15px;
         font-size: 0.9rem;
+      }
+
+      .trim-container {
+        flex-direction: column;
+        gap: 10px;
       }
     }
 
@@ -463,9 +488,20 @@
   </style>
 </head>
 <body>
-  <!-- Header Placeholder -->
+  <!-- Header -->
   <header id="main-header">
-    <p class="error-message" style="display: none; color: red; text-align: center;">Failed to load header. Please try refreshing the page.</p>
+    <div class="container">
+      <div class="header-content">
+        <a href="/" class="logo">EveryTool.io</a>
+        <nav class="main-nav">
+          <ul>
+            <li><a href="/tools">All Tools</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/contact">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
   </header>
 
   <!-- Hero Section -->
@@ -473,7 +509,7 @@
     <div class="container">
       <div class="hero-content">
         <h1>Audio Tools</h1>
-        <p>Convert audio files to MP3, WAV, OGG, or AAC with customizable settings. All processing happens in your browser - your files never leave your device.</p>
+        <p>Convert audio files to MP3, WAV, OGG, or AAC with customizable settings. Trim, normalize, and process audio files directly in your browser.</p>
       </div>
     </div>
   </section>
@@ -481,7 +517,7 @@
   <div class="container">
     <div class="card">
       <h2><i class="fas fa-exchange-alt"></i> Audio Converter</h2>
-      <p><i>Convert audio files between different formats with customizable quality settings.</i></p>
+      <p><i>Convert audio files between different formats with customizable quality settings and trimming options.</i></p>
       <div class="drag-drop-area" id="dropZone" role="button" aria-label="Choose or drag and drop audio file">
         <p id="dropZoneText"><i class="fas fa-upload"></i> Choose file or drag and drop here</p>
         <p>Supported formats: MP3, WAV, OGG, AAC, FLAC, M4A</p>
@@ -544,6 +580,19 @@
           </select>
         </div>
         <div class="setting-group">
+          <p class="description">Trim your audio file (leave blank to keep full duration).</p>
+          <div class="trim-container">
+            <div class="trim-input">
+              <label for="start-time">Start Time (seconds)</label>
+              <input type="number" id="start-time" min="0" step="0.1" placeholder="0">
+            </div>
+            <div class="trim-input">
+              <label for="end-time">End Time (seconds)</label>
+              <input type="number" id="end-time" min="0" step="0.1" placeholder="Full duration">
+            </div>
+          </div>
+        </div>
+        <div class="setting-group">
           <p class="description">Audio processing options.</p>
           <div class="toggle-container">
             <label for="normalize-audio">Normalize Volume</label>
@@ -582,9 +631,35 @@
     </div>
   </div>
 
-  <!-- Footer Placeholder -->
+  <!-- Footer -->
   <footer id="main-footer">
-    <p class="error-message" style="display: none; color: red; text-align: center;">Failed to load footer. Please try refreshing the page.</p>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>EveryTool.io</h3>
+          <p>Free, privacy-focused online tools that run in your browser.</p>
+        </div>
+        <div class="footer-section">
+          <h3>Tools</h3>
+          <ul>
+            <li><a href="/audioconverter">Audio Converter</a></li>
+            <li><a href="/videoconverter">Video Converter</a></li>
+            <li><a href="/imagetools">Image Tools</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h3>Legal</h3>
+          <ul>
+            <li><a href="/privacy">Privacy Policy</a></li>
+            <li><a href="/terms">Terms of Service</a></li>
+            <li><a href="/contact">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2023 EveryTool.io. All rights reserved.</p>
+      </div>
+    </div>
   </footer>
 
   <!-- Cookie Consent Banner -->
@@ -659,6 +734,7 @@
     // FFmpeg variables
     let ffmpeg = null;
     let inputFile = null;
+    let audioDuration = 0;
 
     function initAudioConverter() {
       const elements = {
@@ -684,6 +760,8 @@
         bitrate: document.getElementById('bitrate'),
         sampleRate: document.getElementById('sampleRate'),
         channels: document.getElementById('channels'),
+        startTime: document.getElementById('start-time'),
+        endTime: document.getElementById('end-time'),
         normalizeAudio: document.getElementById('normalize-audio'),
         removeSilence: document.getElementById('remove-silence'),
         cancelBtn: document.getElementById('cancelBtn')
@@ -766,10 +844,15 @@
 
           await new Promise((resolve, reject) => {
             audio.onloadedmetadata = () => {
-              const duration = audio.duration;
-              const minutes = Math.floor(duration / 60);
-              const seconds = Math.floor(duration % 60);
+              audioDuration = audio.duration;
+              const minutes = Math.floor(audioDuration / 60);
+              const seconds = Math.floor(audioDuration % 60);
               elements.fileDuration.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+              
+              // Set max value for end time input
+              elements.endTime.max = audioDuration.toFixed(1);
+              elements.endTime.placeholder = audioDuration.toFixed(1);
+              
               document.body.removeChild(audio);
               URL.revokeObjectURL(audio.src);
               resolve();
@@ -812,8 +895,21 @@
           const bitrate = elements.bitrate.value;
           const sampleRate = elements.sampleRate.value;
           const channels = elements.channels.value;
+          const startTime = parseFloat(elements.startTime.value) || 0;
+          let endTime = parseFloat(elements.endTime.value) || audioDuration;
           const normalizeAudio = elements.normalizeAudio.checked;
           const removeSilence = elements.removeSilence.checked;
+
+          // Validate trim times
+          if (startTime < 0) {
+            throw new Error('Start time cannot be negative');
+          }
+          if (endTime > audioDuration) {
+            endTime = audioDuration;
+          }
+          if (startTime >= endTime) {
+            throw new Error('Start time must be before end time');
+          }
 
           // Prepare input filename
           const inputExt = inputFile.name.split('.').pop() || 'mp3';
@@ -826,6 +922,11 @@
 
           // Build FFmpeg command
           const args = ['-i', inputName];
+
+          // Apply trim if specified
+          if (startTime > 0 || endTime < audioDuration) {
+            args.push('-ss', startTime.toString(), '-to', endTime.toString());
+          }
 
           // Handle audio normalization
           if (normalizeAudio) {
@@ -973,8 +1074,5 @@
 
     document.addEventListener('DOMContentLoaded', initAudioConverter);
   </script>
-  
-  <!-- Shared JavaScript -->
-  <script src="/js/main.js"></script>
 </body>
 </html>
