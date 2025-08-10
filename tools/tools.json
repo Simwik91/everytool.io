@@ -52,7 +52,7 @@
     "category": "Audio Tools",
     "slug": "audio-tools",
     "description": "Edit or convert Audio files.",
-    "icon": "fas fa-exchange-alt",
+    "icon": "fas fa-file-audio",
     "url": "/tools/audiotools"
   }
 ]
