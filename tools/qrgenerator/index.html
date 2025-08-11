@@ -374,6 +374,16 @@
       background: var(--light-gray);
       outline: none;
       -webkit-appearance: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .size-slider:hover {
+      background: #d1d8ff;
+    }
+    
+    .size-slider:active {
+      background: #b8c3ff;
     }
     
     .size-slider::-webkit-slider-thumb {
@@ -389,6 +399,12 @@
     
     .size-slider::-webkit-slider-thumb:hover {
       transform: scale(1.2);
+      background: var(--primary-dark);
+    }
+    
+    .size-slider::-webkit-slider-thumb:active {
+      transform: scale(1.3);
+      box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.2);
     }
     
     .size-value {
@@ -397,28 +413,35 @@
       font-weight: 600;
       font-size: 1.1rem;
       color: var(--primary);
+      transition: all 0.2s ease;
+    }
+    
+    .size-value.active {
+      color: var(--primary-dark);
+      transform: scale(1.05);
     }
     
     .border-controls {
       display: flex;
-      justify-content: center;
-      gap: 25px;
+      flex-direction: column;
+      gap: 15px;
       margin: 1.5em 0;
-      flex-wrap: wrap;
+      width: 100%;
     }
     
     .border-control {
       display: flex;
       flex-direction: column;
-      align-items: center;
       gap: 8px;
-      flex: 1;
-      max-width: 200px;
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto;
     }
     
     .border-control label {
       font-weight: 500;
       color: var(--dark);
+      text-align: center;
     }
     
     .border-control input[type="range"] {
@@ -433,6 +456,7 @@
       border-radius: 12px;
       border: 2px solid var(--light-gray);
       box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+      margin: 0 auto;
     }
     
     .border-control input[type="color"]::-webkit-color-swatch {
@@ -1063,7 +1087,6 @@
                   <label for="border-color">Border Color:</label>
                   <input type="color" id="border-color" value="#FFFFFF" aria-label="Select logo border color">
                 </div>
-                <!-- New Logo Size Control -->
                 <div class="border-control">
                   <label for="logo-size">Logo Size:</label>
                   <div class="size-controls">
@@ -1285,7 +1308,6 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
                   <label for="bulk-border-color">Border Color:</label>
                   <input type="color" id="bulk-border-color" value="#FFFFFF" aria-label="Select logo border color for bulk">
                 </div>
-                <!-- New Logo Size Control for Bulk -->
                 <div class="border-control">
                   <label for="bulk-logo-size">Logo Size:</label>
                   <div class="size-controls">
@@ -1773,27 +1795,49 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
         });
       });
 
-      if (sizeSlider) sizeSlider.addEventListener('input', updateSizeValue);
+      if (sizeSlider) {
+        sizeSlider.addEventListener('input', updateSizeValue);
+        sizeSlider.addEventListener('mousedown', () => sizeValue.classList.add('active'));
+        sizeSlider.addEventListener('mouseup', () => sizeValue.classList.remove('active'));
+      }
       
-      if (borderSize) borderSize.addEventListener('input', () => {
-        updateBorderSizeValue();
-        updateBorderPreview();
-      });
+      if (borderSize) {
+        borderSize.addEventListener('input', () => {
+          updateBorderSizeValue();
+          updateBorderPreview();
+        });
+        borderSize.addEventListener('mousedown', () => borderSizeValue.classList.add('active'));
+        borderSize.addEventListener('mouseup', () => borderSizeValue.classList.remove('active'));
+      }
       
-      if (borderColor) borderColor.addEventListener('input', updateBorderPreview);
+      if (logoSize) {
+        logoSize.addEventListener('input', updateLogoSizeValue);
+        logoSize.addEventListener('mousedown', () => logoSizeValue.classList.add('active'));
+        logoSize.addEventListener('mouseup', () => logoSizeValue.classList.remove('active'));
+      }
       
-      if (logoSize) logoSize.addEventListener('input', updateLogoSizeValue);
+      if (bulkLogoSize) {
+        bulkLogoSize.addEventListener('input', updateBulkLogoSizeValue);
+        bulkLogoSize.addEventListener('mousedown', () => bulkLogoSizeValue.classList.add('active'));
+        bulkLogoSize.addEventListener('mouseup', () => bulkLogoSizeValue.classList.remove('active'));
+      }
       
-      if (bulkLogoSize) bulkLogoSize.addEventListener('input', updateBulkLogoSizeValue);
+      if (bulkSizeSlider) {
+        bulkSizeSlider.addEventListener('input', () => {
+          bulkSizeValue.textContent = `${bulkSizeSlider.value}px`;
+        });
+        bulkSizeSlider.addEventListener('mousedown', () => bulkSizeValue.classList.add('active'));
+        bulkSizeSlider.addEventListener('mouseup', () => bulkSizeValue.classList.remove('active'));
+      }
       
-      if (bulkSizeSlider) bulkSizeSlider.addEventListener('input', () => {
-        bulkSizeValue.textContent = `${bulkSizeSlider.value}px`;
-      });
-      
-      if (bulkBorderSize) bulkBorderSize.addEventListener('input', () => {
-        bulkBorderSizeValue.textContent = `${bulkBorderSize.value}px`;
-        updateBulkBorderPreview();
-      });
+      if (bulkBorderSize) {
+        bulkBorderSize.addEventListener('input', () => {
+          bulkBorderSizeValue.textContent = `${bulkBorderSize.value}px`;
+          updateBulkBorderPreview();
+        });
+        bulkBorderSize.addEventListener('mousedown', () => bulkBorderSizeValue.classList.add('active'));
+        bulkBorderSize.addEventListener('mouseup', () => bulkBorderSizeValue.classList.remove('active'));
+      }
       
       if (bulkBorderColor) bulkBorderColor.addEventListener('input', updateBulkBorderPreview);
 
@@ -2583,7 +2627,7 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
           scanResult.innerHTML = `
             <p><strong>QR Code detected!</strong></p>
             <p><strong>Content:</strong> ${code.data}</p>
-            <button onclick="useScannedContent('${code.data.replace(/'/g, "\\'")}')">
+            <button onclick="useScannedContent('${code.data.replace(/'/g, "\\'")}')>
               Generate this QR
             </button>
           `;
@@ -2619,7 +2663,7 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
         scanResult.innerHTML = `
           <p><strong>QR Code detected in image!</strong></p>
           <p><strong>Content:</strong> ${code.data}</p>
-          <button onclick="useScannedContent('${code.data.replace(/'/g, "\\'")}')">
+          <button onclick="useScannedContent('${code.data.replace(/'/g, "\\'")}')>
             Generate this QR
           </button>
         `;
