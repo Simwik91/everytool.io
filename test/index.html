@@ -423,24 +423,25 @@
     
     .border-controls {
       display: flex;
-      justify-content: center;
-      gap: 25px;
+      flex-direction: column;
+      gap: 15px;
       margin: 1.5em 0;
-      flex-wrap: wrap;
+      width: 100%;
     }
     
     .border-control {
       display: flex;
       flex-direction: column;
-      align-items: center;
       gap: 8px;
-      flex: 1;
-      max-width: 200px;
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto;
     }
     
     .border-control label {
       font-weight: 500;
       color: var(--dark);
+      text-align: center;
     }
     
     .border-control input[type="range"] {
@@ -455,6 +456,7 @@
       border-radius: 12px;
       border: 2px solid var(--light-gray);
       box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+      margin: 0 auto;
     }
     
     .border-control input[type="color"]::-webkit-color-swatch {
@@ -1085,7 +1087,6 @@
                   <label for="border-color">Border Color:</label>
                   <input type="color" id="border-color" value="#FFFFFF" aria-label="Select logo border color">
                 </div>
-                <!-- Improved Logo Size Control -->
                 <div class="border-control">
                   <label for="logo-size">Logo Size:</label>
                   <div class="size-controls">
@@ -1307,7 +1308,6 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
                   <label for="bulk-border-color">Border Color:</label>
                   <input type="color" id="bulk-border-color" value="#FFFFFF" aria-label="Select logo border color for bulk">
                 </div>
-                <!-- Improved Logo Size Control for Bulk -->
                 <div class="border-control">
                   <label for="bulk-logo-size">Logo Size:</label>
                   <div class="size-controls">
