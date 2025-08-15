@@ -1000,16 +1000,28 @@
         
         <label for="qr-type">QR Code Type:</label>
         <select id="qr-type" aria-label="Select QR code type">
-          <option value="url">URL/Text</option>
+          <option value="numeric">Numeric</option>
+          <option value="url">URL</option>
+          <option value="text">Text</option>
           <option value="vcard">vCard (Contact)</option>
           <option value="wifi">Wi-Fi</option>
           <option value="sms">SMS</option>
           <option value="email">Email</option>
         </select>
 
-        <div class="qr-type-fields active" id="url-fields">
-          <label for="qr-input">Enter QR Code Content:</label>
-          <input type="text" id="qr-input" placeholder="Enter URL or text..." autofocus aria-label="Enter URL or text content">
+        <div class="qr-type-fields active" id="numeric-fields">
+          <label for="numeric-input">Enter Numbers:</label>
+          <input type="text" id="numeric-input" placeholder="1234567890" pattern="[0-9]*" inputmode="numeric" aria-label="Enter numbers">
+        </div>
+
+        <div class="qr-type-fields" id="url-fields">
+          <label for="url-input">Enter URL:</label>
+          <input type="url" id="url-input" placeholder="https://example.com" aria-label="Enter URL">
+        </div>
+
+        <div class="qr-type-fields" id="text-fields">
+          <label for="text-input">Enter Text:</label>
+          <textarea id="text-input" placeholder="Enter any text" aria-label="Enter text"></textarea>
         </div>
 
         <div class="qr-type-fields" id="vcard-fields">
@@ -1539,7 +1551,9 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
 
     // DOM Elements
     const qrType = document.getElementById('qr-type');
-    const qrInput = document.getElementById('qr-input');
+    const numericInput = document.getElementById('numeric-input');
+    const urlInput = document.getElementById('url-input');
+    const textInput = document.getElementById('text-input');
     const vcardName = document.getElementById('vcard-name');
     const vcardPhone = document.getElementById('vcard-phone');
     const vcardEmail = document.getElementById('vcard-email');
@@ -1868,11 +1882,6 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
       if (logoUploadArea) logoUploadArea.addEventListener('drop', handleDrop, false);
       if (bulkLogoUploadArea) bulkLogoUploadArea.addEventListener('drop', handleBulkDrop, false);
 
-      if (qrInput) qrInput.addEventListener('blur', autoFormatURL);
-      if (qrInput) qrInput.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') generateQR();
-      });
-
       if (qrType) qrType.addEventListener('change', toggleQRTypeFields);
 
       if (startScanBtn) startScanBtn.addEventListener('click', startScanner);
@@ -2049,15 +2058,6 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
       reader.readAsDataURL(file);
     }
 
-    function autoFormatURL() {
-      const input = qrInput.value.trim();
-      if (!input) return;
-
-      if (input.includes('.') && !input.startsWith('http://') && !input.startsWith('https://')) {
-        qrInput.value = `https://${input}`;
-      }
-    }
-
     function toggleQRTypeFields() {
       const type = qrType.value;
       document.querySelectorAll('.qr-type-fields').forEach(field => field.classList.remove('active'));
@@ -2071,13 +2071,21 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
     // New modular functions
     function getQRContent(type) {
       switch(type) {
+        case 'numeric':
+          const numbers = numericInput.value.trim();
+          if (!numbers) throw new Error('Numbers are required');
+          if (!/^[0-9]+$/.test(numbers)) throw new Error('Only numbers are allowed');
+          return numbers;
+          
         case 'url':
-          const url = qrInput.value.trim();
+          const url = urlInput.value.trim();
           if (!url) throw new Error('URL is required');
-          if (!url.startsWith('http://') && !url.startsWith('https://')) {
-            return 'http://' + url;
-          }
           return url;
+          
+        case 'text':
+          const text = textInput.value.trim();
+          if (!text) throw new Error('Text is required');
+          return text;
           
         case 'vcard':
           const name = vcardName.value.trim();
@@ -2110,9 +2118,7 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
           return `mailto:${emailAddr}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
           
         default:
-          const input = qrInput.value.trim();
-          if (!input) throw new Error('Content is required');
-          return input;
+          throw new Error('Invalid QR code type');
       }
     }
 
@@ -2642,7 +2648,7 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
       stopScanner();
       qrType.value = 'url';
       toggleQRTypeFields();
-      qrInput.value = content;
+      urlInput.value = content;
       tabs[0].click();
       generateQR();
     }
