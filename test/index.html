@@ -456,21 +456,6 @@
       margin-bottom: 15px;
     }
 
-    .text-display-preview {
-      margin: 15px auto;
-      padding: 15px;
-      border: 1px dashed var(--light-gray);
-      border-radius: var(--border-radius);
-      background: white;
-      text-align: center;
-      min-height: 50px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      max-width: 500px;
-    }
-
     .text-display-controls {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -527,25 +512,6 @@
       border-radius: 8px;
       border: 1px solid var(--light-gray);
       background: var(--light);
-    }
-
-    /* Barcode Result Container */
-    .barcode-result-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin: 20px 0;
-      gap: 15px;
-    }
-
-    .barcode-text-container {
-      background: white;
-      padding: 15px;
-      border-radius: 12px;
-      width: 100%;
-      max-width: 500px;
-      text-align: center;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
     }
 
     /* Toggle switch styles */
@@ -769,7 +735,8 @@
           <input type="text" id="custom-text" placeholder="Enter custom text to display below barcode">
           
           <p class="text-display-note">
-            Note: The text below the barcode is only included in the downloaded PNG image.
+            Note: The text below the barcode is only included in the downloaded PNG image. 
+            It will not appear on the SVG version or the preview.
           </p>
           
           <div class="text-display-controls">
@@ -849,7 +816,6 @@
         </div>
         <div class="barcode-result-container">
           <canvas id="ean-canvas" style="display: none;" aria-label="Generated barcode"></canvas>
-          <div class="barcode-text-container" id="barcode-text-display" style="display: none;"></div>
         </div>
       </div>
 
@@ -925,7 +891,6 @@
         <div class="success" id="custom-success"></div>
         <div class="barcode-result-container">
           <canvas id="custom-canvas" style="display: none;" aria-label="Generated custom barcode"></canvas>
-          <div class="barcode-text-container" id="custom-barcode-text-display" style="display: none;"></div>
         </div>
       </div>
     </div>
@@ -1055,10 +1020,7 @@
         customText: document.getElementById('custom-text'),
         textColor: document.getElementById('text-color'),
         textSize: document.getElementById('text-size'),
-        textAlign: document.getElementById('text-align'),
-        textPreview: document.getElementById('text-preview'),
-        barcodeTextDisplay: document.getElementById('barcode-text-display'),
-        customBarcodeTextDisplay: document.getElementById('custom-barcode-text-display')
+        textAlign: document.getElementById('text-align')
       };
 
       const barcodeConfig = {
@@ -1177,59 +1139,7 @@
         // Toggle text display fields
         elements.showTextDisplay.addEventListener('change', function() {
           elements.textDisplayFields.style.display = this.checked ? 'block' : 'none';
-          updateTextPreview();
         });
-        
-        // Update preview when any text-related field changes
-        const textFields = [elements.customText, elements.textColor, elements.textSize, elements.textAlign];
-        textFields.forEach(field => {
-          field.addEventListener('input', updateTextPreview);
-        });
-      }
-
-      function updateTextPreview() {
-        if (!elements.showTextDisplay.checked) return;
-        
-        let displayText = elements.customText.value.trim();
-        
-        // If no custom text, use barcode content
-        if (!displayText) {
-          const type = elements.eanType.value;
-          try {
-            const input = elements.eanInput.value.trim();
-            displayText = input || generateRandomBarcode(type);
-          } catch {
-            displayText = "Barcode content will appear here";
-          }
-        }
-        
-        // Update preview
-        elements.textPreview.textContent = displayText;
-        elements.textPreview.style.color = elements.textColor.value;
-        elements.textPreview.style.fontSize = elements.textSize.value;
-        elements.textPreview.style.textAlign = elements.textAlign.value;
-        
-        // Update the actual display if barcode is generated
-        if (elements.singleCanvas.dataset.code) {
-          updateBarcodeTextDisplay(displayText, elements.barcodeTextDisplay);
-        }
-      }
-
-      function updateBarcodeTextDisplay(text, container) {
-        container.innerHTML = '';
-        container.style.display = elements.showTextDisplay.checked ? 'block' : 'none';
-        
-        if (!elements.showTextDisplay.checked) return;
-        
-        const textElement = document.createElement('div');
-        textElement.textContent = text;
-        textElement.style.color = elements.textColor.value;
-        textElement.style.fontSize = elements.textSize.value;
-        textElement.style.textAlign = elements.textAlign.value;
-        textElement.style.maxWidth = '500px';
-        textElement.style.wordBreak = 'break-word';
-        
-        container.appendChild(textElement);
       }
 
       function addTextToBarcode(barcodeCanvas, text, options) {
@@ -1286,14 +1196,13 @@
         });
       }
 
-      async function generateBarcode({ canvas, code, type, errorElement, successElement, downloadButton, svgDownloadButton, loadingElement, textContainer }) {
+      async function generateBarcode({ canvas, code, type, errorElement, successElement, downloadButton, svgDownloadButton, loadingElement }) {
         const ctx = canvas.getContext('2d');
         hideElements();
         loadingElement.style.display = 'block';
         downloadButton.style.display = 'none';
         svgDownloadButton.style.display = 'none';
         canvas.style.display = 'none';
-        if (textContainer) textContainer.style.display = 'none';
 
         if (!validateInput(code, type)) {
           showError(errorElement, 'Invalid input format for selected barcode type');
@@ -1327,7 +1236,7 @@
           });
 
           // Add text if enabled
-          if (elements.showTextDisplay.checked && textContainer) {
+          if (elements.showTextDisplay.checked) {
             let displayText = elements.customText.value.trim();
             if (!displayText) {
               displayText = finalCode;
@@ -1351,9 +1260,6 @@
             canvas.height = textCanvas.height;
             const newCtx = canvas.getContext('2d');
             newCtx.drawImage(textCanvas, 0, 0);
-            
-            // Update text display
-            updateBarcodeTextDisplay(displayText, textContainer);
           }
 
           downloadButton.style.display = 'inline-block';
@@ -1587,8 +1493,7 @@
           successElement: elements.singleSuccess,
           downloadButton: elements.downloadBtn,
           svgDownloadButton: elements.downloadSvgBtn,
-          loadingElement: elements.singleLoading,
-          textContainer: elements.barcodeTextDisplay
+          loadingElement: elements.singleLoading
         }));
 
         elements.downloadBtn.addEventListener('click', () => downloadBarcode(elements.singleCanvas, elements.singleError));
@@ -1611,8 +1516,7 @@
             successElement: elements.customSuccess,
             downloadButton: elements.customDownloadBtn,
             svgDownloadButton: elements.customSvgDownloadBtn,
-            loadingElement: elements.customLoading,
-            textContainer: elements.customBarcodeTextDisplay
+            loadingElement: elements.customLoading
           });
         });
 
