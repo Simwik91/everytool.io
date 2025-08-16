@@ -917,6 +917,19 @@
       display: none; /* Initially hidden */
     }
 
+    /* Download buttons container */
+    .download-buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 15px;
+    }
+
+    .download-buttons button {
+      flex: 1;
+      max-width: 200px;
+    }
+
     /* Responsive Design */
     @media (max-width: 768px) {
       .hero h1 {
@@ -952,6 +965,16 @@
       
       .text-display-controls {
         grid-template-columns: 1fr;
+      }
+
+      .download-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .download-buttons button {
+        max-width: 100%;
+        width: 100%;
       }
     }
 
@@ -1090,6 +1113,15 @@
 
         <div class="error" id="input-error">Please fill in all required fields</div>
 
+        <!-- QR Size Section -->
+        <div class="size-group">
+          <label for="size-slider">QR Code Size:</label>
+          <div class="size-controls">
+            <input type="range" id="size-slider" class="size-slider" min="128" max="1024" value="256" step="32" aria-label="Adjust QR code size">
+            <div class="size-value" id="size-value">256px</div>
+          </div>
+        </div>
+
         <!-- Color Options Section -->
         <div class="color-options-container">
           <div class="color-options-header">
@@ -1186,14 +1218,6 @@
           </div>
         </div>
 
-        <div class="size-group">
-          <label for="size-slider">QR Code Size:</label>
-          <div class="size-controls">
-            <input type="range" id="size-slider" class="size-slider" min="128" max="1024" value="256" step="32" aria-label="Adjust QR code size">
-            <div class="size-value" id="size-value">256px</div>
-          </div>
-        </div>
-
         <!-- Text Display Options for Single QR -->
         <div class="text-display-container">
           <div class="text-display-header">
@@ -1257,9 +1281,14 @@
           <button onclick="generateQR()" aria-label="Generate QR code">
             <i class="fas fa-bolt"></i> Generate QR Code
           </button>
-          <button id="download-btn" onclick="downloadQR()" style="display:none" aria-label="Download QR code">
-            <i class="fas fa-download"></i> Download QR Code
-          </button>
+          <div class="download-buttons" id="download-buttons" style="display:none">
+            <button id="download-png-btn" onclick="downloadQR('png')" aria-label="Download PNG QR code">
+              <i class="fas fa-download"></i> Download PNG
+            </button>
+            <button id="download-svg-btn" onclick="downloadQR('svg')" class="secondary" aria-label="Download SVG QR code">
+              <i class="fas fa-download"></i> Download SVG
+            </button>
+          </div>
         </div>
 
         <div class="loading" id="qr-loading">
@@ -1336,6 +1365,15 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
 
         <label for="bulk-filename">File Name Prefix:</label>
         <input type="text" id="bulk-filename" value="qr-codes" aria-label="Enter file name prefix for bulk QR codes">
+
+        <!-- QR Size for Bulk QR -->
+        <div class="size-group">
+          <label for="bulk-size-slider">QR Code Size:</label>
+          <div class="size-controls">
+            <input type="range" id="bulk-size-slider" class="size-slider" min="128" max="1024" value="256" step="32" aria-label="Adjust QR code size for bulk">
+            <div class="size-value" id="bulk-size-value">256px</div>
+          </div>
+        </div>
 
         <!-- Color Options for Bulk QR -->
         <div class="color-options-container">
@@ -1430,14 +1468,6 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-
-        <div class="size-group">
-          <label for="bulk-size-slider">QR Code Size:</label>
-          <div class="size-controls">
-            <input type="range" id="bulk-size-slider" class="size-slider" min="128" max="1024" value="256" step="32" aria-label="Adjust QR code size for bulk">
-            <div class="size-value" id="bulk-size-value">256px</div>
           </div>
         </div>
 
@@ -1664,7 +1694,9 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
     const qrLoading = document.getElementById('qr-loading');
     const qrError = document.getElementById('qr-error');
     const qrSuccess = document.getElementById('qr-success');
-    const downloadBtn = document.getElementById('download-btn');
+    const downloadButtons = document.getElementById('download-buttons');
+    const downloadPngBtn = document.getElementById('download-png-btn');
+    const downloadSvgBtn = document.getElementById('download-svg-btn');
     const video = document.getElementById('scanner-video');
     const scanResult = document.getElementById('scan-result');
     const startScanBtn = document.getElementById('start-scan');
@@ -2258,6 +2290,31 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
       });
     }
 
+    function createQRSvg(content, options) {
+      return new Promise((resolve, reject) => {
+        try {
+          QRCode.toString(content, {
+            type: 'svg',
+            width: options.size,
+            margin: 1,
+            color: {
+              dark: options.fgColor,
+              light: options.bgColor
+            },
+            errorCorrectionLevel: 'H'
+          }, (error, svg) => {
+            if (error) {
+              reject(error);
+            } else {
+              resolve(svg);
+            }
+          });
+        } catch (error) {
+          reject(error);
+        }
+      });
+    }
+
     function addLogoToQR(qrCanvas, logo, borderSize, borderColor, logoSizePercent) {
       return new Promise((resolve) => {
         if (!logo) {
@@ -2439,12 +2496,19 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
         const ctx = qrCanvas.getContext('2d');
         ctx.drawImage(textCanvas, 0, 0);
         
-        generatedQR = { data: qrCanvas.toDataURL('image/png'), content };
+        // Also generate SVG version
+        const svg = await createQRSvg(content, qrOptions);
+        
+        generatedQR = { 
+          data: qrCanvas.toDataURL('image/png'), 
+          svgData: svg,
+          content 
+        };
         
         qrLoading.style.display = 'none';
         qrSuccess.style.display = 'block';
         qrSuccess.textContent = 'QR Code generated successfully!';
-        downloadBtn.style.display = 'block';
+        downloadButtons.style.display = 'flex';
         qrCanvas.style.display = 'block';
         
         // Update text display
@@ -2673,19 +2737,34 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
       return re.test(email);
     }
 
-    function downloadQR() {
+    function downloadQR(format = 'png') {
       if (!generatedQR) {
         showError(qrError, 'Please generate a QR code first');
         return;
       }
 
-      const filename = sanitizeFilename(generatedQR.content) + '.png';
-      const a = document.createElement('a');
-      a.href = generatedQR.data;
-      a.download = filename;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
+      const filename = sanitizeFilename(generatedQR.content);
+      
+      if (format === 'svg') {
+        // Download SVG
+        const svgBlob = new Blob([generatedQR.svgData], {type: 'image/svg+xml'});
+        const svgUrl = URL.createObjectURL(svgBlob);
+        const a = document.createElement('a');
+        a.href = svgUrl;
+        a.download = `${filename}.svg`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(svgUrl);
+      } else {
+        // Download PNG
+        const a = document.createElement('a');
+        a.href = generatedQR.data;
+        a.download = `${filename}.png`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      }
     }
 
     function startScanner() {
