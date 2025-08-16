@@ -420,12 +420,6 @@
       gap: 10px;
     }
     
-    .reset-btn {
-      display: flex;
-      justify-content: center;
-      margin-top: 20px;
-    }
-    
     /* Text Display Options */
     .text-display-container {
       margin: 1.5em 0;
@@ -614,6 +608,17 @@
       margin-bottom: 20px;
     }
 
+    .text-display-note {
+      text-align: center;
+      margin: 15px 0 5px;
+      color: #666;
+      font-size: 0.9rem;
+      background: #f8f9fa;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px dashed #e0e0e0;
+    }
+
     /* Responsive Design for Barcode Generator */
     @media (max-width: 768px) {
       .hero h1 {
@@ -699,7 +704,6 @@
     <!-- Simplified Customization Panel -->
     <div class="customization-panel">
       <h2><i class="fas fa-sliders-h"></i> Customization Settings</h2>
-      <p style="text-align: center; margin-bottom: 20px; color: var(--gray);">These settings apply to all generated barcodes</p>
       
       <!-- Color Options Toggle -->
       <div class="color-toggle-container">
@@ -742,12 +746,6 @@
           </div>
         </div>
       </div>
-      
-      <div class="reset-btn">
-        <button id="reset-customization" class="secondary">
-          <i class="fas fa-redo"></i> Reset Customization
-        </button>
-      </div>
     </div>
 
     <!-- Unified Text Display Options -->
@@ -767,8 +765,13 @@
         </div>
         
         <div class="text-display-group" id="text-display-fields" style="display: none;">
-          <label for="custom-text">Custom Text (optional):</label>
+          <label for="custom-text">Custom Text:</label>
           <input type="text" id="custom-text" placeholder="Enter custom text to display below barcode">
+          
+          <p class="text-display-note">
+            Note: The text below the barcode is only included in the downloaded PNG image. 
+            It will not appear on the SVG version or the preview.
+          </p>
           
           <div class="text-display-controls">
             <div class="text-display-control">
@@ -799,9 +802,6 @@
           <div class="text-display-preview" id="text-preview">
             Preview will appear here
           </div>
-          <p style="text-align: center; margin-top: 10px; color: #666; font-size: 0.9rem;">
-            Note: The text below the barcode will only be visible in the downloaded PNG image.
-          </p>
         </div>
       </div>
     </div>
@@ -1042,7 +1042,6 @@
         generateBatchPngBtn: document.getElementById('generate-batch-png-btn'),
         generateBatchSvgBtn: document.getElementById('generate-batch-svg-btn'),
         generateCustomBtn: document.getElementById('generate-custom-btn'),
-        resetCustomizationBtn: document.getElementById('reset-customization'),
         colorToggle: document.getElementById('color-toggle'),
         colorOptionsContainer: document.getElementById('color-options-container'),
         
@@ -1111,28 +1110,6 @@
           elements.backgroundColorValue.textContent = color;
         });
       }
-      
-      // Reset customization
-      elements.resetCustomizationBtn.addEventListener('click', function() {
-        // Reset color pickers
-        elements.barColor.value = '#000000';
-        elements.backgroundColor.value = '#ffffff';
-        
-        // Update previews
-        elements.barColorPreview.style.backgroundColor = '#000000';
-        elements.backgroundColorPreview.style.backgroundColor = '#ffffff';
-        
-        // Update value displays
-        elements.barColorValue.textContent = '#000000';
-        elements.backgroundColorValue.textContent = '#ffffff';
-        
-        // Reset background
-        elements.transparentBg.checked = false;
-        
-        // Reset selection state
-        elements.barColorPreview.classList.add('selected');
-        elements.backgroundColorPreview.classList.remove('selected');
-      });
 
       function showError(element, message) {
         element.textContent = message;
