@@ -3,898 +3,106 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="EveryTool.io - Free online tools that work entirely in your browser. Protect your privacy while getting things done.">
-  <title>EveryTool.io - PDF Tools</title>
+  <meta name="description" content="Free Barcode Generator - Create custom EAN-13, EAN-8, UPC, and other barcodes for products, inventory, and retail.">
+  <title>Enhanced Barcode Generator - EveryTool.io</title>
+  
+  <!-- SEO Optimizations -->
+  <meta name="robots" content="index, follow">
+  <meta name="keywords" content="free barcode generator, barcode creator, ean-13, ean-8, upc barcode, barcode generator">
+  <meta property="og:title" content="Free Barcode Generator - EveryTool.io">
+  <meta property="og:description" content="Create custom Barcodes for products, inventory, and retail applications. Generate EAN-13, EAN-8, UPC, and more.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://everytool.io/barcodegenerator">
+  <meta property="og:image" content="https://everytool.io/social-preview.jpg">
+  <meta name="twitter:card" content="summary_large_image">
   
   <!-- Performance Optimization -->
   <link rel="preconnect" href="https://cdnjs.cloudflare.com">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.rel='stylesheet'">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
-  <!-- PDF Libraries -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  
-  <!-- PDF.js for PDF rendering -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
   
   <!-- Shared CSS -->
+  <link rel="stylesheet" href="/css/styles.css">
+  
+  <!-- Barcode Generator Specific Styles -->
   <style>
-    /* ========== SHARED STYLES ========== */
-    :root {
-      --primary: #4361ee;
-      --primary-dark: #3a56d4;
-      --secondary: #7209b7;
-      --accent: #f72585;
-      --light: #f8f9fa;
-      --dark: #212529;
-      --gray: #6c757d;
-      --light-gray: #e9ecef;
-      --border-radius: 12px;
-      --box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-      --transition: all 0.3s ease;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, var(--light) 0%, #f0f4ff 100%);
-      color: var(--dark);
-      line-height: 1.6;
-      min-height: 100vh;
-      overflow-x: hidden;
-      transition: transform 0.4s ease;
-    }
-    
-    body.menu-open {
-      overflow: hidden;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-
-    /* Header & Navigation */
-    header {
-      background: white;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-
-    .header-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px 0;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: var(--primary);
-      text-decoration: none;
-      z-index: 2001;
-    }
-
-    .logo i {
-      margin-right: 10px;
-      font-size: 2.2rem;
-    }
-
-    .nav-container {
-      display: flex;
-      align-items: center;
-    }
-
-    .nav-menu {
-      display: flex;
-      list-style: none;
-      margin-right: 20px;
-    }
-
-    .nav-item {
-      position: relative;
-      margin: 0 15px;
-    }
-
-    .nav-link {
-      padding: 10px 15px;
-      color: var(--dark);
-      text-decoration: none;
-      font-weight: 500;
-      border-radius: var(--border-radius);
-      transition: var(--transition);
-      display: flex;
-      align-items: center;
-    }
-
-    .nav-link i {
-      margin-right: 8px;
-    }
-
-    .nav-link:hover, .nav-link:focus {
-      background: rgba(67, 97, 238, 0.1);
-      color: var(--primary);
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-
-    /* Dropdown Menu */
-    .dropdown {
-      position: relative;
-    }
-
-    .dropdown-toggle::after {
-      content: '\f078'; /* Font Awesome chevron-down */
-      font-family: 'Font Awesome 6 Free';
-      font-weight: 900;
-      margin-left: 8px;
-      font-size: 0.8rem;
-    }
-
-    .dropdown-menu {
-      display: none;
-      position: absolute;
-      top: 100%;
-      left: 0;
-      background: white;
-      box-shadow: var(--box-shadow);
-      border-radius: var(--border-radius);
-      min-width: 240px;
-      max-height: 400px;
-      overflow-y: auto;
-      z-index: 1000;
-      list-style: none;
-      padding: 10px 0;
-    }
-
-    .dropdown-menu li {
-      margin: 0;
-    }
-
-    .dropdown-item {
-      display: flex;
-      align-items: center;
-      padding: 10px 20px;
-      color: var(--dark);
-      text-decoration: none;
-      font-weight: 500;
-      transition: var(--transition);
-    }
-
-    .dropdown-item i {
-      margin-right: 10px;
-      font-size: 1.2rem;
-      color: var(--primary);
-    }
-
-    .dropdown-item:hover, .dropdown-item:focus {
-      background: rgba(67, 97, 238, 0.1);
-      color: var(--primary);
-    }
-
-    .nav-item.dropdown:hover .dropdown-menu,
-    .nav-item.dropdown .dropdown-menu.active {
-      display: block;
-    }
-
-    .dropdown-error {
-      font-size: 0.9rem;
-      color: red;
-      padding: 10px 20px;
-    }
-
-    .mobile-menu-btn {
-      display: none;
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      color: var(--dark);
-      cursor: pointer;
-      padding: 10px;
-      border-radius: 5px;
-      z-index: 2001;
-    }
-
-    .mobile-menu-btn:hover, .mobile-menu-btn:focus {
-      background: rgba(67, 97, 238, 0.1);
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-
-    /* Mobile Menu */
-    .mobile-backdrop {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      z-index: 1999;
-      display: none;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
-    .mobile-backdrop.active {
-      display: block;
-      opacity: 1;
-    }
-
-    .mobile-nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 280px;
-      height: 100vh;
-      background: white;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-      z-index: 2000;
-      transform: translateX(-100%);
-      transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-      overflow-y: auto;
-      display: block;
-    }
-
-    .mobile-nav.active {
-      transform: translateX(0);
-    }
-
-    .mobile-nav-header {
-      padding: 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid var(--light-gray);
-    }
-
-    .close-mobile-menu {
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      color: var(--dark);
-      cursor: pointer;
-      padding: 5px;
-      border-radius: 5px;
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .close-mobile-menu:hover, .close-mobile-menu:focus {
-      background: rgba(0, 0, 0, 0.05);
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-
-    .mobile-nav-menu {
-      list-style: none;
-      padding: 20px;
-    }
-
-    .mobile-nav-item {
-      margin-bottom: 10px;
-    }
-
-    .mobile-nav-link {
-      display: block;
-      padding: 12px 15px;
-      color: var(--dark);
-      text-decoration: none;
-      font-weight: 500;
-      border-radius: var(--border-radius);
-      transition: var(--transition);
-    }
-
-    .mobile-nav-link:hover, .mobile-nav-link:focus {
-      background: rgba(67, 97, 238, 0.1);
-      color: var(--primary);
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-
-    .mobile-nav-link i {
-      width: 24px;
-      text-align: center;
-      margin-right: 10px;
-    }
-
-    .mobile-nav .dropdown-menu {
-      display: none;
-      list-style: none;
-      padding: 10px 15px 10px 30px;
-      background: rgba(0, 0, 0, 0.05);
-    }
-
-    .mobile-nav .dropdown-menu.active {
-      display: block;
-    }
-
-    .mobile-nav .dropdown-item {
-      display: flex;
-      align-items: center;
-      padding: 8px 20px;
-    }
-
-    .mobile-nav .dropdown-item i {
-      margin-right: 10px;
-      font-size: 1.2rem;
-      color: var(--primary);
-    }
-
-    .mobile-nav .dropdown-error {
-      font-size: 0.9rem;
-      color: red;
-      padding: 8px 20px;
-    }
-
-    /* Footer */
-    footer {
-      background: linear-gradient(135deg, var(--light) 0%, #f0f4ff 100%);
-      color: #000;
-      padding: 60px 0 30px;
-    }
-
-    .footer-bottom {
-      border-top: 1px solid rgba(0, 0, 0, 0.1);
-      padding-top: 30px;
+    /* Hero Section */
+    .hero {
+      padding: 60px 0 40px;
       text-align: center;
     }
 
-    .footer-bottom a {
-      color: #000;
-      text-decoration: none;
-      transition: var(--transition);
-      font-weight: 600;
-      font-size: 1.1rem;
-      margin: 0 10px;
-    }
-
-    .footer-bottom a:hover, .footer-bottom a:focus {
-      color: var(--primary);
-      text-decoration: underline;
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-
-    .footer-links-row {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-    }
-
-    .footer-bottom p {
-      color: #000;
-      font-weight: 600;
-      font-size: 1.1rem;
-      margin: 0;
-    }
-
-    /* Cookie Consent Styles */
-    #cookie-consent {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 95%;
+    .hero-content {
       max-width: 800px;
-      background: var(--light);
-      border-radius: var(--border-radius);
-      box-shadow: 0 5px 30px rgba(0, 0, 0, 0.15);
-      padding: 20px;
-      z-index: 1000;
-      display: none;
+      margin: 0 auto;
     }
 
-    .cookie-content {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 15px;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .cookie-text {
-      flex: 1;
-      min-width: 300px;
-      color: var(--dark);
-    }
-
-    .cookie-text p {
-      margin-bottom: 10px;
-      font-size: 0.95rem;
-    }
-
-    .cookie-text a {
-      color: var(--primary);
-      text-decoration: none;
-    }
-
-    .cookie-text a:hover, .cookie-text a:focus {
-      text-decoration: underline;
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-
-    .cookie-buttons {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .cookie-btn {
-      padding: 10px 20px;
-      border-radius: 50px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: var(--transition);
-      font-size: 0.9rem;
-      border: none;
-      min-width: 180px;
-    }
-
-    .cookie-btn:focus {
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-
-    .reject-btn {
-      background: var(--light-gray);
-      color: var(--dark);
-    }
-
-    .reject-btn:hover {
-      background: #e0e0e0;
-    }
-
-    .accept-btn {
-      background: var(--primary);
-      color: white;
-    }
-
-    .accept-btn:hover {
-      background: var(--primary-dark);
-    }
-
-    .cookie-settings-btn {
-      background: transparent;
-      color: var(--gray);
-      text-decoration: underline;
-      border: none;
-      cursor: pointer;
-      padding: 0;
-      margin-top: 10px;
-      font-size: 0.85rem;
-    }
-
-    .cookie-settings-btn:hover, .cookie-settings-btn:focus {
-      color: var(--dark);
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-
-    #cookie-settings {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.7);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 2000;
-      animation: fadeIn 0.3s ease-out;
-    }
-
-    .settings-modal {
-      background: var(--light);
-      border-radius: var(--border-radius);
-      width: 95%;
-      max-width: 600px;
-      max-height: 90vh;
-      overflow-y: auto;
-      padding: 30px;
-      position: relative;
-      animation: slideUp 0.3s ease-out;
-    }
-
-    @keyframes slideUp {
-      from { transform: translateY(20px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-
-    .settings-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-
-    .settings-header h2 {
-      font-size: 1.8rem;
-      margin: 0;
-    }
-
-    .close-settings {
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      cursor: pointer;
-      color: var(--gray);
-      transition: var(--transition);
-      padding: 5px;
-      border-radius: 5px;
-    }
-
-    .close-settings:hover, .close-settings:focus {
-      color: var(--dark);
-      background: rgba(0, 0, 0, 0.05);
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-
-    .settings-content {
-      margin-bottom: 20px;
-    }
-
-    .cookie-type {
-      margin-bottom: 20px;
-      padding-bottom: 15px;
-      border-bottom: 1px solid var(--light-gray);
-    }
-
-    .cookie-type-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-
-    .cookie-type h3 {
-      margin: 0;
-      font-size: 1.2rem;
-    }
-
-    .toggle-switch {
-      position: relative;
-      display: inline-block;
-      width: 50px;
-      height: 24px;
-    }
-
-    .toggle-switch input {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      opacity: 0;
-      cursor: pointer;
-      z-index: 1;
-    }
-
-    .slider {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: var(--gray);
-      transition: background-color 0.3s ease;
-      border-radius: 24px;
-    }
-
-    .slider:before {
-      position: absolute;
-      content: "";
-      height: 16px;
-      width: 16px;
-      left: 4px;
-      bottom: 4px;
-      background-color: white;
-      transition: transform 0.3s ease;
-      border-radius: 50%;
-    }
-
-    .toggle-switch input:checked + .slider {
-      background-color: var(--primary);
-    }
-
-    .toggle-switch input:checked + .slider:before {
-      transform: translateX(26px);
-    }
-
-    .toggle-switch input:focus + .slider {
-      box-shadow: 0 0 0 2px var(--primary-dark);
-    }
-
-    .toggle-switch input:disabled + .slider {
-      background-color: var(--light-gray);
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    .toggle-switch input:disabled + .slider:before {
-      background-color: #ddd;
-    }
-
-    .cookie-type p {
-      font-size: 0.9rem;
-      color: var(--gray);
-      margin-bottom: 10px;
-    }
-
-    .settings-buttons {
-      display: flex;
-      justify-content: flex-end;
-      gap: 10px;
-    }
-
-    .save-settings {
-      background: var(--primary);
-      color: white;
-      border: none;
-      padding: 10px 25px;
-      border-radius: 50px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-
-    .save-settings:hover, .save-settings:focus {
-      background: var(--primary-dark);
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-
-    /* Accessibility Improvements */
-    .sr-only {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      border: 0;
-    }
-
-    /* Responsive Design */
-    @media (max-width: 992px) {
-      .nav-menu {
-        display: none;
-      }
-      
-      .mobile-menu-btn {
-        display: block;
-      }
-      
-      .mobile-nav {
-        width: 100%;
-      }
-    }
-
-    @media (min-width: 993px) {
-      .mobile-nav {
-        display: none !important;
-      }
-      .mobile-backdrop {
-        display: none !important;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .footer-links-row {
-        flex-direction: column;
-        gap: 10px;
-      }
-      
-      .cookie-content {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      
-      .cookie-buttons {
-        width: 100%;
-      }
-      
-      .cookie-btn {
-        width: 100%;
-      }
-    }
-
-    @media (max-width: 576px) {
-      .header-container {
-        padding: 15px 0;
-      }
-      
-      .logo {
-        font-size: 1.5rem;
-      }
-      
-      .logo i {
-        font-size: 1.8rem;
-      }
-      
-      .settings-modal {
-        padding: 20px;
-      }
-    }
-    /* ========== END SHARED STYLES ========== */
-
-    /* ========== PDF TOOLS SPECIFIC STYLES ========== */
-    /* Main Header Section */
-    .main-header {
-      text-align: center;
-      padding: 50px 0 30px;
-    }
-
-    .main-header .logo {
-      font-size: 4rem;
-      margin-bottom: 15px;
-      color: var(--primary);
-      display: inline-block;
-      animation: pulse 2s infinite;
-      justify-content: center;
-    }
-
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-      100% { transform: scale(1); }
-    }
-
-    .main-header h1 {
+    .hero h1 {
       font-size: 2.5rem;
-      margin-bottom: 10px;
+      margin-bottom: 20px;
       font-weight: 700;
-      color: var(--dark);
       background: linear-gradient(90deg, var(--primary), var(--secondary));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      line-height: 1.2;
     }
 
-    .tagline {
+    .hero p {
       font-size: 1.2rem;
-      color: var(--gray);
+      color: #444;
+      margin-bottom: 40px;
       max-width: 700px;
-      margin: 0 auto 25px;
+      margin-left: auto;
+      margin-right: auto;
     }
-
-    /* Features Grid */
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 30px;
-      margin: 40px auto;
-    }
-
-    .feature-card {
-      background: white;
-      border-radius: var(--border-radius);
-      padding: 25px;
-      text-align: center;
-      box-shadow: var(--box-shadow);
-      transition: var(--transition);
-    }
-
-    .feature-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-    }
-
-    .feature-card i {
-      font-size: 2.5rem;
-      color: var(--primary);
-      margin-bottom: 20px;
-      background: #f0f4ff;
-      width: 80px;
-      height: 80px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      margin: 0 auto 20px;
-    }
-
-    .feature-card h3 {
-      font-size: 1.4rem;
-      margin-bottom: 15px;
-      color: var(--dark);
-    }
-
-    .feature-card p {
-      margin-bottom: 20px;
-      color: var(--gray);
-    }
-
-    /* PDF Editing Guide Section */
-    .guide-section {
-      background: white;
-      border-radius: var(--border-radius);
-      padding: 40px;
-      margin: 40px auto;
-      box-shadow: var(--box-shadow);
-      text-align: center;
-    }
-
-    .guide-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(300px, 1fr));
-      gap: 25px;
-      margin-top: 25px;
-      justify-content: center;
-    }
-
-    .guide-card {
-      padding: 25px;
-      background: #f8f9ff;
-      border-radius: var(--border-radius);
-      text-align: center;
-      transition: var(--transition);
-    }
-
-    .guide-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-    }
-
-    .guide-card h3 {
-      font-size: 1.4rem;
-      margin-bottom: 15px;
-      color: var(--primary);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-    }
-
-    .guide-card h3 i {
-      font-size: 1.6rem;
-    }
-
-    .guide-card p {
-      color: var(--gray);
-      font-size: 1rem;
-    }
-
-    /* PDF Tools Section */
-    .pdf-tools {
-      padding: 0 0 70px;
-    }
-
+    
     .card {
-      background: white;
+      background: var(--light);
       border-radius: var(--border-radius);
       box-shadow: var(--box-shadow);
       padding: 30px;
       margin-bottom: 30px;
       transition: var(--transition);
     }
-
+    
     .card:hover {
       transform: translateY(-5px);
       box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
     }
-
+    
+    h2 {
+      font-size: 1.8rem;
+      margin-bottom: 25px;
+      color: var(--dark);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: center;
+    }
+    
+    h2 i {
+      color: var(--primary);
+    }
+    
+    h3 {
+      font-size: 1.4rem;
+      margin: 20px 0 15px;
+      color: var(--dark);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      justify-content: center;
+    }
+    
     .tabs {
       display: flex;
       justify-content: center;
@@ -902,7 +110,7 @@
       gap: 10px;
       flex-wrap: wrap;
     }
-
+    
     .tab {
       padding: 12px 25px;
       cursor: pointer;
@@ -915,301 +123,50 @@
       gap: 8px;
       font-size: 1rem;
     }
-
+    
     .tab.active {
       background: var(--primary);
       color: white;
     }
-
+    
     .tab:hover:not(.active) {
       background: #dbe4ff;
     }
-
+    
     .tab-content {
       display: none;
     }
-
+    
     .tab-content.active {
       display: block;
       animation: fadeIn 0.4s ease;
     }
-
+    
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
-
-    .drag-drop-area {
-      width: 100%;
-      max-width: 500px;
-      margin: 2em auto;
-      padding: 2em;
-      border: 2px dashed var(--light-gray);
-      border-radius: var(--border-radius);
-      background: white;
-      color: var(--gray);
-      cursor: pointer;
-      transition: var(--transition);
-      text-align: center;
-      font-size: 1rem;
-    }
-
-    .drag-drop-area.drag-over {
-      background: #e6f0fa;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
-    }
-
-    .file-list {
-      width: 100%;
-      max-width: 500px;
-      margin: 1em auto;
+    
+    input, select, button, textarea {
+      margin: 0.5em auto;
       padding: 15px;
+      width: 100%;
+      font-size: 1rem;
+      border-radius: 10px;
+      border: 1px solid var(--light-gray);
       background: var(--light);
-      border-radius: var(--border-radius);
-    }
-
-    .file-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px;
-      border-bottom: 1px solid #eee;
-    }
-
-    .file-info {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .file-icon {
-      color: var(--primary);
-      font-size: 1.5rem;
-    }
-
-    .file-remove {
-      color: #e74c3c;
-      cursor: pointer;
-      padding: 5px;
-    }
-    
-    /* Page range controls */
-    .page-range-container {
-      max-width: 500px;
-      margin: 20px auto;
-      padding: 20px;
-      background: #f8f9ff;
-      border-radius: var(--border-radius);
-      border: 1px solid var(--light-gray);
-    }
-    
-    .range-input-group {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-bottom: 15px;
-    }
-    
-    .range-input-group label {
-      font-weight: 500;
-      color: var(--dark);
-      margin-bottom: 5px;
-    }
-    
-    .range-input-group input {
-      padding: 12px 15px;
-      font-size: 1rem;
-      border-radius: 10px;
-      border: 1px solid var(--light-gray);
-      background: white;
-      transition: var(--transition);
-    }
-    
-    .range-input-group input:focus {
-      outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
-    }
-    
-    .range-info {
-      background: #e6f0ff;
-      padding: 15px;
-      border-radius: 10px;
-      margin-top: 15px;
-      font-size: 0.9rem;
-      color: var(--primary-dark);
-    }
-    
-    .range-info i {
-      margin-right: 8px;
-    }
-    
-    /* Conversion settings */
-    .conversion-settings {
-      max-width: 500px;
-      margin: 20px auto;
-      padding: 20px;
-      background: #f8f9ff;
-      border-radius: var(--border-radius);
-      border: 1px solid var(--light-gray);
-    }
-    
-    .setting-group {
-      margin-bottom: 20px;
-    }
-    
-    .setting-group label {
       display: block;
-      margin-bottom: 8px;
-      font-weight: 500;
-      color: var(--dark);
-    }
-    
-    .setting-group select, 
-    .setting-group input {
-      width: 100%;
-      padding: 12px 15px;
-      font-size: 1rem;
-      border-radius: 10px;
-      border: 1px solid var(--light-gray);
-      background: white;
       transition: var(--transition);
+      font-family: 'Poppins', sans-serif;
+      color: #444;
     }
     
-    .setting-group select:focus, 
-    .setting-group input:focus {
+    input:focus, select:focus, textarea:focus {
       outline: none;
       border-color: var(--primary);
       box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
     }
     
-    .page-range-controls {
-      display: flex;
-      gap: 15px;
-      margin: 20px 0;
-      flex-wrap: wrap;
-    }
-
-    .page-range-controls input, .page-range-controls select {
-      flex: 1;
-      min-width: 120px;
-      padding: 15px;
-      font-size: 1rem;
-      border-radius: 10px;
-      border: 1px solid var(--light-gray);
-      background: white;
-      transition: var(--transition);
-    }
-
-    .page-range-controls input:focus, .page-range-controls select:focus {
-      outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
-    }
-
-    .progress-container {
-      width: 100%;
-      max-width: 500px;
-      margin: 1.5em auto;
-      padding: 15px;
-      background: var(--light);
-      border-radius: var(--border-radius);
-      display: none;
-    }
-
-    .progress-header {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 0.5rem;
-      font-size: 0.95rem;
-    }
-
-    .progress-bar {
-      height: 10px;
-      background: var(--light-gray);
-      border-radius: 5px;
-      overflow: hidden;
-    }
-
-    .progress-fill {
-      height: 100%;
-      width: 0;
-      background: linear-gradient(90deg, var(--primary), var(--secondary));
-      border-radius: 5px;
-      transition: width 0.4s ease;
-    }
-
-    .result-container {
-      width: 100%;
-      max-width: 500px;
-      margin: 1.5em auto;
-      padding: 1.2rem;
-      background: rgba(39, 174, 96, 0.08);
-      border: 1px dashed #27ae60;
-      border-radius: var(--border-radius);
-      display: none;
-      text-align: center;
-    }
-    
-    .result-container.split {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 15px;
-    }
-    
-    .result-container.convert {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 15px;
-    }
-
-    .download-btn {
-      background: #27ae60;
-      color: white;
-      padding: 15px;
-      border-radius: 10px;
-      text-decoration: none;
-      font-weight: 600;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      transition: var(--transition);
-      margin-top: 15px;
-      cursor: pointer;
-      width: 100%;
-      justify-content: center;
-      text-align: center;
-    }
-
-    .download-btn:hover, .download-btn:focus {
-      background: #219653;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-    
-    .download-btn.split {
-      background: var(--primary);
-      max-width: 300px;
-    }
-    
-    .download-btn.split:hover, .download-btn.split:focus {
-      background: var(--primary-dark);
-    }
-    
-    .download-btn.convert {
-      background: var(--secondary);
-      max-width: 300px;
-    }
-    
-    .download-btn.convert:hover, .download-btn.convert:focus {
-      background: #6517a0;
-    }
-
     button {
       background: var(--primary);
       color: white;
@@ -1221,11 +178,8 @@
       align-items: center;
       justify-content: center;
       gap: 10px;
-      transition: var(--transition);
-      border-radius: 10px;
-      margin: 0.5em 0;
     }
-
+    
     button:hover, button:focus {
       background: var(--primary-dark);
       transform: translateY(-2px);
@@ -1233,105 +187,466 @@
       outline: 2px solid var(--primary);
       outline-offset: 2px;
     }
-
-    .btn-secondary {
-      background: var(--secondary);
+    
+    button.secondary {
+      background: var(--light);
+      color: var(--primary);
+      border: 2px solid var(--primary);
     }
-
-    .btn-secondary:hover, .btn-secondary:focus {
-      background: #6517a0;
-      outline: 2px solid var(--secondary);
+    
+    button.secondary:hover, button.secondary:focus {
+      background: #f0f4ff;
+      outline: 2px solid var(--primary);
       outline-offset: 2px;
     }
-
-    .loading {
-      text-align: center;
-      padding: 20px;
-      display: none;
+    
+    canvas {
+      margin: 1.5em auto;
+      display: block;
+      max-width: 100%;
+      border-radius: 12px;
+      background: var(--light);
+      padding: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      border: 1px solid var(--light-gray);
     }
-
+    
+    .loading {
+      display: none;
+      text-align: center;
+      padding: 30px;
+    }
+    
     .spinner {
       border: 4px solid rgba(0, 0, 0, 0.1);
       border-left-color: var(--primary);
       border-radius: 50%;
-      width: 40px;
-      height: 40px;
+      width: 50px;
+      height: 50px;
       animation: spin 1s linear infinite;
-      margin: 0 auto 15px;
+      margin: 0 auto 20px;
     }
-
+    
     @keyframes spin {
       to { transform: rotate(360deg); }
     }
-
+    
     .error {
       color: #e74c3c;
       padding: 15px;
       background: rgba(231, 76, 60, 0.1);
       border-radius: var(--border-radius);
       margin: 20px 0;
-      border-left: 4px solid #e74c3c;
       display: none;
+      border-left: 4px solid #e74c3c;
     }
-
+    
     .success {
       color: #27ae60;
       padding: 15px;
       background: rgba(39, 174, 96, 0.1);
       border-radius: var(--border-radius);
       margin: 20px 0;
-      border-left: 4px solid #27ae60;
       display: none;
+      border-left: 4px solid #27ae60;
+    }
+    
+    .btn-group {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin: 1.5em 0;
+      flex-wrap: wrap;
+    }
+    
+    .btn-group button {
+      width: auto;
+      min-width: 180px;
+      flex: 1;
+    }
+    
+    /* Guide Section */
+    .guide-section {
+      background: var(--light);
+      border-radius: var(--border-radius);
+      padding: 40px;
+      margin: 40px auto;
+      box-shadow: var(--box-shadow);
+      text-align: center;
+    }
+    
+    .guide-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+      margin-top: 25px;
+    }
+    
+    .guide-item {
+      padding: 25px;
+      background: #f8f9ff;
+      border-radius: var(--border-radius);
+      text-align: center;
+      font-size: 14px;
+    }
+    
+    .guide-item h3 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: center;
+    }
+    
+    .guide-item h3 i {
+      font-size: 1.8rem;
+    }
+    
+    .guide-item p {
+      font-size: 1rem;
+      color: #444;
+    }
+    
+    /* Simplified Customization Panel */
+    .customization-panel {
+      background: #f8f9ff;
+      border-radius: var(--border-radius);
+      padding: 25px;
+      margin-bottom: 30px;
+      border: 1px solid #e9ecef;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    }
+    
+    .customization-panel h2 {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: center;
+    }
+    
+    .customization-panel h2 i {
+      color: var(--primary);
+    }
+    
+    .customization-options {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+    
+    .color-options {
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      flex-wrap: wrap;
+    }
+    
+    .color-option {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .color-option label {
+      font-weight: 500;
+      font-size: 1rem;
+    }
+    
+    /* Visual marker for selected color */
+    .color-preview {
+      position: relative;
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+      transition: transform 0.2s ease;
+    }
+    
+    .color-preview:hover {
+      transform: scale(1.1);
+    }
+    
+    .color-preview::after {
+      content: "";
+      position: absolute;
+      top: -4px;
+      left: -4px;
+      right: -4px;
+      bottom: -4px;
+      border: 2px solid var(--primary);
+      border-radius: 50%;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+    
+    .color-preview.selected::after {
+      opacity: 1;
+    }
+    
+    .color-preview-container {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .color-value {
+      font-size: 0.9rem;
+      font-weight: 500;
+      min-width: 70px;
+      text-align: center;
+      padding: 5px 10px;
+      background: rgba(0, 0, 0, 0.05);
+      border-radius: 4px;
+    }
+    
+    .transparent-bg-container {
+      background: #f8f9fa;
+      border-radius: 10px;
+      padding: 15px;
+      margin-top: 15px;
+      border: 1px dashed var(--light-gray);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    /* Text Display Options */
+    .text-display-container {
+      margin: 1.5em 0;
+      border: 1px solid var(--light-gray);
+      border-radius: var(--border-radius);
+      padding: 20px;
+      background: #fafbff;
     }
 
-    /* Responsive Design */
-    @media (max-width: 992px) {
+    .text-display-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+      justify-content: center;
+    }
+
+    .text-display-header i {
+      color: var(--primary);
+      font-size: 1.5rem;
+    }
+
+    .text-display-content {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .text-display-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+
+    .text-display-controls {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .text-display-control {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .text-display-control label {
+      font-weight: 500;
+      color: var(--dark);
+    }
+
+    .text-display-control input[type="color"] {
+      width: 60px;
+      height: 60px;
+      padding: 5px;
+      cursor: pointer;
+      border-radius: 12px;
+      border: 2px solid var(--light-gray);
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .text-display-control input[type="color"]::-webkit-color-swatch {
+      border: none;
+      border-radius: 8px;
+    }
+
+    .text-display-control select {
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid var(--light-gray);
+      background: var(--light);
+    }
+
+    .text-display-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .text-display-group label {
+      font-weight: 500;
+      color: var(--dark);
+    }
+
+    .text-display-group input[type="text"] {
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid var(--light-gray);
+      background: var(--light);
+    }
+
+    /* Toggle switch styles */
+    .toggle-switch-visual {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 34px;
+    }
+
+    .toggle-switch-visual input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 34px;
+    }
+
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 26px;
+      width: 26px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+
+    input:checked + .toggle-slider {
+      background-color: var(--primary);
+    }
+
+    input:checked + .toggle-slider:before {
+      transform: translateX(26px);
+    }
+
+    .toggle-label {
+      font-weight: 500;
+      color: var(--dark);
+    }
+
+    /* New styles for color toggle */
+    .color-toggle-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .text-display-note {
+      text-align: center;
+      margin: 15px 0 5px;
+      color: #666;
+      font-size: 0.9rem;
+      background: #f8f9fa;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px dashed #e0e0e0;
+    }
+
+    /* Responsive Design for Barcode Generator */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+      
+      .section-title {
+        font-size: 2rem;
+      }
+      
+      .tab {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+      }
+      
+      .guide-section, .uses-section {
+        padding: 25px;
+      }
+      
+      .btn-group {
+        flex-direction: column;
+      }
+      
+      .btn-group button {
+        width: 100%;
+      }
+      
       .guide-grid {
         grid-template-columns: 1fr;
       }
       
-      .features-grid {
+      .color-options {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .text-display-controls {
         grid-template-columns: 1fr;
       }
     }
 
-    @media (max-width: 768px) {
-      .page-range-container,
-      .conversion-settings {
-        padding: 15px;
-      }
-      
-      .range-input-group {
-        flex-direction: column;
-      }
-    }
-
     @media (max-width: 576px) {
-      .header-container {
-        padding: 15px 0;
+      .hero {
+        padding: 40px 0 20px;
       }
       
-      .logo {
-        font-size: 1.5rem;
-      }
-      
-      .logo i {
+      .hero h1 {
         font-size: 1.8rem;
       }
       
-      .guide-section, .uses-section {
-        padding: 30px;
+      .card {
+        padding: 20px;
       }
       
-      .main-header .logo {
-        font-size: 3rem;
+      h2 {
+        font-size: 1.5rem;
       }
       
-      .main-header h1 {
-        font-size: 2rem;
+      h3 {
+        font-size: 1.2rem;
       }
     }
-    /* ========== END PDF TOOLS SPECIFIC STYLES ========== */
   </style>
 </head>
 <body>
@@ -1340,243 +655,248 @@
     <p class="error-message" style="display: none; color: red; text-align: center;">Failed to load header. Please try refreshing the page.</p>
   </header>
 
-  <!-- Main Header Section -->
-  <section class="main-header">
+  <!-- Hero Section -->
+  <section class="hero">
     <div class="container">
-      <div class="logo">
-        <i class="fas fa-file-pdf"></i>
+      <div class="hero-content">
+        <h1>Enhanced Barcode Generator</h1>
+        <p>Create custom EAN-13, EAN-8, UPC, and other barcodes for products, inventory, and retail applications. All processing happens in your browser.</p>
       </div>
-      <h1>PDF Tools</h1>
-      <p class="tagline">Merge, split, compress, and convert PDFs with our free online tools.</p>
     </div>
   </section>
 
-  <!-- PDF Tools Section -->
-  <section class="pdf-tools" id="pdf-tools">
-    <div class="container">
-      <div class="card">
-        <div class="tabs">
-          <div class="tab active" data-tab="merge" role="tab" aria-selected="true" tabindex="0">
-            <i class="fas fa-object-group"></i> Merge PDFs
-          </div>
-          <div class="tab" data-tab="split" role="tab" aria-selected="false" tabindex="0">
-            <i class="fas fa-cut"></i> Split PDF
-          </div>
-          <div class="tab" data-tab="compress" role="tab" aria-selected="false" tabindex="0">
-            <i class="fas fa-compress-alt"></i> Compress PDF
-          </div>
-          <div class="tab" data-tab="convert" role="tab" aria-selected="false" tabindex="0">
-            <i class="fas fa-exchange-alt"></i> Convert PDF
+  <!-- Barcode Generator Content -->
+  <div class="container">
+    <!-- Simplified Customization Panel -->
+    <div class="customization-panel">
+      <!-- CHANGE 2: Updated heading text -->
+      <h2><i class="fas fa-palette"></i> Color Options</h2>
+      
+      <!-- Color Options Toggle -->
+      <div class="color-toggle-container">
+        <label class="toggle-label">Enable Color Customization</label>
+        <label class="toggle-switch-visual">
+          <input type="checkbox" id="color-toggle" checked>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      
+      <div class="customization-options" id="color-options-container">
+        <!-- Color Options -->
+        <div>
+          <h3><i class="fas fa-palette"></i> Colors</h3>
+          <div class="color-options">
+            <div class="color-option">
+              <label for="bar-color">Bar Color:</label>
+              <div class="color-preview-container">
+                <div class="color-preview selected" id="bar-color-preview" style="background-color: #000000;"></div>
+                <span class="color-value" id="bar-color-value">#000000</span>
+              </div>
+              <input type="color" id="bar-color" value="#000000" style="display: none;">
+            </div>
+            <div class="color-option">
+              <label for="background-color">Background Color:</label>
+              <div class="color-preview-container">
+                <div class="color-preview" id="background-color-preview" style="background-color: #ffffff;"></div>
+                <span class="color-value" id="background-color-value">#ffffff</span>
+              </div>
+              <input type="color" id="background-color" value="#ffffff" style="display: none;">
+            </div>
           </div>
         </div>
+      </div>
+      
+      <!-- CHANGE 1: Moved transparent background outside color options -->
+      <div class="transparent-bg-container">
+        <label class="toggle-label">Transparent Background</label>
+        <label class="toggle-switch-visual">
+          <input type="checkbox" id="transparent-bg">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+    </div>
 
-        <div class="tab-content active" id="merge-tab" role="tabpanel">
-          <h2><i class="fas fa-object-group"></i> Merge PDF Files</h2>
-          <p>Combine multiple PDF files into one document in seconds.</p>
-          
-          <div class="drag-drop-area" id="mergeUploadArea">
-            <p><i class="fas fa-cloud-upload-alt fa-2x"></i></p>
-            <p><strong>Choose file or drag and drop here</strong></p>
-            <p>Supported formats: PDF</p>
-            <p>Max file size: 100MB</p>
-          </div>
-          <input type="file" id="mergeFileUpload" accept=".pdf" multiple style="display: none;" aria-label="Upload PDF files for merging" />
-          
-          <div class="file-list" id="mergeFileList"></div>
-          
-          <div class="btn-group">
-            <button id="mergeBtn" disabled>
-              <i class="fas fa-object-group"></i> Merge PDFs
-            </button>
-            <button id="clearMergeBtn" class="btn-secondary">
-              <i class="fas fa-trash"></i> Clear All
-            </button>
-          </div>
-          
-          <div class="loading" id="mergeLoading">
-            <div class="spinner"></div>
-            Merging your PDF files...
-          </div>
-          
-          <div class="error" id="mergeError"></div>
-          <div class="success" id="mergeSuccess"></div>
-          
-          <div id="mergeResult" class="result-container">
-            <p>PDFs merged successfully!</p>
-            <a id="mergeDownloadLink" class="download-btn"><i class="fas fa-download"></i> Download Merged PDF</a>
-          </div>
+    <!-- Unified Text Display Options -->
+    <div class="text-display-container">
+      <div class="text-display-header">
+        <i class="fas fa-font"></i>
+        <h3>Text Display Options</h3>
+      </div>
+      
+      <div class="text-display-content">
+        <div class="text-display-toggle">
+          <label class="toggle-label">Display Text Below Barcode</label>
+          <label class="toggle-switch-visual">
+            <input type="checkbox" id="show-text-display">
+            <span class="toggle-slider"></span>
+          </label>
         </div>
         
-        <!-- Split PDF Tab -->
-        <div class="tab-content" id="split-tab" role="tabpanel">
-          <h2><i class="fas fa-cut"></i> Split PDF File</h2>
-          <p>Extract specific pages or split your PDF into multiple files.</p>
+        <div class="text-display-group" id="text-display-fields" style="display: none;">
+          <label for="custom-text">Custom Text:</label>
+          <input type="text" id="custom-text" placeholder="Enter custom text to display below barcode">
           
-          <div class="drag-drop-area" id="splitUploadArea">
-            <p><i class="fas fa-cloud-upload-alt fa-2x"></i></p>
-            <p><strong>Choose file or drag and drop here</strong></p>
-            <p>Supported formats: PDF</p>
-            <p>Max file size: 100MB</p>
-          </div>
-          <input type="file" id="splitFileUpload" accept=".pdf" style="display: none;" aria-label="Upload PDF file for splitting" />
+          <p class="text-display-note">
+            Note: The text below the barcode is only included in the downloaded PNG image. 
+            It will not appear on the SVG version or the preview.
+          </p>
           
-          <div class="file-list" id="splitFileList"></div>
-          
-          <div class="page-range-container">
-            <div class="range-input-group">
-              <label for="splitRange">Page Range <span id="totalPages">(Total pages: -)</span></label>
-              <input type="text" id="splitRange" placeholder="e.g., 1-3,5,7-9" aria-label="Enter page range to extract">
-              <div class="range-info">
-                <i class="fas fa-info-circle"></i> Enter page numbers separated by commas. Use hyphens for ranges (e.g., 1-3,5,7-9)
-              </div>
-            </div>
-          </div>
-          
-          <div class="btn-group">
-            <button id="splitBtn" disabled>
-              <i class="fas fa-cut"></i> Split PDF
-            </button>
-            <button id="clearSplitBtn" class="btn-secondary">
-              <i class="fas fa-trash"></i> Clear
-            </button>
-          </div>
-          
-          <div class="loading" id="splitLoading">
-            <div class="spinner"></div>
-            Splitting your PDF file...
-          </div>
-          
-          <div class="error" id="splitError"></div>
-          <div class="success" id="splitSuccess"></div>
-          
-          <div id="splitResult" class="result-container split" style="display: none;">
-            <p>PDF split successfully!</p>
-            <p>Your document has been split into <span id="splitCount">1</span> file.</p>
-            <a id="splitDownloadLink" class="download-btn split"><i class="fas fa-download"></i> Download Split PDF</a>
-          </div>
-        </div>
-
-        <div class="tab-content" id="compress-tab" role="tabpanel">
-          <h2><i class="fas fa-compress-alt"></i> Compress PDF</h2>
-          <p>Reduce PDF file size while maintaining quality.</p>
-          
-          <div class="drag-drop-area" id="compressUploadArea">
-            <p><i class="fas fa-cloud-upload-alt fa-2x"></i></p>
-            <p><strong>Choose file or drag and drop here</strong></p>
-            <p>Supported formats: PDF</p>
-            <p>Max file size: 100MB</p>
-          </div>
-          <input type="file" id="compressFileUpload" accept=".pdf" style="display: none;" aria-label="Upload PDF file for compression" />
-          
-          <div class="file-list" id="compressFileList"></div>
-          
-          <div class="setting-group">
-            <p class="description">Select compression level to balance file size and quality.</p>
-            <select id="compressionLevel" aria-label="Compression level">
-              <option value="low">Low Compression (Better Quality)</option>
-              <option value="medium" selected>Medium Compression (Recommended)</option>
-              <option value="high">High Compression (Smaller File)</option>
-            </select>
-          </div>
-          
-          <div class="btn-group">
-            <button id="compressBtn" disabled>
-              <i class="fas fa-compress-alt"></i> Compress PDF
-            </button>
-            <button id="clearCompressBtn" class="btn-secondary">
-              <i class="fas fa-trash"></i> Clear
-            </button>
-          </div>
-          
-          <div class="loading" id="compressLoading">
-            <div class="spinner"></div>
-            Compressing your PDF file...
-          </div>
-          
-          <div class="progress-container" id="compressProgressContainer">
-            <div class="progress-header">
-              <span>Compression Progress</span>
-              <span id="compressProgressPercent">0%</span>
-            </div>
-            <div class="progress-bar">
-              <div id="compressProgressFill" class="progress-fill"></div>
-            </div>
-          </div>
-          
-          <div class="error" id="compressError"></div>
-          <div class="success" id="compressSuccess"></div>
-          
-          <div id="compressResult" class="result-container">
-            <p>PDF compressed successfully! Size reduced by <span id="sizeReduction">65%</span></p>
-            <a id="compressDownloadLink" class="download-btn"><i class="fas fa-download"></i> Download Compressed PDF</a>
-          </div>
-        </div>
-
-        <div class="tab-content" id="convert-tab" role="tabpanel">
-          <h2><i class="fas fa-exchange-alt"></i> Convert PDF</h2>
-          <p>Convert between PDF and image formats.</p>
-          
-          <div class="drag-drop-area" id="convertUploadArea">
-            <p><i class="fas fa-cloud-upload-alt fa-2x"></i></p>
-            <p><strong>Choose file or drag and drop here</strong></p>
-            <p>Supported formats: PDF, JPG, PNG</p>
-            <p>Max file size: 100MB</p>
-          </div>
-          <input type="file" id="convertFileUpload" accept=".pdf,.jpg,.jpeg,.png" style="display: none;" aria-label="Upload file for conversion" />
-          
-          <div class="file-list" id="convertFileList"></div>
-          
-          <div class="conversion-settings">
-            <div class="setting-group">
-              <label for="conversionDirection">Conversion Type</label>
-              <div id="conversionDirection" style="padding: 15px; background: #f0f4ff; border-radius: 10px; margin-top: 10px; text-align: center; font-weight: 500;">
-                Upload a file to begin
-              </div>
+          <div class="text-display-controls">
+            <div class="text-display-control">
+              <label for="text-color">Text Color:</label>
+              <input type="color" id="text-color" value="#000000">
             </div>
             
-            <div class="setting-group" id="pdfToImageSettings">
-              <label for="pageSelection">Page to Convert</label>
-              <select id="pageSelection" aria-label="Select page to convert">
-                <option value="1">Page 1</option>
+            <div class="text-display-control">
+              <label for="text-size">Text Size:</label>
+              <select id="text-size">
+                <option value="12px">Small</option>
+                <option value="16px" selected>Medium</option>
+                <option value="20px">Large</option>
+                <option value="24px">Extra Large</option>
               </select>
-              <p class="description">Only the first page will be converted to an image</p>
             </div>
             
-            <div class="setting-group" id="imageToPdfSettings">
-              <label for="imageQuality">Image Quality</label>
-              <select id="imageQuality" aria-label="Select image quality">
-                <option value="high">High Quality</option>
-                <option value="medium" selected>Medium Quality</option>
-                <option value="low">Low Quality</option>
+            <div class="text-display-control">
+              <label for="text-align">Text Alignment:</label>
+              <select id="text-align">
+                <option value="left">Left</option>
+                <option value="center" selected>Center</option>
+                <option value="right">Right</option>
               </select>
             </div>
-          </div>
-          
-          <div class="btn-group">
-            <button id="convertBtn" disabled>
-              <i class="fas fa-exchange-alt"></i> Convert File
-            </button>
-            <button id="clearConvertBtn" class="btn-secondary">
-              <i class="fas fa-trash"></i> Clear
-            </button>
-          </div>
-          
-          <div class="loading" id="convertLoading">
-            <div class="spinner"></div>
-            Converting your file...
-          </div>
-          
-          <div class="error" id="convertError"></div>
-          <div class="success" id="convertSuccess"></div>
-          
-          <div id="convertResult" class="result-container convert" style="display: none;">
-            <p>File converted successfully!</p>
-            <a id="convertDownloadLink" class="download-btn convert"><i class="fas fa-download"></i> Download Converted File</a>
           </div>
         </div>
       </div>
     </div>
-  </section>
+
+    <div class="card">
+      <div class="tabs" role="tablist">
+        <div class="tab active" data-tab="single" role="tab" aria-selected="true" tabindex="0">
+          <i class="fas fa-barcode"></i> Single Barcode
+        </div>
+        <div class="tab" data-tab="batch" role="tab" aria-selected="false" tabindex="0">
+          <i class="fas fa-layer-group"></i> Batch Barcodes
+        </div>
+        <div class="tab" data-tab="custom" role="tab" aria-selected="false" tabindex="0">
+          <i class="fas fa-cog"></i> Custom Barcodes
+        </div>
+      </div>
+
+      <div class="tab-content active" id="single-tab" role="tabpanel">
+        <h2><i class="fas fa-barcode"></i> Generate Single Barcode</h2>
+        <label for="ean-type">Barcode Type:</label>
+        <select id="ean-type" aria-label="Select barcode type">
+          <option value="ean13" selected>EAN-13</option>
+          <option value="ean8">EAN-8</option>
+          <option value="upc">UPC-A</option>
+          <option value="code128">Code 128</option>
+          <option value="code39">Code 39</option>
+          <option value="itf14">ITF-14</option>
+          <option value="codabar">Codabar</option>
+          <option value="pharmacode">Pharmacode</option>
+        </select>
+        <label for="ean-input">Barcode Value:</label>
+        <input id="ean-input" type="text" placeholder="Enter barcode or leave blank to auto-generate" autofocus aria-label="Enter barcode value">
+        
+        <div class="error" id="single-error"></div>
+        <div class="success" id="single-success"></div>
+        <div class="btn-group">
+          <button id="generate-single-btn" aria-label="Generate barcode">
+            <i class="fas fa-bolt"></i> Generate Barcode
+          </button>
+          <button id="download-btn" style="display:none" aria-label="Download barcode">
+            <i class="fas fa-download"></i> Download PNG
+          </button>
+          <button id="download-svg-btn" style="display:none" aria-label="Download SVG">
+            <i class="fas fa-file-code"></i> Download SVG
+          </button>
+        </div>
+        <div class="loading" id="single-loading">
+          <div class="spinner"></div>
+          Generating Barcode...
+        </div>
+        <div class="barcode-result-container">
+          <canvas id="ean-canvas" style="display: none;" aria-label="Generated barcode"></canvas>
+        </div>
+      </div>
+
+      <div class="tab-content" id="batch-tab" role="tabpanel">
+        <h2><i class="fas fa-layer-group"></i> Batch Barcode Generation</h2>
+        <label for="batch-ean-type">Barcode Type:</label>
+        <select id="batch-ean-type" aria-label="Select barcode type for batch generation">
+          <option value="ean13" selected>EAN-13</option>
+          <option value="ean8">EAN-8</option>
+          <option value="upc">UPC-A</option>
+          <option value="code128">Code 128</option>
+          <option value="code39">Code 39</option>
+          <option value="itf14">ITF-14</option>
+          <option value="codabar">Codabar</option>
+          <option value="pharmacode">Pharmacode</option>
+        </select>
+        <label for="batch-amount">Number of Barcodes:</label>
+        <input id="batch-amount" type="number" min="1" max="100" value="10" placeholder="Enter number of codes (1–100)" aria-label="Enter number of barcodes">
+        
+        <div class="btn-group">
+          <button id="generate-batch-png-btn" aria-label="Generate and download batch barcodes as PNGs">
+            <i class="fas fa-file-archive"></i> Download as PNGs (ZIP)
+          </button>
+          <button id="generate-batch-svg-btn" aria-label="Generate and download batch barcodes as SVGs">
+            <i class="fas fa-file-archive"></i> Download as SVGs (ZIP)
+          </button>
+        </div>
+        <div class="loading" id="batch-loading">
+          <div class="spinner"></div>
+          <div id="batch-progress">Generating barcodes: 0/0</div>
+        </div>
+        <div class="success" id="batch-success"></div>
+        <div class="error" id="batch-error"></div>
+      </div>
+
+      <div class="tab-content" id="custom-tab" role="tabpanel">
+        <h2><i class="fas fa-cog"></i> Custom Barcode Generator</h2>
+        <label for="custom-type">Barcode Type:</label>
+        <select id="custom-type" aria-label="Select custom barcode type">
+          <option value="code128">Code 128</option>
+          <option value="code39">Code 39</option>
+          <option value="codabar">Codabar</option>
+          <option value="pharmacode">Pharmacode</option>
+        </select>
+        <label for="custom-input">Custom Text:</label>
+        <input id="custom-input" type="text" placeholder="Enter custom text for barcode" aria-label="Enter custom text for barcode">
+        <div class="format-info">
+          <h3>Format Examples:</h3>
+          <ul>
+            <li><strong>Code 128:</strong> Alphanumeric (e.g., ABC123)</li>
+            <li><strong>Code 39:</strong> Alphanumeric, uppercase (e.g., CODE39)</li>
+            <li><strong>Codabar:</strong> Start/end with A-D, digits and -$:/.+ (e.g., A12345B)</li>
+            <li><strong>Pharmacode:</strong> Numbers 3-131070 (e.g., 1234)</li>
+          </ul>
+        </div>
+        
+        <div class="btn-group">
+          <button id="generate-custom-btn" aria-label="Generate custom barcode">
+            <i class="fas fa-bolt"></i> Generate Custom Barcode
+          </button>
+          <button id="custom-download" style="display:none" aria-label="Download custom barcode">
+            <i class="fas fa-download"></i> Download PNG
+          </button>
+          <button id="custom-svg-download" style="display:none" aria-label="Download SVG">
+            <i class="fas fa-file-code"></i> Download SVG
+          </button>
+        </div>
+        <div class="loading" id="custom-loading">
+          <div class="spinner"></div>
+          Generating Custom Barcode...
+        </div>
+        <div class="error" id="custom-error"></div>
+        <div class="success" id="custom-success"></div>
+        <div class="barcode-result-container">
+          <canvas id="custom-canvas" style="display: none;" aria-label="Generated custom barcode"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Footer Placeholder -->
   <footer id="main-footer">
@@ -1652,573 +972,503 @@
   <!-- JavaScript -->
   <script src="/js/main.js"></script>
   <script>
-    // Set up PDF.js worker
-    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
-
-    // PDF Tools Functionality
-    function initPDFTools() {
-      // State
-      let state = {
-        uploadedFiles: {},
-        activeTab: 'merge',
-        splitTotalPages: 0,
-        pdfTotalPages: 0
+    // Barcode Generator Functionality
+    function initBarcodeGenerator() {
+      // Constants
+      const elements = {
+        tabs: document.querySelectorAll('.tab'),
+        tabContents: document.querySelectorAll('.tab-content'),
+        singleCanvas: document.getElementById('ean-canvas'),
+        customCanvas: document.getElementById('custom-canvas'),
+        downloadBtn: document.getElementById('download-btn'),
+        downloadSvgBtn: document.getElementById('download-svg-btn'),
+        customDownloadBtn: document.getElementById('custom-download'),
+        customSvgDownloadBtn: document.getElementById('custom-svg-download'),
+        singleLoading: document.getElementById('single-loading'),
+        batchLoading: document.getElementById('batch-loading'),
+        customLoading: document.getElementById('custom-loading'),
+        batchProgress: document.getElementById('batch-progress'),
+        singleError: document.getElementById('single-error'),
+        batchError: document.getElementById('batch-error'),
+        customError: document.getElementById('custom-error'),
+        singleSuccess: document.getElementById('single-success'),
+        batchSuccess: document.getElementById('batch-success'),
+        customSuccess: document.getElementById('custom-success'),
+        eanType: document.getElementById('ean-type'),
+        eanInput: document.getElementById('ean-input'),
+        batchEanType: document.getElementById('batch-ean-type'),
+        batchAmount: document.getElementById('batch-amount'),
+        customType: document.getElementById('custom-type'),
+        customInput: document.getElementById('custom-input'),
+        generateSingleBtn: document.getElementById('generate-single-btn'),
+        generateBatchPngBtn: document.getElementById('generate-batch-png-btn'),
+        generateBatchSvgBtn: document.getElementById('generate-batch-svg-btn'),
+        generateCustomBtn: document.getElementById('generate-custom-btn'),
+        colorToggle: document.getElementById('color-toggle'),
+        colorOptionsContainer: document.getElementById('color-options-container'),
+        
+        // Customization elements
+        barColor: document.getElementById('bar-color'),
+        backgroundColor: document.getElementById('background-color'),
+        transparentBg: document.getElementById('transparent-bg'),
+        barColorPreview: document.getElementById('bar-color-preview'),
+        backgroundColorPreview: document.getElementById('background-color-preview'),
+        barColorValue: document.getElementById('bar-color-value'),
+        backgroundColorValue: document.getElementById('background-color-value'),
+        
+        // Text display elements
+        showTextDisplay: document.getElementById('show-text-display'),
+        textDisplayFields: document.getElementById('text-display-fields'),
+        customText: document.getElementById('custom-text'),
+        textColor: document.getElementById('text-color'),
+        textSize: document.getElementById('text-size'),
+        textAlign: document.getElementById('text-align')
       };
 
-      // Switch tabs
-      function switchTab(tabName) {
-        document.querySelectorAll('.tab').forEach(tab => {
-          tab.classList.remove('active');
-          tab.setAttribute('aria-selected', 'false');
-        });
-        document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+      const barcodeConfig = {
+        ean13: { length: 12, regex: /^\d{12,13}$/, format: 'ean13' },
+        ean8: { length: 7, regex: /^\d{7,8}$/, format: 'ean8' },
+        upc: { length: 11, regex: /^\d{11,12}$/, format: 'UPC' },
+        itf14: { length: 13, regex: /^\d{13,14}$/, format: 'itf14' },
+        code128: { regex: /^[\w\s-]+$/, format: 'code128' },
+        code39: { regex: /^[0-9A-Z\s-.%*+$/]+$/, format: 'code39' },
+        codabar: { regex: /^[A-D][0-9-:$/.+]*[A-D]$/, format: 'codabar' },
+        pharmacode: { min: 3, max: 131070, regex: /^\d+$/, format: 'pharmacode' }
+      };
+
+      // Initialize color previews
+      function initColorSelection() {
+        // Set initial selection
+        elements.barColorPreview.classList.add('selected');
         
-        const tab = document.querySelector(`.tab[data-tab="${tabName}"]`);
-        const content = document.getElementById(`${tabName}-tab`);
-        if (tab) {
-          tab.classList.add('active');
-          tab.setAttribute('aria-selected', 'true');
-        }
-        if (content) content.classList.add('active');
-        state.activeTab = tabName;
+        // Bar color preview click handler
+        elements.barColorPreview.addEventListener('click', () => {
+          elements.barColor.click();
+          elements.barColorPreview.classList.add('selected');
+          elements.backgroundColorPreview.classList.remove('selected');
+        });
+        
+        // Background color preview click handler
+        elements.backgroundColorPreview.addEventListener('click', () => {
+          elements.backgroundColor.click();
+          elements.backgroundColorPreview.classList.add('selected');
+          elements.barColorPreview.classList.remove('selected');
+        });
+        
+        // Bar color input change handler
+        elements.barColor.addEventListener('input', () => {
+          const color = elements.barColor.value;
+          elements.barColorPreview.style.backgroundColor = color;
+          elements.barColorValue.textContent = color;
+        });
+        
+        // Background color input change handler
+        elements.backgroundColor.addEventListener('input', () => {
+          const color = elements.backgroundColor.value;
+          elements.backgroundColorPreview.style.backgroundColor = color;
+          elements.backgroundColorValue.textContent = color;
+        });
       }
 
-      // Set up file upload areas
-      function setupFileUpload(areaId, inputId, listId) {
-        const area = document.getElementById(areaId);
-        const input = document.getElementById(inputId);
-        const list = document.getElementById(listId);
-        
-        area.addEventListener('click', () => input.click());
-        area.addEventListener('dragover', (e) => {
-          e.preventDefault();
-          area.classList.add('drag-over');
-        });
-        area.addEventListener('dragenter', (e) => {
-          e.preventDefault();
-          area.classList.add('drag-over');
-        });
-        area.addEventListener('dragleave', () => {
-          area.classList.remove('drag-over');
-        });
-        area.addEventListener('drop', (e) => {
-          e.preventDefault();
-          area.classList.remove('drag-over');
-          const files = e.dataTransfer.files;
-          if (files.length > 0) {
-            // For merge: append files instead of replacing
-            if (listId === 'mergeFileList') {
-              const existingFiles = state.uploadedFiles[listId] || [];
-              const newFiles = Array.from(files);
-              state.uploadedFiles[listId] = [...existingFiles, ...newFiles];
-              renderFileList(listId);
-            } else {
-              input.files = files;
-              handleFiles(input.files, listId);
-            }
-          }
-        });
-        
-        input.addEventListener('change', () => {
-          if (input.files.length > 0) {
-            // For merge: append files instead of replacing
-            if (listId === 'mergeFileList') {
-              const existingFiles = state.uploadedFiles[listId] || [];
-              const newFiles = Array.from(input.files);
-              state.uploadedFiles[listId] = [...existingFiles, ...newFiles];
-              renderFileList(listId);
-            } else {
-              handleFiles(input.files, listId);
-            }
-          }
-        });
-      }
-      
-      // Render file list (for merge specifically)
-      function renderFileList(listId) {
-        const list = document.getElementById(listId);
-        const files = state.uploadedFiles[listId] || [];
-        list.innerHTML = '';
-        
-        files.forEach((file, i) => {
-          const fileItem = document.createElement('div');
-          fileItem.className = 'file-item';
-          
-          // Determine file icon
-          let fileIcon = 'fa-file';
-          if (file.type === 'application/pdf') {
-            fileIcon = 'fa-file-pdf';
-          } else if (file.type.startsWith('image/')) {
-            fileIcon = 'fa-file-image';
-          }
-          
-          fileItem.innerHTML = `
-            <div class="file-info">
-              <div class="file-icon"><i class="fas ${fileIcon}"></i></div>
-              <div>
-                <div>${file.name}</div>
-                <div class="file-size">${formatFileSize(file.size)}</div>
-              </div>
-            </div>
-            <div class="file-remove" data-index="${i}"><i class="fas fa-times"></i></div>
-          `;
-          list.appendChild(fileItem);
-        });
-        
-        // Add remove functionality
-        document.querySelectorAll(`#${listId} .file-remove`).forEach(removeBtn => {
-          removeBtn.addEventListener('click', function() {
-            const index = parseInt(this.getAttribute('data-index'));
-            state.uploadedFiles[listId].splice(index, 1);
-            renderFileList(listId);
-            updateProcessButtonState(listId);
-            
-            // For conversion tab, reset direction if no files
-            if (listId === 'convertFileList' && state.uploadedFiles[listId].length === 0) {
-              document.getElementById('conversionDirection').textContent = 'Upload a file to begin';
-              document.getElementById('pdfToImageSettings').style.display = 'none';
-              document.getElementById('imageToPdfSettings').style.display = 'none';
-            }
-          });
-        });
-        
-        updateProcessButtonState(listId);
-      }
-      
-      // Handle uploaded files (for non-merge tabs)
-      function handleFiles(files, listId) {
-        state.uploadedFiles[listId] = Array.from(files);
-        renderFileList(listId);
-        
-        // For conversion tab, update the conversion direction
-        if (listId === 'convertFileList' && files.length > 0) {
-          updateConversionDirection(files[0]);
-        }
-        
-        // For split tab, get total pages
-        if (listId === 'splitFileList' && files.length > 0 && files[0].type === 'application/pdf') {
-          getPDFPageCount(files[0]).then(pageCount => {
-            state.splitTotalPages = pageCount;
-            document.getElementById('totalPages').textContent = `(Total pages: ${pageCount})`;
-          }).catch(error => {
-            console.error('Failed to get page count:', error);
-            document.getElementById('totalPages').textContent = '(Total pages: unknown)';
-          });
-        }
-      }
-      
-      // Get PDF page count
-      async function getPDFPageCount(file) {
-        const { PDFDocument } = PDFLib;
-        const arrayBuffer = await file.arrayBuffer();
-        const pdfDoc = await PDFDocument.load(arrayBuffer);
-        return pdfDoc.getPageCount();
-      }
-      
-      // Update conversion direction based on file type
-      async function updateConversionDirection(file) {
-        const directionEl = document.getElementById('conversionDirection');
-        
-        if (file.type === 'application/pdf') {
-          directionEl.innerHTML = '<i class="fas fa-file-pdf"></i> PDF → <i class="fas fa-file-image"></i> Image';
-          directionEl.style.color = '#4361ee';
-          
-          // Get PDF page count
-          const pageCount = await getPDFPageCount(file);
-          state.pdfTotalPages = pageCount;
-          
-          // Update page selection dropdown
-          const pageSelect = document.getElementById('pageSelection');
-          pageSelect.innerHTML = '';
-          for (let i = 1; i <= Math.min(pageCount, 10); i++) {
-            const option = document.createElement('option');
-            option.value = i;
-            option.textContent = `Page ${i}`;
-            pageSelect.appendChild(option);
-          }
-          
-          document.getElementById('pdfToImageSettings').style.display = 'block';
-          document.getElementById('imageToPdfSettings').style.display = 'none';
-        } else if (file.type.startsWith('image/')) {
-          directionEl.innerHTML = '<i class="fas fa-file-image"></i> Image → <i class="fas fa-file-pdf"></i> PDF';
-          directionEl.style.color = '#7209b7';
-          document.getElementById('pdfToImageSettings').style.display = 'none';
-          document.getElementById('imageToPdfSettings').style.display = 'block';
-        } else {
-          directionEl.textContent = 'Unsupported file type';
-          directionEl.style.color = '#e74c3c';
-          document.getElementById('pdfToImageSettings').style.display = 'none';
-          document.getElementById('imageToPdfSettings').style.display = 'none';
-        }
-      }
-      
-      // Format file size
-      function formatFileSize(bytes) {
-        if (bytes === 0) return '0 Bytes';
-        const k = 1024;
-        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-        const i = Math.floor(Math.log(bytes) / Math.log(k));
-        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-      }
-      
-      // Update process button state
-      function updateProcessButtonState(listId) {
-        const tool = state.activeTab;
-        const hasFiles = state.uploadedFiles[listId] && state.uploadedFiles[listId].length > 0;
-        
-        if (tool === 'merge') {
-          document.getElementById('mergeBtn').disabled = !hasFiles || state.uploadedFiles[listId].length < 2;
-        } else {
-          document.getElementById(`${tool}Btn`).disabled = !hasFiles;
-        }
-        
-        // For split tab, also require a valid range
-        if (tool === 'split') {
-          const rangeInput = document.getElementById('splitRange');
-          const range = rangeInput.value.trim();
-          const hasValidRange = range !== '' && validatePageRange(range, state.splitTotalPages);
-          document.getElementById('splitBtn').disabled = !hasFiles || !hasValidRange;
-        }
-      }
-
-      // Show error message
-      function showError(tool, message) {
-        const element = document.getElementById(`${tool}Error`);
+      function showError(element, message) {
         element.textContent = message;
         element.style.display = 'block';
-        document.getElementById(`${tool}Loading`).style.display = 'none';
       }
 
-      // Show success message
-      function showSuccess(tool, message) {
-        const element = document.getElementById(`${tool}Success`);
+      function showSuccess(element, message) {
         element.textContent = message;
         element.style.display = 'block';
-        document.getElementById(`${tool}Loading`).style.display = 'none';
       }
 
-      // Hide messages
-      function hideMessages(tool) {
-        document.getElementById(`${tool}Error`).style.display = 'none';
-        document.getElementById(`${tool}Success`).style.display = 'none';
+      function hideElements() {
+        [elements.singleError, elements.batchError, elements.customError,
+         elements.singleSuccess, elements.batchSuccess, elements.customSuccess]
+          .forEach(el => el.style.display = 'none');
       }
 
-      // Show loading state
-      function showLoading(tool) {
-        hideMessages(tool);
-        document.getElementById(`${tool}Loading`).style.display = 'block';
-        document.getElementById(`${tool}Result`).style.display = 'none';
+      function calculateChecksum(code, type) {
+        let sum = 0;
+        if (type === 'ean8') {
+          const weights = [3, 1, 3, 1, 3, 1, 3];
+          for (let i = 0; i < code.length; i++) sum += parseInt(code[i]) * weights[i];
+        } else if (type === 'upc' || type === 'itf14') {
+          for (let i = 0; i < code.length; i++) sum += parseInt(code[i]) * (i % 2 === 0 ? 3 : 1);
+        } else {
+          const weights = [1, 3];
+          for (let i = 0; i < code.length; i++) sum += parseInt(code[i]) * weights[i % 2];
+        }
+        return (10 - (sum % 10)) % 10;
       }
 
-      // Hide loading state
-      function hideLoading(tool) {
-        document.getElementById(`${tool}Loading`).style.display = 'none';
+      function generateRandomEAN(type) {
+        const { length } = barcodeConfig[type];
+        let base = Array.from({ length }, () => Math.floor(Math.random() * 10)).join('');
+        return base + calculateChecksum(base, type);
       }
 
-      // Update progress bar
-      function updateProgress(tool, percent) {
-        const percentValue = Math.min(100, Math.max(0, percent));
-        if(tool === 'compress') {
-          document.getElementById('compressProgressFill').style.width = `${percentValue}%`;
-          document.getElementById('compressProgressPercent').textContent = `${Math.round(percentValue)}%`;
+      function validateInput(code, type) {
+        const config = barcodeConfig[type];
+        if (!code) return true;
+        if (type === 'pharmacode') {
+          const num = parseInt(code);
+          return !isNaN(num) && num >= config.min && num <= config.max;
+        }
+        return config.regex.test(code);
+      }
+
+      function generateRandomBarcode(type) {
+        if (['ean13', 'ean8', 'upc', 'itf14'].includes(type)) {
+          return generateRandomEAN(type);
+        }
+        switch (type) {
+          case 'code128':
+          case 'code39':
+            return Math.random().toString(36).slice(2, 12).toUpperCase();
+          case 'codabar':
+            return `A${Math.floor(Math.random() * 100000).toString().padStart(5, '0')}B`;
+          case 'pharmacode':
+            return Math.floor(Math.random() * (barcodeConfig.pharmacode.max - barcodeConfig.pharmacode.min + 1) + barcodeConfig.pharmacode.min).toString();
+          default:
+            return '123456';
         }
       }
 
-      // Create and download a file
-      function downloadFile(blob, fileName) {
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = fileName;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
+      function sanitizeFilename(str) {
+        return str.replace(/[^a-zA-Z0-9-]+/g, '_').slice(0, 50) || 'barcode';
       }
 
-      // Parse page range string
-      function parseRange(rangeStr, totalPages) {
-        const pages = new Set();
-        const ranges = rangeStr.split(',');
-        
-        for (const range of ranges) {
-          if (range.includes('-')) {
-            const [start, end] = range.split('-').map(Number);
-            const min = Math.max(1, Math.min(start, end));
-            const max = Math.min(totalPages, Math.max(start, end));
-            
-            for (let i = min; i <= max; i++) {
-              pages.add(i - 1); // Convert to 0-indexed
-            }
-          } else {
-            const page = parseInt(range.trim());
-            if (!isNaN(page) && page >= 1 && page <= totalPages) {
-              pages.add(page - 1); // Convert to 0-indexed
-            }
-          }
-        }
-        
-        return Array.from(pages).sort((a, b) => a - b);
-      }
-      
-      // Validate page range
-      function validatePageRange(rangeStr, totalPages) {
-        if (!rangeStr) return false;
-        
-        const ranges = rangeStr.split(',');
-        for (const range of ranges) {
-          if (range.includes('-')) {
-            const [start, end] = range.split('-').map(Number);
-            if (isNaN(start) || isNaN(end) || start < 1 || end > totalPages || start > end) {
-              return false;
-            }
-          } else {
-            const page = parseInt(range.trim());
-            if (isNaN(page) || page < 1 || page > totalPages) {
-              return false;
-            }
-          }
-        }
-        return true;
+      function initTextDisplay() {
+        // Toggle text display fields
+        elements.showTextDisplay.addEventListener('change', function() {
+          elements.textDisplayFields.style.display = this.checked ? 'block' : 'none';
+        });
       }
 
-      // Process functions
-      async function processMerge() {
-        const files = state.uploadedFiles.mergeFileList;
-        if (!files || files.length < 2) {
-          showError('merge', 'Please upload at least 2 PDF files to merge');
-          return;
-        }
-        
-        try {
-          showLoading('merge');
-          
-          // Create a new PDF document
-          const { PDFDocument } = PDFLib;
-          const mergedPdf = await PDFDocument.create();
-          
-          // Merge all PDFs
-          for (const file of files) {
-            const fileBytes = await file.arrayBuffer();
-            const pdf = await PDFDocument.load(fileBytes);
-            const pages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
-            pages.forEach(page => mergedPdf.addPage(page));
-          }
-          
-          // Save merged PDF
-          const mergedPdfBytes = await mergedPdf.save();
-          const blob = new Blob([mergedPdfBytes], { type: 'application/pdf' });
-          
-          // Update UI
-          const downloadLink = document.getElementById('mergeDownloadLink');
-          downloadLink.onclick = () => downloadFile(blob, 'merged-document.pdf');
-          document.getElementById('mergeResult').style.display = 'block';
-          hideLoading('merge');
-          showSuccess('merge', 'PDFs merged successfully!');
-        } catch (error) {
-          showError('merge', `Failed to merge PDFs: ${error.message}`);
-        }
-      }
-      
-      // Process Split PDF
-      async function processSplit() {
-        const files = state.uploadedFiles.splitFileList;
-        if (!files || files.length === 0) {
-          showError('split', 'Please upload a PDF file to split');
-          return;
-        }
-        
-        const rangeInput = document.getElementById('splitRange').value.trim();
-        if (!rangeInput) {
-          showError('split', 'Please enter a valid page range');
-          return;
-        }
-        
-        if (!validatePageRange(rangeInput, state.splitTotalPages)) {
-          showError('split', `Invalid page range. Please enter pages between 1 and ${state.splitTotalPages}`);
-          return;
-        }
-        
-        try {
-          showLoading('split');
-          
-          const { PDFDocument } = PDFLib;
-          const file = files[0];
-          const fileBytes = await file.arrayBuffer();
-          const pdfDoc = await PDFDocument.load(fileBytes);
-          
-          // Parse page range
-          const pageIndices = parseRange(rangeInput, state.splitTotalPages);
-          
-          // Create new PDF with selected pages
-          const newPdf = await PDFDocument.create();
-          const pages = await newPdf.copyPages(pdfDoc, pageIndices);
-          pages.forEach(page => newPdf.addPage(page));
-          
-          // Save new PDF
-          const newPdfBytes = await newPdf.save();
-          const blob = new Blob([newPdfBytes], { type: 'application/pdf' });
-          
-          // Update UI
-          const downloadLink = document.getElementById('splitDownloadLink');
-          downloadLink.onclick = () => downloadFile(blob, `split-document-pages-${rangeInput.replace(/,/g, '-')}.pdf`);
-          document.getElementById('splitCount').textContent = '1';
-          document.getElementById('splitResult').style.display = 'flex';
-          hideLoading('split');
-          showSuccess('split', `PDF split successfully! Extracted ${pageIndices.length} pages.`);
-        } catch (error) {
-          showError('split', `Failed to split PDF: ${error.message}`);
-        }
-      }
-      
-      async function processCompress() {
-        const files = state.uploadedFiles.compressFileList;
-        if (!files || files.length === 0) {
-          showError('compress', 'Please upload a PDF file to compress');
-          return;
-        }
-        
-        try {
-          showLoading('compress');
-          document.getElementById('compressProgressContainer').style.display = 'block';
-          
-          // Simulate compression progress
-          let progress = 0;
-          const progressInterval = setInterval(() => {
-            progress += 10;
-            updateProgress('compress', progress);
-            if (progress >= 100) {
-              clearInterval(progressInterval);
-            }
-          }, 200);
-          
-          // Load PDF document
-          const file = files[0];
-          const fileBytes = await file.arrayBuffer();
-          const { PDFDocument } = PDFLib;
-          const pdfDoc = await PDFDocument.load(fileBytes);
-          
-          // Save as compressed PDF
-          const compressedBytes = await pdfDoc.save({ useObjectStreams: true });
-          const blob = new Blob([compressedBytes], { type: 'application/pdf' });
-          
-          // Calculate size reduction
-          const originalSize = file.size;
-          const compressedSize = blob.size;
-          const reduction = Math.round(((originalSize - compressedSize) / originalSize) * 100);
-          
-          // Update UI
-          document.getElementById('sizeReduction').textContent = `${reduction}%`;
-          const downloadLink = document.getElementById('compressDownloadLink');
-          downloadLink.onclick = () => downloadFile(blob, 'compressed-document.pdf');
-          document.getElementById('compressResult').style.display = 'block';
-          hideLoading('compress');
-          showSuccess('compress', `PDF compressed successfully! Size reduced by ${reduction}%`);
-        } catch (error) {
-          showError('compress', `Failed to compress PDF: ${error.message}`);
-        }
-      }
-      
-      // Improved PDF conversion with PDF.js
-      async function processConvert() {
-        const files = state.uploadedFiles.convertFileList;
-        if (!files || files.length === 0) {
-          showError('convert', 'Please upload a file to convert');
-          return;
-        }
-        
-        try {
-          showLoading('convert');
-          const file = files[0];
-          let blob, fileName;
-          
-          if (file.type === 'application/pdf') {
-            // Get selected page
-            const pageNum = parseInt(document.getElementById('pageSelection').value);
-            
-            // Load the PDF with PDF.js
-            const arrayBuffer = await file.arrayBuffer();
-            const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-            
-            // Get the selected page
-            const page = await pdf.getPage(pageNum);
-            
-            // Set scale (1.5 = 150% for better quality)
-            const viewport = page.getViewport({ scale: 1.5 });
-            
-            // Create canvas for rendering
-            const canvas = document.createElement('canvas');
-            const context = canvas.getContext('2d');
-            canvas.height = viewport.height;
-            canvas.width = viewport.width;
-            
-            // Render PDF page to canvas
-            const renderContext = {
-              canvasContext: context,
-              viewport: viewport
-            };
-            await page.render(renderContext).promise;
-            
-            // Convert canvas to JPEG
-            const dataUrl = canvas.toDataURL('image/jpeg', 0.95);
-            const res = await fetch(dataUrl);
-            blob = await res.blob();
-            fileName = `converted-page-${pageNum}.jpg`;
-          } else if (file.type.startsWith('image/')) {
-            // Convert image to PDF
-            const { jsPDF } = window.jspdf;
-            const pdf = new jsPDF();
-            
-            // Create image element to get dimensions
-            const img = new Image();
-            const imgUrl = URL.createObjectURL(file);
-            
-            await new Promise((resolve) => {
-              img.onload = resolve;
-              img.src = imgUrl;
-            });
-            
-            const width = img.width;
-            const height = img.height;
-            const ratio = width / height;
-            
-            // Calculate dimensions to fit in PDF
-            const pdfWidth = pdf.internal.pageSize.getWidth();
-            const pdfHeight = pdfWidth / ratio;
-            
-            // Get quality setting
-            const quality = document.getElementById('imageQuality').value;
-            let qualityValue = 0.95;
-            if (quality === 'medium') qualityValue = 0.75;
-            if (quality === 'low') qualityValue = 0.5;
-            
-            // Add image to PDF
-            pdf.addImage(img, 'JPEG', 0, 0, pdfWidth, pdfHeight, null, 'FAST', 0, qualityValue);
-            blob = pdf.output('blob');
-            fileName = 'converted-document.pdf';
-            
-            URL.revokeObjectURL(imgUrl);
-          } else {
-            showError('convert', 'Unsupported file type for conversion');
+      function addTextToBarcode(barcodeCanvas, text, options) {
+        return new Promise((resolve) => {
+          // If text is not enabled, return the original canvas
+          if (!options.enabled || !text) {
+            resolve(barcodeCanvas);
             return;
           }
           
-          // Update UI
-          const downloadLink = document.getElementById('convertDownloadLink');
-          downloadLink.onclick = () => downloadFile(blob, fileName);
-          document.getElementById('convertResult').style.display = 'flex';
-          hideLoading('convert');
-          showSuccess('convert', 'File converted successfully!');
+          const barcodeWidth = barcodeCanvas.width;
+          const barcodeHeight = barcodeCanvas.height;
+          
+          // Create the final canvas with space for text
+          const padding = 20;
+          const fontSize = parseInt(options.size);
+          const textHeight = fontSize * 2; // Approximate height for text
+          
+          const finalCanvas = document.createElement('canvas');
+          finalCanvas.width = barcodeWidth;
+          finalCanvas.height = barcodeHeight + textHeight + padding;
+          const ctx = finalCanvas.getContext('2d');
+          
+          // Fill background if not transparent
+          if (!options.transparent) {
+            ctx.fillStyle = options.bgColor;
+            ctx.fillRect(0, 0, finalCanvas.width, finalCanvas.height);
+          }
+          
+          // Draw barcode
+          ctx.drawImage(barcodeCanvas, 0, 0);
+          
+          // Draw text
+          ctx.fillStyle = options.color;
+          ctx.font = `${options.size} 'Poppins', sans-serif`;
+          ctx.textAlign = options.align;
+          
+          // Calculate text position
+          let textX;
+          if (options.align === 'left') {
+            textX = padding;
+          } else if (options.align === 'right') {
+            textX = finalCanvas.width - padding;
+          } else {
+            textX = finalCanvas.width / 2;
+          }
+          
+          const textY = barcodeHeight + padding;
+          
+          // Draw text
+          ctx.fillText(text, textX, textY);
+          
+          resolve(finalCanvas);
+        });
+      }
+
+      async function generateBarcode({ canvas, code, type, errorElement, successElement, downloadButton, svgDownloadButton, loadingElement }) {
+        const ctx = canvas.getContext('2d');
+        hideElements();
+        loadingElement.style.display = 'block';
+        downloadButton.style.display = 'none';
+        svgDownloadButton.style.display = 'none';
+        canvas.style.display = 'none';
+
+        if (!validateInput(code, type)) {
+          showError(errorElement, 'Invalid input format for selected barcode type');
+          loadingElement.style.display = 'none';
+          return;
+        }
+
+        const finalCode = code || generateRandomBarcode(type);
+        const isPharmacode = type === 'pharmacode';
+        // Fixed size as requested
+        const width = 320;
+        const height = 150;
+        
+        // Set canvas dimensions
+        canvas.width = width;
+        canvas.height = height;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        canvas.dataset.code = finalCode;
+        canvas.dataset.type = type;
+
+        try {
+          // Generate the barcode with custom colors and background
+          JsBarcode(canvas, finalCode, {
+            format: barcodeConfig[type].format,
+            displayValue: true,
+            width: 2,
+            height: isPharmacode ? height * 0.5 : height * 0.7,
+            lineColor: elements.barColor.value,
+            textColor: elements.barColor.value,
+            background: elements.transparentBg.checked ? 'transparent' : elements.backgroundColor.value
+          });
+
+          // Add text if enabled
+          if (elements.showTextDisplay.checked) {
+            let displayText = elements.customText.value.trim();
+            if (!displayText) {
+              displayText = finalCode;
+            }
+            
+            // Create text options
+            const textOptions = {
+              enabled: true,
+              size: elements.textSize.value,
+              color: elements.textColor.value,
+              align: elements.textAlign.value,
+              transparent: elements.transparentBg.checked,
+              bgColor: elements.backgroundColor.value
+            };
+            
+            // Add text to the barcode
+            const textCanvas = await addTextToBarcode(canvas, displayText, textOptions);
+            
+            // Display results
+            canvas.width = textCanvas.width;
+            canvas.height = textCanvas.height;
+            const newCtx = canvas.getContext('2d');
+            newCtx.drawImage(textCanvas, 0, 0);
+          }
+
+          downloadButton.style.display = 'inline-block';
+          svgDownloadButton.style.display = 'inline-block';
+          canvas.style.display = 'block';
+          showSuccess(successElement, 'Barcode generated successfully!');
         } catch (error) {
-          showError('convert', `Failed to convert file: ${error.message}`);
+          showError(errorElement, `Failed to generate barcode: ${error.message}`);
+        } finally {
+          loadingElement.style.display = 'none';
         }
       }
 
-      // Initialize PDF tools
-      function setupPDFTools() {
-        // Set up tab switching
-        document.querySelectorAll('.tab').forEach(tab => {
-          tab.addEventListener('click', () => switchTab(tab.dataset.tab));
+      function downloadBarcode(canvas, errorElement) {
+        try {
+          const code = canvas.dataset.code;
+          const link = document.createElement('a');
+          link.download = `${sanitizeFilename(code)}.png`;
+          link.href = canvas.toDataURL('image/png', 1.0);
+          link.click();
+        } catch (error) {
+          showError(errorElement, 'Error downloading barcode');
+        }
+      }
+
+      function downloadSVG(canvas, errorElement) {
+        try {
+          const code = canvas.dataset.code;
+          const type = canvas.dataset.type;
+          const svgNS = "http://www.w3.org/2000/svg";
+          const svg = document.createElementNS(svgNS, "svg");
+          svg.setAttribute("xmlns", svgNS);
+          svg.setAttribute("version", "1.1");
+          svg.setAttribute("width", canvas.width);
+          svg.setAttribute("height", canvas.height);
+          
+          // Create SVG barcode
+          JsBarcode(svg, code, {
+            format: barcodeConfig[type].format,
+            displayValue: true,
+            width: 2,
+            height: canvas.height * 0.7,
+            lineColor: elements.barColor.value,
+            textColor: elements.barColor.value,
+            background: elements.transparentBg.checked ? 'transparent' : elements.backgroundColor.value
+          });
+
+          // Serialize SVG
+          const serializer = new XMLSerializer();
+          let svgString = serializer.serializeToString(svg);
+          if (!svgString.includes('xmlns')) {
+            svgString = svgString.replace(/<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
+          }
+
+          // Create blob and download
+          const blob = new Blob([svgString], {type: "image/svg+xml;charset=utf-8"});
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement("a");
+          link.href = url;
+          link.download = `${sanitizeFilename(code)}.svg`;
+          link.click();
+          URL.revokeObjectURL(url);
+        } catch (error) {
+          showError(errorElement, 'Error generating SVG: ' + error.message);
+        }
+      }
+
+      async function generateBatchBarcodes(format) {
+        const type = elements.batchEanType.value;
+        const amount = parseInt(elements.batchAmount.value);
+        // Fixed size as requested
+        const width = 320;
+        const height = 150;
+
+        if (isNaN(amount) || amount < 1 || amount > 100) {
+          showError(elements.batchError, 'Please enter a number between 1 and 100');
+          return;
+        }
+
+        hideElements();
+        elements.batchLoading.style.display = 'block';
+
+        // Prepare text options if enabled
+        let textOptions = null;
+        if (elements.showTextDisplay.checked) {
+          textOptions = {
+            enabled: true,
+            size: elements.textSize.value,
+            color: elements.textColor.value,
+            align: elements.textAlign.value,
+            transparent: elements.transparentBg.checked,
+            bgColor: elements.backgroundColor.value
+          };
+        }
+
+        try {
+          const zip = new JSZip();
+          const canvas = document.createElement('canvas');
+          const isPharmacode = type === 'pharmacode';
+
+          for (let i = 0; i < amount; i++) {
+            elements.batchProgress.textContent = `Generating barcodes: ${i + 1}/${amount}`;
+            const code = generateRandomBarcode(type);
+            canvas.width = width;
+            canvas.height = height;
+
+            try {
+              // Generate the barcode with customization
+              const ctx = canvas.getContext('2d');
+              ctx.clearRect(0, 0, canvas.width, canvas.height);
+              
+              if (format === 'svg') {
+                // Create SVG element
+                const svgNS = "http://www.w3.org/2000/svg";
+                const svg = document.createElementNS(svgNS, "svg");
+                svg.setAttribute("xmlns", svgNS);
+                svg.setAttribute("version", "1.1");
+                svg.setAttribute("width", width);
+                svg.setAttribute("height", height);
+                
+                // Generate SVG barcode
+                JsBarcode(svg, code, {
+                  format: barcodeConfig[type].format,
+                  displayValue: true,
+                  width: 2,
+                  height: isPharmacode ? height * 0.5 : height * 0.7,
+                  lineColor: elements.barColor.value,
+                  textColor: elements.barColor.value,
+                  background: elements.transparentBg.checked ? 'transparent' : elements.backgroundColor.value
+                });
+
+                // Serialize SVG
+                const serializer = new XMLSerializer();
+                let svgString = serializer.serializeToString(svg);
+                if (!svgString.includes('xmlns')) {
+                  svgString = svgString.replace(/<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
+                }
+                zip.file(`${sanitizeFilename(code)}.svg`, svgString);
+              } else {
+                // Generate PNG barcode
+                JsBarcode(canvas, code, {
+                  format: barcodeConfig[type].format,
+                  displayValue: true,
+                  width: 2,
+                  height: isPharmacode ? height * 0.5 : height * 0.7,
+                  lineColor: elements.barColor.value,
+                  textColor: elements.barColor.value,
+                  background: elements.transparentBg.checked ? 'transparent' : elements.backgroundColor.value
+                });
+
+                // Add text if enabled
+                let finalCanvas = canvas;
+                if (textOptions) {
+                  let displayText = elements.customText.value.trim();
+                  if (!displayText) {
+                    displayText = code;
+                  }
+                  
+                  // Add text to the barcode
+                  finalCanvas = await addTextToBarcode(canvas, displayText, textOptions);
+                }
+
+                const dataUrl = finalCanvas.toDataURL('image/png', 1.0);
+                const imgData = dataUrl.replace(/^data:image\/png;base64,/, '');
+                zip.file(`${sanitizeFilename(code)}.png`, imgData, { base64: true });
+              }
+            } catch (err) {
+              console.warn(`Error generating barcode for code ${code}: ${err.message}`);
+            }
+
+            await new Promise(resolve => setTimeout(resolve, 10));
+          }
+
+          const blob = await zip.generateAsync({ type: 'blob' });
+          saveAs(blob, `batch-${sanitizeFilename(type)}-${format}.zip`);
+          showSuccess(elements.batchSuccess, `Successfully generated and downloaded ${amount} barcodes as ${format.toUpperCase()}s!`);
+        } catch (error) {
+          showError(elements.batchError, `Error creating ZIP file: ${error.message}`);
+        } finally {
+          elements.batchLoading.style.display = 'none';
+        }
+      }
+
+      function initializeBarcodeGenerator() {
+        // Initialize color selection UI
+        initColorSelection();
+        
+        // Initialize text display UI
+        initTextDisplay();
+        
+        // Toggle color options visibility
+        elements.colorToggle.addEventListener('change', function() {
+          elements.colorOptionsContainer.style.display = this.checked ? 'block' : 'none';
+        });
+        
+        // Tabs functionality
+        elements.tabs.forEach(tab => {
+          tab.addEventListener('click', () => {
+            elements.tabs.forEach(t => {
+              t.classList.remove('active');
+              t.setAttribute('aria-selected', 'false');
+            });
+            elements.tabContents.forEach(c => c.classList.remove('active'));
+            tab.classList.add('active');
+            tab.setAttribute('aria-selected', 'true');
+            document.getElementById(`${tab.dataset.tab}-tab`).classList.add('active');
+          });
           tab.addEventListener('keydown', e => {
             if (e.key === 'Enter' || e.key === ' ') {
               e.preventDefault();
@@ -2227,69 +1477,62 @@
           });
         });
 
-        // Initialize file upload areas
-        setupFileUpload('mergeUploadArea', 'mergeFileUpload', 'mergeFileList');
-        setupFileUpload('splitUploadArea', 'splitFileUpload', 'splitFileList');
-        setupFileUpload('compressUploadArea', 'compressFileUpload', 'compressFileList');
-        setupFileUpload('convertUploadArea', 'convertFileUpload', 'convertFileList');
+        // Input events
+        elements.eanInput.addEventListener('keypress', e => {
+          if (e.key === 'Enter') elements.generateSingleBtn.click();
+        });
 
-        // Clear buttons
-        document.getElementById('clearMergeBtn').addEventListener('click', () => {
-          state.uploadedFiles.mergeFileList = [];
-          renderFileList('mergeFileList');
-          hideMessages('merge');
-          document.getElementById('mergeResult').style.display = 'none';
+        elements.customInput.addEventListener('keypress', e => {
+          if (e.key === 'Enter') elements.generateCustomBtn.click();
         });
-        
-        document.getElementById('clearSplitBtn').addEventListener('click', () => {
-          state.uploadedFiles.splitFileList = [];
-          renderFileList('splitFileList');
-          document.getElementById('splitRange').value = '';
-          state.splitTotalPages = 0;
-          hideMessages('split');
-          document.getElementById('splitResult').style.display = 'none';
-          document.getElementById('totalPages').textContent = '(Total pages: -)';
-        });
-        
-        document.getElementById('clearCompressBtn').addEventListener('click', () => {
-          state.uploadedFiles.compressFileList = [];
-          renderFileList('compressFileList');
-          hideMessages('compress');
-          document.getElementById('compressResult').style.display = 'none';
-          document.getElementById('compressProgressContainer').style.display = 'none';
-        });
-        
-        document.getElementById('clearConvertBtn').addEventListener('click', () => {
-          state.uploadedFiles.convertFileList = [];
-          renderFileList('convertFileList');
-          hideMessages('convert');
-          document.getElementById('convertResult').style.display = 'none';
-          document.getElementById('conversionDirection').textContent = 'Upload a file to begin';
-          document.getElementById('pdfToImageSettings').style.display = 'none';
-          document.getElementById('imageToPdfSettings').style.display = 'none';
-        });
-        
-        // Process buttons
-        document.getElementById('mergeBtn').addEventListener('click', processMerge);
-        document.getElementById('splitBtn').addEventListener('click', processSplit);
-        document.getElementById('compressBtn').addEventListener('click', processCompress);
-        document.getElementById('convertBtn').addEventListener('click', processConvert);
-        
-        // Validate split range input
-        const splitRangeInput = document.getElementById('splitRange');
-        if (splitRangeInput) {
-          splitRangeInput.addEventListener('input', () => {
-            updateProcessButtonState('splitFileList');
+
+        // Button click handlers
+        elements.generateSingleBtn.addEventListener('click', () => generateBarcode({
+          canvas: elements.singleCanvas,
+          code: elements.eanInput.value.trim(),
+          type: elements.eanType.value,
+          errorElement: elements.singleError,
+          successElement: elements.singleSuccess,
+          downloadButton: elements.downloadBtn,
+          svgDownloadButton: elements.downloadSvgBtn,
+          loadingElement: elements.singleLoading
+        }));
+
+        elements.downloadBtn.addEventListener('click', () => downloadBarcode(elements.singleCanvas, elements.singleError));
+        elements.downloadSvgBtn.addEventListener('click', () => downloadSVG(elements.singleCanvas, elements.singleError));
+
+        elements.generateBatchPngBtn.addEventListener('click', () => generateBatchBarcodes('png'));
+        elements.generateBatchSvgBtn.addEventListener('click', () => generateBatchBarcodes('svg'));
+
+        elements.generateCustomBtn.addEventListener('click', () => {
+          const code = elements.customInput.value.trim();
+          if (!code) {
+            showError(elements.customError, 'Please enter custom text for the barcode');
+            return;
+          }
+          generateBarcode({
+            canvas: elements.customCanvas,
+            code,
+            type: elements.customType.value,
+            errorElement: elements.customError,
+            successElement: elements.customSuccess,
+            downloadButton: elements.customDownloadBtn,
+            svgDownloadButton: elements.customSvgDownloadBtn,
+            loadingElement: elements.customLoading
           });
-        }
-      }
+        });
 
-      // Initialize when DOM is loaded
-      setupPDFTools();
+        elements.customDownloadBtn.addEventListener('click', () => downloadBarcode(elements.customCanvas, elements.customError));
+        elements.customSvgDownloadBtn.addEventListener('click', () => downloadSVG(elements.customCanvas, elements.customError));
+      }
+      
+      initializeBarcodeGenerator();
     }
 
-    // Initialize PDF tools when DOM is loaded
-    document.addEventListener('DOMContentLoaded', initPDFTools);
+    // Initialize everything when DOM is loaded
+    document.addEventListener('DOMContentLoaded', () => {
+      initBarcodeGenerator();
+    });
   </script>
 </body>
 </html>
