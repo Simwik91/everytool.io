@@ -891,20 +891,81 @@
       box-shadow: 0 4px 10px rgba(0,0,0,0.05);
     }
 
-    /* Format options info */
-    .format-info {
-      font-size: 0.9rem;
+    /* Color Options Container */
+    .color-options-container {
+      margin: 1.5em 0;
+      border: 1px solid var(--light-gray);
+      border-radius: var(--border-radius);
+      padding: 20px;
+      background: #fafbff;
+    }
+
+    .color-options-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+      justify-content: center;
+    }
+
+    .color-options-header i {
+      color: var(--primary);
+      font-size: 1.5rem;
+    }
+
+    .color-options-content {
+      display: none; /* Initially hidden */
+    }
+    
+    .svg-note {
+      font-size: 0.85rem;
       color: var(--gray);
-      margin: 10px 0;
+      text-align: center;
+      margin-top: 10px;
+      font-style: italic;
+      background: rgba(67, 97, 238, 0.05);
       padding: 10px;
-      background: #f8f9ff;
       border-radius: 8px;
       border-left: 3px solid var(--primary);
     }
 
-    .format-info i {
+    /* Download buttons container */
+    .download-buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 15px;
+    }
+
+    .download-buttons button {
+      flex: 1;
+      max-width: 200px;
+    }
+
+    /* Size Options Container */
+    .size-options-container {
+      margin: 1.5em 0;
+      border: 1px solid var(--light-gray);
+      border-radius: var(--border-radius);
+      padding: 20px;
+      background: #fafbff;
+    }
+
+    .size-options-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+      justify-content: center;
+    }
+
+    .size-options-header i {
       color: var(--primary);
-      margin-right: 5px;
+      font-size: 1.5rem;
+    }
+
+    .size-options-content {
+      display: none; /* Initially hidden */
     }
 
     /* Responsive Design */
@@ -942,6 +1003,16 @@
       
       .text-display-controls {
         grid-template-columns: 1fr;
+      }
+
+      .download-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .download-buttons button {
+        max-width: 100%;
+        width: 100%;
       }
     }
 
@@ -1080,13 +1151,63 @@
 
         <div class="error" id="input-error">Please fill in all required fields</div>
 
+        <!-- Color Options Section -->
+        <div class="color-options-container">
+          <div class="color-options-header">
+            <i class="fas fa-palette"></i>
+            <h3>Color Options</h3>
+          </div>
+          
+          <div class="text-display-toggle">
+            <label class="toggle-label">Customize Colors</label>
+            <label class="toggle-switch-visual">
+              <input type="checkbox" id="show-color-options">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          
+          <div class="color-options-content" id="color-options-content">
+            <div class="color-group">
+              <div class="color-input">
+                <label for="fg-color">Foreground Color</label>
+                <input type="color" id="fg-color" value="#000000" aria-label="Select foreground color">
+              </div>
+              <div class="color-input">
+                <label for="bg-color">Background Color</label>
+                <input type="color" id="bg-color" value="#FFFFFF" aria-label="Select background color">
+              </div>
+            </div>
+            
+            <div class="toggle-container">
+              <span class="toggle-label">Transparent Background</span>
+              <label class="toggle-switch-visual">
+                <input type="checkbox" id="transparent-bg" aria-label="Make background transparent">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            
+            <div class="svg-note">
+              <i class="fas fa-info-circle"></i> Note: SVG format only supports color customization. Logos and text are not included in SVG downloads.
+            </div>
+          </div>
+        </div>
+
+        <!-- Logo & Border Options Section -->
         <div class="logo-options-container">
           <div class="logo-options-header">
             <i class="fas fa-image"></i>
             <h3>Logo & Border Options</h3>
           </div>
           
-          <div class="logo-options-content">
+          <div class="text-display-toggle">
+            <label class="toggle-label">Add Logo & Border</label>
+            <label class="toggle-switch-visual">
+              <input type="checkbox" id="show-logo-options">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          
+          <div class="logo-options-content" id="logo-options-content">
             <div class="logo-upload-container">
               <div class="logo-upload-area" id="logo-upload-area">
                 <label for="logo-upload" class="visually-hidden">Upload Logo</label>
@@ -1112,48 +1233,21 @@
                   </div>
                 </div>
                 <div class="border-control">
-                  <label for="border-color">Border Color:</label>
-                  <input type="color" id="border-color" value="#FFFFFF" aria-label="Select logo border color">
-                </div>
-                <div class="border-control">
                   <label for="logo-size">Logo Size:</label>
                   <div class="size-controls">
                     <input type="range" id="logo-size" class="size-slider" min="5" max="25" value="15" step="1" aria-label="Adjust logo size">
                     <div class="size-value" id="logo-size-value">15%</div>
                   </div>
                 </div>
-              </div>
-              <div class="border-note" id="border-note">
-                <i class="fas fa-info-circle"></i> Border settings only apply when a logo is uploaded
+                <div class="border-note" id="border-note">
+                  <i class="fas fa-info-circle"></i> Border settings only apply when a logo is uploaded
+                </div>
+                <div class="border-control">
+                  <label for="border-color">Border Color:</label>
+                  <input type="color" id="border-color" value="#FFFFFF" aria-label="Select logo border color">
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-
-        <div class="color-group">
-          <div class="color-input">
-            <label for="fg-color">Foreground Color</label>
-            <input type="color" id="fg-color" value="#000000" aria-label="Select foreground color">
-          </div>
-          <div class="color-input">
-            <label for="bg-color">Background Color</label>
-            <input type="color" id="bg-color" value="#FFFFFF" aria-label="Select background color">
-          </div>
-        </div>
-        
-        <div class="toggle-container">
-          <span class="toggle-label">Transparent Background</span>
-          <label class="toggle-switch-visual">
-            <input type="checkbox" id="transparent-bg" aria-label="Make background transparent">
-            <span class="toggle-slider"></span>
-          </label>
-        </div>
-
-        <div class="size-group">
-          <label for="size-slider">QR Code Size:</label>
-          <div class="size-controls">
-            <input type="range" id="size-slider" class="size-slider" min="128" max="1024" value="256" step="32" aria-label="Adjust QR code size">
-            <div class="size-value" id="size-value">256px</div>
           </div>
         </div>
 
@@ -1216,20 +1310,44 @@
           </div>
         </div>
 
+        <!-- Size Options Section -->
+        <div class="size-options-container">
+          <div class="size-options-header">
+            <i class="fas fa-ruler"></i>
+            <h3>Size Options</h3>
+          </div>
+          
+          <div class="text-display-toggle">
+            <label class="toggle-label">Customize QR Size</label>
+            <label class="toggle-switch-visual">
+              <input type="checkbox" id="show-size-options">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          
+          <div class="size-options-content" id="size-options-content">
+            <div class="size-group">
+              <label for="size-slider">QR Code Size:</label>
+              <div class="size-controls">
+                <input type="range" id="size-slider" class="size-slider" min="128" max="1024" value="256" step="32" aria-label="Adjust QR code size">
+                <div class="size-value" id="size-value">256px</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="btn-group">
           <button onclick="generateQR()" aria-label="Generate QR code">
             <i class="fas fa-bolt"></i> Generate QR Code
           </button>
-          <button id="download-btn" onclick="downloadQR('png')" style="display:none" aria-label="Download QR code as PNG">
-            <i class="fas fa-download"></i> Download as PNG
-          </button>
-          <button id="download-svg-btn" onclick="downloadQR('svg')" style="display:none" aria-label="Download QR code as SVG">
-            <i class="fas fa-download"></i> Download as SVG
-          </button>
-        </div>
-
-        <div class="format-info">
-          <i class="fas fa-info-circle"></i> SVG format supports: Colors, Size, and Text. Logos and borders are not supported in SVG format.
+          <div class="download-buttons" id="download-buttons" style="display:none">
+            <button id="download-png-btn" onclick="downloadQR('png')" aria-label="Download PNG QR code">
+              <i class="fas fa-download"></i> Download PNG
+            </button>
+            <button id="download-svg-btn" onclick="downloadQR('svg')" class="secondary" aria-label="Download SVG QR code">
+              <i class="fas fa-download"></i> Download SVG
+            </button>
+          </div>
         </div>
 
         <div class="loading" id="qr-loading">
@@ -1307,14 +1425,63 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
         <label for="bulk-filename">File Name Prefix:</label>
         <input type="text" id="bulk-filename" value="qr-codes" aria-label="Enter file name prefix for bulk QR codes">
 
-        <!-- Bulk QR design options -->
+        <!-- Color Options for Bulk QR -->
+        <div class="color-options-container">
+          <div class="color-options-header">
+            <i class="fas fa-palette"></i>
+            <h3>Color Options</h3>
+          </div>
+          
+          <div class="text-display-toggle">
+            <label class="toggle-label">Customize Colors</label>
+            <label class="toggle-switch-visual">
+              <input type="checkbox" id="bulk-show-color-options">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          
+          <div class="color-options-content" id="bulk-color-options-content">
+            <div class="color-group">
+              <div class="color-input">
+                <label for="bulk-fg-color">Foreground Color</label>
+                <input type="color" id="bulk-fg-color" value="#000000" aria-label="Select foreground color for bulk">
+              </div>
+              <div class="color-input">
+                <label for="bulk-bg-color">Background Color</label>
+                <input type="color" id="bulk-bg-color" value="#FFFFFF" aria-label="Select background color for bulk">
+              </div>
+            </div>
+            
+            <div class="toggle-container">
+              <span class="toggle-label">Transparent Background</span>
+              <label class="toggle-switch-visual">
+                <input type="checkbox" id="bulk-transparent-bg" aria-label="Make background transparent for bulk">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            
+            <div class="svg-note">
+              <i class="fas fa-info-circle"></i> Note: SVG format only supports color customization. Logos and text are not included in SVG downloads.
+            </div>
+          </div>
+        </div>
+
+        <!-- Logo & Border Options for Bulk QR -->
         <div class="logo-options-container">
           <div class="logo-options-header">
             <i class="fas fa-image"></i>
             <h3>Logo & Border Options</h3>
           </div>
           
-          <div class="logo-options-content">
+          <div class="text-display-toggle">
+            <label class="toggle-label">Add Logo & Border</label>
+            <label class="toggle-switch-visual">
+              <input type="checkbox" id="bulk-show-logo-options">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          
+          <div class="logo-options-content" id="bulk-logo-options-content">
             <div class="logo-upload-container">
               <div class="logo-upload-area" id="bulk-logo-upload-area">
                 <label for="bulk-logo-upload" class="visually-hidden">Upload Logo for Bulk</label>
@@ -1340,48 +1507,21 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
                   </div>
                 </div>
                 <div class="border-control">
-                  <label for="bulk-border-color">Border Color:</label>
-                  <input type="color" id="bulk-border-color" value="#FFFFFF" aria-label="Select logo border color for bulk">
-                </div>
-                <div class="border-control">
                   <label for="bulk-logo-size">Logo Size:</label>
                   <div class="size-controls">
                     <input type="range" id="bulk-logo-size" class="size-slider" min="5" max="25" value="15" step="1" aria-label="Adjust logo size for bulk">
                     <div class="size-value" id="bulk-logo-size-value">15%</div>
                   </div>
                 </div>
-              </div>
-              <div class="border-note" id="bulk-border-note">
-                <i class="fas fa-info-circle"></i> Border settings only apply when a logo is uploaded
+                <div class="border-note" id="bulk-border-note">
+                  <i class="fas fa-info-circle"></i> Border settings only apply when a logo is uploaded
+                </div>
+                <div class="border-control">
+                  <label for="bulk-border-color">Border Color:</label>
+                  <input type="color" id="bulk-border-color" value="#FFFFFF" aria-label="Select logo border color for bulk">
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-        
-        <div class="color-group">
-          <div class="color-input">
-            <label for="bulk-fg-color">Foreground Color</label>
-            <input type="color" id="bulk-fg-color" value="#000000" aria-label="Select foreground color for bulk">
-          </div>
-          <div class="color-input">
-            <label for="bulk-bg-color">Background Color</label>
-            <input type="color" id="bulk-bg-color" value="#FFFFFF" aria-label="Select background color for bulk">
-          </div>
-        </div>
-        
-        <div class="toggle-container">
-          <span class="toggle-label">Transparent Background</span>
-          <label class="toggle-switch-visual">
-            <input type="checkbox" id="bulk-transparent-bg" aria-label="Make background transparent for bulk">
-            <span class="toggle-slider"></span>
-          </label>
-        </div>
-
-        <div class="size-group">
-          <label for="bulk-size-slider">QR Code Size:</label>
-          <div class="size-controls">
-            <input type="range" id="bulk-size-slider" class="size-slider" min="128" max="1024" value="256" step="32" aria-label="Adjust QR code size for bulk">
-            <div class="size-value" id="bulk-size-value">256px</div>
           </div>
         </div>
 
@@ -1440,17 +1580,41 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
           </div>
         </div>
 
-        <div class="format-info">
-          <i class="fas fa-info-circle"></i> For bulk SVG downloads: Colors, Size, and Text are supported. Logos and borders are not included in SVG format.
+        <!-- Size Options for Bulk QR -->
+        <div class="size-options-container">
+          <div class="size-options-header">
+            <i class="fas fa-ruler"></i>
+            <h3>Size Options</h3>
+          </div>
+          
+          <div class="text-display-toggle">
+            <label class="toggle-label">Customize QR Size</label>
+            <label class="toggle-switch-visual">
+              <input type="checkbox" id="bulk-show-size-options">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          
+          <div class="size-options-content" id="bulk-size-options-content">
+            <div class="size-group">
+              <label for="bulk-size-slider">QR Code Size:</label>
+              <div class="size-controls">
+                <input type="range" id="bulk-size-slider" class="size-slider" min="128" max="1024" value="256" step="32" aria-label="Adjust QR code size for bulk">
+                <div class="size-value" id="bulk-size-value">256px</div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div class="btn-group">
-          <button onclick="generateBulkQR('png')" aria-label="Generate and download bulk QR codes as PNG ZIP">
-            <i class="fas fa-file-archive"></i> Generate & Download as PNG ZIP
-          </button>
-          <button onclick="generateBulkQR('svg')" aria-label="Generate and download bulk QR codes as SVG ZIP">
-            <i class="fas fa-file-archive"></i> Generate & Download as SVG ZIP
-          </button>
+          <div class="download-buttons">
+            <button onclick="generateBulkQR('png')" aria-label="Generate and download bulk QR codes as PNG ZIP">
+              <i class="fas fa-file-archive"></i> Download PNG (ZIP)
+            </button>
+            <button onclick="generateBulkQR('svg')" class="secondary" aria-label="Generate and download bulk QR codes as SVG ZIP">
+              <i class="fas fa-file-archive"></i> Download SVG (ZIP)
+            </button>
+          </div>
         </div>
 
         <div class="loading" id="bulk-loading">
@@ -1615,7 +1779,8 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
     const qrLoading = document.getElementById('qr-loading');
     const qrError = document.getElementById('qr-error');
     const qrSuccess = document.getElementById('qr-success');
-    const downloadBtn = document.getElementById('download-btn');
+    const downloadButtons = document.getElementById('download-buttons');
+    const downloadPngBtn = document.getElementById('download-png-btn');
     const downloadSvgBtn = document.getElementById('download-svg-btn');
     const video = document.getElementById('scanner-video');
     const scanResult = document.getElementById('scan-result');
@@ -1677,6 +1842,22 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
     const bulkTextSize = document.getElementById('bulk-text-size');
     const bulkTextAlign = document.getElementById('bulk-text-align');
 
+    // Size options elements
+    const showSizeOptions = document.getElementById('show-size-options');
+    const sizeOptionsContent = document.getElementById('size-options-content');
+    const bulkShowSizeOptions = document.getElementById('bulk-show-size-options');
+    const bulkSizeOptionsContent = document.getElementById('bulk-size-options-content');
+
+    // New elements for toggleable sections
+    const showColorOptions = document.getElementById('show-color-options');
+    const colorOptionsContent = document.getElementById('color-options-content');
+    const showLogoOptions = document.getElementById('show-logo-options');
+    const logoOptionsContent = document.getElementById('logo-options-content');
+    const bulkShowColorOptions = document.getElementById('bulk-show-color-options');
+    const bulkColorOptionsContent = document.getElementById('bulk-color-options-content');
+    const bulkShowLogoOptions = document.getElementById('bulk-show-logo-options');
+    const bulkLogoOptionsContent = document.getElementById('bulk-logo-options-content');
+
     // Global variables
     let currentStream = null;
     let logoImage = null;
@@ -1698,8 +1879,44 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
       initBulkInputType();
       initTextDisplay();
       initBulkTextDisplay();
+      initToggleableSections();
+      initSizeOptions();
       loadQRPreferences();
     });
+
+    function initSizeOptions() {
+      // Single QR size options
+      showSizeOptions.addEventListener('change', function() {
+        sizeOptionsContent.style.display = this.checked ? 'block' : 'none';
+      });
+      
+      // Bulk QR size options
+      bulkShowSizeOptions.addEventListener('change', function() {
+        bulkSizeOptionsContent.style.display = this.checked ? 'block' : 'none';
+      });
+    }
+
+    function initToggleableSections() {
+      // Single QR color options
+      showColorOptions.addEventListener('change', function() {
+        colorOptionsContent.style.display = this.checked ? 'block' : 'none';
+      });
+      
+      // Single QR logo options
+      showLogoOptions.addEventListener('change', function() {
+        logoOptionsContent.style.display = this.checked ? 'flex' : 'none';
+      });
+      
+      // Bulk QR color options
+      bulkShowColorOptions.addEventListener('change', function() {
+        bulkColorOptionsContent.style.display = this.checked ? 'block' : 'none';
+      });
+      
+      // Bulk QR logo options
+      bulkShowLogoOptions.addEventListener('change', function() {
+        bulkLogoOptionsContent.style.display = this.checked ? 'flex' : 'none';
+      });
+    }
 
     function initTextDisplay() {
       // Toggle text display fields
@@ -1846,6 +2063,14 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
         sizeSlider.addEventListener('mouseup', () => sizeValue.classList.remove('active'));
       }
       
+      if (bulkSizeSlider) {
+        bulkSizeSlider.addEventListener('input', () => {
+          bulkSizeValue.textContent = `${bulkSizeSlider.value}px`;
+        });
+        bulkSizeSlider.addEventListener('mousedown', () => bulkSizeValue.classList.add('active'));
+        bulkSizeSlider.addEventListener('mouseup', () => bulkSizeValue.classList.remove('active'));
+      }
+      
       if (borderSize) {
         borderSize.addEventListener('input', () => {
           updateBorderSizeValue();
@@ -1865,14 +2090,6 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
         bulkLogoSize.addEventListener('input', updateBulkLogoSizeValue);
         bulkLogoSize.addEventListener('mousedown', () => bulkLogoSizeValue.classList.add('active'));
         bulkLogoSize.addEventListener('mouseup', () => bulkLogoSizeValue.classList.remove('active'));
-      }
-      
-      if (bulkSizeSlider) {
-        bulkSizeSlider.addEventListener('input', () => {
-          bulkSizeValue.textContent = `${bulkSizeSlider.value}px`;
-        });
-        bulkSizeSlider.addEventListener('mousedown', () => bulkSizeValue.classList.add('active'));
-        bulkSizeSlider.addEventListener('mouseup', () => bulkSizeValue.classList.remove('active'));
       }
       
       if (bulkBorderSize) {
@@ -2317,8 +2534,9 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
         
         const qrOptions = {
           size: parseInt(sizeSlider.value),
-          fgColor: fgColor.value,
-          bgColor: transparentBg.checked ? '#00000000' : bgColor.value
+          fgColor: showColorOptions.checked ? fgColor.value : '#000000',
+          bgColor: (showColorOptions.checked && transparentBg.checked) ? '#00000000' : 
+                  (showColorOptions.checked ? bgColor.value : '#FFFFFF')
         };
         
         qrLoading.style.display = 'block';
@@ -2328,14 +2546,17 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
         // Create QR canvas
         const generatedCanvas = await createQRCanvas(content, qrOptions);
         
-        // Add logo and border
-        const finalCanvas = await addLogoToQR(
-          generatedCanvas, 
-          logoImage, 
-          parseInt(borderSize.value), 
-          borderColor.value,
-          parseInt(logoSize.value)
-        );
+        // Add logo and border if enabled
+        let finalCanvas = generatedCanvas;
+        if (showLogoOptions.checked) {
+          finalCanvas = await addLogoToQR(
+            generatedCanvas, 
+            logoImage, 
+            parseInt(borderSize.value), 
+            borderColor.value,
+            parseInt(logoSize.value)
+          );
+        }
         
         // Add text if enabled
         let displayText = '';
@@ -2379,18 +2600,19 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
         const ctx = qrCanvas.getContext('2d');
         ctx.drawImage(textCanvas, 0, 0);
         
+        // Also generate SVG version
+        const svg = await createQRSvg(content, qrOptions);
+        
         generatedQR = { 
           data: qrCanvas.toDataURL('image/png'), 
-          content,
-          textCanvas,
-          displayText
+          svgData: svg,
+          content 
         };
         
         qrLoading.style.display = 'none';
         qrSuccess.style.display = 'block';
         qrSuccess.textContent = 'QR Code generated successfully!';
-        downloadBtn.style.display = 'block';
-        downloadSvgBtn.style.display = 'block';
+        downloadButtons.style.display = 'flex';
         qrCanvas.style.display = 'block';
         
         // Update text display
@@ -2416,7 +2638,7 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
         } else if (code.data !== originalContent) {
           qrSuccess.innerHTML += `<br><span class="scanner-error"><i class="fas fa-exclamation-circle"></i> Content mismatch: ${code.data.substr(0, 20)}...</span>`;
         } else {
-          qrSuccess.innerHTML += '<br><span class="scanner-success"><i class="fas fa-check-circle"></i> QR code scans successfully</span>';
+          qrSuccess.innerHTML += '<br><span class="scanner-success"><i class="fas fa-check-circle"></i> QR code verified to work</span>';
         }
       } catch (e) {
         console.log('QR test error:', e);
@@ -2479,6 +2701,14 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
         bulkError.style.display = 'none';
         bulkLoading.style.display = 'block';
 
+        // Prepare color options
+        const qrOptions = {
+          size: parseInt(bulkSizeSlider.value),
+          fgColor: bulkShowColorOptions.checked ? bulkFgColor.value : '#000000',
+          bgColor: (bulkShowColorOptions.checked && bulkTransparentBg.checked) ? '#00000000' : 
+                  (bulkShowColorOptions.checked ? bulkBgColor.value : '#FFFFFF')
+        };
+
         // Prepare text options if enabled
         let textOptions = null;
         if (bulkShowTextDisplay.checked) {
@@ -2496,7 +2726,7 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
         const batchSize = 5;
         for (let i = 0; i < inputs.length; i += batchSize) {
           const batch = inputs.slice(i, i + batchSize);
-          await processBatch(batch, i, inputs.length, textOptions, format);
+          await processBatch(batch, i, inputs.length, qrOptions, textOptions, format);
         }
 
         createBulkZip(format);
@@ -2507,31 +2737,37 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
       }
     }
 
-    async function processBatch(batch, startIndex, total, textOptions, format) {
+    async function processBatch(batch, startIndex, total, qrOptions, textOptions, format) {
       for (let j = 0; j < batch.length; j++) {
         const index = startIndex + j;
         const input = batch[j];
         bulkProgress.textContent = `Generating QR codes: ${index + 1}/${total}`;
         
         try {
-          const qrOptions = {
-            size: parseInt(bulkSizeSlider.value),
-            fgColor: bulkFgColor.value,
-            bgColor: bulkTransparentBg.checked ? '#00000000' : bulkBgColor.value
-          };
+          let qrData = null;
           
-          if (format === 'png') {
-            // Create QR canvas for PNG
+          if (format === 'svg') {
+            // Generate SVG directly
+            const svg = await createQRSvg(input, qrOptions);
+            qrData = {
+              content: input,
+              svgData: svg
+            };
+          } else {
+            // Create PNG with possible logo and text
             const generatedCanvas = await createQRCanvas(input, qrOptions);
             
-            // Add logo and border
-            const finalCanvas = await addLogoToQR(
-              generatedCanvas, 
-              bulkLogoImage, 
-              parseInt(bulkBorderSize.value), 
-              bulkBorderColor.value,
-              parseInt(bulkLogoSize.value)
-            );
+            // Add logo and border if enabled
+            let finalCanvas = generatedCanvas;
+            if (bulkShowLogoOptions.checked) {
+              finalCanvas = await addLogoToQR(
+                generatedCanvas, 
+                bulkLogoImage, 
+                parseInt(bulkBorderSize.value), 
+                bulkBorderColor.value,
+                parseInt(bulkLogoSize.value)
+              );
+            }
             
             // Add text if enabled
             let textCanvas = finalCanvas;
@@ -2557,43 +2793,13 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
               textCanvas = await addTextToQR(finalCanvas, displayText, textOptions);
             }
             
-            bulkQRs.push({
+            qrData = {
               content: input,
-              dataURL: textCanvas.toDataURL('image/png'),
-              format: 'png'
-            });
-          } else {
-            // Create SVG
-            const svg = await createQRSvg(input, qrOptions);
-            
-            // For SVG, we can't add logo or border, but we can add text if needed
-            let displayText = '';
-            if (textOptions) {
-              displayText = bulkCustomText.value.trim();
-              if (!displayText) {
-                displayText = input;
-              }
-              
-              // Add prefix and suffix with spaces
-              const prefixVal = bulkTextPrefix.value.trim();
-              const suffixVal = bulkTextSuffix.value.trim();
-              
-              if (prefixVal || suffixVal) {
-                const parts = [];
-                if (prefixVal) parts.push(prefixVal);
-                if (displayText) parts.push(displayText);
-                if (suffixVal) parts.push(suffixVal);
-                displayText = parts.join(' ');
-              }
-            }
-            
-            bulkQRs.push({
-              content: input,
-              svg,
-              displayText,
-              format: 'svg'
-            });
+              dataURL: textCanvas.toDataURL('image/png')
+            };
           }
+          
+          bulkQRs.push(qrData);
         } catch (error) {
           console.error('Error generating QR code for: ' + input, error);
           // Add placeholder for failed generation
@@ -2616,14 +2822,14 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
           if (!item.error) {
             const filename = `${sanitizeFilename(item.content)}.${format}`;
             
-            if (format === 'png') {
+            if (format === 'svg' && item.svgData) {
+              zip.file(filename, item.svgData);
+              successCount++;
+            } else if (format === 'png' && item.dataURL) {
               const data = item.dataURL.split(',')[1];
               zip.file(filename, data, { base64: true });
-            } else {
-              zip.file(filename, item.svg);
+              successCount++;
             }
-            
-            successCount++;
           }
         }
 
@@ -2635,7 +2841,7 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
           saveAs(content, `${prefix}-${format}.zip`);
           bulkLoading.style.display = 'none';
           bulkSuccess.style.display = 'block';
-          bulkSuccess.textContent = `Successfully generated and downloaded ${successCount} QR codes in ${format.toUpperCase()} format!`;
+          bulkSuccess.textContent = `Successfully generated and downloaded ${successCount} ${format.toUpperCase()} QR codes!`;
           
           if (successCount < bulkQRs.length) {
             bulkSuccess.textContent += ` (${bulkQRs.length - successCount} failed)`;
@@ -2660,38 +2866,27 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
         return;
       }
 
-      const filename = sanitizeFilename(generatedQR.content) + '.' + format;
+      const filename = sanitizeFilename(generatedQR.content);
       
-      if (format === 'png') {
+      if (format === 'svg') {
+        // Download SVG
+        const svgBlob = new Blob([generatedQR.svgData], {type: 'image/svg+xml'});
+        const svgUrl = URL.createObjectURL(svgBlob);
         const a = document.createElement('a');
-        a.href = generatedQR.data;
-        a.download = filename;
+        a.href = svgUrl;
+        a.download = `${filename}.svg`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
+        URL.revokeObjectURL(svgUrl);
       } else {
-        // Generate SVG
-        const qrOptions = {
-          size: parseInt(sizeSlider.value),
-          fgColor: fgColor.value,
-          bgColor: transparentBg.checked ? '#00000000' : bgColor.value
-        };
-        
-        createQRSvg(generatedQR.content, qrOptions)
-          .then(svg => {
-            const blob = new Blob([svg], { type: 'image/svg+xml' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = filename;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-          })
-          .catch(error => {
-            showError(qrError, 'Error generating SVG: ' + error.message);
-          });
+        // Download PNG
+        const a = document.createElement('a');
+        a.href = generatedQR.data;
+        a.download = `${filename}.png`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
       }
     }
 
@@ -2877,7 +3072,13 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
         bulkTextSuffix: bulkTextSuffix.value,
         bulkTextColor: bulkTextColor.value,
         bulkTextSize: bulkTextSize.value,
-        bulkTextAlign: bulkTextAlign.value
+        bulkTextAlign: bulkTextAlign.value,
+        showColorOptions: showColorOptions.checked,
+        showLogoOptions: showLogoOptions.checked,
+        bulkShowColorOptions: bulkShowColorOptions.checked,
+        bulkShowLogoOptions: bulkShowLogoOptions.checked,
+        showSizeOptions: showSizeOptions.checked,
+        bulkShowSizeOptions: bulkShowSizeOptions.checked
       };
       localStorage.setItem(PREFERENCES_KEY, JSON.stringify(preferences));
     }
@@ -2893,6 +3094,10 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
           
           if (sizeSlider) {
             sizeSlider.value = preferences.size || '256';
+          }
+          
+          if (bulkSizeSlider) {
+            bulkSizeSlider.value = preferences.bulkSize || '256';
           }
           
           if (borderSize) {
@@ -2930,6 +3135,38 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
           if (bulkTextColor) bulkTextColor.value = preferences.bulkTextColor || '#000000';
           if (bulkTextSize) bulkTextSize.value = preferences.bulkTextSize || '16px';
           if (bulkTextAlign) bulkTextAlign.value = preferences.bulkTextAlign || 'center';
+          
+          // Load toggleable sections preferences
+          if (showColorOptions) {
+            showColorOptions.checked = preferences.showColorOptions || false;
+            colorOptionsContent.style.display = showColorOptions.checked ? 'block' : 'none';
+          }
+          
+          if (showLogoOptions) {
+            showLogoOptions.checked = preferences.showLogoOptions || false;
+            logoOptionsContent.style.display = showLogoOptions.checked ? 'flex' : 'none';
+          }
+          
+          if (bulkShowColorOptions) {
+            bulkShowColorOptions.checked = preferences.bulkShowColorOptions || false;
+            bulkColorOptionsContent.style.display = bulkShowColorOptions.checked ? 'block' : 'none';
+          }
+          
+          if (bulkShowLogoOptions) {
+            bulkShowLogoOptions.checked = preferences.bulkShowLogoOptions || false;
+            bulkLogoOptionsContent.style.display = bulkShowLogoOptions.checked ? 'flex' : 'none';
+          }
+          
+          // Load size options preferences
+          if (showSizeOptions) {
+            showSizeOptions.checked = preferences.showSizeOptions || false;
+            sizeOptionsContent.style.display = showSizeOptions.checked ? 'block' : 'none';
+          }
+          
+          if (bulkShowSizeOptions) {
+            bulkShowSizeOptions.checked = preferences.bulkShowSizeOptions || false;
+            bulkSizeOptionsContent.style.display = bulkShowSizeOptions.checked ? 'block' : 'none';
+          }
           
         } catch (e) {
           console.error('Failed to parse QR preferences:', e);
