@@ -345,6 +345,7 @@
     }
     
     .scanner-box {
+      position: relative;
       width: 250px;
       height: 250px;
       border: 3px solid white;
@@ -641,7 +642,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background-color: #ccc;
+      background: #ccc;
       transition: .4s;
       border-radius: 34px;
     }
@@ -653,7 +654,7 @@
       width: 22px;
       left: 4px;
       bottom: 4px;
-      background-color: white;
+      background: white;
       transition: .4s;
       border-radius: 50%;
     }
@@ -727,14 +728,6 @@
     
     .scanner-loading {
       color: #60a5fa;
-    }
-    
-    .scanner-box {
-      position: relative;
-      width: 250px;
-      height: 250px;
-      border: 3px solid white;
-      box-shadow: 0 0 0 1000px rgba(0, 0, 0, 0.4);
     }
     
     .scanner-guides {
@@ -917,18 +910,6 @@
       display: none; /* Initially hidden */
     }
     
-    .svg-note {
-      font-size: 0.85rem;
-      color: var(--gray);
-      text-align: center;
-      margin-top: 10px;
-      font-style: italic;
-      background: rgba(67, 97, 238, 0.05);
-      padding: 10px;
-      border-radius: 8px;
-      border-left: 3px solid var(--primary);
-    }
-
     /* Download buttons container */
     .download-buttons {
       display: flex;
@@ -940,6 +921,18 @@
     .download-buttons button {
       flex: 1;
       max-width: 200px;
+    }
+    
+    /* SVG note style */
+    .svg-download-note {
+      font-size: 0.85rem;
+      color: var(--gray);
+      text-align: center;
+      margin-top: 10px;
+      font-style: italic;
+      max-width: 300px;
+      display: block;
+      width: 100%;
     }
 
     /* Size Options Container */
@@ -1185,10 +1178,6 @@
                 <span class="toggle-slider"></span>
               </label>
             </div>
-            
-            <div class="svg-note">
-              <i class="fas fa-info-circle"></i> Note: SVG format only supports color customization. Logos and text are not included in SVG downloads.
-            </div>
           </div>
         </div>
 
@@ -1347,6 +1336,9 @@
             <button id="download-svg-btn" onclick="downloadQR('svg')" class="secondary" aria-label="Download SVG QR code">
               <i class="fas fa-download"></i> Download SVG
             </button>
+            <div class="svg-download-note">
+              <i class="fas fa-info-circle"></i> Note: SVG downloads only support color customization.
+            </div>
           </div>
         </div>
 
@@ -1458,10 +1450,6 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
                 <input type="checkbox" id="bulk-transparent-bg" aria-label="Make background transparent for bulk">
                 <span class="toggle-slider"></span>
               </label>
-            </div>
-            
-            <div class="svg-note">
-              <i class="fas fa-info-circle"></i> Note: SVG format only supports color customization. Logos and text are not included in SVG downloads.
             </div>
           </div>
         </div>
@@ -1614,6 +1602,9 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
             <button onclick="generateBulkQR('svg')" class="secondary" aria-label="Generate and download bulk QR codes as SVG ZIP">
               <i class="fas fa-file-archive"></i> Download SVG (ZIP)
             </button>
+            <div class="svg-download-note">
+              <i class="fas fa-info-circle"></i> Note: SVG downloads only support color customization.
+            </div>
           </div>
         </div>
 
@@ -2956,7 +2947,7 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
           scanResult.innerHTML = `
             <p><strong>QR Code detected!</strong></p>
             <p><strong>Content:</strong> ${code.data}</p>
-            <button onclick="useScannedContent('${code.data.replace(/'/g, "\\'")}')>
+            <button onclick="useScannedContent('${code.data.replace(/'/g, "\\'")}')">
               Generate this QR
             </button>
           `;
@@ -2992,7 +2983,7 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
         scanResult.innerHTML = `
           <p><strong>QR Code detected in image!</strong></p>
           <p><strong>Content:</strong> ${code.data}</p>
-          <button onclick="useScannedContent('${code.data.replace(/'/g, "\\'")}')>
+          <button onclick="useScannedContent('${code.data.replace(/'/g, "\\'")}')">
             Generate this QR
           </button>
         `;
