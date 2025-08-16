@@ -913,14 +913,24 @@
     /* Download buttons container */
     .download-buttons {
       display: flex;
+      flex-direction: column;
       gap: 10px;
       justify-content: center;
       margin-top: 15px;
+      width: 100%;
     }
 
-    .download-buttons button {
-      flex: 1;
-      max-width: 200px;
+    .download-row {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      margin-bottom: 15px;
+    }
+
+    .download-row button {
+      width: 100%;
+      max-width: 300px;
     }
     
     /* SVG note style */
@@ -1330,14 +1340,21 @@
             <i class="fas fa-bolt"></i> Generate QR Code
           </button>
           <div class="download-buttons" id="download-buttons" style="display:none">
-            <button id="download-png-btn" onclick="downloadQR('png')" aria-label="Download PNG QR code">
-              <i class="fas fa-download"></i> Download PNG
-            </button>
-            <button id="download-svg-btn" onclick="downloadQR('svg')" class="secondary" aria-label="Download SVG QR code">
-              <i class="fas fa-download"></i> Download SVG
-            </button>
-            <div class="svg-download-note">
-              <i class="fas fa-info-circle"></i> Note: SVG downloads only support color customization.
+            <!-- SVG Download Button and Note -->
+            <div class="download-row">
+              <button id="download-svg-btn" onclick="downloadQR('svg')" class="secondary" aria-label="Download SVG QR code">
+                <i class="fas fa-download"></i> Download SVG
+              </button>
+              <div class="svg-download-note">
+                <i class="fas fa-info-circle"></i> Note: SVG downloads only support color customization.
+              </div>
+            </div>
+            
+            <!-- PNG Download Button -->
+            <div class="download-row">
+              <button id="download-png-btn" onclick="downloadQR('png')" aria-label="Download PNG QR code">
+                <i class="fas fa-download"></i> Download PNG
+              </button>
             </div>
           </div>
         </div>
@@ -1596,14 +1613,21 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
 
         <div class="btn-group">
           <div class="download-buttons">
-            <button onclick="generateBulkQR('png')" aria-label="Generate and download bulk QR codes as PNG ZIP">
-              <i class="fas fa-file-archive"></i> Download PNG (ZIP)
-            </button>
-            <button onclick="generateBulkQR('svg')" class="secondary" aria-label="Generate and download bulk QR codes as SVG ZIP">
-              <i class="fas fa-file-archive"></i> Download SVG (ZIP)
-            </button>
-            <div class="svg-download-note">
-              <i class="fas fa-info-circle"></i> Note: SVG downloads only support color customization.
+            <!-- SVG Download Button and Note -->
+            <div class="download-row">
+              <button onclick="generateBulkQR('svg')" class="secondary" aria-label="Generate and download bulk QR codes as SVG ZIP">
+                <i class="fas fa-file-archive"></i> Download SVG (ZIP)
+              </button>
+              <div class="svg-download-note">
+                <i class="fas fa-info-circle"></i> Note: SVG downloads only support color customization.
+              </div>
+            </div>
+            
+            <!-- PNG Download Button -->
+            <div class="download-row">
+              <button onclick="generateBulkQR('png')" aria-label="Generate and download bulk QR codes as PNG ZIP">
+                <i class="fas fa-file-archive"></i> Download PNG (ZIP)
+              </button>
             </div>
           </div>
         </div>
@@ -1877,61 +1901,79 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
 
     function initSizeOptions() {
       // Single QR size options
-      showSizeOptions.addEventListener('change', function() {
-        sizeOptionsContent.style.display = this.checked ? 'block' : 'none';
-      });
+      if (showSizeOptions) {
+        showSizeOptions.addEventListener('change', function() {
+          sizeOptionsContent.style.display = this.checked ? 'block' : 'none';
+        });
+      }
       
       // Bulk QR size options
-      bulkShowSizeOptions.addEventListener('change', function() {
-        bulkSizeOptionsContent.style.display = this.checked ? 'block' : 'none';
-      });
+      if (bulkShowSizeOptions) {
+        bulkShowSizeOptions.addEventListener('change', function() {
+          bulkSizeOptionsContent.style.display = this.checked ? 'block' : 'none';
+        });
+      }
     }
 
     function initToggleableSections() {
       // Single QR color options
-      showColorOptions.addEventListener('change', function() {
-        colorOptionsContent.style.display = this.checked ? 'block' : 'none';
-      });
+      if (showColorOptions) {
+        showColorOptions.addEventListener('change', function() {
+          colorOptionsContent.style.display = this.checked ? 'block' : 'none';
+        });
+      }
       
       // Single QR logo options
-      showLogoOptions.addEventListener('change', function() {
-        logoOptionsContent.style.display = this.checked ? 'flex' : 'none';
-      });
+      if (showLogoOptions) {
+        showLogoOptions.addEventListener('change', function() {
+          logoOptionsContent.style.display = this.checked ? 'flex' : 'none';
+        });
+      }
       
       // Bulk QR color options
-      bulkShowColorOptions.addEventListener('change', function() {
-        bulkColorOptionsContent.style.display = this.checked ? 'block' : 'none';
-      });
+      if (bulkShowColorOptions) {
+        bulkShowColorOptions.addEventListener('change', function() {
+          bulkColorOptionsContent.style.display = this.checked ? 'block' : 'none';
+        });
+      }
       
       // Bulk QR logo options
-      bulkShowLogoOptions.addEventListener('change', function() {
-        bulkLogoOptionsContent.style.display = this.checked ? 'flex' : 'none';
-      });
+      if (bulkShowLogoOptions) {
+        bulkShowLogoOptions.addEventListener('change', function() {
+          bulkLogoOptionsContent.style.display = this.checked ? 'flex' : 'none';
+        });
+      }
     }
 
     function initTextDisplay() {
       // Toggle text display fields
-      showTextDisplay.addEventListener('change', function() {
-        textDisplayFields.style.display = this.checked ? 'block' : 'none';
-        updateTextPreview();
-      });
+      if (showTextDisplay) {
+        showTextDisplay.addEventListener('change', function() {
+          textDisplayFields.style.display = this.checked ? 'block' : 'none';
+          updateTextPreview();
+        });
+      }
       
       // Update preview when any text-related field changes
       const textFields = [customText, textPrefix, textSuffix, textColor, textSize, textAlign];
       textFields.forEach(field => {
-        field.addEventListener('input', updateTextPreview);
+        if (field) {
+          field.addEventListener('input', updateTextPreview);
+        }
       });
     }
 
     function initBulkTextDisplay() {
       // Toggle bulk text display fields
-      bulkShowTextDisplay.addEventListener('change', function() {
-        bulkTextDisplayFields.style.display = this.checked ? 'block' : 'none';
-      });
+      if (bulkShowTextDisplay) {
+        bulkShowTextDisplay.addEventListener('change', function() {
+          bulkTextDisplayFields.style.display = this.checked ? 'block' : 'none';
+        });
+      }
     }
 
     function updateTextPreview() {
-      if (!showTextDisplay.checked) return;
+      if (!showTextDisplay || !showTextDisplay.checked) return;
       
       let displayText = customText.value.trim();
       
@@ -1958,10 +2000,12 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
       }
       
       // Update preview
-      textPreview.textContent = displayText;
-      textPreview.style.color = textColor.value;
-      textPreview.style.fontSize = textSize.value;
-      textPreview.style.textAlign = textAlign.value;
+      if (textPreview) {
+        textPreview.textContent = displayText;
+        textPreview.style.color = textColor.value;
+        textPreview.style.fontSize = textSize.value;
+        textPreview.style.textAlign = textAlign.value;
+      }
       
       // Update the actual display if QR is generated
       if (generatedQR) {
@@ -1970,6 +2014,8 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
     }
 
     function updateQRTextDisplay(text) {
+      if (!qrTextDisplay) return;
+      
       qrTextDisplay.innerHTML = '';
       qrTextDisplay.style.display = showTextDisplay.checked ? 'block' : 'none';
       
@@ -2056,7 +2102,7 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
       
       if (bulkSizeSlider) {
         bulkSizeSlider.addEventListener('input', () => {
-          bulkSizeValue.textContent = `${bulkSizeSlider.value}px`;
+          if (bulkSizeValue) bulkSizeValue.textContent = `${bulkSizeSlider.value}px`;
         });
         bulkSizeSlider.addEventListener('mousedown', () => bulkSizeValue.classList.add('active'));
         bulkSizeSlider.addEventListener('mouseup', () => bulkSizeValue.classList.remove('active'));
@@ -2085,7 +2131,7 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
       
       if (bulkBorderSize) {
         bulkBorderSize.addEventListener('input', () => {
-          bulkBorderSizeValue.textContent = `${bulkBorderSize.value}px`;
+          if (bulkBorderSizeValue) bulkBorderSizeValue.textContent = `${bulkBorderSize.value}px`;
           updateBulkBorderPreview();
         });
         bulkBorderSize.addEventListener('mousedown', () => bulkBorderSizeValue.classList.add('active'));
@@ -3038,8 +3084,10 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
     }
 
     function showError(element, message) {
-      element.textContent = message;
-      element.style.display = 'block';
+      if (element) {
+        element.textContent = message;
+        element.style.display = 'block';
+      }
     }
     
     function saveQRPreferences() {
