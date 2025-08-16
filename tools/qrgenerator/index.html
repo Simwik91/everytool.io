@@ -913,14 +913,22 @@
     /* Download buttons container */
     .download-buttons {
       display: flex;
+      flex-direction: column;
       gap: 10px;
       justify-content: center;
       margin-top: 15px;
+      width: 100%;
     }
 
-    .download-buttons button {
+    .download-row {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .download-row button {
       flex: 1;
-      max-width: 200px;
+      max-width: 300px;
     }
     
     /* SVG note style */
@@ -928,11 +936,12 @@
       font-size: 0.85rem;
       color: var(--gray);
       text-align: center;
-      margin-top: 10px;
+      margin: 5px 0;
       font-style: italic;
       max-width: 300px;
       display: block;
       width: 100%;
+      margin: 0 auto;
     }
 
     /* Size Options Container */
@@ -1330,14 +1339,18 @@
             <i class="fas fa-bolt"></i> Generate QR Code
           </button>
           <div class="download-buttons" id="download-buttons" style="display:none">
-            <button id="download-png-btn" onclick="downloadQR('png')" aria-label="Download PNG QR code">
-              <i class="fas fa-download"></i> Download PNG
-            </button>
-            <button id="download-svg-btn" onclick="downloadQR('svg')" class="secondary" aria-label="Download SVG QR code">
-              <i class="fas fa-download"></i> Download SVG
-            </button>
+            <div class="download-row">
+              <button id="download-svg-btn" onclick="downloadQR('svg')" class="secondary" aria-label="Download SVG QR code">
+                <i class="fas fa-download"></i> Download SVG
+              </button>
+            </div>
             <div class="svg-download-note">
               <i class="fas fa-info-circle"></i> Note: SVG downloads only support color customization.
+            </div>
+            <div class="download-row">
+              <button id="download-png-btn" onclick="downloadQR('png')" aria-label="Download PNG QR code">
+                <i class="fas fa-download"></i> Download PNG
+              </button>
             </div>
           </div>
         </div>
@@ -1596,14 +1609,18 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
 
         <div class="btn-group">
           <div class="download-buttons">
-            <button onclick="generateBulkQR('png')" aria-label="Generate and download bulk QR codes as PNG ZIP">
-              <i class="fas fa-file-archive"></i> Download PNG (ZIP)
-            </button>
-            <button onclick="generateBulkQR('svg')" class="secondary" aria-label="Generate and download bulk QR codes as SVG ZIP">
-              <i class="fas fa-file-archive"></i> Download SVG (ZIP)
-            </button>
+            <div class="download-row">
+              <button onclick="generateBulkQR('svg')" class="secondary" aria-label="Generate and download bulk QR codes as SVG ZIP">
+                <i class="fas fa-file-archive"></i> Download SVG (ZIP)
+              </button>
+            </div>
             <div class="svg-download-note">
               <i class="fas fa-info-circle"></i> Note: SVG downloads only support color customization.
+            </div>
+            <div class="download-row">
+              <button onclick="generateBulkQR('png')" aria-label="Generate and download bulk QR codes as PNG ZIP">
+                <i class="fas fa-file-archive"></i> Download PNG (ZIP)
+              </button>
             </div>
           </div>
         </div>
@@ -2362,7 +2379,7 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
     }
 
     function createQRCanvas(content, options) {
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve, reject) {
         try {
           QRCode.toCanvas(content, {
             width: options.size,
@@ -2386,7 +2403,7 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
     }
 
     function createQRSvg(content, options) {
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve, reject) {
         try {
           QRCode.toString(content, {
             type: 'svg',
@@ -2947,7 +2964,7 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
           scanResult.innerHTML = `
             <p><strong>QR Code detected!</strong></p>
             <p><strong>Content:</strong> ${code.data}</p>
-            <button onclick="useScannedContent('${code.data.replace(/'/g, "\\'")}')">
+            <button onclick="useScannedContent('${code.data.replace(/'/g, "\\'")}')>
               Generate this QR
             </button>
           `;
@@ -2983,7 +3000,7 @@ Any text or data" aria-label="Enter URLs or text for bulk QR codes"></textarea>
         scanResult.innerHTML = `
           <p><strong>QR Code detected in image!</strong></p>
           <p><strong>Content:</strong> ${code.data}</p>
-          <button onclick="useScannedContent('${code.data.replace(/'/g, "\\'")}')">
+          <button onclick="useScannedContent('${code.data.replace(/'/g, "\\'")}')>
             Generate this QR
           </button>
         `;
