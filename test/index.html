@@ -967,6 +967,14 @@
       font-weight: 500;
     }
     
+    .file-size-info {
+      font-size: 0.9rem;
+      color: var(--gray);
+      margin-top: 10px;
+      text-align: center;
+      display: none;
+    }
+    
     .visually-hidden {
       position: absolute;
       top: -9999px;
@@ -1029,13 +1037,6 @@
       margin: 20px 0;
       border-left: 4px solid #27ae60;
       display: none;
-    }
-
-    .file-size {
-      font-size: 0.9rem;
-      color: var(--gray);
-      margin-top: 10px;
-      text-align: center;
     }
 
     /* Color Picker Styles */
@@ -1161,7 +1162,7 @@
             <input type="range" min="0" max="100" value="80" class="quality-slider" id="cropQuality">
             <span class="quality-value" id="cropQualityValue">80%</span>
           </div>
-          <div class="file-size" id="crop-file-size"></div>
+          <div class="file-size-info" id="crop-file-size">Estimated file size: <span id="crop-file-size-value">0</span> KB</div>
         </div>
         <div class="btn-group">
           <button id="cropBtn" style="display: none;">
@@ -1209,7 +1210,7 @@
             <input type="range" min="0" max="100" value="80" class="quality-slider" id="resizeQuality">
             <span class="quality-value" id="resizeQualityValue">80%</span>
           </div>
-          <div class="file-size" id="resize-file-size"></div>
+          <div class="file-size-info" id="resize-file-size">Estimated file size: <span id="resize-file-size-value">0</span> KB</div>
         </div>
         <div class="btn-group">
           <button id="resizeBtn" style="display: none;">
@@ -1255,7 +1256,7 @@
             <input type="range" min="0" max="100" value="80" class="quality-slider" id="convertQuality">
             <span class="quality-value" id="convertQualityValue">80%</span>
           </div>
-          <div class="file-size" id="convert-file-size"></div>
+          <div class="file-size-info" id="convert-file-size">Estimated file size: <span id="convert-file-size-value">0</span> KB</div>
         </div>
         <div class="btn-group">
           <button id="convertBtn" style="display: none;">
@@ -1666,23 +1667,27 @@
         isDrawing: false,
         cropStart: null,
         initialImage: null,
-        quality: 80
+        quality: 80,
+        hasImage: false
       },
       resize: {
         originalImage: null,
         resizedImage: null,
         initialImage: null,
-        quality: 80
+        quality: 80,
+        hasImage: false
       },
       convert: {
         originalImage: null,
         convertedImage: null,
         initialImage: null,
-        quality: 80
+        quality: 80,
+        hasImage: false
       },
       color: {
         originalImage: null,
-        initialImage: null
+        initialImage: null,
+        hasImage: false
       }
     };
 
@@ -1745,14 +1750,20 @@
 
     function updateFileSizeDisplay(section, canvas, format) {
       const sizeDisplay = document.getElementById(`${section}-file-size`);
-      if (!sizeDisplay || !canvas) return;
+      const sizeValue = document.getElementById(`${section}-file-size-value`);
+      
+      if (!sizeDisplay || !canvas || !state[section].hasImage) {
+        if (sizeDisplay) sizeDisplay.style.display = 'none';
+        return;
+      }
       
       // Get data URL with current quality settings
       const quality = state[section].quality;
       const dataUrl = getDataUrlWithQuality(canvas, format, quality);
       const sizeInKB = calculateFileSize(dataUrl);
       
-      sizeDisplay.textContent = `Estimated file size: ${sizeInKB} KB (Quality: ${quality}%)`;
+      sizeValue.textContent = sizeInKB;
+      sizeDisplay.style.display = 'block';
     }
 
     async function loadImage(file) {
@@ -1821,6 +1832,13 @@
         stateTab.originalImage = stateTab.initialImage;
         drawImageOnCanvas(stateTab.initialImage, `${tab}Canvas`);
         showSuccess(document.getElementById(`${tab}-success`), 'Reset to original image!');
+        
+        // Update file size display if applicable
+        if (tab !== 'color') {
+          const canvas = document.getElementById(`${tab}Canvas`);
+          const format = tab === 'convert' ? document.getElementById('outputFormat').value : 'jpeg';
+          updateFileSizeDisplay(tab, canvas, format);
+        }
       }
     }
 
@@ -1836,12 +1854,21 @@
           state[tab].quality = parseInt(value);
           
           // Update file size display if we have an image
-          if (state[tab].originalImage) {
+          if (state[tab].hasImage) {
             const canvas = document.getElementById(`${tab}Canvas`);
             const format = tab === 'convert' ? document.getElementById('outputFormat').value : 'jpeg';
             updateFileSizeDisplay(tab, canvas, format);
           }
         });
+      });
+      
+      // Update file size when format changes in convert tab
+      document.getElementById('outputFormat').addEventListener('change', () => {
+        if (state.convert.hasImage) {
+          const canvas = document.getElementById('convertCanvas');
+          const format = document.getElementById('outputFormat').value;
+          updateFileSizeDisplay('convert', canvas, format);
+        }
       });
     }
 
@@ -1952,6 +1979,7 @@
           const img = await loadImage(file);
           state.crop.originalImage = img;
           state.crop.initialImage = img;
+          state.crop.hasImage = true;
           drawImageOnCanvas(img, 'cropCanvas');
           cropBtn.style.display = 'inline-block';
           resetCrop.style.display = 'inline-block';
@@ -1960,6 +1988,7 @@
         } catch (err) {
           showError(document.getElementById('crop-error'), err.message);
           resetCanvas('cropCanvas');
+          state.crop.hasImage = false;
         } finally {
           hideLoading('crop');
         }
@@ -2070,6 +2099,7 @@
           const img = await loadImage(file);
           state.resize.originalImage = img;
           state.resize.initialImage = img;
+          state.resize.hasImage = true;
           drawImageOnCanvas(img, 'resizeCanvas');
           resizeBtn.style.display = 'inline-block';
           resetResize.style.display = 'inline-block';
@@ -2078,6 +2108,7 @@
         } catch (err) {
           showError(document.getElementById('resize-error'), err.message);
           resetCanvas('resizeCanvas');
+          state.resize.hasImage = false;
         } finally {
           hideLoading('resize');
         }
@@ -2150,6 +2181,7 @@
           const img = await loadImage(file);
           state.convert.originalImage = img;
           state.convert.initialImage = img;
+          state.convert.hasImage = true;
           drawImageOnCanvas(img, 'convertCanvas');
           convertBtn.style.display = 'inline-block';
           updateFileSizeDisplay('convert', convertCanvas, document.getElementById('outputFormat').value);
@@ -2157,15 +2189,9 @@
         } catch (err) {
           showError(document.getElementById('convert-error'), err.message);
           resetCanvas('convertCanvas');
+          state.convert.hasImage = false;
         } finally {
           hideLoading('convert');
-        }
-      });
-
-      // Update file size when format changes
-      document.getElementById('outputFormat').addEventListener('change', () => {
-        if (state.convert.originalImage) {
-          updateFileSizeDisplay('convert', convertCanvas, document.getElementById('outputFormat').value);
         }
       });
 
@@ -2245,6 +2271,7 @@
           const img = await loadImage(file);
           state.color.originalImage = img;
           state.color.initialImage = img;
+          state.color.hasImage = true;
           drawImageOnCanvas(img, 'colorCanvas');
           resetColor.style.display = 'inline-block';
           showSuccess(document.getElementById('color-success'), 'Image loaded successfully! Click on the image to pick colors.');
@@ -2256,6 +2283,7 @@
         } catch (err) {
           showError(document.getElementById('color-error'), err.message);
           resetCanvas('colorCanvas');
+          state.color.hasImage = false;
         } finally {
           hideLoading('color');
         }
