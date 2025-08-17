@@ -309,117 +309,142 @@
       color: #444;
     }
     
-    /* Simplified Customization Panel */
-    .customization-panel {
-      background: #f8f9ff;
+    /* New Color Options Section */
+    .color-options-container {
+      margin: 1.5em 0;
+      border: 1px solid var(--light-gray);
       border-radius: var(--border-radius);
-      padding: 25px;
-      margin-bottom: 30px;
-      border: 1px solid #e9ecef;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      padding: 20px;
+      background: #fafbff;
     }
-    
-    .customization-panel h2 {
-      font-size: 1.5rem;
-      margin-bottom: 20px;
-      color: var(--primary);
+
+    .color-options-header {
       display: flex;
       align-items: center;
       gap: 10px;
+      margin-bottom: 15px;
       justify-content: center;
     }
-    
-    .customization-panel h2 i {
+
+    .color-options-header i {
       color: var(--primary);
+      font-size: 1.5rem;
     }
     
-    .customization-options {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 20px;
+    .text-display-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 15px;
     }
     
-    .color-options {
+    .color-options-content {
+      display: block;
+    }
+    
+    .color-group {
       display: flex;
       justify-content: center;
       gap: 25px;
+      margin: 1.5em 0;
       flex-wrap: wrap;
     }
     
-    .color-option {
+    .color-input {
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 8px;
+      flex: 1;
+      max-width: 200px;
     }
     
-    .color-option label {
+    .color-input label {
       font-weight: 500;
+      color: var(--dark);
+    }
+    
+    .color-input input[type="color"] {
+      width: 60px;
+      height: 60px;
+      padding: 5px;
+      cursor: pointer;
+      border-radius: 12px;
+      border: 2px solid var(--light-gray);
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .color-input input[type="color"]::-webkit-color-swatch {
+      border: none;
+      border-radius: 8px;
+    }
+    
+    .toggle-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      margin: 1em 0;
+      padding: 10px;
+      border-radius: 50px;
+      background: #f0f4ff;
+      max-width: 300px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .toggle-label {
+      font-weight: 500;
+      color: var(--dark);
       font-size: 1rem;
     }
     
-    /* Visual marker for selected color */
-    .color-preview {
+    .toggle-switch-visual {
       position: relative;
       display: inline-block;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      cursor: pointer;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-      transition: transform 0.2s ease;
+      width: 60px;
+      height: 30px;
     }
     
-    .color-preview:hover {
-      transform: scale(1.1);
-    }
-    
-    .color-preview::after {
-      content: "";
-      position: absolute;
-      top: -4px;
-      left: -4px;
-      right: -4px;
-      bottom: -4px;
-      border: 2px solid var(--primary);
-      border-radius: 50%;
+    .toggle-switch-visual input {
       opacity: 0;
-      transition: opacity 0.2s ease;
+      width: 0;
+      height: 0;
     }
     
-    .color-preview.selected::after {
-      opacity: 1;
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: #ccc;
+      transition: .4s;
+      border-radius: 34px;
     }
     
-    .color-preview-container {
-      position: relative;
-      display: flex;
-      align-items: center;
-      gap: 10px;
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 22px;
+      width: 22px;
+      left: 4px;
+      bottom: 4px;
+      background: white;
+      transition: .4s;
+      border-radius: 50%;
     }
     
-    .color-value {
-      font-size: 0.9rem;
-      font-weight: 500;
-      min-width: 70px;
-      text-align: center;
-      padding: 5px 10px;
-      background: rgba(0, 0, 0, 0.05);
-      border-radius: 4px;
+    input:checked + .toggle-slider {
+      background-color: var(--primary);
     }
     
-    .transparent-bg-container {
-      background: #f8f9fa;
-      border-radius: 10px;
-      padding: 15px;
-      margin-top: 15px;
-      border: 1px dashed var(--light-gray);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
+    input:checked + .toggle-slider:before {
+      transform: translateX(30px);
     }
-    
+
     /* Text Display Options */
     .text-display-container {
       margin: 1.5em 0;
@@ -446,14 +471,6 @@
       display: flex;
       flex-direction: column;
       gap: 15px;
-    }
-
-    .text-display-toggle {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 15px;
-      margin-bottom: 15px;
     }
 
     .text-display-controls {
@@ -513,67 +530,7 @@
       border: 1px solid var(--light-gray);
       background: var(--light);
     }
-
-    /* Toggle switch styles */
-    .toggle-switch-visual {
-      position: relative;
-      display: inline-block;
-      width: 60px;
-      height: 34px;
-    }
-
-    .toggle-switch-visual input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-
-    .toggle-slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: #ccc;
-      transition: .4s;
-      border-radius: 34px;
-    }
-
-    .toggle-slider:before {
-      position: absolute;
-      content: "";
-      height: 26px;
-      width: 26px;
-      left: 4px;
-      bottom: 4px;
-      background-color: white;
-      transition: .4s;
-      border-radius: 50%;
-    }
-
-    input:checked + .toggle-slider {
-      background-color: var(--primary);
-    }
-
-    input:checked + .toggle-slider:before {
-      transform: translateX(26px);
-    }
-
-    .toggle-label {
-      font-weight: 500;
-      color: var(--dark);
-    }
-
-    /* New styles for color toggle */
-    .color-toggle-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 15px;
-      margin-bottom: 20px;
-    }
-
+    
     .text-display-note {
       text-align: center;
       margin: 15px 0 5px;
@@ -667,49 +624,39 @@
 
   <!-- Barcode Generator Content -->
   <div class="container">
-    <!-- Simplified Customization Panel -->
-    <div class="customization-panel">
-      <h2><i class="fas fa-sliders-h"></i> Customization Settings</h2>
+    <!-- Color Options Section -->
+    <div class="color-options-container">
+      <div class="color-options-header">
+        <i class="fas fa-palette"></i>
+        <h3>Color Options</h3>
+      </div>
       
-      <!-- Color Options Toggle -->
-      <div class="color-toggle-container">
-        <label class="toggle-label">Enable Color Customization</label>
+      <div class="text-display-toggle">
+        <label class="toggle-label">Customize Colors</label>
         <label class="toggle-switch-visual">
-          <input type="checkbox" id="color-toggle" checked>
+          <input type="checkbox" id="barcode-show-color-options" checked>
           <span class="toggle-slider"></span>
         </label>
       </div>
       
-      <div class="customization-options" id="color-options-container">
-        <!-- Color Options -->
-        <div>
-          <h3><i class="fas fa-palette"></i> Colors</h3>
-          <div class="color-options">
-            <div class="color-option">
-              <label for="bar-color">Bar Color:</label>
-              <div class="color-preview-container">
-                <div class="color-preview selected" id="bar-color-preview" style="background-color: #000000;"></div>
-                <span class="color-value" id="bar-color-value">#000000</span>
-              </div>
-              <input type="color" id="bar-color" value="#000000" style="display: none;">
-            </div>
-            <div class="color-option">
-              <label for="background-color">Background Color:</label>
-              <div class="color-preview-container">
-                <div class="color-preview" id="background-color-preview" style="background-color: #ffffff;"></div>
-                <span class="color-value" id="background-color-value">#ffffff</span>
-              </div>
-              <input type="color" id="background-color" value="#ffffff" style="display: none;">
-            </div>
+      <div class="color-options-content" id="barcode-color-options-content">
+        <div class="color-group">
+          <div class="color-input">
+            <label for="barcode-fg-color">Bar Color</label>
+            <input type="color" id="barcode-fg-color" value="#000000" aria-label="Select bar color">
           </div>
-          
-          <div class="transparent-bg-container">
-            <label class="toggle-label">Transparent Background</label>
-            <label class="toggle-switch-visual">
-              <input type="checkbox" id="transparent-bg">
-              <span class="toggle-slider"></span>
-            </label>
+          <div class="color-input">
+            <label for="barcode-bg-color">Background Color</label>
+            <input type="color" id="barcode-bg-color" value="#FFFFFF" aria-label="Select background color">
           </div>
+        </div>
+        
+        <div class="toggle-container">
+          <span class="toggle-label">Transparent Background</span>
+          <label class="toggle-switch-visual">
+            <input type="checkbox" id="barcode-transparent-bg" aria-label="Make background transparent">
+            <span class="toggle-slider"></span>
+          </label>
         </div>
       </div>
     </div>
@@ -1002,17 +949,11 @@
         generateBatchPngBtn: document.getElementById('generate-batch-png-btn'),
         generateBatchSvgBtn: document.getElementById('generate-batch-svg-btn'),
         generateCustomBtn: document.getElementById('generate-custom-btn'),
-        colorToggle: document.getElementById('color-toggle'),
-        colorOptionsContainer: document.getElementById('color-options-container'),
-        
-        // Customization elements
-        barColor: document.getElementById('bar-color'),
-        backgroundColor: document.getElementById('background-color'),
-        transparentBg: document.getElementById('transparent-bg'),
-        barColorPreview: document.getElementById('bar-color-preview'),
-        backgroundColorPreview: document.getElementById('background-color-preview'),
-        barColorValue: document.getElementById('bar-color-value'),
-        backgroundColorValue: document.getElementById('background-color-value'),
+        barcodeShowColorOptions: document.getElementById('barcode-show-color-options'),
+        barcodeColorOptionsContent: document.getElementById('barcode-color-options-content'),
+        barcodeFgColor: document.getElementById('barcode-fg-color'),
+        barcodeBgColor: document.getElementById('barcode-bg-color'),
+        barcodeTransparentBg: document.getElementById('barcode-transparent-bg'),
         
         // Text display elements
         showTextDisplay: document.getElementById('show-text-display'),
@@ -1033,107 +974,6 @@
         codabar: { regex: /^[A-D][0-9-:$/.+]*[A-D]$/, format: 'codabar' },
         pharmacode: { min: 3, max: 131070, regex: /^\d+$/, format: 'pharmacode' }
       };
-
-      // Initialize color previews
-      function initColorSelection() {
-        // Set initial selection
-        elements.barColorPreview.classList.add('selected');
-        
-        // Bar color preview click handler
-        elements.barColorPreview.addEventListener('click', () => {
-          elements.barColor.click();
-          elements.barColorPreview.classList.add('selected');
-          elements.backgroundColorPreview.classList.remove('selected');
-        });
-        
-        // Background color preview click handler
-        elements.backgroundColorPreview.addEventListener('click', () => {
-          elements.backgroundColor.click();
-          elements.backgroundColorPreview.classList.add('selected');
-          elements.barColorPreview.classList.remove('selected');
-        });
-        
-        // Bar color input change handler
-        elements.barColor.addEventListener('input', () => {
-          const color = elements.barColor.value;
-          elements.barColorPreview.style.backgroundColor = color;
-          elements.barColorValue.textContent = color;
-        });
-        
-        // Background color input change handler
-        elements.backgroundColor.addEventListener('input', () => {
-          const color = elements.backgroundColor.value;
-          elements.backgroundColorPreview.style.backgroundColor = color;
-          elements.backgroundColorValue.textContent = color;
-        });
-      }
-
-      function showError(element, message) {
-        element.textContent = message;
-        element.style.display = 'block';
-      }
-
-      function showSuccess(element, message) {
-        element.textContent = message;
-        element.style.display = 'block';
-      }
-
-      function hideElements() {
-        [elements.singleError, elements.batchError, elements.customError,
-         elements.singleSuccess, elements.batchSuccess, elements.customSuccess]
-          .forEach(el => el.style.display = 'none');
-      }
-
-      function calculateChecksum(code, type) {
-        let sum = 0;
-        if (type === 'ean8') {
-          const weights = [3, 1, 3, 1, 3, 1, 3];
-          for (let i = 0; i < code.length; i++) sum += parseInt(code[i]) * weights[i];
-        } else if (type === 'upc' || type === 'itf14') {
-          for (let i = 0; i < code.length; i++) sum += parseInt(code[i]) * (i % 2 === 0 ? 3 : 1);
-        } else {
-          const weights = [1, 3];
-          for (let i = 0; i < code.length; i++) sum += parseInt(code[i]) * weights[i % 2];
-        }
-        return (10 - (sum % 10)) % 10;
-      }
-
-      function generateRandomEAN(type) {
-        const { length } = barcodeConfig[type];
-        let base = Array.from({ length }, () => Math.floor(Math.random() * 10)).join('');
-        return base + calculateChecksum(base, type);
-      }
-
-      function validateInput(code, type) {
-        const config = barcodeConfig[type];
-        if (!code) return true;
-        if (type === 'pharmacode') {
-          const num = parseInt(code);
-          return !isNaN(num) && num >= config.min && num <= config.max;
-        }
-        return config.regex.test(code);
-      }
-
-      function generateRandomBarcode(type) {
-        if (['ean13', 'ean8', 'upc', 'itf14'].includes(type)) {
-          return generateRandomEAN(type);
-        }
-        switch (type) {
-          case 'code128':
-          case 'code39':
-            return Math.random().toString(36).slice(2, 12).toUpperCase();
-          case 'codabar':
-            return `A${Math.floor(Math.random() * 100000).toString().padStart(5, '0')}B`;
-          case 'pharmacode':
-            return Math.floor(Math.random() * (barcodeConfig.pharmacode.max - barcodeConfig.pharmacode.min + 1) + barcodeConfig.pharmacode.min).toString();
-          default:
-            return '123456';
-        }
-      }
-
-      function sanitizeFilename(str) {
-        return str.replace(/[^a-zA-Z0-9-]+/g, '_').slice(0, 50) || 'barcode';
-      }
 
       function initTextDisplay() {
         // Toggle text display fields
@@ -1230,9 +1070,11 @@
             displayValue: true,
             width: 2,
             height: isPharmacode ? height * 0.5 : height * 0.7,
-            lineColor: elements.barColor.value,
-            textColor: elements.barColor.value,
-            background: elements.transparentBg.checked ? 'transparent' : elements.backgroundColor.value
+            lineColor: elements.barcodeFgColor.value,
+            textColor: elements.barcodeFgColor.value,
+            background: elements.barcodeTransparentBg.checked 
+              ? 'transparent' 
+              : elements.barcodeBgColor.value
           });
 
           // Add text if enabled
@@ -1248,8 +1090,8 @@
               size: elements.textSize.value,
               color: elements.textColor.value,
               align: elements.textAlign.value,
-              transparent: elements.transparentBg.checked,
-              bgColor: elements.backgroundColor.value
+              transparent: elements.barcodeTransparentBg.checked,
+              bgColor: elements.barcodeBgColor.value
             };
             
             // Add text to the barcode
@@ -1302,9 +1144,11 @@
             displayValue: true,
             width: 2,
             height: canvas.height * 0.7,
-            lineColor: elements.barColor.value,
-            textColor: elements.barColor.value,
-            background: elements.transparentBg.checked ? 'transparent' : elements.backgroundColor.value
+            lineColor: elements.barcodeFgColor.value,
+            textColor: elements.barcodeFgColor.value,
+            background: elements.barcodeTransparentBg.checked 
+              ? 'transparent' 
+              : elements.barcodeBgColor.value
           });
 
           // Serialize SVG
@@ -1350,8 +1194,8 @@
             size: elements.textSize.value,
             color: elements.textColor.value,
             align: elements.textAlign.value,
-            transparent: elements.transparentBg.checked,
-            bgColor: elements.backgroundColor.value
+            transparent: elements.barcodeTransparentBg.checked,
+            bgColor: elements.barcodeBgColor.value
           };
         }
 
@@ -1386,9 +1230,11 @@
                   displayValue: true,
                   width: 2,
                   height: isPharmacode ? height * 0.5 : height * 0.7,
-                  lineColor: elements.barColor.value,
-                  textColor: elements.barColor.value,
-                  background: elements.transparentBg.checked ? 'transparent' : elements.backgroundColor.value
+                  lineColor: elements.barcodeFgColor.value,
+                  textColor: elements.barcodeFgColor.value,
+                  background: elements.barcodeTransparentBg.checked 
+                    ? 'transparent' 
+                    : elements.barcodeBgColor.value
                 });
 
                 // Serialize SVG
@@ -1405,9 +1251,11 @@
                   displayValue: true,
                   width: 2,
                   height: isPharmacode ? height * 0.5 : height * 0.7,
-                  lineColor: elements.barColor.value,
-                  textColor: elements.barColor.value,
-                  background: elements.transparentBg.checked ? 'transparent' : elements.backgroundColor.value
+                  lineColor: elements.barcodeFgColor.value,
+                  textColor: elements.barcodeFgColor.value,
+                  background: elements.barcodeTransparentBg.checked 
+                    ? 'transparent' 
+                    : elements.barcodeBgColor.value
                 });
 
                 // Add text if enabled
@@ -1444,16 +1292,19 @@
       }
 
       function initializeBarcodeGenerator() {
-        // Initialize color selection UI
-        initColorSelection();
-        
         // Initialize text display UI
         initTextDisplay();
         
-        // Toggle color options visibility
-        elements.colorToggle.addEventListener('change', function() {
-          elements.colorOptionsContainer.style.display = this.checked ? 'block' : 'none';
-        });
+        // Initialize color options toggle
+        if (elements.barcodeShowColorOptions && elements.barcodeColorOptionsContent) {
+          elements.barcodeShowColorOptions.addEventListener('change', function() {
+            elements.barcodeColorOptionsContent.style.display = this.checked ? 'block' : 'none';
+          });
+          
+          // Set initial visibility
+          elements.barcodeColorOptionsContent.style.display = 
+            elements.barcodeShowColorOptions.checked ? 'block' : 'none';
+        }
         
         // Tabs functionality
         elements.tabs.forEach(tab => {
@@ -1522,6 +1373,74 @@
 
         elements.customDownloadBtn.addEventListener('click', () => downloadBarcode(elements.customCanvas, elements.customError));
         elements.customSvgDownloadBtn.addEventListener('click', () => downloadSVG(elements.customCanvas, elements.customError));
+      }
+      
+      // Helper functions
+      function showError(element, message) {
+        element.textContent = message;
+        element.style.display = 'block';
+      }
+
+      function showSuccess(element, message) {
+        element.textContent = message;
+        element.style.display = 'block';
+      }
+
+      function hideElements() {
+        [elements.singleError, elements.batchError, elements.customError,
+         elements.singleSuccess, elements.batchSuccess, elements.customSuccess]
+          .forEach(el => el.style.display = 'none');
+      }
+
+      function calculateChecksum(code, type) {
+        let sum = 0;
+        if (type === 'ean8') {
+          const weights = [3, 1, 3, 1, 3, 1, 3];
+          for (let i = 0; i < code.length; i++) sum += parseInt(code[i]) * weights[i];
+        } else if (type === 'upc' || type === 'itf14') {
+          for (let i = 0; i < code.length; i++) sum += parseInt(code[i]) * (i % 2 === 0 ? 3 : 1);
+        } else {
+          const weights = [1, 3];
+          for (let i = 0; i < code.length; i++) sum += parseInt(code[i]) * weights[i % 2];
+        }
+        return (10 - (sum % 10)) % 10;
+      }
+
+      function generateRandomEAN(type) {
+        const { length } = barcodeConfig[type];
+        let base = Array.from({ length }, () => Math.floor(Math.random() * 10)).join('');
+        return base + calculateChecksum(base, type);
+      }
+
+      function validateInput(code, type) {
+        const config = barcodeConfig[type];
+        if (!code) return true;
+        if (type === 'pharmacode') {
+          const num = parseInt(code);
+          return !isNaN(num) && num >= config.min && num <= config.max;
+        }
+        return config.regex.test(code);
+      }
+
+      function generateRandomBarcode(type) {
+        if (['ean13', 'ean8', 'upc', 'itf14'].includes(type)) {
+          return generateRandomEAN(type);
+        }
+        switch (type) {
+          case 'code128':
+          case 'code39':
+            return Math.random().toString(36).slice(2, 12).toUpperCase();
+          case 'codabar':
+            return `A${Math.floor(Math.random() * 100000).toString().padStart(5, '0')}B`;
+          case 'pharmacode':
+            return Math.floor(Math.random() * (barcodeConfig.pharmacode.max - barcodeConfig.pharmacode.min + 1) + barcodeConfig.pharmacode.min).toString();
+          default:
+            return '123456';
+        }
+      }
+
+      function sanitizeFilename(str) {
+        return str.replace(/[^a-zA-Z0-9-]+/g, '_').slice(0, 50) || 'barcode';
       }
       
       initializeBarcodeGenerator();
