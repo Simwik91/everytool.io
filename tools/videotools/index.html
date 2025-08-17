@@ -430,6 +430,88 @@
       outline: 2px solid #27ae60;
       outline-offset: 2px;
     }
+
+    .time-range-container {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 1rem;
+    }
+
+    .time-range-input {
+      flex: 1;
+      position: relative;
+    }
+
+    .time-range-input label {
+      display: block;
+      margin-bottom: 0.3rem;
+      font-size: 0.9rem;
+      color: var(--gray);
+    }
+
+    .time-range-input input {
+      margin: 0;
+      padding: 10px;
+      width: 100%;
+    }
+
+    .video-preview {
+      width: 100%;
+      max-width: 500px;
+      margin: 1em auto;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      background: var(--light-gray);
+      position: relative;
+    }
+
+    .video-preview video {
+      width: 100%;
+      display: block;
+    }
+
+    .video-preview-controls {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 10px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .video-preview-controls button {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .video-preview-controls button:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .video-preview-controls button i {
+      font-size: 1rem;
+    }
+
+    .video-duration {
+      position: absolute;
+      bottom: 100%;
+      left: 0;
+      right: 0;
+      padding: 5px 10px;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      font-size: 0.8rem;
+      text-align: center;
+    }
     
     /* Responsive Design for Video Converter */
     @media (max-width: 768px) {
@@ -440,6 +522,11 @@
       .tab {
         padding: 10px 15px;
         font-size: 0.9rem;
+      }
+
+      .time-range-container {
+        flex-direction: column;
+        gap: 5px;
       }
     }
 
@@ -499,7 +586,19 @@
         <div class="file-detail"><span>Size:</span> <span id="fileSize">-</span></div>
         <div class="file-detail"><span>Type:</span> <span id="fileType">-</span></div>
         <div class="file-detail"><span>Dimensions:</span> <span id="fileDimensions">-</span></div>
+        <div class="file-detail"><span>Duration:</span> <span id="fileDuration">-</span></div>
       </div>
+      
+      <div id="videoPreviewContainer" class="video-preview" style="display: none;">
+        <div class="video-duration" id="videoDurationDisplay">00:00 / 00:00</div>
+        <video id="videoPreview" controls></video>
+        <div class="video-preview-controls">
+          <button id="playPauseBtn" aria-label="Play/Pause"><i class="fas fa-play"></i></button>
+          <button id="setStartBtn" aria-label="Set start time"><i class="fas fa-step-backward"></i> Start</button>
+          <button id="setEndBtn" aria-label="Set end time">End <i class="fas fa-step-forward"></i></button>
+        </div>
+      </div>
+      
       <div class="settings-grid">
         <div class="setting-group">
           <p class="description">Input format is automatically detected from your uploaded video file.</p>
@@ -515,7 +614,23 @@
             <option value="gif">GIF</option>
           </select>
         </div>
+        
         <div class="setting-group">
+          <h3><i class="fas fa-cut"></i> Trim Video</h3>
+          <div class="time-range-container">
+            <div class="time-range-input">
+              <label for="startTime">Start Time (seconds)</label>
+              <input type="number" id="startTime" min="0" step="0.1" value="0" aria-label="Start time for trimming">
+            </div>
+            <div class="time-range-input">
+              <label for="endTime">End Time (seconds)</label>
+              <input type="number" id="endTime" min="0" step="0.1" value="0" aria-label="End time for trimming">
+            </div>
+          </div>
+        </div>
+        
+        <div class="setting-group">
+          <h3><i class="fas fa-sliders-h"></i> Video Settings</h3>
           <p class="description">Select video quality to balance file size and clarity.</p>
           <select id="quality" aria-label="Select video quality">
             <option value="high">High</option>
@@ -523,6 +638,7 @@
             <option value="low">Low</option>
           </select>
         </div>
+        
         <div class="setting-group">
           <p class="description">Set the frame rate for your video or keep the original.</p>
           <select id="framerate" aria-label="Select framerate">
@@ -533,6 +649,7 @@
             <option value="15">15 fps</option>
           </select>
         </div>
+        
         <div class="setting-group">
           <p class="description">Choose a resolution for your video or maintain the original size.</p>
           <select id="resolution" aria-label="Select resolution">
@@ -543,6 +660,7 @@
             <option value="360p">360p</option>
           </select>
         </div>
+        
         <div class="setting-group">
           <p class="description">Select an aspect ratio to adjust the video's dimensions.</p>
           <select id="aspectRatio" aria-label="Select aspect ratio">
@@ -553,8 +671,9 @@
             <option value="9:16">9:16 (Vertical)</option>
           </select>
         </div>
+        
         <div class="setting-group">
-          <p class="description">Toggle audio settings for your video.</p>
+          <h3><i class="fas fa-volume-up"></i> Audio Settings</h3>
           <div class="toggle-container">
             <label for="mute-audio">Mute Audio</label>
             <label class="toggle-switch">
@@ -571,9 +690,11 @@
           </div>
         </div>
       </div>
+      
       <button id="convertBtn" disabled aria-label="Convert video with selected settings">
         <i class="fas fa-exchange-alt"></i> Convert Video
       </button>
+      
       <div id="progressContainer" class="progress-container">
         <div class="progress-header">
           <span>Conversion Progress</span>
@@ -585,6 +706,7 @@
         <p id="progressMessage">Initializing conversion...</p>
         <button id="cancelBtn" style="margin-top: 15px; background: #e74c3c;">Cancel Conversion</button>
       </div>
+      
       <div id="resultContainer" class="result-container">
         <p>Conversion Complete!</p>
         <a id="downloadLink" class="download-btn" aria-label="Download converted video"><i class="fas fa-download"></i> Download Converted Video</a>
@@ -669,6 +791,7 @@
     // FFmpeg variables
     let ffmpeg = null;
     let inputFile = null;
+    let videoDuration = 0;
 
     function initVideoConverter() {
       const elements = {
@@ -680,6 +803,15 @@
         fileSize: document.getElementById('fileSize'),
         fileType: document.getElementById('fileType'),
         fileDimensions: document.getElementById('fileDimensions'),
+        fileDuration: document.getElementById('fileDuration'),
+        videoPreviewContainer: document.getElementById('videoPreviewContainer'),
+        videoPreview: document.getElementById('videoPreview'),
+        videoDurationDisplay: document.getElementById('videoDurationDisplay'),
+        playPauseBtn: document.getElementById('playPauseBtn'),
+        setStartBtn: document.getElementById('setStartBtn'),
+        setEndBtn: document.getElementById('setEndBtn'),
+        startTime: document.getElementById('startTime'),
+        endTime: document.getElementById('endTime'),
         convertBtn: document.getElementById('convertBtn'),
         progressContainer: document.getElementById('progressContainer'),
         progressMessage: document.getElementById('progressMessage'),
@@ -701,6 +833,7 @@
       };
 
       let cancelRequested = false;
+      let isPlaying = false;
 
       function showError(message) {
         if (elements.convertError) {
@@ -734,6 +867,37 @@
         if (elements.progressFill) elements.progressFill.style.width = `${percentValue}%`;
         if (elements.progressMessage) elements.progressMessage.textContent = msg;
         if (elements.progressPercent) elements.progressPercent.textContent = `${Math.round(percentValue)}%`;
+      }
+
+      function formatTime(seconds) {
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+      }
+
+      function updateTimeDisplay() {
+        const currentTime = elements.videoPreview.currentTime;
+        elements.videoDurationDisplay.textContent = 
+          `${formatTime(currentTime)} / ${formatTime(videoDuration)}`;
+      }
+
+      function togglePlayPause() {
+        if (isPlaying) {
+          elements.videoPreview.pause();
+          elements.playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+        } else {
+          elements.videoPreview.play();
+          elements.playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+        }
+        isPlaying = !isPlaying;
+      }
+
+      function setStartTime() {
+        elements.startTime.value = elements.videoPreview.currentTime.toFixed(1);
+      }
+
+      function setEndTime() {
+        elements.endTime.value = elements.videoPreview.currentTime.toFixed(1);
       }
 
       async function processFile(e) {
@@ -779,12 +943,25 @@
             video.onloadedmetadata = () => {
               const width = video.videoWidth;
               const height = video.videoHeight;
+              videoDuration = video.duration;
               elements.fileDimensions.textContent = `${width}×${height}`;
+              elements.fileDuration.textContent = formatTime(videoDuration);
+              elements.endTime.value = videoDuration.toFixed(1);
               document.body.removeChild(video);
               URL.revokeObjectURL(video.src);
               resolve();
             };
             video.onerror = () => reject(new Error('Failed to load video metadata'));
+          });
+
+          // Set up video preview
+          elements.videoPreview.src = URL.createObjectURL(file);
+          elements.videoPreviewContainer.style.display = 'block';
+          
+          elements.videoPreview.addEventListener('timeupdate', updateTimeDisplay);
+          elements.videoPreview.addEventListener('ended', () => {
+            isPlaying = false;
+            elements.playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
           });
 
           elements.convertBtn.disabled = false;
@@ -825,6 +1002,16 @@
           const aspectRatio = elements.aspectRatio.value;
           const muteAudio = elements.muteAudio.checked;
           const normalizeAudio = elements.normalizeAudio.checked;
+          const startTime = parseFloat(elements.startTime.value) || 0;
+          const endTime = parseFloat(elements.endTime.value) || videoDuration;
+
+          // Validate time range
+          if (startTime >= endTime) {
+            throw new Error('Start time must be before end time');
+          }
+          if (endTime > videoDuration) {
+            throw new Error('End time exceeds video duration');
+          }
 
           // Prepare input filename
           const inputExt = inputFile.name.split('.').pop() || 'mp4';
@@ -837,6 +1024,11 @@
 
           // Build FFmpeg command
           const args = ['-i', inputName];
+
+          // Handle trimming
+          if (startTime > 0 || endTime < videoDuration) {
+            args.push('-ss', startTime.toString(), '-to', endTime.toString());
+          }
 
           // Handle quality settings
           if (outputFormat === 'mp4') {
@@ -864,6 +1056,11 @@
               case '360p': resolutionValue = '640x360'; break;
             }
             args.push('-s', resolutionValue);
+          }
+
+          // Handle aspect ratio
+          if (aspectRatio !== 'original') {
+            args.push('-aspect', aspectRatio);
           }
 
           // Handle audio
@@ -960,6 +1157,11 @@
             ffmpeg.exit();
           }
         });
+
+        // Video Preview Controls
+        elements.playPauseBtn.addEventListener('click', togglePlayPause);
+        elements.setStartBtn.addEventListener('click', setStartTime);
+        elements.setEndBtn.addEventListener('click', setEndTime);
 
         // Keyboard accessibility for drag zone
         elements.dropZone.addEventListener('keydown', (e) => {
