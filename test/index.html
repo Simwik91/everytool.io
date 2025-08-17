@@ -3,19 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Free Image Toolkit: Crop, resize, and convert images in PNG, JPEG, WEBP, BMP, GIF, or HEIC. Fast, free, no signup required.">
-  <title>Free Image Toolkit - Crop, Resize, Convert</title>
+  <meta name="description" content="Free online video converter to MP4, WEBM, or GIF. Convert videos instantly in your browser with advanced settings for quality, resolution, and more. No signup required.">
+  <meta name="keywords" content="video converter, free video toolkit, online video converter, convert video to mp4, convert video to webm, convert video to gif, video toolkit">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="Free Video Converter - EveryTool.io">
+  <meta property="og:description" content="Convert videos to MP4, WEBM, or GIF with customizable settings. Free, fast, and secure in-browser processing.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://everytool.io/videoconverter">
+  <meta property="og:image" content="https://everytool.io/social-preview.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <title>Free Video Converter - EveryTool.io</title>
   
-  <!-- Performance Tuning -->
+  <!-- Performance Optimization -->
   <link rel="preconnect" href="https://cdnjs.cloudflare.com">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.rel='stylesheet'">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
   <!-- Shared CSS -->
+  <link rel="stylesheet" href="/css/styles.css">
+  
   <style>
-    /* === Shared CSS Styles === */
     :root {
       --primary: #4361ee;
       --primary-dark: #3a56d4;
@@ -30,547 +39,274 @@
       --transition: all 0.3s ease;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #f5f7ff 0%, #f0f4ff 100%);
-      color: var(--dark);
-      line-height: 1.6;
-      min-height: 100vh;
-      padding: 20px;
-      overflow-x: hidden;
-      transition: transform 0.4s ease;
-    }
-    
-    body.menu-open {
-      overflow: hidden;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-
-    /* Header & Navigation */
-    header {
-      background: white;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-
-    .header-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px 0;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: var(--primary);
-      text-decoration: none;
-      z-index: 2001;
-    }
-
-    .logo i {
-      margin-right: 10px;
-      font-size: 2.2rem;
-    }
-
-    .nav-container {
-      display: flex;
-      align-items: center;
-    }
-
-    .nav-menu {
-      display: flex;
-      list-style: none;
-      margin-right: 20px;
-    }
-
-    .nav-item {
-      position: relative;
-      margin: 0 15px;
-    }
-
-    .nav-link {
-      padding: 10px 15px;
-      color: var(--dark);
-      text-decoration: none;
-      font-weight: 500;
-      border-radius: var(--border-radius);
-      transition: var(--transition);
-      display: flex;
-      align-items: center;
-    }
-
-    .nav-link i {
-      margin-right: 8px;
-    }
-
-    .nav-link:hover, .nav-link:focus {
-      background: rgba(67, 97, 238, 0.1);
-      color: var(--primary);
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-
-    /* Dropdown Menu */
-    .dropdown {
-      position: relative;
-    }
-
-    .dropdown-toggle::after {
-      content: '\f078'; /* Font Awesome chevron-down */
-      font-family: 'Font Awesome 6 Free';
-      font-weight: 900;
-      margin-left: 8px;
-      font-size: 0.8rem;
-    }
-
-    .dropdown-menu {
-      display: none;
-      position: absolute;
-      top: 100%;
-      left: 0;
-      background: white;
-      box-shadow: var(--box-shadow);
-      border-radius: var(--border-radius);
-      min-width: 240px;
-      max-height: 400px;
-      overflow-y: auto;
-      z-index: 1000;
-      list-style: none;
-      padding: 10px 0;
-    }
-
-    .dropdown-menu li {
-      margin: 0;
-    }
-
-    .dropdown-item {
-      display: flex;
-      align-items: center;
-      padding: 10px 20px;
-      color: var(--dark);
-      text-decoration: none;
-      font-weight: 500;
-      transition: var(--transition);
-    }
-
-    .dropdown-item i {
-      margin-right: 10px;
-      font-size: 1.2rem;
-      color: var(--primary);
-    }
-
-    .dropdown-item:hover, .dropdown-item:focus {
-      background: rgba(67, 97, 238, 0.1);
-      color: var(--primary);
-    }
-
-    .nav-item.dropdown:hover .dropdown-menu,
-    .nav-item.dropdown .dropdown-menu.active {
-      display: block;
-    }
-
-    .dropdown-error {
-      font-size: 0.9rem;
-      color: red;
-      padding: 10px 20px;
-    }
-
-    .mobile-menu-btn {
-      display: none;
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      color: var(--dark);
-      cursor: pointer;
-      padding: 10px;
-      border-radius: 5px;
-      z-index: 2001;
-    }
-
-    .mobile-menu-btn:hover, .mobile-menu-btn:focus {
-      background: rgba(67, 97, 238, 0.1);
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-
-    /* Mobile Menu */
-    .mobile-backdrop {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      z-index: 1999;
-      display: none;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
-    .mobile-backdrop.active {
-      display: block;
-      opacity: 1;
-    }
-
-    .mobile-nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 280px;
-      height: 100vh;
-      background: white;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-      z-index: 2000;
-      transform: translateX(-100%);
-      transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-      overflow-y: auto;
-      display: block;
-    }
-
-    .mobile-nav.active {
-      transform: translateX(0);
-    }
-
-    .mobile-nav-header {
-      padding: 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid var(--light-gray);
-    }
-
-    .close-mobile-menu {
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      color: var(--dark);
-      cursor: pointer;
-      padding: 5px;
-      border-radius: 5px;
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .close-mobile-menu:hover, .close-mobile-menu:focus {
-      background: rgba(0, 0, 0, 0.05);
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-
-    .mobile-nav-menu {
-      list-style: none;
-      padding: 20px;
-    }
-
-    .mobile-nav-item {
-      margin-bottom: 10px;
-    }
-
-    .mobile-nav-link {
-      display: block;
-      padding: 12px 15px;
-      color: var(--dark);
-      text-decoration: none;
-      font-weight: 500;
-      border-radius: var(--border-radius);
-      transition: var(--transition);
-    }
-
-    .mobile-nav-link:hover, .mobile-nav-link:focus {
-      background: rgba(67, 97, 238, 0.1);
-      color: var(--primary);
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-
-    .mobile-nav-link i {
-      width: 24px;
-      text-align: center;
-      margin-right: 10px;
-    }
-
-    .mobile-nav .dropdown-menu {
-      display: none;
-      list-style: none;
-      padding: 10px 15px 10px 30px;
-      background: rgba(0, 0, 0, 0.05);
-    }
-
-    .mobile-nav .dropdown-menu.active {
-      display: block;
-    }
-
-    .mobile-nav .dropdown-item {
-      display: flex;
-      align-items: center;
-      padding: 8px 20px;
-    }
-
-    .mobile-nav .dropdown-item i {
-      margin-right: 10px;
-      font-size: 1.2rem;
-      color: var(--primary);
-    }
-
-    .mobile-nav .dropdown-error {
-      font-size: 0.9rem;
-      color: red;
-      padding: 8px 20px;
-    }
-
-    /* Footer */
-    footer {
-      background: linear-gradient(135deg, var(--light) 0%, #f0f4ff 100%);
-      color: #000;
-      padding: 60px 0 30px;
-    }
-
-    .footer-bottom {
-      border-top: 1px solid rgba(0, 0, 0, 0.1);
-      padding-top: 30px;
+    /* Video Converter Specific Styles */
+    .hero {
+      padding: 60px 0 40px;
       text-align: center;
     }
 
-    .footer-bottom a {
-      color: #000;
-      text-decoration: none;
-      transition: var(--transition);
-      font-weight: 600;
-      font-size: 1.1rem;
-      margin: 0 10px;
-    }
-
-    .footer-bottom a:hover, 
-    .footer-bottom a:focus {
-      color: var(--primary);
-      text-decoration: underline;
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-
-    .footer-links-row {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-    }
-    
-    .footer-bottom p {
-      color: #000;
-      font-weight: 600;
-      font-size: 1.1rem;
-      margin: 0;
-    }
-    
-    /* Cookie Consent Styles */
-    #cookie-consent {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 95%;
+    .hero-content {
       max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      font-weight: 700;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1.2;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: var(--gray);
+      margin-bottom: 40px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .card {
       background: var(--light);
       border-radius: var(--border-radius);
-      box-shadow: 0 5px 30px rgba(0, 0, 0, 0.15);
-      padding: 20px;
-      z-index: 1000;
-      display: none;
+      box-shadow: var(--box-shadow);
+      padding: 30px;
+      margin-bottom: 30px;
+      transition: var(--transition);
     }
-
-    .cookie-content {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 15px;
-      align-items: center;
-      justify-content: space-between;
+    
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
     }
-
-    .cookie-text {
-      flex: 1;
-      min-width: 300px;
+    
+    h2 {
+      font-size: 1.8rem;
+      margin-bottom: 25px;
       color: var(--dark);
-    }
-
-    .cookie-text p {
-      margin-bottom: 10px;
-      font-size: 0.95rem;
-    }
-
-    .cookie-text a {
-      color: var(--primary);
-      text-decoration: none;
-    }
-
-    .cookie-text a:hover, .cookie-text a:focus {
-      text-decoration: underline;
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-
-    .cookie-buttons {
+      font-weight: 600;
       display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: center;
+    }
+    
+    h2 i {
+      color: var(--primary);
+    }
+    
+    h3 {
+      font-size: 1.4rem;
+      margin: 20px 0 15px;
+      color: var(--dark);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      justify-content: center;
+    }
+    
+    .tabs {
+      display: flex;
+      justify-content: center;
+      margin: 0 0 30px;
       gap: 10px;
       flex-wrap: wrap;
     }
-
-    .cookie-btn {
-      padding: 10px 20px;
-      border-radius: 50px;
-      font-weight: 600;
+    
+    .tab {
+      padding: 12px 25px;
       cursor: pointer;
-      transition: var(--transition);
-      font-size: 0.9rem;
-      border: none;
-      min-width: 180px;
-    }
-
-    .cookie-btn:focus {
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-
-    .reject-btn {
       background: var(--light-gray);
-      color: var(--dark);
+      border-radius: 50px;
+      font-weight: 500;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1rem;
     }
-
-    .reject-btn:hover {
-      background: #e0e0e0;
-    }
-
-    .accept-btn {
+    
+    .tab.active {
       background: var(--primary);
       color: white;
     }
-
-    .accept-btn:hover {
-      background: var(--primary-dark);
+    
+    .tab:hover:not(.active) {
+      background: #dbe4ff;
     }
-
-    .cookie-settings-btn {
-      background: transparent;
-      color: var(--gray);
-      text-decoration: underline;
+    
+    .tab-content {
+      display: none;
+    }
+    
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.4s ease;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    input, select, button, textarea {
+      margin: 0.5em auto;
+      padding: 15px;
+      width: 100%;
+      font-size: 1rem;
+      border-radius: 10px;
+      border: 1px solid var(--light-gray);
+      background: var(--light);
+      display: block;
+      transition: var(--transition);
+      font-family: 'Poppins', sans-serif;
+    }
+    
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+    }
+    
+    button {
+      background: var(--primary);
+      color: white;
       border: none;
       cursor: pointer;
-      padding: 0;
-      margin-top: 10px;
-      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 15px 20px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
     }
-
-    .cookie-settings-btn:hover, .cookie-settings-btn:focus {
-      color: var(--dark);
+    
+    button:hover, button:focus {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
       outline: 2px solid var(--primary);
       outline-offset: 2px;
     }
-
-    #cookie-settings {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.7);
+    
+    button:disabled {
+      background: #9ec5e6;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+    
+    .loading {
       display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 2000;
-      animation: slideUp 0.3s ease-out;
+      text-align: center;
+      padding: 30px;
+    }
+    
+    .spinner {
+      border: 4px solid rgba(0, 0, 0, 0.1);
+      border-left-color: var(--primary);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 20px;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .error {
+      color: #e74c3c;
+      padding: 15px;
+      background: rgba(231, 76, 60, 0.1);
+      border-radius: var(--border-radius);
+      margin: 20px 0;
+      display: none;
+      border-left: 4px solid #e74c3c;
+    }
+    
+    .success {
+      color: #27ae60;
+      padding: 15px;
+      background: rgba(39, 174, 96, 0.1);
+      border-radius: var(--border-radius);
+      margin: 20px 0;
+      display: none;
+      border-left: 4px solid #27ae60;
     }
 
-    .settings-modal {
+    .drag-drop-area {
+      width: 100%;
+      max-width: 500px;
+      margin: 2em auto;
+      padding: 2em;
+      border: 2px dashed var(--light-gray);
+      border-radius: var(--border-radius);
+      background: white;
+      color: var(--gray);
+      cursor: pointer;
+      transition: var(--transition);
+      text-align: center;
+      font-size: 1rem;
+    }
+
+    .drag-drop-area.drag-over {
+      background: #e6f0fa;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+    }
+
+    .drag-drop-area p {
+      margin: 0.5em 0;
+    }
+
+    .file-info {
+      width: 100%;
+      max-width: 500px;
+      margin: 1em auto;
+      padding: 15px;
       background: var(--light);
       border-radius: var(--border-radius);
-      width: 95%;
-      max-width: 600px;
-      max-height: 90vh;
-      overflow-y: auto;
-      padding: 30px;
-      position: relative;
-      animation: slideUp 0.3s ease-out;
+      text-align: left;
     }
 
-    @keyframes slideUp {
-      from { transform: translateY(20px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-
-    .settings-header {
+    .file-detail {
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
+      margin: 0.3rem 0;
+      font-size: 0.9rem;
     }
 
-    .settings-header h2 {
-      font-size: 1.8rem;
-      margin: 0;
+    .settings-grid {
+      width: 100%;
+      max-width: 500px;
+      margin: 1em auto;
     }
 
-    .close-settings {
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      cursor: pointer;
+    .setting-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .description {
+      font-size: 0.9em;
       color: var(--gray);
-      transition: var(--transition);
-      padding: 5px;
-      border-radius: 5px;
+      margin-bottom: 0.5em;
     }
 
-    .close-settings:hover, .close-settings:focus {
-      color: var(--dark);
-      background: rgba(0, 0, 0, 0.05);
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-
-    .settings-content {
-      margin-bottom: 20px;
-    }
-
-    .cookie-type {
-      margin-bottom: 20px;
-      padding-bottom: 15px;
-      border-bottom: 1px solid var(--light-gray);
-    }
-
-    .cookie-type-header {
+    .toggle-container {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      margin-bottom: 10px;
-    }
-
-    .cookie-type h3 {
-      margin: 0;
-      font-size: 1.2rem;
+      justify-content: space-between;
+      margin: 0.5em 0;
     }
 
     .toggle-switch {
       position: relative;
-      display: inline-block;
       width: 50px;
       height: 24px;
     }
@@ -631,481 +367,184 @@
       background-color: #ddd;
     }
 
-    .cookie-type p {
-      font-size: 0.9rem;
-      color: var(--gray);
-      margin-bottom: 10px;
-    }
-
-    .settings-buttons {
-      display: flex;
-      justify-content: flex-end;
-      gap: 10px;
-    }
-
-    .save-settings {
-      background: var(--primary);
-      color: white;
-      border: none;
-      padding: 10px 25px;
-      border-radius: 50px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-
-    .save-settings:hover, .save-settings:focus {
-      background: var(--primary-dark);
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-
-    /* Accessibility Improvements */
-    .sr-only {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      border: 0;
-    }
-
-    /* Responsive Design */
-    @media (max-width: 992px) {
-      .nav-menu {
-        display: none;
-      }
-      
-      .mobile-menu-btn {
-        display: block;
-      }
-      
-      .mobile-nav {
-        width: 100%;
-      }
-    }
-
-    @media (min-width: 993px) {
-      .mobile-nav {
-        display: none !important;
-      }
-      .mobile-backdrop {
-        display: none !important;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .footer-links-row {
-        flex-direction: column;
-        gap: 10px;
-      }
-      
-      .cookie-content {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      
-      .cookie-buttons {
-        width: 100%;
-      }
-      
-      .cookie-btn {
-        width: 100%;
-      }
-    }
-
-    @media (max-width: 576px) {
-      .header-container {
-        padding: 15px 0;
-      }
-      
-      .logo {
-        font-size: 1.5rem;
-      }
-      
-      .logo i {
-        font-size: 1.8rem;
-      }
-      
-      .settings-modal {
-        padding: 20px;
-      }
-    }
-  </style>
-  
-  <!-- Image Toolkit Specific Styles -->
-  <style>
-    /* === Image Toolkit Specific Styles === */
-    .tool-header {
-      text-align: center;
-      padding: 40px 0 20px;
-    }
-
-    .tool-header h1 {
-      font-size: 2.5rem;
-      margin-bottom: 10px;
-      font-weight: 700;
-      background: linear-gradient(90deg, var(--primary), var(--secondary));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      line-height: 1.2;
-    }
-
-    .tagline {
-      font-size: 1.2rem;
-      color: var(--gray);
-      max-width: 700px;
-      margin: 0 auto 25px;
-    }
-
-    .card {
-      background: white;
-      border-radius: var(--border-radius);
-      box-shadow: var(--box-shadow);
-      padding: 30px;
-      margin-bottom: 30px;
-      transition: var(--transition);
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
-    }
-
-    h2 {
-      font-size: 1.8rem;
-      margin-bottom: 25px;
-      color: var(--dark);
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      justify-content: center;
-    }
-
-    h2 i {
-      color: var(--primary);
-    }
-
-    h3 {
-      font-size: 1.4rem;
-      margin-bottom: 15px;
-      color: var(--dark);
-      font-weight: 600;
-    }
-
-    .tabs {
-      display: flex;
-      justify-content: center;
-      margin: 0 0 30px;
-      gap: 10px;
-      flex-wrap: wrap;
-      overflow-x: auto;
-    }
-
-    .tab {
-      padding: 12px 25px;
-      cursor: pointer;
-      background: var(--light-gray);
-      border-radius: 50px;
-      font-weight: 500;
-      transition: var(--transition);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 1rem;
-      white-space: nowrap;
-    }
-
-    .tab.active {
-      background: var(--primary);
-      color: white;
-    }
-
-    .tab:hover:not(.active) {
-      background: #dbe4ff;
-    }
-
-    .tab-content {
-      display: none;
-    }
-
-    .tab-content.active {
-      display: block;
-      animation: fadeIn 0.4s ease;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: 500;
-      color: var(--dark);
-    }
-
-    input, select, button {
-      margin: 0.5em auto;
-      padding: 15px;
-      width: 100%;
-      font-size: 1rem;
-      border-radius: 10px;
-      border: 1px solid var(--light-gray);
-      background: white;
-      display: block;
-      transition: var(--transition);
-      font-family: 'Poppins', sans-serif;
-    }
-
-    input:focus, 
-    select:focus {
-      outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
-    }
-
-    button {
-      background: var(--primary);
-      color: white;
-      border: none;
-      cursor: pointer;
-      font-weight: 600;
-      padding: 15px 20px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      transition: var(--transition);
-    }
-
-    button:hover, button:focus {
-      background: var(--primary-dark);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-
-    .btn-group {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      margin: 1.5em 0;
-      flex-wrap: wrap;
-    }
-
-    .btn-group button {
-      width: auto;
-      min-width: 180px;
-      flex: 1;
-    }
-
-    .drag-drop-area {
+    .progress-container {
       width: 100%;
       max-width: 500px;
-      margin: 2em auto;
-      padding: 2em;
-      border: 2px dashed var(--light-gray);
-      border-radius: var(--border-radius);
-      background: white;
-      color: var(--gray);
-      cursor: pointer;
-      transition: var(--transition);
-      text-align: center;
-      font-size: 1rem;
-    }
-
-    .drag-drop-area.drag-over {
-      background: #e6f0fa;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
-    }
-
-    .drag-drop-area p {
-      margin: 0.5em 0;
-    }
-
-    .resize-controls {
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .resize-controls input {
-      width: 45%;
-      max-width: 200px;
-      display: inline-block;
-    }
-
-    .quality-controls {
-      margin: 20px 0;
+      margin: 1.5em auto;
       padding: 15px;
-      background: #f8f9ff;
+      background: var(--light);
       border-radius: var(--border-radius);
-    }
-    
-    .quality-slider-container {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      margin-bottom: 10px;
-    }
-    
-    .quality-slider {
-      flex: 1;
-    }
-    
-    .quality-value {
-      min-width: 60px;
-      text-align: center;
-      font-weight: 500;
-    }
-    
-    .file-size-info {
-      font-size: 0.9rem;
-      color: var(--gray);
-      margin-top: 10px;
-      text-align: center;
       display: none;
     }
-    
-    .visually-hidden {
-      position: absolute;
-      top: -9999px;
-      left: -9999px;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      border: 0;
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+      font-size: 0.95rem;
     }
 
-    canvas {
+    .progress-bar {
+      height: 10px;
+      background: var(--light-gray);
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: 5px;
+      transition: width 0.4s ease;
+    }
+
+    .result-container {
+      width: 100%;
+      max-width: 500px;
       margin: 1.5em auto;
-      max-width: 100%;
-      border-radius: 12px;
-      background: #f5f5f5;
+      padding: 1.2rem;
+      background: rgba(39, 174, 96, 0.08);
+      border: 1px dashed #27ae60;
+      border-radius: var(--border-radius);
+      display: none;
+    }
+
+    .download-btn {
+      background: #27ae60;
+      color: white;
       padding: 15px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-      border: 1px solid var(--light-gray);
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: var(--transition);
+    }
+
+    .download-btn:hover, .download-btn:focus {
+      background: #219653;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+      outline: 2px solid #27ae60;
+      outline-offset: 2px;
+    }
+
+    .time-range-container {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 1rem;
+    }
+
+    .time-range-input {
+      flex: 1;
+      position: relative;
+    }
+
+    .time-range-input label {
+      display: block;
+      margin-bottom: 0.3rem;
+      font-size: 0.9rem;
+      color: var(--gray);
+    }
+
+    .time-range-input input {
+      margin: 0;
+      padding: 10px;
+      width: 100%;
+    }
+
+    .video-preview {
+      width: 100%;
+      max-width: 500px;
+      margin: 1em auto;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      background: var(--light-gray);
+      position: relative;
+    }
+
+    .video-preview video {
+      width: 100%;
       display: block;
     }
 
-    .loading {
-      display: none;
-      text-align: center;
-      padding: 30px;
-    }
-
-    .spinner {
-      border: 4px solid rgba(0, 0, 0, 0.1);
-      border-left-color: var(--primary);
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      animation: spin 1s linear infinite;
-      margin: 0 auto 20px;
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    .error {
-      color: #e74c3c;
-      padding: 15px;
-      background: rgba(231, 76, 60, 0.1);
-      border-radius: var(--border-radius);
-      margin: 20px 0;
-      border-left: 4px solid #e74c3c;
-      display: none;
-    }
-
-    .success {
-      color: #27ae60;
-      padding: 15px;
-      background: rgba(39, 174, 96, 0.1);
-      border-radius: var(--border-radius);
-      margin: 20px 0;
-      border-left: 4px solid #27ae60;
-      display: none;
-    }
-
-    /* Color Picker Styles */
-    .color-picker-container {
+    .video-preview-controls {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 10px;
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin: 20px 0;
+      justify-content: center;
+      gap: 10px;
     }
 
-    .color-display {
-      width: 100px;
-      height: 100px;
+    .video-preview-controls button {
+      background: rgba(255, 255, 255, 0.2);
       border-radius: 50%;
-      margin: 15px 0;
-      border: 3px solid var(--light-gray);
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      width: 36px;
+      height: 36px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .color-value {
-      font-size: 1.2rem;
-      font-weight: 600;
-      font-family: monospace;
-      padding: 10px 15px;
-      background: white;
-      border-radius: var(--border-radius);
-      border: 1px solid var(--light-gray);
-      margin-top: 10px;
+    .video-preview-controls button:hover {
+      background: rgba(255, 255, 255, 0.3);
     }
 
-    /* Responsive Design for Image Toolkit */
+    .video-preview-controls button i {
+      font-size: 1rem;
+    }
+
+    .video-duration {
+      position: absolute;
+      bottom: 100%;
+      left: 0;
+      right: 0;
+      padding: 5px 10px;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      font-size: 0.8rem;
+      text-align: center;
+    }
+    
+    /* Responsive Design for Video Converter */
     @media (max-width: 768px) {
-      .card {
-        padding: 20px;
-      }
-
-      .tool-header h1 {
+      .hero h1 {
         font-size: 2rem;
       }
-
-      h2 {
-        font-size: 1.5rem;
-      }
-
-      .btn-group {
-        flex-direction: column;
-      }
-
-      .btn-group button {
-        width: 100%;
-      }
-
+      
       .tab {
         padding: 10px 15px;
         font-size: 0.9rem;
       }
 
-      .resize-controls input {
-        width: 100%;
+      .time-range-container {
+        flex-direction: column;
+        gap: 5px;
       }
     }
 
-    @media (max-width: 480px) {
-      body {
-        padding: 15px;
+    @media (max-width: 576px) {
+      .hero {
+        padding: 40px 0 20px;
       }
-
-      .tool-header {
-        padding: 20px 0 10px;
+      
+      .card {
+        padding: 20px;
+      }
+      
+      h2 {
+        font-size: 1.5rem;
+      }
+      
+      h3 {
+        font-size: 1.2rem;
       }
     }
   </style>
@@ -1116,181 +555,161 @@
     <p class="error-message" style="display: none; color: red; text-align: center;">Failed to load header. Please try refreshing the page.</p>
   </header>
 
-  <!-- Image Toolkit Content -->
-  <div class="container">
-    <div class="tool-header">
-      <h1>Free Image Toolkit</h1>
-      <p class="tagline">Crop, resize, and convert images in PNG, JPEG, WEBP, BMP, GIF, or HEIC.</p>
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <h1>Video Tools</h1>
+        <p>Convert videos to MP4, WEBM, or GIF with customizable settings. All processing happens in your browser - your videos never leave your device.</p>
+      </div>
     </div>
+  </section>
 
+  <div class="container">
     <div class="card">
-      <div class="tabs">
-        <div class="tab active" data-tab="crop">
-          <i class="fas fa-crop"></i> Crop
-        </div>
-        <div class="tab" data-tab="resize">
-          <i class="fas fa-expand"></i> Resize
-        </div>
-        <div class="tab" data-tab="convert">
-          <i class="fas fa-exchange-alt"></i> Convert
-        </div>
-        <div class="tab" data-tab="color">
-          <i class="fas fa-eye-dropper"></i> Color Picker
+      <h2><i class="fas fa-exchange-alt"></i> Video Converter</h2>
+      <p><i>Convert videos to MP4, WEBM, or GIF with customizable settings.</i></p>
+      <div class="drag-drop-area" id="dropZone" role="button" aria-label="Choose or drag and drop video file">
+        <p id="dropZoneText"><i class="fas fa-upload"></i> Choose file or drag and drop here</p>
+        <p>Supported formats: MP4, WEBM, MOV, AVI, MKV</p>
+        <p>Max file size: 100MB</p>
+      </div>
+      <input type="file" id="videoInput" accept="video/mp4,video/webm,video/quicktime,video/x-msvideo,video/x-matroska" style="display: none;" aria-label="Upload video for conversion" />
+      <div class="error" id="convert-error" role="alert"></div>
+      <div class="success" id="convert-success" role="alert"></div>
+      <div class="loading" id="convert-loading">
+        <div class="spinner"></div>
+        Processing Video...
+      </div>
+      <div id="fileInfo" class="file-info" style="display: none;">
+        <div class="file-detail"><span>Name:</span> <span id="fileName">No file selected</span></div>
+        <div class="file-detail"><span>Size:</span> <span id="fileSize">-</span></div>
+        <div class="file-detail"><span>Type:</span> <span id="fileType">-</span></div>
+        <div class="file-detail"><span>Dimensions:</span> <span id="fileDimensions">-</span></div>
+        <div class="file-detail"><span>Duration:</span> <span id="fileDuration">-</span></div>
+      </div>
+      
+      <div id="videoPreviewContainer" class="video-preview" style="display: none;">
+        <div class="video-duration" id="videoDurationDisplay">00:00 / 00:00</div>
+        <video id="videoPreview" controls></video>
+        <div class="video-preview-controls">
+          <button id="playPauseBtn" aria-label="Play/Pause"><i class="fas fa-play"></i></button>
+          <button id="setStartBtn" aria-label="Set start time"><i class="fas fa-step-backward"></i> Start</button>
+          <button id="setEndBtn" aria-label="Set end time">End <i class="fas fa-step-forward"></i></button>
         </div>
       </div>
-
-      <!-- Crop Tab -->
-      <div class="tab-content active" id="crop-tab">
-        <h2><i class="fas fa-crop"></i> Image Cropper</h2>
-        <p><i>Draw a rectangle on the image to crop it.</i></p>
-        <div class="drag-drop-area" id="cropDragArea">
-          <p><i class="fas fa-upload"></i> Choose file or drag and drop here</p>
-          <p>Supported formats: PNG, JPEG, WEBP, BMP, GIF, HEIC</p>
-          <p>Max file size: 10MB</p>
+      
+      <div class="settings-grid">
+        <div class="setting-group">
+          <p class="description">Input format is automatically detected from your uploaded video file.</p>
+          <select id="inputFormat" disabled aria-label="Input format (auto-detected)">
+            <option value="auto">Auto Detect</option>
+          </select>
         </div>
-        <input type="file" id="cropUpload" accept="image/*,.heic,.heif" style="display: none;" aria-label="Upload image for cropping" />
-        <div class="error" id="crop-error"></div>
-        <div class="success" id="crop-success"></div>
-        <div class="loading" id="crop-loading">
-          <div class="spinner"></div>
-          Processing Image...
+        <div class="setting-group">
+          <p class="description">Choose the output format for your converted video.</p>
+          <select id="outputFormat" aria-label="Select output format">
+            <option value="mp4">MP4</option>
+            <option value="webm">WEBM</option>
+            <option value="gif">GIF</option>
+          </select>
         </div>
-        <canvas id="cropCanvas" width="300" height="200"></canvas>
-        <div class="quality-controls">
-          <h3><i class="fas fa-file-image"></i> Output Quality</h3>
-          <div class="quality-slider-container">
-            <input type="range" min="0" max="100" value="80" class="quality-slider" id="cropQuality">
-            <span class="quality-value" id="cropQualityValue">80%</span>
+        
+        <div class="setting-group">
+          <h3><i class="fas fa-cut"></i> Trim Video</h3>
+          <div class="time-range-container">
+            <div class="time-range-input">
+              <label for="startTime">Start Time (seconds)</label>
+              <input type="number" id="startTime" min="0" step="0.1" value="0" aria-label="Start time for trimming">
+            </div>
+            <div class="time-range-input">
+              <label for="endTime">End Time (seconds)</label>
+              <input type="number" id="endTime" min="0" step="0.1" value="0" aria-label="End time for trimming">
+            </div>
           </div>
-          <div class="file-size-info" id="crop-file-size">Estimated file size: <span id="crop-file-size-value">0</span> KB</div>
         </div>
-        <div class="btn-group">
-          <button id="cropBtn" style="display: none;">
-            <i class="fas fa-crop"></i> Crop Image
-          </button>
-          <button id="resetCrop" style="display: none;">
-            <i class="fas fa-undo"></i> Reset
-          </button>
-          <button id="downloadCrop" style="display: none;">
-            <i class="fas fa-download"></i> Download
-          </button>
+        
+        <div class="setting-group">
+          <h3><i class="fas fa-sliders-h"></i> Video Settings</h3>
+          <p class="description">Select video quality to balance file size and clarity.</p>
+          <select id="quality" aria-label="Select video quality">
+            <option value="high">High</option>
+            <option value="medium" selected>Medium</option>
+            <option value="low">Low</option>
+          </select>
+        </div>
+        
+        <div class="setting-group">
+          <p class="description">Set the frame rate for your video or keep the original.</p>
+          <select id="framerate" aria-label="Select framerate">
+            <option value="original">Original</option>
+            <option value="30">30 fps</option>
+            <option value="25">25 fps</option>
+            <option value="24">24 fps</option>
+            <option value="15">15 fps</option>
+          </select>
+        </div>
+        
+        <div class="setting-group">
+          <p class="description">Choose a resolution for your video or maintain the original size.</p>
+          <select id="resolution" aria-label="Select resolution">
+            <option value="original">Original</option>
+            <option value="1080p">1080p (Full HD)</option>
+            <option value="720p">720p (HD)</option>
+            <option value="480p">480p (SD)</option>
+            <option value="360p">360p</option>
+          </select>
+        </div>
+        
+        <div class="setting-group">
+          <p class="description">Select an aspect ratio to adjust the video's dimensions.</p>
+          <select id="aspectRatio" aria-label="Select aspect ratio">
+            <option value="original">Original</option>
+            <option value="16:9">16:9 (Widescreen)</option>
+            <option value="4:3">4:3 (Standard)</option>
+            <option value="1:1">1:1 (Square)</option>
+            <option value="9:16">9:16 (Vertical)</option>
+          </select>
+        </div>
+        
+        <div class="setting-group">
+          <h3><i class="fas fa-volume-up"></i> Audio Settings</h3>
+          <div class="toggle-container">
+            <label for="mute-audio">Mute Audio</label>
+            <label class="toggle-switch">
+              <input type="checkbox" id="mute-audio" aria-label="Toggle mute audio">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <div class="toggle-container">
+            <label for="normalize-audio">Normalize Audio</label>
+            <label class="toggle-switch">
+              <input type="checkbox" id="normalize-audio" aria-label="Toggle normalize audio">
+              <span class="slider"></span>
+            </label>
+          </div>
         </div>
       </div>
-
-      <!-- Resize Tab -->
-      <div class="tab-content" id="resize-tab">
-        <h2><i class="fas fa-expand"></i> Image Resizer</h2>
-        <p><i>Resize your image to specified dimensions.</i></p>
-        <div class="drag-drop-area" id="resizeDragArea">
-          <p><i class="fas fa-upload"></i> Choose file or drag and drop here</p>
-          <p>Supported formats: PNG, JPEG, WEBP, BMP, GIF, HEIC</p>
-          <p>Max file size: 10MB</p>
+      
+      <button id="convertBtn" disabled aria-label="Convert video with selected settings">
+        <i class="fas fa-exchange-alt"></i> Convert Video
+      </button>
+      
+      <div id="progressContainer" class="progress-container">
+        <div class="progress-header">
+          <span>Conversion Progress</span>
+          <span id="progressPercent">0%</span>
         </div>
-        <input type="file" id="resizeUpload" accept="image/*,.heic,.heif" style="display: none;" aria-label="Upload image for resizing" />
-        <div class="resize-controls">
-          <div>
-            <label for="resizeWidth">Width (px):</label>
-            <input type="number" id="resizeWidth" min="1" placeholder="Width (px)" aria-label="Width in pixels">
-          </div>
-          <div>
-            <label for="resizeHeight">Height (px):</label>
-            <input type="number" id="resizeHeight" min="1" placeholder="Height (px)" aria-label="Height in pixels">
-          </div>
+        <div class="progress-bar">
+          <div id="progressFill" class="progress-fill"></div>
         </div>
-        <div class="error" id="resize-error"></div>
-        <div class="success" id="resize-success"></div>
-        <div class="loading" id="resize-loading">
-          <div class="spinner"></div>
-          Processing Image...
-        </div>
-        <canvas id="resizeCanvas" width="300" height="200"></canvas>
-        <div class="quality-controls">
-          <h3><i class="fas fa-file-image"></i> Output Quality</h3>
-          <div class="quality-slider-container">
-            <input type="range" min="0" max="100" value="80" class="quality-slider" id="resizeQuality">
-            <span class="quality-value" id="resizeQualityValue">80%</span>
-          </div>
-          <div class="file-size-info" id="resize-file-size">Estimated file size: <span id="resize-file-size-value">0</span> KB</div>
-        </div>
-        <div class="btn-group">
-          <button id="resizeBtn" style="display: none;">
-            <i class="fas fa-expand"></i> Resize Image
-          </button>
-          <button id="resetResize" style="display: none;">
-            <i class="fas fa-undo"></i> Reset
-          </button>
-          <button id="downloadResize" style="display: none;">
-            <i class="fas fa-download"></i> Download
-          </button>
-        </div>
+        <p id="progressMessage">Initializing conversion...</p>
+        <button id="cancelBtn" style="margin-top: 15px; background: #e74c3c;">Cancel Conversion</button>
       </div>
-
-      <!-- Convert Tab -->
-      <div class="tab-content" id="convert-tab">
-        <h2><i class="fas fa-exchange-alt"></i> Image Converter</h2>
-        <p><i>Convert your image to a different format.</i></p>
-        <div class="drag-drop-area" id="convertDragArea">
-          <p><i class="fas fa-upload"></i> Choose file or drag and drop here</p>
-          <p>Supported formats: PNG, JPEG, WEBP, BMP, GIF, HEIC</p>
-          <p>Max file size: 10MB</p>
-        </div>
-        <input type="file" id="convertUpload" accept="image/*,.heic,.heif" style="display: none;" aria-label="Upload image for conversion" />
-        <label for="outputFormat">Output Format:</label>
-        <select id="outputFormat" aria-label="Select output format">
-          <option value="png">PNG</option>
-          <option value="jpeg">JPEG</option>
-          <option value="webp">WEBP</option>
-          <option value="bmp">BMP</option>
-          <option value="gif">GIF</option>
-        </select>
-        <div class="error" id="convert-error"></div>
-        <div class="success" id="convert-success"></div>
-        <div class="loading" id="convert-loading">
-          <div class="spinner"></div>
-          Processing Image...
-        </div>
-        <canvas id="convertCanvas" width="300" height="200"></canvas>
-        <div class="quality-controls">
-          <h3><i class="fas fa-file-image"></i> Output Quality</h3>
-          <div class="quality-slider-container">
-            <input type="range" min="0" max="100" value="80" class="quality-slider" id="convertQuality">
-            <span class="quality-value" id="convertQualityValue">80%</span>
-          </div>
-          <div class="file-size-info" id="convert-file-size">Estimated file size: <span id="convert-file-size-value">0</span> KB</div>
-        </div>
-        <div class="btn-group">
-          <button id="convertBtn" style="display: none;">
-            <i class="fas fa-exchange-alt"></i> Convert & Download
-          </button>
-        </div>
-      </div>
-
-      <!-- Color Picker Tab -->
-      <div class="tab-content" id="color-tab">
-        <h2><i class="fas fa-eye-dropper"></i> Color Picker</h2>
-        <p><i>Click on any point in the image to get its color value.</i></p>
-        <div class="drag-drop-area" id="colorDragArea">
-          <p><i class="fas fa-upload"></i> Choose file or drag and drop here</p>
-          <p>Supported formats: PNG, JPEG, WEBP, BMP, GIF, HEIC</p>
-          <p>Max file size: 10MB</p>
-        </div>
-        <input type="file" id="colorUpload" accept="image/*,.heic,.heif" style="display: none;" aria-label="Upload image for color picking" />
-        <div class="error" id="color-error"></div>
-        <div class="success" id="color-success"></div>
-        <div class="loading" id="color-loading">
-          <div class="spinner"></div>
-          Processing Image...
-        </div>
-        <canvas id="colorCanvas" width="300" height="200"></canvas>
-        <div class="color-picker-container">
-          <div class="color-display" id="colorDisplay"></div>
-          <div class="color-value" id="colorValue">#000000</div>
-        </div>
-        <div class="btn-group">
-          <button id="resetColor" style="display: none;">
-            <i class="fas fa-undo"></i> Reset
-          </button>
-        </div>
+      
+      <div id="resultContainer" class="result-container">
+        <p>Conversion Complete!</p>
+        <a id="downloadLink" class="download-btn" aria-label="Download converted video"><i class="fas fa-download"></i> Download Converted Video</a>
       </div>
     </div>
   </div>
@@ -1360,947 +779,420 @@
     </div>
   </div>
 
-  <!-- JavaScript Libraries -->
-  <script>
-    // ===== Shared main.js Content =====
-    function initMobileMenu() {
-      console.log('Initializing mobile menu');
-      const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
-      const closeMobileMenu = document.getElementById('close-mobile-menu');
-      const mobileNav = document.getElementById('mobile-nav');
-      const mobileBackdrop = document.getElementById('mobile-backdrop');
-      
-      function closeMobileNav() {
-        mobileNav.classList.remove('active');
-        mobileBackdrop.classList.remove('active');
-        document.body.classList.remove('menu-open');
-        document.querySelectorAll('.mobile-nav .dropdown-menu').forEach(menu => {
-          menu.classList.remove('active');
-          const toggle = menu.parentElement.querySelector('.dropdown-toggle');
-          if (toggle) toggle.setAttribute('aria-expanded', 'false');
-        });
-      }
-      
-      if (mobileMenuToggle) {
-        mobileMenuToggle.addEventListener('click', () => {
-          mobileNav.classList.add('active');
-          mobileBackdrop.classList.add('active');
-          document.body.classList.add('menu-open');
-        });
-      } else {
-        console.warn('Mobile menu toggle not found');
-      }
-      
-      if (closeMobileMenu) {
-        closeMobileMenu.addEventListener('click', closeMobileNav);
-      }
-      
-      if (mobileBackdrop) {
-        mobileBackdrop.addEventListener('click', closeMobileNav);
-      }
-      
-      const links = document.querySelectorAll('.mobile-nav-link');
-      links.forEach(link => {
-        link.addEventListener('click', (e) => {
-          if (!link.classList.contains('dropdown-toggle')) {
-            closeMobileNav();
-          }
-        });
-      });
+  <!-- Required libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+  
+  <!-- Video Converter Script -->
+  <script type="module">
+    // Import FFmpeg from CDN
+    import { createFFmpeg, fetchFile } from 'https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.10.0/+esm';
+    
+    // FFmpeg variables
+    let ffmpeg = null;
+    let inputFile = null;
+    let videoDuration = 0;
 
-      const mobileDropdownToggles = document.querySelectorAll('.mobile-nav .dropdown-toggle');
-      mobileDropdownToggles.forEach(toggle => {
-        toggle.addEventListener('click', (e) => {
-          e.preventDefault();
-          const dropdownMenu = toggle.parentElement.querySelector('.dropdown-menu');
-          const isOpen = dropdownMenu.classList.contains('active');
-          document.querySelectorAll('.mobile-nav .dropdown-menu').forEach(menu => {
-            menu.classList.remove('active');
-            const otherToggle = menu.parentElement.querySelector('.dropdown-toggle');
-            if (otherToggle) otherToggle.setAttribute('aria-expanded', 'false');
-          });
-          dropdownMenu.classList.toggle('active');
-          toggle.setAttribute('aria-expanded', !isOpen);
-        });
-      });
-    }
+    function initVideoConverter() {
+      const elements = {
+        dropZone: document.getElementById('dropZone'),
+        videoInput: document.getElementById('videoInput'),
+        dropZoneText: document.getElementById('dropZoneText'),
+        fileInfo: document.getElementById('fileInfo'),
+        fileName: document.getElementById('fileName'),
+        fileSize: document.getElementById('fileSize'),
+        fileType: document.getElementById('fileType'),
+        fileDimensions: document.getElementById('fileDimensions'),
+        fileDuration: document.getElementById('fileDuration'),
+        videoPreviewContainer: document.getElementById('videoPreviewContainer'),
+        videoPreview: document.getElementById('videoPreview'),
+        videoDurationDisplay: document.getElementById('videoDurationDisplay'),
+        playPauseBtn: document.getElementById('playPauseBtn'),
+        setStartBtn: document.getElementById('setStartBtn'),
+        setEndBtn: document.getElementById('setEndBtn'),
+        startTime: document.getElementById('startTime'),
+        endTime: document.getElementById('endTime'),
+        convertBtn: document.getElementById('convertBtn'),
+        progressContainer: document.getElementById('progressContainer'),
+        progressMessage: document.getElementById('progressMessage'),
+        progressFill: document.getElementById('progressFill'),
+        progressPercent: document.getElementById('progressPercent'),
+        resultContainer: document.getElementById('resultContainer'),
+        downloadLink: document.getElementById('downloadLink'),
+        convertError: document.getElementById('convert-error'),
+        convertSuccess: document.getElementById('convert-success'),
+        convertLoading: document.getElementById('convert-loading'),
+        outputFormat: document.getElementById('outputFormat'),
+        quality: document.getElementById('quality'),
+        framerate: document.getElementById('framerate'),
+        resolution: document.getElementById('resolution'),
+        aspectRatio: document.getElementById('aspectRatio'),
+        muteAudio: document.getElementById('mute-audio'),
+        normalizeAudio: document.getElementById('normalize-audio'),
+        cancelBtn: document.getElementById('cancelBtn')
+      };
 
-    function initDesktopDropdown() {
-      console.log('Initializing desktop dropdown');
-      const dropdownToggles = document.querySelectorAll('.nav-menu .dropdown-toggle');
-      dropdownToggles.forEach(toggle => {
-        toggle.addEventListener('click', (e) => {
-          e.preventDefault();
-          const dropdownMenu = toggle.parentElement.querySelector('.dropdown-menu');
-          const isOpen = dropdownMenu.classList.contains('active');
-          document.querySelectorAll('.nav-menu .dropdown-menu').forEach(menu => {
-            menu.classList.remove('active');
-            const otherToggle = menu.parentElement.querySelector('.dropdown-toggle');
-            if (otherToggle) otherToggle.setAttribute('aria-expanded', 'false');
-          });
-          dropdownMenu.classList.toggle('active');
-          toggle.setAttribute('aria-expanded', !isOpen);
-        });
-      });
+      let cancelRequested = false;
+      let isPlaying = false;
 
-      document.addEventListener('click', (e) => {
-        if (!e.target.closest('.dropdown')) {
-          document.querySelectorAll('.nav-menu .dropdown-menu').forEach(menu => {
-            menu.classList.remove('active');
-            const toggle = menu.parentElement.querySelector('.dropdown-toggle');
-            if (toggle) toggle.setAttribute('aria-expanded', 'false');
-          });
+      function showError(message) {
+        if (elements.convertError) {
+          elements.convertError.textContent = message;
+          elements.convertError.style.display = 'block';
         }
-      });
-    }
+      }
 
-    function populateToolsDropdown(basePath, retryCount = 0, maxRetries = 2) {
-      console.log(`Fetching tools.json from ${basePath}/tools/tools.json (Attempt ${retryCount + 1}/${maxRetries + 1})`);
-      fetch(`${basePath}/tools/tools.json`)
-        .then(response => {
-          if (!response.ok) throw new Error(`Failed to fetch tools.json: ${response.status} ${response.statusText}`);
-          return response.json();
-        })
-        .then(tools => {
-          const desktopDropdown = document.querySelector('.nav-menu .dropdown-menu');
-          const mobileDropdown = document.querySelector('.mobile-nav .dropdown-menu');
-          if (!desktopDropdown || !mobileDropdown) {
-            console.warn('Dropdown menus not found');
+      function showSuccess(message) {
+        if (elements.convertSuccess) {
+          elements.convertSuccess.textContent = message;
+          elements.convertSuccess.style.display = 'block';
+        }
+      }
+
+      function hideMessages() {
+        if (elements.convertError) elements.convertError.style.display = 'none';
+        if (elements.convertSuccess) elements.convertSuccess.style.display = 'none';
+      }
+
+      function showLoading() {
+        if (elements.convertLoading) elements.convertLoading.style.display = 'block';
+      }
+
+      function hideLoading() {
+        if (elements.convertLoading) elements.convertLoading.style.display = 'none';
+      }
+
+      function updateProgress(percent, msg) {
+        const percentValue = Math.min(100, Math.max(0, percent));
+        if (elements.progressFill) elements.progressFill.style.width = `${percentValue}%`;
+        if (elements.progressMessage) elements.progressMessage.textContent = msg;
+        if (elements.progressPercent) elements.progressPercent.textContent = `${Math.round(percentValue)}%`;
+      }
+
+      function formatTime(seconds) {
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+      }
+
+      function updateTimeDisplay() {
+        const currentTime = elements.videoPreview.currentTime;
+        elements.videoDurationDisplay.textContent = 
+          `${formatTime(currentTime)} / ${formatTime(videoDuration)}`;
+      }
+
+      function togglePlayPause() {
+        if (isPlaying) {
+          elements.videoPreview.pause();
+          elements.playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+        } else {
+          elements.videoPreview.play();
+          elements.playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+        }
+        isPlaying = !isPlaying;
+      }
+
+      function setStartTime() {
+        elements.startTime.value = elements.videoPreview.currentTime.toFixed(1);
+      }
+
+      function setEndTime() {
+        elements.endTime.value = elements.videoPreview.currentTime.toFixed(1);
+      }
+
+      async function processFile(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        hideMessages();
+        showLoading();
+
+        const allowedTypes = [
+          'video/mp4', 'video/webm', 'video/quicktime',
+          'video/x-msvideo', 'video/x-matroska'
+        ];
+        const allowedExtensions = ['.mp4', '.webm', '.mov', '.avi', '.mkv'];
+        const ext = '.' + file.name.split('.').pop().toLowerCase();
+
+        if (!allowedTypes.includes(file.type) && !allowedExtensions.includes(ext)) {
+          showError('Invalid file type. Please select a supported format (MP4, WEBM, MOV, AVI, or MKV).');
+          hideLoading();
+          return;
+        }
+
+        if (file.size > 100 * 1024 * 1024) {
+          showError('File size exceeds 100MB limit. Please select a smaller file.');
+          hideLoading();
+          return;
+        }
+
+        try {
+          inputFile = file;
+          elements.dropZoneText.innerHTML = `Ready to convert:<br><strong>${file.name}</strong>`;
+          elements.fileInfo.style.display = 'block';
+          elements.fileName.textContent = file.name;
+          elements.fileSize.textContent = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
+          elements.fileType.textContent = file.type || 'Unknown';
+
+          const video = document.createElement('video');
+          video.src = URL.createObjectURL(file);
+          video.style.display = 'none';
+          document.body.appendChild(video);
+
+          await new Promise((resolve, reject) => {
+            video.onloadedmetadata = () => {
+              const width = video.videoWidth;
+              const height = video.videoHeight;
+              videoDuration = video.duration;
+              elements.fileDimensions.textContent = `${width}×${height}`;
+              elements.fileDuration.textContent = formatTime(videoDuration);
+              elements.endTime.value = videoDuration.toFixed(1);
+              document.body.removeChild(video);
+              URL.revokeObjectURL(video.src);
+              resolve();
+            };
+            video.onerror = () => reject(new Error('Failed to load video metadata'));
+          });
+
+          // Set up video preview
+          elements.videoPreview.src = URL.createObjectURL(file);
+          elements.videoPreviewContainer.style.display = 'block';
+          
+          elements.videoPreview.addEventListener('timeupdate', updateTimeDisplay);
+          elements.videoPreview.addEventListener('ended', () => {
+            isPlaying = false;
+            elements.playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+          });
+
+          elements.convertBtn.disabled = false;
+          showSuccess('Video loaded successfully!');
+        } catch (error) {
+          showError('Error processing video: ' + error.message);
+          elements.convertBtn.disabled = true;
+        } finally {
+          hideLoading();
+        }
+      }
+
+      async function convertVideo() {
+        if (!inputFile) return;
+
+        hideMessages();
+        showLoading();
+        elements.progressContainer.style.display = 'block';
+        elements.resultContainer.style.display = 'none';
+        elements.convertBtn.disabled = true;
+        cancelRequested = false;
+
+        try {
+          // Initialize FFmpeg
+          await initFFmpeg();
+          
+          // Set up progress handler
+          ffmpeg.setProgress(({ ratio }) => {
+            const percent = Math.round(ratio * 100);
+            updateProgress(percent, `Processing video... ${percent}% complete`);
+          });
+
+          // Get settings from UI
+          const outputFormat = elements.outputFormat.value;
+          const quality = elements.quality.value;
+          const framerate = elements.framerate.value;
+          const resolution = elements.resolution.value;
+          const aspectRatio = elements.aspectRatio.value;
+          const muteAudio = elements.muteAudio.checked;
+          const normalizeAudio = elements.normalizeAudio.checked;
+          const startTime = parseFloat(elements.startTime.value) || 0;
+          const endTime = parseFloat(elements.endTime.value) || videoDuration;
+
+          // Validate time range
+          if (startTime >= endTime) {
+            throw new Error('Start time must be before end time');
+          }
+          if (endTime > videoDuration) {
+            throw new Error('End time exceeds video duration');
+          }
+
+          // Prepare input filename
+          const inputExt = inputFile.name.split('.').pop() || 'mp4';
+          const inputName = `input.${inputExt}`;
+          const outputName = `output.${outputFormat}`;
+
+          // Write file to FFmpeg FS
+          updateProgress(10, 'Loading video file...');
+          ffmpeg.FS('writeFile', inputName, await fetchFile(inputFile));
+
+          // Build FFmpeg command
+          const args = ['-i', inputName];
+
+          // Handle trimming
+          if (startTime > 0 || endTime < videoDuration) {
+            args.push('-ss', startTime.toString(), '-to', endTime.toString());
+          }
+
+          // Handle quality settings
+          if (outputFormat === 'mp4') {
+            if (quality === 'high') args.push('-crf', '18');
+            else if (quality === 'medium') args.push('-crf', '23');
+            else if (quality === 'low') args.push('-crf', '28');
+          } else if (outputFormat === 'webm') {
+            if (quality === 'high') args.push('-crf', '10');
+            else if (quality === 'medium') args.push('-crf', '20');
+            else if (quality === 'low') args.push('-crf', '30');
+          }
+
+          // Handle framerate
+          if (framerate !== 'original') {
+            args.push('-r', framerate);
+          }
+
+          // Handle resolution
+          if (resolution !== 'original') {
+            let resolutionValue;
+            switch (resolution) {
+              case '1080p': resolutionValue = '1920x1080'; break;
+              case '720p': resolutionValue = '1280x720'; break;
+              case '480p': resolutionValue = '854x480'; break;
+              case '360p': resolutionValue = '640x360'; break;
+            }
+            args.push('-s', resolutionValue);
+          }
+
+          // Handle aspect ratio
+          if (aspectRatio !== 'original') {
+            args.push('-aspect', aspectRatio);
+          }
+
+          // Handle audio
+          if (muteAudio) {
+            args.push('-an');
+          } else if (normalizeAudio) {
+            args.push('-af', 'loudnorm=I=-16:TP=-1.5:LRA=11');
+          }
+
+          // Add output filename
+          args.push(outputName);
+
+          // Run FFmpeg conversion
+          updateProgress(20, 'Starting conversion...');
+          await ffmpeg.run(...args);
+
+          // Check if conversion was canceled
+          if (cancelRequested) {
+            updateProgress(0, 'Conversion canceled');
+            showError('Conversion was canceled');
             return;
           }
-          const items = tools.map(tool => `
-            <li>
-              <a href="${tool.url}" class="dropdown-item" aria-label="${tool.description}" title="${tool.description}">
-                <i class="${tool.icon}"></i> ${tool.category}
-              </a>
-            </li>
-          `).join('');
-          desktopDropdown.innerHTML = items;
-          mobileDropdown.innerHTML = items;
-          console.log('Tools dropdown populated successfully');
-        })
-        .catch(error => {
-          console.error('Error loading tools:', error);
-          if (retryCount < maxRetries) {
-            console.log(`Retrying tools.json fetch (Attempt ${retryCount + 2})`);
-            setTimeout(() => populateToolsDropdown(basePath, retryCount + 1, maxRetries), 1000);
-          } else {
-            const desktopDropdown = document.querySelector('.nav-menu .dropdown-menu .dropdown-error');
-            const mobileDropdown = document.querySelector('.mobile-nav .dropdown-menu .dropdown-error');
-            if (desktopDropdown) desktopDropdown.style.display = 'block';
-            if (mobileDropdown) mobileDropdown.style.display = 'block';
+
+          // Read output file
+          updateProgress(90, 'Finalizing conversion...');
+          const data = ffmpeg.FS('readFile', outputName);
+
+          // Create download URL
+          let mimeType;
+          switch (outputFormat) {
+            case 'mp4': mimeType = 'video/mp4'; break;
+            case 'webm': mimeType = 'video/webm'; break;
+            case 'gif': mimeType = 'image/gif'; break;
           }
-        });
-    }
 
-    function initCookieConsent() {
-      console.log('Initializing cookie consent');
-      const COOKIE_CONSENT_KEY = 'cookieConsent';
-      
-      function getCookiePreferences() {
-        const preferences = localStorage.getItem(COOKIE_CONSENT_KEY);
-        return preferences ? JSON.parse(preferences) : { essential: true, analytics: false, advertising: false };
-      }
-      
-      function saveCookiePreferences(preferences) {
-        try {
-          localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(preferences));
-        } catch (e) {
-          console.warn('Failed to save cookie preferences:', e);
-        }
-      }
-      
-      function showCookieConsent() {
-        const preferences = getCookiePreferences();
-        if (!preferences.hasOwnProperty('essential')) {
-          const consent = document.getElementById('cookie-consent');
-          if (consent) consent.style.display = 'block';
-        } else {
-          const analyticsToggle = document.getElementById('analytics-toggle');
-          const advertisingToggle = document.getElementById('advertising-toggle');
-          if (analyticsToggle) analyticsToggle.checked = preferences.analytics;
-          if (advertisingToggle) advertisingToggle.checked = preferences.advertising;
-        }
-      }
-      
-      function openCookieSettings() {
-        const preferences = getCookiePreferences();
-        const analyticsToggle = document.getElementById('analytics-toggle');
-        const advertisingToggle = document.getElementById('advertising-toggle');
-        if (analyticsToggle) analyticsToggle.checked = preferences.analytics;
-        if (advertisingToggle) advertisingToggle.checked = preferences.advertising;
-        const settings = document.getElementById('cookie-settings');
-        if (settings) settings.style.display = 'flex';
-      }
-      
-      function closeCookieSettings() {
-        const settings = document.getElementById('cookie-settings');
-        if (settings) settings.style.display = 'none';
-      }
-      
-      const acceptBtn = document.getElementById('accept-cookies');
-      if (acceptBtn) {
-        acceptBtn.addEventListener('click', () => {
-          saveCookiePreferences({ essential: true, analytics: true, advertising: true });
-          document.getElementById('cookie-consent').style.display = 'none';
-        });
-      }
-      
-      const rejectBtn = document.getElementById('reject-cookies');
-      if (rejectBtn) {
-        rejectBtn.addEventListener('click', () => {
-          saveCookiePreferences({ essential: true, analytics: false, advertising: false });
-          document.getElementById('cookie-consent').style.display = 'none';
-        });
-      }
-      
-      const openSettingsBtn = document.getElementById('open-settings');
-      if (openSettingsBtn) openSettingsBtn.addEventListener('click', openCookieSettings);
-      
-      const closeSettingsBtn = document.querySelector('.close-settings');
-      if (closeSettingsBtn) closeSettingsBtn.addEventListener('click', closeCookieSettings);
-      
-      const saveSettingsBtn = document.getElementById('save-settings');
-      if (saveSettingsBtn) {
-        saveSettingsBtn.addEventListener('click', () => {
-          saveCookiePreferences({
-            essential: true,
-            analytics: document.getElementById('analytics-toggle').checked,
-            advertising: document.getElementById('advertising-toggle').checked
-          });
-          closeCookieSettings();
-          document.getElementById('cookie-consent').style.display = 'none';
-        });
-      }
-      
-      const openSettingsFooter = document.getElementById('open-settings-footer');
-      if (openSettingsFooter) {
-        openSettingsFooter.addEventListener('click', (e) => {
-          e.preventDefault();
-          openCookieSettings();
-        });
-      }
-      
-      showCookieConsent();
-    }
+          const videoUrl = URL.createObjectURL(new Blob([data.buffer], { type: mimeType }));
+          elements.downloadLink.href = videoUrl;
+          elements.downloadLink.download = `converted.${outputFormat}`;
+          elements.resultContainer.style.display = 'block';
 
-    document.addEventListener('DOMContentLoaded', () => {
-      console.log('main.js loaded successfully');
-      // Determine base path based on current URL
-      const isTestPage = window.location.pathname.includes('/test/');
-      const basePath = "";
-      console.log(`Base path set to: ${basePath}`);
+          // Clean up
+          ffmpeg.FS('unlink', inputName);
+          ffmpeg.FS('unlink', outputName);
 
-      // Fetch Header
-      console.log(`Fetching header from ${basePath}/includes/header.html`);
-      fetch(`${basePath}/includes/header.html`)
-        .then(response => {
-          if (!response.ok) throw new Error(`Failed to fetch header: ${response.status} ${response.statusText}`);
-          return response.text();
-        })
-        .then(data => {
-          const header = document.querySelector('#main-header');
-          if (header) {
-            header.innerHTML = data;
-            console.log('Header loaded successfully');
-            initMobileMenu();
-            initDesktopDropdown();
-            populateToolsDropdown(basePath);
-          } else {
-            console.warn('Header element not found');
-            const headerError = document.querySelector('#main-header .error-message');
-            if (headerError) headerError.style.display = 'block';
+          // Show success
+          updateProgress(100, 'Conversion complete!');
+          showSuccess('Video converted successfully!');
+        } catch (error) {
+          if (!cancelRequested) {
+            console.error('Conversion error:', error);
+            showError(`Conversion failed: ${error.message || 'Unknown error'}`);
+            updateProgress(0, 'Conversion failed');
           }
-        })
-        .catch(error => {
-          console.error('Error loading header:', error);
-          const headerError = document.querySelector('#main-header .error-message');
-          if (headerError) headerError.style.display = 'block';
-        });
-      
-      // Fetch Footer
-      console.log(`Fetching footer from ${basePath}/includes/footer.html`);
-      fetch(`${basePath}/includes/footer.html`)
-        .then(response => {
-          if (!response.ok) throw new Error(`Failed to fetch footer: ${response.status} ${response.statusText}`);
-          return response.text();
-        })
-        .then(data => {
-          const footer = document.querySelector('#main-footer');
-          if (footer) {
-            footer.innerHTML = data;
-            console.log('Footer loaded successfully');
-            initCookieConsent();
-          } else {
-            console.warn('Footer element not found');
-            const footerError = document.querySelector('#main-footer .error-message');
-            if (footerError) footerError.style.display = 'block';
-          }
-        })
-        .catch(error => {
-          console.error('Error loading footer:', error);
-          const footerError = document.querySelector('#main-footer .error-message');
-          if (footerError) footerError.style.display = 'block';
-        });
-    });
-
-    // Fallback if main.js fails to load correctly
-    window.addEventListener('error', (event) => {
-      if (event.filename.includes('main.js')) {
-        console.error('Script error in main.js:', event.message, event.lineno, event.colno);
-        const headerError = document.querySelector('#main-header .error-message');
-        const footerError = document.querySelector('#main-footer .error-message');
-        if (headerError) headerError.style.display = 'block';
-        if (footerError) footerError.style.display = 'block';
-      }
-    }); 
-  </script>
-
-  <!-- Image Toolkit JavaScript -->
-  <script>
-    // State management
-    const state = {
-      crop: {
-        originalImage: null,
-        croppedImage: null,
-        cropRect: null,
-        isDrawing: false,
-        cropStart: null,
-        initialImage: null,
-        quality: 80,
-        hasImage: false
-      },
-      resize: {
-        originalImage: null,
-        resizedImage: null,
-        initialImage: null,
-        quality: 80,
-        hasImage: false
-      },
-      convert: {
-        originalImage: null,
-        convertedImage: null,
-        initialImage: null,
-        quality: 80,
-        hasImage: false
-      },
-      color: {
-        originalImage: null,
-        initialImage: null,
-        hasImage: false
-      }
-    };
-
-    // Helper Functions
-    function showError(element, message) {
-      if (element) {
-        element.textContent = message;
-        element.style.display = 'block';
-      }
-    }
-
-    function showSuccess(element, message) {
-      if (element) {
-        element.textContent = message;
-        element.style.display = 'block';
-      }
-    }
-
-    function hideElements(section = null) {
-      const errors = section ? [document.getElementById(`${section}-error`)] : document.querySelectorAll('.error');
-      const successes = section ? [document.getElementById(`${section}-success`)] : document.querySelectorAll('.success');
-      errors.forEach(el => { if (el) { el.style.display = 'none'; el.textContent = ''; } });
-      successes.forEach(s => { if (s) { s.style.display = 'none'; s.textContent = ''; } });
-    }
-
-    function showLoading(section) {
-      const loading = document.getElementById(`${section}-loading`);
-      if (loading) loading.style.display = 'block';
-    }
-
-    function hideLoading(section) {
-      const loading = document.getElementById(`${section}-loading`);
-      if (loading) loading.style.display = 'none';
-    }
-
-    function calculateFileSize(dataUrl) {
-      // Base64 encoding is about 4/3 the size of the binary data
-      const sizeInBytes = Math.round((dataUrl.length * 3) / 4);
-      const sizeInKB = (sizeInBytes / 1024).toFixed(2);
-      return sizeInKB;
-    }
-
-    function getDataUrlWithQuality(canvas, format, quality) {
-      switch(format) {
-        case 'jpeg':
-          return canvas.toDataURL('image/jpeg', quality / 100);
-        case 'webp':
-          return canvas.toDataURL('image/webp', quality / 100);
-        case 'png':
-          // PNG doesn't support quality, but we can reduce colors
-          return canvas.toDataURL('image/png');
-        case 'bmp':
-          return canvas.toDataURL('image/bmp');
-        case 'gif':
-          return canvas.toDataURL('image/gif');
-        default:
-          return canvas.toDataURL('image/png');
-      }
-    }
-
-    function updateFileSizeDisplay(section, canvas, format) {
-      const sizeDisplay = document.getElementById(`${section}-file-size`);
-      const sizeValue = document.getElementById(`${section}-file-size-value`);
-      
-      if (!sizeDisplay || !canvas || !state[section].hasImage) {
-        if (sizeDisplay) sizeDisplay.style.display = 'none';
-        return;
-      }
-      
-      // Get data URL with current quality settings
-      const quality = state[section].quality;
-      const dataUrl = getDataUrlWithQuality(canvas, format, quality);
-      const sizeInKB = calculateFileSize(dataUrl);
-      
-      sizeValue.textContent = sizeInKB;
-      sizeDisplay.style.display = 'block';
-    }
-
-    async function loadImage(file) {
-      return new Promise((resolve, reject) => {
-        const fileType = file.type.toLowerCase();
-        if (!fileType.match(/image\/(png|jpeg|jpg|webp|bmp|gif|heic|heif)/)) {
-          reject(new Error('Invalid file type. Please upload a valid image (PNG, JPEG, WEBP, BMP, GIF, or HEIC).'));
-          return;
-        }
-
-        if (file.size > 10 * 1024 * 1024) {
-          reject(new Error('File size exceeds 10MB limit. Please select a smaller file.'));
-          return;
-        }
-
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          const img = new Image();
-          img.onload = () => {
-            resolve(img);
-          };
-          img.onerror = () => reject(new Error('Failed to load image'));
-          img.src = e.target.result;
-        };
-        reader.onerror = () => reject(new Error('Failed to read image file'));
-        reader.readAsDataURL(file);
-      });
-    }
-
-    function drawImageOnCanvas(image, canvasId) {
-      const canvas = document.getElementById(canvasId);
-      if (!canvas) return;
-      const ctx = canvas.getContext('2d');
-      const maxWidth = 500;
-      const scale = Math.min(maxWidth / image.width, 1);
-      const pixelRatio = window.devicePixelRatio || 1;
-
-      canvas.style.width = `${image.width * scale}px`;
-      canvas.style.height = `${image.height * scale}px`;
-      canvas.width = image.width * scale * pixelRatio;
-      canvas.height = image.height * scale * pixelRatio;
-      ctx.scale(pixelRatio, pixelRatio);
-
-      ctx.clearRect(0, 0, canvas.width / pixelRatio, canvas.height / pixelRatio);
-      ctx.drawImage(image, 0, 0, canvas.width / pixelRatio, canvas.height / pixelRatio);
-    }
-    
-    function resetCanvas(canvasId) {
-      const canvas = document.getElementById(canvasId);
-      if (!canvas) return;
-      const ctx = canvas.getContext('2d');
-      canvas.style.width = '300px';
-      canvas.style.height = '200px';
-      canvas.width = 300;
-      canvas.height = 200;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-    }
-    
-    function clamp(value) {
-      return Math.max(0, Math.min(255, value));
-    }
-    
-    function resetToInitial(tab) {
-      const stateTab = state[tab];
-      if (stateTab.initialImage) {
-        stateTab.originalImage = stateTab.initialImage;
-        drawImageOnCanvas(stateTab.initialImage, `${tab}Canvas`);
-        showSuccess(document.getElementById(`${tab}-success`), 'Reset to original image!');
-        
-        // Update file size display if applicable
-        if (tab !== 'color') {
-          const canvas = document.getElementById(`${tab}Canvas`);
-          const format = tab === 'convert' ? document.getElementById('outputFormat').value : 'jpeg';
-          updateFileSizeDisplay(tab, canvas, format);
+        } finally {
+          hideLoading();
+          elements.convertBtn.disabled = false;
         }
       }
-    }
 
-    function initQualityControls() {
-      // Initialize all quality sliders
-      document.querySelectorAll('.quality-slider').forEach(slider => {
-        const tab = slider.id.replace('Quality', '');
-        const valueDisplay = document.getElementById(`${tab}QualityValue`);
-        
-        slider.addEventListener('input', () => {
-          const value = slider.value;
-          valueDisplay.textContent = `${value}%`;
-          state[tab].quality = parseInt(value);
-          
-          // Update file size display if we have an image
-          if (state[tab].hasImage) {
-            const canvas = document.getElementById(`${tab}Canvas`);
-            const format = tab === 'convert' ? document.getElementById('outputFormat').value : 'jpeg';
-            updateFileSizeDisplay(tab, canvas, format);
-          }
-        });
-      });
-      
-      // Update file size when format changes in convert tab
-      document.getElementById('outputFormat').addEventListener('change', () => {
-        if (state.convert.hasImage) {
-          const canvas = document.getElementById('convertCanvas');
-          const format = document.getElementById('outputFormat').value;
-          updateFileSizeDisplay('convert', canvas, format);
-        }
-      });
-    }
-
-    // Color Picker Functions
-    function rgbToHex(r, g, b) {
-      return "#" + [r, g, b].map(x => {
-        const hex = x.toString(16);
-        return hex.length === 1 ? "0" + hex : hex;
-      }).join("");
-    }
-
-    function handleColorPick(event, canvas, image) {
-      const rect = canvas.getBoundingClientRect();
-      const pixelRatio = window.devicePixelRatio || 1;
-      const x = Math.floor((event.clientX - rect.left) * pixelRatio);
-      const y = Math.floor((event.clientY - rect.top) * pixelRatio);
-      
-      // Create a temporary canvas to get the pixel data
-      const tempCanvas = document.createElement('canvas');
-      tempCanvas.width = image.width;
-      tempCanvas.height = image.height;
-      const tempCtx = tempCanvas.getContext('2d');
-      tempCtx.drawImage(image, 0, 0);
-      
-      // Get the pixel data
-      const pixelData = tempCtx.getImageData(0, 0, tempCanvas.width, tempCanvas.height).data;
-      
-      // Calculate the position in the pixel data array
-      const scaleX = image.width / (canvas.width / pixelRatio);
-      const scaleY = image.height / (canvas.height / pixelRatio);
-      const imageX = Math.floor(x * scaleX / pixelRatio);
-      const imageY = Math.floor(y * scaleY / pixelRatio);
-      const pos = (imageY * image.width + imageX) * 4;
-      
-      // Get RGB values
-      const r = pixelData[pos];
-      const g = pixelData[pos + 1];
-      const b = pixelData[pos + 2];
-      
-      // Convert to HEX
-      const hex = rgbToHex(r, g, b);
-      
-      // Update the display
-      const colorDisplay = document.getElementById('colorDisplay');
-      const colorValue = document.getElementById('colorValue');
-      
-      colorDisplay.style.backgroundColor = hex;
-      colorValue.textContent = hex;
-      
-      // Show success message
-      showSuccess(document.getElementById('color-success'), `Color picked: ${hex}`);
-    }
-
-    // Initialize Image Tools
-    function initializeImageTools() {
-      // Tabs
-      document.querySelectorAll('.tab').forEach(tab => {
-        tab.addEventListener('click', () => {
-          const tabName = tab.dataset.tab;
-          document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-          document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-          
-          tab.classList.add('active');
-          document.getElementById(`${tabName}-tab`).classList.add('active');
-        });
-      });
-
-      // Setup drag and drop functionality
-      function setupDragAndDrop(dragArea, fileInput, section) {
-        dragArea.addEventListener('click', () => fileInput.click());
-        dragArea.addEventListener('dragover', (e) => {
+      function initializeConverter() {
+        // Drag and Drop Setup
+        elements.dropZone.addEventListener('click', () => elements.videoInput.click());
+        elements.dropZone.addEventListener('dragover', (e) => {
           e.preventDefault();
-          dragArea.classList.add('drag-over');
+          elements.dropZone.classList.add('drag-over');
         });
-        dragArea.addEventListener('dragenter', (e) => {
+        elements.dropZone.addEventListener('dragenter', (e) => {
           e.preventDefault();
-          dragArea.classList.add('drag-over');
+          elements.dropZone.classList.add('drag-over');
         });
-        dragArea.addEventListener('dragleave', () => {
-          dragArea.classList.remove('drag-over');
+        elements.dropZone.addEventListener('dragleave', () => {
+          elements.dropZone.classList.remove('drag-over');
         });
-        dragArea.addEventListener('drop', (e) => {
+        elements.dropZone.addEventListener('drop', (e) => {
           e.preventDefault();
-          dragArea.classList.remove('drag-over');
+          elements.dropZone.classList.remove('drag-over');
           const files = e.dataTransfer.files;
           if (files.length > 0) {
-            fileInput.files = files;
-            fileInput.dispatchEvent(new Event('change'));
+            elements.videoInput.files = files;
+            elements.videoInput.dispatchEvent(new Event('change'));
+          }
+        });
+
+        // File Input
+        elements.videoInput.addEventListener('change', processFile);
+
+        // Convert Button
+        elements.convertBtn.addEventListener('click', convertVideo);
+
+        // Cancel Button
+        elements.cancelBtn.addEventListener('click', () => {
+          cancelRequested = true;
+          if (ffmpeg) {
+            ffmpeg.exit();
+          }
+        });
+
+        // Video Preview Controls
+        elements.playPauseBtn.addEventListener('click', togglePlayPause);
+        elements.setStartBtn.addEventListener('click', setStartTime);
+        elements.setEndBtn.addEventListener('click', setEndTime);
+
+        // Keyboard accessibility for drag zone
+        elements.dropZone.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            elements.videoInput.click();
           }
         });
       }
 
-      // Crop Functionality
-      const cropUpload = document.getElementById('cropUpload');
-      const cropCanvas = document.getElementById('cropCanvas');
-      const cropBtn = document.getElementById('cropBtn');
-      const downloadCrop = document.getElementById('downloadCrop');
-      const resetCrop = document.getElementById('resetCrop');
-      
-      setupDragAndDrop(document.getElementById('cropDragArea'), cropUpload, 'crop');
-      
-      cropUpload.addEventListener('change', async (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-        hideElements('crop');
-        showLoading('crop');
-        try {
-          const img = await loadImage(file);
-          state.crop.originalImage = img;
-          state.crop.initialImage = img;
-          state.crop.hasImage = true;
-          drawImageOnCanvas(img, 'cropCanvas');
-          cropBtn.style.display = 'inline-block';
-          resetCrop.style.display = 'inline-block';
-          updateFileSizeDisplay('crop', cropCanvas, 'jpeg');
-          showSuccess(document.getElementById('crop-success'), 'Image loaded successfully!');
-        } catch (err) {
-          showError(document.getElementById('crop-error'), err.message);
-          resetCanvas('cropCanvas');
-          state.crop.hasImage = false;
-        } finally {
-          hideLoading('crop');
-        }
-      });
-
-      // Crop drawing functionality
-      cropCanvas.addEventListener('mousedown', (e) => {
-        if (!state.crop.originalImage) {
-          showError(document.getElementById('crop-error'), 'Please upload an image first.');
-          return;
-        }
-        state.crop.isDrawing = true;
-        const rect = cropCanvas.getBoundingClientRect();
-        const pixelRatio = window.devicePixelRatio || 1;
-        state.crop.cropStart = { x: (e.clientX - rect.left) * pixelRatio, y: (e.clientY - rect.top) * pixelRatio };
-      });
-
-      cropCanvas.addEventListener('mousemove', (e) => {
-        if (!state.crop.isDrawing || !state.crop.originalImage) return;
-        const rect = cropCanvas.getBoundingClientRect();
-        const pixelRatio = window.devicePixelRatio || 1;
-        const currentX = (e.clientX - rect.left) * pixelRatio;
-        const currentY = (e.clientY - rect.top) * pixelRatio;
-        state.crop.cropRect = {
-          x: Math.min(state.crop.cropStart.x, currentX),
-          y: Math.min(state.crop.cropStart.y, currentY),
-          width: Math.abs(currentX - state.crop.cropStart.x),
-          height: Math.abs(currentY - state.crop.cropStart.y),
-        };
-        const ctx = cropCanvas.getContext('2d');
-        ctx.clearRect(0, 0, cropCanvas.width / pixelRatio, cropCanvas.height / pixelRatio);
-        ctx.drawImage(state.crop.originalImage, 0, 0, cropCanvas.width / pixelRatio, cropCanvas.height / pixelRatio);
-        ctx.strokeStyle = 'red';
-        ctx.lineWidth = 2;
-        ctx.strokeRect(state.crop.cropRect.x / pixelRatio, state.crop.cropRect.y / pixelRatio, state.crop.cropRect.width / pixelRatio, state.crop.cropRect.height / pixelRatio);
-      });
-
-      cropCanvas.addEventListener('mouseup', () => {
-        state.crop.isDrawing = false;
-      });
-
-      cropBtn.addEventListener('click', () => {
-        hideElements('crop');
-        if (!state.crop.cropRect || !state.crop.originalImage) {
-          showError(document.getElementById('crop-error'), 'Please draw a crop area on an uploaded image.');
-          return;
-        }
-        showLoading('crop');
-        setTimeout(() => {
-          try {
-            const pixelRatio = window.devicePixelRatio || 1;
-            const scale = state.crop.originalImage.width / (cropCanvas.width / pixelRatio);
-            const sx = state.crop.cropRect.x * scale / pixelRatio;
-            const sy = state.crop.cropRect.y * scale / pixelRatio;
-            const sWidth = state.crop.cropRect.width * scale / pixelRatio;
-            const sHeight = state.crop.cropRect.height * scale / pixelRatio;
-            const croppedCanvas = document.createElement('canvas');
-            croppedCanvas.width = sWidth;
-            croppedCanvas.height = sHeight;
-            const ctx = croppedCanvas.getContext('2d');
-            ctx.drawImage(state.crop.originalImage, sx, sy, sWidth, sHeight, 0, 0, sWidth, sHeight);
-            state.crop.croppedImage = croppedCanvas;
-            drawImageOnCanvas(croppedCanvas, 'cropCanvas');
-            downloadCrop.style.display = 'inline-block';
-            updateFileSizeDisplay('crop', croppedCanvas, 'jpeg');
-            showSuccess(document.getElementById('crop-success'), 'Image cropped successfully!');
-          } catch (err) {
-            showError(document.getElementById('crop-error'), 'Error cropping image: ' + err.message);
-          } finally {
-            hideLoading('crop');
-          }
-        }, 300);
-      });
-
-      downloadCrop.addEventListener('click', () => {
-        if (state.crop.croppedImage) {
-          const link = document.createElement('a');
-          link.download = 'cropped-image.jpg';
-          const quality = state.crop.quality / 100;
-          link.href = state.crop.croppedImage.toDataURL('image/jpeg', quality);
-          link.click();
-          showSuccess(document.getElementById('crop-success'), 'Image downloaded successfully!');
-        } else {
-          showError(document.getElementById('crop-error'), 'No cropped image available for download.');
-        }
-      });
-
-      resetCrop.addEventListener('click', () => {
-        resetToInitial('crop');
-        updateFileSizeDisplay('crop', cropCanvas, 'jpeg');
-      });
-
-      // Resize Functionality
-      const resizeUpload = document.getElementById('resizeUpload');
-      const resizeCanvas = document.getElementById('resizeCanvas');
-      const resizeBtn = document.getElementById('resizeBtn');
-      const downloadResize = document.getElementById('downloadResize');
-      const resetResize = document.getElementById('resetResize');
-      
-      setupDragAndDrop(document.getElementById('resizeDragArea'), resizeUpload, 'resize');
-      
-      resizeUpload.addEventListener('change', async (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-        hideElements('resize');
-        showLoading('resize');
-        try {
-          const img = await loadImage(file);
-          state.resize.originalImage = img;
-          state.resize.initialImage = img;
-          state.resize.hasImage = true;
-          drawImageOnCanvas(img, 'resizeCanvas');
-          resizeBtn.style.display = 'inline-block';
-          resetResize.style.display = 'inline-block';
-          updateFileSizeDisplay('resize', resizeCanvas, 'jpeg');
-          showSuccess(document.getElementById('resize-success'), 'Image loaded successfully!');
-        } catch (err) {
-          showError(document.getElementById('resize-error'), err.message);
-          resetCanvas('resizeCanvas');
-          state.resize.hasImage = false;
-        } finally {
-          hideLoading('resize');
-        }
-      });
-
-      resizeBtn.addEventListener('click', () => {
-        hideElements('resize');
-        if (!state.resize.originalImage) {
-          showError(document.getElementById('resize-error'), 'Please upload an image first.');
-          return;
-        }
-        const targetWidth = parseInt(document.getElementById('resizeWidth').value);
-        const targetHeight = parseInt(document.getElementById('resizeHeight').value);
-        if (isNaN(targetWidth) || isNaN(targetHeight) || targetWidth <= 0 || targetHeight <= 0) {
-          showError(document.getElementById('resize-error'), 'Please enter valid width and height values.');
-          return;
-        }
-        showLoading('resize');
-        setTimeout(() => {
-          try {
-            const canvas = document.createElement('canvas');
-            canvas.width = targetWidth;
-            canvas.height = targetHeight;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(state.resize.originalImage, 0, 0, targetWidth, targetHeight);
-            state.resize.resizedImage = canvas;
-            drawImageOnCanvas(state.resize.resizedImage, 'resizeCanvas');
-            downloadResize.style.display = 'inline-block';
-            updateFileSizeDisplay('resize', canvas, 'jpeg');
-            showSuccess(document.getElementById('resize-success'), 'Image resized successfully!');
-          } catch (err) {
-            showError(document.getElementById('resize-error'), 'Error resizing image: ' + err.message);
-          } finally {
-            hideLoading('resize');
-          }
-        }, 300);
-      });
-
-      downloadResize.addEventListener('click', () => {
-        if (state.resize.resizedImage) {
-          const link = document.createElement('a');
-          link.download = 'resized-image.jpg';
-          const quality = state.resize.quality / 100;
-          link.href = state.resize.resizedImage.toDataURL('image/jpeg', quality);
-          link.click();
-          showSuccess(document.getElementById('resize-success'), 'Image downloaded successfully!');
-        } else {
-          showError(document.getElementById('resize-error'), 'No resized image available for download.');
-        }
-      });
-
-      resetResize.addEventListener('click', () => {
-        resetToInitial('resize');
-        updateFileSizeDisplay('resize', resizeCanvas, 'jpeg');
-      });
-      
-      // Convert Functionality
-      const convertUpload = document.getElementById('convertUpload');
-      const convertCanvas = document.getElementById('convertCanvas');
-      const convertBtn = document.getElementById('convertBtn');
-      
-      setupDragAndDrop(document.getElementById('convertDragArea'), convertUpload, 'convert');
-      
-      convertUpload.addEventListener('change', async (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-        hideElements('convert');
-        showLoading('convert');
-        try {
-          const img = await loadImage(file);
-          state.convert.originalImage = img;
-          state.convert.initialImage = img;
-          state.convert.hasImage = true;
-          drawImageOnCanvas(img, 'convertCanvas');
-          convertBtn.style.display = 'inline-block';
-          updateFileSizeDisplay('convert', convertCanvas, document.getElementById('outputFormat').value);
-          showSuccess(document.getElementById('convert-success'), 'Image loaded successfully!');
-        } catch (err) {
-          showError(document.getElementById('convert-error'), err.message);
-          resetCanvas('convertCanvas');
-          state.convert.hasImage = false;
-        } finally {
-          hideLoading('convert');
-        }
-      });
-
-      convertBtn.addEventListener('click', () => {
-        hideElements('convert');
-        if (!state.convert.originalImage) {
-          showError(document.getElementById('convert-error'), 'Please upload an image first.');
-          return;
-        }
-        showLoading('convert');
-        setTimeout(() => {
-          try {
-            const format = document.getElementById('outputFormat').value;
-            const canvas = document.createElement('canvas');
-            canvas.width = state.convert.originalImage.width;
-            canvas.height = state.convert.originalImage.height;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(state.convert.originalImage, 0, 0, canvas.width, canvas.height);
-            
-            let mimeType, fileExtension;
-            switch(format) {
-              case 'jpeg':
-                mimeType = 'image/jpeg';
-                fileExtension = 'jpg';
-                break;
-              case 'png':
-                mimeType = 'image/png';
-                fileExtension = 'png';
-                break;
-              case 'webp':
-                mimeType = 'image/webp';
-                fileExtension = 'webp';
-                break;
-              case 'bmp':
-                mimeType = 'image/bmp';
-                fileExtension = 'bmp';
-                break;
-              case 'gif':
-                mimeType = 'image/gif';
-                fileExtension = 'gif';
-                break;
-              default:
-                mimeType = 'image/png';
-                fileExtension = 'png';
-            }
-            
-            const quality = state.convert.quality / 100;
-            const dataUrl = canvas.toDataURL(mimeType, format === 'png' ? undefined : quality);
-            updateFileSizeDisplay('convert', canvas, format);
-            
-            const link = document.createElement('a');
-            link.download = `converted-image.${fileExtension}`;
-            link.href = dataUrl;
-            link.click();
-            showSuccess(document.getElementById('convert-success'), `Image converted to ${format.toUpperCase()} successfully!`);
-          } catch (err) {
-            showError(document.getElementById('convert-error'), 'Error converting image: ' + err.message);
-          } finally {
-            hideLoading('convert');
-          }
-        }, 300);
-      });
-
-      // Color Picker Functionality
-      const colorUpload = document.getElementById('colorUpload');
-      const colorCanvas = document.getElementById('colorCanvas');
-      const resetColor = document.getElementById('resetColor');
-      
-      setupDragAndDrop(document.getElementById('colorDragArea'), colorUpload, 'color');
-      
-      colorUpload.addEventListener('change', async (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-        hideElements('color');
-        showLoading('color');
-        try {
-          const img = await loadImage(file);
-          state.color.originalImage = img;
-          state.color.initialImage = img;
-          state.color.hasImage = true;
-          drawImageOnCanvas(img, 'colorCanvas');
-          resetColor.style.display = 'inline-block';
-          showSuccess(document.getElementById('color-success'), 'Image loaded successfully! Click on the image to pick colors.');
-          
-          // Add click event listener to canvas for color picking
-          colorCanvas.addEventListener('click', (e) => {
-            handleColorPick(e, colorCanvas, img);
-          });
-        } catch (err) {
-          showError(document.getElementById('color-error'), err.message);
-          resetCanvas('colorCanvas');
-          state.color.hasImage = false;
-        } finally {
-          hideLoading('color');
-        }
-      });
-
-      resetColor.addEventListener('click', () => {
-        resetToInitial('color');
-      });
-
-      // Initialize quality controls
-      initQualityControls();
+      initializeConverter();
     }
-    
-    // Initialize everything when DOM is loaded
-    document.addEventListener('DOMContentLoaded', () => {
-      initializeImageTools();
-    });
+
+    async function initFFmpeg() {
+      if (!ffmpeg) {
+        ffmpeg = createFFmpeg({ 
+          log: true,
+          corePath: 'https://unpkg.com/@ffmpeg/core@0.10.0/dist/ffmpeg-core.js'
+        });
+      }
+      
+      if (!ffmpeg.isLoaded()) {
+        document.getElementById('progressMessage').textContent = 'Loading FFmpeg engine...';
+        await ffmpeg.load();
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', initVideoConverter);
   </script>
+  
+  <!-- Shared JavaScript -->
+  <script src="/js/main.js"></script>
 </body>
 </html>
