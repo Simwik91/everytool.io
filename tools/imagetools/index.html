@@ -967,31 +967,6 @@
       font-weight: 500;
     }
     
-    .quality-presets {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 15px;
-    }
-    
-    .quality-preset {
-      padding: 8px 15px;
-      background: var(--light-gray);
-      border-radius: 20px;
-      font-size: 0.9rem;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-    
-    .quality-preset:hover {
-      background: #dbe4ff;
-    }
-    
-    .quality-preset.active {
-      background: var(--primary);
-      color: white;
-    }
-
     .visually-hidden {
       position: absolute;
       top: -9999px;
@@ -1063,6 +1038,34 @@
       text-align: center;
     }
 
+    /* Color Picker Styles */
+    .color-picker-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 20px 0;
+    }
+
+    .color-display {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      margin: 15px 0;
+      border: 3px solid var(--light-gray);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .color-value {
+      font-size: 1.2rem;
+      font-weight: 600;
+      font-family: monospace;
+      padding: 10px 15px;
+      background: white;
+      border-radius: var(--border-radius);
+      border: 1px solid var(--light-gray);
+      margin-top: 10px;
+    }
+
     /* Responsive Design for Image Toolkit */
     @media (max-width: 768px) {
       .card {
@@ -1130,6 +1133,9 @@
         <div class="tab" data-tab="convert">
           <i class="fas fa-exchange-alt"></i> Convert
         </div>
+        <div class="tab" data-tab="color">
+          <i class="fas fa-eye-dropper"></i> Color Picker
+        </div>
       </div>
 
       <!-- Crop Tab -->
@@ -1154,13 +1160,6 @@
           <div class="quality-slider-container">
             <input type="range" min="0" max="100" value="80" class="quality-slider" id="cropQuality">
             <span class="quality-value" id="cropQualityValue">80%</span>
-          </div>
-          <div class="quality-presets">
-            <div class="quality-preset" data-value="100">Maximum (100%)</div>
-            <div class="quality-preset active" data-value="80">High (80%)</div>
-            <div class="quality-preset" data-value="60">Medium (60%)</div>
-            <div class="quality-preset" data-value="40">Low (40%)</div>
-            <div class="quality-preset" data-value="20">Very Low (20%)</div>
           </div>
           <div class="file-size" id="crop-file-size"></div>
         </div>
@@ -1210,13 +1209,6 @@
             <input type="range" min="0" max="100" value="80" class="quality-slider" id="resizeQuality">
             <span class="quality-value" id="resizeQualityValue">80%</span>
           </div>
-          <div class="quality-presets">
-            <div class="quality-preset" data-value="100">Maximum (100%)</div>
-            <div class="quality-preset active" data-value="80">High (80%)</div>
-            <div class="quality-preset" data-value="60">Medium (60%)</div>
-            <div class="quality-preset" data-value="40">Low (40%)</div>
-            <div class="quality-preset" data-value="20">Very Low (20%)</div>
-          </div>
           <div class="file-size" id="resize-file-size"></div>
         </div>
         <div class="btn-group">
@@ -1263,18 +1255,39 @@
             <input type="range" min="0" max="100" value="80" class="quality-slider" id="convertQuality">
             <span class="quality-value" id="convertQualityValue">80%</span>
           </div>
-          <div class="quality-presets">
-            <div class="quality-preset" data-value="100">Maximum (100%)</div>
-            <div class="quality-preset active" data-value="80">High (80%)</div>
-            <div class="quality-preset" data-value="60">Medium (60%)</div>
-            <div class="quality-preset" data-value="40">Low (40%)</div>
-            <div class="quality-preset" data-value="20">Very Low (20%)</div>
-          </div>
           <div class="file-size" id="convert-file-size"></div>
         </div>
         <div class="btn-group">
           <button id="convertBtn" style="display: none;">
             <i class="fas fa-exchange-alt"></i> Convert & Download
+          </button>
+        </div>
+      </div>
+
+      <!-- Color Picker Tab -->
+      <div class="tab-content" id="color-tab">
+        <h2><i class="fas fa-eye-dropper"></i> Color Picker</h2>
+        <p><i>Click on any point in the image to get its color value.</i></p>
+        <div class="drag-drop-area" id="colorDragArea">
+          <p><i class="fas fa-upload"></i> Choose file or drag and drop here</p>
+          <p>Supported formats: PNG, JPEG, WEBP, BMP, GIF, HEIC</p>
+          <p>Max file size: 10MB</p>
+        </div>
+        <input type="file" id="colorUpload" accept="image/*,.heic,.heif" style="display: none;" aria-label="Upload image for color picking" />
+        <div class="error" id="color-error"></div>
+        <div class="success" id="color-success"></div>
+        <div class="loading" id="color-loading">
+          <div class="spinner"></div>
+          Processing Image...
+        </div>
+        <canvas id="colorCanvas" width="300" height="200"></canvas>
+        <div class="color-picker-container">
+          <div class="color-display" id="colorDisplay"></div>
+          <div class="color-value" id="colorValue">#000000</div>
+        </div>
+        <div class="btn-group">
+          <button id="resetColor" style="display: none;">
+            <i class="fas fa-undo"></i> Reset
           </button>
         </div>
       </div>
@@ -1666,6 +1679,10 @@
         convertedImage: null,
         initialImage: null,
         quality: 80
+      },
+      color: {
+        originalImage: null,
+        initialImage: null
       }
     };
 
@@ -1818,26 +1835,6 @@
           valueDisplay.textContent = `${value}%`;
           state[tab].quality = parseInt(value);
           
-          // Update active preset
-          const presets = slider.closest('.quality-controls').querySelectorAll('.quality-preset');
-          presets.forEach(preset => preset.classList.remove('active'));
-          
-          // Find closest preset
-          let closestPreset = null;
-          let smallestDiff = Infinity;
-          presets.forEach(preset => {
-            const presetValue = parseInt(preset.dataset.value);
-            const diff = Math.abs(presetValue - value);
-            if (diff < smallestDiff) {
-              smallestDiff = diff;
-              closestPreset = preset;
-            }
-          });
-          
-          if (closestPreset && smallestDiff <= 10) {
-            closestPreset.classList.add('active');
-          }
-
           // Update file size display if we have an image
           if (state[tab].originalImage) {
             const canvas = document.getElementById(`${tab}Canvas`);
@@ -1846,35 +1843,56 @@
           }
         });
       });
+    }
+
+    // Color Picker Functions
+    function rgbToHex(r, g, b) {
+      return "#" + [r, g, b].map(x => {
+        const hex = x.toString(16);
+        return hex.length === 1 ? "0" + hex : hex;
+      }).join("");
+    }
+
+    function handleColorPick(event, canvas, image) {
+      const rect = canvas.getBoundingClientRect();
+      const pixelRatio = window.devicePixelRatio || 1;
+      const x = Math.floor((event.clientX - rect.left) * pixelRatio);
+      const y = Math.floor((event.clientY - rect.top) * pixelRatio);
       
-      // Initialize quality presets
-      document.querySelectorAll('.quality-preset').forEach(preset => {
-        preset.addEventListener('click', () => {
-          const value = preset.dataset.value;
-          const controls = preset.closest('.quality-controls');
-          const slider = controls.querySelector('.quality-slider');
-          const valueDisplay = controls.querySelector('.quality-value');
-          
-          // Update UI
-          slider.value = value;
-          valueDisplay.textContent = `${value}%`;
-          
-          // Update active preset
-          controls.querySelectorAll('.quality-preset').forEach(p => p.classList.remove('active'));
-          preset.classList.add('active');
-          
-          // Update state
-          const tab = slider.id.replace('Quality', '');
-          state[tab].quality = parseInt(value);
-
-          // Update file size display if we have an image
-          if (state[tab].originalImage) {
-            const canvas = document.getElementById(`${tab}Canvas`);
-            const format = tab === 'convert' ? document.getElementById('outputFormat').value : 'jpeg';
-            updateFileSizeDisplay(tab, canvas, format);
-          }
-        });
-      });
+      // Create a temporary canvas to get the pixel data
+      const tempCanvas = document.createElement('canvas');
+      tempCanvas.width = image.width;
+      tempCanvas.height = image.height;
+      const tempCtx = tempCanvas.getContext('2d');
+      tempCtx.drawImage(image, 0, 0);
+      
+      // Get the pixel data
+      const pixelData = tempCtx.getImageData(0, 0, tempCanvas.width, tempCanvas.height).data;
+      
+      // Calculate the position in the pixel data array
+      const scaleX = image.width / (canvas.width / pixelRatio);
+      const scaleY = image.height / (canvas.height / pixelRatio);
+      const imageX = Math.floor(x * scaleX / pixelRatio);
+      const imageY = Math.floor(y * scaleY / pixelRatio);
+      const pos = (imageY * image.width + imageX) * 4;
+      
+      // Get RGB values
+      const r = pixelData[pos];
+      const g = pixelData[pos + 1];
+      const b = pixelData[pos + 2];
+      
+      // Convert to HEX
+      const hex = rgbToHex(r, g, b);
+      
+      // Update the display
+      const colorDisplay = document.getElementById('colorDisplay');
+      const colorValue = document.getElementById('colorValue');
+      
+      colorDisplay.style.backgroundColor = hex;
+      colorValue.textContent = hex;
+      
+      // Show success message
+      showSuccess(document.getElementById('color-success'), `Color picked: ${hex}`);
     }
 
     // Initialize Image Tools
@@ -2209,6 +2227,42 @@
             hideLoading('convert');
           }
         }, 300);
+      });
+
+      // Color Picker Functionality
+      const colorUpload = document.getElementById('colorUpload');
+      const colorCanvas = document.getElementById('colorCanvas');
+      const resetColor = document.getElementById('resetColor');
+      
+      setupDragAndDrop(document.getElementById('colorDragArea'), colorUpload, 'color');
+      
+      colorUpload.addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        hideElements('color');
+        showLoading('color');
+        try {
+          const img = await loadImage(file);
+          state.color.originalImage = img;
+          state.color.initialImage = img;
+          drawImageOnCanvas(img, 'colorCanvas');
+          resetColor.style.display = 'inline-block';
+          showSuccess(document.getElementById('color-success'), 'Image loaded successfully! Click on the image to pick colors.');
+          
+          // Add click event listener to canvas for color picking
+          colorCanvas.addEventListener('click', (e) => {
+            handleColorPick(e, colorCanvas, img);
+          });
+        } catch (err) {
+          showError(document.getElementById('color-error'), err.message);
+          resetCanvas('colorCanvas');
+        } finally {
+          hideLoading('color');
+        }
+      });
+
+      resetColor.addEventListener('click', () => {
+        resetToInitial('color');
       });
 
       // Initialize quality controls
