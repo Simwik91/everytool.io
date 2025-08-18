@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Free Network Tools: Ping, traceroute, DNS lookup, IP information and more. Fast, private network utilities. No signup required.">
-  <meta name="keywords" content="network tools, ping tool, traceroute, dns lookup, ip information, network diagnostics">
+  <meta name="keywords" content="network tools, ping tool, traceroute, dns lookup, ip information, network diagnostics, whois, speed test">
   <meta name="robots" content="index, follow">
   <meta property="og:title" content="Free Network Tools - EveryTool.io">
   <meta property="og:description" content="Powerful network utilities including ping, traceroute, DNS lookup and IP information. All processing happens in your browser.">
@@ -18,11 +18,44 @@
   <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.rel='stylesheet'">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
-  <!-- Shared CSS -->
-  <link rel="stylesheet" href="/css/styles.css">
+  <!-- Chart.js -->
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.min.css" as="style" onload="this.rel='stylesheet'">
   
   <!-- Network Tools Specific Styles -->
   <style>
+    :root {
+      --primary: #4361ee;
+      --primary-dark: #3a56d4;
+      --secondary: #7209b7;
+      --dark: #333;
+      --light: #fff;
+      --light-gray: #f8f9fa;
+      --gray: #6c757d;
+      --border-radius: 12px;
+      --box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+      --transition: all 0.3s ease;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background-color: #f5f7ff;
+    }
+    
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
     /* Network Tools Specific Styles */
     .hero {
       padding: 60px 0 40px;
@@ -395,6 +428,64 @@
       background-color: #e74c3c;
     }
     
+    /* Loading spinner */
+    .loading {
+      display: none;
+      text-align: center;
+      padding: 10px;
+      font-size: 1rem;
+      color: var(--primary);
+    }
+    
+    .loading.active {
+      display: block;
+    }
+    
+    .chart-container {
+      margin: 20px 0;
+      height: 200px;
+    }
+    
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+    
+    .tooltip {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .tooltip .tooltip-text {
+      visibility: hidden;
+      width: 200px;
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      border-radius: 6px;
+      padding: 10px;
+      position: absolute;
+      z-index: 1;
+      bottom: 125%;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      font-size: 0.9rem;
+      font-weight: normal;
+    }
+    
+    .tooltip:hover .tooltip-text {
+      visibility: visible;
+      opacity: 1;
+    }
+    
     /* Responsive Design for Network Tools */
     @media (max-width: 992px) {
       .features {
@@ -479,20 +570,26 @@
   <div class="container">
     <div class="card">
       <div class="tabs" role="tablist">
-        <div class="tab active" data-tab="ping" role="tab" aria-selected="true" tabindex="0">
+        <div class="tab active" data-tab="ping" role="tab" aria-selected="true" tabindex="0" aria-controls="ping-tab">
           <i class="fas fa-satellite-dish"></i> Ping Tool
         </div>
-        <div class="tab" data-tab="traceroute" role="tab" aria-selected="false" tabindex="0">
+        <div class="tab" data-tab="traceroute" role="tab" aria-selected="false" tabindex="0" aria-controls="traceroute-tab">
           <i class="fas fa-route"></i> Traceroute
         </div>
-        <div class="tab" data-tab="dns" role="tab" aria-selected="false" tabindex="0">
+        <div class="tab" data-tab="dns" role="tab" aria-selected="false" tabindex="0" aria-controls="dns-tab">
           <i class="fas fa-globe"></i> DNS Lookup
         </div>
-        <div class="tab" data-tab="ipinfo" role="tab" aria-selected="false" tabindex="0">
+        <div class="tab" data-tab="ipinfo" role="tab" aria-selected="false" tabindex="0" aria-controls="ipinfo-tab">
           <i class="fas fa-info-circle"></i> IP Information
         </div>
-        <div class="tab" data-tab="headers" role="tab" aria-selected="false" tabindex="0">
+        <div class="tab" data-tab="headers" role="tab" aria-selected="false" tabindex="0" aria-controls="headers-tab">
           <i class="fas fa-code"></i> HTTP Headers
+        </div>
+        <div class="tab" data-tab="whois" role="tab" aria-selected="false" tabindex="0" aria-controls="whois-tab">
+          <i class="fas fa-user"></i> WHOIS Lookup
+        </div>
+        <div class="tab" data-tab="speedtest" role="tab" aria-selected="false" tabindex="0" aria-controls="speedtest-tab">
+          <i class="fas fa-tachometer-alt"></i> Speed Test
         </div>
       </div>
 
@@ -500,11 +597,16 @@
       <div class="tab-content active" id="ping-tab" role="tabpanel">
         <h2><i class="fas fa-satellite-dish"></i> Ping Utility</h2>
         <p><i>Check connectivity and measure latency to any host. All pings are performed from your browser.</i></p>
+        <div class="error" id="ping-error"></div>
+        <div class="loading" id="pingLoading">
+          <i class="fas fa-spinner fa-spin"></i> Pinging...
+        </div>
         
         <div class="tool-row">
           <div class="tool-col">
             <label for="pingHost">Host to Ping:</label>
-            <input type="text" id="pingHost" placeholder="example.com or 192.168.1.1" value="web.restolution.fi">
+            <input type="text" id="pingHost" placeholder="example.com or 192.168.1.1" value="web.restolution.fi" aria-describedby="pingHostHelp">
+            <p id="pingHostHelp" class="sr-only">Enter a valid hostname or IP address to ping.</p>
           </div>
           <div class="tool-col">
             <label for="pingCount">Number of Pings:</label>
@@ -538,6 +640,9 @@
           <button id="clearPingBtn">
             <i class="fas fa-trash"></i> Clear Log
           </button>
+          <button id="exportPingBtn">
+            <i class="fas fa-download"></i> Export Results
+          </button>
         </div>
         
         <div class="stats">
@@ -567,6 +672,10 @@
           </div>
         </div>
         
+        <div class="chart-container">
+          <canvas id="pingChart"></canvas>
+        </div>
+        
         <h3>Ping Results</h3>
         <div class="ping-results" id="pingResults">
           <p>Ping results will appear here...</p>
@@ -577,11 +686,16 @@
       <div class="tab-content" id="traceroute-tab" role="tabpanel">
         <h2><i class="fas fa-route"></i> Traceroute</h2>
         <p><i>Trace the path to a host and measure latency at each hop.</i></p>
+        <div class="error" id="traceroute-error"></div>
+        <div class="loading" id="tracerouteLoading">
+          <i class="fas fa-spinner fa-spin"></i> Tracing route...
+        </div>
         
         <div class="tool-row">
           <div class="tool-col">
             <label for="traceHost">Host to Trace:</label>
-            <input type="text" id="traceHost" placeholder="example.com or 192.168.1.1" value="web.restolution.fi">
+            <input type="text" id="traceHost" placeholder="example.com or 192.168.1.1" value="web.restolution.fi" aria-describedby="traceHostHelp">
+            <p id="traceHostHelp" class="sr-only">Enter a valid hostname or IP address to trace.</p>
           </div>
           <div class="tool-col">
             <label for="maxHops">Max Hops:</label>
@@ -611,11 +725,16 @@
       <div class="tab-content" id="dns-tab" role="tabpanel">
         <h2><i class="fas fa-globe"></i> DNS Lookup</h2>
         <p><i>Look up DNS records for any domain name.</i></p>
+        <div class="error" id="dns-error"></div>
+        <div class="loading" id="dnsLoading">
+          <i class="fas fa-spinner fa-spin"></i> Looking up DNS records...
+        </div>
         
         <div class="tool-row">
           <div class="tool-col">
             <label for="dnsDomain">Domain Name:</label>
-            <input type="text" id="dnsDomain" placeholder="example.com" value="restolution.fi">
+            <input type="text" id="dnsDomain" placeholder="example.com" value="restolution.fi" aria-describedby="dnsDomainHelp">
+            <p id="dnsDomainHelp" class="sr-only">Enter a valid domain name to look up DNS records.</p>
           </div>
           <div class="tool-col">
             <label for="dnsType">Record Type:</label>
@@ -646,6 +765,10 @@
       <div class="tab-content" id="ipinfo-tab" role="tabpanel">
         <h2><i class="fas fa-info-circle"></i> IP Information</h2>
         <p><i>Get detailed information about your public IP address.</i></p>
+        <div class="error" id="ipinfo-error"></div>
+        <div class="loading" id="ipinfoLoading">
+          <i class="fas fa-spinner fa-spin"></i> Retrieving IP information...
+        </div>
         
         <div class="btn-group">
           <button id="getIpInfoBtn">
@@ -710,11 +833,27 @@
       <div class="tab-content" id="headers-tab" role="tabpanel">
         <h2><i class="fas fa-code"></i> HTTP Headers</h2>
         <p><i>Analyze HTTP headers for any URL.</i></p>
+        <div class="error" id="headers-error"></div>
+        <div class="loading" id="headersLoading">
+          <i class="fas fa-spinner fa-spin"></i> Analyzing headers...
+        </div>
         
         <div class="tool-row">
           <div class="tool-col">
             <label for="headerUrl">URL to Analyze:</label>
-            <input type="text" id="headerUrl" placeholder="https://example.com" value="https://web.restolution.fi">
+            <input type="text" id="headerUrl" placeholder="https://example.com" value="https://web.restolution.fi" aria-describedby="headerUrlHelp">
+            <p id="headerUrlHelp" class="sr-only">Enter a valid URL starting with http:// or https://</p>
+          </div>
+        </div>
+        
+        <div class="tool-row">
+          <div class="tool-col">
+            <label for="headerMethod">HTTP Method:</label>
+            <select id="headerMethod">
+              <option value="GET">GET</option>
+              <option value="HEAD">HEAD</option>
+              <option value="POST">POST</option>
+            </select>
           </div>
         </div>
         
@@ -727,6 +866,54 @@
         <h3>HTTP Headers</h3>
         <div class="ping-results" id="headerResults">
           <p>HTTP headers will appear here...</p>
+        </div>
+      </div>
+
+      <!-- WHOIS Lookup -->
+      <div class="tab-content" id="whois-tab" role="tabpanel">
+        <h2><i class="fas fa-user"></i> WHOIS Lookup</h2>
+        <p><i>Retrieve domain registration details.</i></p>
+        <div class="error" id="whois-error"></div>
+        <div class="loading" id="whoisLoading">
+          <i class="fas fa-spinner fa-spin"></i> Looking up WHOIS information...
+        </div>
+        
+        <div class="tool-row">
+          <div class="tool-col">
+            <label for="whoisDomain">Domain Name:</label>
+            <input type="text" id="whoisDomain" placeholder="example.com" value="restolution.fi" aria-describedby="whoisDomainHelp">
+            <p id="whoisDomainHelp" class="sr-only">Enter a valid domain name to look up WHOIS information.</p>
+          </div>
+        </div>
+        
+        <button id="lookupWhoisBtn">
+          <i class="fas fa-search"></i> Lookup WHOIS
+        </button>
+        
+        <h3>WHOIS Results</h3>
+        <div class="ping-results" id="whoisResults">
+          <p>WHOIS information will appear here...</p>
+        </div>
+      </div>
+
+      <!-- Speed Test -->
+      <div class="tab-content" id="speedtest-tab" role="tabpanel">
+        <h2><i class="fas fa-tachometer-alt"></i> Network Speed Test</h2>
+        <p><i>Measure your download speed.</i></p>
+        <div class="error" id="speedtest-error"></div>
+        <div class="loading" id="speedtestLoading">
+          <i class="fas fa-spinner fa-spin"></i> Testing download speed...
+        </div>
+        
+        <div class="btn-group">
+          <button id="startSpeedTestBtn">
+            <i class="fas fa-play"></i> Start Speed Test
+          </button>
+        </div>
+        
+        <h3>Speed Test Results</h3>
+        <div class="ping-results" id="speedTestResults">
+          <p>Speed test results will appear here...</p>
         </div>
       </div>
     </div>
@@ -816,8 +1003,25 @@
     <p class="error-message" style="display: none; color: red; text-align: center;">Failed to load footer. Please try refreshing the page.</p>
   </footer>
 
+  <!-- Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+
   <!-- Network Tools JavaScript -->
   <script>
+    // Constants
+    const API_ENDPOINTS = {
+      DNS: 'https://cloudflare-dns.com/dns-query',
+      WHOIS: 'https://api.whoisjs.com/whois',
+      CORS_PROXY: 'https://api.allorigins.win/raw?url=',
+      IP_INFO: 'https://ipapi.co/json/'
+    };
+    
+    const MAX_CONTINUOUS_DURATION = 5 * 60 * 1000; // 5 minutes
+    const RATE_LIMIT_MS = 1000; // 1 request per second
+    let lastRequestTime = 0;
+    
     // Network Tools Functionality
     function initNetworkTools() {
       // Tab Switching
@@ -838,6 +1042,17 @@
           activeTab.setAttribute('aria-selected', 'true');
           activeContent.classList.add('active');
         }
+        
+        // Update URL hash
+        window.location.hash = tabName;
+      }
+      
+      // Initialize Tabs from URL hash
+      function initTabsFromHash() {
+        const hash = window.location.hash.replace('#', '');
+        const validTabs = ['ping', 'traceroute', 'dns', 'ipinfo', 'headers', 'whois', 'speedtest'];
+        const tab = validTabs.includes(hash) ? hash : 'ping';
+        switchTab(tab);
       }
       
       // Initialize Tabs
@@ -851,8 +1066,43 @@
         });
       });
       
-      // Initialize with first tab active
-      switchTab('ping');
+      // Initialize with hash
+      window.addEventListener('load', initTabsFromHash);
+      window.addEventListener('hashchange', initTabsFromHash);
+      
+      // Validation Functions
+      function validateHost(host) {
+        const hostRegex = /^(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}|(?:(?:[0-9]{1,3}\.){3}[0-9]{1,3}))$/;
+        return hostRegex.test(host);
+      }
+      
+      function validateUrl(url) {
+        const urlRegex = /^https?:\/\/[^\s/$.?#].[^\s]*$/i;
+        return urlRegex.test(url);
+      }
+      
+      function validateDomain(domain) {
+        const domainRegex = /^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}$/;
+        return domainRegex.test(domain);
+      }
+      
+      // Error Handling
+      function showError(message, tabId) {
+        const errorDiv = document.querySelector(`#${tabId} .error`);
+        errorDiv.textContent = message;
+        errorDiv.style.display = 'block';
+        setTimeout(() => errorDiv.style.display = 'none', 5000);
+      }
+      
+      // Loading State
+      function setLoading(tabId, isLoading) {
+        const loadingDiv = document.getElementById(`${tabId}Loading`);
+        if (isLoading) {
+          loadingDiv.classList.add('active');
+        } else {
+          loadingDiv.classList.remove('active');
+        }
+      }
       
       // Ping Tool Variables
       let pingIntervalId = null;
@@ -863,6 +1113,8 @@
       let maxPing = 0;
       let totalPing = 0;
       let pingHistory = [];
+      let pingChart = null;
+      let pingStartTime = 0;
       
       // Ping Tool Functions
       function pingHost(host) {
@@ -911,6 +1163,43 @@
         document.getElementById('avgPing').textContent = `${avgPing}ms`;
       }
       
+      function updatePingChart() {
+        const ctx = document.getElementById('pingChart').getContext('2d');
+        if (pingChart) pingChart.destroy();
+        
+        const successfulPings = pingHistory.filter(ping => ping.success);
+        const pingTimes = successfulPings.map(ping => ping.time);
+        const labels = successfulPings.map((_, i) => `Ping ${i + 1}`);
+        
+        pingChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels,
+            datasets: [{
+              label: 'Ping Time (ms)',
+              data: pingTimes,
+              borderColor: '#4361ee',
+              backgroundColor: 'rgba(67, 97, 238, 0.2)',
+              tension: 0.3,
+              fill: true
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              y: {
+                beginAtZero: true,
+                title: {
+                  display: true,
+                  text: 'Time (ms)'
+                }
+              }
+            }
+          }
+        });
+      }
+      
       function addPingResult(seq, result) {
         const pingResults = document.getElementById('pingResults');
         
@@ -924,8 +1213,9 @@
         const statusIndicator = document.createElement('span');
         statusIndicator.className = `status-indicator ${result.success ? 'status-up' : 'status-down'}`;
         
+        const sanitizedHost = DOMPurify.sanitize(document.getElementById('pingHost').value);
         const seqSpan = document.createElement('span');
-        seqSpan.textContent = `Ping #${seq} to ${document.getElementById('pingHost').value}: `;
+        seqSpan.textContent = `Ping #${seq} to ${sanitizedHost}: `;
         
         const resultSpan = document.createElement('span');
         if (result.success) {
@@ -940,15 +1230,24 @@
         pingItem.appendChild(seqSpan);
         pingItem.appendChild(resultSpan);
         pingResults.prepend(pingItem);
+        
+        // Update chart
+        pingHistory.push(result);
+        updatePingChart();
       }
       
       function startPinging() {
-        const host = document.getElementById('pingHost').value;
+        const host = document.getElementById('pingHost').value.trim();
         const count = document.getElementById('pingCount').value;
         const interval = parseInt(document.getElementById('pingInterval').value) * 1000;
         
         if (!host) {
-          alert('Please enter a host to ping');
+          showError('Please enter a host to ping', 'ping-error');
+          return;
+        }
+        
+        if (!validateHost(host)) {
+          showError('Please enter a valid hostname or IP address', 'ping-error');
           return;
         }
         
@@ -959,6 +1258,11 @@
         minPing = Infinity;
         maxPing = 0;
         totalPing = 0;
+        pingHistory = [];
+        pingStartTime = Date.now();
+        
+        // Show loading
+        setLoading('ping', true);
         
         // Clear previous results
         document.getElementById('pingResults').innerHTML = '<p>Pinging... results will appear below</p>';
@@ -971,6 +1275,13 @@
         const pingLoop = async () => {
           if (count !== 'continuous' && pingCount >= parseInt(count)) {
             stopPinging();
+            return;
+          }
+          
+          // Check maximum duration for continuous pinging
+          if (count === 'continuous' && Date.now() - pingStartTime > MAX_CONTINUOUS_DURATION) {
+            stopPinging();
+            showError('Continuous ping stopped after 5 minutes', 'ping-error');
             return;
           }
           
@@ -1009,30 +1320,54 @@
           pingIntervalId = null;
         }
         
+        setLoading('ping', false);
         document.getElementById('startPingBtn').disabled = false;
         document.getElementById('stopPingBtn').disabled = true;
       }
       
       function clearPingLog() {
         document.getElementById('pingResults').innerHTML = '<p>Ping results will appear here...</p>';
+        pingHistory = [];
+        if (pingChart) {
+          pingChart.destroy();
+          pingChart = null;
+        }
+      }
+      
+      function exportPingResults() {
+        const results = document.getElementById('pingResults').innerText;
+        const blob = new Blob([results], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'ping_results.txt';
+        a.click();
+        URL.revokeObjectURL(url);
       }
       
       // Ping Tool Event Listeners
       document.getElementById('startPingBtn').addEventListener('click', startPinging);
       document.getElementById('stopPingBtn').addEventListener('click', stopPinging);
       document.getElementById('clearPingBtn').addEventListener('click', clearPingLog);
+      document.getElementById('exportPingBtn').addEventListener('click', exportPingResults);
       
       // Traceroute Functions
       async function traceRoute() {
-        const host = document.getElementById('traceHost').value;
+        const host = document.getElementById('traceHost').value.trim();
         const maxHops = parseInt(document.getElementById('maxHops').value);
         
         if (!host) {
-          alert('Please enter a host to trace');
+          showError('Please enter a host to trace', 'traceroute-error');
+          return;
+        }
+        
+        if (!validateHost(host)) {
+          showError('Please enter a valid hostname or IP address', 'traceroute-error');
           return;
         }
         
         // Disable start button, enable stop button
+        setLoading('traceroute', true);
         document.getElementById('startTraceBtn').disabled = true;
         document.getElementById('stopTraceBtn').disabled = false;
         
@@ -1094,11 +1429,13 @@
           }
         }
         
+        setLoading('traceroute', false);
         document.getElementById('startTraceBtn').disabled = false;
         document.getElementById('stopTraceBtn').disabled = true;
       }
       
       function stopTrace() {
+        setLoading('traceroute', false);
         document.getElementById('startTraceBtn').disabled = false;
         document.getElementById('stopTraceBtn').disabled = true;
       }
@@ -1114,36 +1451,64 @@
       
       // DNS Lookup Functions
       async function lookupDns() {
-        const domain = document.getElementById('dnsDomain').value;
+        const domain = document.getElementById('dnsDomain').value.trim();
         const type = document.getElementById('dnsType').value;
         
         if (!domain) {
-          alert('Please enter a domain name');
+          showError('Please enter a domain name', 'dns-error');
           return;
         }
         
+        if (!validateDomain(domain)) {
+          showError('Please enter a valid domain name', 'dns-error');
+          return;
+        }
+        
+        // Rate limiting
+        const now = Date.now();
+        if (now - lastRequestTime < RATE_LIMIT_MS) {
+          showError('Please wait before making another request', 'dns-error');
+          return;
+        }
+        lastRequestTime = now;
+        
+        // Check cache
+        const cacheKey = `dns_${domain}_${type}`;
+        const cachedResult = localStorage.getItem(cacheKey);
+        if (cachedResult) {
+          document.getElementById('dnsResults').innerHTML = cachedResult;
+          return;
+        }
+        
+        // Show loading
+        setLoading('dns', true);
+        document.getElementById('dnsResults').innerHTML = '<p>Loading DNS records...</p>';
+        
         try {
           // Use DNS over HTTPS (DoH) API
-          const response = await fetch(`https://cloudflare-dns.com/dns-query?name=${domain}&type=${type}`, {
+          const response = await fetch(`${API_ENDPOINTS.DNS}?name=${domain}&type=${type}`, {
             headers: { 'Accept': 'application/dns-json' }
           });
           
           const data = await response.json();
           
+          let html = '';
           if (data.Status !== 0 || !data.Answer || data.Answer.length === 0) {
-            document.getElementById('dnsResults').innerHTML = `<p>No DNS records found for ${domain} (${type})</p>`;
-            return;
+            html = `<p>No DNS records found for ${DOMPurify.sanitize(domain)} (${type})</p>`;
+          } else {
+            html = '<p>DNS records found:</p>';
+            data.Answer.forEach(record => {
+              html += `<div class="ping-item"><span>${DOMPurify.sanitize(record.name)}</span> <span>${DOMPurify.sanitize(record.type)}</span> <span>TTL: ${DOMPurify.sanitize(record.TTL)}</span> <span>${DOMPurify.sanitize(record.data)}</span></div>`;
+            });
           }
           
-          let html = '<p>DNS records found:</p>';
-          data.Answer.forEach(record => {
-            html += `<div class="ping-item"><span>${record.name}</span> <span>${record.type}</span> <span>TTL: ${record.TTL}</span> <span>${record.data}</span></div>`;
-          });
-          
           document.getElementById('dnsResults').innerHTML = html;
+          localStorage.setItem(cacheKey, html); // Cache result
         } catch (error) {
           console.error('DNS lookup error:', error);
-          document.getElementById('dnsResults').innerHTML = `<p class="ping-failure">Error: ${error.message}</p>`;
+          showError(`DNS lookup failed: ${error.message}`, 'dns-error');
+        } finally {
+          setLoading('dns', false);
         }
       }
       
@@ -1152,9 +1517,10 @@
       
       // IP Information Functions
       async function getIpInfo() {
+        setLoading('ipinfo', true);
         try {
           // Use ipapi.co API
-          const response = await fetch('https://ipapi.co/json/');
+          const response = await fetch(API_ENDPOINTS.IP_INFO);
           const data = await response.json();
           
           document.getElementById('ipAddress').textContent = data.ip || '-';
@@ -1176,7 +1542,9 @@
           }
         } catch (error) {
           console.error('IP info error:', error);
-          alert('Failed to retrieve IP information');
+          showError('Failed to retrieve IP information', 'ipinfo-error');
+        } finally {
+          setLoading('ipinfo', false);
         }
       }
       
@@ -1185,37 +1553,146 @@
       
       // HTTP Headers Functions
       async function analyzeHeaders() {
-        const url = document.getElementById('headerUrl').value;
+        const url = document.getElementById('headerUrl').value.trim();
+        const method = document.getElementById('headerMethod').value;
         
         if (!url) {
-          alert('Please enter a URL');
+          showError('Please enter a URL', 'headers-error');
           return;
         }
         
+        if (!validateUrl(url)) {
+          showError('Please enter a valid URL starting with http:// or https://', 'headers-error');
+          return;
+        }
+        
+        setLoading('headers', true);
         try {
+          const startTime = performance.now();
           // Use a CORS proxy to bypass restrictions
-          const proxyUrl = 'https://api.allorigins.win/raw?url=';
-          const response = await fetch(proxyUrl + encodeURIComponent(url));
+          const response = await fetch(`${API_ENDPOINTS.CORS_PROXY}${encodeURIComponent(url)}`, { method });
+          const endTime = performance.now();
           
-          let headersHtml = '<p>HTTP headers:</p>';
+          let headersHtml = `<p>HTTP headers (Load time: ${(endTime - startTime).toFixed(2)}ms):</p>`;
           
           // Show status
           headersHtml += `<div class="ping-item"><span>Status:</span> <span>${response.status} ${response.statusText}</span></div>`;
           
           // Show headers
           for (const [key, value] of response.headers.entries()) {
-            headersHtml += `<div class="ping-item"><span>${key}:</span> <span>${value}</span></div>`;
+            headersHtml += `<div class="ping-item"><span>${DOMPurify.sanitize(key)}:</span> <span>${DOMPurify.sanitize(value)}</span></div>`;
           }
           
           document.getElementById('headerResults').innerHTML = headersHtml;
         } catch (error) {
           console.error('Header analysis error:', error);
-          document.getElementById('headerResults').innerHTML = `<p class="ping-failure">Error: ${error.message}</p>`;
+          showError(`Header analysis failed: ${error.message}`, 'headers-error');
+        } finally {
+          setLoading('headers', false);
         }
       }
       
       // HTTP Headers Event Listeners
       document.getElementById('analyzeHeadersBtn').addEventListener('click', analyzeHeaders);
+      
+      // WHOIS Lookup Functions
+      async function lookupWhois() {
+        const domain = document.getElementById('whoisDomain').value.trim();
+        
+        if (!domain) {
+          showError('Please enter a domain name', 'whois-error');
+          return;
+        }
+        
+        if (!validateDomain(domain)) {
+          showError('Please enter a valid domain name', 'whois-error');
+          return;
+        }
+        
+        setLoading('whois', true);
+        try {
+          const response = await fetch(`${API_ENDPOINTS.WHOIS}/${domain}`);
+          const data = await response.json();
+          
+          let html = '<p>WHOIS information:</p>';
+          if (!data.registrar) {
+            html = `<p>No WHOIS data found for ${DOMPurify.sanitize(domain)}</p>`;
+          } else {
+            for (const [key, value] of Object.entries(data)) {
+              html += `<div class="ping-item"><span>${DOMPurify.sanitize(key)}:</span> <span>${DOMPurify.sanitize(value)}</span></div>`;
+            }
+          }
+          
+          document.getElementById('whoisResults').innerHTML = html;
+        } catch (error) {
+          console.error('WHOIS lookup error:', error);
+          showError(`WHOIS lookup failed: ${error.message}`, 'whois-error');
+        } finally {
+          setLoading('whois', false);
+        }
+      }
+      
+      // WHOIS Event Listeners
+      document.getElementById('lookupWhoisBtn').addEventListener('click', lookupWhois);
+      
+      // Speed Test Functions
+      async function runSpeedTest() {
+        setLoading('speedtest', true);
+        const testFile = 'https://speedtest.ftp.otenet.gr/files/test10Mb.db'; // 10MB test file
+        const startTime = performance.now();
+        
+        try {
+          const response = await fetch(testFile + '?t=' + Date.now(), { cache: 'no-store' });
+          const blob = await response.blob();
+          const endTime = performance.now();
+          
+          const fileSizeMB = blob.size / (1024 * 1024);
+          const timeSeconds = (endTime - startTime) / 1000;
+          const speedMbps = (fileSizeMB * 8) / timeSeconds;
+          
+          document.getElementById('speedTestResults').innerHTML = `
+            <p>Download Speed: ${speedMbps.toFixed(2)} Mbps</p>
+            <p>File Size: ${fileSizeMB.toFixed(2)} MB</p>
+            <p>Time Taken: ${timeSeconds.toFixed(2)} seconds</p>
+          `;
+        } catch (error) {
+          console.error('Speed test error:', error);
+          showError(`Speed test failed: ${error.message}`, 'speedtest-error');
+        } finally {
+          setLoading('speedtest', false);
+        }
+      }
+      
+      // Speed Test Event Listeners
+      document.getElementById('startSpeedTestBtn').addEventListener('click', runSpeedTest);
+      
+      // Persistent settings
+      function saveSettings() {
+        const settings = {
+          pingHost: document.getElementById('pingHost').value,
+          pingCount: document.getElementById('pingCount').value,
+          pingInterval: document.getElementById('pingInterval').value,
+          pingTimeout: document.getElementById('pingTimeout').value
+        };
+        localStorage.setItem('networkToolsSettings', JSON.stringify(settings));
+      }
+      
+      function loadSettings() {
+        const settings = JSON.parse(localStorage.getItem('networkToolsSettings'));
+        if (settings) {
+          document.getElementById('pingHost').value = settings.pingHost || 'web.restolution.fi';
+          document.getElementById('pingCount').value = settings.pingCount || '10';
+          document.getElementById('pingInterval').value = settings.pingInterval || '5';
+          document.getElementById('pingTimeout').value = settings.pingTimeout || '2000';
+        }
+      }
+      
+      // Load settings on page load
+      document.addEventListener('DOMContentLoaded', loadSettings);
+      
+      // Save settings when changed
+      document.querySelectorAll('#pingHost, #pingCount, #pingInterval, #pingTimeout')
+        .forEach(input => input.addEventListener('change', saveSettings));
     }
 
     // Initialize everything when DOM is loaded
@@ -1223,8 +1700,5 @@
       initNetworkTools();
     });
   </script>
-  
-  <!-- Shared JavaScript -->
-  <script src="/js/main.js"></script>
 </body>
 </html>
