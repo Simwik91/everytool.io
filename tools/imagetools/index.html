@@ -733,6 +733,50 @@
         padding: 20px;
       }
     }
+    
+    /* === NEW STYLES FOR COLOR VALUE DISPLAYS === */
+    .color-values {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+      margin-top: 20px;
+      width: 100%;
+    }
+    
+    .color-value-box {
+      background: white;
+      border-radius: var(--border-radius);
+      border: 1px solid var(--light-gray);
+      padding: 10px 15px;
+      min-width: 150px;
+      text-align: center;
+    }
+    
+    .color-value-title {
+      font-size: 0.9rem;
+      color: var(--gray);
+      margin-bottom: 5px;
+    }
+    
+    .color-value-content {
+      font-size: 1.1rem;
+      font-weight: 600;
+      font-family: monospace;
+      word-break: break-all;
+    }
+    
+    @media (max-width: 768px) {
+      .color-values {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .color-value-box {
+        width: 100%;
+        max-width: 250px;
+      }
+    }
   </style>
   
   <!-- Image Toolkit Specific Styles -->
@@ -1055,17 +1099,6 @@
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
 
-    .color-value {
-      font-size: 1.2rem;
-      font-weight: 600;
-      font-family: monospace;
-      padding: 10px 15px;
-      background: white;
-      border-radius: var(--border-radius);
-      border: 1px solid var(--light-gray);
-      margin-top: 10px;
-    }
-
     /* Responsive Design for Image Toolkit */
     @media (max-width: 768px) {
       .card {
@@ -1283,7 +1316,20 @@
         <canvas id="colorCanvas" width="300" height="200"></canvas>
         <div class="color-picker-container">
           <div class="color-display" id="colorDisplay"></div>
-          <div class="color-value" id="colorValue">#000000</div>
+          <div class="color-values">
+            <div class="color-value-box">
+              <div class="color-value-title">HEX</div>
+              <div class="color-value-content" id="colorValueHex">#000000</div>
+            </div>
+            <div class="color-value-box">
+              <div class="color-value-title">RGB</div>
+              <div class="color-value-content" id="colorValueRgb">rgb(0, 0, 0)</div>
+            </div>
+            <div class="color-value-box">
+              <div class="color-value-title">HSL</div>
+              <div class="color-value-content" id="colorValueHsl">hsl(0, 0%, 0%)</div>
+            </div>
+          </div>
         </div>
         <div class="btn-group">
           <button id="resetColor" style="display: none;">
@@ -1852,7 +1898,40 @@
         return hex.length === 1 ? "0" + hex : hex;
       }).join("");
     }
+    
+    // NEW: RGB to HSL conversion function
+    function rgbToHsl(r, g, b) {
+      r /= 255;
+      g /= 255;
+      b /= 255;
+      
+      const max = Math.max(r, g, b);
+      const min = Math.min(r, g, b);
+      let h, s, l = (max + min) / 2;
+      
+      if (max === min) {
+        h = s = 0; // achromatic
+      } else {
+        const d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        
+        switch (max) {
+          case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+          case g: h = (b - r) / d + 2; break;
+          case b: h = (r - g) / d + 4; break;
+        }
+        
+        h /= 6;
+      }
+      
+      return [
+        Math.round(h * 360),
+        Math.round(s * 100),
+        Math.round(l * 100)
+      ];
+    }
 
+    // MODIFIED: handleColorPick function
     function handleColorPick(event, canvas, image) {
       const rect = canvas.getBoundingClientRect();
       const pixelRatio = window.devicePixelRatio || 1;
@@ -1884,12 +1963,20 @@
       // Convert to HEX
       const hex = rgbToHex(r, g, b);
       
+      // Convert to RGB
+      const rgb = `rgb(${r}, ${g}, ${b})`;
+      
+      // Convert to HSL
+      const [h, s, l] = rgbToHsl(r, g, b);
+      const hsl = `hsl(${h}, ${s}%, ${l}%)`;
+      
       // Update the display
       const colorDisplay = document.getElementById('colorDisplay');
-      const colorValue = document.getElementById('colorValue');
       
       colorDisplay.style.backgroundColor = hex;
-      colorValue.textContent = hex;
+      document.getElementById('colorValueHex').textContent = hex;
+      document.getElementById('colorValueRgb').textContent = rgb;
+      document.getElementById('colorValueHsl').textContent = hsl;
       
       // Show success message
       showSuccess(document.getElementById('color-success'), `Color picked: ${hex}`);
