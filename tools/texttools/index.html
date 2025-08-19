@@ -3,118 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Free Network Tools: Ping, traceroute, DNS lookup, IP information and more. Fast, private network utilities. No signup required.">
-  <meta name="keywords" content="network tools, ping tool, traceroute, dns lookup, ip information, network diagnostics">
+  <meta name="description" content="Free Text Toolkit: Convert, count, and format text. Case conversion, encoding, password generation and more. Fast, free, no signup required.">
+  <meta name="keywords" content="text converter, text formatter, password generator, free text toolkit, case converter, URL encoder">
   <meta name="robots" content="index, follow">
-  <meta property="og:title" content="Free Network Tools">
-  <meta property="og:description" content="Powerful network utilities including ping, traceroute, DNS lookup and IP information. All processing happens in your browser.">
+  <meta property="og:title" content="Free Text Toolkit - EveryTool.io">
+  <meta property="og:description" content="Easily convert, count, and format text with multiple tools. Free, fast, and no signup required.">
   <meta property="og:type" content="website">
-  <title>Network Tools</title>
+  <title>Free Text Toolkit - EveryTool.io</title>
   
   <!-- Performance Optimization -->
   <link rel="preconnect" href="https://cdnjs.cloudflare.com">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.rel='stylesheet'">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
-  <!-- Chart.js -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.min.css">
+  <!-- Shared CSS -->
+  <link rel="stylesheet" href="/css/styles.css">
   
+  <!-- Text Tools Specific Styles -->
   <style>
-    :root {
-      --primary: #4361ee;
-      --primary-dark: #3a56d4;
-      --secondary: #7209b7;
-      --dark: #333;
-      --light: #fff;
-      --light-gray: #f8f9fa;
-      --gray: #6c757d;
-      --border-radius: 12px;
-      --box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-      --transition: all 0.3s ease;
-    }
-    
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-    
-    body {
-      font-family: 'Poppins', sans-serif;
-      line-height: 1.6;
-      color: #333;
-      background-color: #f5f7ff;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-    
-    .container {
-      width: 100%;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-      flex: 1;
-    }
-    
-    /* Header Styles */
-    header {
-      background: linear-gradient(135deg, #1a2980, #26d0ce);
-      color: white;
-      padding: 15px 0;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
-    
-    .header-content {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 20px;
-    }
-    
-    .logo {
-      font-size: 1.8rem;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    
-    .logo i {
-      font-size: 2rem;
-    }
-    
-    nav ul {
-      display: flex;
-      list-style: none;
-      gap: 25px;
-    }
-    
-    nav a {
-      color: white;
-      text-decoration: none;
-      font-weight: 500;
-      transition: var(--transition);
-      padding: 8px 12px;
-      border-radius: 8px;
-    }
-    
-    nav a:hover {
-      background: rgba(255, 255, 255, 0.15);
-    }
-    
-    /* Network Tools Specific Styles */
+    /* Text Tools Specific Styles */
     .hero {
       padding: 60px 0 40px;
       text-align: center;
-      background: linear-gradient(135deg, #1a2980, #26d0ce);
-      color: white;
-    }
-    
-    .hero, .hero * {
-      color: white !important;
     }
 
     .hero-content {
@@ -126,15 +38,19 @@
       font-size: 2.5rem;
       margin-bottom: 20px;
       font-weight: 700;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1.2;
     }
 
     .hero p {
       font-size: 1.2rem;
+      color: var(--gray);
       margin-bottom: 40px;
       max-width: 700px;
       margin-left: auto;
       margin-right: auto;
-      opacity: 0.9;
     }
     
     .card {
@@ -230,20 +146,7 @@
       color: var(--dark);
     }
     
-    input, select, button {
-      margin: 0.5em auto;
-      padding: 15px;
-      width: 100%;
-      font-size: 1rem;
-      border-radius: 10px;
-      border: 1px solid var(--light-gray);
-      background: var(--light);
-      display: block;
-      transition: var(--transition);
-      font-family: 'Poppins', sans-serif;
-    }
-    
-    textarea {
+    textarea, input, select, button {
       margin: 0.5em auto;
       padding: 15px;
       width: 100%;
@@ -255,6 +158,9 @@
       transition: var(--transition);
       font-family: 'Poppins', sans-serif;
       resize: vertical;
+    }
+    
+    textarea {
       min-height: 150px;
     }
     
@@ -354,30 +260,116 @@
       border-left: 4px solid #27ae60;
     }
     
-    /* Ping Results */
-    .ping-results {
-      margin-top: 20px;
+    /* Features grid - 2 cards per row */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 25px;
+      margin: 30px 0;
+    }
+    
+    .feature {
+      background: var(--light);
+      border-radius: var(--border-radius);
+      padding: 25px;
+      text-align: center;
+      box-shadow: var(--box-shadow);
+      transition: var(--transition);
+    }
+    
+    .feature:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    }
+    
+    .feature i {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      color: var(--primary);
+    }
+    
+    .guide-section {
+      background: var(--light);
+      border-radius: var(--border-radius);
+      padding: 40px;
+      margin: 40px auto;
+      box-shadow: var(--box-shadow);
+      text-align: center;
+    }
+    
+    .guide-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+      margin-top: 25px;
+    }
+    
+    .guide-item {
+      padding: 25px;
       background: #f8f9ff;
       border-radius: var(--border-radius);
-      padding: 20px;
-      max-height: 400px;
-      overflow-y: auto;
-      font-family: monospace;
+      text-align: center;
+      font-size: 14px;
     }
     
-    .ping-item {
-      padding: 10px;
-      border-bottom: 1px solid #eee;
+    .guide-item h3 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      color: var(--primary);
       display: flex;
-      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      justify-content: center;
     }
     
-    .ping-success {
-      color: #27ae60;
+    .guide-item h3 i {
+      font-size: 1.8rem;
     }
     
-    .ping-failure {
-      color: #e74c3c;
+    .guide-item p {
+      font-size: 1rem;
+      color: var(--gray);
+    }
+    
+    /* Practical Uses section - 4 cards per row, white text */
+    .uses-section {
+      background: linear-gradient(135deg, #4361ee, #7209b7);
+      color: white;
+      border-radius: var(--border-radius);
+      padding: 40px;
+      margin: 40px auto;
+      box-shadow: var(--box-shadow);
+      text-align: center;
+    }
+    
+    .uses-section, 
+    .uses-section * {
+      color: white !important;
+    }
+    
+    .uses-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-top: 25px;
+    }
+    
+    .use-item {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: var(--border-radius);
+      padding: 25px;
+      text-align: center;
+      backdrop-filter: blur(5px);
+    }
+    
+    .use-item i {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+    
+    .use-item h3 {
+      font-size: 1.3rem;
+      margin-bottom: 15px;
     }
     
     .tool-row {
@@ -390,206 +382,239 @@
       flex: 1;
     }
     
-    /* Status indicators */
-    .status-indicator {
-      display: inline-block;
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      margin-right: 8px;
-    }
-    
-    .status-up {
-      background-color: #27ae60;
-    }
-    
-    .status-down {
-      background-color: #e74c3c;
-    }
-    
-    /* Loading spinner */
-    .loading {
-      display: none;
-      text-align: center;
-      padding: 10px;
-      font-size: 1rem;
-      color: var(--primary);
-    }
-    
-    .loading.active {
-      display: block;
-    }
-    
-    .chart-container {
-      margin: 20px 0;
-      height: 200px;
-    }
-    
-    .sr-only {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      border: 0;
-    }
-    
-    .tooltip {
-      position: relative;
-      display: inline-block;
-    }
-    
-    .tooltip .tooltip-text {
-      visibility: hidden;
-      width: 200px;
-      background-color: #333;
-      color: #fff;
-      text-align: center;
-      border-radius: 6px;
-      padding: 10px;
-      position: absolute;
-      z-index: 1;
-      bottom: 125%;
-      left: 50%;
-      transform: translateX(-50%);
-      opacity: 0;
-      transition: opacity 0.3s;
-      font-size: 0.9rem;
-      font-weight: normal;
-    }
-    
-    .tooltip:hover .tooltip-text {
-      visibility: visible;
-      opacity: 1;
-    }
-    
-    /* Footer Styles */
-    footer {
-      background: linear-gradient(135deg, #1a2980, #26d0ce);
-      color: white;
-      padding: 40px 0 20px;
-      margin-top: 50px;
-    }
-    
-    .footer-content {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      gap: 30px;
-      margin-bottom: 30px;
-    }
-    
-    .footer-section {
-      flex: 1;
-      min-width: 200px;
-    }
-    
-    .footer-section h3 {
-      font-size: 1.4rem;
+    .formatter-options {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
       margin-bottom: 20px;
-      color: white;
-      display: flex;
-      align-items: center;
-      gap: 10px;
     }
     
-    .footer-links {
-      list-style: none;
-    }
-    
-    .footer-links li {
-      margin-bottom: 10px;
-    }
-    
-    .footer-links a {
-      color: rgba(255, 255, 255, 0.8);
-      text-decoration: none;
-      transition: var(--transition);
-    }
-    
-    .footer-links a:hover {
-      color: white;
-      padding-left: 5px;
-    }
-    
-    .footer-bottom {
-      text-align: center;
-      padding-top: 20px;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    
-    /* Cookie Consent Styles */
-    #cookie-consent {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: white;
-      color: #333;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
-      width: 90%;
-      max-width: 600px;
-      z-index: 1000;
-      display: none;
-    }
-    
-    .cookie-content {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
-    
-    .cookie-text {
-      line-height: 1.6;
-    }
-    
-    .cookie-buttons {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    
-    .cookie-btn {
-      padding: 10px 20px;
-      border-radius: 5px;
-      border: none;
+    .formatter-option {
+      background: #f0f4ff;
+      padding: 15px;
+      border-radius: var(--border-radius);
       cursor: pointer;
-      font-weight: 600;
+      text-align: center;
       transition: var(--transition);
     }
     
-    .reject-btn {
-      background: #e0e0e0;
-      color: #333;
+    .formatter-option:hover {
+      background: #dbe4ff;
     }
     
-    .accept-btn {
+    .formatter-option.active {
       background: var(--primary);
       color: white;
     }
     
-    .cookie-settings-btn {
-      background: none;
-      border: none;
-      color: var(--primary);
-      text-decoration: underline;
+    .file-upload-area {
+      border: 2px dashed #ddd;
+      border-radius: var(--border-radius);
+      padding: 30px;
+      text-align: center;
+      margin-bottom: 20px;
       cursor: pointer;
-      padding: 5px 0;
-      align-self: flex-start;
+      transition: var(--transition);
     }
     
-    /* Responsive Design */
+    .file-upload-area:hover {
+      border-color: var(--primary);
+      background: #f8f9ff;
+    }
+    
+    .file-upload-area i {
+      font-size: 3rem;
+      color: var(--primary);
+      margin-bottom: 15px;
+    }
+    
+    .file-upload-area input {
+      display: none;
+    }
+    
+    .keyword-results {
+      margin-top: 20px;
+      background: #f8f9ff;
+      border-radius: var(--border-radius);
+      padding: 20px;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    
+    .keyword-item {
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      justify-content: space-between;
+    }
+    
+    .keyword-count {
+      background: var(--primary);
+      color: white;
+      border-radius: 20px;
+      padding: 2px 10px;
+      font-size: 0.9rem;
+    }
+    
+    .emoji-selector {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    
+    .emoji-item {
+      font-size: 2rem;
+      cursor: pointer;
+      transition: var(--transition);
+      padding: 5px;
+      border-radius: 8px;
+    }
+    
+    .emoji-item:hover {
+      background: #f0f4ff;
+      transform: scale(1.2);
+    }
+    
+    /* New Tool Styles */
+    .range-container {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    
+    .range-container input[type="range"] {
+      flex: 1;
+      margin: 0;
+    }
+    
+    .range-container span {
+      min-width: 40px;
+      text-align: center;
+      font-weight: bold;
+    }
+    
+    .diff-container {
+      margin-top: 20px;
+      padding: 20px;
+      background: #f8f9ff;
+      border-radius: var(--border-radius);
+      max-height: 300px;
+      overflow-y: auto;
+      font-family: monospace;
+      white-space: pre-wrap;
+    }
+    
+    .diff-added {
+      background-color: rgba(46, 204, 113, 0.2);
+      text-decoration: none;
+    }
+    
+    .diff-removed {
+      background-color: rgba(231, 76, 60, 0.2);
+      text-decoration: line-through;
+    }
+    
+    .regex-patterns {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    
+    .regex-pattern {
+      padding: 8px 12px;
+      background: #e0e7ff;
+      border-radius: 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .regex-pattern:hover {
+      background: #d0d9ff;
+    }
+    
+    .regex-results {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f0f4ff;
+      border-radius: var(--border-radius);
+      max-height: 300px;
+      overflow-y: auto;
+      font-family: monospace;
+    }
+    
+    .regex-match {
+      padding: 5px;
+      margin-bottom: 5px;
+      background: #dbe4ff;
+      border-radius: 5px;
+    }
+    
+    .regex-group {
+      display: inline-block;
+      margin: 2px;
+      padding: 2px 4px;
+      background: #a5b4fc;
+      border-radius: 3px;
+    }
+    
+    .transformer-options {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    
+    .transformer-option {
+      padding: 12px;
+      background: #f0f4ff;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .transformer-option:hover {
+      background: #dbe4ff;
+    }
+    
+    .transformer-option.active {
+      background: var(--primary);
+      color: white;
+    }
+    
+    /* Responsive Design for Text Tools */
     @media (max-width: 992px) {
+      .guide-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .features {
+        grid-template-columns: 1fr;
+      }
+      
+      .uses-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
       .tool-row {
         flex-direction: column;
       }
       
-      .footer-content {
-        flex-direction: column;
+      .formatter-options {
+        grid-template-columns: 1fr;
+      }
+      
+      .transformer-options {
+        grid-template-columns: 1fr;
+      }
+      
+      .regex-patterns {
+        grid-template-columns: repeat(2, 1fr);
       }
     }
 
@@ -598,9 +623,17 @@
         font-size: 2rem;
       }
       
+      .section-title {
+        font-size: 2rem;
+      }
+      
       .tab {
         padding: 10px 15px;
         font-size: 0.9rem;
+      }
+      
+      .guide-section, .uses-section {
+        padding: 25px;
       }
       
       .btn-group {
@@ -611,14 +644,8 @@
         width: 100%;
       }
       
-      .header-content {
-        flex-direction: column;
-        gap: 20px;
-      }
-      
-      nav ul {
-        flex-wrap: wrap;
-        justify-content: center;
+      .uses-grid {
+        grid-template-columns: 1fr;
       }
     }
 
@@ -646,30 +673,17 @@
   </style>
 </head>
 <body>
-  <!-- Header -->
-  <header>
-    <div class="container header-content">
-      <div class="logo">
-        <i class="fas fa-network-wired"></i>
-        <span>NetworkTools.io</span>
-      </div>
-      <nav>
-        <ul>
-          <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
-          <li><a href="#"><i class="fas fa-tools"></i> Tools</a></li>
-          <li><a href="#"><i class="fas fa-info-circle"></i> About</a></li>
-          <li><a href="#"><i class="fas fa-envelope"></i> Contact</a></li>
-        </ul>
-      </nav>
-    </div>
+  <!-- Header Placeholder -->
+  <header id="main-header">
+    <p class="error-message" style="display: none; color: red; text-align: center;">Failed to load header. Please try refreshing the page.</p>
   </header>
 
   <!-- Hero Section -->
   <section class="hero">
     <div class="container">
       <div class="hero-content">
-        <h1>Network Tools</h1>
-        <p>Diagnose and troubleshoot network issues with our privacy-focused toolkit. All processing happens in your browser - no data leaves your device.</p>
+        <h1>Text Tools</h1>
+        <p>Convert, count, and format text with our comprehensive toolkit. All processing happens in your browser - your text never leaves your device.</p>
       </div>
     </div>
   </section>
@@ -677,333 +691,484 @@
   <div class="container">
     <div class="card">
       <div class="tabs" role="tablist">
-        <div class="tab active" data-tab="ping" role="tab" aria-selected="true" tabindex="0" aria-controls="ping-tab">
-          <i class="fas fa-satellite-dish"></i> Ping Tool
+        <div class="tab active" data-tab="case" role="tab" aria-selected="true" tabindex="0">
+          <i class="fas fa-font"></i> Case
         </div>
-        <div class="tab" data-tab="traceroute" role="tab" aria-selected="false" tabindex="0" aria-controls="traceroute-tab">
-          <i class="fas fa-route"></i> Traceroute
+        <div class="tab" data-tab="reverse" role="tab" aria-selected="false" tabindex="0">
+          <i class="fas fa-exchange-alt"></i> Reverse
         </div>
-        <div class="tab" data-tab="dns" role="tab" aria-selected="false" tabindex="0" aria-controls="dns-tab">
-          <i class="fas fa-globe"></i> DNS Lookup
+        <div class="tab" data-tab="counter" role="tab" aria-selected="false" tabindex="0">
+          <i class="fas fa-calculator"></i> Counter
         </div>
-        <div class="tab" data-tab="ipinfo" role="tab" aria-selected="false" tabindex="0" aria-controls="ipinfo-tab">
-          <i class="fas fa-info-circle"></i> IP Information
+        <div class="tab" data-tab="encoder" role="tab" aria-selected="false" tabindex="0">
+          <i class="fas fa-code"></i> Encoder
         </div>
-        <div class="tab" data-tab="headers" role="tab" aria-selected="false" tabindex="0" aria-controls="headers-tab">
-          <i class="fas fa-code"></i> HTTP Headers
+        <div class="tab" data-tab="cleaner" role="tab" aria-selected="false" tabindex="0">
+          <i class="fas fa-broom"></i> Cleaner
+        </div>
+        <div class="tab" data-tab="password" role="tab" aria-selected="false" tabindex="0">
+          <i class="fas fa-key"></i> Password
+        </div>
+        <div class="tab" data-tab="slug" role="tab" aria-selected="false" tabindex="0">
+          <i class="fas fa-link"></i> Slug
+        </div>
+        <!-- New Tools Tabs -->
+        <div class="tab" data-tab="summarizer" role="tab" aria-selected="false" tabindex="0">
+          <i class="fas fa-file-contract"></i> Summarizer
+        </div>
+        <div class="tab" data-tab="regex" role="tab" aria-selected="false" tabindex="0">
+          <i class="fas fa-terminal"></i> Regex Tester
+        </div>
+        <div class="tab" data-tab="bulk" role="tab" aria-selected="false" tabindex="0">
+          <i class="fas fa-list"></i> Bulk Transformer
+        </div>
+        <div class="tab" data-tab="diff" role="tab" aria-selected="false" tabindex="0">
+          <i class="fas fa-code-compare"></i> Diff Checker
         </div>
       </div>
 
-      <!-- Ping Tool -->
-      <div class="tab-content active" id="ping-tab" role="tabpanel">
-        <h2><i class="fas fa-satellite-dish"></i> Ping Utility</h2>
-        <p><i>Check connectivity and measure latency to any host. All pings are performed from your browser.</i></p>
-        <div class="error" id="ping-error"></div>
-        <div class="loading" id="pingLoading">
-          <i class="fas fa-spinner fa-spin"></i> Pinging...
-        </div>
+      <!-- Case Converter -->
+      <div class="tab-content active" id="case-tab" role="tabpanel">
+        <h2><i class="fas fa-font"></i> Text Case Converter</h2>
+        <p><i>Convert text to uppercase, lowercase, title case, or sentence case.</i></p>
         
-        <div class="tool-row">
-          <div class="tool-col">
-            <label for="pingHost">Host to Ping:</label>
-            <input type="text" id="pingHost" placeholder="example.com or 192.168.1.1" value="example.com" aria-describedby="pingHostHelp">
-            <p id="pingHostHelp" class="sr-only">Enter a valid hostname or IP address to ping.</p>
-          </div>
-          <div class="tool-col">
-            <label for="pingCount">Number of Pings:</label>
-            <select id="pingCount">
-              <option value="5">5 pings</option>
-              <option value="10" selected>10 pings</option>
-              <option value="20">20 pings</option>
-              <option value="continuous">Continuous</option>
-            </select>
-          </div>
-        </div>
-        
-        <div class="tool-row">
-          <div class="tool-col">
-            <label for="pingInterval">Interval (seconds):</label>
-            <input type="number" id="pingInterval" min="1" max="60" value="5">
-          </div>
-          <div class="tool-col">
-            <label for="pingTimeout">Timeout (ms):</label>
-            <input type="number" id="pingTimeout" min="500" max="10000" value="2000">
-          </div>
-        </div>
+        <label for="caseInput">Enter your text:</label>
+        <textarea id="caseInput" placeholder="Type or paste your text here..."></textarea>
         
         <div class="btn-group">
-          <button id="startPingBtn">
-            <i class="fas fa-play"></i> Start Pinging
+          <button id="upperCaseBtn">
+            <i class="fas fa-text-height"></i> UPPERCASE
           </button>
-          <button id="stopPingBtn" disabled>
-            <i class="fas fa-stop"></i> Stop
+          <button id="lowerCaseBtn">
+            <i class="fas fa-text-height"></i> lowercase
           </button>
-          <button id="clearPingBtn">
-            <i class="fas fa-trash"></i> Clear Log
+          <button id="titleCaseBtn">
+            <i class="fas fa-heading"></i> Title Case
           </button>
-          <button id="exportPingBtn">
-            <i class="fas fa-download"></i> Export Results
+          <button id="sentenceCaseBtn">
+            <i class="fas fa-font"></i> Sentence case
           </button>
         </div>
+        
+        <label for="caseOutput">Converted text:</label>
+        <textarea id="caseOutput" readonly placeholder="Converted text will appear here..."></textarea>
+        
+        <div class="btn-group">
+          <button id="copyCaseBtn">
+            <i class="fas fa-copy"></i> Copy to Clipboard
+          </button>
+          <button id="clearCaseBtn">
+            <i class="fas fa-trash"></i> Clear All
+          </button>
+        </div>
+      </div>
+
+      <!-- Text Reverser -->
+      <div class="tab-content" id="reverse-tab" role="tabpanel">
+        <h2><i class="fas fa-exchange-alt"></i> Text Reverser</h2>
+        <p><i>Reverse your text character by character or word by word.</i></p>
+        
+        <label for="reverseInput">Enter your text:</label>
+        <textarea id="reverseInput" placeholder="Type or paste your text here..."></textarea>
+        
+        <div class="btn-group">
+          <button id="reverseCharsBtn">
+            <i class="fas fa-exchange-alt"></i> Reverse Characters
+          </button>
+          <button id="reverseWordsBtn">
+            <i class="fas fa-exchange-alt"></i> Reverse Words
+          </button>
+        </div>
+        
+        <label for="reverseOutput">Reversed text:</label>
+        <textarea id="reverseOutput" readonly placeholder="Reversed text will appear here..."></textarea>
+        
+        <div class="btn-group">
+          <button id="copyReverseBtn">
+            <i class="fas fa-copy"></i> Copy to Clipboard
+          </button>
+          <button id="clearReverseBtn">
+            <i class="fas fa-trash"></i> Clear All
+          </button>
+        </div>
+      </div>
+
+      <!-- Character Counter -->
+      <div class="tab-content" id="counter-tab" role="tabpanel">
+        <h2><i class="fas fa-calculator"></i> Character & Word Counter</h2>
+        <p><i>Count characters, words, sentences, lines, and more in your text.</i></p>
+        
+        <label for="counterInput">Enter your text:</label>
+        <textarea id="counterInput" placeholder="Type or paste your text here..."></textarea>
         
         <div class="stats">
           <div class="stat-card">
-            <div class="stat-value" id="sentCount">0</div>
-            <div class="stat-label">Sent</div>
+            <div class="stat-value" id="charCount">0</div>
+            <div class="stat-label">Characters</div>
           </div>
           <div class="stat-card">
-            <div class="stat-value" id="receivedCount">0</div>
-            <div class="stat-label">Received</div>
+            <div class="stat-value" id="wordCount">0</div>
+            <div class="stat-label">Words</div>
           </div>
           <div class="stat-card">
-            <div class="stat-value" id="lossPercent">0%</div>
-            <div class="stat-label">Loss</div>
+            <div class="stat-value" id="lineCount">0</div>
+            <div class="stat-label">Lines</div>
           </div>
           <div class="stat-card">
-            <div class="stat-value" id="minPing">0ms</div>
-            <div class="stat-label">Min</div>
+            <div class="stat-value" id="sentenceCount">0</div>
+            <div class="stat-label">Sentences</div>
           </div>
           <div class="stat-card">
-            <div class="stat-value" id="maxPing">0ms</div>
-            <div class="stat-label">Max</div>
+            <div class="stat-value" id="paragraphCount">0</div>
+            <div class="stat-label">Paragraphs</div>
           </div>
           <div class="stat-card">
-            <div class="stat-value" id="avgPing">0ms</div>
-            <div class="stat-label">Avg</div>
-          </div>
-        </div>
-        
-        <div class="chart-container">
-          <canvas id="pingChart"></canvas>
-        </div>
-        
-        <h3>Ping Results</h3>
-        <div class="ping-results" id="pingResults">
-          <p>Ping results will appear here...</p>
-        </div>
-      </div>
-
-      <!-- Traceroute Tool -->
-      <div class="tab-content" id="traceroute-tab" role="tabpanel">
-        <h2><i class="fas fa-route"></i> Traceroute</h2>
-        <p><i>Trace the path to a host and measure latency at each hop.</i></p>
-        <div class="error" id="traceroute-error"></div>
-        <div class="loading" id="tracerouteLoading">
-          <i class="fas fa-spinner fa-spin"></i> Tracing route...
-        </div>
-        
-        <div class="tool-row">
-          <div class="tool-col">
-            <label for="traceHost">Host to Trace:</label>
-            <input type="text" id="traceHost" placeholder="example.com or 192.168.1.1" value="example.com" aria-describedby="traceHostHelp">
-            <p id="traceHostHelp" class="sr-only">Enter a valid hostname or IP address to trace.</p>
-          </div>
-          <div class="tool-col">
-            <label for="maxHops">Max Hops:</label>
-            <input type="number" id="maxHops" min="1" max="64" value="30">
+            <div class="stat-value" id="readingTime">0s</div>
+            <div class="stat-label">Reading Time</div>
           </div>
         </div>
         
         <div class="btn-group">
-          <button id="startTraceBtn">
-            <i class="fas fa-play"></i> Start Trace
+          <button id="clearCounterBtn">
+            <i class="fas fa-trash"></i> Clear Text
           </button>
-          <button id="stopTraceBtn" disabled>
-            <i class="fas fa-stop"></i> Stop
-          </button>
-          <button id="clearTraceBtn">
-            <i class="fas fa-trash"></i> Clear
-          </button>
-        </div>
-        
-        <h3>Traceroute Results</h3>
-        <div class="ping-results" id="traceResults">
-          <p>Traceroute results will appear here...</p>
         </div>
       </div>
 
-      <!-- DNS Lookup -->
-      <div class="tab-content" id="dns-tab" role="tabpanel">
-        <h2><i class="fas fa-globe"></i> DNS Lookup</h2>
-        <p><i>Look up DNS records for any domain name.</i></p>
-        <div class="error" id="dns-error"></div>
-        <div class="loading" id="dnsLoading">
-          <i class="fas fa-spinner fa-spin"></i> Looking up DNS records...
+      <!-- URL Encoder/Decoder -->
+      <div class="tab-content" id="encoder-tab" role="tabpanel">
+        <h2><i class="fas fa-code"></i> URL Encoder/Decoder</h2>
+        <p><i>Encode text for safe URLs or decode encoded URLs back to normal text.</i></p>
+        
+        <label for="encoderInput">Enter your text:</label>
+        <textarea id="encoderInput" placeholder="Type or paste your text here..."></textarea>
+        
+        <div class="btn-group">
+          <button id="encodeBtn">
+            <i class="fas fa-lock"></i> Encode URL
+          </button>
+          <button id="decodeBtn">
+            <i class="fas fa-lock-open"></i> Decode URL
+          </button>
+          <button id="base64EncodeBtn">
+            <i class="fas fa-lock"></i> Encode Base64
+          </button>
+          <button id="base64DecodeBtn">
+            <i class="fas fa-lock-open"></i> Decode Base64
+          </button>
         </div>
         
-        <div class="tool-row">
-          <div class="tool-col">
-            <label for="dnsDomain">Domain Name:</label>
-            <input type="text" id="dnsDomain" placeholder="example.com" value="example.com" aria-describedby="dnsDomainHelp">
-            <p id="dnsDomainHelp" class="sr-only">Enter a valid domain name to look up DNS records.</p>
+        <label for="encoderOutput">Result:</label>
+        <textarea id="encoderOutput" readonly placeholder="Encoded/decoded text will appear here..."></textarea>
+        
+        <div class="btn-group">
+          <button id="copyEncoderBtn">
+            <i class="fas fa-copy"></i> Copy to Clipboard
+          </button>
+          <button id="clearEncoderBtn">
+            <i class="fas fa-trash"></i> Clear All
+          </button>
+        </div>
+      </div>
+      
+      <!-- Text Cleaner -->
+      <div class="tab-content" id="cleaner-tab" role="tabpanel">
+        <h2><i class="fas fa-broom"></i> Text Cleaner</h2>
+        <p><i>Clean and format your text with advanced options.</i></p>
+        
+        <label for="cleanerInput">Enter your text:</label>
+        <textarea id="cleanerInput" placeholder="Type or paste your text here..."></textarea>
+        
+        <div class="formatter-options">
+          <div class="formatter-option active" data-option="all">
+            <i class="fas fa-broom"></i> Clean All
           </div>
-          <div class="tool-col">
-            <label for="dnsType">Record Type:</label>
-            <select id="dnsType">
-              <option value="A">A (Address)</option>
-              <option value="AAAA">AAAA (IPv6 Address)</option>
-              <option value="CNAME">CNAME (Canonical Name)</option>
-              <option value="MX">MX (Mail Exchange)</option>
-              <option value="TXT">TXT (Text Record)</option>
-              <option value="NS">NS (Name Server)</option>
-              <option value="SOA">SOA (Start of Authority)</option>
-              <option value="ANY">ANY (All Records)</option>
-            </select>
+          <div class="formatter-option" data-option="spaces">
+            <i class="fas fa-minus"></i> Remove Extra Spaces
+          </div>
+          <div class="formatter-option" data-option="lines">
+            <i class="fas fa-align-left"></i> Remove Line Breaks
+          </div>
+          <div class="formatter-option" data-option="html">
+            <i class="fas fa-code"></i> Remove HTML Tags
+          </div>
+          <div class="formatter-option" data-option="duplicates">
+            <i class="fas fa-copy"></i> Remove Duplicate Lines
+          </div>
+          <div class="formatter-option" data-option="quotes">
+            <i class="fas fa-quote-right"></i> Convert Smart Quotes
           </div>
         </div>
         
-        <button id="lookupDnsBtn">
-          <i class="fas fa-search"></i> Lookup DNS Records
+        <button id="cleanBtn">
+          <i class="fas fa-magic"></i> Clean Text
         </button>
         
-        <h3>DNS Results</h3>
-        <div class="ping-results" id="dnsResults">
-          <p>DNS records will appear here...</p>
-        </div>
-      </div>
-
-      <!-- IP Information -->
-      <div class="tab-content" id="ipinfo-tab" role="tabpanel">
-        <h2><i class="fas fa-info-circle"></i> IP Information</h2>
-        <p><i>Get detailed information about your public IP address.</i></p>
-        <div class="error" id="ipinfo-error"></div>
-        <div class="loading" id="ipinfoLoading">
-          <i class="fas fa-spinner fa-spin"></i> Retrieving IP information...
-        </div>
+        <label for="cleanerOutput">Cleaned text:</label>
+        <textarea id="cleanerOutput" readonly placeholder="Cleaned text will appear here..."></textarea>
         
         <div class="btn-group">
-          <button id="getIpInfoBtn">
-            <i class="fas fa-network-wired"></i> Get My IP Information
+          <button id="copyCleanerBtn">
+            <i class="fas fa-copy"></i> Copy to Clipboard
+          </button>
+          <button id="clearCleanerBtn">
+            <i class="fas fa-trash"></i> Clear All
           </button>
         </div>
-        
-        <h3>Network Information</h3>
-        <div id="ipInfoResults">
-          <div class="tool-row">
-            <div class="tool-col">
-              <div class="stat-card">
-                <div class="stat-label">Public IP Address</div>
-                <div class="stat-value" id="ipAddress">-</div>
-              </div>
-              <div class="stat-card">
-                <div class="stat-label">City</div>
-                <div class="stat-value" id="ipCity">-</div>
-              </div>
-              <div class="stat-card">
-                <div class="stat-label">Region</div>
-                <div class="stat-value" id="ipRegion">-</div>
-              </div>
-            </div>
-            <div class="tool-col">
-              <div class="stat-card">
-                <div class="stat-label">Country</div>
-                <div class="stat-value" id="ipCountry">-</div>
-              </div>
-              <div class="stat-card">
-                <div class="stat-label">ISP</div>
-                <div class="stat-value" id="ipIsp">-</div>
-              </div>
-              <div class="stat-card">
-                <div class="stat-label">Time Zone</div>
-                <div class="stat-value" id="ipTimezone">-</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <h3>Network Status</h3>
-        <div id="networkStatus">
-          <div class="tool-row">
-            <div class="tool-col">
-              <div class="stat-card">
-                <div class="stat-label">Browser</div>
-                <div class="stat-value" id="browserInfo">-</div>
-              </div>
-            </div>
-            <div class="tool-col">
-              <div class="stat-card">
-                <div class="stat-label">Connection Type</div>
-                <div class="stat-value" id="connectionType">-</div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
-
-      <!-- HTTP Headers -->
-      <div class="tab-content" id="headers-tab" role="tabpanel">
-        <h2><i class="fas fa-code"></i> HTTP Headers</h2>
-        <p><i>Analyze HTTP headers for any URL.</i></p>
-        <div class="error" id="headers-error"></div>
-        <div class="loading" id="headersLoading">
-          <i class="fas fa-spinner fa-spin"></i> Analyzing headers...
-        </div>
+      
+      <!-- Password Generator -->
+      <div class="tab-content" id="password-tab" role="tabpanel">
+        <h2><i class="fas fa-key"></i> Password Generator</h2>
+        <p><i>Create strong, secure passwords with customizable options.</i></p>
         
         <div class="tool-row">
           <div class="tool-col">
-            <label for="headerUrl">URL to Analyze:</label>
-            <input type="text" id="headerUrl" placeholder="https://example.com" value="https://example.com" aria-describedby="headerUrlHelp">
-            <p id="headerUrlHelp" class="sr-only">Enter a valid URL starting with http:// or https://</p>
+            <label for="passwordLength">Password Length:</label>
+            <input type="range" id="passwordLength" min="8" max="32" value="12">
+            <div class="stat-value" id="lengthValue">12</div>
+          </div>
+          <div class="tool-col">
+            <label>Include:</label>
+            <div>
+              <input type="checkbox" id="uppercase" checked>
+              <label for="uppercase">Uppercase Letters</label>
+            </div>
+            <div>
+              <input type="checkbox" id="lowercase" checked>
+              <label for="lowercase">Lowercase Letters</label>
+            </div>
+            <div>
+              <input type="checkbox" id="numbers" checked>
+              <label for="numbers">Numbers</label>
+            </div>
+            <div>
+              <input type="checkbox" id="symbols" checked>
+              <label for="symbols">Symbols</label>
+            </div>
           </div>
         </div>
         
-        <div class="tool-row">
-          <div class="tool-col">
-            <label for="headerMethod">HTTP Method:</label>
-            <select id="headerMethod">
-              <option value="GET">GET</option>
-              <option value="HEAD">HEAD</option>
-            </select>
-          </div>
-        </div>
+        <button id="generatePasswordBtn">
+          <i class="fas fa-sync"></i> Generate Password
+        </button>
+        
+        <label for="passwordOutput">Generated Password:</label>
+        <input type="text" id="passwordOutput" readonly placeholder="Your password will appear here...">
         
         <div class="btn-group">
-          <button id="analyzeHeadersBtn">
-            <i class="fas fa-search"></i> Analyze Headers
+          <button id="copyPasswordBtn">
+            <i class="fas fa-copy"></i> Copy Password
+          </button>
+          <button id="passwordStrengthBtn">
+            <i class="fas fa-shield-alt"></i> Check Strength
           </button>
         </div>
         
-        <h3>HTTP Headers</h3>
-        <div class="ping-results" id="headerResults">
-          <p>HTTP headers will appear here...</p>
+        <div class="stat-card" style="margin-top: 20px;">
+          <div class="stat-label">Password Strength</div>
+          <div class="stat-value" id="passwordStrength">-</div>
+        </div>
+      </div>
+      
+      <!-- Text to Slug -->
+      <div class="tab-content" id="slug-tab" role="tabpanel">
+        <h2><i class="fas fa-link"></i> Text to Slug Converter</h2>
+        <p><i>Convert text to URL-friendly slugs for SEO and web addresses.</i></p>
+        
+        <label for="slugInput">Enter your text:</label>
+        <textarea id="slugInput" placeholder="Type or paste your text here..."></textarea>
+        
+        <button id="convertSlugBtn">
+          <i class="fas fa-link"></i> Convert to Slug
+        </button>
+        
+        <label for="slugOutput">Slug:</label>
+        <input type="text" id="slugOutput" readonly placeholder="URL slug will appear here...">
+        
+        <div class="btn-group">
+          <button id="copySlugBtn">
+            <i class="fas fa-copy"></i> Copy to Clipboard
+          </button>
+          <button id="clearSlugBtn">
+            <i class="fas fa-trash"></i> Clear All
+          </button>
+        </div>
+      </div>
+      
+      <!-- Text Summarizer -->
+      <div class="tab-content" id="summarizer-tab" role="tabpanel">
+        <h2><i class="fas fa-file-contract"></i> Text Summarizer</h2>
+        <p><i>Summarize long text into key sentences using advanced algorithms.</i></p>
+        
+        <label for="summarizerInput">Enter your text:</label>
+        <textarea id="summarizerInput" placeholder="Type or paste your text here..."></textarea>
+        
+        <div class="range-container">
+          <label for="summaryLength">Summary Length:</label>
+          <input type="range" id="summaryLength" min="1" max="10" value="3">
+          <span id="summaryLengthValue">3</span>
+        </div>
+        
+        <button id="summarizeBtn">
+          <i class="fas fa-compress-alt"></i> Summarize Text
+        </button>
+        
+        <label for="summarizerOutput">Summary:</label>
+        <textarea id="summarizerOutput" readonly placeholder="Summary will appear here..."></textarea>
+        
+        <div class="btn-group">
+          <button id="copySummarizerBtn">
+            <i class="fas fa-copy"></i> Copy to Clipboard
+          </button>
+          <button id="clearSummarizerBtn">
+            <i class="fas fa-trash"></i> Clear All
+          </button>
+        </div>
+      </div>
+      
+      <!-- Regex Tester -->
+      <div class="tab-content" id="regex-tab" role="tabpanel">
+        <h2><i class="fas fa-terminal"></i> Regex Tester</h2>
+        <p><i>Test and generate regular expressions with real-time feedback.</i></p>
+        
+        <div class="tool-row">
+          <div class="tool-col">
+            <label for="regexPattern">Regular Expression:</label>
+            <input type="text" id="regexPattern" placeholder="Enter your regex pattern...">
+          </div>
+          <div class="tool-col">
+            <label for="regexFlags">Flags:</label>
+            <input type="text" id="regexFlags" placeholder="g, i, m, etc.">
+          </div>
+        </div>
+        
+        <div class="regex-patterns">
+          <div class="regex-pattern" data-pattern="\\w+">Words</div>
+          <div class="regex-pattern" data-pattern="\\d+">Numbers</div>
+          <div class="regex-pattern" data-pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}">Email</div>
+          <div class="regex-pattern" data-pattern="https?:\\/\\/[^\\s]+">URL</div>
+          <div class="regex-pattern" data-pattern="\\b\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\b">IP Address</div>
+          <div class="regex-pattern" data-pattern="\\d{1,2}\\/\\d{1,2}\\/\\d{4}">Date (MM/DD/YYYY)</div>
+        </div>
+        
+        <label for="regexInput">Test String:</label>
+        <textarea id="regexInput" placeholder="Enter text to test your regex against..."></textarea>
+        
+        <button id="testRegexBtn">
+          <i class="fas fa-bolt"></i> Test Regex
+        </button>
+        
+        <div class="regex-results" id="regexResults">
+          <p>Results will appear here...</p>
+        </div>
+        
+        <div class="btn-group">
+          <button id="copyRegexBtn">
+            <i class="fas fa-copy"></i> Copy Pattern
+          </button>
+          <button id="clearRegexBtn">
+            <i class="fas fa-trash"></i> Clear All
+          </button>
+        </div>
+      </div>
+      
+      <!-- Bulk Text Transformer -->
+      <div class="tab-content" id="bulk-tab" role="tabpanel">
+        <h2><i class="fas fa-list"></i> Bulk Text Transformer</h2>
+        <p><i>Apply transformations to multiple lines of text at once.</i></p>
+        
+        <label for="bulkInput">Enter text (one item per line):</label>
+        <textarea id="bulkInput" placeholder="Enter your text items, one per line..."></textarea>
+        
+        <div class="transformer-options">
+          <div class="transformer-option active" data-operation="prefix">
+            <i class="fas fa-text-width"></i> Add Prefix
+          </div>
+          <div class="transformer-option" data-operation="suffix">
+            <i class="fas fa-text-width"></i> Add Suffix
+          </div>
+          <div class="transformer-option" data-operation="uppercase">
+            <i class="fas fa-text-height"></i> UPPERCASE
+          </div>
+          <div class="transformer-option" data-operation="lowercase">
+            <i class="fas fa-text-height"></i> lowercase
+          </div>
+          <div class="transformer-option" data-operation="sort">
+            <i class="fas fa-sort-alpha-down"></i> Sort Ascending
+          </div>
+          <div class="transformer-option" data-operation="sort-desc">
+            <i class="fas fa-sort-alpha-down-alt"></i> Sort Descending
+          </div>
+        </div>
+        
+        <div id="prefixSuffixInput" class="tool-row">
+          <div class="tool-col">
+            <label for="prefixText">Prefix:</label>
+            <input type="text" id="prefixText" placeholder="Enter prefix...">
+          </div>
+          <div class="tool-col">
+            <label for="suffixText">Suffix:</label>
+            <input type="text" id="suffixText" placeholder="Enter suffix...">
+          </div>
+        </div>
+        
+        <button id="transformBulkBtn">
+          <i class="fas fa-magic"></i> Transform Text
+        </button>
+        
+        <label for="bulkOutput">Transformed Text:</label>
+        <textarea id="bulkOutput" readonly placeholder="Transformed text will appear here..."></textarea>
+        
+        <div class="btn-group">
+          <button id="copyBulkBtn">
+            <i class="fas fa-copy"></i> Copy to Clipboard
+          </button>
+          <button id="clearBulkBtn">
+            <i class="fas fa-trash"></i> Clear All
+          </button>
+        </div>
+      </div>
+      
+      <!-- Text Diff Checker -->
+      <div class="tab-content" id="diff-tab" role="tabpanel">
+        <h2><i class="fas fa-code-compare"></i> Text Diff Checker</h2>
+        <p><i>Compare two text blocks and see the differences.</i></p>
+        
+        <div class="tool-row">
+          <div class="tool-col">
+            <label for="originalText">Original Text:</label>
+            <textarea id="originalText" placeholder="Enter original text..."></textarea>
+          </div>
+          <div class="tool-col">
+            <label for="changedText">Changed Text:</label>
+            <textarea id="changedText" placeholder="Enter modified text..."></textarea>
+          </div>
+        </div>
+        
+        <button id="compareTextBtn">
+          <i class="fas fa-exchange-alt"></i> Compare Texts
+        </button>
+        
+        <div class="diff-container" id="diffResults">
+          <p>Differences will appear here...</p>
+        </div>
+        
+        <div class="btn-group">
+          <button id="copyDiffBtn">
+            <i class="fas fa-copy"></i> Copy Diff
+          </button>
+          <button id="clearDiffBtn">
+            <i class="fas fa-trash"></i> Clear All
+          </button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Footer -->
-  <footer>
-    <div class="container">
-      <div class="footer-content">
-        <div class="footer-section">
-          <h3><i class="fas fa-network-wired"></i> NetworkTools.io</h3>
-          <p>Free network utilities that work directly in your browser. No data leaves your device.</p>
-        </div>
-        
-        <div class="footer-section">
-          <h3><i class="fas fa-link"></i> Quick Links</h3>
-          <ul class="footer-links">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Tools</a></li>
-            <li><a href="#">About Us</a></li>
-            <li><a href="#">Privacy Policy</a></li>
-          </ul>
-        </div>
-        
-        <div class="footer-section">
-          <h3><i class="fas fa-envelope"></i> Contact Us</h3>
-          <ul class="footer-links">
-            <li><a href="#"><i class="fas fa-envelope"></i> contact@networktools.io</a></li>
-            <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
-            <li><a href="#"><i class="fab fa-github"></i> GitHub</a></li>
-          </ul>
-        </div>
-      </div>
-      
-      <div class="footer-bottom">
-        <p>&copy; 2023 NetworkTools.io. All rights reserved.</p>
-      </div>
-    </div>
+  <!-- Footer Placeholder -->
+  <footer id="main-footer">
+    <p class="error-message" style="display: none; color: red; text-align: center;">Failed to load footer. Please try refreshing the page.</p>
   </footer>
 
   <!-- Cookie Consent Banner -->
@@ -1011,7 +1176,7 @@
     <div class="cookie-content">
       <div class="cookie-text">
         <p>We use cookies to enhance your experience. Essential cookies are always on, but you can choose whether to allow analytics and advertising cookies.</p>
-        <p>Learn more in our <a href="#" aria-label="Privacy Policy">Privacy Policy</a>.</p>
+        <p>Learn more in our <a href="/privacy" aria-label="Privacy Policy">Privacy Policy</a>.</p>
       </div>
       <div class="cookie-buttons">
         <button class="cookie-btn reject-btn" id="reject-cookies">Reject Non-Essential</button>
@@ -1021,25 +1186,55 @@
     </div>
   </div>
 
-  <!-- Libraries -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js"></script>
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+  <!-- Cookie Settings Modal -->
+  <div id="cookie-settings">
+    <div class="settings-modal">
+      <div class="settings-header">
+        <h2>Cookie Settings</h2>
+        <button class="close-settings" aria-label="Close settings"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="settings-content">
+        <div class="cookie-type">
+          <div class="cookie-type-header">
+            <h3>Essential Cookies</h3>
+            <div class="toggle-switch">
+              <input type="checkbox" id="essential-toggle" checked disabled>
+              <span class="slider"></span>
+            </div>
+          </div>
+          <p>These cookies are necessary for the website to function and cannot be disabled.</p>
+        </div>
+        <div class="cookie-type">
+          <div class="cookie-type-header">
+            <h3>Analytics Cookies</h3>
+            <div class="toggle-switch">
+              <input type="checkbox" id="analytics-toggle">
+              <span class="slider"></span>
+            </div>
+          </div>
+          <p>These cookies help us understand how visitors interact with our website, providing insights to improve our services.</p>
+        </div>
+        <div class="cookie-type">
+          <div class="cookie-type-header">
+            <h3>Advertising Cookies</h3>
+            <div class="toggle-switch">
+              <input type="checkbox" id="advertising-toggle">
+              <span class="slider"></span>
+            </div>
+          </div>
+          <p>These cookies are used to deliver personalized advertisements based on your interests.</p>
+        </div>
+      </div>
+      <div class="settings-buttons">
+        <button class="save-settings" id="save-settings">Save Settings</button>
+      </div>
+    </div>
+  </div>
 
-  <!-- Network Tools JavaScript -->
+  <!-- Text Tools JavaScript -->
   <script>
-    // Constants
-    const API_ENDPOINTS = {
-      DNS: 'https://cloudflare-dns.com/dns-query',
-      IP_INFO: 'https://ipapi.co/json/'
-    };
-    
-    const MAX_CONTINUOUS_DURATION = 5 * 60 * 1000; // 5 minutes
-    const RATE_LIMIT_MS = 1000; // 1 request per second
-    let lastRequestTime = 0;
-    
-    // Network Tools Functionality
-    function initNetworkTools() {
+    // Text Tools Functionality
+    function initTextTools() {
       // Tab Switching
       function switchTab(tabName) {
         document.querySelectorAll('.tab').forEach(tab => {
@@ -1058,17 +1253,6 @@
           activeTab.setAttribute('aria-selected', 'true');
           activeContent.classList.add('active');
         }
-        
-        // Update URL hash
-        window.location.hash = tabName;
-      }
-      
-      // Initialize Tabs from URL hash
-      function initTabsFromHash() {
-        const hash = window.location.hash.replace('#', '');
-        const validTabs = ['ping', 'traceroute', 'dns', 'ipinfo', 'headers'];
-        const tab = validTabs.includes(hash) ? hash : 'ping';
-        switchTab(tab);
       }
       
       // Initialize Tabs
@@ -1082,604 +1266,575 @@
         });
       });
       
-      // Initialize with hash
-      window.addEventListener('load', initTabsFromHash);
-      window.addEventListener('hashchange', initTabsFromHash);
+      // Initialize with first tab active
+      switchTab('case');
       
-      // Validation Functions
-      function validateHost(host) {
-        const hostRegex = /^(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}|(?:(?:[0-9]{1,3}\.){3}[0-9]{1,3}))$/;
-        return hostRegex.test(host);
-      }
+      // Real-time character count for counter tool
+      document.getElementById('counterInput').addEventListener('input', function() {
+        updateTextStats(this.value);
+      });
       
-      function validateUrl(url) {
-        const urlRegex = /^https?:\/\/[^\s/$.?#].[^\s]*$/i;
-        return urlRegex.test(url);
-      }
+      // Password length display
+      const passwordLength = document.getElementById('passwordLength');
+      const lengthValue = document.getElementById('lengthValue');
+      passwordLength.addEventListener('input', () => {
+        lengthValue.textContent = passwordLength.value;
+      });
       
-      function validateDomain(domain) {
-        const domainRegex = /^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}$/;
-        return domainRegex.test(domain);
-      }
-      
-      // Error Handling
-      function showError(message, tabId) {
-        const errorDiv = document.querySelector(`#${tabId} .error`);
-        if (errorDiv) {
-          errorDiv.textContent = message;
-          errorDiv.style.display = 'block';
-          setTimeout(() => errorDiv.style.display = 'none', 5000);
-        }
-      }
-      
-      // Loading State
-      function setLoading(tabId, isLoading) {
-        const loadingDiv = document.getElementById(`${tabId}Loading`);
-        if (loadingDiv) {
-          if (isLoading) {
-            loadingDiv.classList.add('active');
-          } else {
-            loadingDiv.classList.remove('active');
-          }
-        }
-      }
-      
-      // Ping Tool Variables
-      let pingIntervalId = null;
-      let pingCount = 0;
-      let sentCount = 0;
-      let receivedCount = 0;
-      let minPing = Infinity;
-      let maxPing = 0;
-      let totalPing = 0;
-      let pingHistory = [];
-      let pingChart = null;
-      let pingStartTime = 0;
-      
-      // Ping Tool Functions
-      function pingHost(host) {
-        return new Promise((resolve) => {
-          const startTime = performance.now();
-          const timeout = parseInt(document.getElementById('pingTimeout').value);
-          
-          // Use fetch API to simulate ping
-          const controller = new AbortController();
-          const signal = controller.signal;
-          
-          setTimeout(() => {
-            controller.abort();
-            resolve({ success: false, time: timeout, error: 'Request timed out' });
-          }, timeout);
-          
-          // Try to fetch a resource from the host
-          fetch(`https://${host}/favicon.ico?t=${Date.now()}`, {
-            method: 'HEAD',
-            mode: 'no-cors',
-            signal,
-            cache: 'no-store'
-          })
-          .then(() => {
-            const endTime = performance.now();
-            const pingTime = Math.round(endTime - startTime);
-            resolve({ success: true, time: pingTime });
-          })
-          .catch(() => {
-            resolve({ success: false, time: timeout, error: 'Request failed' });
-          });
+      // Formatter options
+      document.querySelectorAll('.formatter-option').forEach(option => {
+        option.addEventListener('click', function() {
+          document.querySelectorAll('.formatter-option').forEach(opt => opt.classList.remove('active'));
+          this.classList.add('active');
         });
+      });
+      
+      // Transformer options
+      document.querySelectorAll('.transformer-option').forEach(option => {
+        option.addEventListener('click', function() {
+          document.querySelectorAll('.transformer-option').forEach(opt => opt.classList.remove('active'));
+          this.classList.add('active');
+        });
+      });
+      
+      // Case Converter Functions
+      document.getElementById('upperCaseBtn').addEventListener('click', () => {
+        const input = document.getElementById('caseInput').value;
+        document.getElementById('caseOutput').value = input.toUpperCase();
+      });
+      
+      document.getElementById('lowerCaseBtn').addEventListener('click', () => {
+        const input = document.getElementById('caseInput').value;
+        document.getElementById('caseOutput').value = input.toLowerCase();
+      });
+      
+      document.getElementById('titleCaseBtn').addEventListener('click', () => {
+        const input = document.getElementById('caseInput').value;
+        document.getElementById('caseOutput').value = input.replace(/\w\S*/g, (word) => {
+          return word.charAt(0).toUpperCase() + word.substr(1).toLowerCase();
+        });
+      });
+      
+      document.getElementById('sentenceCaseBtn').addEventListener('click', () => {
+        const input = document.getElementById('caseInput').value;
+        document.getElementById('caseOutput').value = input.toLowerCase().replace(/(^\s*\w|[\.\!\?]\s+\w)/g, (c) => {
+          return c.toUpperCase();
+        });
+      });
+      
+      document.getElementById('copyCaseBtn').addEventListener('click', () => {
+        const output = document.getElementById('caseOutput');
+        output.select();
+        document.execCommand('copy');
+        alert('Copied to clipboard!');
+      });
+      
+      document.getElementById('clearCaseBtn').addEventListener('click', () => {
+        document.getElementById('caseInput').value = '';
+        document.getElementById('caseOutput').value = '';
+      });
+
+      // Text Reverser Functions
+      document.getElementById('reverseCharsBtn').addEventListener('click', () => {
+        const input = document.getElementById('reverseInput').value;
+        document.getElementById('reverseOutput').value = input.split('').reverse().join('');
+      });
+      
+      document.getElementById('reverseWordsBtn').addEventListener('click', () => {
+        const input = document.getElementById('reverseInput').value;
+        document.getElementById('reverseOutput').value = input.split(' ').reverse().join(' ');
+      });
+      
+      document.getElementById('copyReverseBtn').addEventListener('click', () => {
+        const output = document.getElementById('reverseOutput');
+        output.select();
+        document.execCommand('copy');
+        alert('Copied to clipboard!');
+      });
+      
+      document.getElementById('clearReverseBtn').addEventListener('click', () => {
+        document.getElementById('reverseInput').value = '';
+        document.getElementById('reverseOutput').value = '';
+      });
+
+      // Character Counter Functions
+      function updateTextStats(text) {
+        // Count characters
+        document.getElementById('charCount').textContent = text.length;
+        
+        // Count words (split by spaces, filter out empty strings)
+        const words = text.trim().split(/\s+/).filter(word => word.length > 0);
+        document.getElementById('wordCount').textContent = words.length;
+        
+        // Count lines (split by newline)
+        const lines = text.split(/\r\n|\r|\n/).filter(line => line.length > 0);
+        document.getElementById('lineCount').textContent = lines.length;
+        
+        // Count sentences (split by punctuation)
+        const sentences = text.split(/[.!?]+/).filter(sentence => sentence.trim().length > 0);
+        document.getElementById('sentenceCount').textContent = sentences.length;
+        
+        // Count paragraphs
+        const paragraphs = text.split(/\n\s*\n/).filter(para => para.trim().length > 0);
+        document.getElementById('paragraphCount').textContent = paragraphs.length;
+        
+        // Estimate reading time (200 words per minute)
+        const readingTime = Math.ceil(words.length / 200);
+        document.getElementById('readingTime').textContent = readingTime > 0 ? `${readingTime}m` : '<1m';
+      }
+
+      document.getElementById('clearCounterBtn').addEventListener('click', () => {
+        document.getElementById('counterInput').value = '';
+        updateTextStats('');
+      });
+
+      // URL Encoder/Decoder Functions
+      document.getElementById('encodeBtn').addEventListener('click', () => {
+        const input = document.getElementById('encoderInput').value;
+        document.getElementById('encoderOutput').value = encodeURIComponent(input);
+      });
+      
+      document.getElementById('decodeBtn').addEventListener('click', () => {
+        const input = document.getElementById('encoderInput').value;
+        document.getElementById('encoderOutput').value = decodeURIComponent(input);
+      });
+      
+      document.getElementById('base64EncodeBtn').addEventListener('click', () => {
+        const input = document.getElementById('encoderInput').value;
+        document.getElementById('encoderOutput').value = btoa(unescape(encodeURIComponent(input)));
+      });
+      
+      document.getElementById('base64DecodeBtn').addEventListener('click', () => {
+        try {
+          const input = document.getElementById('encoderInput').value;
+          document.getElementById('encoderOutput').value = decodeURIComponent(escape(atob(input)));
+        } catch (e) {
+          document.getElementById('encoderOutput').value = 'Error: Invalid Base64 input';
+        }
+      });
+      
+      document.getElementById('copyEncoderBtn').addEventListener('click', () => {
+        const output = document.getElementById('encoderOutput');
+        output.select();
+        document.execCommand('copy');
+        alert('Copied to clipboard!');
+      });
+      
+      document.getElementById('clearEncoderBtn').addEventListener('click', () => {
+        document.getElementById('encoderInput').value = '';
+        document.getElementById('encoderOutput').value = '';
+      });
+      
+      // Text Cleaner Functions
+      document.getElementById('cleanBtn').addEventListener('click', () => {
+        let input = document.getElementById('cleanerInput').value;
+        const option = document.querySelector('.formatter-option.active').dataset.option;
+        
+        if (option === 'all' || option === 'spaces') {
+          input = input.replace(/\s+/g, ' ').trim();
+        }
+        
+        if (option === 'all' || option === 'lines') {
+          input = input.replace(/\n+/g, ' ');
+        }
+        
+        if (option === 'html' || option === 'all') {
+          input = input.replace(/<[^>]*>/g, '');
+        }
+        
+        if (option === 'duplicates' || option === 'all') {
+          const lines = input.split('\n');
+          const uniqueLines = [...new Set(lines)];
+          input = uniqueLines.join('\n');
+        }
+        
+        if (option === 'quotes' || option === 'all') {
+          input = input
+            .replace(/[\u2018\u2019]/g, "'") // Smart single quotes
+            .replace(/[\u201C\u201D]/g, '"'); // Smart double quotes
+        }
+        
+        document.getElementById('cleanerOutput').value = input;
+      });
+      
+      document.getElementById('copyCleanerBtn').addEventListener('click', () => {
+        const output = document.getElementById('cleanerOutput');
+        output.select();
+        document.execCommand('copy');
+        alert('Copied to clipboard!');
+      });
+      
+      document.getElementById('clearCleanerBtn').addEventListener('click', () => {
+        document.getElementById('cleanerInput').value = '';
+        document.getElementById('cleanerOutput').value = '';
+      });
+      
+      // Password Generator Functions
+      document.getElementById('generatePasswordBtn').addEventListener('click', () => {
+        const length = document.getElementById('passwordLength').value;
+        const uppercase = document.getElementById('uppercase').checked;
+        const lowercase = document.getElementById('lowercase').checked;
+        const numbers = document.getElementById('numbers').checked;
+        const symbols = document.getElementById('symbols').checked;
+        
+        let charset = '';
+        if (uppercase) charset += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        if (lowercase) charset += 'abcdefghijklmnopqrstuvwxyz';
+        if (numbers) charset += '0123456789';
+        if (symbols) charset += '!@#$%^&*()_+~`|}{[]:;?><,./-=';
+        
+        if (!charset) {
+          alert('Please select at least one character type');
+          return;
+        }
+        
+        let password = '';
+        for (let i = 0; i < length; i++) {
+          const randomIndex = Math.floor(Math.random() * charset.length);
+          password += charset[randomIndex];
+        }
+        
+        document.getElementById('passwordOutput').value = password;
+        checkPasswordStrength(password);
+      });
+      
+      document.getElementById('copyPasswordBtn').addEventListener('click', () => {
+        const output = document.getElementById('passwordOutput');
+        output.select();
+        document.execCommand('copy');
+        alert('Password copied to clipboard!');
+      });
+      
+      document.getElementById('passwordStrengthBtn').addEventListener('click', () => {
+        const password = document.getElementById('passwordOutput').value;
+        if (password) {
+          checkPasswordStrength(password);
+        } else {
+          alert('Please generate a password first');
+        }
+      });
+      
+      function checkPasswordStrength(password) {
+        let strength = 0;
+        const hasUppercase = /[A-Z]/.test(password);
+        const hasLowercase = /[a-z]/.test(password);
+        const hasNumbers = /[0-9]/.test(password);
+        const hasSymbols = /[^A-Za-z0-9]/.test(password);
+        
+        if (password.length >= 8) strength += 1;
+        if (password.length >= 12) strength += 1;
+        if (hasUppercase) strength += 1;
+        if (hasLowercase) strength += 1;
+        if (hasNumbers) strength += 1;
+        if (hasSymbols) strength += 1;
+        
+        let strengthText = '';
+        let strengthClass = '';
+        
+        if (strength <= 2) {
+          strengthText = 'Weak';
+          strengthClass = 'weak';
+        } else if (strength <= 4) {
+          strengthText = 'Medium';
+          strengthClass = 'medium';
+        } else {
+          strengthText = 'Strong';
+          strengthClass = 'strong';
+        }
+        
+        document.getElementById('passwordStrength').textContent = strengthText;
+        document.getElementById('passwordStrength').className = `stat-value ${strengthClass}`;
       }
       
-      function updatePingStats() {
-        document.getElementById('sentCount').textContent = sentCount;
-        document.getElementById('receivedCount').textContent = receivedCount;
-        
-        const lossPercent = sentCount > 0 ? Math.round(((sentCount - receivedCount) / sentCount) * 100) : 0;
-        document.getElementById('lossPercent').textContent = `${lossPercent}%`;
-        
-        document.getElementById('minPing').textContent = minPing !== Infinity ? `${minPing}ms` : '0ms';
-        document.getElementById('maxPing').textContent = `${maxPing}ms`;
-        
-        const avgPing = receivedCount > 0 ? Math.round(totalPing / receivedCount) : 0;
-        document.getElementById('avgPing').textContent = `${avgPing}ms`;
-      }
+      // Text to Slug Converter
+      document.getElementById('convertSlugBtn').addEventListener('click', () => {
+        const input = document.getElementById('slugInput').value;
+        let slug = input.toLowerCase()
+          .replace(/\s+/g, '-')         // Replace spaces with -
+          .replace(/[^\w\-]+/g, '')     // Remove all non-word chars
+          .replace(/\-\-+/g, '-')       // Replace multiple - with single -
+          .replace(/^-+/, '')            // Trim - from start of text
+          .replace(/-+$/, '');           // Trim - from end of text
+          
+        document.getElementById('slugOutput').value = slug;
+      });
       
-      function updatePingChart() {
-        const ctx = document.getElementById('pingChart').getContext('2d');
-        if (pingChart) pingChart.destroy();
+      document.getElementById('copySlugBtn').addEventListener('click', () => {
+        const output = document.getElementById('slugOutput');
+        output.select();
+        document.execCommand('copy');
+        alert('Copied to clipboard!');
+      });
+      
+      document.getElementById('clearSlugBtn').addEventListener('click', () => {
+        document.getElementById('slugInput').value = '';
+        document.getElementById('slugOutput').value = '';
+      });
+      
+      // Text Summarizer Functions
+      const summaryLength = document.getElementById('summaryLength');
+      const summaryLengthValue = document.getElementById('summaryLengthValue');
+      summaryLength.addEventListener('input', () => {
+        summaryLengthValue.textContent = summaryLength.value;
+      });
+      
+      document.getElementById('summarizeBtn').addEventListener('click', () => {
+        const input = document.getElementById('summarizerInput').value;
+        const numSentences = parseInt(summaryLength.value);
         
-        const successfulPings = pingHistory.filter(ping => ping.success);
-        const pingTimes = successfulPings.map(ping => ping.time);
-        const labels = successfulPings.map((_, i) => `Ping ${i + 1}`);
+        if (!input.trim()) {
+          alert('Please enter some text to summarize');
+          return;
+        }
         
-        pingChart = new Chart(ctx, {
-          type: 'line',
-          data: {
-            labels,
-            datasets: [{
-              label: 'Ping Time (ms)',
-              data: pingTimes,
-              borderColor: '#4361ee',
-              backgroundColor: 'rgba(67, 97, 238, 0.2)',
-              tension: 0.3,
-              fill: true
-            }]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-              y: {
-                beginAtZero: true,
-                title: {
-                  display: true,
-                  text: 'Time (ms)'
-                }
+        // Simple extractive summarization algorithm
+        const sentences = input.split(/[.!?]+/).filter(s => s.trim().length > 0);
+        const wordFrequencies = {};
+        const words = input.toLowerCase().match(/\b\w+\b/g) || [];
+        
+        words.forEach(word => {
+          wordFrequencies[word] = (wordFrequencies[word] || 0) + 1;
+        });
+        
+        // Score sentences based on word frequencies
+        const sentenceScores = sentences.map(sentence => {
+          const wordsInSentence = sentence.toLowerCase().match(/\b\w+\b/g) || [];
+          let score = 0;
+          
+          wordsInSentence.forEach(word => {
+            if (wordFrequencies[word]) {
+              score += wordFrequencies[word];
+            }
+          });
+          
+          return { sentence, score };
+        });
+        
+        // Sort sentences by score
+        sentenceScores.sort((a, b) => b.score - a.score);
+        
+        // Take top N sentences
+        const summarySentences = sentenceScores.slice(0, numSentences)
+          .map(item => item.sentence.trim())
+          .map(s => s.charAt(0).toUpperCase() + s.slice(1) + '.');
+          
+        document.getElementById('summarizerOutput').value = summarySentences.join(' ');
+      });
+      
+      document.getElementById('copySummarizerBtn').addEventListener('click', () => {
+        const output = document.getElementById('summarizerOutput');
+        output.select();
+        document.execCommand('copy');
+        alert('Copied to clipboard!');
+      });
+      
+      document.getElementById('clearSummarizerBtn').addEventListener('click', () => {
+        document.getElementById('summarizerInput').value = '';
+        document.getElementById('summarizerOutput').value = '';
+      });
+      
+      // Regex Tester Functions
+      document.querySelectorAll('.regex-pattern').forEach(pattern => {
+        pattern.addEventListener('click', () => {
+          document.getElementById('regexPattern').value = pattern.dataset.pattern;
+        });
+      });
+      
+      document.getElementById('testRegexBtn').addEventListener('click', () => {
+        const pattern = document.getElementById('regexPattern').value;
+        const flags = document.getElementById('regexFlags').value;
+        const testString = document.getElementById('regexInput').value;
+        const resultsDiv = document.getElementById('regexResults');
+        
+        if (!pattern) {
+          alert('Please enter a regular expression pattern');
+          return;
+        }
+        
+        if (!testString) {
+          alert('Please enter a test string');
+          return;
+        }
+        
+        try {
+          const regex = new RegExp(pattern, flags);
+          const matches = [...testString.matchAll(regex)];
+          
+          if (matches.length === 0) {
+            resultsDiv.innerHTML = '<p>No matches found.</p>';
+            return;
+          }
+          
+          let html = '<p>Matches found:</p>';
+          matches.forEach((match, index) => {
+            html += `<div class="regex-match">Match ${index + 1}:`;
+            
+            // Entire match
+            html += `<div class="regex-group">${match[0]}</div>`;
+            
+            // Groups
+            if (match.length > 1) {
+              html += '<div>Groups:';
+              for (let i = 1; i < match.length; i++) {
+                html += `<span class="regex-group">${match[i]}</span>`;
+              }
+              html += '</div>';
+            }
+            
+            html += '</div>';
+          });
+          
+          resultsDiv.innerHTML = html;
+        } catch (e) {
+          resultsDiv.innerHTML = `<p class="error">Error: ${e.message}</p>`;
+        }
+      });
+      
+      document.getElementById('copyRegexBtn').addEventListener('click', () => {
+        const pattern = document.getElementById('regexPattern');
+        pattern.select();
+        document.execCommand('copy');
+        alert('Pattern copied to clipboard!');
+      });
+      
+      document.getElementById('clearRegexBtn').addEventListener('click', () => {
+        document.getElementById('regexPattern').value = '';
+        document.getElementById('regexFlags').value = '';
+        document.getElementById('regexInput').value = '';
+        document.getElementById('regexResults').innerHTML = '<p>Results will appear here...</p>';
+      });
+      
+      // Bulk Transformer Functions
+      document.getElementById('transformBulkBtn').addEventListener('click', () => {
+        const input = document.getElementById('bulkInput').value;
+        const operation = document.querySelector('.transformer-option.active').dataset.operation;
+        const prefix = document.getElementById('prefixText').value;
+        const suffix = document.getElementById('suffixText').value;
+        
+        if (!input.trim()) {
+          alert('Please enter some text to transform');
+          return;
+        }
+        
+        let items = input.split('\n').filter(item => item.trim().length > 0);
+        let output = '';
+        
+        switch(operation) {
+          case 'prefix':
+            output = items.map(item => prefix + item).join('\n');
+            break;
+          case 'suffix':
+            output = items.map(item => item + suffix).join('\n');
+            break;
+          case 'uppercase':
+            output = items.map(item => item.toUpperCase()).join('\n');
+            break;
+          case 'lowercase':
+            output = items.map(item => item.toLowerCase()).join('\n');
+            break;
+          case 'sort':
+            output = items.sort((a, b) => a.localeCompare(b)).join('\n');
+            break;
+          case 'sort-desc':
+            output = items.sort((a, b) => b.localeCompare(a)).join('\n');
+            break;
+          default:
+            output = input;
+        }
+        
+        document.getElementById('bulkOutput').value = output;
+      });
+      
+      document.getElementById('copyBulkBtn').addEventListener('click', () => {
+        const output = document.getElementById('bulkOutput');
+        output.select();
+        document.execCommand('copy');
+        alert('Copied to clipboard!');
+      });
+      
+      document.getElementById('clearBulkBtn').addEventListener('click', () => {
+        document.getElementById('bulkInput').value = '';
+        document.getElementById('bulkOutput').value = '';
+        document.getElementById('prefixText').value = '';
+        document.getElementById('suffixText').value = '';
+      });
+      
+      // Diff Checker Functions
+      document.getElementById('compareTextBtn').addEventListener('click', () => {
+        const original = document.getElementById('originalText').value;
+        const changed = document.getElementById('changedText').value;
+        const diffResults = document.getElementById('diffResults');
+        
+        if (!original && !changed) {
+          alert('Please enter text to compare');
+          return;
+        }
+        
+        // Simple diff algorithm
+        const originalLines = original.split('\n');
+        const changedLines = changed.split('\n');
+        
+        let diffHTML = '';
+        let maxLength = Math.max(originalLines.length, changedLines.length);
+        
+        for (let i = 0; i < maxLength; i++) {
+          const origLine = originalLines[i] || '';
+          const changedLine = changedLines[i] || '';
+          
+          if (origLine === changedLine) {
+            diffHTML += `<div>${origLine}</div>`;
+          } else {
+            // Find character differences
+            let charDiff = '';
+            let minLength = Math.min(origLine.length, changedLine.length);
+            
+            for (let j = 0; j < minLength; j++) {
+              if (origLine[j] === changedLine[j]) {
+                charDiff += origLine[j];
+              } else {
+                charDiff += `<span class="diff-removed">${origLine[j] || ''}</span>`;
+                charDiff += `<span class="diff-added">${changedLine[j] || ''}</span>`;
               }
             }
-          }
-        });
-      }
-      
-      function addPingResult(seq, result) {
-        const pingResults = document.getElementById('pingResults');
-        
-        if (pingResults.children.length === 1 && pingResults.children[0].tagName === 'P') {
-          pingResults.innerHTML = '';
-        }
-        
-        const pingItem = document.createElement('div');
-        pingItem.className = 'ping-item';
-        
-        const statusIndicator = document.createElement('span');
-        statusIndicator.className = `status-indicator ${result.success ? 'status-up' : 'status-down'}`;
-        
-        const sanitizedHost = DOMPurify.sanitize(document.getElementById('pingHost').value);
-        const seqSpan = document.createElement('span');
-        seqSpan.textContent = `Ping #${seq} to ${sanitizedHost}: `;
-        
-        const resultSpan = document.createElement('span');
-        if (result.success) {
-          resultSpan.textContent = `Success, time=${result.time}ms`;
-          resultSpan.className = 'ping-success';
-        } else {
-          resultSpan.textContent = `Failed: ${result.error}`;
-          resultSpan.className = 'ping-failure';
-        }
-        
-        pingItem.appendChild(statusIndicator);
-        pingItem.appendChild(seqSpan);
-        pingItem.appendChild(resultSpan);
-        pingResults.prepend(pingItem);
-        
-        // Update chart
-        pingHistory.push(result);
-        updatePingChart();
-      }
-      
-      function startPinging() {
-        const host = document.getElementById('pingHost').value.trim();
-        const count = document.getElementById('pingCount').value;
-        const interval = parseInt(document.getElementById('pingInterval').value) * 1000;
-        
-        if (!host) {
-          showError('Please enter a host to ping', 'ping-error');
-          return;
-        }
-        
-        if (!validateHost(host)) {
-          showError('Please enter a valid hostname or IP address', 'ping-error');
-          return;
-        }
-        
-        // Reset stats
-        pingCount = 0;
-        sentCount = 0;
-        receivedCount = 0;
-        minPing = Infinity;
-        maxPing = 0;
-        totalPing = 0;
-        pingHistory = [];
-        pingStartTime = Date.now();
-        
-        // Show loading
-        setLoading('ping', true);
-        
-        // Clear previous results
-        document.getElementById('pingResults').innerHTML = '<p>Pinging... results will appear below</p>';
-        
-        // Disable start button, enable stop button
-        document.getElementById('startPingBtn').disabled = true;
-        document.getElementById('stopPingBtn').disabled = false;
-        
-        // Start pinging
-        const pingLoop = async () => {
-          if (count !== 'continuous' && pingCount >= parseInt(count)) {
-            stopPinging();
-            return;
-          }
-          
-          // Check maximum duration for continuous pinging
-          if (count === 'continuous' && Date.now() - pingStartTime > MAX_CONTINUOUS_DURATION) {
-            stopPinging();
-            showError('Continuous ping stopped after 5 minutes', 'ping-error');
-            return;
-          }
-          
-          pingCount++;
-          sentCount++;
-          
-          try {
-            const result = await pingHost(host);
             
-            if (result.success) {
-              receivedCount++;
-              totalPing += result.time;
-              
-              if (result.time < minPing) minPing = result.time;
-              if (result.time > maxPing) maxPing = result.time;
+            // Handle remaining characters
+            if (origLine.length > minLength) {
+              charDiff += `<span class="diff-removed">${origLine.substring(minLength)}</span>`;
+            } else if (changedLine.length > minLength) {
+              charDiff += `<span class="diff-added">${changedLine.substring(minLength)}</span>`;
             }
             
-            addPingResult(pingCount, result);
-            updatePingStats();
-          } catch (error) {
-            console.error('Ping error:', error);
-          }
-          
-          // Schedule next ping if we're still running
-          if (pingIntervalId !== null) {
-            pingIntervalId = setTimeout(pingLoop, interval);
-          }
-        };
-        
-        pingIntervalId = setTimeout(pingLoop, 0);
-      }
-      
-      function stopPinging() {
-        if (pingIntervalId) {
-          clearTimeout(pingIntervalId);
-          pingIntervalId = null;
-        }
-        
-        setLoading('ping', false);
-        document.getElementById('startPingBtn').disabled = false;
-        document.getElementById('stopPingBtn').disabled = true;
-      }
-      
-      function clearPingLog() {
-        document.getElementById('pingResults').innerHTML = '<p>Ping results will appear here...</p>';
-        pingHistory = [];
-        if (pingChart) {
-          pingChart.destroy();
-          pingChart = null;
-        }
-      }
-      
-      function exportPingResults() {
-        const results = document.getElementById('pingResults').innerText;
-        const blob = new Blob([results], { type: 'text/plain' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'ping_results.txt';
-        a.click();
-        URL.revokeObjectURL(url);
-      }
-      
-      // Ping Tool Event Listeners
-      document.getElementById('startPingBtn').addEventListener('click', startPinging);
-      document.getElementById('stopPingBtn').addEventListener('click', stopPinging);
-      document.getElementById('clearPingBtn').addEventListener('click', clearPingLog);
-      document.getElementById('exportPingBtn').addEventListener('click', exportPingResults);
-      
-      // Traceroute Functions
-      async function traceRoute() {
-        const host = document.getElementById('traceHost').value.trim();
-        const maxHops = parseInt(document.getElementById('maxHops').value);
-        
-        if (!host) {
-          showError('Please enter a host to trace', 'traceroute-error');
-          return;
-        }
-        
-        if (!validateHost(host)) {
-          showError('Please enter a valid hostname or IP address', 'traceroute-error');
-          return;
-        }
-        
-        // Disable start button, enable stop button
-        setLoading('traceroute', true);
-        document.getElementById('startTraceBtn').disabled = true;
-        document.getElementById('stopTraceBtn').disabled = false;
-        
-        // Clear previous results
-        document.getElementById('traceResults').innerHTML = '<p>Tracing route... results will appear below</p>';
-        
-        // Simple traceroute simulation
-        for (let ttl = 1; ttl <= maxHops; ttl++) {
-          if (document.getElementById('stopTraceBtn').disabled) break; // Stop if tracing was stopped
-          
-          try {
-            // Simulate hop latency
-            const hopResult = {
-              hop: ttl,
-              ip: `192.168.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}`,
-              time1: Math.floor(Math.random() * 50) + 10,
-              time2: Math.floor(Math.random() * 50) + 10,
-              time3: Math.floor(Math.random() * 50) + 10
-            };
-            
-            // Add to results
-            const traceResults = document.getElementById('traceResults');
-            
-            if (traceResults.children.length === 1 && traceResults.children[0].tagName === 'P') {
-              traceResults.innerHTML = '';
-            }
-            
-            const traceItem = document.createElement('div');
-            traceItem.className = 'ping-item';
-            traceItem.innerHTML = `
-              <span>${hopResult.hop}</span>
-              <span>${hopResult.ip}</span>
-              <span>${hopResult.time1}ms</span>
-              <span>${hopResult.time2}ms</span>
-              <span>${hopResult.time3}ms</span>
-            `;
-            
-            traceResults.appendChild(traceItem);
-            
-            // Check if we reached the target
-            if (ttl === maxHops || Math.random() > 0.7) {
-              const finalItem = document.createElement('div');
-              finalItem.className = 'ping-item ping-success';
-              finalItem.innerHTML = `
-                <span>${ttl + 1}</span>
-                <span>${host}</span>
-                <span>${Math.floor(Math.random() * 30) + 5}ms</span>
-                <span>${Math.floor(Math.random() * 30) + 5}ms</span>
-                <span>${Math.floor(Math.random() * 30) + 5}ms</span>
-              `;
-              traceResults.appendChild(finalItem);
-              break;
-            }
-            
-            // Wait between hops
-            await new Promise(resolve => setTimeout(resolve, 500));
-          } catch (error) {
-            console.error('Trace error:', error);
+            diffHTML += `<div>${charDiff}</div>`;
           }
         }
         
-        setLoading('traceroute', false);
-        document.getElementById('startTraceBtn').disabled = false;
-        document.getElementById('stopTraceBtn').disabled = true;
-      }
+        diffResults.innerHTML = diffHTML || '<p>No differences found.</p>';
+      });
       
-      function stopTrace() {
-        setLoading('traceroute', false);
-        document.getElementById('startTraceBtn').disabled = false;
-        document.getElementById('stopTraceBtn').disabled = true;
-      }
+      document.getElementById('copyDiffBtn').addEventListener('click', () => {
+        const diffResults = document.getElementById('diffResults');
+        const range = document.createRange();
+        range.selectNode(diffResults);
+        window.getSelection().removeAllRanges();
+        window.getSelection().addRange(range);
+        document.execCommand('copy');
+        alert('Diff results copied to clipboard!');
+      });
       
-      function clearTraceLog() {
-        document.getElementById('traceResults').innerHTML = '<p>Traceroute results will appear here...</p>';
-      }
-      
-      // Traceroute Event Listeners
-      document.getElementById('startTraceBtn').addEventListener('click', traceRoute);
-      document.getElementById('stopTraceBtn').addEventListener('click', stopTrace);
-      document.getElementById('clearTraceBtn').addEventListener('click', clearTraceLog);
-      
-      // DNS Lookup Functions
-      async function lookupDns() {
-        const domain = document.getElementById('dnsDomain').value.trim();
-        const type = document.getElementById('dnsType').value;
-        
-        if (!domain) {
-          showError('Please enter a domain name', 'dns-error');
-          return;
-        }
-        
-        if (!validateDomain(domain)) {
-          showError('Please enter a valid domain name', 'dns-error');
-          return;
-        }
-        
-        // Rate limiting
-        const now = Date.now();
-        if (now - lastRequestTime < RATE_LIMIT_MS) {
-          showError('Please wait before making another request', 'dns-error');
-          return;
-        }
-        lastRequestTime = now;
-        
-        // Check cache
-        const cacheKey = `dns_${domain}_${type}`;
-        const cachedResult = localStorage.getItem(cacheKey);
-        if (cachedResult) {
-          document.getElementById('dnsResults').innerHTML = cachedResult;
-          return;
-        }
-        
-        // Show loading
-        setLoading('dns', true);
-        document.getElementById('dnsResults').innerHTML = '<p>Loading DNS records...</p>';
-        
-        try {
-          // Use DNS over HTTPS (DoH) API
-          const response = await fetch(`${API_ENDPOINTS.DNS}?name=${domain}&type=${type}`, {
-            headers: { 'Accept': 'application/dns-json' }
-          });
-          
-          const data = await response.json();
-          
-          let html = '';
-          if (data.Status !== 0 || !data.Answer || data.Answer.length === 0) {
-            html = `<p>No DNS records found for ${DOMPurify.sanitize(domain)} (${type})</p>`;
-          } else {
-            html = '<p>DNS records found:</p>';
-            data.Answer.forEach(record => {
-              html += `<div class="ping-item"><span>${DOMPurify.sanitize(record.name)}</span> <span>${DOMPurify.sanitize(record.type)}</span> <span>TTL: ${DOMPurify.sanitize(record.TTL)}</span> <span>${DOMPurify.sanitize(record.data)}</span></div>`;
-            });
-          }
-          
-          document.getElementById('dnsResults').innerHTML = html;
-          localStorage.setItem(cacheKey, html); // Cache result
-        } catch (error) {
-          console.error('DNS lookup error:', error);
-          showError(`DNS lookup failed: ${error.message}`, 'dns-error');
-        } finally {
-          setLoading('dns', false);
-        }
-      }
-      
-      // DNS Lookup Event Listeners
-      document.getElementById('lookupDnsBtn').addEventListener('click', lookupDns);
-      
-      // IP Information Functions
-      async function getIpInfo() {
-        setLoading('ipinfo', true);
-        try {
-          // Use ipapi.co API
-          const response = await fetch(API_ENDPOINTS.IP_INFO);
-          const data = await response.json();
-          
-          if (data.error) {
-            throw new Error(data.reason || 'Failed to retrieve IP information');
-          }
-          
-          document.getElementById('ipAddress').textContent = data.ip || '-';
-          document.getElementById('ipCity').textContent = data.city || '-';
-          document.getElementById('ipRegion').textContent = data.region || '-';
-          document.getElementById('ipCountry').textContent = data.country_name ? `${data.country_name} (${data.country})` : '-';
-          document.getElementById('ipIsp').textContent = data.org || '-';
-          document.getElementById('ipTimezone').textContent = data.timezone || '-';
-          
-          // Browser information
-          document.getElementById('browserInfo').textContent = navigator.userAgent.split(') ')[0].split(' (')[1] || 'Unknown';
-          
-          // Connection type (limited browser support)
-          const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-          if (connection) {
-            document.getElementById('connectionType').textContent = connection.effectiveType || 'Unknown';
-          } else {
-            document.getElementById('connectionType').textContent = 'Not available';
-          }
-        } catch (error) {
-          console.error('IP info error:', error);
-          showError(error.message, 'ipinfo-error');
-        } finally {
-          setLoading('ipinfo', false);
-        }
-      }
-      
-      // IP Info Event Listeners
-      document.getElementById('getIpInfoBtn').addEventListener('click', getIpInfo);
-      
-      // HTTP Headers Functions
-      async function analyzeHeaders() {
-        const url = document.getElementById('headerUrl').value.trim();
-        const method = document.getElementById('headerMethod').value;
-        
-        if (!url) {
-          showError('Please enter a URL', 'headers-error');
-          return;
-        }
-        
-        if (!validateUrl(url)) {
-          showError('Please enter a valid URL starting with http:// or https://', 'headers-error');
-          return;
-        }
-        
-        setLoading('headers', true);
-        try {
-          const startTime = performance.now();
-          const response = await fetch(url, { 
-            method,
-            mode: 'cors',
-            cache: 'no-store'
-          });
-          const endTime = performance.now();
-          
-          let headersHtml = `<p>HTTP headers (Load time: ${(endTime - startTime).toFixed(2)}ms):</p>`;
-          
-          // Show status
-          headersHtml += `<div class="ping-item"><span>Status:</span> <span>${response.status} ${response.statusText}</span></div>`;
-          
-          // Show headers
-          for (const [key, value] of response.headers.entries()) {
-            headersHtml += `<div class="ping-item"><span>${DOMPurify.sanitize(key)}:</span> <span>${DOMPurify.sanitize(value)}</span></div>`;
-          }
-          
-          document.getElementById('headerResults').innerHTML = headersHtml;
-        } catch (error) {
-          console.error('Header analysis error:', error);
-          showError(`Header analysis failed: ${error.message}`, 'headers-error');
-        } finally {
-          setLoading('headers', false);
-        }
-      }
-      
-      // HTTP Headers Event Listeners
-      document.getElementById('analyzeHeadersBtn').addEventListener('click', analyzeHeaders);
-      
-      // Persistent settings
-      function saveSettings() {
-        const settings = {
-          pingHost: document.getElementById('pingHost').value,
-          pingCount: document.getElementById('pingCount').value,
-          pingInterval: document.getElementById('pingInterval').value,
-          pingTimeout: document.getElementById('pingTimeout').value
-        };
-        localStorage.setItem('networkToolsSettings', JSON.stringify(settings));
-      }
-      
-      function loadSettings() {
-        const settings = JSON.parse(localStorage.getItem('networkToolsSettings'));
-        if (settings) {
-          document.getElementById('pingHost').value = settings.pingHost || 'example.com';
-          document.getElementById('pingCount').value = settings.pingCount || '10';
-          document.getElementById('pingInterval').value = settings.pingInterval || '5';
-          document.getElementById('pingTimeout').value = settings.pingTimeout || '2000';
-        }
-      }
-      
-      // Load settings on page load
-      document.addEventListener('DOMContentLoaded', loadSettings);
-      
-      // Save settings when changed
-      document.querySelectorAll('#pingHost, #pingCount, #pingInterval, #pingTimeout')
-        .forEach(input => input.addEventListener('change', saveSettings));
-      
-      // Cookie Consent
-      function initCookieConsent() {
-        // Show cookie consent if not already accepted
-        if (!localStorage.getItem('cookieConsent')) {
-          setTimeout(() => {
-            document.getElementById('cookie-consent').style.display = 'block';
-          }, 2000);
-        }
-        
-        // Accept all cookies
-        document.getElementById('accept-cookies').addEventListener('click', () => {
-          localStorage.setItem('cookieConsent', 'accepted');
-          document.getElementById('cookie-consent').style.display = 'none';
-        });
-        
-        // Reject non-essential
-        document.getElementById('reject-cookies').addEventListener('click', () => {
-          localStorage.setItem('cookieConsent', 'rejected');
-          document.getElementById('cookie-consent').style.display = 'none';
-        });
-      }
-      
-      // Initialize cookie consent
-      initCookieConsent();
+      document.getElementById('clearDiffBtn').addEventListener('click', () => {
+        document.getElementById('originalText').value = '';
+        document.getElementById('changedText').value = '';
+        document.getElementById('diffResults').innerHTML = '<p>Differences will appear here...</p>';
+      });
     }
 
     // Initialize everything when DOM is loaded
     document.addEventListener('DOMContentLoaded', () => {
-      initNetworkTools();
+      initTextTools();
     });
   </script>
+  
+  <!-- Shared JavaScript -->
+  <script src="/js/main.js"></script>
 </body>
 </html>
