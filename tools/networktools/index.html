@@ -4,22 +4,22 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Free Network Tools: Ping, traceroute, DNS lookup, IP information and more. Fast, private network utilities. No signup required.">
-  <meta name="keywords" content="network tools, ping tool, traceroute, dns lookup, ip information, network diagnostics, whois, speed test">
+  <meta name="keywords" content="network tools, ping tool, traceroute, dns lookup, ip information, network diagnostics">
   <meta name="robots" content="index, follow">
-  <meta property="og:title" content="Free Network Tools - EveryTool.io">
+  <meta property="og:title" content="Free Network Tools">
   <meta property="og:description" content="Powerful network utilities including ping, traceroute, DNS lookup and IP information. All processing happens in your browser.">
   <meta property="og:type" content="website">
-  <title>Network Tools - EveryTool.io</title>
+  <title>Network Tools</title>
   
   <!-- Performance Optimization -->
   <link rel="preconnect" href="https://cdnjs.cloudflare.com">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.rel='stylesheet'">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
   <!-- Chart.js -->
-  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.min.css" as="style" onload="this.rel='stylesheet'">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.min.css">
   
   <!-- Network Tools Specific Styles -->
   <style>
@@ -331,76 +331,6 @@
       color: #e74c3c;
     }
     
-    /* Features grid - 3 cards per row */
-    .features {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 25px;
-      margin: 30px 0;
-    }
-    
-    .feature {
-      background: var(--light);
-      border-radius: var(--border-radius);
-      padding: 25px;
-      text-align: center;
-      box-shadow: var(--box-shadow);
-      transition: var(--transition);
-    }
-    
-    .feature:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-    }
-    
-    .feature i {
-      font-size: 2.5rem;
-      margin-bottom: 15px;
-      color: var(--primary);
-    }
-    
-    /* Practical Uses section - 4 cards per row, white text */
-    .uses-section {
-      background: linear-gradient(135deg, #4361ee, #7209b7);
-      color: white;
-      border-radius: var(--border-radius);
-      padding: 40px;
-      margin: 40px auto;
-      box-shadow: var(--box-shadow);
-      text-align: center;
-    }
-    
-    .uses-section, 
-    .uses-section * {
-      color: white !important;
-    }
-    
-    .uses-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
-      margin-top: 25px;
-    }
-    
-    .use-item {
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: var(--border-radius);
-      padding: 25px;
-      text-align: center;
-      backdrop-filter: blur(5px);
-    }
-    
-    .use-item i {
-      font-size: 2.5rem;
-      margin-bottom: 20px;
-    }
-    
-    .use-item h3 {
-      font-size: 1.3rem;
-      margin-bottom: 15px;
-      color: white !important;
-    }
-    
     .tool-row {
       display: flex;
       gap: 15px;
@@ -488,14 +418,6 @@
     
     /* Responsive Design for Network Tools */
     @media (max-width: 992px) {
-      .features {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      
-      .uses-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      
       .tool-row {
         flex-direction: column;
       }
@@ -517,14 +439,6 @@
       
       .btn-group button {
         width: 100%;
-      }
-      
-      .features {
-        grid-template-columns: 1fr;
-      }
-      
-      .uses-grid {
-        grid-template-columns: 1fr;
       }
     }
 
@@ -585,9 +499,6 @@
         <div class="tab" data-tab="headers" role="tab" aria-selected="false" tabindex="0" aria-controls="headers-tab">
           <i class="fas fa-code"></i> HTTP Headers
         </div>
-        <div class="tab" data-tab="whois" role="tab" aria-selected="false" tabindex="0" aria-controls="whois-tab">
-          <i class="fas fa-user"></i> WHOIS Lookup
-        </div>
         <div class="tab" data-tab="speedtest" role="tab" aria-selected="false" tabindex="0" aria-controls="speedtest-tab">
           <i class="fas fa-tachometer-alt"></i> Speed Test
         </div>
@@ -605,7 +516,7 @@
         <div class="tool-row">
           <div class="tool-col">
             <label for="pingHost">Host to Ping:</label>
-            <input type="text" id="pingHost" placeholder="example.com or 192.168.1.1" value="web.restolution.fi" aria-describedby="pingHostHelp">
+            <input type="text" id="pingHost" placeholder="example.com or 192.168.1.1" value="example.com" aria-describedby="pingHostHelp">
             <p id="pingHostHelp" class="sr-only">Enter a valid hostname or IP address to ping.</p>
           </div>
           <div class="tool-col">
@@ -694,7 +605,7 @@
         <div class="tool-row">
           <div class="tool-col">
             <label for="traceHost">Host to Trace:</label>
-            <input type="text" id="traceHost" placeholder="example.com or 192.168.1.1" value="web.restolution.fi" aria-describedby="traceHostHelp">
+            <input type="text" id="traceHost" placeholder="example.com or 192.168.1.1" value="example.com" aria-describedby="traceHostHelp">
             <p id="traceHostHelp" class="sr-only">Enter a valid hostname or IP address to trace.</p>
           </div>
           <div class="tool-col">
@@ -733,7 +644,7 @@
         <div class="tool-row">
           <div class="tool-col">
             <label for="dnsDomain">Domain Name:</label>
-            <input type="text" id="dnsDomain" placeholder="example.com" value="restolution.fi" aria-describedby="dnsDomainHelp">
+            <input type="text" id="dnsDomain" placeholder="example.com" value="example.com" aria-describedby="dnsDomainHelp">
             <p id="dnsDomainHelp" class="sr-only">Enter a valid domain name to look up DNS records.</p>
           </div>
           <div class="tool-col">
@@ -841,7 +752,7 @@
         <div class="tool-row">
           <div class="tool-col">
             <label for="headerUrl">URL to Analyze:</label>
-            <input type="text" id="headerUrl" placeholder="https://example.com" value="https://web.restolution.fi" aria-describedby="headerUrlHelp">
+            <input type="text" id="headerUrl" placeholder="https://example.com" value="https://example.com" aria-describedby="headerUrlHelp">
             <p id="headerUrlHelp" class="sr-only">Enter a valid URL starting with http:// or https://</p>
           </div>
         </div>
@@ -869,33 +780,6 @@
         </div>
       </div>
 
-      <!-- WHOIS Lookup -->
-      <div class="tab-content" id="whois-tab" role="tabpanel">
-        <h2><i class="fas fa-user"></i> WHOIS Lookup</h2>
-        <p><i>Retrieve domain registration details.</i></p>
-        <div class="error" id="whois-error"></div>
-        <div class="loading" id="whoisLoading">
-          <i class="fas fa-spinner fa-spin"></i> Looking up WHOIS information...
-        </div>
-        
-        <div class="tool-row">
-          <div class="tool-col">
-            <label for="whoisDomain">Domain Name:</label>
-            <input type="text" id="whoisDomain" placeholder="example.com" value="restolution.fi" aria-describedby="whoisDomainHelp">
-            <p id="whoisDomainHelp" class="sr-only">Enter a valid domain name to look up WHOIS information.</p>
-          </div>
-        </div>
-        
-        <button id="lookupWhoisBtn">
-          <i class="fas fa-search"></i> Lookup WHOIS
-        </button>
-        
-        <h3>WHOIS Results</h3>
-        <div class="ping-results" id="whoisResults">
-          <p>WHOIS information will appear here...</p>
-        </div>
-      </div>
-
       <!-- Speed Test -->
       <div class="tab-content" id="speedtest-tab" role="tabpanel">
         <h2><i class="fas fa-tachometer-alt"></i> Network Speed Test</h2>
@@ -919,85 +803,6 @@
     </div>
   </div>
 
-  <!-- Features Section -->
-  <section class="container">
-    <div class="card">
-      <h2><i class="fas fa-star"></i> Why Use Our Network Tools?</h2>
-      
-      <div class="features">
-        <div class="feature">
-          <i class="fas fa-user-shield"></i>
-          <h3>Privacy Focused</h3>
-          <p>All network operations happen in your browser. No data is sent to our servers.</p>
-        </div>
-        
-        <div class="feature">
-          <i class="fas fa-bolt"></i>
-          <h3>Fast & Efficient</h3>
-          <p>Quick diagnostics without installations or signups.</p>
-        </div>
-        
-        <div class="feature">
-          <i class="fas fa-lock"></i>
-          <h3>Secure</h3>
-          <p>No data leaves your device. All processing is client-side.</p>
-        </div>
-        
-        <div class="feature">
-          <i class="fas fa-mobile-alt"></i>
-          <h3>Responsive</h3>
-          <p>Works perfectly on all devices - desktop, tablet, and mobile.</p>
-        </div>
-        
-        <div class="feature">
-          <i class="fas fa-sync-alt"></i>
-          <h3>Real-time</h3>
-          <p>Live updates as results come in for ping and traceroute.</p>
-        </div>
-        
-        <div class="feature">
-          <i class="fas fa-wrench"></i>
-          <h3>Professional Tools</h3>
-          <p>Network diagnostics used by IT professionals.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Practical Uses Section -->
-  <section class="uses-section">
-    <div class="container">
-      <h2><i class="fas fa-lightbulb"></i> Practical Applications</h2>
-      <p>Our network tools can help you in many situations:</p>
-      
-      <div class="uses-grid">
-        <div class="use-item">
-          <i class="fas fa-wifi"></i>
-          <h3>Troubleshoot Connectivity</h3>
-          <p>Identify why you can't connect to a website or service</p>
-        </div>
-        
-        <div class="use-item">
-          <i class="fas fa-server"></i>
-          <h3>Server Monitoring</h3>
-          <p>Check if your servers are responding properly</p>
-        </div>
-        
-        <div class="use-item">
-          <i class="fas fa-shield-alt"></i>
-          <h3>Security Auditing</h3>
-          <p>Verify DNS configurations and SSL certificates</p>
-        </div>
-        
-        <div class="use-item">
-          <i class="fas fa-tachometer-alt"></i>
-          <h3>Performance Testing</h3>
-          <p>Measure latency and identify network bottlenecks</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- Footer Placeholder -->
   <footer id="main-footer">
     <p class="error-message" style="display: none; color: red; text-align: center;">Failed to load footer. Please try refreshing the page.</p>
@@ -1013,8 +818,6 @@
     // Constants
     const API_ENDPOINTS = {
       DNS: 'https://cloudflare-dns.com/dns-query',
-      WHOIS: 'https://api.whoisjs.com/whois',
-      CORS_PROXY: 'https://api.allorigins.win/raw?url=',
       IP_INFO: 'https://ipapi.co/json/'
     };
     
@@ -1050,7 +853,7 @@
       // Initialize Tabs from URL hash
       function initTabsFromHash() {
         const hash = window.location.hash.replace('#', '');
-        const validTabs = ['ping', 'traceroute', 'dns', 'ipinfo', 'headers', 'whois', 'speedtest'];
+        const validTabs = ['ping', 'traceroute', 'dns', 'ipinfo', 'headers', 'speedtest'];
         const tab = validTabs.includes(hash) ? hash : 'ping';
         switchTab(tab);
       }
@@ -1089,18 +892,22 @@
       // Error Handling
       function showError(message, tabId) {
         const errorDiv = document.querySelector(`#${tabId} .error`);
-        errorDiv.textContent = message;
-        errorDiv.style.display = 'block';
-        setTimeout(() => errorDiv.style.display = 'none', 5000);
+        if (errorDiv) {
+          errorDiv.textContent = message;
+          errorDiv.style.display = 'block';
+          setTimeout(() => errorDiv.style.display = 'none', 5000);
+        }
       }
       
       // Loading State
       function setLoading(tabId, isLoading) {
         const loadingDiv = document.getElementById(`${tabId}Loading`);
-        if (isLoading) {
-          loadingDiv.classList.add('active');
-        } else {
-          loadingDiv.classList.remove('active');
+        if (loadingDiv) {
+          if (isLoading) {
+            loadingDiv.classList.add('active');
+          } else {
+            loadingDiv.classList.remove('active');
+          }
         }
       }
       
@@ -1523,10 +1330,14 @@
           const response = await fetch(API_ENDPOINTS.IP_INFO);
           const data = await response.json();
           
+          if (data.error) {
+            throw new Error(data.reason || 'Failed to retrieve IP information');
+          }
+          
           document.getElementById('ipAddress').textContent = data.ip || '-';
           document.getElementById('ipCity').textContent = data.city || '-';
           document.getElementById('ipRegion').textContent = data.region || '-';
-          document.getElementById('ipCountry').textContent = `${data.country_name} (${data.country})` || '-';
+          document.getElementById('ipCountry').textContent = data.country_name ? `${data.country_name} (${data.country})` : '-';
           document.getElementById('ipIsp').textContent = data.org || '-';
           document.getElementById('ipTimezone').textContent = data.timezone || '-';
           
@@ -1542,7 +1353,7 @@
           }
         } catch (error) {
           console.error('IP info error:', error);
-          showError('Failed to retrieve IP information', 'ipinfo-error');
+          showError(error.message, 'ipinfo-error');
         } finally {
           setLoading('ipinfo', false);
         }
@@ -1569,8 +1380,11 @@
         setLoading('headers', true);
         try {
           const startTime = performance.now();
-          // Use a CORS proxy to bypass restrictions
-          const response = await fetch(`${API_ENDPOINTS.CORS_PROXY}${encodeURIComponent(url)}`, { method });
+          const response = await fetch(url, { 
+            method,
+            mode: 'cors',
+            cache: 'no-store'
+          });
           const endTime = performance.now();
           
           let headersHtml = `<p>HTTP headers (Load time: ${(endTime - startTime).toFixed(2)}ms):</p>`;
@@ -1595,54 +1409,15 @@
       // HTTP Headers Event Listeners
       document.getElementById('analyzeHeadersBtn').addEventListener('click', analyzeHeaders);
       
-      // WHOIS Lookup Functions
-      async function lookupWhois() {
-        const domain = document.getElementById('whoisDomain').value.trim();
-        
-        if (!domain) {
-          showError('Please enter a domain name', 'whois-error');
-          return;
-        }
-        
-        if (!validateDomain(domain)) {
-          showError('Please enter a valid domain name', 'whois-error');
-          return;
-        }
-        
-        setLoading('whois', true);
-        try {
-          const response = await fetch(`${API_ENDPOINTS.WHOIS}/${domain}`);
-          const data = await response.json();
-          
-          let html = '<p>WHOIS information:</p>';
-          if (!data.registrar) {
-            html = `<p>No WHOIS data found for ${DOMPurify.sanitize(domain)}</p>`;
-          } else {
-            for (const [key, value] of Object.entries(data)) {
-              html += `<div class="ping-item"><span>${DOMPurify.sanitize(key)}:</span> <span>${DOMPurify.sanitize(value)}</span></div>`;
-            }
-          }
-          
-          document.getElementById('whoisResults').innerHTML = html;
-        } catch (error) {
-          console.error('WHOIS lookup error:', error);
-          showError(`WHOIS lookup failed: ${error.message}`, 'whois-error');
-        } finally {
-          setLoading('whois', false);
-        }
-      }
-      
-      // WHOIS Event Listeners
-      document.getElementById('lookupWhoisBtn').addEventListener('click', lookupWhois);
-      
       // Speed Test Functions
       async function runSpeedTest() {
         setLoading('speedtest', true);
-        const testFile = 'https://speedtest.ftp.otenet.gr/files/test10Mb.db'; // 10MB test file
+        // Use a reliable test file from Cloudflare
+        const testFile = 'https://speed.cloudflare.com/__down?bytes=10000000'; // 10MB test file
         const startTime = performance.now();
         
         try {
-          const response = await fetch(testFile + '?t=' + Date.now(), { cache: 'no-store' });
+          const response = await fetch(testFile + '&t=' + Date.now(), { cache: 'no-store' });
           const blob = await response.blob();
           const endTime = performance.now();
           
@@ -1680,7 +1455,7 @@
       function loadSettings() {
         const settings = JSON.parse(localStorage.getItem('networkToolsSettings'));
         if (settings) {
-          document.getElementById('pingHost').value = settings.pingHost || 'web.restolution.fi';
+          document.getElementById('pingHost').value = settings.pingHost || 'example.com';
           document.getElementById('pingCount').value = settings.pingCount || '10';
           document.getElementById('pingInterval').value = settings.pingInterval || '5';
           document.getElementById('pingTimeout').value = settings.pingTimeout || '2000';
