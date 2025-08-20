@@ -395,6 +395,200 @@
       font-size: 1.1rem;
       margin-top: 5px;
     }
+
+    /* Cookie Consent Styles */
+    #cookie-consent {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--dark);
+      color: var(--light);
+      padding: 20px;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
+      z-index: 1000;
+      display: none;
+    }
+
+    .cookie-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .cookie-text {
+      flex: 1;
+      margin-right: 20px;
+    }
+
+    .cookie-text p {
+      margin-bottom: 10px;
+    }
+
+    .cookie-text a {
+      color: var(--primary);
+      text-decoration: underline;
+    }
+
+    .cookie-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .cookie-btn {
+      padding: 10px 20px;
+      border-radius: 5px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .reject-btn {
+      background: transparent;
+      border: 1px solid var(--light);
+      color: var(--light);
+    }
+
+    .accept-btn {
+      background: var(--primary);
+      color: white;
+    }
+
+    .cookie-settings-btn {
+      background: none;
+      border: none;
+      color: var(--primary);
+      text-decoration: underline;
+      cursor: pointer;
+      margin-top: 10px;
+      width: 100%;
+    }
+
+    /* Cookie Settings Modal */
+    #cookie-settings {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 1001;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .settings-modal {
+      background: var(--light);
+      border-radius: var(--border-radius);
+      padding: 30px;
+      max-width: 600px;
+      width: 100%;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    .settings-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .close-settings {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    .cookie-type {
+      margin-bottom: 20px;
+    }
+
+    .cookie-type-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 34px;
+    }
+
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 34px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 26px;
+      width: 26px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: var(--primary);
+    }
+
+    input:focus + .slider {
+      box-shadow: 0 0 1px var(--primary);
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(26px);
+    }
+
+    .settings-buttons {
+      text-align: right;
+    }
+
+    .save-settings {
+      padding: 10px 20px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    /* Header and Footer Styles */
+    #main-header, #main-footer {
+      background: var(--dark);
+      color: var(--light);
+      padding: 15px 0;
+      text-align: center;
+    }
+
+    .error-message {
+      color: #e74c3c !important;
+      margin: 0;
+    }
     
     /* Responsive Design for Network Tools */
     @media (max-width: 992px) {
@@ -423,6 +617,25 @@
       
       .btn-group button {
         width: 100%;
+      }
+
+      .cookie-content {
+        flex-direction: column;
+      }
+
+      .cookie-text {
+        margin-right: 0;
+        margin-bottom: 15px;
+      }
+
+      .cookie-buttons {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .cookie-btn {
+        flex: 1;
+        margin: 0 5px;
       }
     }
 
@@ -455,6 +668,11 @@
   </style>
 </head>
 <body>
+  <!-- Header Placeholder -->
+  <header id="main-header">
+    <p class="error-message" style="display: none; color: red; text-align: center;">Failed to load header. Please try refreshing the page.</p>
+  </header>
+
   <!-- Hero Section -->
   <section class="hero">
     <div class="container">
@@ -808,6 +1026,71 @@
         <div id="speedResults" style="background: #f8f9ff; border-radius: var(--border-radius); padding: 15px; max-height: 300px; overflow-y: auto;">
           <p>Speed test results will appear here...</p>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer Placeholder -->
+  <footer id="main-footer">
+    <p class="error-message" style="display: none; color: red; text-align: center;">Failed to load footer. Please try refreshing the page.</p>
+  </footer>
+
+  <!-- Cookie Consent Banner -->
+  <div id="cookie-consent">
+    <div class="cookie-content">
+      <div class="cookie-text">
+        <p>We use cookies to enhance your experience. Essential cookies are always on, but you can choose whether to allow analytics and advertising cookies.</p>
+        <p>Learn more in our <a href="/privacy" aria-label="Privacy Policy">Privacy Policy</a>.</p>
+      </div>
+      <div class="cookie-buttons">
+        <button class="cookie-btn reject-btn" id="reject-cookies">Reject Non-Essential</button>
+        <button class="cookie-btn accept-btn" id="accept-cookies">Accept All</button>
+      </div>
+      <button class="cookie-settings-btn" id="open-settings">Customize Settings</button>
+    </div>
+  </div>
+
+  <!-- Cookie Settings Modal -->
+  <div id="cookie-settings">
+    <div class="settings-modal">
+      <div class="settings-header">
+        <h2>Cookie Settings</h2>
+        <button class="close-settings" aria-label="Close settings"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="settings-content">
+        <div class="cookie-type">
+          <div class="cookie-type-header">
+            <h3>Essential Cookies</h3>
+            <div class="toggle-switch">
+              <input type="checkbox" id="essential-toggle" checked disabled>
+              <span class="slider"></span>
+            </div>
+          </div>
+          <p>These cookies are necessary for the website to function and cannot be disabled.</p>
+        </div>
+        <div class="cookie-type">
+          <div class="cookie-type-header">
+            <h3>Analytics Cookies</h3>
+            <div class="toggle-switch">
+              <input type="checkbox" id="analytics-toggle">
+              <span class="slider"></span>
+            </div>
+          </div>
+          <p>These cookies help us understand how visitors interact with our website, providing insights to improve our services.</p>
+        </div>
+        <div class="cookie-type">
+          <div class="cookie-type-header">
+            <h3>Advertising Cookies</h3>
+            <div class="toggle-switch">
+              <input type="checkbox" id="advertising-toggle">
+              <span class="slider"></span>
+            </div>
+          </div>
+          <p>These cookies are used to deliver personalized advertisements based on your interests.</p>
+        </div>
+      </div>
+      <div class="settings-buttons">
+        <button class="save-settings" id="save-settings">Save Settings</button>
       </div>
     </div>
   </div>
@@ -1455,5 +1738,8 @@
       initNetworkTools();
     });
   </script>
+
+  <!-- Shared JavaScript -->
+  <script src="/js/main.js"></script>
 </body>
 </html>
