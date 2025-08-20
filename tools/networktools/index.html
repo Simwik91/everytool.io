@@ -396,6 +396,194 @@
       margin-top: 5px;
     }
     
+    /* Cookie Consent Styles */
+    #cookie-consent {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.9);
+      color: white;
+      padding: 20px;
+      z-index: 1000;
+      display: none;
+    }
+    
+    .cookie-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    
+    .cookie-text {
+      flex: 1;
+      min-width: 300px;
+    }
+    
+    .cookie-text p {
+      margin-bottom: 10px;
+    }
+    
+    .cookie-text a {
+      color: #4361ee;
+      text-decoration: underline;
+    }
+    
+    .cookie-buttons {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .cookie-btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    
+    .reject-btn {
+      background: #718096;
+      color: white;
+    }
+    
+    .accept-btn {
+      background: #4361ee;
+      color: white;
+    }
+    
+    .cookie-settings-btn {
+      background: none;
+      border: none;
+      color: #4361ee;
+      cursor: pointer;
+      text-decoration: underline;
+      margin-top: 10px;
+    }
+    
+    #cookie-settings {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 1001;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .settings-modal {
+      background: white;
+      border-radius: 10px;
+      padding: 30px;
+      max-width: 600px;
+      width: 100%;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+    
+    .settings-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .settings-header h2 {
+      margin: 0;
+    }
+    
+    .close-settings {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    
+    .cookie-type {
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .cookie-type-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 24px;
+    }
+    
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 24px;
+    }
+    
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+    
+    input:checked + .slider {
+      background-color: #4361ee;
+    }
+    
+    input:checked + .slider:before {
+      transform: translateX(26px);
+    }
+    
+    input:disabled + .slider {
+      background-color: #4361ee;
+      cursor: not-allowed;
+    }
+    
+    .settings-buttons {
+      text-align: right;
+      margin-top: 20px;
+    }
+    
+    .save-settings {
+      background: #4361ee;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    
     /* Responsive Design for Network Tools */
     @media (max-width: 992px) {
       .info-grid {
@@ -404,6 +592,11 @@
       
       .tool-row {
         flex-direction: column;
+      }
+      
+      .cookie-content {
+        flex-direction: column;
+        text-align: center;
       }
     }
 
@@ -422,6 +615,15 @@
       }
       
       .btn-group button {
+        width: 100%;
+      }
+      
+      .cookie-buttons {
+        flex-direction: column;
+        width: 100%;
+      }
+      
+      .cookie-btn {
         width: 100%;
       }
     }
@@ -450,6 +652,11 @@
       .ping-item {
         grid-template-columns: 1fr;
         text-align: center;
+      }
+      
+      .settings-modal {
+        padding: 20px;
+        margin: 20px;
       }
     }
   </style>
@@ -821,6 +1028,66 @@
   <footer id="main-footer">
     <p class="error-message" style="display: none; color: red; text-align: center;">Failed to load footer. Please try refreshing the page.</p>
   </footer>
+
+  <!-- Cookie Consent Banner -->
+  <div id="cookie-consent">
+    <div class="cookie-content">
+      <div class="cookie-text">
+        <p>We use cookies to enhance your experience. Essential cookies are always on, but you can choose whether to allow analytics and advertising cookies.</p>
+        <p>Learn more in our <a href="/privacy" aria-label="Privacy Policy">Privacy Policy</a>.</p>
+      </div>
+      <div class="cookie-buttons">
+        <button class="cookie-btn reject-btn" id="reject-cookies">Reject Non-Essential</button>
+        <button class="cookie-btn accept-btn" id="accept-cookies">Accept All</button>
+      </div>
+      <button class="cookie-settings-btn" id="open-settings">Customize Settings</button>
+    </div>
+  </div>
+
+  <!-- Cookie Settings Modal -->
+  <div id="cookie-settings">
+    <div class="settings-modal">
+      <div class="settings-header">
+        <h2>Cookie Settings</h2>
+        <button class="close-settings" aria-label="Close settings"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="settings-content">
+        <div class="cookie-type">
+          <div class="cookie-type-header">
+            <h3>Essential Cookies</h3>
+            <div class="toggle-switch">
+              <input type="checkbox" id="essential-toggle" checked disabled>
+              <span class="slider"></span>
+            </div>
+          </div>
+          <p>These cookies are necessary for the website to function and cannot be disabled.</p>
+        </div>
+        <div class="cookie-type">
+          <div class="cookie-type-header">
+            <h3>Analytics Cookies</h3>
+            <div class="toggle-switch">
+              <input type="checkbox" id="analytics-toggle">
+              <span class="slider"></span>
+            </div>
+          </div>
+          <p>These cookies help us understand how visitors interact with our website, providing insights to improve our services.</p>
+        </div>
+        <div class="cookie-type">
+          <div class="cookie-type-header">
+            <h3>Advertising Cookies</h3>
+            <div class="toggle-switch">
+              <input type="checkbox" id="advertising-toggle">
+              <span class="slider"></span>
+            </div>
+          </div>
+          <p>These cookies are used to deliver personalized advertisements based on your interests.</p>
+        </div>
+      </div>
+      <div class="settings-buttons">
+        <button class="save-settings" id="save-settings">Save Settings</button>
+      </div>
+    </div>
+  </div>
 
   <!-- Network Tools JavaScript -->
   <script>
@@ -1411,6 +1678,77 @@
         document.getElementById('stopSpeedTestBtn').disabled = true;
       }
       
+      // Cookie Consent Functions
+      function initCookieConsent() {
+        const cookieConsent = document.getElementById('cookie-consent');
+        const cookieSettings = document.getElementById('cookie-settings');
+        const acceptCookiesBtn = document.getElementById('accept-cookies');
+        const rejectCookiesBtn = document.getElementById('reject-cookies');
+        const openSettingsBtn = document.getElementById('open-settings');
+        const closeSettingsBtn = document.querySelector('.close-settings');
+        const saveSettingsBtn = document.getElementById('save-settings');
+        
+        // Check if user has already made a choice
+        if (!localStorage.getItem('cookieConsent')) {
+          // Show cookie consent banner after a short delay
+          setTimeout(() => {
+            cookieConsent.style.display = 'block';
+          }, 1000);
+        }
+        
+        // Accept all cookies
+        acceptCookiesBtn.addEventListener('click', () => {
+          localStorage.setItem('cookieConsent', 'all');
+          cookieConsent.style.display = 'none';
+          // Here you would typically initialize all cookies
+        });
+        
+        // Reject non-essential cookies
+        rejectCookiesBtn.addEventListener('click', () => {
+          localStorage.setItem('cookieConsent', 'essential');
+          cookieConsent.style.display = 'none';
+          // Here you would typically initialize only essential cookies
+        });
+        
+        // Open settings modal
+        openSettingsBtn.addEventListener('click', () => {
+          cookieSettings.style.display = 'flex';
+        });
+        
+        // Close settings modal
+        closeSettingsBtn.addEventListener('click', () => {
+          cookieSettings.style.display = 'none';
+        });
+        
+        // Save settings
+        saveSettingsBtn.addEventListener('click', () => {
+          const analyticsChecked = document.getElementById('analytics-toggle').checked;
+          const advertisingChecked = document.getElementById('advertising-toggle').checked;
+          
+          if (analyticsChecked && advertisingChecked) {
+            localStorage.setItem('cookieConsent', 'all');
+          } else if (analyticsChecked) {
+            localStorage.setItem('cookieConsent', 'analytics');
+          } else if (advertisingChecked) {
+            localStorage.setItem('cookieConsent', 'advertising');
+          } else {
+            localStorage.setItem('cookieConsent', 'essential');
+          }
+          
+          cookieSettings.style.display = 'none';
+          cookieConsent.style.display = 'none';
+          
+          // Here you would typically initialize cookies based on user preferences
+        });
+        
+        // Close modal if clicked outside
+        cookieSettings.addEventListener('click', (e) => {
+          if (e.target === cookieSettings) {
+            cookieSettings.style.display = 'none';
+          }
+        });
+      }
+      
       // Tab Switching
       function switchTab(tabName) {
         document.querySelectorAll('.tab').forEach(tab => {
@@ -1458,6 +1796,9 @@
       
       document.getElementById('startSpeedTestBtn').addEventListener('click', startSpeedTest);
       document.getElementById('stopSpeedTestBtn').addEventListener('click', stopSpeedTest);
+      
+      // Initialize cookie consent
+      initCookieConsent();
     }
 
     // Initialize everything when DOM is loaded
