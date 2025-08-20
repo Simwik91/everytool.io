@@ -1091,6 +1091,37 @@
 
   <!-- Network Tools JavaScript -->
   <script>
+    // Header and Footer Loading
+    function loadHeaderAndFooter() {
+      // Load header
+      fetch('/header.html')
+        .then(response => {
+          if (!response.ok) throw new Error('Failed to load header');
+          return response.text();
+        })
+        .then(html => {
+          document.getElementById('main-header').innerHTML = html;
+        })
+        .catch(error => {
+          console.error('Error loading header:', error);
+          document.querySelector('#main-header .error-message').style.display = 'block';
+        });
+      
+      // Load footer
+      fetch('/footer.html')
+        .then(response => {
+          if (!response.ok) throw new Error('Failed to load footer');
+          return response.text();
+        })
+        .then(html => {
+          document.getElementById('main-footer').innerHTML = html;
+        })
+        .catch(error => {
+          console.error('Error loading footer:', error);
+          document.querySelector('#main-footer .error-message').style.display = 'block';
+        });
+    }
+
     // Network Tools Functionality
     function initNetworkTools() {
       // Constants
@@ -1803,8 +1834,12 @@
 
     // Initialize everything when DOM is loaded
     document.addEventListener('DOMContentLoaded', () => {
+      loadHeaderAndFooter();
       initNetworkTools();
     });
   </script>
+
+  <!-- Shared JavaScript -->
+  <script src="/js/main.js"></script>
 </body>
 </html>
