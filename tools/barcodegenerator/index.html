@@ -542,6 +542,66 @@
       border: 1px dashed #e0e0e0;
     }
 
+    /* Copy to clipboard section */
+    .copy-container {
+      margin: 1.5em 0;
+      border: 1px solid var(--light-gray);
+      border-radius: var(--border-radius);
+      padding: 20px;
+      background: #fafbff;
+      display: none;
+      text-align: center;
+    }
+
+    .copy-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+      justify-content: center;
+    }
+
+    .copy-header i {
+      color: var(--primary);
+      font-size: 1.5rem;
+    }
+
+    .copy-content {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      align-items: center;
+    }
+
+    .copy-btn {
+      padding: 12px 25px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: var(--transition);
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    .copy-btn:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+    }
+
+    .copy-success {
+      color: #27ae60;
+      text-align: center;
+      margin-top: 10px;
+      display: none;
+      font-weight: 500;
+    }
+
     /* Responsive Design for Barcode Generator */
     @media (max-width: 768px) {
       .hero h1 {
@@ -841,6 +901,23 @@
         </div>
       </div>
     </div>
+
+    <!-- Copy to clipboard section -->
+    <div class="copy-container" id="copy-container">
+      <div class="copy-header">
+        <i class="fas fa-copy"></i>
+        <h3>Copy Barcode Value</h3>
+      </div>
+      
+      <div class="copy-content">
+        <button id="copy-btn" class="copy-btn">
+          <i class="fas fa-copy"></i> Copy to Clipboard
+        </button>
+        <div class="copy-success" id="copy-success">
+          <i class="fas fa-check-circle"></i> Copied to clipboard!
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Footer Placeholder -->
@@ -961,7 +1038,12 @@
         customText: document.getElementById('custom-text'),
         textColor: document.getElementById('text-color'),
         textSize: document.getElementById('text-size'),
-        textAlign: document.getElementById('text-align')
+        textAlign: document.getElementById('text-align'),
+        
+        // Copy to clipboard elements
+        copyContainer: document.getElementById('copy-container'),
+        copyBtn: document.getElementById('copy-btn'),
+        copySuccess: document.getElementById('copy-success')
       };
 
       const barcodeConfig = {
@@ -979,6 +1061,37 @@
         // Toggle text display fields
         elements.showTextDisplay.addEventListener('change', function() {
           elements.textDisplayFields.style.display = this.checked ? 'block' : 'none';
+        });
+      }
+
+      function initCopyToClipboard() {
+        // Copy button functionality
+        elements.copyBtn.addEventListener('click', function() {
+          const barcodeValue = elements.singleCanvas.dataset.code || elements.customCanvas.dataset.code;
+          if (!barcodeValue) return;
+          
+          navigator.clipboard.writeText(barcodeValue)
+            .then(() => {
+              elements.copySuccess.style.display = 'block';
+              setTimeout(() => {
+                elements.copySuccess.style.display = 'none';
+              }, 2000);
+            })
+            .catch(err => {
+              console.error('Failed to copy: ', err);
+              // Fallback for older browsers
+              const textArea = document.createElement('textarea');
+              textArea.value = barcodeValue;
+              document.body.appendChild(textArea);
+              textArea.select();
+              document.execCommand('copy');
+              document.body.removeChild(textArea);
+              
+              elements.copySuccess.style.display = 'block';
+              setTimeout(() => {
+                elements.copySuccess.style.display = 'none';
+              }, 2000);
+            });
         });
       }
 
@@ -1043,6 +1156,7 @@
         downloadButton.style.display = 'none';
         svgDownloadButton.style.display = 'none';
         canvas.style.display = 'none';
+        elements.copyContainer.style.display = 'none';
 
         if (!validateInput(code, type)) {
           showError(errorElement, 'Invalid input format for selected barcode type');
@@ -1107,6 +1221,10 @@
           downloadButton.style.display = 'inline-block';
           svgDownloadButton.style.display = 'inline-block';
           canvas.style.display = 'block';
+          
+          // Show the copy to clipboard section
+          elements.copyContainer.style.display = 'block';
+          
           showSuccess(successElement, 'Barcode generated successfully!');
         } catch (error) {
           showError(errorElement, `Failed to generate barcode: ${error.message}`);
@@ -1295,6 +1413,9 @@
         // Initialize text display UI
         initTextDisplay();
         
+        // Initialize copy to clipboard functionality
+        initCopyToClipboard();
+        
         // Initialize color options toggle
         if (elements.barcodeShowColorOptions && elements.barcodeColorOptionsContent) {
           elements.barcodeShowColorOptions.addEventListener('change', function() {
@@ -1440,7 +1561,7 @@
       }
 
       function sanitizeFilename(str) {
-        return str.replace(/[^a-zA-Z0-9-]+/g, '_').slice(0, 50) || 'barcode';
+        return str.replace(/[^a-zA-Z00-9-]+/g, '_').slice(0, 50) || 'barcode';
       }
       
       initializeBarcodeGenerator();
