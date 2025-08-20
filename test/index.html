@@ -3,793 +3,50 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Free Image Toolkit: Crop, resize, and convert images in PNG, JPEG, WEBP, BMP, GIF, or HEIC. Fast, free, no signup required.">
-  <title>Free Image Toolkit - Crop, Resize, Convert</title>
+  <meta name="description" content="Free Barcode Generator - Create custom EAN-13, EAN-8, UPC, and other barcodes for products, inventory, and retail.">
+  <title>Enhanced Barcode Generator - EveryTool.io</title>
   
-  <!-- Performance Tuning -->
+  <!-- SEO Optimizations -->
+  <meta name="robots" content="index, follow">
+  <meta name="keywords" content="free barcode generator, barcode creator, ean-13, ean-8, upc barcode, barcode generator">
+  <meta property="og:title" content="Free Barcode Generator - EveryTool.io">
+  <meta property="og:description" content="Create custom Barcodes for products, inventory, and retail applications. Generate EAN-13, EAN-8, UPC, and more.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://everytool.io/barcodegenerator">
+  <meta property="og:image" content="https://everytool.io/social-preview.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  
+  <!-- Performance Optimization -->
   <link rel="preconnect" href="https://cdnjs.cloudflare.com">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.rel='stylesheet'">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
-  <!-- Shared CSS -->
-  <style>
-    /* === Shared CSS Styles === */
-    :root {
-      --primary: #4361ee;
-      --primary-dark: #3a56d4;
-      --secondary: #7209b7;
-      --accent: #f72585;
-      --light: #f8f9fa;
-      --dark: #212529;
-      --gray: #6c757d;
-      --light-gray: #e9ecef;
-      --border-radius: 12px;
-      --box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-      --transition: all 0.3s ease;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #f5f7ff 0%, #f0f4ff 100%);
-      color: var(--dark);
-      line-height: 1.6;
-      min-height: 100vh;
-      padding: 20px;
-      overflow-x: hidden;
-      transition: transform 0.4s ease;
-    }
-    
-    body.menu-open {
-      overflow: hidden;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-
-    /* Header & Navigation */
-    header {
-      background: white;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-
-    .header-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px 0;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: var(--primary);
-      text-decoration: none;
-      z-index: 2001;
-    }
-
-    .logo i {
-      margin-right: 10px;
-      font-size: 2.2rem;
-    }
-
-    .nav-container {
-      display: flex;
-      align-items: center;
-    }
-
-    .nav-menu {
-      display: flex;
-      list-style: none;
-      margin-right: 20px;
-    }
-
-    .nav-item {
-      position: relative;
-      margin: 0 15px;
-    }
-
-    .nav-link {
-      padding: 10px 15px;
-      color: var(--dark);
-      text-decoration: none;
-      font-weight: 500;
-      border-radius: var(--border-radius);
-      transition: var(--transition);
-      display: flex;
-      align-items: center;
-    }
-
-    .nav-link i {
-      margin-right: 8px;
-    }
-
-    .nav-link:hover, .nav-link:focus {
-      background: rgba(67, 97, 238, 0.1);
-      color: var(--primary);
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-
-    /* Dropdown Menu */
-    .dropdown {
-      position: relative;
-    }
-
-    .dropdown-toggle::after {
-      content: '\f078'; /* Font Awesome chevron-down */
-      font-family: 'Font Awesome 6 Free';
-      font-weight: 900;
-      margin-left: 8px;
-      font-size: 0.8rem;
-    }
-
-    .dropdown-menu {
-      display: none;
-      position: absolute;
-      top: 100%;
-      left: 0;
-      background: white;
-      box-shadow: var(--box-shadow);
-      border-radius: var(--border-radius);
-      min-width: 240px;
-      max-height: 400px;
-      overflow-y: auto;
-      z-index: 1000;
-      list-style: none;
-      padding: 10px 0;
-    }
-
-    .dropdown-menu li {
-      margin: 0;
-    }
-
-    .dropdown-item {
-      display: flex;
-      align-items: center;
-      padding: 10px 20px;
-      color: var(--dark);
-      text-decoration: none;
-      font-weight: 500;
-      transition: var(--transition);
-    }
-
-    .dropdown-item i {
-      margin-right: 10px;
-      font-size: 1.2rem;
-      color: var(--primary);
-    }
-
-    .dropdown-item:hover, .dropdown-item:focus {
-      background: rgba(67, 97, 238, 0.1);
-      color: var(--primary);
-    }
-
-    .nav-item.dropdown:hover .dropdown-menu,
-    .nav-item.dropdown .dropdown-menu.active {
-      display: block;
-    }
-
-    .dropdown-error {
-      font-size: 0.9rem;
-      color: red;
-      padding: 10px 20px;
-    }
-
-    .mobile-menu-btn {
-      display: none;
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      color: var(--dark);
-      cursor: pointer;
-      padding: 10px;
-      border-radius: 5px;
-      z-index: 2001;
-    }
-
-    .mobile-menu-btn:hover, .mobile-menu-btn:focus {
-      background: rgba(67, 97, 238, 0.1);
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-
-    /* Mobile Menu */
-    .mobile-backdrop {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      z-index: 1999;
-      display: none;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
-    .mobile-backdrop.active {
-      display: block;
-      opacity: 1;
-    }
-
-    .mobile-nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 280px;
-      height: 100vh;
-      background: white;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-      z-index: 2000;
-      transform: translateX(-100%);
-      transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-      overflow-y: auto;
-      display: block;
-    }
-
-    .mobile-nav.active {
-      transform: translateX(0);
-    }
-
-    .mobile-nav-header {
-      padding: 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid var(--light-gray);
-    }
-
-    .close-mobile-menu {
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      color: var(--dark);
-      cursor: pointer;
-      padding: 5px;
-      border-radius: 5px;
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .close-mobile-menu:hover, .close-mobile-menu:focus {
-      background: rgba(0, 0, 0, 0.05);
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-
-    .mobile-nav-menu {
-      list-style: none;
-      padding: 20px;
-    }
-
-    .mobile-nav-item {
-      margin-bottom: 10px;
-    }
-
-    .mobile-nav-link {
-      display: block;
-      padding: 12px 15px;
-      color: var(--dark);
-      text-decoration: none;
-      font-weight: 500;
-      border-radius: var(--border-radius);
-      transition: var(--transition);
-    }
-
-    .mobile-nav-link:hover, .mobile-nav-link:focus {
-      background: rgba(67, 97, 238, 0.1);
-      color: var(--primary);
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-
-    .mobile-nav-link i {
-      width: 24px;
-      text-align: center;
-      margin-right: 10px;
-    }
-
-    .mobile-nav .dropdown-menu {
-      display: none;
-      list-style: none;
-      padding: 10px 15px 10px 30px;
-      background: rgba(0, 0, 0, 0.05);
-    }
-
-    .mobile-nav .dropdown-menu.active {
-      display: block;
-    }
-
-    .mobile-nav .dropdown-item {
-      display: flex;
-      align-items: center;
-      padding: 8px 20px;
-    }
-
-    .mobile-nav .dropdown-item i {
-      margin-right: 10px;
-      font-size: 1.2rem;
-      color: var(--primary);
-    }
-
-    .mobile-nav .dropdown-error {
-      font-size: 0.9rem;
-      color: red;
-      padding: 8px 20px;
-    }
-
-    /* Footer */
-    footer {
-      background: linear-gradient(135deg, var(--light) 0%, #f0f4ff 100%);
-      color: #000;
-      padding: 60px 0 30px;
-    }
-
-    .footer-bottom {
-      border-top: 1px solid rgba(0, 0, 0, 0.1);
-      padding-top: 30px;
-      text-align: center;
-    }
-
-    .footer-bottom a {
-      color: #000;
-      text-decoration: none;
-      transition: var(--transition);
-      font-weight: 600;
-      font-size: 1.1rem;
-      margin: 0 10px;
-    }
-
-    .footer-bottom a:hover, 
-    .footer-bottom a:focus {
-      color: var(--primary);
-      text-decoration: underline;
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-
-    .footer-links-row {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-    }
-    
-    .footer-bottom p {
-      color: #000;
-      font-weight: 600;
-      font-size: 1.1rem;
-      margin: 0;
-    }
-    
-    /* Cookie Consent Styles */
-    #cookie-consent {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 95%;
-      max-width: 800px;
-      background: var(--light);
-      border-radius: var(--border-radius);
-      box-shadow: 0 5px 30px rgba(0, 0, 0, 0.15);
-      padding: 20px;
-      z-index: 1000;
-      display: none;
-    }
-
-    .cookie-content {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 15px;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .cookie-text {
-      flex: 1;
-      min-width: 300px;
-      color: var(--dark);
-    }
-
-    .cookie-text p {
-      margin-bottom: 10px;
-      font-size: 0.95rem;
-    }
-
-    .cookie-text a {
-      color: var(--primary);
-      text-decoration: none;
-    }
-
-    .cookie-text a:hover, .cookie-text a:focus {
-      text-decoration: underline;
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-
-    .cookie-buttons {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .cookie-btn {
-      padding: 10px 20px;
-      border-radius: 50px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: var(--transition);
-      font-size: 0.9rem;
-      border: none;
-      min-width: 180px;
-    }
-
-    .cookie-btn:focus {
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-
-    .reject-btn {
-      background: var(--light-gray);
-      color: var(--dark);
-    }
-
-    .reject-btn:hover {
-      background: #e0e0e0;
-    }
-
-    .accept-btn {
-      background: var(--primary);
-      color: white;
-    }
-
-    .accept-btn:hover {
-      background: var(--primary-dark);
-    }
-
-    .cookie-settings-btn {
-      background: transparent;
-      color: var(--gray);
-      text-decoration: underline;
-      border: none;
-      cursor: pointer;
-      padding: 0;
-      margin-top: 10px;
-      font-size: 0.85rem;
-    }
-
-    .cookie-settings-btn:hover, .cookie-settings-btn:focus {
-      color: var(--dark);
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-
-    #cookie-settings {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.7);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 2000;
-      animation: slideUp 0.3s ease-out;
-    }
-
-    .settings-modal {
-      background: var(--light);
-      border-radius: var(--border-radius);
-      width: 95%;
-      max-width: 600px;
-      max-height: 90vh;
-      overflow-y: auto;
-      padding: 30px;
-      position: relative;
-      animation: slideUp 0.3s ease-out;
-    }
-
-    @keyframes slideUp {
-      from { transform: translateY(20px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-
-    .settings-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-
-    .settings-header h2 {
-      font-size: 1.8rem;
-      margin: 0;
-    }
-
-    .close-settings {
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      cursor: pointer;
-      color: var(--gray);
-      transition: var(--transition);
-      padding: 5px;
-      border-radius: 5px;
-    }
-
-    .close-settings:hover, .close-settings:focus {
-      color: var(--dark);
-      background: rgba(0, 0, 0, 0.05);
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-
-    .settings-content {
-      margin-bottom: 20px;
-    }
-
-    .cookie-type {
-      margin-bottom: 20px;
-      padding-bottom: 15px;
-      border-bottom: 1px solid var(--light-gray);
-    }
-
-    .cookie-type-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-
-    .cookie-type h3 {
-      margin: 0;
-      font-size: 1.2rem;
-    }
-
-    .toggle-switch {
-      position: relative;
-      display: inline-block;
-      width: 50px;
-      height: 24px;
-    }
-
-    .toggle-switch input {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      opacity: 0;
-      cursor: pointer;
-      z-index: 1;
-    }
-
-    .slider {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: var(--gray);
-      transition: background-color 0.3s ease;
-      border-radius: 24px;
-    }
-
-    .slider:before {
-      position: absolute;
-      content: "";
-      height: 16px;
-      width: 16px;
-      left: 4px;
-      bottom: 4px;
-      background-color: white;
-      transition: transform 0.3s ease;
-      border-radius: 50%;
-    }
-
-    .toggle-switch input:checked + .slider {
-      background-color: var(--primary);
-    }
-
-    .toggle-switch input:checked + .slider:before {
-      transform: translateX(26px);
-    }
-
-    .toggle-switch input:focus + .slider {
-      box-shadow: 0 0 0 2px var(--primary-dark);
-    }
-
-    .toggle-switch input:disabled + .slider {
-      background-color: var(--light-gray);
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    .toggle-switch input:disabled + .slider:before {
-      background-color: #ddd;
-    }
-
-    .cookie-type p {
-      font-size: 0.9rem;
-      color: var(--gray);
-      margin-bottom: 10px;
-    }
-
-    .settings-buttons {
-      display: flex;
-      justify-content: flex-end;
-      gap: 10px;
-    }
-
-    .save-settings {
-      background: var(--primary);
-      color: white;
-      border: none;
-      padding: 10px 25px;
-      border-radius: 50px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-
-    .save-settings:hover, .save-settings:focus {
-      background: var(--primary-dark);
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-
-    /* Accessibility Improvements */
-    .sr-only {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      border: 0;
-    }
-
-    /* Responsive Design */
-    @media (max-width: 992px) {
-      .nav-menu {
-        display: none;
-      }
-      
-      .mobile-menu-btn {
-        display: block;
-      }
-      
-      .mobile-nav {
-        width: 100%;
-      }
-    }
-
-    @media (min-width: 993px) {
-      .mobile-nav {
-        display: none !important;
-      }
-      .mobile-backdrop {
-        display: none !important;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .footer-links-row {
-        flex-direction: column;
-        gap: 10px;
-      }
-      
-      .cookie-content {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      
-      .cookie-buttons {
-        width: 100%;
-      }
-      
-      .cookie-btn {
-        width: 100%;
-      }
-    }
-
-    @media (max-width: 576px) {
-      .header-container {
-        padding: 15px 0;
-      }
-      
-      .logo {
-        font-size: 1.5rem;
-      }
-      
-      .logo i {
-        font-size: 1.8rem;
-      }
-      
-      .settings-modal {
-        padding: 20px;
-      }
-    }
-    
-    /* === NEW STYLES FOR COLOR VALUE DISPLAYS === */
-    .color-values {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 15px;
-      justify-content: center;
-      margin-top: 20px;
-      width: 100%;
-    }
-    
-    .color-value-box {
-      background: white;
-      border-radius: var(--border-radius);
-      border: 1px solid var(--light-gray);
-      padding: 10px 15px;
-      min-width: 150px;
-      text-align: center;
-    }
-    
-    .color-value-title {
-      font-size: 0.9rem;
-      color: var(--gray);
-      margin-bottom: 5px;
-    }
-    
-    .color-value-content {
-      font-size: 1.1rem;
-      font-weight: 600;
-      font-family: monospace;
-      word-break: break-all;
-    }
-    
-    @media (max-width: 768px) {
-      .color-values {
-        flex-direction: column;
-        align-items: center;
-      }
-      
-      .color-value-box {
-        width: 100%;
-        max-width: 250px;
-      }
-    }
-  </style>
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
   
-  <!-- Image Toolkit Specific Styles -->
+  <!-- Shared CSS -->
+  <link rel="stylesheet" href="/css/styles.css">
+  
+  <!-- Barcode Generator Specific Styles -->
   <style>
-    /* === Image Toolkit Specific Styles === */
-    .tool-header {
+    /* Hero Section */
+    .hero {
+      padding: 60px 0 40px;
       text-align: center;
-      padding: 40px 0 20px;
     }
 
-    .tool-header h1 {
+    .hero-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .hero h1 {
       font-size: 2.5rem;
-      margin-bottom: 10px;
+      margin-bottom: 20px;
       font-weight: 700;
       background: linear-gradient(90deg, var(--primary), var(--secondary));
       -webkit-background-clip: text;
@@ -797,27 +54,29 @@
       line-height: 1.2;
     }
 
-    .tagline {
+    .hero p {
       font-size: 1.2rem;
-      color: var(--gray);
+      color: #444;
+      margin-bottom: 40px;
       max-width: 700px;
-      margin: 0 auto 25px;
+      margin-left: auto;
+      margin-right: auto;
     }
-
+    
     .card {
-      background: white;
+      background: var(--light);
       border-radius: var(--border-radius);
       box-shadow: var(--box-shadow);
       padding: 30px;
       margin-bottom: 30px;
       transition: var(--transition);
     }
-
+    
     .card:hover {
       transform: translateY(-5px);
       box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
     }
-
+    
     h2 {
       font-size: 1.8rem;
       margin-bottom: 25px;
@@ -828,27 +87,30 @@
       gap: 10px;
       justify-content: center;
     }
-
+    
     h2 i {
       color: var(--primary);
     }
-
+    
     h3 {
       font-size: 1.4rem;
-      margin-bottom: 15px;
+      margin: 20px 0 15px;
       color: var(--dark);
       font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      justify-content: center;
     }
-
+    
     .tabs {
       display: flex;
       justify-content: center;
       margin: 0 0 30px;
       gap: 10px;
       flex-wrap: wrap;
-      overflow-x: auto;
     }
-
+    
     .tab {
       padding: 12px 25px;
       cursor: pointer;
@@ -860,59 +122,51 @@
       align-items: center;
       gap: 8px;
       font-size: 1rem;
-      white-space: nowrap;
     }
-
+    
     .tab.active {
       background: var(--primary);
       color: white;
     }
-
+    
     .tab:hover:not(.active) {
       background: #dbe4ff;
     }
-
+    
     .tab-content {
       display: none;
     }
-
+    
     .tab-content.active {
       display: block;
       animation: fadeIn 0.4s ease;
     }
-
+    
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
-
-    label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: 500;
-      color: var(--dark);
-    }
-
-    input, select, button {
+    
+    input, select, button, textarea {
       margin: 0.5em auto;
       padding: 15px;
       width: 100%;
       font-size: 1rem;
       border-radius: 10px;
       border: 1px solid var(--light-gray);
-      background: white;
+      background: var(--light);
       display: block;
       transition: var(--transition);
       font-family: 'Poppins', sans-serif;
+      color: #444;
     }
-
-    input:focus, 
-    select:focus {
+    
+    input:focus, select:focus, textarea:focus {
       outline: none;
       border-color: var(--primary);
       box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
     }
-
+    
     button {
       background: var(--primary);
       color: white;
@@ -924,9 +178,8 @@
       align-items: center;
       justify-content: center;
       gap: 10px;
-      transition: var(--transition);
     }
-
+    
     button:hover, button:focus {
       background: var(--primary-dark);
       transform: translateY(-2px);
@@ -934,113 +187,36 @@
       outline: 2px solid var(--primary);
       outline-offset: 2px;
     }
-
-    .btn-group {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      margin: 1.5em 0;
-      flex-wrap: wrap;
-    }
-
-    .btn-group button {
-      width: auto;
-      min-width: 180px;
-      flex: 1;
-    }
-
-    .drag-drop-area {
-      width: 100%;
-      max-width: 500px;
-      margin: 2em auto;
-      padding: 2em;
-      border: 2px dashed var(--light-gray);
-      border-radius: var(--border-radius);
-      background: white;
-      color: var(--gray);
-      cursor: pointer;
-      transition: var(--transition);
-      text-align: center;
-      font-size: 1rem;
-    }
-
-    .drag-drop-area.drag-over {
-      background: #e6f0fa;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
-    }
-
-    .drag-drop-area p {
-      margin: 0.5em 0;
-    }
-
-    .resize-controls {
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .resize-controls input {
-      width: 45%;
-      max-width: 200px;
-      display: inline-block;
-    }
-
-    .quality-controls {
-      margin: 20px 0;
-      padding: 15px;
-      background: #f8f9ff;
-      border-radius: var(--border-radius);
+    
+    button.secondary {
+      background: var(--light);
+      color: var(--primary);
+      border: 2px solid var(--primary);
     }
     
-    .quality-slider-container {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      margin-bottom: 10px;
+    button.secondary:hover, button.secondary:focus {
+      background: #f0f4ff;
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
     }
     
-    .quality-slider {
-      flex: 1;
-    }
-    
-    .quality-value {
-      min-width: 60px;
-      text-align: center;
-      font-weight: 500;
-    }
-    
-    .visually-hidden {
-      position: absolute;
-      top: -9999px;
-      left: -9999px;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      border: 0;
-    }
-
     canvas {
       margin: 1.5em auto;
+      display: block;
       max-width: 100%;
       border-radius: 12px;
-      background: #f5f5f5;
+      background: var(--light);
       padding: 15px;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
       border: 1px solid var(--light-gray);
-      display: block;
     }
-
+    
     .loading {
       display: none;
       text-align: center;
       padding: 30px;
     }
-
+    
     .spinner {
       border: 4px solid rgba(0, 0, 0, 0.1);
       border-left-color: var(--primary);
@@ -1050,94 +226,455 @@
       animation: spin 1s linear infinite;
       margin: 0 auto 20px;
     }
-
+    
     @keyframes spin {
       to { transform: rotate(360deg); }
     }
-
+    
     .error {
       color: #e74c3c;
       padding: 15px;
       background: rgba(231, 76, 60, 0.1);
       border-radius: var(--border-radius);
       margin: 20px 0;
-      border-left: 4px solid #e74c3c;
       display: none;
+      border-left: 4px solid #e74c3c;
     }
-
+    
     .success {
       color: #27ae60;
       padding: 15px;
       background: rgba(39, 174, 96, 0.1);
       border-radius: var(--border-radius);
       margin: 20px 0;
-      border-left: 4px solid #27ae60;
       display: none;
+      border-left: 4px solid #27ae60;
     }
-
-    .file-size {
-      font-size: 0.9rem;
-      color: var(--gray);
-      margin-top: 10px;
+    
+    .btn-group {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin: 1.5em 0;
+      flex-wrap: wrap;
+    }
+    
+    .btn-group button {
+      width: auto;
+      min-width: 180px;
+      flex: 1;
+    }
+    
+    /* Guide Section */
+    .guide-section {
+      background: var(--light);
+      border-radius: var(--border-radius);
+      padding: 40px;
+      margin: 40px auto;
+      box-shadow: var(--box-shadow);
       text-align: center;
     }
+    
+    .guide-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+      margin-top: 25px;
+    }
+    
+    .guide-item {
+      padding: 25px;
+      background: #f8f9ff;
+      border-radius: var(--border-radius);
+      text-align: center;
+      font-size: 14px;
+    }
+    
+    .guide-item h3 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: center;
+    }
+    
+    .guide-item h3 i {
+      font-size: 1.8rem;
+    }
+    
+    .guide-item p {
+      font-size: 1rem;
+      color: #444;
+    }
+    
+    /* New Color Options Section */
+    .color-options-container {
+      margin: 1.5em 0;
+      border: 1px solid var(--light-gray);
+      border-radius: var(--border-radius);
+      padding: 20px;
+      background: #fafbff;
+    }
 
-    /* Color Picker Styles */
-    .color-picker-container {
+    .color-options-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+      justify-content: center;
+    }
+
+    .color-options-header i {
+      color: var(--primary);
+      font-size: 1.5rem;
+    }
+    
+    .text-display-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+    
+    .color-options-content {
+      display: block;
+    }
+    
+    .color-group {
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      margin: 1.5em 0;
+      flex-wrap: wrap;
+    }
+    
+    .color-input {
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin: 20px 0;
+      gap: 8px;
+      flex: 1;
+      max-width: 200px;
     }
-
-    .color-display {
-      width: 100px;
-      height: 100px;
+    
+    .color-input label {
+      font-weight: 500;
+      color: var(--dark);
+    }
+    
+    .color-input input[type="color"] {
+      width: 60px;
+      height: 60px;
+      padding: 5px;
+      cursor: pointer;
+      border-radius: 12px;
+      border: 2px solid var(--light-gray);
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .color-input input[type="color"]::-webkit-color-swatch {
+      border: none;
+      border-radius: 8px;
+    }
+    
+    .toggle-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      margin: 1em 0;
+      padding: 10px;
+      border-radius: 50px;
+      background: #f0f4ff;
+      max-width: 300px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .toggle-label {
+      font-weight: 500;
+      color: var(--dark);
+      font-size: 1rem;
+    }
+    
+    .toggle-switch-visual {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 30px;
+    }
+    
+    .toggle-switch-visual input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: #ccc;
+      transition: .4s;
+      border-radius: 34px;
+    }
+    
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 22px;
+      width: 22px;
+      left: 4px;
+      bottom: 4px;
+      background: white;
+      transition: .4s;
       border-radius: 50%;
-      margin: 15px 0;
-      border: 3px solid var(--light-gray);
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    input:checked + .toggle-slider {
+      background-color: var(--primary);
+    }
+    
+    input:checked + .toggle-slider:before {
+      transform: translateX(30px);
     }
 
-    /* Responsive Design for Image Toolkit */
-    @media (max-width: 768px) {
-      .card {
-        padding: 20px;
-      }
+    /* Text Display Options */
+    .text-display-container {
+      margin: 1.5em 0;
+      border: 1px solid var(--light-gray);
+      border-radius: var(--border-radius);
+      padding: 20px;
+      background: #fafbff;
+    }
 
-      .tool-header h1 {
+    .text-display-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+      justify-content: center;
+    }
+
+    .text-display-header i {
+      color: var(--primary);
+      font-size: 1.5rem;
+    }
+
+    .text-display-content {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .text-display-controls {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .text-display-control {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .text-display-control label {
+      font-weight: 500;
+      color: var(--dark);
+    }
+
+    .text-display-control input[type="color"] {
+      width: 60px;
+      height: 60px;
+      padding: 5px;
+      cursor: pointer;
+      border-radius: 12px;
+      border: 2px solid var(--light-gray);
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .text-display-control input[type="color"]::-webkit-color-swatch {
+      border: none;
+      border-radius: 8px;
+    }
+
+    .text-display-control select {
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid var(--light-gray);
+      background: var(--light);
+    }
+
+    .text-display-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .text-display-group label {
+      font-weight: 500;
+      color: var(--dark);
+    }
+
+    .text-display-group input[type="text"] {
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid var(--light-gray);
+      background: var(--light);
+    }
+    
+    .text-display-note {
+      text-align: center;
+      margin: 15px 0 5px;
+      color: #666;
+      font-size: 0.9rem;
+      background: #f8f9fa;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px dashed #e0e0e0;
+    }
+
+    /* Copy to clipboard section */
+    .copy-container {
+      margin: 1.5em 0;
+      border: 1px solid var(--light-gray);
+      border-radius: var(--border-radius);
+      padding: 20px;
+      background: #fafbff;
+      display: none;
+    }
+
+    .copy-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+      justify-content: center;
+    }
+
+    .copy-header i {
+      color: var(--primary);
+      font-size: 1.5rem;
+    }
+
+    .copy-content {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .copy-input-group {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .copy-input {
+      flex: 1;
+      padding: 12px;
+      border: 1px solid var(--light-gray);
+      border-radius: 8px;
+      background: white;
+      font-family: monospace;
+      font-size: 1rem;
+    }
+
+    .copy-btn {
+      padding: 12px 20px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: var(--transition);
+    }
+
+    .copy-btn:hover {
+      background: var(--primary-dark);
+    }
+
+    .copy-success {
+      color: #27ae60;
+      text-align: center;
+      margin-top: 10px;
+      display: none;
+    }
+
+    /* Responsive Design for Barcode Generator */
+    @media (max-width: 768px) {
+      .hero h1 {
         font-size: 2rem;
       }
-
-      h2 {
-        font-size: 1.5rem;
+      
+      .section-title {
+        font-size: 2rem;
       }
-
-      .btn-group {
-        flex-direction: column;
-      }
-
-      .btn-group button {
-        width: 100%;
-      }
-
+      
       .tab {
         padding: 10px 15px;
         font-size: 0.9rem;
       }
-
-      .resize-controls input {
+      
+      .guide-section, .uses-section {
+        padding: 25px;
+      }
+      
+      .btn-group {
+        flex-direction: column;
+      }
+      
+      .btn-group button {
         width: 100%;
+      }
+      
+      .guide-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .color-options {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .text-display-controls {
+        grid-template-columns: 1fr;
+      }
+
+      .copy-input-group {
+        flex-direction: column;
       }
     }
 
-    @media (max-width: 480px) {
-      body {
-        padding: 15px;
+    @media (max-width: 576px) {
+      .hero {
+        padding: 40px 0 20px;
       }
-
-      .tool-header {
-        padding: 20px 0 10px;
+      
+      .hero h1 {
+        font-size: 1.8rem;
+      }
+      
+      .card {
+        padding: 20px;
+      }
+      
+      h2 {
+        font-size: 1.5rem;
+      }
+      
+      h3 {
+        font-size: 1.2rem;
       }
     }
   </style>
@@ -1148,193 +685,252 @@
     <p class="error-message" style="display: none; color: red; text-align: center;">Failed to load header. Please try refreshing the page.</p>
   </header>
 
-  <!-- Image Toolkit Content -->
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <h1>Enhanced Barcode Generator</h1>
+        <p>Create custom EAN-13, EAN-8, UPC, and other barcodes for products, inventory, and retail applications. All processing happens in your browser.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Barcode Generator Content -->
   <div class="container">
-    <div class="tool-header">
-      <h1>Free Image Toolkit</h1>
-      <p class="tagline">Crop, resize, and convert images in PNG, JPEG, WEBP, BMP, GIF, or HEIC.</p>
+    <!-- Color Options Section -->
+    <div class="color-options-container">
+      <div class="color-options-header">
+        <i class="fas fa-palette"></i>
+        <h3>Color Options</h3>
+      </div>
+      
+      <div class="text-display-toggle">
+        <label class="toggle-label">Customize Colors</label>
+        <label class="toggle-switch-visual">
+          <input type="checkbox" id="barcode-show-color-options" checked>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      
+      <div class="color-options-content" id="barcode-color-options-content">
+        <div class="color-group">
+          <div class="color-input">
+            <label for="barcode-fg-color">Bar Color</label>
+            <input type="color" id="barcode-fg-color" value="#000000" aria-label="Select bar color">
+          </div>
+          <div class="color-input">
+            <label for="barcode-bg-color">Background Color</label>
+            <input type="color" id="barcode-bg-color" value="#FFFFFF" aria-label="Select background color">
+          </div>
+        </div>
+        
+        <div class="toggle-container">
+          <span class="toggle-label">Transparent Background</span>
+          <label class="toggle-switch-visual">
+            <input type="checkbox" id="barcode-transparent-bg" aria-label="Make background transparent">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Unified Text Display Options -->
+    <div class="text-display-container">
+      <div class="text-display-header">
+        <i class="fas fa-font"></i>
+        <h3>Text Display Options</h3>
+      </div>
+      
+      <div class="text-display-content">
+        <div class="text-display-toggle">
+          <label class="toggle-label">Display Text Below Barcode</label>
+          <label class="toggle-switch-visual">
+            <input type="checkbox" id="show-text-display">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        
+        <div class="text-display-group" id="text-display-fields" style="display: none;">
+          <label for="custom-text">Custom Text:</label>
+          <input type="text" id="custom-text" placeholder="Enter custom text to display below barcode">
+          
+          <p class="text-display-note">
+            Note: The text below the barcode is only included in the downloaded PNG image. 
+            It will not appear on the SVG version or the preview.
+          </p>
+          
+          <div class="text-display-controls">
+            <div class="text-display-control">
+              <label for="text-color">Text Color:</label>
+              <input type="color" id="text-color" value="#000000">
+            </div>
+            
+            <div class="text-display-control">
+              <label for="text-size">Text Size:</label>
+              <select id="text-size">
+                <option value="12px">Small</option>
+                <option value="16px" selected>Medium</option>
+                <option value="20px">Large</option>
+                <option value="24px">Extra Large</option>
+              </select>
+            </div>
+            
+            <div class="text-display-control">
+              <label for="text-align">Text Alignment:</label>
+              <select id="text-align">
+                <option value="left">Left</option>
+                <option value="center" selected>Center</option>
+                <option value="right">Right</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="card">
-      <div class="tabs">
-        <div class="tab active" data-tab="crop">
-          <i class="fas fa-crop"></i> Crop
+      <div class="tabs" role="tablist">
+        <div class="tab active" data-tab="single" role="tab" aria-selected="true" tabindex="0">
+          <i class="fas fa-barcode"></i> Single Barcode
         </div>
-        <div class="tab" data-tab="resize">
-          <i class="fas fa-expand"></i> Resize
+        <div class="tab" data-tab="batch" role="tab" aria-selected="false" tabindex="0">
+          <i class="fas fa-layer-group"></i> Batch Barcodes
         </div>
-        <div class="tab" data-tab="convert">
-          <i class="fas fa-exchange-alt"></i> Convert
-        </div>
-        <div class="tab" data-tab="color">
-          <i class="fas fa-eye-dropper"></i> Color Picker
+        <div class="tab" data-tab="custom" role="tab" aria-selected="false" tabindex="0">
+          <i class="fas fa-cog"></i> Custom Barcodes
         </div>
       </div>
 
-      <!-- Crop Tab -->
-      <div class="tab-content active" id="crop-tab">
-        <h2><i class="fas fa-crop"></i> Image Cropper</h2>
-        <p><i>Draw a rectangle on the image to crop it.</i></p>
-        <div class="drag-drop-area" id="cropDragArea">
-          <p><i class="fas fa-upload"></i> Choose file or drag and drop here</p>
-          <p>Supported formats: PNG, JPEG, WEBP, BMP, GIF, HEIC</p>
-          <p>Max file size: 10MB</p>
-        </div>
-        <input type="file" id="cropUpload" accept="image/*,.heic,.heif" style="display: none;" aria-label="Upload image for cropping" />
-        <div class="error" id="crop-error"></div>
-        <div class="success" id="crop-success"></div>
-        <div class="loading" id="crop-loading">
-          <div class="spinner"></div>
-          Processing Image...
-        </div>
-        <canvas id="cropCanvas" width="300" height="200"></canvas>
-        <div class="quality-controls">
-          <h3><i class="fas fa-file-image"></i> Output Quality</h3>
-          <div class="quality-slider-container">
-            <input type="range" min="0" max="100" value="80" class="quality-slider" id="cropQuality">
-            <span class="quality-value" id="cropQualityValue">80%</span>
-          </div>
-          <div class="file-size" id="crop-file-size"></div>
-        </div>
-        <div class="btn-group">
-          <button id="cropBtn" style="display: none;">
-            <i class="fas fa-crop"></i> Crop Image
-          </button>
-          <button id="resetCrop" style="display: none;">
-            <i class="fas fa-undo"></i> Reset
-          </button>
-          <button id="downloadCrop" style="display: none;">
-            <i class="fas fa-download"></i> Download
-          </button>
-        </div>
-      </div>
-
-      <!-- Resize Tab -->
-      <div class="tab-content" id="resize-tab">
-        <h2><i class="fas fa-expand"></i> Image Resizer</h2>
-        <p><i>Resize your image to specified dimensions.</i></p>
-        <div class="drag-drop-area" id="resizeDragArea">
-          <p><i class="fas fa-upload"></i> Choose file or drag and drop here</p>
-          <p>Supported formats: PNG, JPEG, WEBP, BMP, GIF, HEIC</p>
-          <p>Max file size: 10MB</p>
-        </div>
-        <input type="file" id="resizeUpload" accept="image/*,.heic,.heif" style="display: none;" aria-label="Upload image for resizing" />
-        <div class="resize-controls">
-          <div>
-            <label for="resizeWidth">Width (px):</label>
-            <input type="number" id="resizeWidth" min="1" placeholder="Width (px)" aria-label="Width in pixels">
-          </div>
-          <div>
-            <label for="resizeHeight">Height (px):</label>
-            <input type="number" id="resizeHeight" min="1" placeholder="Height (px)" aria-label="Height in pixels">
-          </div>
-        </div>
-        <div class="error" id="resize-error"></div>
-        <div class="success" id="resize-success"></div>
-        <div class="loading" id="resize-loading">
-          <div class="spinner"></div>
-          Processing Image...
-        </div>
-        <canvas id="resizeCanvas" width="300" height="200"></canvas>
-        <div class="quality-controls">
-          <h3><i class="fas fa-file-image"></i> Output Quality</h3>
-          <div class="quality-slider-container">
-            <input type="range" min="0" max="100" value="80" class="quality-slider" id="resizeQuality">
-            <span class="quality-value" id="resizeQualityValue">80%</span>
-          </div>
-          <div class="file-size" id="resize-file-size"></div>
-        </div>
-        <div class="btn-group">
-          <button id="resizeBtn" style="display: none;">
-            <i class="fas fa-expand"></i> Resize Image
-          </button>
-          <button id="resetResize" style="display: none;">
-            <i class="fas fa-undo"></i> Reset
-          </button>
-          <button id="downloadResize" style="display: none;">
-            <i class="fas fa-download"></i> Download
-          </button>
-        </div>
-      </div>
-
-      <!-- Convert Tab -->
-      <div class="tab-content" id="convert-tab">
-        <h2><i class="fas fa-exchange-alt"></i> Image Converter</h2>
-        <p><i>Convert your image to a different format.</i></p>
-        <div class="drag-drop-area" id="convertDragArea">
-          <p><i class="fas fa-upload"></i> Choose file or drag and drop here</p>
-          <p>Supported formats: PNG, JPEG, WEBP, BMP, GIF, HEIC</p>
-          <p>Max file size: 10MB</p>
-        </div>
-        <input type="file" id="convertUpload" accept="image/*,.heic,.heif" style="display: none;" aria-label="Upload image for conversion" />
-        <label for="outputFormat">Output Format:</label>
-        <select id="outputFormat" aria-label="Select output format">
-          <option value="png">PNG</option>
-          <option value="jpeg">JPEG</option>
-          <option value="webp">WEBP</option>
-          <option value="bmp">BMP</option>
-          <option value="gif">GIF</option>
+      <div class="tab-content active" id="single-tab" role="tabpanel">
+        <h2><i class="fas fa-barcode"></i> Generate Single Barcode</h2>
+        <label for="ean-type">Barcode Type:</label>
+        <select id="ean-type" aria-label="Select barcode type">
+          <option value="ean13" selected>EAN-13</option>
+          <option value="ean8">EAN-8</option>
+          <option value="upc">UPC-A</option>
+          <option value="code128">Code 128</option>
+          <option value="code39">Code 39</option>
+          <option value="itf14">ITF-14</option>
+          <option value="codabar">Codabar</option>
+          <option value="pharmacode">Pharmacode</option>
         </select>
-        <div class="error" id="convert-error"></div>
-        <div class="success" id="convert-success"></div>
-        <div class="loading" id="convert-loading">
-          <div class="spinner"></div>
-          Processing Image...
-        </div>
-        <canvas id="convertCanvas" width="300" height="200"></canvas>
-        <div class="quality-controls">
-          <h3><i class="fas fa-file-image"></i> Output Quality</h3>
-          <div class="quality-slider-container">
-            <input type="range" min="0" max="100" value="80" class="quality-slider" id="convertQuality">
-            <span class="quality-value" id="convertQualityValue">80%</span>
-          </div>
-          <div class="file-size" id="convert-file-size"></div>
-        </div>
+        <label for="ean-input">Barcode Value:</label>
+        <input id="ean-input" type="text" placeholder="Enter barcode or leave blank to auto-generate" autofocus aria-label="Enter barcode value">
+        
+        <div class="error" id="single-error"></div>
+        <div class="success" id="single-success"></div>
         <div class="btn-group">
-          <button id="convertBtn" style="display: none;">
-            <i class="fas fa-exchange-alt"></i> Convert & Download
+          <button id="generate-single-btn" aria-label="Generate barcode">
+            <i class="fas fa-bolt"></i> Generate Barcode
           </button>
+          <button id="download-btn" style="display:none" aria-label="Download barcode">
+            <i class="fas fa-download"></i> Download PNG
+          </button>
+          <button id="download-svg-btn" style="display:none" aria-label="Download SVG">
+            <i class="fas fa-file-code"></i> Download SVG
+          </button>
+        </div>
+        <div class="loading" id="single-loading">
+          <div class="spinner"></div>
+          Generating Barcode...
+        </div>
+        <div class="barcode-result-container">
+          <canvas id="ean-canvas" style="display: none;" aria-label="Generated barcode"></canvas>
         </div>
       </div>
 
-      <!-- Color Picker Tab -->
-      <div class="tab-content" id="color-tab">
-        <h2><i class="fas fa-eye-dropper"></i> Color Picker</h2>
-        <p><i>Click on any point in the image to get its color value.</i></p>
-        <div class="drag-drop-area" id="colorDragArea">
-          <p><i class="fas fa-upload"></i> Choose file or drag and drop here</p>
-          <p>Supported formats: PNG, JPEG, WEBP, BMP, GIF, HEIC</p>
-          <p>Max file size: 10MB</p>
-        </div>
-        <input type="file" id="colorUpload" accept="image/*,.heic,.heif" style="display: none;" aria-label="Upload image for color picking" />
-        <div class="error" id="color-error"></div>
-        <div class="success" id="color-success"></div>
-        <div class="loading" id="color-loading">
-          <div class="spinner"></div>
-          Processing Image...
-        </div>
-        <canvas id="colorCanvas" width="300" height="200"></canvas>
-        <div class="color-picker-container">
-          <div class="color-display" id="colorDisplay"></div>
-          <div class="color-values">
-            <div class="color-value-box">
-              <div class="color-value-title">HEX</div>
-              <div class="color-value-content" id="colorValueHex">#000000</div>
-            </div>
-            <div class="color-value-box">
-              <div class="color-value-title">RGB</div>
-              <div class="color-value-content" id="colorValueRgb">rgb(0, 0, 0)</div>
-            </div>
-            <div class="color-value-box">
-              <div class="color-value-title">HSL</div>
-              <div class="color-value-content" id="colorValueHsl">hsl(0, 0%, 0%)</div>
-            </div>
-          </div>
-        </div>
+      <div class="tab-content" id="batch-tab" role="tabpanel">
+        <h2><i class="fas fa-layer-group"></i> Batch Barcode Generation</h2>
+        <label for="batch-ean-type">Barcode Type:</label>
+        <select id="batch-ean-type" aria-label="Select barcode type for batch generation">
+          <option value="ean13" selected>EAN-13</option>
+          <option value="ean8">EAN-8</option>
+          <option value="upc">UPC-A</option>
+          <option value="code128">Code 128</option>
+          <option value="code39">Code 39</option>
+          <option value="itf14">ITF-14</option>
+          <option value="codabar">Codabar</option>
+          <option value="pharmacode">Pharmacode</option>
+        </select>
+        <label for="batch-amount">Number of Barcodes:</label>
+        <input id="batch-amount" type="number" min="1" max="100" value="10" placeholder="Enter number of codes (1–100)" aria-label="Enter number of barcodes">
+        
         <div class="btn-group">
-          <button id="resetColor" style="display: none;">
-            <i class="fas fa-undo"></i> Reset
+          <button id="generate-batch-png-btn" aria-label="Generate and download batch barcodes as PNGs">
+            <i class="fas fa-file-archive"></i> Download as PNGs (ZIP)
           </button>
+          <button id="generate-batch-svg-btn" aria-label="Generate and download batch barcodes as SVGs">
+            <i class="fas fa-file-archive"></i> Download as SVGs (ZIP)
+          </button>
+        </div>
+        <div class="loading" id="batch-loading">
+          <div class="spinner"></div>
+          <div id="batch-progress">Generating barcodes: 0/0</div>
+        </div>
+        <div class="success" id="batch-success"></div>
+        <div class="error" id="batch-error"></div>
+      </div>
+
+      <div class="tab-content" id="custom-tab" role="tabpanel">
+        <h2><i class="fas fa-cog"></i> Custom Barcode Generator</h2>
+        <label for="custom-type">Barcode Type:</label>
+        <select id="custom-type" aria-label="Select custom barcode type">
+          <option value="code128">Code 128</option>
+          <option value="code39">Code 39</option>
+          <option value="codabar">Codabar</option>
+          <option value="pharmacode">Pharmacode</option>
+        </select>
+        <label for="custom-input">Custom Text:</label>
+        <input id="custom-input" type="text" placeholder="Enter custom text for barcode" aria-label="Enter custom text for barcode">
+        <div class="format-info">
+          <h3>Format Examples:</h3>
+          <ul>
+            <li><strong>Code 128:</strong> Alphanumeric (e.g., ABC123)</li>
+            <li><strong>Code 39:</strong> Alphanumeric, uppercase (e.g., CODE39)</li>
+            <li><strong>Codabar:</strong> Start/end with A-D, digits and -$:/.+ (e.g., A12345B)</li>
+            <li><strong>Pharmacode:</strong> Numbers 3-131070 (e.g., 1234)</li>
+          </ul>
+        </div>
+        
+        <div class="btn-group">
+          <button id="generate-custom-btn" aria-label="Generate custom barcode">
+            <i class="fas fa-bolt"></i> Generate Custom Barcode
+          </button>
+          <button id="custom-download" style="display:none" aria-label="Download custom barcode">
+            <i class="fas fa-download"></i> Download PNG
+          </button>
+          <button id="custom-svg-download" style="display:none" aria-label="Download SVG">
+            <i class="fas fa-file-code"></i> Download SVG
+          </button>
+        </div>
+        <div class="loading" id="custom-loading">
+          <div class="spinner"></div>
+          Generating Custom Barcode...
+        </div>
+        <div class="error" id="custom-error"></div>
+        <div class="success" id="custom-success"></div>
+        <div class="barcode-result-container">
+          <canvas id="custom-canvas" style="display: none;" aria-label="Generated custom barcode"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Copy to clipboard section -->
+    <div class="copy-container" id="copy-container">
+      <div class="copy-header">
+        <i class="fas fa-copy"></i>
+        <h3>Copy Barcode Value</h3>
+      </div>
+      
+      <div class="copy-content">
+        <div class="copy-input-group">
+          <input type="text" id="barcode-value" class="copy-input" readonly aria-label="Barcode value to copy">
+          <button id="copy-btn" class="copy-btn">
+            <i class="fas fa-copy"></i> Copy
+          </button>
+        </div>
+        <div class="copy-success" id="copy-success">
+          <i class="fas fa-check-circle"></i> Copied to clipboard!
         </div>
       </div>
     </div>
@@ -1346,1019 +942,638 @@
   </footer>
 
   <!-- Cookie Consent Banner -->
-  <div id="cookie-consent">
-    <div class="cookie-content">
+  <div id="cookie-consent" role="dialog" aria-labelledby="cookie-consent-banner" aria-describedby="cookie-consent-desc">
+    <div class="sr-only" id="cookie-consent-banner">Cookie Consent</div>
+    <div class="cookie-content" id="cookie-consent-desc">
       <div class="cookie-text">
-        <p>We use cookies to enhance your experience. Essential cookies are always on, but you can choose whether to allow analytics and advertising cookies.</p>
-        <p>Learn more in our <a href="/privacy" aria-label="Privacy Policy">Privacy Policy</a>.</p>
+        <p>We use cookies to enhance your experience and analyze site traffic. By clicking "Accept All", you consent to our use of cookies. 
+          <a href="/privacy-policy.html" aria-label="Learn more about our Privacy Policy">Learn more</a> in our Privacy Policy.
+        </p>
+        <button class="cookie-settings-btn" id="open-settings" aria-label="Open cookie settings">Cookie Settings</button>
       </div>
       <div class="cookie-buttons">
-        <button class="cookie-btn reject-btn" id="reject-cookies">Reject Non-Essential</button>
-        <button class="cookie-btn accept-btn" id="accept-cookies">Accept All</button>
+        <button class="cookie-btn reject-btn" id="reject-cookies" aria-label="Reject non-essential cookies">Reject Non-Essential</button>
+        <button class="cookie-btn accept-btn" id="accept-cookies" aria-label="Accept all cookies">Accept All</button>
       </div>
-      <button class="cookie-settings-btn" id="open-settings">Customize Settings</button>
     </div>
   </div>
 
   <!-- Cookie Settings Modal -->
-  <div id="cookie-settings">
+  <div id="cookie-settings" role="dialog" aria-labelledby="cookie-settings-title" aria-describedby="cookie-settings-desc">
     <div class="settings-modal">
       <div class="settings-header">
-        <h2>Cookie Settings</h2>
-        <button class="close-settings" aria-label="Close settings"><i class="fas fa-times"></i></button>
+        <h2 id="cookie-settings-title"><i class="fas fa-cookie-bite"></i> Cookie Settings</h2>
+        <button class="close-settings" id="close-settings" aria-label="Close cookie settings">×</button>
       </div>
       <div class="settings-content">
+        <p id="cookie-settings-desc">You can set your preferences for how we and our partners use cookies and similar technologies.</p>
+        
         <div class="cookie-type">
           <div class="cookie-type-header">
             <h3>Essential Cookies</h3>
-            <div class="toggle-switch">
-              <input type="checkbox" id="essential-toggle" checked disabled>
+            <label class="toggle-switch" for="essential-toggle">
+              <input type="checkbox" id="essential-toggle" checked disabled aria-label="Essential cookies (always enabled, cannot be disabled)" aria-describedby="essential-desc">
               <span class="slider"></span>
-            </div>
+            </label>
           </div>
-          <p>These cookies are necessary for the website to function and cannot be disabled.</p>
+          <p id="essential-desc">These cookies are necessary for the website to function and cannot be switched off.</p>
         </div>
+        
         <div class="cookie-type">
           <div class="cookie-type-header">
             <h3>Analytics Cookies</h3>
-            <div class="toggle-switch">
-              <input type="checkbox" id="analytics-toggle">
+            <label class="toggle-switch" for="analytics-toggle">
+              <input type="checkbox" id="analytics-toggle" aria-label="Analytics cookies toggle" aria-describedby="analytics-desc">
               <span class="slider"></span>
-            </div>
+            </label>
           </div>
-          <p>These cookies help us understand how visitors interact with our website, providing insights to improve our services.</p>
+          <p id="analytics-desc">These cookies allow us to count visits and traffic sources so we can measure and improve the performance of our site.</p>
         </div>
+        
         <div class="cookie-type">
           <div class="cookie-type-header">
             <h3>Advertising Cookies</h3>
-            <div class="toggle-switch">
-              <input type="checkbox" id="advertising-toggle">
+            <label class="toggle-switch" for="advertising-toggle">
+              <input type="checkbox" id="advertising-toggle" aria-label="Advertising cookies toggle" aria-describedby="advertising-desc">
               <span class="slider"></span>
-            </div>
+            </label>
           </div>
-          <p>These cookies are used to deliver personalized advertisements based on your interests.</p>
+          <p id="advertising-desc">These cookies may be set through our site by our advertising partners to build a profile of your interests.</p>
         </div>
       </div>
       <div class="settings-buttons">
-        <button class="save-settings" id="save-settings">Save Settings</button>
+        <button class="save-settings" id="save-settings" aria-label="Save cookie settings">Save Settings</button>
       </div>
     </div>
   </div>
 
-  <!-- JavaScript Libraries -->
+  <!-- JavaScript -->
+  <script src="/js/main.js"></script>
   <script>
-    // ===== Shared main.js Content =====
-    function initMobileMenu() {
-      console.log('Initializing mobile menu');
-      const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
-      const closeMobileMenu = document.getElementById('close-mobile-menu');
-      const mobileNav = document.getElementById('mobile-nav');
-      const mobileBackdrop = document.getElementById('mobile-backdrop');
-      
-      function closeMobileNav() {
-        mobileNav.classList.remove('active');
-        mobileBackdrop.classList.remove('active');
-        document.body.classList.remove('menu-open');
-        document.querySelectorAll('.mobile-nav .dropdown-menu').forEach(menu => {
-          menu.classList.remove('active');
-          const toggle = menu.parentElement.querySelector('.dropdown-toggle');
-          if (toggle) toggle.setAttribute('aria-expanded', 'false');
+    // Barcode Generator Functionality
+    function initBarcodeGenerator() {
+      // Constants
+      const elements = {
+        tabs: document.querySelectorAll('.tab'),
+        tabContents: document.querySelectorAll('.tab-content'),
+        singleCanvas: document.getElementById('ean-canvas'),
+        customCanvas: document.getElementById('custom-canvas'),
+        downloadBtn: document.getElementById('download-btn'),
+        downloadSvgBtn: document.getElementById('download-svg-btn'),
+        customDownloadBtn: document.getElementById('custom-download'),
+        customSvgDownloadBtn: document.getElementById('custom-svg-download'),
+        singleLoading: document.getElementById('single-loading'),
+        batchLoading: document.getElementById('batch-loading'),
+        customLoading: document.getElementById('custom-loading'),
+        batchProgress: document.getElementById('batch-progress'),
+        singleError: document.getElementById('single-error'),
+        batchError: document.getElementById('batch-error'),
+        customError: document.getElementById('custom-error'),
+        singleSuccess: document.getElementById('single-success'),
+        batchSuccess: document.getElementById('batch-success'),
+        customSuccess: document.getElementById('custom-success'),
+        eanType: document.getElementById('ean-type'),
+        eanInput: document.getElementById('ean-input'),
+        batchEanType: document.getElementById('batch-ean-type'),
+        batchAmount: document.getElementById('batch-amount'),
+        customType: document.getElementById('custom-type'),
+        customInput: document.getElementById('custom-input'),
+        generateSingleBtn: document.getElementById('generate-single-btn'),
+        generateBatchPngBtn: document.getElementById('generate-batch-png-btn'),
+        generateBatchSvgBtn: document.getElementById('generate-batch-svg-btn'),
+        generateCustomBtn: document.getElementById('generate-custom-btn'),
+        barcodeShowColorOptions: document.getElementById('barcode-show-color-options'),
+        barcodeColorOptionsContent: document.getElementById('barcode-color-options-content'),
+        barcodeFgColor: document.getElementById('barcode-fg-color'),
+        barcodeBgColor: document.getElementById('barcode-bg-color'),
+        barcodeTransparentBg: document.getElementById('barcode-transparent-bg'),
+        
+        // Text display elements
+        showTextDisplay: document.getElementById('show-text-display'),
+        textDisplayFields: document.getElementById('text-display-fields'),
+        customText: document.getElementById('custom-text'),
+        textColor: document.getElementById('text-color'),
+        textSize: document.getElementById('text-size'),
+        textAlign: document.getElementById('text-align'),
+        
+        // Copy to clipboard elements
+        copyContainer: document.getElementById('copy-container'),
+        barcodeValue: document.getElementById('barcode-value'),
+        copyBtn: document.getElementById('copy-btn'),
+        copySuccess: document.getElementById('copy-success')
+      };
+
+      const barcodeConfig = {
+        ean13: { length: 12, regex: /^\d{12,13}$/, format: 'ean13' },
+        ean8: { length: 7, regex: /^\d{7,8}$/, format: 'ean8' },
+        upc: { length: 11, regex: /^\d{11,12}$/, format: 'UPC' },
+        itf14: { length: 13, regex: /^\d{13,14}$/, format: 'itf14' },
+        code128: { regex: /^[\w\s-]+$/, format: 'code128' },
+        code39: { regex: /^[0-9A-Z\s-.%*+$/]+$/, format: 'code39' },
+        codabar: { regex: /^[A-D][0-9-:$/.+]*[A-D]$/, format: 'codabar' },
+        pharmacode: { min: 3, max: 131070, regex: /^\d+$/, format: 'pharmacode' }
+      };
+
+      function initTextDisplay() {
+        // Toggle text display fields
+        elements.showTextDisplay.addEventListener('change', function() {
+          elements.textDisplayFields.style.display = this.checked ? 'block' : 'none';
         });
       }
-      
-      if (mobileMenuToggle) {
-        mobileMenuToggle.addEventListener('click', () => {
-          mobileNav.classList.add('active');
-          mobileBackdrop.classList.add('active');
-          document.body.classList.add('menu-open');
+
+      function initCopyToClipboard() {
+        // Copy button functionality
+        elements.copyBtn.addEventListener('click', function() {
+          elements.barcodeValue.select();
+          navigator.clipboard.writeText(elements.barcodeValue.value)
+            .then(() => {
+              elements.copySuccess.style.display = 'block';
+              setTimeout(() => {
+                elements.copySuccess.style.display = 'none';
+              }, 2000);
+            })
+            .catch(err => {
+              console.error('Failed to copy: ', err);
+            });
         });
-      } else {
-        console.warn('Mobile menu toggle not found');
       }
-      
-      if (closeMobileMenu) {
-        closeMobileMenu.addEventListener('click', closeMobileNav);
-      }
-      
-      if (mobileBackdrop) {
-        mobileBackdrop.addEventListener('click', closeMobileNav);
-      }
-      
-      const links = document.querySelectorAll('.mobile-nav-link');
-      links.forEach(link => {
-        link.addEventListener('click', (e) => {
-          if (!link.classList.contains('dropdown-toggle')) {
-            closeMobileNav();
-          }
-        });
-      });
 
-      const mobileDropdownToggles = document.querySelectorAll('.mobile-nav .dropdown-toggle');
-      mobileDropdownToggles.forEach(toggle => {
-        toggle.addEventListener('click', (e) => {
-          e.preventDefault();
-          const dropdownMenu = toggle.parentElement.querySelector('.dropdown-menu');
-          const isOpen = dropdownMenu.classList.contains('active');
-          document.querySelectorAll('.mobile-nav .dropdown-menu').forEach(menu => {
-            menu.classList.remove('active');
-            const otherToggle = menu.parentElement.querySelector('.dropdown-toggle');
-            if (otherToggle) otherToggle.setAttribute('aria-expanded', 'false');
-          });
-          dropdownMenu.classList.toggle('active');
-          toggle.setAttribute('aria-expanded', !isOpen);
-        });
-      });
-    }
-
-    function initDesktopDropdown() {
-      console.log('Initializing desktop dropdown');
-      const dropdownToggles = document.querySelectorAll('.nav-menu .dropdown-toggle');
-      dropdownToggles.forEach(toggle => {
-        toggle.addEventListener('click', (e) => {
-          e.preventDefault();
-          const dropdownMenu = toggle.parentElement.querySelector('.dropdown-menu');
-          const isOpen = dropdownMenu.classList.contains('active');
-          document.querySelectorAll('.nav-menu .dropdown-menu').forEach(menu => {
-            menu.classList.remove('active');
-            const otherToggle = menu.parentElement.querySelector('.dropdown-toggle');
-            if (otherToggle) otherToggle.setAttribute('aria-expanded', 'false');
-          });
-          dropdownMenu.classList.toggle('active');
-          toggle.setAttribute('aria-expanded', !isOpen);
-        });
-      });
-
-      document.addEventListener('click', (e) => {
-        if (!e.target.closest('.dropdown')) {
-          document.querySelectorAll('.nav-menu .dropdown-menu').forEach(menu => {
-            menu.classList.remove('active');
-            const toggle = menu.parentElement.querySelector('.dropdown-toggle');
-            if (toggle) toggle.setAttribute('aria-expanded', 'false');
-          });
-        }
-      });
-    }
-
-    function populateToolsDropdown(basePath, retryCount = 0, maxRetries = 2) {
-      console.log(`Fetching tools.json from ${basePath}/tools/tools.json (Attempt ${retryCount + 1}/${maxRetries + 1})`);
-      fetch(`${basePath}/tools/tools.json`)
-        .then(response => {
-          if (!response.ok) throw new Error(`Failed to fetch tools.json: ${response.status} ${response.statusText}`);
-          return response.json();
-        })
-        .then(tools => {
-          const desktopDropdown = document.querySelector('.nav-menu .dropdown-menu');
-          const mobileDropdown = document.querySelector('.mobile-nav .dropdown-menu');
-          if (!desktopDropdown || !mobileDropdown) {
-            console.warn('Dropdown menus not found');
+      function addTextToBarcode(barcodeCanvas, text, options) {
+        return new Promise((resolve) => {
+          // If text is not enabled, return the original canvas
+          if (!options.enabled || !text) {
+            resolve(barcodeCanvas);
             return;
           }
-          const items = tools.map(tool => `
-            <li>
-              <a href="${tool.url}" class="dropdown-item" aria-label="${tool.description}" title="${tool.description}">
-                <i class="${tool.icon}"></i> ${tool.category}
-              </a>
-            </li>
-          `).join('');
-          desktopDropdown.innerHTML = items;
-          mobileDropdown.innerHTML = items;
-          console.log('Tools dropdown populated successfully');
-        })
-        .catch(error => {
-          console.error('Error loading tools:', error);
-          if (retryCount < maxRetries) {
-            console.log(`Retrying tools.json fetch (Attempt ${retryCount + 2})`);
-            setTimeout(() => populateToolsDropdown(basePath, retryCount + 1, maxRetries), 1000);
-          } else {
-            const desktopDropdown = document.querySelector('.nav-menu .dropdown-menu .dropdown-error');
-            const mobileDropdown = document.querySelector('.mobile-nav .dropdown-menu .dropdown-error');
-            if (desktopDropdown) desktopDropdown.style.display = 'block';
-            if (mobileDropdown) mobileDropdown.style.display = 'block';
+          
+          const barcodeWidth = barcodeCanvas.width;
+          const barcodeHeight = barcodeCanvas.height;
+          
+          // Create the final canvas with space for text
+          const padding = 20;
+          const fontSize = parseInt(options.size);
+          const textHeight = fontSize * 2; // Approximate height for text
+          
+          const finalCanvas = document.createElement('canvas');
+          finalCanvas.width = barcodeWidth;
+          finalCanvas.height = barcodeHeight + textHeight + padding;
+          const ctx = finalCanvas.getContext('2d');
+          
+          // Fill background if not transparent
+          if (!options.transparent) {
+            ctx.fillStyle = options.bgColor;
+            ctx.fillRect(0, 0, finalCanvas.width, finalCanvas.height);
           }
+          
+          // Draw barcode
+          ctx.drawImage(barcodeCanvas, 0, 0);
+          
+          // Draw text
+          ctx.fillStyle = options.color;
+          ctx.font = `${options.size} 'Poppins', sans-serif`;
+          ctx.textAlign = options.align;
+          
+          // Calculate text position
+          let textX;
+          if (options.align === 'left') {
+            textX = padding;
+          } else if (options.align === 'right') {
+            textX = finalCanvas.width - padding;
+          } else {
+            textX = finalCanvas.width / 2;
+          }
+          
+          const textY = barcodeHeight + padding;
+          
+          // Draw text
+          ctx.fillText(text, textX, textY);
+          
+          resolve(finalCanvas);
         });
-    }
+      }
 
-    function initCookieConsent() {
-      console.log('Initializing cookie consent');
-      const COOKIE_CONSENT_KEY = 'cookieConsent';
-      
-      function getCookiePreferences() {
-        const preferences = localStorage.getItem(COOKIE_CONSENT_KEY);
-        return preferences ? JSON.parse(preferences) : { essential: true, analytics: false, advertising: false };
-      }
-      
-      function saveCookiePreferences(preferences) {
+      async function generateBarcode({ canvas, code, type, errorElement, successElement, downloadButton, svgDownloadButton, loadingElement }) {
+        const ctx = canvas.getContext('2d');
+        hideElements();
+        loadingElement.style.display = 'block';
+        downloadButton.style.display = 'none';
+        svgDownloadButton.style.display = 'none';
+        canvas.style.display = 'none';
+        elements.copyContainer.style.display = 'none';
+
+        if (!validateInput(code, type)) {
+          showError(errorElement, 'Invalid input format for selected barcode type');
+          loadingElement.style.display = 'none';
+          return;
+        }
+
+        const finalCode = code || generateRandomBarcode(type);
+        const isPharmacode = type === 'pharmacode';
+        // Fixed size as requested
+        const width = 320;
+        const height = 150;
+        
+        // Set canvas dimensions
+        canvas.width = width;
+        canvas.height = height;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        canvas.dataset.code = finalCode;
+        canvas.dataset.type = type;
+
         try {
-          localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(preferences));
-        } catch (e) {
-          console.warn('Failed to save cookie preferences:', e);
-        }
-      }
-      
-      function showCookieConsent() {
-        const preferences = getCookiePreferences();
-        if (!preferences.hasOwnProperty('essential')) {
-          const consent = document.getElementById('cookie-consent');
-          if (consent) consent.style.display = 'block';
-        } else {
-          const analyticsToggle = document.getElementById('analytics-toggle');
-          const advertisingToggle = document.getElementById('advertising-toggle');
-          if (analyticsToggle) analyticsToggle.checked = preferences.analytics;
-          if (advertisingToggle) advertisingToggle.checked = preferences.advertising;
-        }
-      }
-      
-      function openCookieSettings() {
-        const preferences = getCookiePreferences();
-        const analyticsToggle = document.getElementById('analytics-toggle');
-        const advertisingToggle = document.getElementById('advertising-toggle');
-        if (analyticsToggle) analyticsToggle.checked = preferences.analytics;
-        if (advertisingToggle) advertisingToggle.checked = preferences.advertising;
-        const settings = document.getElementById('cookie-settings');
-        if (settings) settings.style.display = 'flex';
-      }
-      
-      function closeCookieSettings() {
-        const settings = document.getElementById('cookie-settings');
-        if (settings) settings.style.display = 'none';
-      }
-      
-      const acceptBtn = document.getElementById('accept-cookies');
-      if (acceptBtn) {
-        acceptBtn.addEventListener('click', () => {
-          saveCookiePreferences({ essential: true, analytics: true, advertising: true });
-          document.getElementById('cookie-consent').style.display = 'none';
-        });
-      }
-      
-      const rejectBtn = document.getElementById('reject-cookies');
-      if (rejectBtn) {
-        rejectBtn.addEventListener('click', () => {
-          saveCookiePreferences({ essential: true, analytics: false, advertising: false });
-          document.getElementById('cookie-consent').style.display = 'none';
-        });
-      }
-      
-      const openSettingsBtn = document.getElementById('open-settings');
-      if (openSettingsBtn) openSettingsBtn.addEventListener('click', openCookieSettings);
-      
-      const closeSettingsBtn = document.querySelector('.close-settings');
-      if (closeSettingsBtn) closeSettingsBtn.addEventListener('click', closeCookieSettings);
-      
-      const saveSettingsBtn = document.getElementById('save-settings');
-      if (saveSettingsBtn) {
-        saveSettingsBtn.addEventListener('click', () => {
-          saveCookiePreferences({
-            essential: true,
-            analytics: document.getElementById('analytics-toggle').checked,
-            advertising: document.getElementById('advertising-toggle').checked
+          // Generate the barcode with custom colors and background
+          JsBarcode(canvas, finalCode, {
+            format: barcodeConfig[type].format,
+            displayValue: true,
+            width: 2,
+            height: isPharmacode ? height * 0.5 : height * 0.7,
+            lineColor: elements.barcodeFgColor.value,
+            textColor: elements.barcodeFgColor.value,
+            background: elements.barcodeTransparentBg.checked 
+              ? 'transparent' 
+              : elements.barcodeBgColor.value
           });
-          closeCookieSettings();
-          document.getElementById('cookie-consent').style.display = 'none';
-        });
-      }
-      
-      const openSettingsFooter = document.getElementById('open-settings-footer');
-      if (openSettingsFooter) {
-        openSettingsFooter.addEventListener('click', (e) => {
-          e.preventDefault();
-          openCookieSettings();
-        });
-      }
-      
-      showCookieConsent();
-    }
 
-    document.addEventListener('DOMContentLoaded', () => {
-      console.log('main.js loaded successfully');
-      // Determine base path based on current URL
-      const isTestPage = window.location.pathname.includes('/test/');
-      const basePath = "";
-      console.log(`Base path set to: ${basePath}`);
-
-      // Fetch Header
-      console.log(`Fetching header from ${basePath}/includes/header.html`);
-      fetch(`${basePath}/includes/header.html`)
-        .then(response => {
-          if (!response.ok) throw new Error(`Failed to fetch header: ${response.status} ${response.statusText}`);
-          return response.text();
-        })
-        .then(data => {
-          const header = document.querySelector('#main-header');
-          if (header) {
-            header.innerHTML = data;
-            console.log('Header loaded successfully');
-            initMobileMenu();
-            initDesktopDropdown();
-            populateToolsDropdown(basePath);
-          } else {
-            console.warn('Header element not found');
-            const headerError = document.querySelector('#main-header .error-message');
-            if (headerError) headerError.style.display = 'block';
-          }
-        })
-        .catch(error => {
-          console.error('Error loading header:', error);
-          const headerError = document.querySelector('#main-header .error-message');
-          if (headerError) headerError.style.display = 'block';
-        });
-      
-      // Fetch Footer
-      console.log(`Fetching footer from ${basePath}/includes/footer.html`);
-      fetch(`${basePath}/includes/footer.html`)
-        .then(response => {
-          if (!response.ok) throw new Error(`Failed to fetch footer: ${response.status} ${response.statusText}`);
-          return response.text();
-        })
-        .then(data => {
-          const footer = document.querySelector('#main-footer');
-          if (footer) {
-            footer.innerHTML = data;
-            console.log('Footer loaded successfully');
-            initCookieConsent();
-          } else {
-            console.warn('Footer element not found');
-            const footerError = document.querySelector('#main-footer .error-message');
-            if (footerError) footerError.style.display = 'block';
-          }
-        })
-        .catch(error => {
-          console.error('Error loading footer:', error);
-          const footerError = document.querySelector('#main-footer .error-message');
-          if (footerError) footerError.style.display = 'block';
-        });
-    });
-
-    // Fallback if main.js fails to load correctly
-    window.addEventListener('error', (event) => {
-      if (event.filename.includes('main.js')) {
-        console.error('Script error in main.js:', event.message, event.lineno, event.colno);
-        const headerError = document.querySelector('#main-header .error-message');
-        const footerError = document.querySelector('#main-footer .error-message');
-        if (headerError) headerError.style.display = 'block';
-        if (footerError) footerError.style.display = 'block';
-      }
-    }); 
-  </script>
-
-  <!-- Image Toolkit JavaScript -->
-  <script>
-    // State management
-    const state = {
-      crop: {
-        originalImage: null,
-        croppedImage: null,
-        cropRect: null,
-        isDrawing: false,
-        cropStart: null,
-        initialImage: null,
-        quality: 80
-      },
-      resize: {
-        originalImage: null,
-        resizedImage: null,
-        initialImage: null,
-        quality: 80
-      },
-      convert: {
-        originalImage: null,
-        convertedImage: null,
-        initialImage: null,
-        quality: 80
-      },
-      color: {
-        originalImage: null,
-        initialImage: null
-      }
-    };
-
-    // Helper Functions
-    function showError(element, message) {
-      if (element) {
-        element.textContent = message;
-        element.style.display = 'block';
-      }
-    }
-
-    function showSuccess(element, message) {
-      if (element) {
-        element.textContent = message;
-        element.style.display = 'block';
-      }
-    }
-
-    function hideElements(section = null) {
-      const errors = section ? [document.getElementById(`${section}-error`)] : document.querySelectorAll('.error');
-      const successes = section ? [document.getElementById(`${section}-success`)] : document.querySelectorAll('.success');
-      errors.forEach(el => { if (el) { el.style.display = 'none'; el.textContent = ''; } });
-      successes.forEach(s => { if (s) { s.style.display = 'none'; s.textContent = ''; } });
-    }
-
-    function showLoading(section) {
-      const loading = document.getElementById(`${section}-loading`);
-      if (loading) loading.style.display = 'block';
-    }
-
-    function hideLoading(section) {
-      const loading = document.getElementById(`${section}-loading`);
-      if (loading) loading.style.display = 'none';
-    }
-
-    function calculateFileSize(dataUrl) {
-      // Base64 encoding is about 4/3 the size of the binary data
-      const sizeInBytes = Math.round((dataUrl.length * 3) / 4);
-      const sizeInKB = (sizeInBytes / 1024).toFixed(2);
-      return sizeInKB;
-    }
-
-    function getDataUrlWithQuality(canvas, format, quality) {
-      switch(format) {
-        case 'jpeg':
-          return canvas.toDataURL('image/jpeg', quality / 100);
-        case 'webp':
-          return canvas.toDataURL('image/webp', quality / 100);
-        case 'png':
-          // PNG doesn't support quality, but we can reduce colors
-          return canvas.toDataURL('image/png');
-        case 'bmp':
-          return canvas.toDataURL('image/bmp');
-        case 'gif':
-          return canvas.toDataURL('image/gif');
-        default:
-          return canvas.toDataURL('image/png');
-      }
-    }
-
-    function updateFileSizeDisplay(section, canvas, format) {
-      const sizeDisplay = document.getElementById(`${section}-file-size`);
-      if (!sizeDisplay || !canvas) return;
-      
-      // Get data URL with current quality settings
-      const quality = state[section].quality;
-      const dataUrl = getDataUrlWithQuality(canvas, format, quality);
-      const sizeInKB = calculateFileSize(dataUrl);
-      
-      sizeDisplay.textContent = `Estimated file size: ${sizeInKB} KB (Quality: ${quality}%)`;
-    }
-
-    async function loadImage(file) {
-      return new Promise((resolve, reject) => {
-        const fileType = file.type.toLowerCase();
-        if (!fileType.match(/image\/(png|jpeg|jpg|webp|bmp|gif|heic|heif)/)) {
-          reject(new Error('Invalid file type. Please upload a valid image (PNG, JPEG, WEBP, BMP, GIF, or HEIC).'));
-          return;
-        }
-
-        if (file.size > 10 * 1024 * 1024) {
-          reject(new Error('File size exceeds 10MB limit. Please select a smaller file.'));
-          return;
-        }
-
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          const img = new Image();
-          img.onload = () => {
-            resolve(img);
-          };
-          img.onerror = () => reject(new Error('Failed to load image'));
-          img.src = e.target.result;
-        };
-        reader.onerror = () => reject(new Error('Failed to read image file'));
-        reader.readAsDataURL(file);
-      });
-    }
-
-    function drawImageOnCanvas(image, canvasId) {
-      const canvas = document.getElementById(canvasId);
-      if (!canvas) return;
-      const ctx = canvas.getContext('2d');
-      const maxWidth = 500;
-      const scale = Math.min(maxWidth / image.width, 1);
-      const pixelRatio = window.devicePixelRatio || 1;
-
-      canvas.style.width = `${image.width * scale}px`;
-      canvas.style.height = `${image.height * scale}px`;
-      canvas.width = image.width * scale * pixelRatio;
-      canvas.height = image.height * scale * pixelRatio;
-      ctx.scale(pixelRatio, pixelRatio);
-
-      ctx.clearRect(0, 0, canvas.width / pixelRatio, canvas.height / pixelRatio);
-      ctx.drawImage(image, 0, 0, canvas.width / pixelRatio, canvas.height / pixelRatio);
-    }
-    
-    function resetCanvas(canvasId) {
-      const canvas = document.getElementById(canvasId);
-      if (!canvas) return;
-      const ctx = canvas.getContext('2d');
-      canvas.style.width = '300px';
-      canvas.style.height = '200px';
-      canvas.width = 300;
-      canvas.height = 200;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-    }
-    
-    function clamp(value) {
-      return Math.max(0, Math.min(255, value));
-    }
-    
-    function resetToInitial(tab) {
-      const stateTab = state[tab];
-      if (stateTab.initialImage) {
-        stateTab.originalImage = stateTab.initialImage;
-        drawImageOnCanvas(stateTab.initialImage, `${tab}Canvas`);
-        showSuccess(document.getElementById(`${tab}-success`), 'Reset to original image!');
-      }
-    }
-
-    function initQualityControls() {
-      // Initialize all quality sliders
-      document.querySelectorAll('.quality-slider').forEach(slider => {
-        const tab = slider.id.replace('Quality', '');
-        const valueDisplay = document.getElementById(`${tab}QualityValue`);
-        
-        slider.addEventListener('input', () => {
-          const value = slider.value;
-          valueDisplay.textContent = `${value}%`;
-          state[tab].quality = parseInt(value);
-          
-          // Update file size display if we have an image
-          if (state[tab].originalImage) {
-            const canvas = document.getElementById(`${tab}Canvas`);
-            const format = tab === 'convert' ? document.getElementById('outputFormat').value : 'jpeg';
-            updateFileSizeDisplay(tab, canvas, format);
-          }
-        });
-      });
-    }
-
-    // Color Picker Functions
-    function rgbToHex(r, g, b) {
-      return "#" + [r, g, b].map(x => {
-        const hex = x.toString(16);
-        return hex.length === 1 ? "0" + hex : hex;
-      }).join("");
-    }
-    
-    // NEW: RGB to HSL conversion function
-    function rgbToHsl(r, g, b) {
-      r /= 255;
-      g /= 255;
-      b /= 255;
-      
-      const max = Math.max(r, g, b);
-      const min = Math.min(r, g, b);
-      let h, s, l = (max + min) / 2;
-      
-      if (max === min) {
-        h = s = 0; // achromatic
-      } else {
-        const d = max - min;
-        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-        
-        switch (max) {
-          case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-          case g: h = (b - r) / d + 2; break;
-          case b: h = (r - g) / d + 4; break;
-        }
-        
-        h /= 6;
-      }
-      
-      return [
-        Math.round(h * 360),
-        Math.round(s * 100),
-        Math.round(l * 100)
-      ];
-    }
-
-    // MODIFIED: handleColorPick function
-    function handleColorPick(event, canvas, image) {
-      const rect = canvas.getBoundingClientRect();
-      const pixelRatio = window.devicePixelRatio || 1;
-      const x = Math.floor((event.clientX - rect.left) * pixelRatio);
-      const y = Math.floor((event.clientY - rect.top) * pixelRatio);
-      
-      // Create a temporary canvas to get the pixel data
-      const tempCanvas = document.createElement('canvas');
-      tempCanvas.width = image.width;
-      tempCanvas.height = image.height;
-      const tempCtx = tempCanvas.getContext('2d');
-      tempCtx.drawImage(image, 0, 0);
-      
-      // Get the pixel data
-      const pixelData = tempCtx.getImageData(0, 0, tempCanvas.width, tempCanvas.height).data;
-      
-      // Calculate the position in the pixel data array
-      const scaleX = image.width / (canvas.width / pixelRatio);
-      const scaleY = image.height / (canvas.height / pixelRatio);
-      const imageX = Math.floor(x * scaleX / pixelRatio);
-      const imageY = Math.floor(y * scaleY / pixelRatio);
-      const pos = (imageY * image.width + imageX) * 4;
-      
-      // Get RGB values
-      const r = pixelData[pos];
-      const g = pixelData[pos + 1];
-      const b = pixelData[pos + 2];
-      
-      // Convert to HEX
-      const hex = rgbToHex(r, g, b);
-      
-      // Convert to RGB
-      const rgb = `rgb(${r}, ${g}, ${b})`;
-      
-      // Convert to HSL
-      const [h, s, l] = rgbToHsl(r, g, b);
-      const hsl = `hsl(${h}, ${s}%, ${l}%)`;
-      
-      // Update the display
-      const colorDisplay = document.getElementById('colorDisplay');
-      
-      colorDisplay.style.backgroundColor = hex;
-      document.getElementById('colorValueHex').textContent = hex;
-      document.getElementById('colorValueRgb').textContent = rgb;
-      document.getElementById('colorValueHsl').textContent = hsl;
-      
-      // Show success message
-      showSuccess(document.getElementById('color-success'), `Color picked: ${hex}`);
-    }
-
-    // Initialize Image Tools
-    function initializeImageTools() {
-      // Tabs
-      document.querySelectorAll('.tab').forEach(tab => {
-        tab.addEventListener('click', () => {
-          const tabName = tab.dataset.tab;
-          document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-          document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-          
-          tab.classList.add('active');
-          document.getElementById(`${tabName}-tab`).classList.add('active');
-        });
-      });
-
-      // Setup drag and drop functionality
-      function setupDragAndDrop(dragArea, fileInput, section) {
-        dragArea.addEventListener('click', () => fileInput.click());
-        dragArea.addEventListener('dragover', (e) => {
-          e.preventDefault();
-          dragArea.classList.add('drag-over');
-        });
-        dragArea.addEventListener('dragenter', (e) => {
-          e.preventDefault();
-          dragArea.classList.add('drag-over');
-        });
-        dragArea.addEventListener('dragleave', () => {
-          dragArea.classList.remove('drag-over');
-        });
-        dragArea.addEventListener('drop', (e) => {
-          e.preventDefault();
-          dragArea.classList.remove('drag-over');
-          const files = e.dataTransfer.files;
-          if (files.length > 0) {
-            fileInput.files = files;
-            fileInput.dispatchEvent(new Event('change'));
-          }
-        });
-      }
-
-      // Crop Functionality
-      const cropUpload = document.getElementById('cropUpload');
-      const cropCanvas = document.getElementById('cropCanvas');
-      const cropBtn = document.getElementById('cropBtn');
-      const downloadCrop = document.getElementById('downloadCrop');
-      const resetCrop = document.getElementById('resetCrop');
-      
-      setupDragAndDrop(document.getElementById('cropDragArea'), cropUpload, 'crop');
-      
-      cropUpload.addEventListener('change', async (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-        hideElements('crop');
-        showLoading('crop');
-        try {
-          const img = await loadImage(file);
-          state.crop.originalImage = img;
-          state.crop.initialImage = img;
-          drawImageOnCanvas(img, 'cropCanvas');
-          cropBtn.style.display = 'inline-block';
-          resetCrop.style.display = 'inline-block';
-          updateFileSizeDisplay('crop', cropCanvas, 'jpeg');
-          showSuccess(document.getElementById('crop-success'), 'Image loaded successfully!');
-        } catch (err) {
-          showError(document.getElementById('crop-error'), err.message);
-          resetCanvas('cropCanvas');
-        } finally {
-          hideLoading('crop');
-        }
-      });
-
-      // Crop drawing functionality
-      cropCanvas.addEventListener('mousedown', (e) => {
-        if (!state.crop.originalImage) {
-          showError(document.getElementById('crop-error'), 'Please upload an image first.');
-          return;
-        }
-        state.crop.isDrawing = true;
-        const rect = cropCanvas.getBoundingClientRect();
-        const pixelRatio = window.devicePixelRatio || 1;
-        state.crop.cropStart = { x: (e.clientX - rect.left) * pixelRatio, y: (e.clientY - rect.top) * pixelRatio };
-      });
-
-      cropCanvas.addEventListener('mousemove', (e) => {
-        if (!state.crop.isDrawing || !state.crop.originalImage) return;
-        const rect = cropCanvas.getBoundingClientRect();
-        const pixelRatio = window.devicePixelRatio || 1;
-        const currentX = (e.clientX - rect.left) * pixelRatio;
-        const currentY = (e.clientY - rect.top) * pixelRatio;
-        state.crop.cropRect = {
-          x: Math.min(state.crop.cropStart.x, currentX),
-          y: Math.min(state.crop.cropStart.y, currentY),
-          width: Math.abs(currentX - state.crop.cropStart.x),
-          height: Math.abs(currentY - state.crop.cropStart.y),
-        };
-        const ctx = cropCanvas.getContext('2d');
-        ctx.clearRect(0, 0, cropCanvas.width / pixelRatio, cropCanvas.height / pixelRatio);
-        ctx.drawImage(state.crop.originalImage, 0, 0, cropCanvas.width / pixelRatio, cropCanvas.height / pixelRatio);
-        ctx.strokeStyle = 'red';
-        ctx.lineWidth = 2;
-        ctx.strokeRect(state.crop.cropRect.x / pixelRatio, state.crop.cropRect.y / pixelRatio, state.crop.cropRect.width / pixelRatio, state.crop.cropRect.height / pixelRatio);
-      });
-
-      cropCanvas.addEventListener('mouseup', () => {
-        state.crop.isDrawing = false;
-      });
-
-      cropBtn.addEventListener('click', () => {
-        hideElements('crop');
-        if (!state.crop.cropRect || !state.crop.originalImage) {
-          showError(document.getElementById('crop-error'), 'Please draw a crop area on an uploaded image.');
-          return;
-        }
-        showLoading('crop');
-        setTimeout(() => {
-          try {
-            const pixelRatio = window.devicePixelRatio || 1;
-            const scale = state.crop.originalImage.width / (cropCanvas.width / pixelRatio);
-            const sx = state.crop.cropRect.x * scale / pixelRatio;
-            const sy = state.crop.cropRect.y * scale / pixelRatio;
-            const sWidth = state.crop.cropRect.width * scale / pixelRatio;
-            const sHeight = state.crop.cropRect.height * scale / pixelRatio;
-            const croppedCanvas = document.createElement('canvas');
-            croppedCanvas.width = sWidth;
-            croppedCanvas.height = sHeight;
-            const ctx = croppedCanvas.getContext('2d');
-            ctx.drawImage(state.crop.originalImage, sx, sy, sWidth, sHeight, 0, 0, sWidth, sHeight);
-            state.crop.croppedImage = croppedCanvas;
-            drawImageOnCanvas(croppedCanvas, 'cropCanvas');
-            downloadCrop.style.display = 'inline-block';
-            updateFileSizeDisplay('crop', croppedCanvas, 'jpeg');
-            showSuccess(document.getElementById('crop-success'), 'Image cropped successfully!');
-          } catch (err) {
-            showError(document.getElementById('crop-error'), 'Error cropping image: ' + err.message);
-          } finally {
-            hideLoading('crop');
-          }
-        }, 300);
-      });
-
-      downloadCrop.addEventListener('click', () => {
-        if (state.crop.croppedImage) {
-          const link = document.createElement('a');
-          link.download = 'cropped-image.jpg';
-          const quality = state.crop.quality / 100;
-          link.href = state.crop.croppedImage.toDataURL('image/jpeg', quality);
-          link.click();
-          showSuccess(document.getElementById('crop-success'), 'Image downloaded successfully!');
-        } else {
-          showError(document.getElementById('crop-error'), 'No cropped image available for download.');
-        }
-      });
-
-      resetCrop.addEventListener('click', () => {
-        resetToInitial('crop');
-        updateFileSizeDisplay('crop', cropCanvas, 'jpeg');
-      });
-
-      // Resize Functionality
-      const resizeUpload = document.getElementById('resizeUpload');
-      const resizeCanvas = document.getElementById('resizeCanvas');
-      const resizeBtn = document.getElementById('resizeBtn');
-      const downloadResize = document.getElementById('downloadResize');
-      const resetResize = document.getElementById('resetResize');
-      
-      setupDragAndDrop(document.getElementById('resizeDragArea'), resizeUpload, 'resize');
-      
-      resizeUpload.addEventListener('change', async (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-        hideElements('resize');
-        showLoading('resize');
-        try {
-          const img = await loadImage(file);
-          state.resize.originalImage = img;
-          state.resize.initialImage = img;
-          drawImageOnCanvas(img, 'resizeCanvas');
-          resizeBtn.style.display = 'inline-block';
-          resetResize.style.display = 'inline-block';
-          updateFileSizeDisplay('resize', resizeCanvas, 'jpeg');
-          showSuccess(document.getElementById('resize-success'), 'Image loaded successfully!');
-        } catch (err) {
-          showError(document.getElementById('resize-error'), err.message);
-          resetCanvas('resizeCanvas');
-        } finally {
-          hideLoading('resize');
-        }
-      });
-
-      resizeBtn.addEventListener('click', () => {
-        hideElements('resize');
-        if (!state.resize.originalImage) {
-          showError(document.getElementById('resize-error'), 'Please upload an image first.');
-          return;
-        }
-        const targetWidth = parseInt(document.getElementById('resizeWidth').value);
-        const targetHeight = parseInt(document.getElementById('resizeHeight').value);
-        if (isNaN(targetWidth) || isNaN(targetHeight) || targetWidth <= 0 || targetHeight <= 0) {
-          showError(document.getElementById('resize-error'), 'Please enter valid width and height values.');
-          return;
-        }
-        showLoading('resize');
-        setTimeout(() => {
-          try {
-            const canvas = document.createElement('canvas');
-            canvas.width = targetWidth;
-            canvas.height = targetHeight;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(state.resize.originalImage, 0, 0, targetWidth, targetHeight);
-            state.resize.resizedImage = canvas;
-            drawImageOnCanvas(state.resize.resizedImage, 'resizeCanvas');
-            downloadResize.style.display = 'inline-block';
-            updateFileSizeDisplay('resize', canvas, 'jpeg');
-            showSuccess(document.getElementById('resize-success'), 'Image resized successfully!');
-          } catch (err) {
-            showError(document.getElementById('resize-error'), 'Error resizing image: ' + err.message);
-          } finally {
-            hideLoading('resize');
-          }
-        }, 300);
-      });
-
-      downloadResize.addEventListener('click', () => {
-        if (state.resize.resizedImage) {
-          const link = document.createElement('a');
-          link.download = 'resized-image.jpg';
-          const quality = state.resize.quality / 100;
-          link.href = state.resize.resizedImage.toDataURL('image/jpeg', quality);
-          link.click();
-          showSuccess(document.getElementById('resize-success'), 'Image downloaded successfully!');
-        } else {
-          showError(document.getElementById('resize-error'), 'No resized image available for download.');
-        }
-      });
-
-      resetResize.addEventListener('click', () => {
-        resetToInitial('resize');
-        updateFileSizeDisplay('resize', resizeCanvas, 'jpeg');
-      });
-      
-      // Convert Functionality
-      const convertUpload = document.getElementById('convertUpload');
-      const convertCanvas = document.getElementById('convertCanvas');
-      const convertBtn = document.getElementById('convertBtn');
-      
-      setupDragAndDrop(document.getElementById('convertDragArea'), convertUpload, 'convert');
-      
-      convertUpload.addEventListener('change', async (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-        hideElements('convert');
-        showLoading('convert');
-        try {
-          const img = await loadImage(file);
-          state.convert.originalImage = img;
-          state.convert.initialImage = img;
-          drawImageOnCanvas(img, 'convertCanvas');
-          convertBtn.style.display = 'inline-block';
-          updateFileSizeDisplay('convert', convertCanvas, document.getElementById('outputFormat').value);
-          showSuccess(document.getElementById('convert-success'), 'Image loaded successfully!');
-        } catch (err) {
-          showError(document.getElementById('convert-error'), err.message);
-          resetCanvas('convertCanvas');
-        } finally {
-          hideLoading('convert');
-        }
-      });
-
-      // Update file size when format changes
-      document.getElementById('outputFormat').addEventListener('change', () => {
-        if (state.convert.originalImage) {
-          updateFileSizeDisplay('convert', convertCanvas, document.getElementById('outputFormat').value);
-        }
-      });
-
-      convertBtn.addEventListener('click', () => {
-        hideElements('convert');
-        if (!state.convert.originalImage) {
-          showError(document.getElementById('convert-error'), 'Please upload an image first.');
-          return;
-        }
-        showLoading('convert');
-        setTimeout(() => {
-          try {
-            const format = document.getElementById('outputFormat').value;
-            const canvas = document.createElement('canvas');
-            canvas.width = state.convert.originalImage.width;
-            canvas.height = state.convert.originalImage.height;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(state.convert.originalImage, 0, 0, canvas.width, canvas.height);
-            
-            let mimeType, fileExtension;
-            switch(format) {
-              case 'jpeg':
-                mimeType = 'image/jpeg';
-                fileExtension = 'jpg';
-                break;
-              case 'png':
-                mimeType = 'image/png';
-                fileExtension = 'png';
-                break;
-              case 'webp':
-                mimeType = 'image/webp';
-                fileExtension = 'webp';
-                break;
-              case 'bmp':
-                mimeType = 'image/bmp';
-                fileExtension = 'bmp';
-                break;
-              case 'gif':
-                mimeType = 'image/gif';
-                fileExtension = 'gif';
-                break;
-              default:
-                mimeType = 'image/png';
-                fileExtension = 'png';
+          // Add text if enabled
+          if (elements.showTextDisplay.checked) {
+            let displayText = elements.customText.value.trim();
+            if (!displayText) {
+              displayText = finalCode;
             }
             
-            const quality = state.convert.quality / 100;
-            const dataUrl = canvas.toDataURL(mimeType, format === 'png' ? undefined : quality);
-            updateFileSizeDisplay('convert', canvas, format);
+            // Create text options
+            const textOptions = {
+              enabled: true,
+              size: elements.textSize.value,
+              color: elements.textColor.value,
+              align: elements.textAlign.value,
+              transparent: elements.barcodeTransparentBg.checked,
+              bgColor: elements.barcodeBgColor.value
+            };
             
-            const link = document.createElement('a');
-            link.download = `converted-image.${fileExtension}`;
-            link.href = dataUrl;
-            link.click();
-            showSuccess(document.getElementById('convert-success'), `Image converted to ${format.toUpperCase()} successfully!`);
-          } catch (err) {
-            showError(document.getElementById('convert-error'), 'Error converting image: ' + err.message);
-          } finally {
-            hideLoading('convert');
+            // Add text to the barcode
+            const textCanvas = await addTextToBarcode(canvas, displayText, textOptions);
+            
+            // Display results
+            canvas.width = textCanvas.width;
+            canvas.height = textCanvas.height;
+            const newCtx = canvas.getContext('2d');
+            newCtx.drawImage(textCanvas, 0, 0);
           }
-        }, 300);
-      });
 
-      // Color Picker Functionality
-      const colorUpload = document.getElementById('colorUpload');
-      const colorCanvas = document.getElementById('colorCanvas');
-      const resetColor = document.getElementById('resetColor');
-      
-      setupDragAndDrop(document.getElementById('colorDragArea'), colorUpload, 'color');
-      
-      colorUpload.addEventListener('change', async (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-        hideElements('color');
-        showLoading('color');
-        try {
-          const img = await loadImage(file);
-          state.color.originalImage = img;
-          state.color.initialImage = img;
-          drawImageOnCanvas(img, 'colorCanvas');
-          resetColor.style.display = 'inline-block';
-          showSuccess(document.getElementById('color-success'), 'Image loaded successfully! Click on the image to pick colors.');
+          downloadButton.style.display = 'inline-block';
+          svgDownloadButton.style.display = 'inline-block';
+          canvas.style.display = 'block';
           
-          // Add click event listener to canvas for color picking
-          colorCanvas.addEventListener('click', (e) => {
-            handleColorPick(e, colorCanvas, img);
-          });
-        } catch (err) {
-          showError(document.getElementById('color-error'), err.message);
-          resetCanvas('colorCanvas');
+          // Show the copy to clipboard section
+          elements.copyContainer.style.display = 'block';
+          elements.barcodeValue.value = finalCode;
+          
+          showSuccess(successElement, 'Barcode generated successfully!');
+        } catch (error) {
+          showError(errorElement, `Failed to generate barcode: ${error.message}`);
         } finally {
-          hideLoading('color');
+          loadingElement.style.display = 'none';
         }
-      });
+      }
 
-      resetColor.addEventListener('click', () => {
-        resetToInitial('color');
-      });
+      function downloadBarcode(canvas, errorElement) {
+        try {
+          const code = canvas.dataset.code;
+          const link = document.createElement('a');
+          link.download = `${sanitizeFilename(code)}.png`;
+          link.href = canvas.toDataURL('image/png', 1.0);
+          link.click();
+        } catch (error) {
+          showError(errorElement, 'Error downloading barcode');
+        }
+      }
 
-      // Initialize quality controls
-      initQualityControls();
+      function downloadSVG(canvas, errorElement) {
+        try {
+          const code = canvas.dataset.code;
+          const type = canvas.dataset.type;
+          const svgNS = "http://www.w3.org/2000/svg";
+          const svg = document.createElementNS(svgNS, "svg");
+          svg.setAttribute("xmlns", svgNS);
+          svg.setAttribute("version", "1.1");
+          svg.setAttribute("width", canvas.width);
+          svg.setAttribute("height", canvas.height);
+          
+          // Create SVG barcode
+          JsBarcode(svg, code, {
+            format: barcodeConfig[type].format,
+            displayValue: true,
+            width: 2,
+            height: canvas.height * 0.7,
+            lineColor: elements.barcodeFgColor.value,
+            textColor: elements.barcodeFgColor.value,
+            background: elements.barcodeTransparentBg.checked 
+              ? 'transparent' 
+              : elements.barcodeBgColor.value
+          });
+
+          // Serialize SVG
+          const serializer = new XMLSerializer();
+          let svgString = serializer.serializeToString(svg);
+          if (!svgString.includes('xmlns')) {
+            svgString = svgString.replace(/<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
+          }
+
+          // Create blob and download
+          const blob = new Blob([svgString], {type: "image/svg+xml;charset=utf-8"});
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement("a");
+          link.href = url;
+          link.download = `${sanitizeFilename(code)}.svg`;
+          link.click();
+          URL.revokeObjectURL(url);
+        } catch (error) {
+          showError(errorElement, 'Error generating SVG: ' + error.message);
+        }
+      }
+
+      async function generateBatchBarcodes(format) {
+        const type = elements.batchEanType.value;
+        const amount = parseInt(elements.batchAmount.value);
+        // Fixed size as requested
+        const width = 320;
+        const height = 150;
+
+        if (isNaN(amount) || amount < 1 || amount > 100) {
+          showError(elements.batchError, 'Please enter a number between 1 and 100');
+          return;
+        }
+
+        hideElements();
+        elements.batchLoading.style.display = 'block';
+
+        // Prepare text options if enabled
+        let textOptions = null;
+        if (elements.showTextDisplay.checked) {
+          textOptions = {
+            enabled: true,
+            size: elements.textSize.value,
+            color: elements.textColor.value,
+            align: elements.textAlign.value,
+            transparent: elements.barcodeTransparentBg.checked,
+            bgColor: elements.barcodeBgColor.value
+          };
+        }
+
+        try {
+          const zip = new JSZip();
+          const canvas = document.createElement('canvas');
+          const isPharmacode = type === 'pharmacode';
+
+          for (let i = 0; i < amount; i++) {
+            elements.batchProgress.textContent = `Generating barcodes: ${i + 1}/${amount}`;
+            const code = generateRandomBarcode(type);
+            canvas.width = width;
+            canvas.height = height;
+
+            try {
+              // Generate the barcode with customization
+              const ctx = canvas.getContext('2d');
+              ctx.clearRect(0, 0, canvas.width, canvas.height);
+              
+              if (format === 'svg') {
+                // Create SVG element
+                const svgNS = "http://www.w3.org/2000/svg";
+                const svg = document.createElementNS(svgNS, "svg");
+                svg.setAttribute("xmlns", svgNS);
+                svg.setAttribute("version", "1.1");
+                svg.setAttribute("width", width);
+                svg.setAttribute("height", height);
+                
+                // Generate SVG barcode
+                JsBarcode(svg, code, {
+                  format: barcodeConfig[type].format,
+                  displayValue: true,
+                  width: 2,
+                  height: isPharmacode ? height * 0.5 : height * 0.7,
+                  lineColor: elements.barcodeFgColor.value,
+                  textColor: elements.barcodeFgColor.value,
+                  background: elements.barcodeTransparentBg.checked 
+                    ? 'transparent' 
+                    : elements.barcodeBgColor.value
+                });
+
+                // Serialize SVG
+                const serializer = new XMLSerializer();
+                let svgString = serializer.serializeToString(svg);
+                if (!svgString.includes('xmlns')) {
+                  svgString = svgString.replace(/<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
+                }
+                zip.file(`${sanitizeFilename(code)}.svg`, svgString);
+              } else {
+                // Generate PNG barcode
+                JsBarcode(canvas, code, {
+                  format: barcodeConfig[type].format,
+                  displayValue: true,
+                  width: 2,
+                  height: isPharmacode ? height * 0.5 : height * 0.7,
+                  lineColor: elements.barcodeFgColor.value,
+                  textColor: elements.barcodeFgColor.value,
+                  background: elements.barcodeTransparentBg.checked 
+                    ? 'transparent' 
+                    : elements.barcodeBgColor.value
+                });
+
+                // Add text if enabled
+                let finalCanvas = canvas;
+                if (textOptions) {
+                  let displayText = elements.customText.value.trim();
+                  if (!displayText) {
+                    displayText = code;
+                  }
+                  
+                  // Add text to the barcode
+                  finalCanvas = await addTextToBarcode(canvas, displayText, textOptions);
+                }
+
+                const dataUrl = finalCanvas.toDataURL('image/png', 1.0);
+                const imgData = dataUrl.replace(/^data:image\/png;base64,/, '');
+                zip.file(`${sanitizeFilename(code)}.png`, imgData, { base64: true });
+              }
+            } catch (err) {
+              console.warn(`Error generating barcode for code ${code}: ${err.message}`);
+            }
+
+            await new Promise(resolve => setTimeout(resolve, 10));
+          }
+
+          const blob = await zip.generateAsync({ type: 'blob' });
+          saveAs(blob, `batch-${sanitizeFilename(type)}-${format}.zip`);
+          showSuccess(elements.batchSuccess, `Successfully generated and downloaded ${amount} barcodes as ${format.toUpperCase()}s!`);
+        } catch (error) {
+          showError(elements.batchError, `Error creating ZIP file: ${error.message}`);
+        } finally {
+          elements.batchLoading.style.display = 'none';
+        }
+      }
+
+      function initializeBarcodeGenerator() {
+        // Initialize text display UI
+        initTextDisplay();
+        
+        // Initialize copy to clipboard functionality
+        initCopyToClipboard();
+        
+        // Initialize color options toggle
+        if (elements.barcodeShowColorOptions && elements.barcodeColorOptionsContent) {
+          elements.barcodeShowColorOptions.addEventListener('change', function() {
+            elements.barcodeColorOptionsContent.style.display = this.checked ? 'block' : 'none';
+          });
+          
+          // Set initial visibility
+          elements.barcodeColorOptionsContent.style.display = 
+            elements.barcodeShowColorOptions.checked ? 'block' : 'none';
+        }
+        
+        // Tabs functionality
+        elements.tabs.forEach(tab => {
+          tab.addEventListener('click', () => {
+            elements.tabs.forEach(t => {
+              t.classList.remove('active');
+              t.setAttribute('aria-selected', 'false');
+            });
+            elements.tabContents.forEach(c => c.classList.remove('active'));
+            tab.classList.add('active');
+            tab.setAttribute('aria-selected', 'true');
+            document.getElementById(`${tab.dataset.tab}-tab`).classList.add('active');
+          });
+          tab.addEventListener('keydown', e => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              tab.click();
+            }
+          });
+        });
+
+        // Input events
+        elements.eanInput.addEventListener('keypress', e => {
+          if (e.key === 'Enter') elements.generateSingleBtn.click();
+        });
+
+        elements.customInput.addEventListener('keypress', e => {
+          if (e.key === 'Enter') elements.generateCustomBtn.click();
+        });
+
+        // Button click handlers
+        elements.generateSingleBtn.addEventListener('click', () => generateBarcode({
+          canvas: elements.singleCanvas,
+          code: elements.eanInput.value.trim(),
+          type: elements.eanType.value,
+          errorElement: elements.singleError,
+          successElement: elements.singleSuccess,
+          downloadButton: elements.downloadBtn,
+          svgDownloadButton: elements.downloadSvgBtn,
+          loadingElement: elements.singleLoading
+        }));
+
+        elements.downloadBtn.addEventListener('click', () => downloadBarcode(elements.singleCanvas, elements.singleError));
+        elements.downloadSvgBtn.addEventListener('click', () => downloadSVG(elements.singleCanvas, elements.singleError));
+
+        elements.generateBatchPngBtn.addEventListener('click', () => generateBatchBarcodes('png'));
+        elements.generateBatchSvgBtn.addEventListener('click', () => generateBatchBarcodes('svg'));
+
+        elements.generateCustomBtn.addEventListener('click', () => {
+          const code = elements.customInput.value.trim();
+          if (!code) {
+            showError(elements.customError, 'Please enter custom text for the barcode');
+            return;
+          }
+          generateBarcode({
+            canvas: elements.customCanvas,
+            code,
+            type: elements.customType.value,
+            errorElement: elements.customError,
+            successElement: elements.customSuccess,
+            downloadButton: elements.customDownloadBtn,
+            svgDownloadButton: elements.customSvgDownloadBtn,
+            loadingElement: elements.customLoading
+          });
+        });
+
+        elements.customDownloadBtn.addEventListener('click', () => downloadBarcode(elements.customCanvas, elements.customError));
+        elements.customSvgDownloadBtn.addEventListener('click', () => downloadSVG(elements.customCanvas, elements.customError));
+      }
+      
+      // Helper functions
+      function showError(element, message) {
+        element.textContent = message;
+        element.style.display = 'block';
+      }
+
+      function showSuccess(element, message) {
+        element.textContent = message;
+        element.style.display = 'block';
+      }
+
+      function hideElements() {
+        [elements.singleError, elements.batchError, elements.customError,
+         elements.singleSuccess, elements.batchSuccess, elements.customSuccess]
+          .forEach(el => el.style.display = 'none');
+      }
+
+      function calculateChecksum(code, type) {
+        let sum = 0;
+        if (type === 'ean8') {
+          const weights = [3, 1, 3, 1, 3, 1, 3];
+          for (let i = 0; i < code.length; i++) sum += parseInt(code[i]) * weights[i];
+        } else if (type === 'upc' || type === 'itf14') {
+          for (let i = 0; i < code.length; i++) sum += parseInt(code[i]) * (i % 2 === 0 ? 3 : 1);
+        } else {
+          const weights = [1, 3];
+          for (let i = 0; i < code.length; i++) sum += parseInt(code[i]) * weights[i % 2];
+        }
+        return (10 - (sum % 10)) % 10;
+      }
+
+      function generateRandomEAN(type) {
+        const { length } = barcodeConfig[type];
+        let base = Array.from({ length }, () => Math.floor(Math.random() * 10)).join('');
+        return base + calculateChecksum(base, type);
+      }
+
+      function validateInput(code, type) {
+        const config = barcodeConfig[type];
+        if (!code) return true;
+        if (type === 'pharmacode') {
+          const num = parseInt(code);
+          return !isNaN(num) && num >= config.min && num <= config.max;
+        }
+        return config.regex.test(code);
+      }
+
+      function generateRandomBarcode(type) {
+        if (['ean13', 'ean8', 'upc', 'itf14'].includes(type)) {
+          return generateRandomEAN(type);
+        }
+        switch (type) {
+          case 'code128':
+          case 'code39':
+            return Math.random().toString(36).slice(2, 12).toUpperCase();
+          case 'codabar':
+            return `A${Math.floor(Math.random() * 100000).toString().padStart(5, '0')}B`;
+          case 'pharmacode':
+            return Math.floor(Math.random() * (barcodeConfig.pharmacode.max - barcodeConfig.pharmacode.min + 1) + barcodeConfig.pharmacode.min).toString();
+          default:
+            return '123456';
+        }
+      }
+
+      function sanitizeFilename(str) {
+        return str.replace(/[^a-zA-Z0-9-]+/g, '_').slice(0, 50) || 'barcode';
+      }
+      
+      initializeBarcodeGenerator();
     }
-    
+
     // Initialize everything when DOM is loaded
     document.addEventListener('DOMContentLoaded', () => {
-      initializeImageTools();
+      initBarcodeGenerator();
     });
   </script>
 </body>
