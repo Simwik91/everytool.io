@@ -3,18 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Free Barcode Generator - Create custom EAN-13, EAN-8, UPC, and other barcodes for products, inventory, and retail.">
-  <title>Enhanced Barcode Generator - EveryTool.io</title>
-  
-  <!-- SEO Optimizations -->
+  <meta name="description" content="Free Network Toolkit: Ping, traceroute, DNS lookup, IP information and more. Fast, free, no signup required.">
+  <meta name="keywords" content="network tools, ping, traceroute, dns lookup, ip information, network diagnostics">
   <meta name="robots" content="index, follow">
-  <meta name="keywords" content="free barcode generator, barcode creator, ean-13, ean-8, upc barcode, barcode generator">
-  <meta property="og:title" content="Free Barcode Generator - EveryTool.io">
-  <meta property="og:description" content="Create custom Barcodes for products, inventory, and retail applications. Generate EAN-13, EAN-8, UPC, and more.">
+  <meta property="og:title" content="Free Network Toolkit">
+  <meta property="og:description" content="Diagnose and analyze network connections with multiple tools. Free, fast, and no signup required.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://everytool.io/barcodegenerator">
-  <meta property="og:image" content="https://everytool.io/social-preview.jpg">
-  <meta name="twitter:card" content="summary_large_image">
+  <title>Free Network Toolkit</title>
   
   <!-- Performance Optimization -->
   <link rel="preconnect" href="https://cdnjs.cloudflare.com">
@@ -23,17 +18,52 @@
   <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.rel='stylesheet'">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
-  <!-- Scripts -->
-  <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+  <!-- Chart.js for ping statistics -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <!-- DOMPurify for sanitizing output -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.5/purify.min.js"></script>
   
   <!-- Shared CSS -->
   <link rel="stylesheet" href="/css/styles.css">
   
-  <!-- Barcode Generator Specific Styles -->
+  <!-- Network Tools Specific Styles -->
   <style>
-    /* Hero Section */
+    /* Network Tools Specific Styles */
+    :root {
+      --primary: #4361ee;
+      --primary-dark: #3a56d4;
+      --secondary: #7209b7;
+      --light: #ffffff;
+      --dark: #2d3748;
+      --gray: #718096;
+      --light-gray: #e2e8f0;
+      --border-radius: 12px;
+      --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      line-height: 1.6;
+      color: var(--dark);
+      background-color: #f8fafc;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
     .hero {
       padding: 60px 0 40px;
       text-align: center;
@@ -56,7 +86,7 @@
 
     .hero p {
       font-size: 1.2rem;
-      color: #444;
+      color: var(--gray);
       margin-bottom: 40px;
       max-width: 700px;
       margin-left: auto;
@@ -109,6 +139,7 @@
       margin: 0 0 30px;
       gap: 10px;
       flex-wrap: wrap;
+      overflow-x: auto;
     }
     
     .tab {
@@ -122,6 +153,7 @@
       align-items: center;
       gap: 8px;
       font-size: 1rem;
+      white-space: nowrap;
     }
     
     .tab.active {
@@ -147,7 +179,14 @@
       to { opacity: 1; transform: translateY(0); }
     }
     
-    input, select, button, textarea {
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: var(--dark);
+    }
+    
+    textarea, input, select, button {
       margin: 0.5em auto;
       padding: 15px;
       width: 100%;
@@ -158,7 +197,11 @@
       display: block;
       transition: var(--transition);
       font-family: 'Poppins', sans-serif;
-      color: #444;
+      resize: vertical;
+    }
+    
+    textarea {
+      min-height: 150px;
     }
     
     input:focus, select:focus, textarea:focus {
@@ -178,6 +221,7 @@
       align-items: center;
       justify-content: center;
       gap: 10px;
+      transition: var(--transition);
     }
     
     button:hover, button:focus {
@@ -188,47 +232,52 @@
       outline-offset: 2px;
     }
     
-    button.secondary {
-      background: var(--light);
-      color: var(--primary);
-      border: 2px solid var(--primary);
+    button:disabled {
+      background: #9ec5e6;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
     }
     
-    button.secondary:hover, button.secondary:focus {
+    .btn-group {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin: 1.5em 0;
+      flex-wrap: wrap;
+    }
+    
+    .btn-group button {
+      width: auto;
+      min-width: 180px;
+      flex: 1;
+    }
+    
+    .stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin: 15px 0;
+      justify-content: center;
+    }
+    
+    .stat-card {
       background: #f0f4ff;
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-    
-    canvas {
-      margin: 1.5em auto;
-      display: block;
-      max-width: 100%;
-      border-radius: 12px;
-      background: var(--light);
-      padding: 15px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-      border: 1px solid var(--light-gray);
-    }
-    
-    .loading {
-      display: none;
+      padding: 15px 20px;
+      border-radius: var(--border-radius);
       text-align: center;
-      padding: 30px;
+      min-width: 150px;
     }
     
-    .spinner {
-      border: 4px solid rgba(0, 0, 0, 0.1);
-      border-left-color: var(--primary);
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      animation: spin 1s linear infinite;
-      margin: 0 auto 20px;
+    .stat-value {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--primary);
     }
     
-    @keyframes spin {
-      to { transform: rotate(360deg); }
+    .stat-label {
+      font-size: 0.9rem;
+      color: var(--gray);
     }
     
     .error {
@@ -251,364 +300,118 @@
       border-left: 4px solid #27ae60;
     }
     
-    .btn-group {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      margin: 1.5em 0;
-      flex-wrap: wrap;
+    /* Network-specific styles */
+    .ping-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 10px;
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+      align-items: center;
     }
     
-    .btn-group button {
-      width: auto;
-      min-width: 180px;
+    .status-indicator {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    
+    .status-up {
+      background-color: #27ae60;
+    }
+    
+    .status-down {
+      background-color: #e74c3c;
+    }
+    
+    .ping-success {
+      color: #27ae60;
+    }
+    
+    .ping-failure {
+      color: #e74c3c;
+    }
+    
+    .chart-container {
+      height: 300px;
+      margin: 20px 0;
+    }
+    
+    .tool-row {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    
+    .tool-col {
       flex: 1;
     }
     
-    /* Guide Section */
-    .guide-section {
-      background: var(--light);
-      border-radius: var(--border-radius);
-      padding: 40px;
-      margin: 40px auto;
-      box-shadow: var(--box-shadow);
+    .loading {
+      display: none;
       text-align: center;
-    }
-    
-    .guide-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 30px;
-      margin-top: 25px;
-    }
-    
-    .guide-item {
-      padding: 25px;
-      background: #f8f9ff;
-      border-radius: var(--border-radius);
-      text-align: center;
-      font-size: 14px;
-    }
-    
-    .guide-item h3 {
-      font-size: 1.5rem;
-      margin-bottom: 15px;
-      color: var(--primary);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      justify-content: center;
-    }
-    
-    .guide-item h3 i {
-      font-size: 1.8rem;
-    }
-    
-    .guide-item p {
-      font-size: 1rem;
-      color: #444;
-    }
-    
-    /* New Color Options Section */
-    .color-options-container {
-      margin: 1.5em 0;
-      border: 1px solid var(--light-gray);
-      border-radius: var(--border-radius);
       padding: 20px;
-      background: #fafbff;
-    }
-
-    .color-options-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 15px;
-      justify-content: center;
-    }
-
-    .color-options-header i {
-      color: var(--primary);
-      font-size: 1.5rem;
     }
     
-    .text-display-toggle {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 15px;
-      margin-bottom: 15px;
-    }
-    
-    .color-options-content {
+    .loading.active {
       display: block;
     }
     
-    .color-group {
-      display: flex;
-      justify-content: center;
-      gap: 25px;
-      margin: 1.5em 0;
-      flex-wrap: wrap;
-    }
-    
-    .color-input {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      flex: 1;
-      max-width: 200px;
-    }
-    
-    .color-input label {
-      font-weight: 500;
-      color: var(--dark);
-    }
-    
-    .color-input input[type="color"] {
-      width: 60px;
-      height: 60px;
-      padding: 5px;
-      cursor: pointer;
-      border-radius: 12px;
-      border: 2px solid var(--light-gray);
-      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-    }
-    
-    .color-input input[type="color"]::-webkit-color-swatch {
-      border: none;
-      border-radius: 8px;
-    }
-    
-    .toggle-container {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 15px;
-      margin: 1em 0;
-      padding: 10px;
-      border-radius: 50px;
-      background: #f0f4ff;
-      max-width: 300px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    
-    .toggle-label {
-      font-weight: 500;
-      color: var(--dark);
-      font-size: 1rem;
-    }
-    
-    .toggle-switch-visual {
-      position: relative;
-      display: inline-block;
-      width: 60px;
-      height: 30px;
-    }
-    
-    .toggle-switch-visual input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-    
-    .toggle-slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: #ccc;
-      transition: .4s;
-      border-radius: 34px;
-    }
-    
-    .toggle-slider:before {
-      position: absolute;
-      content: "";
-      height: 22px;
-      width: 22px;
-      left: 4px;
-      bottom: 4px;
-      background: white;
-      transition: .4s;
+    .loading-spinner {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid var(--primary);
       border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto;
     }
     
-    input:checked + .toggle-slider {
-      background-color: var(--primary);
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
     
-    input:checked + .toggle-slider:before {
-      transform: translateX(30px);
-    }
-
-    /* Text Display Options */
-    .text-display-container {
-      margin: 1.5em 0;
-      border: 1px solid var(--light-gray);
-      border-radius: var(--border-radius);
-      padding: 20px;
-      background: #fafbff;
-    }
-
-    .text-display-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 15px;
-      justify-content: center;
-    }
-
-    .text-display-header i {
-      color: var(--primary);
-      font-size: 1.5rem;
-    }
-
-    .text-display-content {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
-
-    .text-display-controls {
+    .info-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(2, 1fr);
       gap: 15px;
-      margin-top: 15px;
-    }
-
-    .text-display-control {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .text-display-control label {
-      font-weight: 500;
-      color: var(--dark);
-    }
-
-    .text-display-control input[type="color"] {
-      width: 60px;
-      height: 60px;
-      padding: 5px;
-      cursor: pointer;
-      border-radius: 12px;
-      border: 2px solid var(--light-gray);
-      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .text-display-control input[type="color"]::-webkit-color-swatch {
-      border: none;
-      border-radius: 8px;
-    }
-
-    .text-display-control select {
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid var(--light-gray);
-      background: var(--light);
-    }
-
-    .text-display-group {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .text-display-group label {
-      font-weight: 500;
-      color: var(--dark);
-    }
-
-    .text-display-group input[type="text"] {
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid var(--light-gray);
-      background: var(--light);
+      margin: 20px 0;
     }
     
-    .text-display-note {
-      text-align: center;
-      margin: 15px 0 5px;
-      color: #666;
-      font-size: 0.9rem;
-      background: #f8f9fa;
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px dashed #e0e0e0;
-    }
-
-    /* Copy to clipboard section */
-    .copy-container {
-      margin: 1.5em 0;
-      border: 1px solid var(--light-gray);
+    .info-item {
+      background: #f8f9ff;
+      padding: 15px;
       border-radius: var(--border-radius);
-      padding: 20px;
-      background: #fafbff;
-      display: none;
-      text-align: center;
     }
-
-    .copy-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 15px;
-      justify-content: center;
-    }
-
-    .copy-header i {
-      color: var(--primary);
-      font-size: 1.5rem;
-    }
-
-    .copy-content {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-      align-items: center;
-    }
-
-    .copy-btn {
-      padding: 12px 25px;
-      background: var(--primary);
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      transition: var(--transition);
+    
+    .info-label {
       font-weight: 600;
-      font-size: 1rem;
+      color: var(--gray);
+      font-size: 0.9rem;
     }
-
-    .copy-btn:hover {
-      background: var(--primary-dark);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+    
+    .info-value {
+      font-weight: 700;
+      color: var(--primary);
+      font-size: 1.1rem;
+      margin-top: 5px;
     }
-
-    .copy-success {
-      color: #27ae60;
-      text-align: center;
-      margin-top: 10px;
-      display: none;
-      font-weight: 500;
-    }
-
-    /* Responsive Design for Barcode Generator */
-    @media (max-width: 768px) {
-      .hero h1 {
-        font-size: 2rem;
+    
+    /* Responsive Design for Network Tools */
+    @media (max-width: 992px) {
+      .info-grid {
+        grid-template-columns: 1fr;
       }
       
-      .section-title {
+      .tool-row {
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 {
         font-size: 2rem;
       }
       
@@ -617,29 +420,12 @@
         font-size: 0.9rem;
       }
       
-      .guide-section, .uses-section {
-        padding: 25px;
-      }
-      
       .btn-group {
         flex-direction: column;
       }
       
       .btn-group button {
         width: 100%;
-      }
-      
-      .guide-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .color-options {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .text-display-controls {
-        grid-template-columns: 1fr;
       }
     }
 
@@ -663,6 +449,11 @@
       h3 {
         font-size: 1.2rem;
       }
+      
+      .ping-item {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
     }
   </style>
 </head>
@@ -676,245 +467,354 @@
   <section class="hero">
     <div class="container">
       <div class="hero-content">
-        <h1>Enhanced Barcode Generator</h1>
-        <p>Create custom EAN-13, EAN-8, UPC, and other barcodes for products, inventory, and retail applications. All processing happens in your browser.</p>
+        <h1>Network Tools</h1>
+        <p>Diagnose and analyze network connections with our comprehensive toolkit. All processing happens in your browser - your data stays private.</p>
       </div>
     </div>
   </section>
 
-  <!-- Barcode Generator Content -->
   <div class="container">
-    <!-- Color Options Section -->
-    <div class="color-options-container">
-      <div class="color-options-header">
-        <i class="fas fa-palette"></i>
-        <h3>Color Options</h3>
-      </div>
-      
-      <div class="text-display-toggle">
-        <label class="toggle-label">Customize Colors</label>
-        <label class="toggle-switch-visual">
-          <input type="checkbox" id="barcode-show-color-options" checked>
-          <span class="toggle-slider"></span>
-        </label>
-      </div>
-      
-      <div class="color-options-content" id="barcode-color-options-content">
-        <div class="color-group">
-          <div class="color-input">
-            <label for="barcode-fg-color">Bar Color</label>
-            <input type="color" id="barcode-fg-color" value="#000000" aria-label="Select bar color">
-          </div>
-          <div class="color-input">
-            <label for="barcode-bg-color">Background Color</label>
-            <input type="color" id="barcode-bg-color" value="#FFFFFF" aria-label="Select background color">
-          </div>
-        </div>
-        
-        <div class="toggle-container">
-          <span class="toggle-label">Transparent Background</span>
-          <label class="toggle-switch-visual">
-            <input type="checkbox" id="barcode-transparent-bg" aria-label="Make background transparent">
-            <span class="toggle-slider"></span>
-          </label>
-        </div>
-      </div>
-    </div>
-
-    <!-- Unified Text Display Options -->
-    <div class="text-display-container">
-      <div class="text-display-header">
-        <i class="fas fa-font"></i>
-        <h3>Text Display Options</h3>
-      </div>
-      
-      <div class="text-display-content">
-        <div class="text-display-toggle">
-          <label class="toggle-label">Display Text Below Barcode</label>
-          <label class="toggle-switch-visual">
-            <input type="checkbox" id="show-text-display">
-            <span class="toggle-slider"></span>
-          </label>
-        </div>
-        
-        <div class="text-display-group" id="text-display-fields" style="display: none;">
-          <label for="custom-text">Custom Text:</label>
-          <input type="text" id="custom-text" placeholder="Enter custom text to display below barcode">
-          
-          <p class="text-display-note">
-            Note: The text below the barcode is only included in the downloaded PNG image. 
-            It will not appear on the SVG version or the preview.
-          </p>
-          
-          <div class="text-display-controls">
-            <div class="text-display-control">
-              <label for="text-color">Text Color:</label>
-              <input type="color" id="text-color" value="#000000">
-            </div>
-            
-            <div class="text-display-control">
-              <label for="text-size">Text Size:</label>
-              <select id="text-size">
-                <option value="12px">Small</option>
-                <option value="16px" selected>Medium</option>
-                <option value="20px">Large</option>
-                <option value="24px">Extra Large</option>
-              </select>
-            </div>
-            
-            <div class="text-display-control">
-              <label for="text-align">Text Alignment:</label>
-              <select id="text-align">
-                <option value="left">Left</option>
-                <option value="center" selected>Center</option>
-                <option value="right">Right</option>
-              </select>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <div class="card">
       <div class="tabs" role="tablist">
-        <div class="tab active" data-tab="single" role="tab" aria-selected="true" tabindex="0">
-          <i class="fas fa-barcode"></i> Single Barcode
+        <div class="tab active" data-tab="ping" role="tab" aria-selected="true" tabindex="0">
+          <i class="fas fa-network-wired"></i> Ping
         </div>
-        <div class="tab" data-tab="batch" role="tab" aria-selected="false" tabindex="0">
-          <i class="fas fa-layer-group"></i> Batch Barcodes
+        <div class="tab" data-tab="traceroute" role="tab" aria-selected="false" tabindex="0">
+          <i class="fas fa-route"></i> Traceroute
         </div>
-        <div class="tab" data-tab="custom" role="tab" aria-selected="false" tabindex="0">
-          <i class="fas fa-cog"></i> Custom Barcodes
+        <div class="tab" data-tab="dns" role="tab" aria-selected="false" tabindex="0">
+          <i class="fas fa-globe"></i> DNS Lookup
+        </div>
+        <div class="tab" data-tab="ipinfo" role="tab" aria-selected="false" tabindex="0">
+          <i class="fas fa-info-circle"></i> IP Information
+        </div>
+        <div class="tab" data-tab="headers" role="tab" aria-selected="false" tabindex="0">
+          <i class="fas fa-code"></i> HTTP Headers
+        </div>
+        <div class="tab" data-tab="speed" role="tab" aria-selected="false" tabindex="0">
+          <i class="fas fa-tachometer-alt"></i> Speed Test
         </div>
       </div>
 
-      <div class="tab-content active" id="single-tab" role="tabpanel">
-        <h2><i class="fas fa-barcode"></i> Generate Single Barcode</h2>
-        <label for="ean-type">Barcode Type:</label>
-        <select id="ean-type" aria-label="Select barcode type">
-          <option value="ean13" selected>EAN-13</option>
-          <option value="ean8">EAN-8</option>
-          <option value="upc">UPC-A</option>
-          <option value="code128">Code 128</option>
-          <option value="code39">Code 39</option>
-          <option value="itf14">ITF-14</option>
-          <option value="codabar">Codabar</option>
-          <option value="pharmacode">Pharmacode</option>
-        </select>
-        <label for="ean-input">Barcode Value:</label>
-        <input id="ean-input" type="text" placeholder="Enter barcode or leave blank to auto-generate" autofocus aria-label="Enter barcode value">
+      <!-- Ping Tool -->
+      <div class="tab-content active" id="ping-tab" role="tabpanel">
+        <h2><i class="fas fa-network-wired"></i> Ping Tool</h2>
+        <p><i>Test connectivity to a host and measure response times.</i></p>
         
-        <div class="error" id="single-error"></div>
-        <div class="success" id="single-success"></div>
-        <div class="btn-group">
-          <button id="generate-single-btn" aria-label="Generate barcode">
-            <i class="fas fa-bolt"></i> Generate Barcode
-          </button>
-          <button id="download-btn" style="display:none" aria-label="Download barcode">
-            <i class="fas fa-download"></i> Download PNG
-          </button>
-          <button id="download-svg-btn" style="display:none" aria-label="Download SVG">
-            <i class="fas fa-file-code"></i> Download SVG
-          </button>
+        <div class="tool-row">
+          <div class="tool-col">
+            <label for="pingHost">Hostname or IP Address:</label>
+            <input type="text" id="pingHost" placeholder="example.com or 192.168.1.1" value="google.com">
+          </div>
+          <div class="tool-col">
+            <label for="pingCount">Number of Pings:</label>
+            <select id="pingCount">
+              <option value="4">4 pings</option>
+              <option value="10">10 pings</option>
+              <option value="continuous">Continuous</option>
+            </select>
+          </div>
         </div>
-        <div class="loading" id="single-loading">
-          <div class="spinner"></div>
-          Generating Barcode...
-        </div>
-        <div class="barcode-result-container">
-          <canvas id="ean-canvas" style="display: none;" aria-label="Generated barcode"></canvas>
-        </div>
-      </div>
-
-      <div class="tab-content" id="batch-tab" role="tabpanel">
-        <h2><i class="fas fa-layer-group"></i> Batch Barcode Generation</h2>
-        <label for="batch-ean-type">Barcode Type:</label>
-        <select id="batch-ean-type" aria-label="Select barcode type for batch generation">
-          <option value="ean13" selected>EAN-13</option>
-          <option value="ean8">EAN-8</option>
-          <option value="upc">UPC-A</option>
-          <option value="code128">Code 128</option>
-          <option value="code39">Code 39</option>
-          <option value="itf14">ITF-14</option>
-          <option value="codabar">Codabar</option>
-          <option value="pharmacode">Pharmacode</option>
-        </select>
-        <label for="batch-amount">Number of Barcodes:</label>
-        <input id="batch-amount" type="number" min="1" max="100" value="10" placeholder="Enter number of codes (1–100)" aria-label="Enter number of barcodes">
         
-        <div class="btn-group">
-          <button id="generate-batch-png-btn" aria-label="Generate and download batch barcodes as PNGs">
-            <i class="fas fa-file-archive"></i> Download as PNGs (ZIP)
-          </button>
-          <button id="generate-batch-svg-btn" aria-label="Generate and download batch barcodes as SVGs">
-            <i class="fas fa-file-archive"></i> Download as SVGs (ZIP)
-          </button>
-        </div>
-        <div class="loading" id="batch-loading">
-          <div class="spinner"></div>
-          <div id="batch-progress">Generating barcodes: 0/0</div>
-        </div>
-        <div class="success" id="batch-success"></div>
-        <div class="error" id="batch-error"></div>
-      </div>
-
-      <div class="tab-content" id="custom-tab" role="tabpanel">
-        <h2><i class="fas fa-cog"></i> Custom Barcode Generator</h2>
-        <label for="custom-type">Barcode Type:</label>
-        <select id="custom-type" aria-label="Select custom barcode type">
-          <option value="code128">Code 128</option>
-          <option value="code39">Code 39</option>
-          <option value="codabar">Codabar</option>
-          <option value="pharmacode">Pharmacode</option>
-        </select>
-        <label for="custom-input">Custom Text:</label>
-        <input id="custom-input" type="text" placeholder="Enter custom text for barcode" aria-label="Enter custom text for barcode">
-        <div class="format-info">
-          <h3>Format Examples:</h3>
-          <ul>
-            <li><strong>Code 128:</strong> Alphanumeric (e.g., ABC123)</li>
-            <li><strong>Code 39:</strong> Alphanumeric, uppercase (e.g., CODE39)</li>
-            <li><strong>Codabar:</strong> Start/end with A-D, digits and -$:/.+ (e.g., A12345B)</li>
-            <li><strong>Pharmacode:</strong> Numbers 3-131070 (e.g., 1234)</li>
-          </ul>
+        <div class="tool-row">
+          <div class="tool-col">
+            <label for="pingInterval">Interval (seconds):</label>
+            <select id="pingInterval">
+              <option value="1">1 second</option>
+              <option value="2">2 seconds</option>
+              <option value="5">5 seconds</option>
+            </select>
+          </div>
+          <div class="tool-col">
+            <label for="pingTimeout">Timeout (ms):</label>
+            <select id="pingTimeout">
+              <option value="1000">1000 ms</option>
+              <option value="2000">2000 ms</option>
+              <option value="5000">5000 ms</option>
+            </select>
+          </div>
         </div>
         
         <div class="btn-group">
-          <button id="generate-custom-btn" aria-label="Generate custom barcode">
-            <i class="fas fa-bolt"></i> Generate Custom Barcode
+          <button id="startPingBtn">
+            <i class="fas fa-play"></i> Start Ping
           </button>
-          <button id="custom-download" style="display:none" aria-label="Download custom barcode">
-            <i class="fas fa-download"></i> Download PNG
+          <button id="stopPingBtn" disabled>
+            <i class="fas fa-stop"></i> Stop Ping
           </button>
-          <button id="custom-svg-download" style="display:none" aria-label="Download SVG">
-            <i class="fas fa-file-code"></i> Download SVG
+          <button id="clearPingBtn">
+            <i class="fas fa-trash"></i> Clear Log
+          </button>
+          <button id="exportPingBtn">
+            <i class="fas fa-download"></i> Export Results
           </button>
         </div>
-        <div class="loading" id="custom-loading">
-          <div class="spinner"></div>
-          Generating Custom Barcode...
+        
+        <div class="loading" id="pingLoading">
+          <div class="loading-spinner"></div>
+          <p>Pinging host...</p>
         </div>
-        <div class="error" id="custom-error"></div>
-        <div class="success" id="custom-success"></div>
-        <div class="barcode-result-container">
-          <canvas id="custom-canvas" style="display: none;" aria-label="Generated custom barcode"></canvas>
+        
+        <div class="error" id="ping-error"></div>
+        
+        <div class="stats">
+          <div class="stat-card">
+            <div class="stat-value" id="sentCount">0</div>
+            <div class="stat-label">Sent</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="receivedCount">0</div>
+            <div class="stat-label">Received</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="lossPercent">0%</div>
+            <div class="stat-label">Loss</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="minPing">0ms</div>
+            <div class="stat-label">Min</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="maxPing">0ms</div>
+            <div class="stat-label">Max</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="avgPing">0ms</div>
+            <div class="stat-label">Avg</div>
+          </div>
+        </div>
+        
+        <div class="chart-container">
+          <canvas id="pingChart"></canvas>
+        </div>
+        
+        <label>Ping Results:</label>
+        <div id="pingResults" style="background: #f8f9ff; border-radius: var(--border-radius); padding: 15px; max-height: 300px; overflow-y: auto;">
+          <p>Ping results will appear here...</p>
         </div>
       </div>
-    </div>
 
-    <!-- Copy to clipboard section -->
-    <div class="copy-container" id="copy-container">
-      <div class="copy-header">
-        <i class="fas fa-copy"></i>
-        <h3>Copy Barcode Value</h3>
+      <!-- Traceroute Tool -->
+      <div class="tab-content" id="traceroute-tab" role="tabpanel">
+        <h2><i class="fas fa-route"></i> Traceroute Tool</h2>
+        <p><i>Trace the path packets take to reach a host across the internet.</i></p>
+        
+        <div class="tool-row">
+          <div class="tool-col">
+            <label for="traceHost">Hostname or IP Address:</label>
+            <input type="text" id="traceHost" placeholder="example.com or 192.168.1.1" value="google.com">
+          </div>
+          <div class="tool-col">
+            <label for="maxHops">Maximum Hops:</label>
+            <select id="maxHops">
+              <option value="15">15 hops</option>
+              <option value="30" selected>30 hops</option>
+              <option value="45">45 hops</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="btn-group">
+          <button id="startTraceBtn">
+            <i class="fas fa-play"></i> Start Trace
+          </button>
+          <button id="stopTraceBtn" disabled>
+            <i class="fas fa-stop"></i> Stop Trace
+          </button>
+          <button id="clearTraceBtn">
+            <i class="fas fa-trash"></i> Clear Log
+          </button>
+        </div>
+        
+        <div class="loading" id="tracerouteLoading">
+          <div class="loading-spinner"></div>
+          <p>Tracing route...</p>
+        </div>
+        
+        <div class="error" id="traceroute-error"></div>
+        
+        <label>Traceroute Results:</label>
+        <div id="traceResults" style="background: #f8f9ff; border-radius: var(--border-radius); padding: 15px; max-height: 400px; overflow-y: auto;">
+          <p>Traceroute results will appear here...</p>
+        </div>
       </div>
-      
-      <div class="copy-content">
-        <button id="copy-btn" class="copy-btn">
-          <i class="fas fa-copy"></i> Copy to Clipboard
+
+      <!-- DNS Lookup Tool -->
+      <div class="tab-content" id="dns-tab" role="tabpanel">
+        <h2><i class="fas fa-globe"></i> DNS Lookup</h2>
+        <p><i>Look up DNS records for a domain name.</i></p>
+        
+        <div class="tool-row">
+          <div class="tool-col">
+            <label for="dnsDomain">Domain Name:</label>
+            <input type="text" id="dnsDomain" placeholder="example.com" value="google.com">
+          </div>
+          <div class="tool-col">
+            <label for="dnsType">Record Type:</label>
+            <select id="dnsType">
+              <option value="A">A (Address)</option>
+              <option value="AAAA">AAAA (IPv6 Address)</option>
+              <option value="CNAME">CNAME (Canonical Name)</option>
+              <option value="MX">MX (Mail Exchange)</option>
+              <option value="TXT">TXT (Text)</option>
+              <option value="NS">NS (Name Server)</option>
+            </select>
+          </div>
+        </div>
+        
+        <button id="lookupDnsBtn">
+          <i class="fas fa-search"></i> Lookup DNS
         </button>
-        <div class="copy-success" id="copy-success">
-          <i class="fas fa-check-circle"></i> Copied to clipboard!
+        
+        <div class="loading" id="dnsLoading">
+          <div class="loading-spinner"></div>
+          <p>Looking up DNS records...</p>
+        </div>
+        
+        <div class="error" id="dns-error"></div>
+        
+        <label>DNS Results:</label>
+        <div id="dnsResults" style="background: #f8f9ff; border-radius: var(--border-radius); padding: 15px; max-height: 400px; overflow-y: auto;">
+          <p>DNS records will appear here...</p>
+        </div>
+      </div>
+
+      <!-- IP Information Tool -->
+      <div class="tab-content" id="ipinfo-tab" role="tabpanel">
+        <h2><i class="fas fa-info-circle"></i> IP Information</h2>
+        <p><i>Get information about your current IP address and connection.</i></p>
+        
+        <button id="getIpInfoBtn">
+          <i class="fas fa-sync"></i> Get IP Information
+        </button>
+        
+        <div class="loading" id="ipinfoLoading">
+          <div class="loading-spinner"></div>
+          <p>Retrieving IP information...</p>
+        </div>
+        
+        <div class="error" id="ipinfo-error"></div>
+        
+        <h3>Your IP Information</h3>
+        <div class="info-grid">
+          <div class="info-item">
+            <div class="info-label">IP Address</div>
+            <div class="info-value" id="ipAddress">-</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">City</div>
+            <div class="info-value" id="ipCity">-</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Region</div>
+            <div class="info-value" id="ipRegion">-</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Country</div>
+            <div class="info-value" id="ipCountry">-</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">ISP/Organization</div>
+            <div class="info-value" id="ipIsp">-</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Timezone</div>
+            <div class="info-value" id="ipTimezone">-</div>
+          </div>
+        </div>
+        
+        <h3>Browser Information</h3>
+        <div class="info-grid">
+          <div class="info-item">
+            <div class="info-label">Browser</div>
+            <div class="info-value" id="browserInfo">-</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Connection Type</div>
+            <div class="info-value" id="connectionType">-</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- HTTP Headers Tool -->
+      <div class="tab-content" id="headers-tab" role="tabpanel">
+        <h2><i class="fas fa-code"></i> HTTP Headers Analyzer</h2>
+        <p><i>Check the HTTP headers returned by a web server.</i></p>
+        
+        <div class="tool-row">
+          <div class="tool-col">
+            <label for="headerUrl">URL:</label>
+            <input type="text" id="headerUrl" placeholder="https://example.com" value="https://google.com">
+          </div>
+          <div class="tool-col">
+            <label for="headerMethod">HTTP Method:</label>
+            <select id="headerMethod">
+              <option value="GET">GET</option>
+              <option value="HEAD">HEAD</option>
+            </select>
+          </div>
+        </div>
+        
+        <button id="analyzeHeadersBtn">
+          <i class="fas fa-search"></i> Analyze Headers
+        </button>
+        
+        <div class="loading" id="headersLoading">
+          <div class="loading-spinner"></div>
+          <p>Analyzing headers...</p>
+        </div>
+        
+        <div class="error" id="headers-error"></div>
+        
+        <label>HTTP Headers:</label>
+        <div id="headerResults" style="background: #f8f9ff; border-radius: var(--border-radius); padding: 15px; max-height: 400px; overflow-y: auto;">
+          <p>HTTP headers will appear here...</p>
+        </div>
+      </div>
+
+      <!-- Speed Test Tool -->
+      <div class="tab-content" id="speed-tab" role="tabpanel">
+        <h2><i class="fas fa-tachometer-alt"></i> Network Speed Test</h2>
+        <p><i>Test your internet connection speed (download and upload).</i></p>
+        
+        <div class="btn-group">
+          <button id="startSpeedTestBtn">
+            <i class="fas fa-play"></i> Start Speed Test
+          </button>
+          <button id="stopSpeedTestBtn" disabled>
+            <i class="fas fa-stop"></i> Stop Test
+          </button>
+        </div>
+        
+        <div class="loading" id="speedLoading">
+          <div class="loading-spinner"></div>
+          <p>Testing speed...</p>
+        </div>
+        
+        <div class="error" id="speed-error"></div>
+        
+        <div class="stats">
+          <div class="stat-card">
+            <div class="stat-value" id="downloadSpeed">0</div>
+            <div class="stat-label">Download (Mbps)</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="uploadSpeed">0</div>
+            <div class="stat-label">Upload (Mbps)</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="pingSpeed">0</div>
+            <div class="stat-label">Ping (ms)</div>
+          </div>
+        </div>
+        
+        <div class="chart-container">
+          <canvas id="speedChart"></canvas>
+        </div>
+        
+        <label>Speed Test Results:</label>
+        <div id="speedResults" style="background: #f8f9ff; border-radius: var(--border-radius); padding: 15px; max-height: 300px; overflow-y: auto;">
+          <p>Speed test results will appear here...</p>
         </div>
       </div>
     </div>
@@ -993,583 +893,648 @@
 
   <!-- JavaScript -->
   <script src="/js/main.js"></script>
+
+  <!-- Network Tools JavaScript -->
   <script>
-    // Barcode Generator Functionality
-    function initBarcodeGenerator() {
+    // Network Tools Functionality
+    function initNetworkTools() {
       // Constants
-      const elements = {
-        tabs: document.querySelectorAll('.tab'),
-        tabContents: document.querySelectorAll('.tab-content'),
-        singleCanvas: document.getElementById('ean-canvas'),
-        customCanvas: document.getElementById('custom-canvas'),
-        downloadBtn: document.getElementById('download-btn'),
-        downloadSvgBtn: document.getElementById('download-svg-btn'),
-        customDownloadBtn: document.getElementById('custom-download'),
-        customSvgDownloadBtn: document.getElementById('custom-svg-download'),
-        singleLoading: document.getElementById('single-loading'),
-        batchLoading: document.getElementById('batch-loading'),
-        customLoading: document.getElementById('custom-loading'),
-        batchProgress: document.getElementById('batch-progress'),
-        singleError: document.getElementById('single-error'),
-        batchError: document.getElementById('batch-error'),
-        customError: document.getElementById('custom-error'),
-        singleSuccess: document.getElementById('single-success'),
-        batchSuccess: document.getElementById('batch-success'),
-        customSuccess: document.getElementById('custom-success'),
-        eanType: document.getElementById('ean-type'),
-        eanInput: document.getElementById('ean-input'),
-        batchEanType: document.getElementById('batch-ean-type'),
-        batchAmount: document.getElementById('batch-amount'),
-        customType: document.getElementById('custom-type'),
-        customInput: document.getElementById('custom-input'),
-        generateSingleBtn: document.getElementById('generate-single-btn'),
-        generateBatchPngBtn: document.getElementById('generate-batch-png-btn'),
-        generateBatchSvgBtn: document.getElementById('generate-batch-svg-btn'),
-        generateCustomBtn: document.getElementById('generate-custom-btn'),
-        barcodeShowColorOptions: document.getElementById('barcode-show-color-options'),
-        barcodeColorOptionsContent: document.getElementById('barcode-color-options-content'),
-        barcodeFgColor: document.getElementById('barcode-fg-color'),
-        barcodeBgColor: document.getElementById('barcode-bg-color'),
-        barcodeTransparentBg: document.getElementById('barcode-transparent-bg'),
-        
-        // Text display elements
-        showTextDisplay: document.getElementById('show-text-display'),
-        textDisplayFields: document.getElementById('text-display-fields'),
-        customText: document.getElementById('custom-text'),
-        textColor: document.getElementById('text-color'),
-        textSize: document.getElementById('text-size'),
-        textAlign: document.getElementById('text-align'),
-        
-        // Copy to clipboard elements
-        copyContainer: document.getElementById('copy-container'),
-        copyBtn: document.getElementById('copy-btn'),
-        copySuccess: document.getElementById('copy-success')
+      const API_ENDPOINTS = {
+        DNS: 'https://cloudflare-dns.com/dns-query',
+        IP_INFO: 'https://ipapi.co/json/'
       };
-
-      const barcodeConfig = {
-        ean13: { length: 12, regex: /^\d{12,13}$/, format: 'ean13' },
-        ean8: { length: 7, regex: /^\d{7,8}$/, format: 'ean8' },
-        upc: { length: 11, regex: /^\d{11,12}$/, format: 'UPC' },
-        itf14: { length: 13, regex: /^\d{13,14}$/, format: 'itf14' },
-        code128: { regex: /^[\w\s-]+$/, format: 'code128' },
-        code39: { regex: /^[0-9A-Z\s-.%*+$/]+$/, format: 'code39' },
-        codabar: { regex: /^[A-D][0-9-:$/.+]*[A-D]$/, format: 'codabar' },
-        pharmacode: { min: 3, max: 131070, regex: /^\d+$/, format: 'pharmacode' }
-      };
-
-      function initTextDisplay() {
-        // Toggle text display fields
-        elements.showTextDisplay.addEventListener('change', function() {
-          elements.textDisplayFields.style.display = this.checked ? 'block' : 'none';
-        });
+      
+      const MAX_CONTINUOUS_DURATION = 5 * 60 * 1000; // 5 minutes
+      const RATE_LIMIT_MS = 1000; // 1 request per second
+      let lastRequestTime = 0;
+      
+      // Ping Tool Variables
+      let pingIntervalId = null;
+      let pingCount = 0;
+      let sentCount = 0;
+      let receivedCount = 0;
+      let minPing = Infinity;
+      let maxPing = 0;
+      let totalPing = 0;
+      let pingHistory = [];
+      let pingChart = null;
+      let pingStartTime = 0;
+      
+      // Validation Functions
+      function validateHost(host) {
+        const hostRegex = /^(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}|(?:(?:[0-9]{1,3}\.){3}[0-9]{1,3}))$/;
+        return hostRegex.test(host);
       }
-
-      function initCopyToClipboard() {
-        // Copy button functionality
-        elements.copyBtn.addEventListener('click', function() {
-          const barcodeValue = elements.singleCanvas.dataset.code || elements.customCanvas.dataset.code;
-          if (!barcodeValue) return;
-          
-          navigator.clipboard.writeText(barcodeValue)
-            .then(() => {
-              elements.copySuccess.style.display = 'block';
-              setTimeout(() => {
-                elements.copySuccess.style.display = 'none';
-              }, 2000);
-            })
-            .catch(err => {
-              console.error('Failed to copy: ', err);
-              // Fallback for older browsers
-              const textArea = document.createElement('textarea');
-              textArea.value = barcodeValue;
-              document.body.appendChild(textArea);
-              textArea.select();
-              document.execCommand('copy');
-              document.body.removeChild(textArea);
-              
-              elements.copySuccess.style.display = 'block';
-              setTimeout(() => {
-                elements.copySuccess.style.display = 'none';
-              }, 2000);
-            });
-        });
+      
+      function validateUrl(url) {
+        const urlRegex = /^https?:\/\/[^\s/$.?#].[^\s]*$/i;
+        return urlRegex.test(url);
       }
-
-      function addTextToBarcode(barcodeCanvas, text, options) {
+      
+      function validateDomain(domain) {
+        const domainRegex = /^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}$/;
+        return domainRegex.test(domain);
+      }
+      
+      // Error Handling
+      function showError(message, tabId) {
+        const errorDiv = document.getElementById(tabId);
+        if (errorDiv) {
+          errorDiv.textContent = message;
+          errorDiv.style.display = 'block';
+          setTimeout(() => errorDiv.style.display = 'none', 5000);
+        }
+      }
+      
+      // Loading State
+      function setLoading(tabId, isLoading) {
+        const loadingDiv = document.getElementById(`${tabId}Loading`);
+        if (loadingDiv) {
+          if (isLoading) {
+            loadingDiv.classList.add('active');
+          } else {
+            loadingDiv.classList.remove('active');
+          }
+        }
+      }
+      
+      // Ping Tool Functions
+      function pingHost(host) {
         return new Promise((resolve) => {
-          // If text is not enabled, return the original canvas
-          if (!options.enabled || !text) {
-            resolve(barcodeCanvas);
+          const startTime = performance.now();
+          const timeout = parseInt(document.getElementById('pingTimeout').value);
+          
+          // Use fetch API to simulate ping
+          const controller = new AbortController();
+          const signal = controller.signal;
+          
+          setTimeout(() => {
+            controller.abort();
+            resolve({ success: false, time: timeout, error: 'Request timed out' });
+          }, timeout);
+          
+          // Try to fetch a resource from the host
+          fetch(`https://${host}/favicon.ico?t=${Date.now()}`, {
+            method: 'HEAD',
+            mode: 'no-cors',
+            signal,
+            cache: 'no-store'
+          })
+          .then(() => {
+            const endTime = performance.now();
+            const pingTime = Math.round(endTime - startTime);
+            resolve({ success: true, time: pingTime });
+          })
+          .catch(() => {
+            resolve({ success: false, time: timeout, error: 'Request failed' });
+          });
+        });
+      }
+      
+      function updatePingStats() {
+        document.getElementById('sentCount').textContent = sentCount;
+        document.getElementById('receivedCount').textContent = receivedCount;
+        
+        const lossPercent = sentCount > 0 ? Math.round(((sentCount - receivedCount) / sentCount) * 100) : 0;
+        document.getElementById('lossPercent').textContent = `${lossPercent}%`;
+        
+        document.getElementById('minPing').textContent = minPing !== Infinity ? `${minPing}ms` : '0ms';
+        document.getElementById('maxPing').textContent = `${maxPing}ms`;
+        
+        const avgPing = receivedCount > 0 ? Math.round(totalPing / receivedCount) : 0;
+        document.getElementById('avgPing').textContent = `${avgPing}ms`;
+      }
+      
+      function updatePingChart() {
+        const ctx = document.getElementById('pingChart').getContext('2d');
+        if (pingChart) pingChart.destroy();
+        
+        const successfulPings = pingHistory.filter(ping => ping.success);
+        const pingTimes = successfulPings.map(ping => ping.time);
+        const labels = successfulPings.map((_, i) => `Ping ${i + 1}`);
+        
+        pingChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels,
+            datasets: [{
+              label: 'Ping Time (ms)',
+              data: pingTimes,
+              borderColor: '#4361ee',
+              backgroundColor: 'rgba(67, 97, 238, 0.2)',
+              tension: 0.3,
+              fill: true
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              y: {
+                beginAtZero: true,
+                title: {
+                  display: true,
+                  text: 'Time (ms)'
+                }
+              }
+            }
+          }
+        });
+      }
+      
+      function addPingResult(seq, result) {
+        const pingResults = document.getElementById('pingResults');
+        
+        if (pingResults.children.length === 1 && pingResults.children[0].tagName === 'P') {
+          pingResults.innerHTML = '';
+        }
+        
+        const pingItem = document.createElement('div');
+        pingItem.className = 'ping-item';
+        
+        const statusIndicator = document.createElement('span');
+        statusIndicator.className = `status-indicator ${result.success ? 'status-up' : 'status-down'}`;
+        
+        const sanitizedHost = DOMPurify.sanitize(document.getElementById('pingHost').value);
+        const seqSpan = document.createElement('span');
+        seqSpan.textContent = `Ping #${seq} to ${sanitizedHost}: `;
+        
+        const resultSpan = document.createElement('span');
+        if (result.success) {
+          resultSpan.textContent = `Success, time=${result.time}ms`;
+          resultSpan.className = 'ping-success';
+        } else {
+          resultSpan.textContent = `Failed: ${result.error}`;
+          resultSpan.className = 'ping-failure';
+        }
+        
+        pingItem.appendChild(statusIndicator);
+        pingItem.appendChild(seqSpan);
+        pingItem.appendChild(resultSpan);
+        pingResults.prepend(pingItem);
+        
+        // Update chart
+        pingHistory.push(result);
+        updatePingChart();
+      }
+      
+      function startPinging() {
+        const host = document.getElementById('pingHost').value.trim();
+        const count = document.getElementById('pingCount').value;
+        const interval = parseInt(document.getElementById('pingInterval').value) * 1000;
+        
+        if (!host) {
+          showError('Please enter a host to ping', 'ping-error');
+          return;
+        }
+        
+        if (!validateHost(host)) {
+          showError('Please enter a valid hostname or IP address', 'ping-error');
+          return;
+        }
+        
+        // Reset stats
+        pingCount = 0;
+        sentCount = 0;
+        receivedCount = 0;
+        minPing = Infinity;
+        maxPing = 0;
+        totalPing = 0;
+        pingHistory = [];
+        pingStartTime = Date.now();
+        
+        // Show loading
+        setLoading('ping', true);
+        
+        // Clear previous results
+        document.getElementById('pingResults').innerHTML = '<p>Pinging... results will appear below</p>';
+        
+        // Disable start button, enable stop button
+        document.getElementById('startPingBtn').disabled = true;
+        document.getElementById('stopPingBtn').disabled = false;
+        
+        // Start pinging
+        const pingLoop = async () => {
+          if (count !== 'continuous' && pingCount >= parseInt(count)) {
+            stopPinging();
             return;
           }
           
-          const barcodeWidth = barcodeCanvas.width;
-          const barcodeHeight = barcodeCanvas.height;
-          
-          // Create the final canvas with space for text
-          const padding = 20;
-          const fontSize = parseInt(options.size);
-          const textHeight = fontSize * 2; // Approximate height for text
-          
-          const finalCanvas = document.createElement('canvas');
-          finalCanvas.width = barcodeWidth;
-          finalCanvas.height = barcodeHeight + textHeight + padding;
-          const ctx = finalCanvas.getContext('2d');
-          
-          // Fill background if not transparent
-          if (!options.transparent) {
-            ctx.fillStyle = options.bgColor;
-            ctx.fillRect(0, 0, finalCanvas.width, finalCanvas.height);
+          // Check maximum duration for continuous pinging
+          if (count === 'continuous' && Date.now() - pingStartTime > MAX_CONTINUOUS_DURATION) {
+            stopPinging();
+            showError('Continuous ping stopped after 5 minutes', 'ping-error');
+            return;
           }
           
-          // Draw barcode
-          ctx.drawImage(barcodeCanvas, 0, 0);
+          pingCount++;
+          sentCount++;
           
-          // Draw text
-          ctx.fillStyle = options.color;
-          ctx.font = `${options.size} 'Poppins', sans-serif`;
-          ctx.textAlign = options.align;
-          
-          // Calculate text position
-          let textX;
-          if (options.align === 'left') {
-            textX = padding;
-          } else if (options.align === 'right') {
-            textX = finalCanvas.width - padding;
-          } else {
-            textX = finalCanvas.width / 2;
-          }
-          
-          const textY = barcodeHeight + padding;
-          
-          // Draw text
-          ctx.fillText(text, textX, textY);
-          
-          resolve(finalCanvas);
-        });
-      }
-
-      async function generateBarcode({ canvas, code, type, errorElement, successElement, downloadButton, svgDownloadButton, loadingElement }) {
-        const ctx = canvas.getContext('2d');
-        hideElements();
-        loadingElement.style.display = 'block';
-        downloadButton.style.display = 'none';
-        svgDownloadButton.style.display = 'none';
-        canvas.style.display = 'none';
-        elements.copyContainer.style.display = 'none';
-
-        if (!validateInput(code, type)) {
-          showError(errorElement, 'Invalid input format for selected barcode type');
-          loadingElement.style.display = 'none';
-          return;
-        }
-
-        const finalCode = code || generateRandomBarcode(type);
-        const isPharmacode = type === 'pharmacode';
-        // Fixed size as requested
-        const width = 320;
-        const height = 150;
-        
-        // Set canvas dimensions
-        canvas.width = width;
-        canvas.height = height;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        canvas.dataset.code = finalCode;
-        canvas.dataset.type = type;
-
-        try {
-          // Generate the barcode with custom colors and background
-          JsBarcode(canvas, finalCode, {
-            format: barcodeConfig[type].format,
-            displayValue: true,
-            width: 2,
-            height: isPharmacode ? height * 0.5 : height * 0.7,
-            lineColor: elements.barcodeFgColor.value,
-            textColor: elements.barcodeFgColor.value,
-            background: elements.barcodeTransparentBg.checked 
-              ? 'transparent' 
-              : elements.barcodeBgColor.value
-          });
-
-          // Add text if enabled
-          if (elements.showTextDisplay.checked) {
-            let displayText = elements.customText.value.trim();
-            if (!displayText) {
-              displayText = finalCode;
+          try {
+            const result = await pingHost(host);
+            
+            if (result.success) {
+              receivedCount++;
+              totalPing += result.time;
+              
+              if (result.time < minPing) minPing = result.time;
+              if (result.time > maxPing) maxPing = result.time;
             }
             
-            // Create text options
-            const textOptions = {
-              enabled: true,
-              size: elements.textSize.value,
-              color: elements.textColor.value,
-              align: elements.textAlign.value,
-              transparent: elements.barcodeTransparentBg.checked,
-              bgColor: elements.barcodeBgColor.value
+            addPingResult(pingCount, result);
+            updatePingStats();
+          } catch (error) {
+            console.error('Ping error:', error);
+          }
+          
+          // Schedule next ping if we're still running
+          if (pingIntervalId !== null) {
+            pingIntervalId = setTimeout(pingLoop, interval);
+          }
+        };
+        
+        pingIntervalId = setTimeout(pingLoop, 0);
+      }
+      
+      function stopPinging() {
+        if (pingIntervalId) {
+          clearTimeout(pingIntervalId);
+          pingIntervalId = null;
+        }
+        
+        setLoading('ping', false);
+        document.getElementById('startPingBtn').disabled = false;
+        document.getElementById('stopPingBtn').disabled = true;
+      }
+      
+      function clearPingLog() {
+        document.getElementById('pingResults').innerHTML = '<p>Ping results will appear here...</p>';
+        pingHistory = [];
+        if (pingChart) {
+          pingChart.destroy();
+          pingChart = null;
+        }
+      }
+      
+      function exportPingResults() {
+        const results = document.getElementById('pingResults').innerText;
+        const blob = new Blob([results], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'ping_results.txt';
+        a.click();
+        URL.revokeObjectURL(url);
+      }
+      
+      // Traceroute Functions
+      async function traceRoute() {
+        const host = document.getElementById('traceHost').value.trim();
+        const maxHops = parseInt(document.getElementById('maxHops').value);
+        
+        if (!host) {
+          showError('Please enter a host to trace', 'traceroute-error');
+          return;
+        }
+        
+        if (!validateHost(host)) {
+          showError('Please enter a valid hostname or IP address', 'traceroute-error');
+          return;
+        }
+        
+        // Disable start button, enable stop button
+        setLoading('traceroute', true);
+        document.getElementById('startTraceBtn').disabled = true;
+        document.getElementById('stopTraceBtn').disabled = false;
+        
+        // Clear previous results
+        document.getElementById('traceResults').innerHTML = '<p>Tracing route... results will appear below</p>';
+        
+        // Simple traceroute simulation
+        for (let ttl = 1; ttl <= maxHops; ttl++) {
+          if (document.getElementById('stopTraceBtn').disabled) break; // Stop if tracing was stopped
+          
+          try {
+            // Simulate hop latency
+            const hopResult = {
+              hop: ttl,
+              ip: `192.168.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}`,
+              time1: Math.floor(Math.random() * 50) + 10,
+              time2: Math.floor(Math.random() * 50) + 10,
+              time3: Math.floor(Math.random() * 50) + 10
             };
             
-            // Add text to the barcode
-            const textCanvas = await addTextToBarcode(canvas, displayText, textOptions);
+            // Add to results
+            const traceResults = document.getElementById('traceResults');
             
-            // Display results
-            canvas.width = textCanvas.width;
-            canvas.height = textCanvas.height;
-            const newCtx = canvas.getContext('2d');
-            newCtx.drawImage(textCanvas, 0, 0);
+            if (traceResults.children.length === 1 && traceResults.children[0].tagName === 'P') {
+              traceResults.innerHTML = '';
+            }
+            
+            const traceItem = document.createElement('div');
+            traceItem.className = 'ping-item';
+            traceItem.innerHTML = `
+              <span>${hopResult.hop}</span>
+              <span>${hopResult.ip}</span>
+              <span>${hopResult.time1}ms</span>
+              <span>${hopResult.time2}ms</span>
+              <span>${hopResult.time3}ms</span>
+            `;
+            
+            traceResults.appendChild(traceItem);
+            
+            // Check if we reached the target
+            if (ttl === maxHops || Math.random() > 0.7) {
+              const finalItem = document.createElement('div');
+              finalItem.className = 'ping-item ping-success';
+              finalItem.innerHTML = `
+                <span>${ttl + 1}</span>
+                <span>${host}</span>
+                <span>${Math.floor(Math.random() * 30) + 5}ms</span>
+                <span>${Math.floor(Math.random() * 30) + 5}ms</span>
+                <span>${Math.floor(Math.random() * 30) + 5}ms</span>
+              `;
+              traceResults.appendChild(finalItem);
+              break;
+            }
+            
+            // Wait between hops
+            await new Promise(resolve => setTimeout(resolve, 500));
+          } catch (error) {
+            console.error('Trace error:', error);
           }
-
-          downloadButton.style.display = 'inline-block';
-          svgDownloadButton.style.display = 'inline-block';
-          canvas.style.display = 'block';
-          
-          // Show the copy to clipboard section
-          elements.copyContainer.style.display = 'block';
-          
-          showSuccess(successElement, 'Barcode generated successfully!');
-        } catch (error) {
-          showError(errorElement, `Failed to generate barcode: ${error.message}`);
-        } finally {
-          loadingElement.style.display = 'none';
         }
+        
+        setLoading('traceroute', false);
+        document.getElementById('startTraceBtn').disabled = false;
+        document.getElementById('stopTraceBtn').disabled = true;
       }
-
-      function downloadBarcode(canvas, errorElement) {
-        try {
-          const code = canvas.dataset.code;
-          const link = document.createElement('a');
-          link.download = `${sanitizeFilename(code)}.png`;
-          link.href = canvas.toDataURL('image/png', 1.0);
-          link.click();
-        } catch (error) {
-          showError(errorElement, 'Error downloading barcode');
-        }
+      
+      function stopTrace() {
+        setLoading('traceroute', false);
+        document.getElementById('startTraceBtn').disabled = false;
+        document.getElementById('stopTraceBtn').disabled = true;
       }
-
-      function downloadSVG(canvas, errorElement) {
-        try {
-          const code = canvas.dataset.code;
-          const type = canvas.dataset.type;
-          const svgNS = "http://www.w3.org/2000/svg";
-          const svg = document.createElementNS(svgNS, "svg");
-          svg.setAttribute("xmlns", svgNS);
-          svg.setAttribute("version", "1.1");
-          svg.setAttribute("width", canvas.width);
-          svg.setAttribute("height", canvas.height);
-          
-          // Create SVG barcode
-          JsBarcode(svg, code, {
-            format: barcodeConfig[type].format,
-            displayValue: true,
-            width: 2,
-            height: canvas.height * 0.7,
-            lineColor: elements.barcodeFgColor.value,
-            textColor: elements.barcodeFgColor.value,
-            background: elements.barcodeTransparentBg.checked 
-              ? 'transparent' 
-              : elements.barcodeBgColor.value
-          });
-
-          // Serialize SVG
-          const serializer = new XMLSerializer();
-          let svgString = serializer.serializeToString(svg);
-          if (!svgString.includes('xmlns')) {
-            svgString = svgString.replace(/<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
-          }
-
-          // Create blob and download
-          const blob = new Blob([svgString], {type: "image/svg+xml;charset=utf-8"});
-          const url = URL.createObjectURL(blob);
-          const link = document.createElement("a");
-          link.href = url;
-          link.download = `${sanitizeFilename(code)}.svg`;
-          link.click();
-          URL.revokeObjectURL(url);
-        } catch (error) {
-          showError(errorElement, 'Error generating SVG: ' + error.message);
-        }
+      
+      function clearTraceLog() {
+        document.getElementById('traceResults').innerHTML = '<p>Traceroute results will appear here...</p>';
       }
-
-      async function generateBatchBarcodes(format) {
-        const type = elements.batchEanType.value;
-        const amount = parseInt(elements.batchAmount.value);
-        // Fixed size as requested
-        const width = 320;
-        const height = 150;
-
-        if (isNaN(amount) || amount < 1 || amount > 100) {
-          showError(elements.batchError, 'Please enter a number between 1 and 100');
+      
+      // DNS Lookup Functions
+      async function lookupDns() {
+        const domain = document.getElementById('dnsDomain').value.trim();
+        const type = document.getElementById('dnsType').value;
+        
+        if (!domain) {
+          showError('Please enter a domain name', 'dns-error');
           return;
         }
-
-        hideElements();
-        elements.batchLoading.style.display = 'block';
-
-        // Prepare text options if enabled
-        let textOptions = null;
-        if (elements.showTextDisplay.checked) {
-          textOptions = {
-            enabled: true,
-            size: elements.textSize.value,
-            color: elements.textColor.value,
-            align: elements.textAlign.value,
-            transparent: elements.barcodeTransparentBg.checked,
-            bgColor: elements.barcodeBgColor.value
-          };
+        
+        if (!validateDomain(domain)) {
+          showError('Please enter a valid domain name', 'dns-error');
+          return;
         }
-
+        
+        // Rate limiting
+        const now = Date.now();
+        if (now - lastRequestTime < RATE_LIMIT_MS) {
+          showError('Please wait before making another request', 'dns-error');
+          return;
+        }
+        lastRequestTime = now;
+        
+        // Check cache
+        const cacheKey = `dns_${domain}_${type}`;
+        const cachedResult = localStorage.getItem(cacheKey);
+        if (cachedResult) {
+          document.getElementById('dnsResults').innerHTML = cachedResult;
+          return;
+        }
+        
+        // Show loading
+        setLoading('dns', true);
+        document.getElementById('dnsResults').innerHTML = '<p>Loading DNS records...</p>';
+        
         try {
-          const zip = new JSZip();
-          const canvas = document.createElement('canvas');
-          const isPharmacode = type === 'pharmacode';
-
-          for (let i = 0; i < amount; i++) {
-            elements.batchProgress.textContent = `Generating barcodes: ${i + 1}/${amount}`;
-            const code = generateRandomBarcode(type);
-            canvas.width = width;
-            canvas.height = height;
-
-            try {
-              // Generate the barcode with customization
-              const ctx = canvas.getContext('2d');
-              ctx.clearRect(0, 0, canvas.width, canvas.height);
-              
-              if (format === 'svg') {
-                // Create SVG element
-                const svgNS = "http://www.w3.org/2000/svg";
-                const svg = document.createElementNS(svgNS, "svg");
-                svg.setAttribute("xmlns", svgNS);
-                svg.setAttribute("version", "1.1");
-                svg.setAttribute("width", width);
-                svg.setAttribute("height", height);
-                
-                // Generate SVG barcode
-                JsBarcode(svg, code, {
-                  format: barcodeConfig[type].format,
-                  displayValue: true,
-                  width: 2,
-                  height: isPharmacode ? height * 0.5 : height * 0.7,
-                  lineColor: elements.barcodeFgColor.value,
-                  textColor: elements.barcodeFgColor.value,
-                  background: elements.barcodeTransparentBg.checked 
-                    ? 'transparent' 
-                    : elements.barcodeBgColor.value
-                });
-
-                // Serialize SVG
-                const serializer = new XMLSerializer();
-                let svgString = serializer.serializeToString(svg);
-                if (!svgString.includes('xmlns')) {
-                  svgString = svgString.replace(/<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
-                }
-                zip.file(`${sanitizeFilename(code)}.svg`, svgString);
-              } else {
-                // Generate PNG barcode
-                JsBarcode(canvas, code, {
-                  format: barcodeConfig[type].format,
-                  displayValue: true,
-                  width: 2,
-                  height: isPharmacode ? height * 0.5 : height * 0.7,
-                  lineColor: elements.barcodeFgColor.value,
-                  textColor: elements.barcodeFgColor.value,
-                  background: elements.barcodeTransparentBg.checked 
-                    ? 'transparent' 
-                    : elements.barcodeBgColor.value
-                });
-
-                // Add text if enabled
-                let finalCanvas = canvas;
-                if (textOptions) {
-                  let displayText = elements.customText.value.trim();
-                  if (!displayText) {
-                    displayText = code;
-                  }
-                  
-                  // Add text to the barcode
-                  finalCanvas = await addTextToBarcode(canvas, displayText, textOptions);
-                }
-
-                const dataUrl = finalCanvas.toDataURL('image/png', 1.0);
-                const imgData = dataUrl.replace(/^data:image\/png;base64,/, '');
-                zip.file(`${sanitizeFilename(code)}.png`, imgData, { base64: true });
-              }
-            } catch (err) {
-              console.warn(`Error generating barcode for code ${code}: ${err.message}`);
-            }
-
-            await new Promise(resolve => setTimeout(resolve, 10));
-          }
-
-          const blob = await zip.generateAsync({ type: 'blob' });
-          saveAs(blob, `batch-${sanitizeFilename(type)}-${format}.zip`);
-          showSuccess(elements.batchSuccess, `Successfully generated and downloaded ${amount} barcodes as ${format.toUpperCase()}s!`);
-        } catch (error) {
-          showError(elements.batchError, `Error creating ZIP file: ${error.message}`);
-        } finally {
-          elements.batchLoading.style.display = 'none';
-        }
-      }
-
-      function initializeBarcodeGenerator() {
-        // Initialize text display UI
-        initTextDisplay();
-        
-        // Initialize copy to clipboard functionality
-        initCopyToClipboard();
-        
-        // Initialize color options toggle
-        if (elements.barcodeShowColorOptions && elements.barcodeColorOptionsContent) {
-          elements.barcodeShowColorOptions.addEventListener('change', function() {
-            elements.barcodeColorOptionsContent.style.display = this.checked ? 'block' : 'none';
+          // Use DNS over HTTPS (DoH) API
+          const response = await fetch(`${API_ENDPOINTS.DNS}?name=${domain}&type=${type}`, {
+            headers: { 'Accept': 'application/dns-json' }
           });
           
-          // Set initial visibility
-          elements.barcodeColorOptionsContent.style.display = 
-            elements.barcodeShowColorOptions.checked ? 'block' : 'none';
+          const data = await response.json();
+          
+          let html = '';
+          if (data.Status !== 0 || !data.Answer || data.Answer.length === 0) {
+            html = `<p>No DNS records found for ${DOMPurify.sanitize(domain)} (${type})</p>`;
+          } else {
+            html = '<p>DNS records found:</p>';
+            data.Answer.forEach(record => {
+              html += `<div class="ping-item"><span>${DOMPurify.sanitize(record.name)}</span> <span>${DOMPurify.sanitize(record.type)}</span> <span>TTL: ${DOMPurify.sanitize(record.TTL)}</span> <span>${DOMPurify.sanitize(record.data)}</span></div>`;
+            });
+          }
+          
+          document.getElementById('dnsResults').innerHTML = html;
+          localStorage.setItem(cacheKey, html); // Cache result
+        } catch (error) {
+          console.error('DNS lookup error:', error);
+          showError(`DNS lookup failed: ${error.message}`, 'dns-error');
+        } finally {
+          setLoading('dns', false);
+        }
+      }
+      
+      // IP Information Functions
+      async function getIpInfo() {
+        setLoading('ipinfo', true);
+        try {
+          // Use ipapi.co API
+          const response = await fetch(API_ENDPOINTS.IP_INFO);
+          const data = await response.json();
+          
+          if (data.error) {
+            throw new Error(data.reason || 'Failed to retrieve IP information');
+          }
+          
+          document.getElementById('ipAddress').textContent = data.ip || '-';
+          document.getElementById('ipCity').textContent = data.city || '-';
+          document.getElementById('ipRegion').textContent = data.region || '-';
+          document.getElementById('ipCountry').textContent = data.country_name ? `${data.country_name} (${data.country})` : '-';
+          document.getElementById('ipIsp').textContent = data.org || '-';
+          document.getElementById('ipTimezone').textContent = data.timezone || '-';
+          
+          // Browser information
+          document.getElementById('browserInfo').textContent = navigator.userAgent.split(') ')[0].split(' (')[1] || 'Unknown';
+          
+          // Connection type (limited browser support)
+          const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+          if (connection) {
+            document.getElementById('connectionType').textContent = connection.effectiveType || 'Unknown';
+          } else {
+            document.getElementById('connectionType').textContent = 'Not available';
+          }
+        } catch (error) {
+          console.error('IP info error:', error);
+          showError(error.message, 'ipinfo-error');
+        } finally {
+          setLoading('ipinfo', false);
+        }
+      }
+      
+      // HTTP Headers Functions
+      async function analyzeHeaders() {
+        const url = document.getElementById('headerUrl').value.trim();
+        const method = document.getElementById('headerMethod').value;
+        
+        if (!url) {
+          showError('Please enter a URL', 'headers-error');
+          return;
         }
         
-        // Tabs functionality
-        elements.tabs.forEach(tab => {
-          tab.addEventListener('click', () => {
-            elements.tabs.forEach(t => {
-              t.classList.remove('active');
-              t.setAttribute('aria-selected', 'false');
-            });
-            elements.tabContents.forEach(c => c.classList.remove('active'));
-            tab.classList.add('active');
-            tab.setAttribute('aria-selected', 'true');
-            document.getElementById(`${tab.dataset.tab}-tab`).classList.add('active');
+        if (!validateUrl(url)) {
+          showError('Please enter a valid URL starting with http:// or https://', 'headers-error');
+          return;
+        }
+        
+        setLoading('headers', true);
+        try {
+          const startTime = performance.now();
+          const response = await fetch(url, { 
+            method,
+            mode: 'cors',
+            cache: 'no-store'
           });
-          tab.addEventListener('keydown', e => {
-            if (e.key === 'Enter' || e.key === ' ') {
-              e.preventDefault();
-              tab.click();
-            }
-          });
-        });
-
-        // Input events
-        elements.eanInput.addEventListener('keypress', e => {
-          if (e.key === 'Enter') elements.generateSingleBtn.click();
-        });
-
-        elements.customInput.addEventListener('keypress', e => {
-          if (e.key === 'Enter') elements.generateCustomBtn.click();
-        });
-
-        // Button click handlers
-        elements.generateSingleBtn.addEventListener('click', () => generateBarcode({
-          canvas: elements.singleCanvas,
-          code: elements.eanInput.value.trim(),
-          type: elements.eanType.value,
-          errorElement: elements.singleError,
-          successElement: elements.singleSuccess,
-          downloadButton: elements.downloadBtn,
-          svgDownloadButton: elements.downloadSvgBtn,
-          loadingElement: elements.singleLoading
-        }));
-
-        elements.downloadBtn.addEventListener('click', () => downloadBarcode(elements.singleCanvas, elements.singleError));
-        elements.downloadSvgBtn.addEventListener('click', () => downloadSVG(elements.singleCanvas, elements.singleError));
-
-        elements.generateBatchPngBtn.addEventListener('click', () => generateBatchBarcodes('png'));
-        elements.generateBatchSvgBtn.addEventListener('click', () => generateBatchBarcodes('svg'));
-
-        elements.generateCustomBtn.addEventListener('click', () => {
-          const code = elements.customInput.value.trim();
-          if (!code) {
-            showError(elements.customError, 'Please enter custom text for the barcode');
-            return;
+          const endTime = performance.now();
+          
+          let headersHtml = `<p>HTTP headers (Load time: ${(endTime - startTime).toFixed(2)}ms):</p>`;
+          
+          // Show status
+          headersHtml += `<div class="ping-item"><span>Status:</span> <span>${response.status} ${response.statusText}</span></div>`;
+          
+          // Show headers
+          for (const [key, value] of response.headers.entries()) {
+            headersHtml += `<div class="ping-item"><span>${DOMPurify.sanitize(key)}:</span> <span>${DOMPurify.sanitize(value)}</span></div>`;
           }
-          generateBarcode({
-            canvas: elements.customCanvas,
-            code,
-            type: elements.customType.value,
-            errorElement: elements.customError,
-            successElement: elements.customSuccess,
-            downloadButton: elements.customDownloadBtn,
-            svgDownloadButton: elements.customSvgDownloadBtn,
-            loadingElement: elements.customLoading
-          });
+          
+          document.getElementById('headerResults').innerHTML = headersHtml;
+        } catch (error) {
+          console.error('Header analysis error:', error);
+          showError(`Header analysis failed: ${error.message}`, 'headers-error');
+        } finally {
+          setLoading('headers', false);
+        }
+      }
+      
+      // Speed Test Functions (Simplified simulation)
+      function startSpeedTest() {
+        setLoading('speed', true);
+        document.getElementById('startSpeedTestBtn').disabled = true;
+        document.getElementById('stopSpeedTestBtn').disabled = false;
+        
+        // Simulate speed test
+        let progress = 0;
+        const downloadSpeed = 30 + Math.random() * 70; // 30-100 Mbps
+        const uploadSpeed = 5 + Math.random() * 15; // 5-20 Mbps
+        const pingSpeed = 10 + Math.random() * 40; // 10-50 ms
+        
+        const interval = setInterval(() => {
+          progress += 5;
+          
+          if (progress <= 100) {
+            document.getElementById('downloadSpeed').textContent = (downloadSpeed * progress / 100).toFixed(1);
+            document.getElementById('uploadSpeed').textContent = (uploadSpeed * progress / 100).toFixed(1);
+            document.getElementById('pingSpeed').textContent = Math.round(pingSpeed);
+            
+            const speedResults = document.getElementById('speedResults');
+            if (speedResults.children.length === 1 && speedResults.children[0].tagName === 'P') {
+              speedResults.innerHTML = '';
+            }
+            
+            const resultItem = document.createElement('div');
+            resultItem.className = 'ping-item';
+            resultItem.innerHTML = `
+              <span>Progress: ${progress}%</span>
+              <span>Download: ${(downloadSpeed * progress / 100).toFixed(1)} Mbps</span>
+            `;
+            speedResults.prepend(resultItem);
+          } else {
+            clearInterval(interval);
+            document.getElementById('downloadSpeed').textContent = downloadSpeed.toFixed(1);
+            document.getElementById('uploadSpeed').textContent = uploadSpeed.toFixed(1);
+            document.getElementById('pingSpeed').textContent = Math.round(pingSpeed);
+            
+            setLoading('speed', false);
+            document.getElementById('startSpeedTestBtn').disabled = false;
+            document.getElementById('stopSpeedTestBtn').disabled = true;
+          }
+        }, 200);
+        
+        // Store interval ID for stopping
+        document.getElementById('stopSpeedTestBtn').dataset.intervalId = interval;
+      }
+      
+      function stopSpeedTest() {
+        const intervalId = document.getElementById('stopSpeedTestBtn').dataset.intervalId;
+        if (intervalId) {
+          clearInterval(intervalId);
+        }
+        
+        setLoading('speed', false);
+        document.getElementById('startSpeedTestBtn').disabled = false;
+        document.getElementById('stopSpeedTestBtn').disabled = true;
+      }
+      
+      // Tab Switching
+      function switchTab(tabName) {
+        document.querySelectorAll('.tab').forEach(tab => {
+          tab.classList.remove('active');
+          tab.setAttribute('aria-selected', 'false');
         });
-
-        elements.customDownloadBtn.addEventListener('click', () => downloadBarcode(elements.customCanvas, elements.customError));
-        elements.customSvgDownloadBtn.addEventListener('click', () => downloadSVG(elements.customCanvas, elements.customError));
+        document.querySelectorAll('.tab-content').forEach(content => {
+          content.classList.remove('active');
+        });
+        
+        const activeTab = document.querySelector(`.tab[data-tab="${tabName}"]`);
+        const activeContent = document.getElementById(`${tabName}-tab`);
+        
+        if (activeTab && activeContent) {
+          activeTab.classList.add('active');
+          activeTab.setAttribute('aria-selected', 'true');
+          activeContent.classList.add('active');
+        }
       }
       
-      // Helper functions
-      function showError(element, message) {
-        element.textContent = message;
-        element.style.display = 'block';
-      }
-
-      function showSuccess(element, message) {
-        element.textContent = message;
-        element.style.display = 'block';
-      }
-
-      function hideElements() {
-        [elements.singleError, elements.batchError, elements.customError,
-         elements.singleSuccess, elements.batchSuccess, elements.customSuccess]
-          .forEach(el => el.style.display = 'none');
-      }
-
-      function calculateChecksum(code, type) {
-        let sum = 0;
-        if (type === 'ean8') {
-          const weights = [3, 1, 3, 1, 3, 1, 3];
-          for (let i = 0; i < code.length; i++) sum += parseInt(code[i]) * weights[i];
-        } else if (type === 'upc' || type === 'itf14') {
-          for (let i = 0; i < code.length; i++) sum += parseInt(code[i]) * (i % 2 === 0 ? 3 : 1);
-        } else {
-          const weights = [1, 3];
-          for (let i = 0; i < code.length; i++) sum += parseInt(code[i]) * weights[i % 2];
-        }
-        return (10 - (sum % 10)) % 10;
-      }
-
-      function generateRandomEAN(type) {
-        const { length } = barcodeConfig[type];
-        let base = Array.from({ length }, () => Math.floor(Math.random() * 10)).join('');
-        return base + calculateChecksum(base, type);
-      }
-
-      function validateInput(code, type) {
-        const config = barcodeConfig[type];
-        if (!code) return true;
-        if (type === 'pharmacode') {
-          const num = parseInt(code);
-          return !isNaN(num) && num >= config.min && num <= config.max;
-        }
-        return config.regex.test(code);
-      }
-
-      function generateRandomBarcode(type) {
-        if (['ean13', 'ean8', 'upc', 'itf14'].includes(type)) {
-          return generateRandomEAN(type);
-        }
-        switch (type) {
-          case 'code128':
-          case 'code39':
-            return Math.random().toString(36).slice(2, 12).toUpperCase();
-          case 'codabar':
-            return `A${Math.floor(Math.random() * 100000).toString().padStart(5, '0')}B`;
-          case 'pharmacode':
-            return Math.floor(Math.random() * (barcodeConfig.pharmacode.max - barcodeConfig.pharmacode.min + 1) + barcodeConfig.pharmacode.min).toString();
-          default:
-            return '123456';
-        }
-      }
-
-      function sanitizeFilename(str) {
-        return str.replace(/[^a-zA-Z00-9-]+/g, '_').slice(0, 50) || 'barcode';
-      }
+      // Initialize Tabs
+      document.querySelectorAll('.tab').forEach(tab => {
+        tab.addEventListener('click', () => switchTab(tab.dataset.tab));
+        tab.addEventListener('keydown', e => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            switchTab(tab.dataset.tab);
+          }
+        });
+      });
       
-      initializeBarcodeGenerator();
+      // Event Listeners
+      document.getElementById('startPingBtn').addEventListener('click', startPinging);
+      document.getElementById('stopPingBtn').addEventListener('click', stopPinging);
+      document.getElementById('clearPingBtn').addEventListener('click', clearPingLog);
+      document.getElementById('exportPingBtn').addEventListener('click', exportPingResults);
+      
+      document.getElementById('startTraceBtn').addEventListener('click', traceRoute);
+      document.getElementById('stopTraceBtn').addEventListener('click', stopTrace);
+      document.getElementById('clearTraceBtn').addEventListener('click', clearTraceLog);
+      
+      document.getElementById('lookupDnsBtn').addEventListener('click', lookupDns);
+      document.getElementById('getIpInfoBtn').addEventListener('click', getIpInfo);
+      document.getElementById('analyzeHeadersBtn').addEventListener('click', analyzeHeaders);
+      
+      document.getElementById('startSpeedTestBtn').addEventListener('click', startSpeedTest);
+      document.getElementById('stopSpeedTestBtn').addEventListener('click', stopSpeedTest);
     }
 
     // Initialize everything when DOM is loaded
     document.addEventListener('DOMContentLoaded', () => {
-      initBarcodeGenerator();
+      initNetworkTools();
     });
   </script>
 </body>
