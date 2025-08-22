@@ -24,6 +24,9 @@
   <!-- DOMPurify for sanitizing output -->
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.5/purify.min.js"></script>
   
+  <!-- Shared CSS -->
+  <link rel="stylesheet" href="/css/styles.css">
+  
   <!-- Network Tools Specific Styles -->
   <style>
     /* Network Tools Specific Styles */
@@ -763,7 +766,7 @@
         <div class="tool-row">
           <div class="tool-col">
             <label for="headerUrl">URL:</label>
-            <input type="text" id="headerUrl" placeholder="https://example.com" value="https://httpbin.org/headers">
+            <input type="text" id="headerUrl" placeholder="https://example.com" value="https://google.com">
           </div>
           <div class="tool-col">
             <label for="headerMethod">HTTP Method:</label>
@@ -985,6 +988,9 @@
   </div>
 
   <!-- JavaScript -->
+  <script src="/js/main.js"></script>
+
+  <!-- Network Tools JavaScript -->
   <script>
     // Network Tools Functionality
     function initNetworkTools() {
@@ -1102,37 +1108,28 @@
         }
       }
       
-      // Ping Tool Functions - Fixed to handle CORS errors
+      // Ping Tool Functions
       async function pingHost(host) {
         const startTime = performance.now();
         const timeout = parseInt(document.getElementById('pingTimeout').value);
-        
-        // Use a CORS proxy for pinging to avoid COEP issues
-        const corsProxy = "https://corsproxy.io/?";
-        const testUrls = [
-          `${corsProxy}https://${host}/`,
-          `${corsProxy}https://${host}/favicon.ico`
-        ];
+        const endpoints = [`https://${host}/favicon.ico`, `https://${host}/`, `https://${host}/ping`];
         
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), timeout);
+        setTimeout(() => controller.abort(), timeout);
         
-        for (const testUrl of testUrls) {
+        for (const endpoint of endpoints) {
           try {
-            const response = await fetch(testUrl, {
+            await fetch(`${endpoint}?t=${Date.now()}`, {
               method: 'HEAD',
+              mode: 'no-cors',
               signal: controller.signal,
               cache: 'no-store'
             });
-            
-            clearTimeout(timeoutId);
             const endTime = performance.now();
             return { success: true, time: Math.round(endTime - startTime) };
           } catch (error) {
-            // Continue to next URL if this one fails
-            if (testUrl === testUrls[testUrls.length - 1]) {
-              clearTimeout(timeoutId);
-              return { success: false, time: timeout, error: 'Request failed or timed out' };
+            if (endpoint === endpoints[endpoints.length - 1]) {
+              return { success: false, time: timeout, error: 'Request timed out' };
             }
           }
         }
@@ -1536,7 +1533,7 @@
         }
       }
       
-      // HTTP Headers Functions - Fixed to handle CORS issues
+      // HTTP Headers Functions
       async function analyzeHeaders() {
         const url = document.getElementById('headerUrl').value.trim();
         const method = document.getElementById('headerMethod').value;
@@ -1553,13 +1550,10 @@
         
         setLoading('headers', true);
         try {
-          // Use a CORS proxy to avoid CORS issues
-          const corsProxy = "https://corsproxy.io/?";
-          const testUrl = `${corsProxy}${encodeURIComponent(url)}`;
-          
           const startTime = performance.now();
-          const response = await fetch(testUrl, { 
+          const response = await fetch(url, { 
             method,
+            mode: 'cors',
             cache: 'no-store'
           });
           const endTime = performance.now();
@@ -1577,21 +1571,20 @@
           document.getElementById('headerResults').innerHTML = headersHtml;
         } catch (error) {
           console.error('Header analysis error:', error);
-          showError(`Header analysis failed: ${error.message}`, 'headers-error');
+          showError(`Header analysis failed: ${error.message} (Try a CORS-enabled URL)`, 'headers-error');
         } finally {
           setLoading('headers', false);
         }
       }
       
-      // Speed Test Functions - Fixed certificate error
+      // Speed Test Functions
       async function startSpeedTest() {
         setLoading('speed', true);
         document.getElementById('startSpeedTestBtn').disabled = true;
         document.getElementById('stopSpeedTestBtn').disabled = false;
         
-        // Use a reliable speed test file with valid certificate
-        const testFileUrl = 'https://speed.cloudflare.com/__down?bytes=10000000'; // 10MB file from Cloudflare
-        const testSize = 10 * 1024 * 1024; // 10MB
+        const testFileUrl = 'https://speed.hetzner.de/100MB.bin'; // Example CDN file
+        const testSize = 100 * 1024 * 1024; // 100MB
         
         try {
           // Download test
@@ -1675,9 +1668,7 @@
         for (const port of ports) {
           try {
             const startTime = performance.now();
-            // Use a CORS proxy for port scanning
-            const corsProxy = "https://corsproxy.io/?";
-            await fetch(`${corsProxy}https://${host}:${port}/`, { method: 'HEAD', cache: 'no-store' });
+            await fetch(`https://${host}:${port}/`, { method: 'HEAD', mode: 'no-cors', cache: 'no-store' });
             const endTime = performance.now();
             
             if (results.children[0]?.tagName === 'P') results.innerHTML = '';
@@ -1751,15 +1742,15 @@
         }
       }
       
-      // Global Latency Test Functions - Fixed to handle CORS issues
+      // Global Latency Test Functions
       async function testGlobalLatency() {
         setLoading('latency', true);
         
         const servers = [
-          { name: 'Google DNS', host: 'dns.google' },
+          { name: 'Google DNS', host: '8.8.8.8' },
           { name: 'Cloudflare DNS', host: '1.1.1.1' },
-          { name: 'OpenDNS', host: 'dns.opendns.com' },
-          { name: 'Quad9', host: 'dns.quad9.net' }
+          { name: 'OpenDNS', host: '208.67.222.222' },
+          { name: 'Quad9', host: '9.9.9.9' }
         ];
         
         const results = [];
