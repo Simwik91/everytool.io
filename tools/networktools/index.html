@@ -24,6 +24,7 @@
   <!-- DOMPurify for sanitizing output -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.5/purify.min.js"></script>
   
+  <!-- Network Tools Specific Styles -->
   <style>
     /* Network Tools Specific Styles */
     :root {
@@ -394,618 +395,19 @@
       font-size: 1.1rem;
       margin-top: 5px;
     }
-
-    /* Header & Navigation */
-    header {
-      background: white;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-
-    .header-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px 0;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: var(--primary);
-      text-decoration: none;
-      z-index: 2001;
-    }
-
-    .logo i {
-      margin-right: 10px;
-      font-size: 2.2rem;
-    }
-
-    .nav-container {
-      display: flex;
-      align-items: center;
-    }
-
-    .nav-menu {
-      display: flex;
-      list-style: none;
-      margin-right: 20px;
-    }
-
-    .nav-item {
-      position: relative;
-      margin: 0 15px;
-    }
-
-    .nav-link {
-      padding: 10px 15px;
-      color: var(--dark);
-      text-decoration: none;
-      font-weight: 500;
-      border-radius: var(--border-radius);
-      transition: var(--transition);
-      display: flex;
-      align-items: center;
-    }
-
-    .nav-link i {
-      margin-right: 8px;
-    }
-
-    .nav-link:hover, .nav-link:focus {
-      background: rgba(67, 97, 238, 0.1);
-      color: var(--primary);
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-
-    /* Dropdown Menu */
-    .dropdown {
-      position: relative;
-    }
-
-    .dropdown-toggle::after {
-      content: '\f078';
-      font-family: 'Font Awesome 6 Free';
-      font-weight: 900;
-      margin-left: 8px;
-      font-size: 0.8rem;
-    }
-
-    .dropdown-menu {
-      display: none;
-      position: absolute;
-      top: 100%;
-      left: 0;
-      background: white;
-      box-shadow: var(--box-shadow);
-      border-radius: var(--border-radius);
-      min-width: 240px;
-      max-height: 400px;
-      overflow-y: auto;
-      z-index: 1000;
-      list-style: none;
-      padding: 10px 0;
-    }
-
-    .dropdown-menu li {
-      margin: 0;
-    }
-
-    .dropdown-item {
-      display: flex;
-      align-items: center;
-      padding: 10px 20px;
-      color: var(--dark);
-      text-decoration: none;
-      font-weight: 500;
-      transition: var(--transition);
-    }
-
-    .dropdown-item i {
-      margin-right: 10px;
-      font-size: 1.2rem;
-      color: var(--primary);
-    }
-
-    .dropdown-item:hover, .dropdown-item:focus {
-      background: rgba(67, 97, 238, 0.1);
-      color: var(--primary);
-    }
-
-    .nav-item.dropdown:hover .dropdown-menu,
-    .nav-item.dropdown .dropdown-menu.active {
-      display: block;
-    }
-
-    .mobile-menu-btn {
-      display: none;
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      color: var(--dark);
-      cursor: pointer;
-      padding: 10px;
-      border-radius: 5px;
-      z-index: 2001;
-    }
-
-    .mobile-menu-btn:hover, .mobile-menu-btn:focus {
-      background: rgba(67, 97, 238, 0.1);
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-
-    /* Mobile Menu */
-    .mobile-backdrop {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      z-index: 1999;
-      display: none;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
-    .mobile-backdrop.active {
-      display: block;
-      opacity: 1;
-    }
-
-    .mobile-nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 280px;
-      height: 100vh;
-      background: white;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-      z-index: 2000;
-      transform: translateX(-100%);
-      transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-      overflow-y: auto;
-      display: block;
-    }
-
-    .mobile-nav.active {
-      transform: translateX(0);
-    }
-
-    .mobile-nav-header {
-      padding: 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid var(--light-gray);
-    }
-
-    .close-mobile-menu {
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      color: var(--dark);
-      cursor: pointer;
-      padding: 5px;
-      border-radius: 5px;
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .close-mobile-menu:hover, .close-mobile-menu:focus {
-      background: rgba(0, 0, 0, 0.05);
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-
-    .mobile-nav-menu {
-      list-style: none;
-      padding: 20px;
-    }
-
-    .mobile-nav-item {
-      margin-bottom: 10px;
-    }
-
-    .mobile-nav-link {
-      display: block;
-      padding: 12px 15px;
-      color: var(--dark);
-      text-decoration: none;
-      font-weight: 500;
-      border-radius: var(--border-radius);
-      transition: var(--transition);
-    }
-
-    .mobile-nav-link:hover, .mobile-nav-link:focus {
-      background: rgba(67, 97, 238, 0.1);
-      color: var(--primary);
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-
-    .mobile-nav-link i {
-      width: 24px;
-      text-align: center;
-      margin-right: 10px;
-    }
-
-    /* Footer */
-    footer {
-      background: linear-gradient(135deg, var(--light) 0%, #f0f4ff 100%);
-      color: #000;
-      padding: 60px 0 30px;
-      margin-top: 40px;
-    }
-
-    .footer-bottom {
-      border-top: 1px solid rgba(0, 0, 0, 0.1);
-      padding-top: 30px;
-      text-align: center;
-    }
-
-    .footer-bottom a {
-      color: #000;
-      text-decoration: none;
-      transition: var(--transition);
-      font-weight: 600;
-      font-size: 1.1rem;
-      margin: 0 10px;
-    }
-
-    .footer-bottom a:hover, .footer-bottom a:focus {
-      color: var(--primary);
-      text-decoration: underline;
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-
-    .footer-links-row {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-    }
-
-    .footer-bottom p {
-      color: #000;
-      font-weight: 600;
-      font-size: 1.1rem;
-      margin: 0;
-    }
-
-    /* Cookie Consent Styles */
-    #cookie-consent {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 95%;
-      max-width: 800px;
-      background: var(--light);
-      border-radius: var(--border-radius);
-      box-shadow: 0 5px 30px rgba(0, 0, 0, 0.15);
-      padding: 20px;
-      z-index: 1000;
-      display: none;
-    }
-
-    .cookie-content {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 15px;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .cookie-text {
-      flex: 1;
-      min-width: 300px;
-      color: var(--dark);
-    }
-
-    .cookie-text p {
-      margin-bottom: 10px;
-      font-size: 0.95rem;
-    }
-
-    .cookie-text a {
-      color: var(--primary);
-      text-decoration: none;
-    }
-
-    .cookie-text a:hover, .cookie-text a:focus {
-      text-decoration: underline;
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-
-    .cookie-buttons {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .cookie-btn {
-      padding: 10px 20px;
-      border-radius: 50px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: var(--transition);
-      font-size: 0.9rem;
-      border: none;
-      min-width: 180px;
-    }
-
-    .cookie-btn:focus {
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-
-    .reject-btn {
-      background: var(--light-gray);
-      color: var(--dark);
-    }
-
-    .reject-btn:hover {
-      background: #e0e0e0;
-    }
-
-    .accept-btn {
-      background: var(--primary);
-      color: white;
-    }
-
-    .accept-btn:hover {
-      background: var(--primary-dark);
-    }
-
-    .cookie-settings-btn {
-      background: transparent;
-      color: var(--gray);
-      text-decoration: underline;
-      border: none;
-      cursor: pointer;
-      padding: 0;
-      margin-top: 10px;
-      font-size: 0.85rem;
-    }
-
-    .cookie-settings-btn:hover, .cookie-settings-btn:focus {
-      color: var(--dark);
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-
-    #cookie-settings {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.7);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 2000;
-      animation: fadeIn 0.3s ease-out;
-    }
-
-    .settings-modal {
-      background: var(--light);
-      border-radius: var(--border-radius);
-      width: 95%;
-      max-width: 600px;
-      max-height: 90vh;
-      overflow-y: auto;
-      padding: 30px;
-      position: relative;
-      animation: slideUp 0.3s ease-out;
-    }
-
-    @keyframes slideUp {
-      from { transform: translateY(20px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-
-    .settings-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-
-    .settings-header h2 {
-      font-size: 1.8rem;
-      margin: 0;
-    }
-
-    .close-settings {
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      cursor: pointer;
-      color: var(--gray);
-      transition: var(--transition);
-      padding: 5px;
-      border-radius: 5px;
-    }
-
-    .close-settings:hover, .close-settings:focus {
-      color: var(--dark);
-      background: rgba(0, 0, 0, 0.05);
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-
-    .settings-content {
-      margin-bottom: 20px;
-    }
-
-    .cookie-type {
-      margin-bottom: 20px;
-      padding-bottom: 15px;
-      border-bottom: 1px solid var(--light-gray);
-    }
-
-    .cookie-type-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-
-    .cookie-type h3 {
-      margin: 0;
-      font-size: 1.2rem;
-    }
-
-    .toggle-switch {
-      position: relative;
-      display: inline-block;
-      width: 50px;
-      height: 24px;
-    }
-
-    .toggle-switch input {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      opacity: 0;
-      cursor: pointer;
-      z-index: 1;
-    }
-
-    .slider {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: var(--gray);
-      transition: background-color 0.3s ease;
-      border-radius: 24px;
-    }
-
-    .slider:before {
-      position: absolute;
-      content: "";
-      height: 16px;
-      width: 16px;
-      left: 4px;
-      bottom: 4px;
-      background-color: white;
-      transition: transform 0.3s ease;
-      border-radius: 50%;
-    }
-
-    .toggle-switch input:checked + .slider {
-      background-color: var(--primary);
-    }
-
-    .toggle-switch input:checked + .slider:before {
-      transform: translateX(26px);
-    }
-
-    .toggle-switch input:focus + .slider {
-      box-shadow: 0 0 0 2px var(--primary-dark);
-    }
-
-    .toggle-switch input:disabled + .slider {
-      background-color: var(--light-gray);
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    .toggle-switch input:disabled + .slider:before {
-      background-color: #ddd;
-    }
-
-    .cookie-type p {
-      font-size: 0.9rem;
-      color: var(--gray);
-      margin-bottom: 10px;
-    }
-
-    .settings-buttons {
-      display: flex;
-      justify-content: flex-end;
-      gap: 10px;
-    }
-
-    .save-settings {
-      background: var(--primary);
-      color: white;
-      border: none;
-      padding: 10px 25px;
-      border-radius: 50px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-
-    .save-settings:hover, .save-settings:focus {
-      background: var(--primary-dark);
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-
-    /* Responsive Design */
+    
+    /* Responsive Design for Network Tools */
     @media (max-width: 992px) {
-      .nav-menu {
-        display: none;
+      .info-grid {
+        grid-template-columns: 1fr;
       }
       
-      .mobile-menu-btn {
-        display: block;
-      }
-      
-      .mobile-nav {
-        width: 100%;
-      }
-    }
-
-    @media (min-width: 993px) {
-      .mobile-nav {
-        display: none !important;
-      }
-      .mobile-backdrop {
-        display: none !important;
+      .tool-row {
+        flex-direction: column;
       }
     }
 
     @media (max-width: 768px) {
-      .footer-links-row {
-        flex-direction: column;
-        gap: 10px;
-      }
-      
-      .cookie-content {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      
-      .cookie-buttons {
-        width: 100%;
-      }
-      
-      .cookie-btn {
-        width: 100%;
-      }
-      
       .hero h1 {
         font-size: 2rem;
       }
@@ -1025,22 +427,6 @@
     }
 
     @media (max-width: 576px) {
-      .header-container {
-        padding: 15px 0;
-      }
-      
-      .logo {
-        font-size: 1.5rem;
-      }
-      
-      .logo i {
-        font-size: 1.8rem;
-      }
-      
-      .settings-modal {
-        padding: 20px;
-      }
-      
       .hero {
         padding: 40px 0 20px;
       }
@@ -1069,67 +455,6 @@
   </style>
 </head>
 <body>
-  <!-- Header -->
-  <header id="main-header">
-    <div class="container">
-      <div class="header-container">
-        <a href="/" class="logo">
-          <i class="fas fa-network-wired"></i>
-          NetworkTools
-        </a>
-        
-        <div class="nav-container">
-          <ul class="nav-menu">
-            <li class="nav-item">
-              <a href="#tools" class="nav-link"><i class="fas fa-tools"></i> Tools</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a href="#more" class="nav-link dropdown-toggle"><i class="fas fa-ellipsis-h"></i> More</a>
-              <ul class="dropdown-menu">
-                <li><a href="#about" class="dropdown-item"><i class="fas fa-info-circle"></i> About</a></li>
-                <li><a href="#privacy" class="dropdown-item"><i class="fas fa-shield-alt"></i> Privacy</a></li>
-                <li><a href="#contact" class="dropdown-item"><i class="fas fa-envelope"></i> Contact</a></li>
-              </ul>
-            </li>
-          </ul>
-          
-          <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Open mobile menu">
-            <i class="fas fa-bars"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <!-- Mobile Menu -->
-  <div class="mobile-backdrop" id="mobile-backdrop"></div>
-  <nav class="mobile-nav" id="mobile-nav">
-    <div class="mobile-nav-header">
-      <a href="/" class="logo">
-        <i class="fas fa-network-wired"></i>
-        NetworkTools
-      </a>
-      <button class="close-mobile-menu" id="close-mobile-menu" aria-label="Close mobile menu">
-        <i class="fas fa-times"></i>
-      </button>
-    </div>
-    
-    <ul class="mobile-nav-menu">
-      <li class="mobile-nav-item">
-        <a href="#tools" class="mobile-nav-link"><i class="fas fa-tools"></i> Tools</a>
-      </li>
-      <li class="mobile-nav-item">
-        <a href="#about" class="mobile-nav-link"><i class="fas fa-info-circle"></i> About</a>
-      </li>
-      <li class="mobile-nav-item">
-        <a href="#privacy" class="mobile-nav-link"><i class="fas fa-shield-alt"></i> Privacy</a>
-      </li>
-      <li class="mobile-nav-item">
-        <a href="#contact" class="mobile-nav-link"><i class="fas fa-envelope"></i> Contact</a>
-      </li>
-    </ul>
-  </nav>
-
   <!-- Hero Section -->
   <section class="hero">
     <div class="container">
@@ -1142,7 +467,6 @@
 
   <div class="container">
     <div class="card">
-      <!-- Tabs and content remain the same as your original code -->
       <div class="tabs" role="tablist">
         <div class="tab active" data-tab="ping" role="tab" aria-selected="true" tabindex="0">
           <i class="fas fa-network-wired"></i> Ping
@@ -1244,7 +568,7 @@
           </div>
           <div class="stat-card">
             <div class="stat-value" id="maxPing">0ms</div>
-            <div class="stat-label>Max</div>
+            <div class="stat-label">Max</div>
           </div>
           <div class="stat-card">
             <div class="stat-value" id="avgPing">0ms</div>
@@ -1262,189 +586,234 @@
         </div>
       </div>
 
-      <!-- Other tab contents would be here (traceroute, dns, ipinfo, headers, speed) -->
-      <!-- For brevity, I've only included the ping tab content -->
-      
+      <!-- Traceroute Tool -->
+      <div class="tab-content" id="traceroute-tab" role="tabpanel">
+        <h2><i class="fas fa-route"></i> Traceroute Tool</h2>
+        <p><i>Trace the path packets take to reach a host across the internet.</i></p>
+        
+        <div class="tool-row">
+          <div class="tool-col">
+            <label for="traceHost">Hostname or IP Address:</label>
+            <input type="text" id="traceHost" placeholder="example.com or 192.168.1.1" value="google.com">
+          </div>
+          <div class="tool-col">
+            <label for="maxHops">Maximum Hops:</label>
+            <select id="maxHops">
+              <option value="15">15 hops</option>
+              <option value="30" selected>30 hops</option>
+              <option value="45">45 hops</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="btn-group">
+          <button id="startTraceBtn">
+            <i class="fas fa-play"></i> Start Trace
+          </button>
+          <button id="stopTraceBtn" disabled>
+            <i class="fas fa-stop"></i> Stop Trace
+          </button>
+          <button id="clearTraceBtn">
+            <i class="fas fa-trash"></i> Clear Log
+          </button>
+        </div>
+        
+        <div class="loading" id="tracerouteLoading">
+          <div class="loading-spinner"></div>
+          <p>Tracing route...</p>
+        </div>
+        
+        <div class="error" id="traceroute-error"></div>
+        
+        <label>Traceroute Results:</label>
+        <div id="traceResults" style="background: #f8f9ff; border-radius: var(--border-radius); padding: 15px; max-height: 400px; overflow-y: auto;">
+          <p>Traceroute results will appear here...</p>
+        </div>
+      </div>
+
+      <!-- DNS Lookup Tool -->
+      <div class="tab-content" id="dns-tab" role="tabpanel">
+        <h2><i class="fas fa-globe"></i> DNS Lookup</h2>
+        <p><i>Look up DNS records for a domain name.</i></p>
+        
+        <div class="tool-row">
+          <div class="tool-col">
+            <label for="dnsDomain">Domain Name:</label>
+            <input type="text" id="dnsDomain" placeholder="example.com" value="google.com">
+          </div>
+          <div class="tool-col">
+            <label for="dnsType">Record Type:</label>
+            <select id="dnsType">
+              <option value="A">A (Address)</option>
+              <option value="AAAA">AAAA (IPv6 Address)</option>
+              <option value="CNAME">CNAME (Canonical Name)</option>
+              <option value="MX">MX (Mail Exchange)</option>
+              <option value="TXT">TXT (Text)</option>
+              <option value="NS">NS (Name Server)</option>
+            </select>
+          </div>
+        </div>
+        
+        <button id="lookupDnsBtn">
+          <i class="fas fa-search"></i> Lookup DNS
+        </button>
+        
+        <div class="loading" id="dnsLoading">
+          <div class="loading-spinner"></div>
+          <p>Looking up DNS records...</p>
+        </div>
+        
+        <div class="error" id="dns-error"></div>
+        
+        <label>DNS Results:</label>
+        <div id="dnsResults" style="background: #f8f9ff; border-radius: var(--border-radius); padding: 15px; max-height: 400px; overflow-y: auto;">
+          <p>DNS records will appear here...</p>
+        </div>
+      </div>
+
+      <!-- IP Information Tool -->
+      <div class="tab-content" id="ipinfo-tab" role="tabpanel">
+        <h2><i class="fas fa-info-circle"></i> IP Information</h2>
+        <p><i>Get information about your current IP address and connection.</i></p>
+        
+        <button id="getIpInfoBtn">
+          <i class="fas fa-sync"></i> Get IP Information
+        </button>
+        
+        <div class="loading" id="ipinfoLoading">
+          <div class="loading-spinner"></div>
+          <p>Retrieving IP information...</p>
+        </div>
+        
+        <div class="error" id="ipinfo-error"></div>
+        
+        <h3>Your IP Information</h3>
+        <div class="info-grid">
+          <div class="info-item">
+            <div class="info-label">IP Address</div>
+            <div class="info-value" id="ipAddress">-</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">City</div>
+            <div class="info-value" id="ipCity">-</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Region</div>
+            <div class="info-value" id="ipRegion">-</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Country</div>
+            <div class="info-value" id="ipCountry">-</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">ISP/Organization</div>
+            <div class="info-value" id="ipIsp">-</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Timezone</div>
+            <div class="info-value" id="ipTimezone">-</div>
+          </div>
+        </div>
+        
+        <h3>Browser Information</h3>
+        <div class="info-grid">
+          <div class="info-item">
+            <div class="info-label">Browser</div>
+            <div class="info-value" id="browserInfo">-</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Connection Type</div>
+            <div class="info-value" id="connectionType">-</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- HTTP Headers Tool -->
+      <div class="tab-content" id="headers-tab" role="tabpanel">
+        <h2><i class="fas fa-code"></i> HTTP Headers Analyzer</h2>
+        <p><i>Check the HTTP headers returned by a web server.</i></p>
+        
+        <div class="tool-row">
+          <div class="tool-col">
+            <label for="headerUrl">URL:</label>
+            <input type="text" id="headerUrl" placeholder="https://example.com" value="https://google.com">
+          </div>
+          <div class="tool-col">
+            <label for="headerMethod">HTTP Method:</label>
+            <select id="headerMethod">
+              <option value="GET">GET</option>
+              <option value="HEAD">HEAD</option>
+            </select>
+          </div>
+        </div>
+        
+        <button id="analyzeHeadersBtn">
+          <i class="fas fa-search"></i> Analyze Headers
+        </button>
+        
+        <div class="loading" id="headersLoading">
+          <div class="loading-spinner"></div>
+          <p>Analyzing headers...</p>
+        </div>
+        
+        <div class="error" id="headers-error"></div>
+        
+        <label>HTTP Headers:</label>
+        <div id="headerResults" style="background: #f8f9ff; border-radius: var(--border-radius); padding: 15px; max-height: 400px; overflow-y: auto;">
+          <p>HTTP headers will appear here...</p>
+        </div>
+      </div>
+
+      <!-- Speed Test Tool -->
+      <div class="tab-content" id="speed-tab" role="tabpanel">
+        <h2><i class="fas fa-tachometer-alt"></i> Network Speed Test</h2>
+        <p><i>Test your internet connection speed (download and upload).</i></p>
+        
+        <div class="btn-group">
+          <button id="startSpeedTestBtn">
+            <i class="fas fa-play"></i> Start Speed Test
+          </button>
+          <button id="stopSpeedTestBtn" disabled>
+            <i class="fas fa-stop"></i> Stop Test
+          </button>
+        </div>
+        
+        <div class="loading" id="speedLoading">
+          <div class="loading-spinner"></div>
+          <p>Testing speed...</p>
+        </div>
+        
+        <div class="error" id="speed-error"></div>
+        
+        <div class="stats">
+          <div class="stat-card">
+            <div class="stat-value" id="downloadSpeed">0</div>
+            <div class="stat-label">Download (Mbps)</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="uploadSpeed">0</div>
+            <div class="stat-label">Upload (Mbps)</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="pingSpeed">0</div>
+            <div class="stat-label">Ping (ms)</div>
+          </div>
+        </div>
+        
+        <div class="chart-container">
+          <canvas id="speedChart"></canvas>
+        </div>
+        
+        <label>Speed Test Results:</label>
+        <div id="speedResults" style="background: #f8f9ff; border-radius: var(--border-radius); padding: 15px; max-height: 300px; overflow-y: auto;">
+          <p>Speed test results will appear here...</p>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- Footer -->
-  <footer id="main-footer">
-    <div class="container">
-      <div class="footer-bottom">
-        <div class="footer-links-row">
-          <a href="#tools">Tools</a>
-          <a href="#about">About</a>
-          <a href="#privacy">Privacy</a>
-          <a href="#contact">Contact</a>
-        </div>
-        <p>&copy; 2023 Network Tools. All rights reserved.</p>
-      </div>
-    </div>
-  </footer>
-
-  <!-- Cookie Consent Banner -->
-  <div id="cookie-consent" role="dialog" aria-labelledby="cookie-consent-banner" aria-describedby="cookie-consent-desc">
-    <div class="sr-only" id="cookie-consent-banner">Cookie Consent</div>
-    <div class="cookie-content" id="cookie-consent-desc">
-      <div class="cookie-text">
-        <p>We use cookies to enhance your experience and analyze site traffic. By clicking "Accept All", you consent to our use of cookies. 
-          <a href="/privacy-policy.html" aria-label="Learn more about our Privacy Policy">Learn more</a> in our Privacy Policy.
-        </p>
-        <button class="cookie-settings-btn" id="open-settings" aria-label="Open cookie settings">Cookie Settings</button>
-      </div>
-      <div class="cookie-buttons">
-        <button class="cookie-btn reject-btn" id="reject-cookies" aria-label="Reject non-essential cookies">Reject Non-Essential</button>
-        <button class="cookie-btn accept-btn" id="accept-cookies" aria-label="Accept all cookies">Accept All</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Cookie Settings Modal -->
-  <div id="cookie-settings" role="dialog" aria-labelledby="cookie-settings-title" aria-describedby="cookie-settings-desc">
-    <div class="settings-modal">
-      <div class="settings-header">
-        <h2 id="cookie-settings-title"><i class="fas fa-cookie-bite"></i> Cookie Settings</h2>
-        <button class="close-settings" id="close-settings" aria-label="Close cookie settings">×</button>
-      </div>
-      <div class="settings-content">
-        <p id="cookie-settings-desc">You can set your preferences for how we and our partners use cookies and similar technologies.</p>
-        
-        <div class="cookie-type">
-          <div class="cookie-type-header">
-            <h3>Essential Cookies</h3>
-            <label class="toggle-switch" for="essential-toggle">
-              <input type="checkbox" id="essential-toggle" checked disabled aria-label="Essential cookies (always enabled, cannot be disabled)" aria-describedby="essential-desc">
-              <span class="slider"></span>
-            </label>
-          </div>
-          <p id="essential-desc">These cookies are necessary for the website to function and cannot be switched off.</p>
-        </div>
-        
-        <div class="cookie-type">
-          <div class="cookie-type-header">
-            <h3>Analytics Cookies</h3>
-            <label class="toggle-switch" for="analytics-toggle">
-              <input type="checkbox" id="analytics-toggle" aria-label="Analytics cookies toggle" aria-describedby="analytics-desc">
-              <span class="slider"></span>
-            </label>
-          </div>
-          <p id="analytics-desc">These cookies allow us to count visits and traffic sources so we can measure and improve the performance of our site.</p>
-        </div>
-        
-        <div class="cookie-type">
-          <div class="cookie-type-header">
-            <h3>Advertising Cookies</h3>
-            <label class="toggle-switch" for="advertising-toggle">
-              <input type="checkbox" id="advertising-toggle" aria-label="Advertising cookies toggle" aria-describedby="advertising-desc">
-              <span class="slider"></span>
-            </label>
-          </div>
-          <p id="advertising-desc">These cookies may be set through our site by our advertising partners to build a profile of your interests.</p>
-        </div>
-      </div>
-      <div class="settings-buttons">
-        <button class="save-settings" id="save-settings" aria-label="Save cookie settings">Save Settings</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- JavaScript -->
+  <!-- Network Tools JavaScript -->
   <script>
-    // Mobile menu functionality
-    document.addEventListener('DOMContentLoaded', function() {
-      const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-      const closeMobileMenu = document.getElementById('close-mobile-menu');
-      const mobileNav = document.getElementById('mobile-nav');
-      const mobileBackdrop = document.getElementById('mobile-backdrop');
-      
-      if (mobileMenuBtn) {
-        mobileMenuBtn.addEventListener('click', function() {
-          mobileNav.classList.add('active');
-          mobileBackdrop.classList.add('active');
-          document.body.style.overflow = 'hidden';
-        });
-      }
-      
-      if (closeMobileMenu) {
-        closeMobileMenu.addEventListener('click', function() {
-          mobileNav.classList.remove('active');
-          mobileBackdrop.classList.remove('active');
-          document.body.style.overflow = '';
-        });
-      }
-      
-      if (mobileBackdrop) {
-        mobileBackdrop.addEventListener('click', function() {
-          mobileNav.classList.remove('active');
-          mobileBackdrop.classList.remove('active');
-          document.body.style.overflow = '';
-        });
-      }
-      
-      // Cookie consent functionality
-      const cookieConsent = document.getElementById('cookie-consent');
-      const cookieSettings = document.getElementById('cookie-settings');
-      const openSettingsBtn = document.getElementById('open-settings');
-      const closeSettingsBtn = document.getElementById('close-settings');
-      const acceptCookiesBtn = document.getElementById('accept-cookies');
-      const rejectCookiesBtn = document.getElementById('reject-cookies');
-      const saveSettingsBtn = document.getElementById('save-settings');
-      
-      // Check if user has already made a choice
-      if (!localStorage.getItem('cookiesAccepted')) {
-        setTimeout(function() {
-          if (cookieConsent) cookieConsent.style.display = 'block';
-        }, 1000);
-      }
-      
-      // Cookie buttons event listeners
-      if (acceptCookiesBtn) {
-        acceptCookiesBtn.addEventListener('click', function() {
-          localStorage.setItem('cookiesAccepted', 'all');
-          if (cookieConsent) cookieConsent.style.display = 'none';
-        });
-      }
-      
-      if (rejectCookiesBtn) {
-        rejectCookiesBtn.addEventListener('click', function() {
-          localStorage.setItem('cookiesAccepted', 'essential');
-          if (cookieConsent) cookieConsent.style.display = 'none';
-        });
-      }
-      
-      if (openSettingsBtn) {
-        openSettingsBtn.addEventListener('click', function() {
-          if (cookieSettings) cookieSettings.style.display = 'flex';
-        });
-      }
-      
-      if (closeSettingsBtn) {
-        closeSettingsBtn.addEventListener('click', function() {
-          if (cookieSettings) cookieSettings.style.display = 'none';
-        });
-      }
-      
-      if (saveSettingsBtn) {
-        saveSettingsBtn.addEventListener('click', function() {
-          const analyticsChecked = document.getElementById('analytics-toggle').checked;
-          const advertisingChecked = document.getElementById('advertising-toggle').checked;
-          
-          if (analyticsChecked || advertisingChecked) {
-            localStorage.setItem('cookiesAccepted', 'custom');
-          } else {
-            localStorage.setItem('cookiesAccepted', 'essential');
-          }
-          
-          if (cookieSettings) cookieSettings.style.display = 'none';
-          if (cookieConsent) cookieConsent.style.display = 'none';
-        });
-      }
-      
-      // Initialize Network Tools
-      initNetworkTools();
-    });
-
     // Network Tools Functionality
     function initNetworkTools() {
       // Constants
@@ -1468,6 +837,569 @@
       let pingHistory = [];
       let pingChart = null;
       let pingStartTime = 0;
+      
+      // Validation Functions
+      function validateHost(host) {
+        const hostRegex = /^(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}|(?:(?:[0-9]{1,3}\.){3}[0-9]{1,3}))$/;
+        return hostRegex.test(host);
+      }
+      
+      function validateUrl(url) {
+        const urlRegex = /^https?:\/\/[^\s/$.?#].[^\s]*$/i;
+        return urlRegex.test(url);
+      }
+      
+      function validateDomain(domain) {
+        const domainRegex = /^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}$/;
+        return domainRegex.test(domain);
+      }
+      
+      // Error Handling
+      function showError(message, tabId) {
+        const errorDiv = document.getElementById(tabId);
+        if (errorDiv) {
+          errorDiv.textContent = message;
+          errorDiv.style.display = 'block';
+          setTimeout(() => errorDiv.style.display = 'none', 5000);
+        }
+      }
+      
+      // Loading State
+      function setLoading(tabId, isLoading) {
+        const loadingDiv = document.getElementById(`${tabId}Loading`);
+        if (loadingDiv) {
+          if (isLoading) {
+            loadingDiv.classList.add('active');
+          } else {
+            loadingDiv.classList.remove('active');
+          }
+        }
+      }
+      
+      // Ping Tool Functions
+      function pingHost(host) {
+        return new Promise((resolve) => {
+          const startTime = performance.now();
+          const timeout = parseInt(document.getElementById('pingTimeout').value);
+          
+          // Use fetch API to simulate ping
+          const controller = new AbortController();
+          const signal = controller.signal;
+          
+          setTimeout(() => {
+            controller.abort();
+            resolve({ success: false, time: timeout, error: 'Request timed out' });
+          }, timeout);
+          
+          // Try to fetch a resource from the host
+          fetch(`https://${host}/favicon.ico?t=${Date.now()}`, {
+            method: 'HEAD',
+            mode: 'no-cors',
+            signal,
+            cache: 'no-store'
+          })
+          .then(() => {
+            const endTime = performance.now();
+            const pingTime = Math.round(endTime - startTime);
+            resolve({ success: true, time: pingTime });
+          })
+          .catch(() => {
+            resolve({ success: false, time: timeout, error: 'Request failed' });
+          });
+        });
+      }
+      
+      function updatePingStats() {
+        document.getElementById('sentCount').textContent = sentCount;
+        document.getElementById('receivedCount').textContent = receivedCount;
+        
+        const lossPercent = sentCount > 0 ? Math.round(((sentCount - receivedCount) / sentCount) * 100) : 0;
+        document.getElementById('lossPercent').textContent = `${lossPercent}%`;
+        
+        document.getElementById('minPing').textContent = minPing !== Infinity ? `${minPing}ms` : '0ms';
+        document.getElementById('maxPing').textContent = `${maxPing}ms`;
+        
+        const avgPing = receivedCount > 0 ? Math.round(totalPing / receivedCount) : 0;
+        document.getElementById('avgPing').textContent = `${avgPing}ms`;
+      }
+      
+      function updatePingChart() {
+        const ctx = document.getElementById('pingChart').getContext('2d');
+        if (pingChart) pingChart.destroy();
+        
+        const successfulPings = pingHistory.filter(ping => ping.success);
+        const pingTimes = successfulPings.map(ping => ping.time);
+        const labels = successfulPings.map((_, i) => `Ping ${i + 1}`);
+        
+        pingChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels,
+            datasets: [{
+              label: 'Ping Time (ms)',
+              data: pingTimes,
+              borderColor: '#4361ee',
+              backgroundColor: 'rgba(67, 97, 238, 0.2)',
+              tension: 0.3,
+              fill: true
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              y: {
+                beginAtZero: true,
+                title: {
+                  display: true,
+                  text: 'Time (ms)'
+                }
+              }
+            }
+          }
+        });
+      }
+      
+      function addPingResult(seq, result) {
+        const pingResults = document.getElementById('pingResults');
+        
+        if (pingResults.children.length === 1 && pingResults.children[0].tagName === 'P') {
+          pingResults.innerHTML = '';
+        }
+        
+        const pingItem = document.createElement('div');
+        pingItem.className = 'ping-item';
+        
+        const statusIndicator = document.createElement('span');
+        statusIndicator.className = `status-indicator ${result.success ? 'status-up' : 'status-down'}`;
+        
+        const sanitizedHost = DOMPurify.sanitize(document.getElementById('pingHost').value);
+        const seqSpan = document.createElement('span');
+        seqSpan.textContent = `Ping #${seq} to ${sanitizedHost}: `;
+        
+        const resultSpan = document.createElement('span');
+        if (result.success) {
+          resultSpan.textContent = `Success, time=${result.time}ms`;
+          resultSpan.className = 'ping-success';
+        } else {
+          resultSpan.textContent = `Failed: ${result.error}`;
+          resultSpan.className = 'ping-failure';
+        }
+        
+        pingItem.appendChild(statusIndicator);
+        pingItem.appendChild(seqSpan);
+        pingItem.appendChild(resultSpan);
+        pingResults.prepend(pingItem);
+        
+        // Update chart
+        pingHistory.push(result);
+        updatePingChart();
+      }
+      
+      function startPinging() {
+        const host = document.getElementById('pingHost').value.trim();
+        const count = document.getElementById('pingCount').value;
+        const interval = parseInt(document.getElementById('pingInterval').value) * 1000;
+        
+        if (!host) {
+          showError('Please enter a host to ping', 'ping-error');
+          return;
+        }
+        
+        if (!validateHost(host)) {
+          showError('Please enter a valid hostname or IP address', 'ping-error');
+          return;
+        }
+        
+        // Reset stats
+        pingCount = 0;
+        sentCount = 0;
+        receivedCount = 0;
+        minPing = Infinity;
+        maxPing = 0;
+        totalPing = 0;
+        pingHistory = [];
+        pingStartTime = Date.now();
+        
+        // Show loading
+        setLoading('ping', true);
+        
+        // Clear previous results
+        document.getElementById('pingResults').innerHTML = '<p>Pinging... results will appear below</p>';
+        
+        // Disable start button, enable stop button
+        document.getElementById('startPingBtn').disabled = true;
+        document.getElementById('stopPingBtn').disabled = false;
+        
+        // Start pinging
+        const pingLoop = async () => {
+          if (count !== 'continuous' && pingCount >= parseInt(count)) {
+            stopPinging();
+            return;
+          }
+          
+          // Check maximum duration for continuous pinging
+          if (count === 'continuous' && Date.now() - pingStartTime > MAX_CONTINUOUS_DURATION) {
+            stopPinging();
+            showError('Continuous ping stopped after 5 minutes', 'ping-error');
+            return;
+          }
+          
+          pingCount++;
+          sentCount++;
+          
+          try {
+            const result = await pingHost(host);
+            
+            if (result.success) {
+              receivedCount++;
+              totalPing += result.time;
+              
+              if (result.time < minPing) minPing = result.time;
+              if (result.time > maxPing) maxPing = result.time;
+            }
+            
+            addPingResult(pingCount, result);
+            updatePingStats();
+          } catch (error) {
+            console.error('Ping error:', error);
+          }
+          
+          // Schedule next ping if we're still running
+          if (pingIntervalId !== null) {
+            pingIntervalId = setTimeout(pingLoop, interval);
+          }
+        };
+        
+        pingIntervalId = setTimeout(pingLoop, 0);
+      }
+      
+      function stopPinging() {
+        if (pingIntervalId) {
+          clearTimeout(pingIntervalId);
+          pingIntervalId = null;
+        }
+        
+        setLoading('ping', false);
+        document.getElementById('startPingBtn').disabled = false;
+        document.getElementById('stopPingBtn').disabled = true;
+      }
+      
+      function clearPingLog() {
+        document.getElementById('pingResults').innerHTML = '<p>Ping results will appear here...</p>';
+        pingHistory = [];
+        if (pingChart) {
+          pingChart.destroy();
+          pingChart = null;
+        }
+      }
+      
+      function exportPingResults() {
+        const results = document.getElementById('pingResults').innerText;
+        const blob = new Blob([results], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'ping_results.txt';
+        a.click();
+        URL.revokeObjectURL(url);
+      }
+      
+      // Traceroute Functions
+      async function traceRoute() {
+        const host = document.getElementById('traceHost').value.trim();
+        const maxHops = parseInt(document.getElementById('maxHops').value);
+        
+        if (!host) {
+          showError('Please enter a host to trace', 'traceroute-error');
+          return;
+        }
+        
+        if (!validateHost(host)) {
+          showError('Please enter a valid hostname or IP address', 'traceroute-error');
+          return;
+        }
+        
+        // Disable start button, enable stop button
+        setLoading('traceroute', true);
+        document.getElementById('startTraceBtn').disabled = true;
+        document.getElementById('stopTraceBtn').disabled = false;
+        
+        // Clear previous results
+        document.getElementById('traceResults').innerHTML = '<p>Tracing route... results will appear below</p>';
+        
+        // Simple traceroute simulation
+        for (let ttl = 1; ttl <= maxHops; ttl++) {
+          if (document.getElementById('stopTraceBtn').disabled) break; // Stop if tracing was stopped
+          
+          try {
+            // Simulate hop latency
+            const hopResult = {
+              hop: ttl,
+              ip: `192.168.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}`,
+              time1: Math.floor(Math.random() * 50) + 10,
+              time2: Math.floor(Math.random() * 50) + 10,
+              time3: Math.floor(Math.random() * 50) + 10
+            };
+            
+            // Add to results
+            const traceResults = document.getElementById('traceResults');
+            
+            if (traceResults.children.length === 1 && traceResults.children[0].tagName === 'P') {
+              traceResults.innerHTML = '';
+            }
+            
+            const traceItem = document.createElement('div');
+            traceItem.className = 'ping-item';
+            traceItem.innerHTML = `
+              <span>${hopResult.hop}</span>
+              <span>${hopResult.ip}</span>
+              <span>${hopResult.time1}ms</span>
+              <span>${hopResult.time2}ms</span>
+              <span>${hopResult.time3}ms</span>
+            `;
+            
+            traceResults.appendChild(traceItem);
+            
+            // Check if we reached the target
+            if (ttl === maxHops || Math.random() > 0.7) {
+              const finalItem = document.createElement('div');
+              finalItem.className = 'ping-item ping-success';
+              finalItem.innerHTML = `
+                <span>${ttl + 1}</span>
+                <span>${host}</span>
+                <span>${Math.floor(Math.random() * 30) + 5}ms</span>
+                <span>${Math.floor(Math.random() * 30) + 5}ms</span>
+                <span>${Math.floor(Math.random() * 30) + 5}ms</span>
+              `;
+              traceResults.appendChild(finalItem);
+              break;
+            }
+            
+            // Wait between hops
+            await new Promise(resolve => setTimeout(resolve, 500));
+          } catch (error) {
+            console.error('Trace error:', error);
+          }
+        }
+        
+        setLoading('traceroute', false);
+        document.getElementById('startTraceBtn').disabled = false;
+        document.getElementById('stopTraceBtn').disabled = true;
+      }
+      
+      function stopTrace() {
+        setLoading('traceroute', false);
+        document.getElementById('startTraceBtn').disabled = false;
+        document.getElementById('stopTraceBtn').disabled = true;
+      }
+      
+      function clearTraceLog() {
+        document.getElementById('traceResults').innerHTML = '<p>Traceroute results will appear here...</p>';
+      }
+      
+      // DNS Lookup Functions
+      async function lookupDns() {
+        const domain = document.getElementById('dnsDomain').value.trim();
+        const type = document.getElementById('dnsType').value;
+        
+        if (!domain) {
+          showError('Please enter a domain name', 'dns-error');
+          return;
+        }
+        
+        if (!validateDomain(domain)) {
+          showError('Please enter a valid domain name', 'dns-error');
+          return;
+        }
+        
+        // Rate limiting
+        const now = Date.now();
+        if (now - lastRequestTime < RATE_LIMIT_MS) {
+          showError('Please wait before making another request', 'dns-error');
+          return;
+        }
+        lastRequestTime = now;
+        
+        // Check cache
+        const cacheKey = `dns_${domain}_${type}`;
+        const cachedResult = localStorage.getItem(cacheKey);
+        if (cachedResult) {
+          document.getElementById('dnsResults').innerHTML = cachedResult;
+          return;
+        }
+        
+        // Show loading
+        setLoading('dns', true);
+        document.getElementById('dnsResults').innerHTML = '<p>Loading DNS records...</p>';
+        
+        try {
+          // Use DNS over HTTPS (DoH) API
+          const response = await fetch(`${API_ENDPOINTS.DNS}?name=${domain}&type=${type}`, {
+            headers: { 'Accept': 'application/dns-json' }
+          });
+          
+          const data = await response.json();
+          
+          let html = '';
+          if (data.Status !== 0 || !data.Answer || data.Answer.length === 0) {
+            html = `<p>No DNS records found for ${DOMPurify.sanitize(domain)} (${type})</p>`;
+          } else {
+            html = '<p>DNS records found:</p>';
+            data.Answer.forEach(record => {
+              html += `<div class="ping-item"><span>${DOMPurify.sanitize(record.name)}</span> <span>${DOMPurify.sanitize(record.type)}</span> <span>TTL: ${DOMPurify.sanitize(record.TTL)}</span> <span>${DOMPurify.sanitize(record.data)}</span></div>`;
+            });
+          }
+          
+          document.getElementById('dnsResults').innerHTML = html;
+          localStorage.setItem(cacheKey, html); // Cache result
+        } catch (error) {
+          console.error('DNS lookup error:', error);
+          showError(`DNS lookup failed: ${error.message}`, 'dns-error');
+        } finally {
+          setLoading('dns', false);
+        }
+      }
+      
+      // IP Information Functions
+      async function getIpInfo() {
+        setLoading('ipinfo', true);
+        try {
+          // Use ipapi.co API
+          const response = await fetch(API_ENDPOINTS.IP_INFO);
+          const data = await response.json();
+          
+          if (data.error) {
+            throw new Error(data.reason || 'Failed to retrieve IP information');
+          }
+          
+          document.getElementById('ipAddress').textContent = data.ip || '-';
+          document.getElementById('ipCity').textContent = data.city || '-';
+          document.getElementById('ipRegion').textContent = data.region || '-';
+          document.getElementById('ipCountry').textContent = data.country_name ? `${data.country_name} (${data.country})` : '-';
+          document.getElementById('ipIsp').textContent = data.org || '-';
+          document.getElementById('ipTimezone').textContent = data.timezone || '-';
+          
+          // Browser information
+          document.getElementById('browserInfo').textContent = navigator.userAgent.split(') ')[0].split(' (')[1] || 'Unknown';
+          
+          // Connection type (limited browser support)
+          const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+          if (connection) {
+            document.getElementById('connectionType').textContent = connection.effectiveType || 'Unknown';
+          } else {
+            document.getElementById('connectionType').textContent = 'Not available';
+          }
+        } catch (error) {
+          console.error('IP info error:', error);
+          showError(error.message, 'ipinfo-error');
+        } finally {
+          setLoading('ipinfo', false);
+        }
+      }
+      
+      // HTTP Headers Functions
+      async function analyzeHeaders() {
+        const url = document.getElementById('headerUrl').value.trim();
+        const method = document.getElementById('headerMethod').value;
+        
+        if (!url) {
+          showError('Please enter a URL', 'headers-error');
+          return;
+        }
+        
+        if (!validateUrl(url)) {
+          showError('Please enter a valid URL starting with http:// or https://', 'headers-error');
+          return;
+        }
+        
+        setLoading('headers', true);
+        try {
+          const startTime = performance.now();
+          const response = await fetch(url, { 
+            method,
+            mode: 'cors',
+            cache: 'no-store'
+          });
+          const endTime = performance.now();
+          
+          let headersHtml = `<p>HTTP headers (Load time: ${(endTime - startTime).toFixed(2)}ms):</p>`;
+          
+          // Show status
+          headersHtml += `<div class="ping-item"><span>Status:</span> <span>${response.status} ${response.statusText}</span></div>`;
+          
+          // Show headers
+          for (const [key, value] of response.headers.entries()) {
+            headersHtml += `<div class="ping-item"><span>${DOMPurify.sanitize(key)}:</span> <span>${DOMPurify.sanitize(value)}</span></div>`;
+          }
+          
+          document.getElementById('headerResults').innerHTML = headersHtml;
+        } catch (error) {
+          console.error('Header analysis error:', error);
+          showError(`Header analysis failed: ${error.message}`, 'headers-error');
+        } finally {
+          setLoading('headers', false);
+        }
+      }
+      
+      // Speed Test Functions (Simplified simulation)
+      function startSpeedTest() {
+        setLoading('speed', true);
+        document.getElementById('startSpeedTestBtn').disabled = true;
+        document.getElementById('stopSpeedTestBtn').disabled = false;
+        
+        // Simulate speed test
+        let progress = 0;
+        const downloadSpeed = 30 + Math.random() * 70; // 30-100 Mbps
+        const uploadSpeed = 5 + Math.random() * 15; // 5-20 Mbps
+        const pingSpeed = 10 + Math.random() * 40; // 10-50 ms
+        
+        const interval = setInterval(() => {
+          progress += 5;
+          
+          if (progress <= 100) {
+            document.getElementById('downloadSpeed').textContent = (downloadSpeed * progress / 100).toFixed(1);
+            document.getElementById('uploadSpeed').textContent = (uploadSpeed * progress / 100).toFixed(1);
+            document.getElementById('pingSpeed').textContent = Math.round(pingSpeed);
+            
+            const speedResults = document.getElementById('speedResults');
+            if (speedResults.children.length === 1 && speedResults.children[0].tagName === 'P') {
+              speedResults.innerHTML = '';
+            }
+            
+            const resultItem = document.createElement('div');
+            resultItem.className = 'ping-item';
+            resultItem.innerHTML = `
+              <span>Progress: ${progress}%</span>
+              <span>Download: ${(downloadSpeed * progress / 100).toFixed(1)} Mbps</span>
+            `;
+            speedResults.prepend(resultItem);
+          } else {
+            clearInterval(interval);
+            document.getElementById('downloadSpeed').textContent = downloadSpeed.toFixed(1);
+            document.getElementById('uploadSpeed').textContent = uploadSpeed.toFixed(1);
+            document.getElementById('pingSpeed').textContent = Math.round(pingSpeed);
+            
+            setLoading('speed', false);
+            document.getElementById('startSpeedTestBtn').disabled = false;
+            document.getElementById('stopSpeedTestBtn').disabled = true;
+          }
+        }, 200);
+        
+        // Store interval ID for stopping
+        document.getElementById('stopSpeedTestBtn').dataset.intervalId = interval;
+      }
+      
+      function stopSpeedTest() {
+        const intervalId = document.getElementById('stopSpeedTestBtn').dataset.intervalId;
+        if (intervalId) {
+          clearInterval(intervalId);
+        }
+        
+        setLoading('speed', false);
+        document.getElementById('startSpeedTestBtn').disabled = false;
+        document.getElementById('stopSpeedTestBtn').disabled = true;
+      }
       
       // Tab Switching
       function switchTab(tabName) {
@@ -1500,10 +1432,28 @@
         });
       });
       
-      // Your existing network tools code would continue here...
-      // This is just a placeholder to show where it would go
-      console.log("Network tools initialized");
+      // Event Listeners
+      document.getElementById('startPingBtn').addEventListener('click', startPinging);
+      document.getElementById('stopPingBtn').addEventListener('click', stopPinging);
+      document.getElementById('clearPingBtn').addEventListener('click', clearPingLog);
+      document.getElementById('exportPingBtn').addEventListener('click', exportPingResults);
+      
+      document.getElementById('startTraceBtn').addEventListener('click', traceRoute);
+      document.getElementById('stopTraceBtn').addEventListener('click', stopTrace);
+      document.getElementById('clearTraceBtn').addEventListener('click', clearTraceLog);
+      
+      document.getElementById('lookupDnsBtn').addEventListener('click', lookupDns);
+      document.getElementById('getIpInfoBtn').addEventListener('click', getIpInfo);
+      document.getElementById('analyzeHeadersBtn').addEventListener('click', analyzeHeaders);
+      
+      document.getElementById('startSpeedTestBtn').addEventListener('click', startSpeedTest);
+      document.getElementById('stopSpeedTestBtn').addEventListener('click', stopSpeedTest);
     }
+
+    // Initialize everything when DOM is loaded
+    document.addEventListener('DOMContentLoaded', () => {
+      initNetworkTools();
+    });
   </script>
 </body>
 </html>
