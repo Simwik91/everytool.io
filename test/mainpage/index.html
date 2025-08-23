@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="EveryTool.io - Free online tools that work entirely in your browser. Protect your privacy while getting things done with our collection of easy-to-use tools.">
+  <title>EveryTool.io - Free Client-Side Tools</title>
+  
+  <!-- SEO Optimizations -->
+  <meta name="robots" content="index, follow">
+  <meta name="keywords" content="free online tools, privacy-focused tools, Barcode generator, QR generator, image tools, video tools, text tools, file converter, PDF tools, network tools, browser-based tools">
+  <meta property="og:title" content="EveryTool.io - Free Client-Side Tools">
+  <meta property="og:description" content="Discover free, privacy-focused tools that work entirely in your browser at EveryTool.io.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://everytool.io">
+  <meta property="og:image" content="https://everytool.io/social-home.jpg">
+  <meta property="og:site_name" content="EveryTool.io">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="EveryTool.io - Free Client-Side Tools">
+  <meta name="twitter:description" content="Discover free, privacy-focused tools that work entirely in your browser.">
+  <meta name="twitter:image" content="https://everytool.io/social-home.jpg">
+  
+  <!-- Performance Tuning -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.rel='stylesheet'">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "EveryTool.io",
+    "description": "Free privacy-focused tools for various tasks, running directly in your browser",
+    "applicationCategory": "Utilities",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "operatingSystem": "All",
+    "publisher": {
+      "@type": "Organization",
+      "name": "EveryTool.io",
+      "url": "https://everytool.io",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://everytool.io/logo.png"
+      }
+    },
+    "datePublished": "2025-06-24",
+    "dateModified": "2025-06-24"
+  }
+  </script>
+  
+  <!-- Shared CSS -->
+  <link rel="stylesheet" href="/css/styles.css">
+  
+  <!-- Home Page Specific Styles -->
+  <style>
+    /* Hero Section */
+    .hero {
+      padding: 80px 0 60px;
+      text-align: center;
+      background: linear-gradient(135deg, #f8f9fa 0%, #f0f4ff 100%);
+    }
+
+    .hero-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .hero h1 {
+      font-size: 3.2rem;
+      margin-bottom: 20px;
+      font-weight: 700;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1.2;
+    }
+
+    .hero p {
+      font-size: 1.3rem;
+      color: var(--gray);
+      margin-bottom: 40px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .hero-btn {
+      display: inline-block;
+      background: var(--primary);
+      color: white;
+      padding: 16px 40px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: var(--transition);
+      box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+    }
+    
+    .hero-btn:hover, .hero-btn:focus {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(67, 97, 238, 0.4);
+      background: var(--primary-dark);
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    /* Features Section */
+    .features {
+      padding: 70px 0;
+      background: white;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      font-weight: 700;
+      color: var(--dark);
+    }
+
+    .section-subtitle {
+      font-size: 1.2rem;
+      color: var(--gray);
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+    }
+
+    .feature-card {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 30px;
+      text-align: center;
+      box-shadow: var(--box-shadow);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid var(--light-gray);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    }
+
+    .feature-icon {
+      font-size: 3rem;
+      color: var(--primary);
+      margin-bottom: 20px;
+      background: rgba(67, 97, 238, 0.1);
+      width: 80px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      margin: 0 auto 20px;
+    }
+
+    .feature-card h3 {
+      font-size: 1.4rem;
+      margin-bottom: 15px;
+      color: var(--dark);
+    }
+
+    .feature-card p {
+      color: var(--gray);
+      margin-bottom: 20px;
+      flex-grow: 1;
+    }
+
+    /* How It Works */
+    .how-it-works {
+      padding: 70px 0;
+      background: #f9fafb;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      counter-reset: step-counter;
+    }
+
+    .step {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 40px 30px 30px;
+      box-shadow: var(--box-shadow);
+      position: relative;
+      counter-increment: step-counter;
+      text-align: center;
+      border: 1px solid var(--light-gray);
+    }
+
+    .step:before {
+      content: counter(step-counter);
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 40px;
+      background: var(--primary);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
+
+    .step-icon {
+      font-size: 3rem;
+      color: var(--primary);
+      margin-bottom: 20px;
+    }
+
+    .step h3 {
+      font-size: 1.4rem;
+      margin-bottom: 15px;
+      color: var(--dark);
+    }
+
+    .step p {
+      color: var(--gray);
+    }
+
+    /* Tools Section */
+    .tools-section {
+      padding: 70px 0;
+      background: white;
+    }
+    
+    .search-container {
+      max-width: 600px;
+      margin: 0 auto 40px;
+      position: relative;
+    }
+    
+    .search-input {
+      width: 100%;
+      padding: 15px 50px 15px 20px;
+      font-size: 1.1rem;
+      border: 2px solid var(--light-gray);
+      border-radius: 50px;
+      outline: none;
+      transition: var(--transition);
+      color: #444;
+    }
+    
+    .search-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 10px rgba(67, 97, 238, 0.2);
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+    
+    .search-icon {
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray);
+      font-size: 1.2rem;
+    }
+    
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+    }
+    
+    .tool-card {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 30px;
+      text-align: center;
+      box-shadow: var(--box-shadow);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+      border: 1px solid var(--light-gray);
+    }
+    
+    .tool-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    }
+    
+    .tool-icon {
+      font-size: 3rem;
+      color: var(--primary);
+      margin-bottom: 20px;
+      background: rgba(67, 97, 238, 0.1);
+      width: 80px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      margin: 0 auto 20px;
+    }
+    
+    .tool-card h3 {
+      font-size: 1.4rem;
+      margin-bottom: 15px;
+      color: var(--dark);
+    }
+    
+    .tool-card p {
+      color: #444;
+      margin-bottom: 20px;
+      flex-grow: 1;
+    }
+    
+    .tool-card a {
+      display: inline-block;
+      background: var(--primary);
+      color: white;
+      padding: 10px 20px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    
+    .tool-card a:hover, .tool-card a:focus {
+      background: var(--primary-dark);
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 992px) {
+      .hero h1 {
+        font-size: 2.8rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2.3rem;
+      }
+      
+      .hero p {
+        font-size: 1.1rem;
+      }
+      
+      .section-title {
+        font-size: 2rem;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .hero {
+        padding: 60px 0 40px;
+      }
+      
+      .hero h1 {
+        font-size: 2rem;
+      }
+      
+      .feature-card, .tool-card {
+        padding: 30px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header Placeholder -->
+  <header id="main-header">
+    <p class="error-message" style="display: none; color: red; text-align: center;">Failed to load header. Please try refreshing the page.</p>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <h1>Free Online Tools That Respect Your Privacy</h1>
+        <p>EveryTool.io offers a collection of powerful, free tools that work entirely in your browser. Your files never leave your computer, ensuring complete privacy and security.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section class="how-it-works">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">How Our Tools Work</h2>
+        <p class="section-subtitle">Client-side processing means your data never leaves your computer</p>
+      </div>
+      
+      <div class="steps">
+        <div class="step">
+          <div class="step-icon">
+            <i class="fas fa-mouse-pointer"></i>
+          </div>
+          <h3>Choose Your Tool</h3>
+          <p>Select from our collection of privacy-focused tools designed for various needs.</p>
+        </div>
+        
+        <div class="step">
+          <div class="step-icon">
+            <i class="fas fa-cog"></i>
+          </div>
+          <h3>Process in Browser</h3>
+          <p>Our tools work directly in your browser. No data is uploaded to any server.</p>
+        </div>
+        
+        <div class="step">
+          <div class="step-icon">
+            <i class="fas fa-download"></i>
+          </div>
+          <h3>Get Your Result</h3>
+          <p>Download or view your result instantly. Your original data remains private.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tools Section -->
+  <section class="tools-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Our Tools</h2>
+        <p class="section-subtitle">Access our collection of straightforward tools for all your needs.</p>
+      </div>
+      
+      <div class="search-container">
+        <input type="text" id="tool-search" class="search-input" placeholder="Search tools..." aria-label="Search for tools">
+        <i class="fas fa-search search-icon"></i>
+      </div>
+      
+      <div class="tools-grid" id="tools-grid">
+        <article class="tool-card">
+          <div class="tool-icon"><i class="fas fa-barcode"></i></div>
+          <h3>Barcode Generator</h3>
+          <p>Generate Barcodes for products or inventories.</p>
+          <a href="https://everytool.io/tools/barcodegenerator" aria-label="Go to Barcode Generator tool">Go to Tool</a>
+        </article>
+        
+        <article class="tool-card">
+          <div class="tool-icon"><i class="fas fa-qrcode"></i></div>
+          <h3>QR Generator</h3>
+          <p>Create QR codes for URLs, text, or contact details.</p>
+          <a href="https://everytool.io/tools/qrgenerator" aria-label="Go to QR Generator tool">Go to Tool</a>
+        </article>
+        
+        <article class="tool-card">
+          <div class="tool-icon"><i class="fas fa-image"></i></div>
+          <h3>Image Tools</h3>
+          <p>Edit, resize, or convert images with ease.</p>
+          <a href="https://everytool.io/tools/imagetools" aria-label="Go to Image Tools">Go to Tool</a>
+        </article>
+        
+        <article class="tool-card">
+          <div class="tool-icon"><i class="fas fa-video"></i></div>
+          <h3>Video Tools</h3>
+          <p>Trim, convert, or compress videos quickly.</p>
+          <a href="https://everytool.io/tools/videotools" aria-label="Go to Video Tools">Go to Tool</a>
+        </article>
+        
+        <article class="tool-card">
+          <div class="tool-icon"><i class="fas fa-music"></i></div>
+          <h3>Audio Tools</h3>
+          <p>Convert, trim and process audio files with advanced settings.</p>
+          <a href="https://everytool.io/tools/audiotools" aria-label="Go to Audio Tools">Go to Tool</a>
+        </article>
+        
+        <article class="tool-card">
+          <div class="tool-icon"><i class="fas fa-font"></i></div>
+          <h3>Text Tools</h3>
+          <p>Format, count, or generate text content.</p>
+          <a href="https://everytool.io/tools/texttools" aria-label="Go to Text Tools">Go to Tool</a>
+        </article>
+        
+        <article class="tool-card">
+          <div class="tool-icon"><i class="fas fa-file-export"></i></div>
+          <h3>File Converter</h3>
+          <p>Convert files between various formats.</p>
+          <a href="https://everytool.io/tools/fileconverter" aria-label="Go to File Converter">Go to Tool</a>
+        </article>
+        
+        <article class="tool-card">
+          <div class="tool-icon"><i class="fas fa-file-pdf"></i></div>
+          <h3>PDF Tools</h3>
+          <p>Edit, merge, or compress PDF files.</p>
+          <a href="https://everytool.io/tools/pdftools" aria-label="Go to PDF Tools">Go to Tool</a>
+        </article>
+        
+        <article class="tool-card">
+          <div class="tool-icon"><i class="fas fa-network-wired"></i></div>
+          <h3>Network Tools</h3>
+          <p>Check connectivity, speed, and diagnose network issues.</p>
+          <a href="https://everytool.io/tools/networktools" aria-label="Go to Network Tools">Go to Tool</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Why Choose EveryTool.io?</h2>
+        <p class="section-subtitle">We provide essential tools without compromising your privacy or security.</p>
+      </div>
+      
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-lock"></i>
+          </div>
+          <h3>Complete Privacy</h3>
+          <p>All processing happens directly in your browser. Your files never leave your computer, ensuring complete privacy and security.</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-bolt"></i>
+          </div>
+          <h3>Instant Processing</h3>
+          <p>Whether generating barcodes or processing files, our tools work at the speed of your browser. No uploads, no waiting.</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-tag"></i>
+          </div>
+          <h3>100% Free</h3>
+          <p>All our tools are completely free to use. No subscriptions, no hidden fees, and no account required.</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-cloud-download-alt"></i>
+          </div>
+          <h3>No Installation</h3>
+          <p>Access all tools directly from your browser. No downloads or installations required. Works on any device.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer Placeholder -->
+  <footer id="main-footer">
+    <p class="error-message" style="display: none; color: red; text-align: center;">Failed to load footer. Please try refreshing the page.</p>
+  </footer>
+
+  <!-- Cookie Consent Banner -->
+  <div id="cookie-consent" role="dialog" aria-labelledby="cookie-consent-banner" aria-describedby="cookie-consent-desc">
+    <div class="sr-only" id="cookie-consent-banner">Cookie Consent</div>
+    <div class="cookie-content" id="cookie-consent-desc">
+      <div class="cookie-text">
+        <p>We use cookies to enhance your experience and analyze site traffic. By clicking "Accept All", you consent to our use of cookies. 
+          <a href="/privacy-policy.html" aria-label="Learn more about our Privacy Policy">Learn more</a> in our Privacy Policy.
+        </p>
+        <button class="cookie-settings-btn" id="open-settings" aria-label="Open cookie settings">Cookie Settings</button>
+      </div>
+      <div class="cookie-buttons">
+        <button class="cookie-btn reject-btn" id="reject-cookies" aria-label="Reject non-essential cookies">Reject Non-Essential</button>
+        <button class="cookie-btn accept-btn" id="accept-cookies" aria-label="Accept all cookies">Accept All</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cookie Settings Modal -->
+  <div id="cookie-settings" role="dialog" aria-labelledby="cookie-settings-title" aria-describedby="cookie-settings-desc">
+    <div class="settings-modal">
+      <div class="settings-header">
+        <h2 id="cookie-settings-title"><i class="fas fa-cookie-bite"></i> Cookie Settings</h2>
+        <button class="close-settings" id="close-settings" aria-label="Close cookie settings">×</button>
+      </div>
+      <div class="settings-content">
+        <p id="cookie-settings-desc">You can set your preferences for how we and our partners use cookies and similar technologies.</p>
+        
+        <div class="cookie-type">
+          <div class="cookie-type-header">
+            <h3>Essential Cookies</h3>
+            <label class="toggle-switch" for="essential-toggle">
+              <input type="checkbox" id="essential-toggle" checked disabled aria-label="Essential cookies (always enabled, cannot be disabled)" aria-describedby="essential-desc">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <p id="essential-desc">These cookies are necessary for the website to function and cannot be switched off.</p>
+        </div>
+        
+        <div class="cookie-type">
+          <div class="cookie-type-header">
+            <h3>Analytics Cookies</h3>
+            <label class="toggle-switch" for="analytics-toggle">
+              <input type="checkbox" id="analytics-toggle" aria-label="Analytics cookies toggle" aria-describedby="analytics-desc">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <p id="analytics-desc">These cookies allow us to count visits and traffic sources so we can measure and improve the performance of our site.</p>
+        </div>
+        
+        <div class="cookie-type">
+          <div class="cookie-type-header">
+            <h3>Advertising Cookies</h3>
+            <label class="toggle-switch" for="advertising-toggle">
+              <input type="checkbox" id="advertising-toggle" aria-label="Advertising cookies toggle" aria-describedby="advertising-desc">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <p id="advertising-desc">These cookies may be set through our site by our advertising partners to build a profile of your interests.</p>
+        </div>
+      </div>
+      <div class="settings-buttons">
+        <button class="save-settings" id="save-settings" aria-label="Save cookie settings">Save Settings</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="/js/main.js"></script>
+  <script>
+    // Home page specific JavaScript
+    document.addEventListener('DOMContentLoaded', () => {
+      // Search Functionality
+      const initSearch = () => {
+        const toolsData = [
+          { name: "Barcode Generator", description: "Generate Barcodes for products or inventories.", url: "/tools/barcodegenerator", icon: "fas fa-barcode" },
+          { name: "QR Generator", description: "Create QR codes for URLs, text, or contact details.", url: "/tools/qrgenerator", icon: "fas fa-qrcode" },
+          { name: "Image Tools", description: "Edit, resize, or convert images with ease.", url: "/tools/imagetools", icon: "fas fa-image" },
+          { name: "Video Tools", description: "Trim, convert, or compress videos quickly.", url: "/tools/videotools", icon: "fas fa-video" },
+          { name: "Audio Tools", description: "Convert, trim and process audio files with advanced settings.", url: "/tools/audiotools", icon: "fas fa-music" },
+          { name: "Text Tools", description: "Format, count, or generate text content.", url: "/tools/texttools", icon: "fas fa-font" },
+          { name: "File Converter", description: "Convert files between various formats.", url: "/tools/fileconverter", icon: "fas fa-file-export" },
+          { name: "PDF Tools", description: "Edit, merge, or compress PDF files.", url: "/tools/pdftools", icon: "fas fa-file-pdf" },
+          { name: "Network Tools", description: "Check connectivity, speed, and diagnose network issues.", url: "/tools/networktools", icon: "fas fa-network-wired" }
+        ];
+
+        function renderTools(searchTerm = '') {
+          const toolsGrid = document.getElementById('tools-grid');
+          if (!toolsGrid) return;
+          
+          toolsGrid.innerHTML = '';
+
+          const term = searchTerm.toLowerCase().trim();
+          toolsData.forEach(tool => {
+            if (!term || 
+                tool.name.toLowerCase().includes(term) || 
+                tool.description.toLowerCase().includes(term)) {
+              const card = document.createElement('article');
+              card.className = 'tool-card';
+              card.innerHTML = `
+                <div class="tool-icon">
+                  <i class="${tool.icon}"></i>
+                </div>
+                <h3>${tool.name}</h3>
+                <p>${tool.description}</p>
+                <a href="https://everytool.io${tool.url}" aria-label="Go to ${tool.name} tool">Go to Tool</a>
+              `;
+              toolsGrid.appendChild(card);
+            }
+          });
+        }
+
+        const searchInput = document.getElementById('tool-search');
+        if (searchInput) {
+          searchInput.addEventListener('input', () => {
+            renderTools(searchInput.value);
+          });
+        }
+
+        renderTools();
+      };
+
+      // Accessibility Functions
+      const initAccessibility = () => {
+        // Keyboard navigation for toggle switches
+        document.querySelectorAll('.toggle-switch input').forEach(toggle => {
+          toggle.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              if (!toggle.disabled) {
+                toggle.checked = !toggle.checked;
+                toggle.dispatchEvent(new Event('change'));
+              }
+            }
+          });
+        });
+
+        // Focus management for modals
+        const settingsModal = document.querySelector('.settings-modal');
+        if (settingsModal) {
+          const focusableElements = settingsModal.querySelectorAll('button, input');
+          const firstFocusable = focusableElements[0];
+          const lastFocusable = focusableElements[focusableElements.length - 1];
+          
+          document.querySelector('.close-settings').addEventListener('keydown', (e) => {
+            if (e.key === 'Tab' && e.shiftKey) {
+              e.preventDefault();
+              lastFocusable.focus();
+            }
+          });
+          
+          settingsModal.addEventListener('keydown', (e) => {
+            if (e.key === 'Tab') {
+              if (e.shiftKey && document.activeElement === firstFocusable) {
+                e.preventDefault();
+                lastFocusable.focus();
+              } else if (!e.shiftKey && document.activeElement === lastFocusable) {
+                e.preventDefault();
+                firstFocusable.focus();
+              }
+            } else if (e.key === 'Escape') {
+              document.getElementById('close-settings').click();
+            }
+          });
+        }
+        
+        // Focus styles for all interactive elements
+        const focusableElements = document.querySelectorAll(
+          'a, button, input, textarea, select, [tabindex]:not([tabindex="-1"])'
+        );
+        
+        focusableElements.forEach(el => {
+          el.addEventListener('focus', () => {
+            el.style.outline = '2px solid var(--primary)';
+            el.style.outlineOffset = '2px';
+          });
+          
+          el.addEventListener('blur', () => {
+            el.style.outline = 'none';
+          });
+        });
+      };
+
+      // Initialize home page specific functions
+      initSearch();
+      initAccessibility();
+    });
+  </script>
+</body>
+</html>
