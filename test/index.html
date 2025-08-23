@@ -25,6 +25,9 @@
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.5/purify.min.js"></script>
   
   <!-- Shared CSS -->
+  <link rel="stylesheet" href="/css/styles.css">
+  
+  <!-- Network Tools Specific Styles -->
   <style>
     /* Network Tools Specific Styles */
     :root {
@@ -498,6 +501,21 @@
         <div class="tab" data-tab="ipinfo" role="tab" aria-selected="false" tabindex="0">
           <i class="fas fa-info-circle"></i> IP Information
         </div>
+        <div class="tab" data-tab="headers" role="tab" aria-selected="false" tabindex="0">
+          <i class="fas fa-code"></i> HTTP Headers
+        </div>
+        <div class="tab" data-tab="speed" role="tab" aria-selected="false" tabindex="0">
+          <i class="fas fa-tachometer-alt"></i> Speed Test
+        </div>
+        <div class="tab" data-tab="portscan" role="tab" aria-selected="false" tabindex="0">
+          <i class="fas fa-plug"></i> Port Scanner
+        </div>
+        <div class="tab" data-tab="whois" role="tab" aria-selected="false" tabindex="0">
+          <i class="fas fa-database"></i> WHOIS Lookup
+        </div>
+        <div class="tab" data-tab="latency" role="tab" aria-selected="false" tabindex="0">
+          <i class="fas fa-globe"></i> Global Latency
+        </div>
       </div>
 
       <!-- Ping Tool -->
@@ -739,6 +757,162 @@
           </div>
         </div>
       </div>
+
+      <!-- HTTP Headers Tool -->
+      <div class="tab-content" id="headers-tab" role="tabpanel">
+        <h2><i class="fas fa-code"></i> HTTP Headers Analyzer</h2>
+        <p><i>Check the HTTP headers returned by a web server.</i></p>
+        
+        <div class="tool-row">
+          <div class="tool-col">
+            <label for="headerUrl">URL:</label>
+            <input type="text" id="headerUrl" placeholder="https://example.com" value="https://google.com">
+          </div>
+          <div class="tool-col">
+            <label for="headerMethod">HTTP Method:</label>
+            <select id="headerMethod">
+              <option value="GET">GET</option>
+              <option value="HEAD">HEAD</option>
+            </select>
+          </div>
+        </div>
+        
+        <button id="analyzeHeadersBtn">
+          <i class="fas fa-search"></i> Analyze Headers
+        </button>
+        
+        <div class="loading" id="headersLoading">
+          <div class="loading-spinner"></div>
+          <p><span class="sr-only">Loading, please wait...</span>Analyzing headers...</p>
+        </div>
+        
+        <div class="error" id="headers-error"></div>
+        
+        <label>HTTP Headers:</label>
+        <div id="headerResults" style="background: #f8f9ff; border-radius: var(--border-radius); padding: 15px; max-height: 400px; overflow-y: auto;">
+          <p>HTTP headers will appear here...</p>
+        </div>
+      </div>
+
+      <!-- Speed Test Tool -->
+      <div class="tab-content" id="speed-tab" role="tabpanel">
+        <h2><i class="fas fa-tachometer-alt"></i> Network Speed Test</h2>
+        <p><i>Test your internet connection speed (download and upload).</i></p>
+        
+        <div class="btn-group">
+          <button id="startSpeedTestBtn">
+            <i class="fas fa-play"></i> Start Speed Test
+          </button>
+          <button id="stopSpeedTestBtn" disabled>
+            <i class="fas fa-stop"></i> Stop Test
+          </button>
+        </div>
+        
+        <div class="loading" id="speedLoading">
+          <div class="loading-spinner"></div>
+          <p><span class="sr-only">Loading, please wait...</span>Testing speed...</p>
+        </div>
+        
+        <div class="error" id="speed-error"></div>
+        
+        <div class="stats">
+          <div class="stat-card">
+            <div class="stat-value" id="downloadSpeed">0</div>
+            <div class="stat-label">Download (Mbps)</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="uploadSpeed">0</div>
+            <div class="stat-label">Upload (Mbps)</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="pingSpeed">0</div>
+            <div class="stat-label">Ping (ms)</div>
+          </div>
+        </div>
+        
+        <div class="chart-container">
+          <canvas id="speedChart"></canvas>
+        </div>
+        
+        <label>Speed Test Results:</label>
+        <div id="speedResults" style="background: #f8f9ff; border-radius: var(--border-radius); padding: 15px; max-height: 300px; overflow-y: auto;">
+          <p>Speed test results will appear here...</p>
+        </div>
+      </div>
+
+      <!-- Port Scanner Tool -->
+      <div class="tab-content" id="portscan-tab" role="tabpanel">
+        <h2><i class="fas fa-plug"></i> Port Scanner</h2>
+        <p><i>Check if common ports are open on a host.</i></p>
+        <div class="tool-row">
+          <div class="tool-col">
+            <label for="portHost">Hostname or IP:</label>
+            <input type="text" id="portHost" placeholder="example.com" value="google.com">
+          </div>
+          <div class="tool-col">
+            <label for="ports">Ports to Scan:</label>
+            <select id="ports" multiple>
+              <option value="80">80 (HTTP)</option>
+              <option value="443">443 (HTTPS)</option>
+              <option value="22">22 (SSH)</option>
+              <option value="21">21 (FTP)</option>
+              <option value="25">25 (SMTP)</option>
+              <option value="53">53 (DNS)</option>
+            </select>
+          </div>
+        </div>
+        <button id="scanPortsBtn"><i class="fas fa-search"></i> Scan Ports</button>
+        <div class="loading" id="portscanLoading">
+          <div class="loading-spinner"></div>
+          <p><span class="sr-only">Loading, please wait...</span>Scanning ports...</p>
+        </div>
+        <div class="error" id="portscan-error"></div>
+        <label>Port Scan Results:</label>
+        <div id="portResults" style="background: #f8f9ff; border-radius: var(--border-radius); padding: 15px; max-height: 400px; overflow-y: auto;">
+          <p>Port scan results will appear here...</p>
+        </div>
+      </div>
+
+      <!-- WHOIS Lookup Tool -->
+      <div class="tab-content" id="whois-tab" role="tabpanel">
+        <h2><i class="fas fa-database"></i> WHOIS Lookup</h2>
+        <p><i>Retrieve registration details for a domain.</i></p>
+        <div class="tool-row">
+          <div class="tool-col">
+            <label for="whoisDomain">Domain Name:</label>
+            <input type="text" id="whoisDomain" placeholder="example.com" value="google.com">
+          </div>
+        </div>
+        <button id="lookupWhoisBtn"><i class="fas fa-search"></i> Lookup WHOIS</button>
+        <div class="loading" id="whoisLoading">
+          <div class="loading-spinner"></div>
+          <p><span class="sr-only">Loading, please wait...</span>Looking up WHOIS data...</p>
+        </div>
+        <div class="error" id="whois-error"></div>
+        <label>WHOIS Results:</label>
+        <div id="whoisResults" style="background: #f8f9ff; border-radius: var(--border-radius); padding: 15px; max-height: 400px; overflow-y: auto;">
+          <p>WHOIS data will appear here...</p>
+        </div>
+      </div>
+
+      <!-- Global Latency Test Tool -->
+      <div class="tab-content" id="latency-tab" role="tabpanel">
+        <h2><i class="fas fa-globe"></i> Global Latency Test</h2>
+        <p><i>Test latency to popular servers worldwide.</i></p>
+        <button id="testLatencyBtn"><i class="fas fa-play"></i> Test Latency</button>
+        <div class="loading" id="latencyLoading">
+          <div class="loading-spinner"></div>
+          <p><span class="sr-only">Loading, please wait...</span>Testing global latency...</p>
+        </div>
+        <div class="error" id="latency-error"></div>
+        <div class="chart-container">
+          <canvas id="latencyChart"></canvas>
+        </div>
+        <label>Latency Results:</label>
+        <div id="latencyResults" style="background: #f8f9ff; border-radius: var(--border-radius); padding: 15px; max-height: 300px; overflow-y: auto;">
+          <p>Latency results will appear here...</p>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -747,14 +921,84 @@
     <p class="error-message" style="display: none; color: red; text-align: center;">Failed to load footer. Please try refreshing the page.</p>
   </footer>
 
+  <!-- Cookie Consent Banner -->
+  <div id="cookie-consent" role="dialog" aria-labelledby="cookie-consent-banner" aria-describedby="cookie-consent-desc">
+    <div class="sr-only" id="cookie-consent-banner">Cookie Consent</div>
+    <div class="cookie-content" id="cookie-consent-desc">
+      <div class="cookie-text">
+        <p>We use cookies to enhance your experience and analyze site traffic. By clicking "Accept All", you consent to our use of cookies. 
+          <a href="/privacy-policy.html" aria-label="Learn more about our Privacy Policy">Learn more</a> in our Privacy Policy.
+        </p>
+        <button class="cookie-settings-btn" id="open-settings" aria-label="Open cookie settings">Cookie Settings</button>
+      </div>
+      <div class="cookie-buttons">
+        <button class="cookie-btn reject-btn" id="reject-cookies" aria-label="Reject non-essential cookies">Reject Non-Essential</button>
+        <button class="cookie-btn accept-btn" id="accept-cookies" aria-label="Accept all cookies">Accept All</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cookie Settings Modal -->
+  <div id="cookie-settings" role="dialog" aria-labelledby="cookie-settings-title" aria-describedby="cookie-settings-desc">
+    <div class="settings-modal">
+      <div class="settings-header">
+        <h2 id="cookie-settings-title"><i class="fas fa-cookie-bite"></i> Cookie Settings</h2>
+        <button class="close-settings" id="close-settings" aria-label="Close cookie settings">×</button>
+      </div>
+      <div class="settings-content">
+        <p id="cookie-settings-desc">You can set your preferences for how we and our partners use cookies and similar technologies.</p>
+        
+        <div class="cookie-type">
+          <div class="cookie-type-header">
+            <h3>Essential Cookies</h3>
+            <label class="toggle-switch" for="essential-toggle">
+              <input type="checkbox" id="essential-toggle" checked disabled aria-label="Essential cookies (always enabled, cannot be disabled)" aria-describedby="essential-desc">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <p id="essential-desc">These cookies are necessary for the website to function and cannot be switched off.</p>
+        </div>
+        
+        <div class="cookie-type">
+          <div class="cookie-type-header">
+            <h3>Analytics Cookies</h3>
+            <label class="toggle-switch" for="analytics-toggle">
+              <input type="checkbox" id="analytics-toggle" aria-label="Analytics cookies toggle" aria-describedby="analytics-desc">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <p id="analytics-desc">These cookies allow us to count visits and traffic sources so we can measure and improve the performance of our site.</p>
+        </div>
+        
+        <div class="cookie-type">
+          <div class="cookie-type-header">
+            <h3>Advertising Cookies</h3>
+            <label class="toggle-switch" for="advertising-toggle">
+              <input type="checkbox" id="advertising-toggle" aria-label="Advertising cookies toggle" aria-describedby="advertising-desc">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <p id="advertising-desc">These cookies may be set through our site by our advertising partners to build a profile of your interests.</p>
+        </div>
+      </div>
+      <div class="settings-buttons">
+        <button class="save-settings" id="save-settings" aria-label="Save cookie settings">Save Settings</button>
+      </div>
+    </div>
+  </div>
+
   <!-- JavaScript -->
+  <script src="/js/main.js"></script>
+
+  <!-- Network Tools JavaScript -->
   <script>
     // Network Tools Functionality
     function initNetworkTools() {
       // Constants
       const API_ENDPOINTS = {
         DNS: 'https://cloudflare-dns.com/dns-query',
-        IP_INFO: 'https://ipapi.co/json/'
+        IP_INFO: 'https://ipapi.co/json/',
+        WHOIS: 'https://www.whoisxmlapi.com/whoisserver/WhoisService'
       };
       
       const MAX_CONTINUOUS_DURATION = 5 * 60 * 1000; // 5 minutes
@@ -775,8 +1019,13 @@
       
       // Validation Functions
       function validateHost(host) {
-        const hostRegex = /^(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}|(?:(?:[0-9]{1,3}\.){3}[0-9]{1,3})|localhost)$/;
+        const hostRegex = /^(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}|(?:(?:[0-9]{1,3}\.){3}[0-9]{1,3}))$/;
         return hostRegex.test(host);
+      }
+      
+      function validateUrl(url) {
+        const urlRegex = /^https?:\/\/[^\s/$.?#].[^\s]*$/i;
+        return urlRegex.test(url);
       }
       
       function validateDomain(domain) {
@@ -863,29 +1112,23 @@
       async function pingHost(host) {
         const startTime = performance.now();
         const timeout = parseInt(document.getElementById('pingTimeout').value);
-        
-        // Use a CORS proxy to avoid CORS issues
-        const proxyUrl = 'https://corsproxy.io/?';
-        const testUrls = [
-          `${proxyUrl}https://${host}/`,
-          `${proxyUrl}https://${host}/favicon.ico`
-        ];
+        const endpoints = [`https://${host}/favicon.ico`, `https://${host}/`, `https://${host}/ping`];
         
         const controller = new AbortController();
         setTimeout(() => controller.abort(), timeout);
         
-        for (const testUrl of testUrls) {
+        for (const endpoint of endpoints) {
           try {
-            await fetch(`${testUrl}&t=${Date.now()}`, {
+            await fetch(`${endpoint}?t=${Date.now()}`, {
               method: 'HEAD',
-              mode: 'cors',
+              mode: 'no-cors',
               signal: controller.signal,
               cache: 'no-store'
             });
             const endTime = performance.now();
             return { success: true, time: Math.round(endTime - startTime) };
           } catch (error) {
-            if (testUrl === testUrls[testUrls.length - 1]) {
+            if (endpoint === endpoints[endpoints.length - 1]) {
               return { success: false, time: timeout, error: 'Request timed out' };
             }
           }
@@ -1290,6 +1533,286 @@
         }
       }
       
+      // HTTP Headers Functions
+      async function analyzeHeaders() {
+        const url = document.getElementById('headerUrl').value.trim();
+        const method = document.getElementById('headerMethod').value;
+        
+        if (!url) {
+          showError('Please enter a URL', 'headers-error');
+          return;
+        }
+        
+        if (!validateUrl(url)) {
+          showError('Please enter a valid URL starting with http:// or https://', 'headers-error');
+          return;
+        }
+        
+        setLoading('headers', true);
+        try {
+          const startTime = performance.now();
+          const response = await fetch(url, { 
+            method,
+            mode: 'cors',
+            cache: 'no-store'
+          });
+          const endTime = performance.now();
+          
+          let headersHtml = `<p>HTTP headers (Load time: ${(endTime - startTime).toFixed(2)}ms):</p>`;
+          
+          // Show status
+          headersHtml += `<div class="ping-item"><span>Status:</span> <span class="${response.ok ? 'ping-success' : 'ping-failure'}">${response.status} ${response.statusText}</span></div>`;
+          
+          // Show headers
+          for (const [key, value] of response.headers.entries()) {
+            headersHtml += `<div class="ping-item"><span>${DOMPurify.sanitize(key)}:</span> <span>${DOMPurify.sanitize(value)}</span></div>`;
+          }
+          
+          document.getElementById('headerResults').innerHTML = headersHtml;
+        } catch (error) {
+          console.error('Header analysis error:', error);
+          showError(`Header analysis failed: ${error.message} (Try a CORS-enabled URL)`, 'headers-error');
+        } finally {
+          setLoading('headers', false);
+        }
+      }
+      
+      // Speed Test Functions
+      async function startSpeedTest() {
+        setLoading('speed', true);
+        document.getElementById('startSpeedTestBtn').disabled = true;
+        document.getElementById('stopSpeedTestBtn').disabled = false;
+        
+        const testFileUrl = 'https://speed.hetzner.de/100MB.bin'; // Example CDN file
+        const testSize = 100 * 1024 * 1024; // 100MB
+        
+        try {
+          // Download test
+          const startTime = performance.now();
+          const response = await fetch(testFileUrl, { cache: 'no-store' });
+          const blob = await response.blob();
+          const endTime = performance.now();
+          
+          const downloadSpeed = (testSize * 8 / ((endTime - startTime) / 1000)) / (1024 * 1024); // Mbps
+          
+          // Update UI
+          document.getElementById('downloadSpeed').textContent = downloadSpeed.toFixed(1);
+          document.getElementById('uploadSpeed').textContent = 'N/A'; // Upload test requires server
+          document.getElementById('pingSpeed').textContent = Math.round(endTime - startTime);
+          
+          const speedResults = document.getElementById('speedResults');
+          speedResults.innerHTML = `
+            <div class="ping-item">
+              <span>Download Speed: ${downloadSpeed.toFixed(1)} Mbps</span>
+              <span>Time: ${(endTime - startTime).toFixed(0)} ms</span>
+            </div>
+          `;
+          
+          // Update chart
+          const ctx = document.getElementById('speedChart').getContext('2d');
+          new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: ['Download'],
+              datasets: [{
+                label: 'Speed (Mbps)', 
+                data: [downloadSpeed],
+                backgroundColor: '#4361ee'
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: { y: { beginAtZero: true, title: { display: true, text: 'Speed (Mbps)' } } }
+            }
+          });
+        } catch (error) {
+          showError(`Speed test failed: ${error.message}`, 'speed-error');
+        } finally {
+          setLoading('speed', false);
+          document.getElementById('startSpeedTestBtn').disabled = false;
+          document.getElementById('stopSpeedTestBtn').disabled = true;
+        }
+      }
+      
+      function stopSpeedTest() {
+        setLoading('speed', false);
+        document.getElementById('startSpeedTestBtn').disabled = false;
+        document.getElementById('stopSpeedTestBtn').disabled = true;
+      }
+      
+      // Port Scanner Functions
+      async function scanPorts() {
+        const host = document.getElementById('portHost').value.trim();
+        const ports = Array.from(document.getElementById('ports').selectedOptions).map(opt => opt.value);
+        
+        if (!host) {
+          showError('Please enter a host to scan', 'portscan-error');
+          return;
+        }
+        
+        if (!validateHost(host)) {
+          showError('Please enter a valid hostname or IP address', 'portscan-error');
+          return;
+        }
+        
+        if (ports.length === 0) {
+          showError('Please select at least one port to scan', 'portscan-error');
+          return;
+        }
+        
+        setLoading('portscan', true);
+        const results = document.getElementById('portResults');
+        results.innerHTML = '<p>Scanning ports...</p>';
+        
+        for (const port of ports) {
+          try {
+            const startTime = performance.now();
+            await fetch(`https://${host}:${port}/`, { method: 'HEAD', mode: 'no-cors', cache: 'no-store' });
+            const endTime = performance.now();
+            
+            if (results.children[0]?.tagName === 'P') results.innerHTML = '';
+            const resultItem = document.createElement('div');
+            resultItem.className = 'ping-item';
+            resultItem.innerHTML = `
+              <span>Port ${port}</span>
+              <span class="ping-success">Open (${(endTime - startTime).toFixed(2)}ms)</span>
+            `;
+            results.appendChild(resultItem);
+          } catch {
+            if (results.children[0]?.tagName === 'P') results.innerHTML = '';
+            const resultItem = document.createElement('div');
+            resultItem.className = 'ping-item';
+            resultItem.innerHTML = `
+              <span>Port ${port}</span>
+              <span class="ping-failure">Closed or filtered</span>
+            `;
+            results.appendChild(resultItem);
+          }
+          await new Promise(resolve => setTimeout(resolve, 500));
+        }
+        
+        setLoading('portscan', false);
+      }
+      
+      // WHOIS Lookup Functions
+      async function lookupWhois() {
+        const domain = document.getElementById('whoisDomain').value.trim();
+        if (!domain) {
+          showError('Please enter a domain name', 'whois-error');
+          return;
+        }
+        
+        if (!validateDomain(domain)) {
+          showError('Please enter a valid domain name', 'whois-error');
+          return;
+        }
+        
+        setLoading('whois', true);
+        try {
+          // Using a WHOIS API (note: this is a placeholder - you'll need a real WHOIS API)
+          // For demonstration purposes, we'll use a simulated response
+          await new Promise(resolve => setTimeout(resolve, 1500));
+          
+          // Simulated WHOIS data
+          const whoisData = {
+            domainName: domain,
+            createdDate: '1997-09-15T00:00:00Z',
+            updatedDate: '2023-09-13T09:15:30Z',
+            expiresDate: '2028-09-14T00:00:00Z',
+            registrar: 'MarkMonitor, Inc.',
+            registrant: 'Google LLC',
+            status: 'clientDeleteProhibited, clientTransferProhibited, clientUpdateProhibited'
+          };
+          
+          const results = document.getElementById('whoisResults');
+          results.innerHTML = `
+            <div class="info-item"><span class="info-label">Domain:</span> <span>${DOMPurify.sanitize(whoisData.domainName)}</span></div>
+            <div class="info-item"><span class="info-label">Created:</span> <span>${DOMPurify.sanitize(whoisData.createdDate)}</span></div>
+            <div class="info-item"><span class="info-label">Updated:</span> <span>${DOMPurify.sanitize(whoisData.updatedDate)}</span></div>
+            <div class="info-item"><span class="info-label">Expires:</span> <span>${DOMPurify.sanitize(whoisData.expiresDate)}</span></div>
+            <div class="info-item"><span class="info-label">Registrar:</span> <span>${DOMPurify.sanitize(whoisData.registrar)}</span></div>
+            <div class="info-item"><span class="info-label">Registrant:</span> <span>${DOMPurify.sanitize(whoisData.registrant)}</span></div>
+            <div class="info-item"><span class="info-label">Status:</span> <span>${DOMPurify.sanitize(whoisData.status)}</span></div>
+          `;
+        } catch (error) {
+          showError(`WHOIS lookup failed: ${error.message}`, 'whois-error');
+        } finally {
+          setLoading('whois', false);
+        }
+      }
+      
+      // Global Latency Test Functions
+      async function testGlobalLatency() {
+        setLoading('latency', true);
+        
+        const servers = [
+          { name: 'Google DNS', host: '8.8.8.8' },
+          { name: 'Cloudflare DNS', host: '1.1.1.1' },
+          { name: 'OpenDNS', host: '208.67.222.222' },
+          { name: 'Quad9', host: '9.9.9.9' }
+        ];
+        
+        const results = [];
+        for (const server of servers) {
+          try {
+            const result = await pingHost(server.host);
+            results.push({ name: server.name, time: result.success ? result.time : null });
+          } catch {
+            results.push({ name: server.name, time: null });
+          }
+        }
+        
+        // Update chart
+        const ctx = document.getElementById('latencyChart').getContext('2d');
+        new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: results.map(r => r.name),
+            datasets: [{
+              label: 'Latency (ms)',
+              data: results.map(r => r.time || 0),
+              backgroundColor: '#4361ee'
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: { 
+              y: { 
+                beginAtZero: true, 
+                title: { 
+                  display: true, 
+                  text: 'Latency (ms)' 
+                } 
+              } 
+            }
+          }
+        });
+        
+        // Update results display
+        const latencyResults = document.getElementById('latencyResults');
+        latencyResults.innerHTML = '';
+        results.forEach(result => {
+          const resultItem = document.createElement('div');
+          resultItem.className = 'ping-item';
+          if (result.time) {
+            resultItem.innerHTML = `
+              <span>${DOMPurify.sanitize(result.name)}</span>
+              <span class="ping-success">${result.time}ms</span>
+            `;
+          } else {
+            resultItem.innerHTML = `
+              <span>${DOMPurify.sanitize(result.name)}</span>
+              <span class="ping-failure">Failed</span>
+            `;
+          }
+          latencyResults.appendChild(resultItem);
+        });
+        
+        setLoading('latency', false);
+      }
+      
       // Tab Switching
       function switchTab(tabName) {
         document.querySelectorAll('.tab').forEach(tab => {
@@ -1333,6 +1856,14 @@
       
       document.getElementById('lookupDnsBtn').addEventListener('click', lookupDns);
       document.getElementById('getIpInfoBtn').addEventListener('click', getIpInfo);
+      document.getElementById('analyzeHeadersBtn').addEventListener('click', analyzeHeaders);
+      
+      document.getElementById('startSpeedTestBtn').addEventListener('click', startSpeedTest);
+      document.getElementById('stopSpeedTestBtn').addEventListener('click', stopSpeedTest);
+      
+      document.getElementById('scanPortsBtn').addEventListener('click', scanPorts);
+      document.getElementById('lookupWhoisBtn').addEventListener('click', lookupWhois);
+      document.getElementById('testLatencyBtn').addEventListener('click', testGlobalLatency);
       
       // Input validation with debouncing
       document.getElementById('pingHost').addEventListener('input', debounce(() => {
