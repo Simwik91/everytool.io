@@ -58,7 +58,7 @@
   {
     "category": "Network Tools",
     "slug": "network-tools",
-    "description": "Analyze and.",
+    "description": "Check connectivity, speed, and diagnose network issues.",
     "icon": "fas fa-network-wired",
     "url": "/tools/networktools"
   }
