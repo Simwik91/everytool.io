@@ -54,7 +54,7 @@
     "description": "Edit or convert Audio files.",
     "icon": "fas fa-music",
     "url": "/tools/audiotools"
-  }
+  },
   {
     "category": "Network Tools",
     "slug": "network-tools",
