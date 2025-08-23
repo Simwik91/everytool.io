@@ -55,4 +55,11 @@
     "icon": "fas fa-music",
     "url": "/tools/audiotools"
   }
+  {
+    "category": "Network Tools",
+    "slug": "network-tools",
+    "description": "Analyze and.",
+    "icon": "fas fa-network-wired",
+    "url": "/tools/networktools"
+  }
 ]
