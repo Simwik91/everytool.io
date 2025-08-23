@@ -24,10 +24,6 @@
   <!-- DOMPurify for sanitizing output -->
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.5/purify.min.js"></script>
   
-  <!-- Shared CSS -->
-  <link rel="stylesheet" href="/css/styles.css">
-  
-  <!-- Network Tools Specific Styles -->
   <style>
     /* Network Tools Specific Styles */
     :root {
@@ -468,6 +464,15 @@
         text-align: center;
       }
     }
+    
+    .warning {
+      background-color: #fff3cd;
+      border-left: 4px solid #ffc107;
+      color: #856404;
+      padding: 15px;
+      border-radius: var(--border-radius);
+      margin: 20px 0;
+    }
   </style>
 </head>
 <body>
@@ -506,9 +511,6 @@
         </div>
         <div class="tab" data-tab="speed" role="tab" aria-selected="false" tabindex="0">
           <i class="fas fa-tachometer-alt"></i> Speed Test
-        </div>
-        <div class="tab" data-tab="portscan" role="tab" aria-selected="false" tabindex="0">
-          <i class="fas fa-plug"></i> Port Scanner
         </div>
         <div class="tab" data-tab="whois" role="tab" aria-selected="false" tabindex="0">
           <i class="fas fa-database"></i> WHOIS Lookup
@@ -763,10 +765,14 @@
         <h2><i class="fas fa-code"></i> HTTP Headers Analyzer</h2>
         <p><i>Check the HTTP headers returned by a web server.</i></p>
         
+        <div class="warning">
+          <i class="fas fa-exclamation-triangle"></i> Note: Due to browser security restrictions (CORS), this tool can only analyze headers from servers that explicitly allow cross-origin requests.
+        </div>
+        
         <div class="tool-row">
           <div class="tool-col">
             <label for="headerUrl">URL:</label>
-            <input type="text" id="headerUrl" placeholder="https://example.com" value="https://google.com">
+            <input type="text" id="headerUrl" placeholder="https://example.com" value="https://httpbin.org/headers">
           </div>
           <div class="tool-col">
             <label for="headerMethod">HTTP Method:</label>
@@ -797,7 +803,7 @@
       <!-- Speed Test Tool -->
       <div class="tab-content" id="speed-tab" role="tabpanel">
         <h2><i class="fas fa-tachometer-alt"></i> Network Speed Test</h2>
-        <p><i>Test your internet connection speed (download and upload).</i></p>
+        <p><i>Test your internet connection speed (download).</i></p>
         
         <div class="btn-group">
           <button id="startSpeedTestBtn">
@@ -821,7 +827,7 @@
             <div class="stat-label">Download (Mbps)</div>
           </div>
           <div class="stat-card">
-            <div class="stat-value" id="uploadSpeed">0</div>
+            <div class="stat-value" id="uploadSpeed">N/A</div>
             <div class="stat-label">Upload (Mbps)</div>
           </div>
           <div class="stat-card">
@@ -837,39 +843,6 @@
         <label>Speed Test Results:</label>
         <div id="speedResults" style="background: #f8f9ff; border-radius: var(--border-radius); padding: 15px; max-height: 300px; overflow-y: auto;">
           <p>Speed test results will appear here...</p>
-        </div>
-      </div>
-
-      <!-- Port Scanner Tool -->
-      <div class="tab-content" id="portscan-tab" role="tabpanel">
-        <h2><i class="fas fa-plug"></i> Port Scanner</h2>
-        <p><i>Check if common ports are open on a host.</i></p>
-        <div class="tool-row">
-          <div class="tool-col">
-            <label for="portHost">Hostname or IP:</label>
-            <input type="text" id="portHost" placeholder="example.com" value="google.com">
-          </div>
-          <div class="tool-col">
-            <label for="ports">Ports to Scan:</label>
-            <select id="ports" multiple>
-              <option value="80">80 (HTTP)</option>
-              <option value="443">443 (HTTPS)</option>
-              <option value="22">22 (SSH)</option>
-              <option value="21">21 (FTP)</option>
-              <option value="25">25 (SMTP)</option>
-              <option value="53">53 (DNS)</option>
-            </select>
-          </div>
-        </div>
-        <button id="scanPortsBtn"><i class="fas fa-search"></i> Scan Ports</button>
-        <div class="loading" id="portscanLoading">
-          <div class="loading-spinner"></div>
-          <p><span class="sr-only">Loading, please wait...</span>Scanning ports...</p>
-        </div>
-        <div class="error" id="portscan-error"></div>
-        <label>Port Scan Results:</label>
-        <div id="portResults" style="background: #f8f9ff; border-radius: var(--border-radius); padding: 15px; max-height: 400px; overflow-y: auto;">
-          <p>Port scan results will appear here...</p>
         </div>
       </div>
 
@@ -988,9 +961,6 @@
   </div>
 
   <!-- JavaScript -->
-  <script src="/js/main.js"></script>
-
-  <!-- Network Tools JavaScript -->
   <script>
     // Network Tools Functionality
     function initNetworkTools() {
@@ -1112,26 +1082,27 @@
       async function pingHost(host) {
         const startTime = performance.now();
         const timeout = parseInt(document.getElementById('pingTimeout').value);
-        const endpoints = [`https://${host}/favicon.ico`, `https://${host}/`, `https://${host}/ping`];
+        
+        // Use a random parameter to avoid caching
+        const randomParam = `?t=${Date.now()}`;
+        const testUrl = `https://${host}/${randomParam}`;
         
         const controller = new AbortController();
-        setTimeout(() => controller.abort(), timeout);
+        const timeoutId = setTimeout(() => controller.abort(), timeout);
         
-        for (const endpoint of endpoints) {
-          try {
-            await fetch(`${endpoint}?t=${Date.now()}`, {
-              method: 'HEAD',
-              mode: 'no-cors',
-              signal: controller.signal,
-              cache: 'no-store'
-            });
-            const endTime = performance.now();
-            return { success: true, time: Math.round(endTime - startTime) };
-          } catch (error) {
-            if (endpoint === endpoints[endpoints.length - 1]) {
-              return { success: false, time: timeout, error: 'Request timed out' };
-            }
-          }
+        try {
+          await fetch(testUrl, {
+            method: 'HEAD',
+            mode: 'no-cors',
+            signal: controller.signal,
+            cache: 'no-store'
+          });
+          const endTime = performance.now();
+          clearTimeout(timeoutId);
+          return { success: true, time: Math.round(endTime - startTime) };
+        } catch (error) {
+          clearTimeout(timeoutId);
+          return { success: false, time: timeout, error: 'Request timed out or blocked by browser' };
         }
       }
       
@@ -1571,7 +1542,7 @@
           document.getElementById('headerResults').innerHTML = headersHtml;
         } catch (error) {
           console.error('Header analysis error:', error);
-          showError(`Header analysis failed: ${error.message} (Try a CORS-enabled URL)`, 'headers-error');
+          showError(`Header analysis failed: ${error.message} (Try a CORS-enabled URL like https://httpbin.org/headers)`, 'headers-error');
         } finally {
           setLoading('headers', false);
         }
@@ -1583,17 +1554,38 @@
         document.getElementById('startSpeedTestBtn').disabled = true;
         document.getElementById('stopSpeedTestBtn').disabled = false;
         
-        const testFileUrl = 'https://speed.hetzner.de/100MB.bin'; // Example CDN file
-        const testSize = 100 * 1024 * 1024; // 100MB
+        // Use a reliable test file with valid certificate
+        const testFileUrl = 'https://proof.ovh.net/files/10Mb.dat';
+        const testSize = 10 * 1024 * 1024; // 10MB
         
         try {
           // Download test
           const startTime = performance.now();
           const response = await fetch(testFileUrl, { cache: 'no-store' });
-          const blob = await response.blob();
+          const reader = response.body.getReader();
+          let receivedLength = 0;
+          const chunks = [];
+          
+          while(true) {
+            const {done, value} = await reader.read();
+            
+            if (done) {
+              break;
+            }
+            
+            chunks.push(value);
+            receivedLength += value.length;
+            
+            // Stop after 10MB to keep test short
+            if (receivedLength >= testSize) {
+              reader.cancel();
+              break;
+            }
+          }
+          
           const endTime = performance.now();
           
-          const downloadSpeed = (testSize * 8 / ((endTime - startTime) / 1000)) / (1024 * 1024); // Mbps
+          const downloadSpeed = (receivedLength * 8 / ((endTime - startTime) / 1000)) / (1024 * 1024); // Mbps
           
           // Update UI
           document.getElementById('downloadSpeed').textContent = downloadSpeed.toFixed(1);
@@ -1604,6 +1596,7 @@
           speedResults.innerHTML = `
             <div class="ping-item">
               <span>Download Speed: ${downloadSpeed.toFixed(1)} Mbps</span>
+              <span>Downloaded: ${(receivedLength / (1024 * 1024)).toFixed(2)} MB</span>
               <span>Time: ${(endTime - startTime).toFixed(0)} ms</span>
             </div>
           `;
@@ -1639,60 +1632,6 @@
         setLoading('speed', false);
         document.getElementById('startSpeedTestBtn').disabled = false;
         document.getElementById('stopSpeedTestBtn').disabled = true;
-      }
-      
-      // Port Scanner Functions
-      async function scanPorts() {
-        const host = document.getElementById('portHost').value.trim();
-        const ports = Array.from(document.getElementById('ports').selectedOptions).map(opt => opt.value);
-        
-        if (!host) {
-          showError('Please enter a host to scan', 'portscan-error');
-          return;
-        }
-        
-        if (!validateHost(host)) {
-          showError('Please enter a valid hostname or IP address', 'portscan-error');
-          return;
-        }
-        
-        if (ports.length === 0) {
-          showError('Please select at least one port to scan', 'portscan-error');
-          return;
-        }
-        
-        setLoading('portscan', true);
-        const results = document.getElementById('portResults');
-        results.innerHTML = '<p>Scanning ports...</p>';
-        
-        for (const port of ports) {
-          try {
-            const startTime = performance.now();
-            await fetch(`https://${host}:${port}/`, { method: 'HEAD', mode: 'no-cors', cache: 'no-store' });
-            const endTime = performance.now();
-            
-            if (results.children[0]?.tagName === 'P') results.innerHTML = '';
-            const resultItem = document.createElement('div');
-            resultItem.className = 'ping-item';
-            resultItem.innerHTML = `
-              <span>Port ${port}</span>
-              <span class="ping-success">Open (${(endTime - startTime).toFixed(2)}ms)</span>
-            `;
-            results.appendChild(resultItem);
-          } catch {
-            if (results.children[0]?.tagName === 'P') results.innerHTML = '';
-            const resultItem = document.createElement('div');
-            resultItem.className = 'ping-item';
-            resultItem.innerHTML = `
-              <span>Port ${port}</span>
-              <span class="ping-failure">Closed or filtered</span>
-            `;
-            results.appendChild(resultItem);
-          }
-          await new Promise(resolve => setTimeout(resolve, 500));
-        }
-        
-        setLoading('portscan', false);
       }
       
       // WHOIS Lookup Functions
@@ -1746,18 +1685,25 @@
       async function testGlobalLatency() {
         setLoading('latency', true);
         
+        // Use domain names instead of IP addresses to avoid CORS issues
         const servers = [
-          { name: 'Google DNS', host: '8.8.8.8' },
-          { name: 'Cloudflare DNS', host: '1.1.1.1' },
-          { name: 'OpenDNS', host: '208.67.222.222' },
-          { name: 'Quad9', host: '9.9.9.9' }
+          { name: 'Google DNS', host: 'dns.google.com' },
+          { name: 'Cloudflare DNS', host: 'one.one.one.one' },
+          { name: 'OpenDNS', host: 'domainhelp.opendns.com' },
+          { name: 'Quad9', host: 'quad9.net' }
         ];
         
         const results = [];
         for (const server of servers) {
           try {
-            const result = await pingHost(server.host);
-            results.push({ name: server.name, time: result.success ? result.time : null });
+            const startTime = performance.now();
+            await fetch(`https://${server.host}/`, { 
+              method: 'HEAD', 
+              mode: 'no-cors',
+              cache: 'no-store'
+            });
+            const endTime = performance.now();
+            results.push({ name: server.name, time: Math.round(endTime - startTime) });
           } catch {
             results.push({ name: server.name, time: null });
           }
@@ -1861,7 +1807,6 @@
       document.getElementById('startSpeedTestBtn').addEventListener('click', startSpeedTest);
       document.getElementById('stopSpeedTestBtn').addEventListener('click', stopSpeedTest);
       
-      document.getElementById('scanPortsBtn').addEventListener('click', scanPorts);
       document.getElementById('lookupWhoisBtn').addEventListener('click', lookupWhois);
       document.getElementById('testLatencyBtn').addEventListener('click', testGlobalLatency);
       
