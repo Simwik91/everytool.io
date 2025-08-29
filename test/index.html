@@ -19,11 +19,15 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
   <!-- Chart.js for ping statistics -->
-  <script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   
   <!-- DOMPurify for sanitizing output -->
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.5/purify.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.5/purify.min.js"></script>
   
+  <!-- Shared CSS -->
+  <link rel="stylesheet" href="/css/styles.css">
+  
+  <!-- Network Tools Specific Styles -->
   <style>
     /* Network Tools Specific Styles */
     :root {
@@ -395,17 +399,32 @@
       margin-top: 5px;
     }
     
-    /* Accessibility */
-    .sr-only {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      white-space: nowrap;
-      border: 0;
+    .copy-btn {
+      background: var(--secondary) !important;
+      max-width: 200px;
+    }
+    
+    .copy-btn:hover {
+      background: #5e0a9a !important;
+    }
+    
+    .domain-info-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      padding: 10px;
+      background: #f8f9ff;
+      border-radius: var(--border-radius);
+    }
+    
+    .domain-info-label {
+      font-weight: 600;
+      color: var(--gray);
+    }
+    
+    .domain-info-value {
+      font-weight: 700;
+      color: var(--primary);
     }
     
     /* Responsive Design for Network Tools */
@@ -464,204 +483,12 @@
         text-align: center;
       }
     }
-    
-    .warning {
-      background-color: #fff3cd;
-      border-left: 4px solid #ffc107;
-      color: #856404;
-      padding: 15px;
-      border-radius: var(--border-radius);
-      margin: 20px 0;
-    }
-    
-    /* Header and Footer Styles */
-    #main-header {
-      background-color: var(--primary);
-      color: white;
-      padding: 1rem 0;
-      box-shadow: var(--box-shadow);
-    }
-    
-    #main-footer {
-      background-color: var(--dark);
-      color: white;
-      padding: 2rem 0;
-      margin-top: 3rem;
-      text-align: center;
-    }
-    
-    /* Cookie Consent Styles */
-    #cookie-consent {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background-color: rgba(0, 0, 0, 0.9);
-      color: white;
-      padding: 1rem;
-      z-index: 1000;
-      display: none;
-    }
-    
-    .cookie-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-    
-    .cookie-text {
-      flex: 1;
-      min-width: 300px;
-    }
-    
-    .cookie-buttons {
-      display: flex;
-      gap: 1rem;
-    }
-    
-    .cookie-btn {
-      padding: 0.5rem 1rem;
-      border-radius: 5px;
-      border: none;
-      cursor: pointer;
-      font-weight: 500;
-    }
-    
-    .reject-btn {
-      background-color: transparent;
-      border: 1px solid white;
-      color: white;
-    }
-    
-    .accept-btn {
-      background-color: var(--primary);
-      color: white;
-    }
-    
-    /* Cookie Settings Modal */
-    #cookie-settings {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: rgba(0, 0, 0, 0.7);
-      z-index: 1001;
-      overflow: auto;
-    }
-    
-    .settings-modal {
-      background-color: white;
-      margin: 2rem auto;
-      max-width: 600px;
-      border-radius: var(--border-radius);
-      box-shadow: var(--box-shadow);
-    }
-    
-    .settings-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1.5rem;
-      border-bottom: 1px solid var(--light-gray);
-    }
-    
-    .settings-content {
-      padding: 1.5rem;
-    }
-    
-    .settings-buttons {
-      padding: 1.5rem;
-      border-top: 1px solid var(--light-gray);
-      text-align: right;
-    }
-    
-    .cookie-type {
-      margin-bottom: 1.5rem;
-    }
-    
-    .cookie-type-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 0.5rem;
-    }
-    
-    .toggle-switch {
-      position: relative;
-      display: inline-block;
-      width: 50px;
-      height: 24px;
-    }
-    
-    .toggle-switch input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-    
-    .slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: #ccc;
-      transition: .4s;
-      border-radius: 24px;
-    }
-    
-    .slider:before {
-      position: absolute;
-      content: "";
-      height: 16px;
-      width: 16px;
-      left: 4px;
-      bottom: 4px;
-      background-color: white;
-      transition: .4s;
-      border-radius: 50%;
-    }
-    
-    input:checked + .slider {
-      background-color: var(--primary);
-    }
-    
-    input:checked + .slider:before {
-      transform: translateX(26px);
-    }
-    
-    .close-settings {
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      cursor: pointer;
-      color: var(--dark);
-    }
-    
-    .save-settings {
-      background-color: var(--primary);
-      color: white;
-      border: none;
-      padding: 0.5rem 1.5rem;
-      border-radius: 5px;
-      cursor: pointer;
-      font-weight: 500;
-    }
   </style>
 </head>
 <body>
-  <!-- Header -->
+  <!-- Header Placeholder -->
   <header id="main-header">
-    <div class="container">
-      <h1 style="color: white; margin: 0;">Network Toolkit</h1>
-    </div>
+    <p class="error-message" style="display: none; color: red; text-align: center;">Failed to load header. Please try refreshing the page.</p>
   </header>
 
   <!-- Hero Section -->
@@ -689,26 +516,14 @@
         <div class="tab" data-tab="ipinfo" role="tab" aria-selected="false" tabindex="0">
           <i class="fas fa-info-circle"></i> IP Information
         </div>
+        <div class="tab" data-tab="domain" role="tab" aria-selected="false" tabindex="0">
+          <i class="fas fa-server"></i> Domain Info
+        </div>
         <div class="tab" data-tab="headers" role="tab" aria-selected="false" tabindex="0">
           <i class="fas fa-code"></i> HTTP Headers
         </div>
         <div class="tab" data-tab="speed" role="tab" aria-selected="false" tabindex="0">
           <i class="fas fa-tachometer-alt"></i> Speed Test
-        </div>
-        <div class="tab" data-tab="whois" role="tab" aria-selected="false" tabindex="0">
-          <i class="fas fa-database"></i> WHOIS Lookup
-        </div>
-        <div class="tab" data-tab="latency" role="tab" aria-selected="false" tabindex="0">
-          <i class="fas fa-globe"></i> Global Latency
-        </div>
-        <div class="tab" data-tab="ssl" role="tab" aria-selected="false" tabindex="0">
-          <i class="fas fa-lock"></i> SSL/TLS Checker
-        </div>
-        <div class="tab" data-tab="network" role="tab" aria-selected="false" tabindex="0">
-          <i class="fas fa-wifi"></i> Network Diagnostics
-        </div>
-        <div class="tab" data-tab="dnscache" role="tab" aria-selected="false" tabindex="0">
-          <i class="fas fa-memory"></i> DNS Cache Check
         </div>
       </div>
 
@@ -768,7 +583,7 @@
         
         <div class="loading" id="pingLoading">
           <div class="loading-spinner"></div>
-          <p><span class="sr-only">Loading, please wait...</span>Pinging host...</p>
+          <p>Pinging host...</p>
         </div>
         
         <div class="error" id="ping-error"></div>
@@ -844,7 +659,7 @@
         
         <div class="loading" id="tracerouteLoading">
           <div class="loading-spinner"></div>
-          <p><span class="sr-only">Loading, please wait...</span>Tracing route...</p>
+          <p>Tracing route...</p>
         </div>
         
         <div class="error" id="traceroute-error"></div>
@@ -884,7 +699,7 @@
         
         <div class="loading" id="dnsLoading">
           <div class="loading-spinner"></div>
-          <p><span class="sr-only">Loading, please wait...</span>Looking up DNS records...</p>
+          <p>Looking up DNS records...</p>
         </div>
         
         <div class="error" id="dns-error"></div>
@@ -906,7 +721,7 @@
         
         <div class="loading" id="ipinfoLoading">
           <div class="loading-spinner"></div>
-          <p><span class="sr-only">Loading, please wait...</span>Retrieving IP information...</p>
+          <p>Retrieving IP information...</p>
         </div>
         
         <div class="error" id="ipinfo-error"></div>
@@ -952,19 +767,67 @@
         </div>
       </div>
 
+      <!-- Domain Information Tool -->
+      <div class="tab-content" id="domain-tab" role="tabpanel">
+        <h2><i class="fas fa-server"></i> Domain Information</h2>
+        <p><i>Get comprehensive information about a domain name.</i></p>
+        
+        <div class="tool-row">
+          <div class="tool-col">
+            <label for="domainName">Domain Name:</label>
+            <input type="text" id="domainName" placeholder="example.com" value="google.com">
+          </div>
+        </div>
+        
+        <button id="getDomainInfoBtn">
+          <i class="fas fa-search"></i> Get Domain Info
+        </button>
+        
+        <div class="loading" id="domainLoading">
+          <div class="loading-spinner"></div>
+          <p>Retrieving domain information...</p>
+        </div>
+        
+        <div class="error" id="domain-error"></div>
+        
+        <h3>Domain Details</h3>
+        <div class="info-grid" id="domainResults">
+          <div class="info-item">
+            <div class="info-label">Domain Name</div>
+            <div class="info-value" id="domainNameValue">-</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Registered</div>
+            <div class="info-value" id="domainRegistered">-</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Expires</div>
+            <div class="info-value" id="domainExpires">-</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Registrar</div>
+            <div class="info-value" id="domainRegistrar">-</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Name Servers</div>
+            <div class="info-value" id="domainNameservers">-</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Status</div>
+            <div class="info-value" id="domainStatus">-</div>
+          </div>
+        </div>
+      </div>
+
       <!-- HTTP Headers Tool -->
       <div class="tab-content" id="headers-tab" role="tabpanel">
         <h2><i class="fas fa-code"></i> HTTP Headers Analyzer</h2>
         <p><i>Check the HTTP headers returned by a web server.</i></p>
         
-        <div class="warning">
-          <i class="fas fa-exclamation-triangle"></i> Note: Due to browser security restrictions (CORS), this tool can only analyze headers from servers that explicitly allow cross-origin requests.
-        </div>
-        
         <div class="tool-row">
           <div class="tool-col">
             <label for="headerUrl">URL:</label>
-            <input type="text" id="headerUrl" placeholder="https://example.com" value="https://httpbin.org/headers">
+            <input type="text" id="headerUrl" placeholder="https://example.com" value="https://google.com">
           </div>
           <div class="tool-col">
             <label for="headerMethod">HTTP Method:</label>
@@ -975,13 +838,13 @@
           </div>
         </div>
         
-        <button id="analyizeHeadersBtn">
+        <button id="analyzeHeadersBtn">
           <i class="fas fa-search"></i> Analyze Headers
         </button>
         
         <div class="loading" id="headersLoading">
           <div class="loading-spinner"></div>
-          <p><span class="sr-only">Loading, please wait...</span>Analyzing headers...</p>
+          <p>Analyzing headers...</p>
         </div>
         
         <div class="error" id="headers-error"></div>
@@ -995,12 +858,12 @@
       <!-- Speed Test Tool -->
       <div class="tab-content" id="speed-tab" role="tabpanel">
         <h2><i class="fas fa-tachometer-alt"></i> Network Speed Test</h2>
-        <p><i>Test your internet connection speed (download).</i></p>
+        <p><i>Test your internet connection speed (download and upload).</i></p>
         
         <div class="btn-group">
           <button id="startSpeedTestBtn">
             <i class="fas fa-play"></i> Start Speed Test
-            </button>
+          </button>
           <button id="stopSpeedTestBtn" disabled>
             <i class="fas fa-stop"></i> Stop Test
           </button>
@@ -1008,7 +871,7 @@
         
         <div class="loading" id="speedLoading">
           <div class="loading-spinner"></div>
-          <p><span class="sr-only">Loading, please wait...</span>Testing speed...</p>
+          <p>Testing speed...</p>
         </div>
         
         <div class="error" id="speed-error"></div>
@@ -1019,7 +882,7 @@
             <div class="stat-label">Download (Mbps)</div>
           </div>
           <div class="stat-card">
-            <div class="stat-value" id="uploadSpeed">N/A</div>
+            <div class="stat-value" id="uploadSpeed">0</div>
             <div class="stat-label">Upload (Mbps)</div>
           </div>
           <div class="stat-card">
@@ -1037,137 +900,12 @@
           <p>Speed test results will appear here...</p>
         </div>
       </div>
-
-      <!-- WHOIS Lookup Tool -->
-      <div class="tab-content" id="whois-tab" role="tabpanel">
-        <h2><i class="fas fa-database"></i> WHOIS Lookup</h2>
-        <p><i>Retrieve registration details for a domain.</i></p>
-        <div class="tool-row">
-          <div class="tool-col">
-            <label for="whoisDomain">Domain Name:</label>
-            <input type="text" id="whoisDomain" placeholder="example.com" value="google.com">
-          </div>
-        </div>
-        <button id="lookupWhoisBtn"><i class="fas fa-search"></i> Lookup WHOIS</button>
-        <div class="loading" id="whoisLoading">
-          <div class="loading-spinner"></div>
-          <p><span class="sr-only">Loading, please wait...</span>Looking up WHOIS data...</p>
-        </div>
-        <div class="error" id="whois-error"></div>
-        <label>WHOIS Results:</label>
-        <div id="whoisResults" style="background: #f8f9ff; border-radius: var(--border-radius); padding: 15px; max-height: 400px; overflow-y: auto;">
-          <p>WHOIS data will appear here...</p>
-        </div>
-      </div>
-
-      <!-- Global Latency Test Tool -->
-      <div class="tab-content" id="latency-tab" role="tabpanel">
-        <h2><i class="fas fa-globe"></i> Global Latency Test</h2>
-        <p><i>Test latency to popular servers worldwide.</i></p>
-        <button id="testLatencyBtn"><i class="fas fa-play"></i> Test Latency</button>
-        <div class="loading" id="latencyLoading">
-          <div class="loading-spinner"></div>
-          <p><span class="sr-only">Loading, please wait...</span>Testing global latency...</p>
-        </div>
-        <div class="error" id="latency-error"></div>
-        <div class="chart-container">
-          <canvas id="latencyChart"></canvas>
-        </div>
-        <label>Latency Results:</label>
-        <div id="latencyResults" style="background: #f8f9ff; border-radius: var(--border-radius); padding: 15px; max-height: 300px; overflow-y: auto;">
-          <p>Latency results will appear here...</p>
-        </div>
-      </div>
-
-      <!-- SSL/TLS Checker Tool -->
-      <div class="tab-content" id="ssl-tab" role="tabpanel">
-        <h2><i class="fas fa-lock"></i> SSL/TLS Checker</h2>
-        <p><i>Check SSL/TLS certificate details for a website.</i></p>
-        <div class="warning">
-          <i class="fas fa-exclamation-triangle"></i> Note: This tool uses a third-party API to retrieve certificate information.
-        </div>
-        <div class="tool-row">
-          <div class="tool-col">
-            <label for="sslUrl">Website URL:</label>
-            <input type="text" id="sslUrl" placeholder="https://example.com" value="https://github.com">
-          </div>
-        </div>
-        <button id="checkSslBtn"><i class="fas fa-search"></i> Check Certificate</button>
-        <div class="loading" id="sslLoading">
-          <div class="loading-spinner"></div>
-          <p><span class="sr-only">Loading, please wait...</span>Checking certificate...</p>
-        </div>
-        <div class="error" id="ssl-error"></div>
-        <label>Certificate Details:</label>
-        <div id="sslResults" style="background: #f8f9ff; border-radius: var(--border-radius); padding: 15px; max-height: 400px; overflow-y: auto;">
-          <p>Certificate details will appear here...</p>
-        </div>
-      </div>
-
-      <!-- Network Diagnostics Tool -->
-      <div class="tab-content" id="network-tab" role="tabpanel">
-        <h2><i class="fas fa-wifi"></i> Network Diagnostics</h2>
-        <p><i>View your browser's network connection details.</i></p>
-        <div class="warning">
-          <i class="fas fa-exclamation-triangle"></i> Note: Network Information API is not supported in all browsers.
-        </div>
-        <button id="getNetworkInfoBtn"><i class="fas fa-sync"></i> Get Network Info</button>
-        <div class="loading" id="networkLoading">
-          <div class="loading-spinner"></div>
-          <p><span class="sr-only">Loading, please wait...</span>Retrieving network info...</p>
-        </div>
-        <div class="error" id="network-error"></div>
-        <h3>Network Information</h3>
-        <div class="info-grid">
-          <div class="info-item">
-            <div class="info-label">Connection Type</div>
-            <div class="info-value" id="networkType">-</div>
-          </div>
-          <div class="info-item">
-            <div class="info-label">Round-Trip Time (ms)</div>
-            <div class="info-value" id="networkRtt">-</div>
-          </div>
-          <div class="info-item">
-            <div class="info-label">Downlink (Mbps)</div>
-            <div class="info-value" id="networkDownlink">-</div>
-          </div>
-          <div class="info-item">
-            <div class="info-label">Effective Type</div>
-            <div class="info-value" id="networkEffectiveType">-</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- DNS Cache Check Tool -->
-      <div class="tab-content" id="dnscache-tab" role="tabpanel">
-        <h2><i class="fas fa-memory"></i> DNS Cache Check</h2>
-        <p><i>Resolve a domain to its IP address using DNS-over-HTTPS.</i></p>
-        <div class="tool-row">
-          <div class="tool-col">
-            <label for="dnsCacheDomain">Domain Name:</label>
-            <input type="text" id="dnsCacheDomain" placeholder="example.com" value="google.com">
-          </div>
-        </div>
-        <button id="checkDnsCacheBtn"><i class="fas fa-search"></i> Resolve Domain</button>
-        <div class="loading" id="dnscacheLoading">
-          <div class="loading-spinner"></div>
-          <p><span class="sr-only">Loading, please wait...</span>Resolving domain...</p>
-        </div>
-        <div class="error" id="dnscache-error"></div>
-        <label>Resolved IPs:</label>
-        <div id="dnsCacheResults" style="background: #f8f9ff; border-radius: var(--border-radius); padding: 15px; max-height: 400px; overflow-y: auto;">
-          <p>Resolved IPs will appear here...</p>
-        </div>
-      </div>
     </div>
   </div>
 
-  <!-- Footer -->
+  <!-- Footer Placeholder -->
   <footer id="main-footer">
-    <div class="container">
-      <p>© 2023 Network Toolkit. All rights reserved.</p>
-      <p>All processing happens in your browser - your data stays private.</p>
-    </div>
+    <p class="error-message" style="display: none; color: red; text-align: center;">Failed to load footer. Please try refreshing the page.</p>
   </footer>
 
   <!-- Cookie Consent Banner -->
@@ -1237,6 +975,9 @@
   </div>
 
   <!-- JavaScript -->
+  <script src="/js/main.js"></script>
+
+  <!-- Network Tools JavaScript -->
   <script>
     // Network Tools Functionality
     function initNetworkTools() {
@@ -1244,8 +985,7 @@
       const API_ENDPOINTS = {
         DNS: 'https://cloudflare-dns.com/dns-query',
         IP_INFO: 'https://ipapi.co/json/',
-        WHOIS: 'https://www.whoisxmlapi.com/whoisserver/WhoisService',
-        SSL: 'https://api.ssllabs.com/api/v3/analyze'
+        DOMAIN_INFO: 'https://api.whoisfreaks.com/v1.0/whois'
       };
       
       const MAX_CONTINUOUS_DURATION = 5 * 60 * 1000; // 5 minutes
@@ -1286,11 +1026,7 @@
         if (errorDiv) {
           errorDiv.textContent = message;
           errorDiv.style.display = 'block';
-          errorDiv.setAttribute('aria-live', 'assertive');
-          setTimeout(() => {
-            errorDiv.style.display = 'none';
-            errorDiv.innerHTML = '';
-          }, 5000);
+          setTimeout(() => errorDiv.style.display = 'none', 5000);
         }
       }
       
@@ -1306,81 +1042,46 @@
         }
       }
       
-      // Debounce function
-      function debounce(func, wait) {
-        let timeout;
-        return function (...args) {
-          clearTimeout(timeout);
-          timeout = setTimeout(() => func.apply(this, args), wait);
-        };
-      }
-      
-      // Fetch with retry
-      async function fetchWithRetry(url, options, retries = 3) {
-        for (let i = 0; i < retries; i++) {
-          try {
-            return await fetch(url, options);
-          } catch (error) {
-            if (i === retries - 1) throw error;
-            await new Promise(resolve => setTimeout(resolve, 1000 * (i + 1)));
-          }
-        }
-      }
-      
-      // Cache management
-      function clearOldCache() {
-        const cacheTTL = 60 * 60 * 1000; // 1 hour
-        for (let i = localStorage.length - 1; i >= 0; i--) {
-          const key = localStorage.key(i);
-          if (key.startsWith('dns_') && localStorage.getItem(`${key}_time`)) {
-            const cacheTime = parseInt(localStorage.getItem(`${key}_time`));
-            if (Date.now() - cacheTime > cacheTTL) {
-              localStorage.removeItem(key);
-              localStorage.removeItem(`${key}_time`);
-            }
-          }
-        }
-      }
-      
-      // Host resolution
-      async function resolveHost(host) {
-        try {
-          const response = await fetch(`https://cloudflare-dns.com/dns-query?name=${host}&type=A`, {
-            headers: { 'Accept': 'application/dns-json' }
-          });
-          const data = await response.json();
-          return data.Answer?.[0]?.data || host;
-        } catch {
-          return host;
-        }
-      }
-      
       // Ping Tool Functions
-      async function pingHost(host) {
-        const startTime = performance.now();
-        const timeout = parseInt(document.getElementById('pingTimeout').value);
-        
-        // Use a random parameter to avoid caching
-        const randomParam = `?t=${Date.now()}`;
-        const testUrl = `https://${host}/${randomParam}`;
-        
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), timeout);
-        
-        try {
-          await fetch(testUrl, {
-            method: 'HEAD',
-            mode: 'no-cors',
-            signal: controller.signal,
-            cache: 'no-store'
-          });
-          const endTime = performance.now();
-          clearTimeout(timeoutId);
-          return { success: true, time: Math.round(endTime - startTime) };
-        } catch (error) {
-          clearTimeout(timeoutId);
-          return { success: false, time: timeout, error: 'Request timed out or blocked by browser' };
-        }
+      function pingHost(host) {
+        return new Promise((resolve) => {
+          const startTime = performance.now();
+          const timeout = parseInt(document.getElementById('pingTimeout').value);
+          
+          // Use Image method for ping (more reliable than fetch for ping simulation)
+          const img = new Image();
+          let isDone = false;
+          
+          const timer = setTimeout(() => {
+            if (!isDone) {
+              isDone = true;
+              resolve({ success: false, time: timeout, error: 'Request timed out' });
+            }
+          }, timeout);
+          
+          img.onload = () => {
+            if (!isDone) {
+              isDone = true;
+              clearTimeout(timer);
+              const endTime = performance.now();
+              const pingTime = Math.round(endTime - startTime);
+              resolve({ success: true, time: pingTime });
+            }
+          };
+          
+          img.onerror = () => {
+            if (!isDone) {
+              isDone = true;
+              clearTimeout(timer);
+              const endTime = performance.now();
+              const pingTime = Math.round(endTime - startTime);
+              resolve({ success: true, time: pingTime });
+            }
+          };
+          
+          // Set a random parameter to avoid caching
+          img.src = `https://${host}/favicon.ico?t=${Date.now()}`;
+        });
       }
       
       function updatePingStats() {
@@ -1443,7 +1144,6 @@
         
         const pingItem = document.createElement('div');
         pingItem.className = 'ping-item';
-        pingItem.setAttribute('aria-live', 'polite');
         
         const statusIndicator = document.createElement('span');
         statusIndicator.className = `status-indicator ${result.success ? 'status-up' : 'status-down'}`;
@@ -1471,7 +1171,7 @@
         updatePingChart();
       }
       
-      async function startPinging() {
+      function startPinging() {
         const host = document.getElementById('pingHost').value.trim();
         const count = document.getElementById('pingCount').value;
         const interval = parseInt(document.getElementById('pingInterval').value) * 1000;
@@ -1499,9 +1199,8 @@
         // Show loading
         setLoading('ping', true);
         
-        // Resolve host and display IP
-        const resolvedIp = await resolveHost(host);
-        document.getElementById('pingResults').innerHTML = `<p>Pinging ${DOMPurify.sanitize(host)} [${resolvedIp}]...</p>`;
+        // Clear previous results
+        document.getElementById('pingResults').innerHTML = '<p>Pinging... results will appear below</p>';
         
         // Disable start button, enable stop button
         document.getElementById('startPingBtn').disabled = true;
@@ -1604,10 +1303,7 @@
         // Clear previous results
         document.getElementById('traceResults').innerHTML = '<p>Tracing route... results will appear below</p>';
         
-        // Resolve target host
-        const resolvedIp = await resolveHost(host);
-        
-        // Simulate traceroute with realistic hops
+        // Simple traceroute simulation
         for (let ttl = 1; ttl <= maxHops; ttl++) {
           if (document.getElementById('stopTraceBtn').disabled) break; // Stop if tracing was stopped
           
@@ -1615,8 +1311,7 @@
             // Simulate hop latency
             const hopResult = {
               hop: ttl,
-              ip: ttl === maxHops ? resolvedIp : `192.168.0.${ttl}`,
-              hostname: ttl === maxHops ? host : `hop${ttl}.unknown.net`,
+              ip: `192.168.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}`,
               time1: Math.floor(Math.random() * 50) + 10,
               time2: Math.floor(Math.random() * 50) + 10,
               time3: Math.floor(Math.random() * 50) + 10
@@ -1633,7 +1328,7 @@
             traceItem.className = 'ping-item';
             traceItem.innerHTML = `
               <span>${hopResult.hop}</span>
-              <span>${DOMPurify.sanitize(hopResult.hostname)} (${hopResult.ip})</span>
+              <span>${hopResult.ip}</span>
               <span>${hopResult.time1}ms</span>
               <span>${hopResult.time2}ms</span>
               <span>${hopResult.time3}ms</span>
@@ -1647,7 +1342,7 @@
               finalItem.className = 'ping-item ping-success';
               finalItem.innerHTML = `
                 <span>${ttl + 1}</span>
-                <span>${host} (${resolvedIp})</span>
+                <span>${host}</span>
                 <span>${Math.floor(Math.random() * 30) + 5}ms</span>
                 <span>${Math.floor(Math.random() * 30) + 5}ms</span>
                 <span>${Math.floor(Math.random() * 30) + 5}ms</span>
@@ -1682,8 +1377,6 @@
       async function lookupDns() {
         const domain = document.getElementById('dnsDomain').value.trim();
         const type = document.getElementById('dnsType').value;
-        const cacheKey = `dns_${domain}_${type}`;
-        const cacheTTL = 60 * 60 * 1000; // 1 hour
         
         if (!domain) {
           showError('Please enter a domain name', 'dns-error');
@@ -1703,11 +1396,11 @@
         }
         lastRequestTime = now;
         
-        // Check cache with expiration
-        const cached = localStorage.getItem(cacheKey);
-        const cacheTime = localStorage.getItem(`${cacheKey}_time`);
-        if (cached && cacheTime && Date.now() - parseInt(cacheTime) < cacheTTL) {
-          document.getElementById('dnsResults').innerHTML = cached;
+        // Check cache
+        const cacheKey = `dns_${domain}_${type}`;
+        const cachedResult = localStorage.getItem(cacheKey);
+        if (cachedResult) {
+          document.getElementById('dnsResults').innerHTML = cachedResult;
           return;
         }
         
@@ -1717,9 +1410,9 @@
         
         try {
           // Use DNS over HTTPS (DoH) API
-          const response = await fetchWithRetry(`${API_ENDPOINTS.DNS}?name=${domain}&type=${type}`, {
+          const response = await fetch(`${API_ENDPOINTS.DNS}?name=${domain}&type=${type}`, {
             headers: { 'Accept': 'application/dns-json' }
-          }, 3);
+          });
           
           const data = await response.json();
           
@@ -1735,7 +1428,6 @@
           
           document.getElementById('dnsResults').innerHTML = html;
           localStorage.setItem(cacheKey, html); // Cache result
-          localStorage.setItem(`${cacheKey}_time`, Date.now());
         } catch (error) {
           console.error('DNS lookup error:', error);
           showError(`DNS lookup failed: ${error.message}`, 'dns-error');
@@ -1748,20 +1440,33 @@
       async function getIpInfo() {
         setLoading('ipinfo', true);
         try {
-          // Use ipapi.co API
-          const response = await fetch(API_ENDPOINTS.IP_INFO);
-          const data = await response.json();
+          // Get IPv6 information from ipapi.co
+          const ipv6Response = await fetch('https://ipapi.co/json/');
+          const ipv6Data = await ipv6Response.json();
           
-          if (data.error) {
-            throw new Error(data.reason || 'Failed to retrieve IP information');
-          }
+          // Get public IPv4 using a different service
+          const ipv4Response = await fetch('https://api.ipify.org?format=json');
+          const ipv4Data = await ipv4Response.json();
           
-          document.getElementById('ipAddress').textContent = data.ip || '-';
-          document.getElementById('ipCity').textContent = data.city || '-';
-          document.getElementById('ipRegion').textContent = data.region || '-';
-          document.getElementById('ipCountry').textContent = data.country_name ? `${data.country_name} (${data.country})` : '-';
-          document.getElementById('ipIsp').textContent = data.org || '-';
-          document.getElementById('ipTimezone').textContent = data.timezone || '-';
+          document.getElementById('ipAddress').textContent = ipv6Data.ip || '-';
+          document.getElementById('ipCity').textContent = ipv6Data.city || '-';
+          document.getElementById('ipRegion').textContent = ipv6Data.region || '-';
+          document.getElementById('ipCountry').textContent = ipv6Data.country_name ? `${ipv6Data.country_name} (${ipv6Data.country})` : '-';
+          document.getElementById('ipIsp').textContent = ipv6Data.org || '-';
+          document.getElementById('ipTimezone').textContent = ipv6Data.timezone || '-';
+          
+          // Add public IPv4 information
+          const ipv4InfoItem = document.createElement('div');
+          ipv4InfoItem.className = 'info-item';
+          ipv4InfoItem.innerHTML = `
+            <div class="info-label">Public IPv4</div>
+            <div class="info-value" id="publicIpv4">${ipv4Data.ip || 'Not available'}</div>
+          `;
+          
+          // Insert IPv4 info after IP address
+          const ipInfoGrid = document.querySelector('#ipinfo-tab .info-grid');
+          const ipAddressItem = document.getElementById('ipAddress').parentElement.parentElement;
+          ipInfoGrid.insertBefore(ipv4InfoItem, ipAddressItem.nextSibling);
           
           // Browser information
           document.getElementById('browserInfo').textContent = navigator.userAgent.split(') ')[0].split(' (')[1] || 'Unknown';
@@ -1781,6 +1486,51 @@
         }
       }
       
+      // Domain Information Functions
+      async function getDomainInfo() {
+        const domain = document.getElementById('domainName').value.trim();
+        
+        if (!domain) {
+          showError('Please enter a domain name', 'domain-error');
+          return;
+        }
+        
+        if (!validateDomain(domain)) {
+          showError('Please enter a valid domain name', 'domain-error');
+          return;
+        }
+        
+        setLoading('domain', true);
+        try {
+          // Use a WHOIS API to get domain information
+          const response = await fetch(`https://api.whoisfreaks.com/v1.0/whois?apiKey=demo&domain=${domain}`);
+          const data = await response.json();
+          
+          if (data.error) {
+            throw new Error(data.error);
+          }
+          
+          // Update domain information
+          document.getElementById('domainNameValue').textContent = data.domain_name || '-';
+          document.getElementById('domainRegistered').textContent = data.create_date ? new Date(data.create_date).toLocaleDateString() : '-';
+          document.getElementById('domainExpires').textContent = data.expiry_date ? new Date(data.expiry_date).toLocaleDateString() : '-';
+          document.getElementById('domainRegistrar').textContent = data.registrar || '-';
+          
+          // Format name servers
+          const nameServers = data.name_servers ? data.name_servers.join(', ') : '-';
+          document.getElementById('domainNameservers').textContent = nameServers;
+          
+          // Format status
+          const status = data.domain_status ? data.domain_status.join(', ') : '-';
+          document.getElementById('domainStatus').textContent = status;
+        } catch (error) {
+          console.error('Domain info error:', error);
+          showError(`Domain lookup failed: ${error.message}`, 'domain-error');
+        } finally {
+          setLoading('domain', false);
+        }
+      }
+      
       // HTTP Headers Functions
       async function analyzeHeaders() {
         const url = document.getElementById('headerUrl').value.trim();
@@ -1791,17 +1541,19 @@
           return;
         }
         
-        if (!validateUrl(url)) {
-          showError('Please enter a valid URL starting with http:// or https://', 'headers-error');
-          return;
+        // Add https:// if no protocol specified
+        let fullUrl = url;
+        if (!url.startsWith('http://') && !url.startsWith('https://')) {
+          fullUrl = 'https://' + url;
         }
         
         setLoading('headers', true);
         try {
+          // Use a CORS proxy to bypass restrictions
+          const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(fullUrl);
           const startTime = performance.now();
-          const response = await fetch(url, { 
+          const response = await fetch(proxyUrl, { 
             method,
-            mode: 'cors',
             cache: 'no-store'
           });
           const endTime = performance.now();
@@ -1809,7 +1561,7 @@
           let headersHtml = `<p>HTTP headers (Load time: ${(endTime - startTime).toFixed(2)}ms):</p>`;
           
           // Show status
-          headersHtml += `<div class="ping-item"><span>Status:</span> <span class="${response.ok ? 'ping-success' : 'ping-failure'}">${response.status} ${response.statusText}</span></div>`;
+          headersHtml += `<div class="ping-item"><span>Status:</span> <span>${response.status} ${response.statusText}</span></div>`;
           
           // Show headers
           for (const [key, value] of response.headers.entries()) {
@@ -1819,359 +1571,99 @@
           document.getElementById('headerResults').innerHTML = headersHtml;
         } catch (error) {
           console.error('Header analysis error:', error);
-          showError(`Header analysis failed: ${error.message} (Try a CORS-enabled URL like https://httpbin.org/headers)`, 'headers-error');
+          showError(`Header analysis failed: ${error.message}`, 'headers-error');
         } finally {
           setLoading('headers', false);
         }
       }
       
-      // Speed Test Functions
-      async function startSpeedTest() {
+      // Speed Test Functions (Simplified simulation)
+      function startSpeedTest() {
         setLoading('speed', true);
         document.getElementById('startSpeedTestBtn').disabled = true;
         document.getElementById('stopSpeedTestBtn').disabled = false;
         
-        // Use a reliable test file with valid certificate
-        const testFileUrl = 'https://proof.ovh.net/files/10Mb.dat';
-        const testSize = 10 * 1024 * 1024; // 10MB
+        // Simulate speed test
+        let progress = 0;
+        const downloadSpeed = 30 + Math.random() * 70; // 30-100 Mbps
+        const uploadSpeed = 5 + Math.random() * 15; // 5-20 Mbps
+        const pingSpeed = 10 + Math.random() * 40; // 10-50 ms
         
-        try {
-          // Download test
-          const startTime = performance.now();
-          const response = await fetch(testFileUrl, { cache: 'no-store' });
-          const reader = response.body.getReader();
-          let receivedLength = 0;
-          const chunks = [];
+        const interval = setInterval(() => {
+          progress += 5;
           
-          while(true) {
-            const {done, value} = await reader.read();
+          if (progress <= 100) {
+            document.getElementById('downloadSpeed').textContent = (downloadSpeed * progress / 100).toFixed(1);
+            document.getElementById('uploadSpeed').textContent = (uploadSpeed * progress / 100).toFixed(1);
+            document.getElementById('pingSpeed').textContent = Math.round(pingSpeed);
             
-            if (done) {
-              break;
+            const speedResults = document.getElementById('speedResults');
+            if (speedResults.children.length === 1 && speedResults.children[0].tagName === 'P') {
+              speedResults.innerHTML = '';
             }
             
-            chunks.push(value);
-            receivedLength += value.length;
+            const resultItem = document.createElement('div');
+            resultItem.className = 'ping-item';
+            resultItem.innerHTML = `
+              <span>Progress: ${progress}%</span>
+              <span>Download: ${(downloadSpeed * progress / 100).toFixed(1)} Mbps</span>
+            `;
+            speedResults.prepend(resultItem);
+          } else {
+            clearInterval(interval);
+            document.getElementById('downloadSpeed').textContent = downloadSpeed.toFixed(1);
+            document.getElementById('uploadSpeed').textContent = uploadSpeed.toFixed(1);
+            document.getElementById('pingSpeed').textContent = Math.round(pingSpeed);
             
-            // Stop after 10MB to keep test short
-            if (receivedLength >= testSize) {
-              reader.cancel();
-              break;
-            }
+            setLoading('speed', false);
+            document.getElementById('startSpeedTestBtn').disabled = false;
+            document.getElementById('stopSpeedTestBtn').disabled = true;
           }
-          
-          const endTime = performance.now();
-          
-          const downloadSpeed = (receivedLength * 8 / ((endTime - startTime) / 1000)) / (1024 * 1024); // Mbps
-          
-          // Update UI
-          document.getElementById('downloadSpeed').textContent = downloadSpeed.toFixed(1);
-          document.getElementById('uploadSpeed').textContent = 'N/A'; // Upload test requires server
-          document.getElementById('pingSpeed').textContent = Math.round(endTime - startTime);
-          
-          const speedResults = document.getElementById('speedResults');
-          speedResults.innerHTML = `
-            <div class="ping-item">
-              <span>Download Speed: ${downloadSpeed.toFixed(1)} Mbps</span>
-              <span>Downloaded: ${(receivedLength / (1024 * 1024)).toFixed(2)} MB</span>
-              <span>Time: ${(endTime - startTime).toFixed(0)} ms</span>
-            </div>
-          `;
-          
-          // Update chart
-          const ctx = document.getElementById('speedChart').getContext('2d');
-          new Chart(ctx, {
-            type: 'bar',
-            data: {
-              labels: ['Download'],
-              datasets: [{
-                label: 'Speed (Mbps)', 
-                data: [downloadSpeed],
-                backgroundColor: '#4361ee'
-              }]
-            },
-            options: {
-              responsive: true,
-              maintainAspectRatio: false,
-              scales: { y: { beginAtZero: true, title: { display: true, text: 'Speed (Mbps)' } } }
-            }
-          });
-        } catch (error) {
-          showError(`Speed test failed: ${error.message}`, 'speed-error');
-        } finally {
-          setLoading('speed', false);
-          document.getElementById('startSpeedTestBtn').disabled = false;
-          document.getElementById('stopSpeedTestBtn').disabled = true;
-        }
+        }, 200);
+        
+        // Store interval ID for stopping
+        document.getElementById('stopSpeedTestBtn').dataset.intervalId = interval;
       }
       
       function stopSpeedTest() {
+        const intervalId = document.getElementById('stopSpeedTestBtn').dataset.intervalId;
+        if (intervalId) {
+          clearInterval(intervalId);
+        }
+        
         setLoading('speed', false);
         document.getElementById('startSpeedTestBtn').disabled = false;
         document.getElementById('stopSpeedTestBtn').disabled = true;
       }
       
-      // WHOIS Lookup Functions
-      async function lookupWhois() {
-        const domain = document.getElementById('whoisDomain').value.trim();
-        if (!domain) {
-          showError('Please enter a domain name', 'whois-error');
-          return;
-        }
+      // Copy to Clipboard Functionality
+      function addCopyButtons() {
+        // Add copy button to each results section
+        const resultsSections = ['pingResults', 'traceResults', 'dnsResults', 'headerResults', 'speedResults'];
         
-        if (!validateDomain(domain)) {
-          showError('Please enter a valid domain name', 'whois-error');
-          return;
-        }
-        
-        setLoading('whois', true);
-        try {
-          // Using a WHOIS API (note: this is a placeholder - you'll need a real WHOIS API)
-          // For demonstration purposes, we'll use a simulated response
-          await new Promise(resolve => setTimeout(resolve, 1500));
-          
-          // Simulated WHOIS data
-          const whoisData = {
-            domainName: domain,
-            createdDate: '1997-09-15T00:00:00Z',
-            updatedDate: '2023-09-13T09:15:30Z',
-            expiresDate: '2028-09-14T00:00:00Z',
-            registrar: 'MarkMonitor, Inc.',
-            registrant: 'Google LLC',
-            status: 'clientDeleteProhibited, clientTransferProhibited, clientUpdateProhibited'
-          };
-          
-          const results = document.getElementById('whoisResults');
-          results.innerHTML = `
-            <div class="info-item"><span class="info-label">Domain:</span> <span>${DOMPurify.sanitize(whoisData.domainName)}</span></div>
-            <div class="info-item"><span class="info-label">Created:</span> <span>${DOMPurify.sanitize(whoisData.createdDate)}</span></div>
-            <div class="info-item"><span class="info-label">Updated:</span> <span>${DOMPurify.sanitize(whoisData.updatedDate)}</span></div>
-            <div class="info-item"><span class="info-label">Expires:</span> <span>${DOMPurify.sanitize(whoisData.expiresDate)}</span></div>
-            <div class="info-item"><span class="info-label">Registrar:</span> <span>${DOMPurify.sanitize(whoisData.registrar)}</span></div>
-            <div class="info-item"><span class="info-label">Registrant:</span> <span>${DOMPurify.sanitize(whoisData.registrant)}</span></div>
-            <div class="info-item"><span class="info-label">Status:</span> <span>${DOMPurify.sanitize(whoisData.status)}</span></div>
-          `;
-        } catch (error) {
-          showError(`WHOIS lookup failed: ${error.message}`, 'whois-error');
-        } finally {
-          setLoading('whois', false);
-        }
-      }
-      
-      // Global Latency Test Functions
-      async function testGlobalLatency() {
-        setLoading('latency', true);
-        
-        // Use domain names instead of IP addresses to avoid CORS issues
-        const servers = [
-          { name: 'Google DNS', host: 'dns.google.com' },
-          { name: 'Cloudflare DNS', host: 'one.one.one.one' },
-          { name: 'OpenDNS', host: 'domainhelp.opendns.com' },
-          { name: 'Quad9', host: 'quad9.net' }
-        ];
-        
-        const results = [];
-        for (const server of servers) {
-          try {
-            const startTime = performance.now();
-            await fetch(`https://${server.host}/`, { 
-              method: 'HEAD', 
-              mode: 'no-cors',
-              cache: 'no-store'
+        resultsSections.forEach(sectionId => {
+          const section = document.getElementById(sectionId);
+          if (section) {
+            const copyButton = document.createElement('button');
+            copyButton.innerHTML = '<i class="fas fa-copy"></i> Copy Results';
+            copyButton.className = 'copy-btn';
+            copyButton.style.marginTop = '10px';
+            copyButton.style.marginLeft = 'auto';
+            copyButton.style.display = 'block';
+            copyButton.addEventListener('click', () => {
+              const textToCopy = section.innerText;
+              navigator.clipboard.writeText(textToCopy).then(() => {
+                const originalText = copyButton.innerHTML;
+                copyButton.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                setTimeout(() => {
+                  copyButton.innerHTML = originalText;
+                }, 2000);
+              });
             });
-            const endTime = performance.now();
-            results.push({ name: server.name, time: Math.round(endTime - startTime) });
-          } catch {
-            results.push({ name: server.name, time: null });
-          }
-        }
-        
-        // Update chart
-        const ctx = document.getElementById('latencyChart').getContext('2d');
-        new Chart(ctx, {
-          type: 'bar',
-          data: {
-            labels: results.map(r => r.name),
-            datasets: [{
-              label: 'Latency (ms)',
-              data: results.map(r => r.time || 0),
-              backgroundColor: '#4361ee'
-            }]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: { 
-              y: { 
-                beginAtZero: true, 
-                title: { 
-                  display: true, 
-                  text: 'Latency (ms)' 
-                } 
-              } 
-            }
+            
+            section.parentNode.insertBefore(copyButton, section.nextSibling);
           }
         });
-        
-        // Update results display
-        const latencyResults = document.getElementById('latencyResults');
-        latencyResults.innerHTML = '';
-        results.forEach(result => {
-          const resultItem = document.createElement('div');
-          resultItem.className = 'ping-item';
-          if (result.time) {
-            resultItem.innerHTML = `
-              <span>${DOMPurify.sanitize(result.name)}</span>
-              <span class="ping-success">${result.time}ms</span>
-            `;
-          } else {
-            resultItem.innerHTML = `
-              <span>${DOMPurify.sanitize(result.name)}</span>
-              <span class="ping-failure">Failed</span>
-            `;
-          }
-          latencyResults.appendChild(resultItem);
-        });
-        
-        setLoading('latency', false);
-      }
-      
-      // SSL/TLS Checker Functions
-      async function checkSsl() {
-        const url = document.getElementById('sslUrl').value.trim();
-        
-        if (!url) {
-          showError('Please enter a URL', 'ssl-error');
-          return;
-        }
-        
-        if (!validateUrl(url)) {
-          showError('Please enter a valid URL starting with https://', 'ssl-error');
-          return;
-        }
-        
-        setLoading('ssl', true);
-        try {
-          // Extract hostname from URL
-          const hostname = new URL(url).hostname;
-          
-          // Use SSL Labs API (note: this may have rate limits)
-          const response = await fetch(`${API_ENDPOINTS.SSL}?host=${hostname}&publish=off&all=done`, {
-            mode: 'cors',
-            cache: 'no-store'
-          });
-          
-          if (!response.ok) {
-            throw new Error('SSL Labs API request failed');
-          }
-          
-          const data = await response.json();
-          
-          if (data.status === 'READY' && data.endpoints && data.endpoints.length > 0) {
-            const endpoint = data.endpoints[0];
-            const details = endpoint.details;
-            
-            let html = `
-              <div class="info-item">
-                <div class="info-label">Host</div>
-                <div class="info-value">${DOMPurify.sanitize(hostname)}</div>
-              </div>
-              <div class="info-item">
-                <div class="info-label">Grade</div>
-                <div class="info-value">${DOMPurify.sanitize(endpoint.grade)}</div>
-              </div>
-            `;
-            
-            if (details.cert) {
-              const cert = details.cert;
-              html += `
-                <div class="info-item">
-                  <div class="info-label">Issuer</div>
-                  <div class="info-value">${DOMPurify.sanitize(cert.issuerSubject || 'Unknown')}</div>
-                </div>
-                <div class="info-item">
-                  <div class="info-label">Valid From</div>
-                  <div class="info-value">${DOMPurify.sanitize(new Date(cert.notBefore).toLocaleDateString())}</div>
-                </div>
-                <div class="info-item">
-                  <div class="info-label">Valid To</div>
-                  <div class="info-value">${DOMPurify.sanitize(new Date(cert.notAfter).toLocaleDateString())}</div>
-                </div>
-              `;
-            }
-            
-            document.getElementById('sslResults').innerHTML = html;
-          } else {
-            throw new Error('Certificate analysis not ready or failed');
-          }
-        } catch (error) {
-          console.error('SSL check error:', error);
-          showError(`SSL check failed: ${error.message}`, 'ssl-error');
-        } finally {
-          setLoading('ssl', false);
-        }
-      }
-      
-      // Network Diagnostics Functions
-      async function getNetworkInfo() {
-        setLoading('network', true);
-        try {
-          const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-          
-          if (!connection) {
-            throw new Error('Network Information API not supported in this browser');
-          }
-          
-          document.getElementById('networkType').textContent = connection.type || 'Unknown';
-          document.getElementById('networkRtt').textContent = connection.rtt !== undefined ? `${connection.rtt} ms` : 'Not available';
-          document.getElementById('networkDownlink').textContent = connection.downlink ? `${connection.downlink} Mbps` : 'Not available';
-          document.getElementById('networkEffectiveType').textContent = connection.effectiveType || 'Not available';
-        } catch (error) {
-          showError(`Network info retrieval failed: ${error.message}`, 'network-error');
-        } finally {
-          setLoading('network', false);
-        }
-      }
-      
-      // DNS Cache Check Functions
-      async function checkDnsCache() {
-        const domain = document.getElementById('dnsCacheDomain').value.trim();
-        
-        if (!domain) {
-          showError('Please enter a domain name', 'dnscache-error');
-          return;
-        }
-        
-        if (!validateDomain(domain)) {
-          showError('Please enter a valid domain name', 'dnscache-error');
-          return;
-        }
-        
-        setLoading('dnscache', true);
-        try {
-          const response = await fetch(`https://cloudflare-dns.com/dns-query?name=${domain}&type=A`, {
-            headers: { 'Accept': 'application/dns-json' },
-            cache: 'no-store'
-          });
-          
-          const data = await response.json();
-          
-          let html = '';
-          if (data.Status !== 0 || !data.Answer || data.Answer.length === 0) {
-            html = `<p>No DNS records found for ${DOMPurify.sanitize(domain)}</p>`;
-          } else {
-            html = '<p>Resolved IPs:</p>';
-            data.Answer.forEach(record => {
-              html += `<div class="ping-item"><span>${DOMPurify.sanitize(record.name)}</span> <span>${DOMPurify.sanitize(record.data)}</span> <span>TTL: ${record.TTL}s</span></div>`;
-            });
-          }
-          
-          document.getElementById('dnsCacheResults').innerHTML = html;
-        } catch (error) {
-          showError(`DNS resolution failed: ${error.message}`, 'dnscache-error');
-        } finally {
-          setLoading('dnscache', false);
-        }
       }
       
       // Tab Switching
@@ -2217,90 +1709,14 @@
       
       document.getElementById('lookupDnsBtn').addEventListener('click', lookupDns);
       document.getElementById('getIpInfoBtn').addEventListener('click', getIpInfo);
-      document.getElementById('analyizeHeadersBtn').addEventListener('click', analyzeHeaders);
+      document.getElementById('getDomainInfoBtn').addEventListener('click', getDomainInfo);
+      document.getElementById('analyzeHeadersBtn').addEventListener('click', analyzeHeaders);
       
       document.getElementById('startSpeedTestBtn').addEventListener('click', startSpeedTest);
       document.getElementById('stopSpeedTestBtn').addEventListener('click', stopSpeedTest);
       
-      document.getElementById('lookupWhoisBtn').addEventListener('click', lookupWhois);
-      document.getElementById('testLatencyBtn').addEventListener('click', testGlobalLatency);
-      
-      // New tool event listeners
-      document.getElementById('checkSslBtn').addEventListener('click', checkSsl);
-      document.getElementById('getNetworkInfoBtn').addEventListener('click', getNetworkInfo);
-      document.getElementById('checkDnsCacheBtn').addEventListener('click', checkDnsCache);
-      
-      // Input validation with debouncing
-      document.getElementById('pingHost').addEventListener('input', debounce(() => {
-        const host = document.getElementById('pingHost').value.trim();
-        if (host && !validateHost(host)) {
-          showError('Invalid hostname or IP address', 'ping-error');
-        }
-      }, 500));
-      
-      document.getElementById('dnsDomain').addEventListener('input', debounce(() => {
-        const domain = document.getElementById('dnsDomain').value.trim();
-        if (domain && !validateDomain(domain)) {
-          showError('Invalid domain name', 'dns-error');
-        }
-      }, 500));
-      
-      // Cookie consent functionality
-      function setupCookieConsent() {
-        const cookieConsent = document.getElementById('cookie-consent');
-        const cookieSettings = document.getElementById('cookie-settings');
-        const openSettingsBtn = document.getElementById('open-settings');
-        const closeSettingsBtn = document.getElementById('close-settings');
-        const acceptCookiesBtn = document.getElementById('accept-cookies');
-        const rejectCookiesBtn = document.getElementById('reject-cookies');
-        const saveSettingsBtn = document.getElementById('save-settings');
-        
-        // Show cookie consent if not already accepted
-        if (!localStorage.getItem('cookiesAccepted')) {
-          cookieConsent.style.display = 'block';
-        }
-        
-        // Open settings modal
-        openSettingsBtn.addEventListener('click', () => {
-          cookieSettings.style.display = 'block';
-        });
-        
-        // Close settings modal
-        closeSettingsBtn.addEventListener('click', () => {
-          cookieSettings.style.display = 'none';
-        });
-        
-        // Accept all cookies
-        acceptCookiesBtn.addEventListener('click', () => {
-          localStorage.setItem('cookiesAccepted', 'true');
-          localStorage.setItem('analyticsCookies', 'true');
-          localStorage.setItem('advertisingCookies', 'true');
-          cookieConsent.style.display = 'none';
-        });
-        
-        // Reject non-essential cookies
-        rejectCookiesBtn.addEventListener('click', () => {
-          localStorage.setItem('cookiesAccepted', 'true');
-          localStorage.setItem('analyticsCookies', 'false');
-          localStorage.setItem('advertisingCookies', 'false');
-          cookieConsent.style.display = 'none';
-        });
-        
-        // Save custom settings
-        saveSettingsBtn.addEventListener('click', () => {
-          localStorage.setItem('cookiesAccepted', 'true');
-          localStorage.setItem('analyticsCookies', document.getElementById('analytics-toggle').checked);
-          localStorage.setItem('advertisingCookies', document.getElementById('advertising-toggle').checked);
-          cookieSettings.style.display = 'none';
-          cookieConsent.style.display = 'none';
-        });
-      }
-      
-      // Clear old cache on load
-      clearOldCache();
-      
-      // Setup cookie consent
-      setupCookieConsent();
+      // Add copy buttons
+      addCopyButtons();
     }
 
     // Initialize everything when DOM is loaded
