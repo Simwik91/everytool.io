@@ -24,10 +24,6 @@
   <!-- DOMPurify for sanitizing output -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.5/purify.min.js"></script>
   
-  <!-- Leaflet for maps -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  
   <!-- Network Tools Specific Styles -->
   <style>
     /* Network Tools Specific Styles */
@@ -400,73 +396,55 @@
       margin-top: 5px;
     }
     
-    /* Map styles */
-    #ipMap {
-      height: 300px;
-      border-radius: var(--border-radius);
-      margin: 20px 0;
-    }
-    
-    /* Copy button styles */
-    .copy-btn {
-      background: var(--secondary) !important;
-      max-width: 200px;
-      margin-top: 10px;
-    }
-    
-    .copy-btn:hover {
-      background: #5e0a9a !important;
-    }
-    
-    /* Subnet calculator styles */
     .subnet-results {
+      background: #f8f9ff;
+      border-radius: var(--border-radius);
+      padding: 20px;
       margin-top: 20px;
     }
     
-    .subnet-result-item {
-      background: #f8f9ff;
-      padding: 15px;
-      border-radius: var(--border-radius);
-      margin-bottom: 10px;
-    }
-    
-    /* Dark mode styles */
-    body.dark-mode {
-      --light: #2d3748;
-      --dark: #e2e8f0;
-      --gray: #a0aec0;
-      --light-gray: #4a5568;
-      background-color: #1a202c;
-      color: #e2e8f0;
-    }
-    
-    body.dark-mode .card {
-      background: var(--light);
-    }
-    
-    body.dark-mode input,
-    body.dark-mode select,
-    body.dark-mode textarea {
+    .binary-representation {
+      font-family: monospace;
       background: #2d3748;
       color: #e2e8f0;
-      border-color: #4a5568;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin: 15px 0;
     }
     
-    /* Theme toggle */
-    .theme-toggle {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background: var(--light);
-      border: none;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
+    .bit-row {
+      display: flex;
+      margin-bottom: 5px;
+    }
+    
+    .bit {
+      width: 30px;
+      height: 30px;
       display: flex;
       align-items: center;
       justify-content: center;
-      cursor: pointer;
-      box-shadow: var(--box-shadow);
+      margin: 2px;
+      border-radius: 4px;
+      background: #4a5568;
+    }
+    
+    .bit.network {
+      background: #48bb78;
+    }
+    
+    .bit.host {
+      background: #4299e1;
+    }
+    
+    .bit.cidr {
+      background: #ed8936;
+    }
+    
+    .bit-label {
+      font-size: 0.8rem;
+      margin-top: 5px;
+      text-align: center;
     }
     
     /* Responsive Design for Network Tools */
@@ -497,11 +475,6 @@
       .btn-group button {
         width: 100%;
       }
-      
-      .theme-toggle {
-        top: 10px;
-        right: 10px;
-      }
     }
 
     @media (max-width: 576px) {
@@ -529,15 +502,16 @@
         grid-template-columns: 1fr;
         text-align: center;
       }
+      
+      .bit {
+        width: 20px;
+        height: 20px;
+        font-size: 0.7rem;
+      }
     }
   </style>
 </head>
 <body>
-  <!-- Theme Toggle Button -->
-  <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
-    <i class="fas fa-moon"></i>
-  </button>
-
   <!-- Header Placeholder -->
   <header id="main-header">
     <p class="error-message" style="display: none; color: red; text-align: center;">Failed to load header. Please try refreshing the page.</p>
@@ -565,14 +539,14 @@
         <div class="tab" data-tab="dns" role="tab" aria-selected="false" tabindex="0">
           <i class="fas fa-globe"></i> DNS Lookup
         </div>
+        <div class="tab" data-tab="domaininfo" role="tab" aria-selected="false" tabindex="0">
+          <i class="fas fa-info-circle"></i> Domain Info
+        </div>
         <div class="tab" data-tab="ipinfo" role="tab" aria-selected="false" tabindex="0">
-          <i class="fas fa-info-circle"></i> IP Information
+          <i class="fas fa-address-card"></i> IP Information
         </div>
         <div class="tab" data-tab="subnet" role="tab" aria-selected="false" tabindex="0">
           <i class="fas fa-calculator"></i> Subnet Calculator
-        </div>
-        <div class="tab" data-tab="headers" role="tab" aria-selected="false" tabindex="0">
-          <i class="fas fa-code"></i> HTTP Headers
         </div>
         <div class="tab" data-tab="speed" role="tab" aria-selected="false" tabindex="0">
           <i class="fas fa-tachometer-alt"></i> Speed Test
@@ -665,10 +639,6 @@
             <div class="stat-value" id="avgPing">0ms</div>
             <div class="stat-label">Avg</div>
           </div>
-          <div class="stat-card">
-            <div class="stat-value" id="jitterPing">0ms</div>
-            <div class="stat-label">Jitter</div>
-          </div>
         </div>
         
         <div class="chart-container">
@@ -679,9 +649,6 @@
         <div id="pingResults" style="background: #f8f9ff; border-radius: var(--border-radius); padding: 15px; max-height: 300px; overflow-y: auto;">
           <p>Ping results will appear here...</p>
         </div>
-        <button class="copy-btn" id="copyPingResults">
-          <i class="fas fa-copy"></i> Copy Results
-        </button>
       </div>
 
       <!-- Traceroute Tool -->
@@ -714,9 +681,6 @@
           <button id="clearTraceBtn">
             <i class="fas fa-trash"></i> Clear Log
           </button>
-          <button id="exportTraceBtn">
-            <i class="fas fa-download"></i> Export Results
-          </button>
         </div>
         
         <div class="loading" id="tracerouteLoading">
@@ -730,9 +694,6 @@
         <div id="traceResults" style="background: #f8f9ff; border-radius: var(--border-radius); padding: 15px; max-height: 400px; overflow-y: auto;">
           <p>Traceroute results will appear here...</p>
         </div>
-        <button class="copy-btn" id="copyTraceResults">
-          <i class="fas fa-copy"></i> Copy Results
-        </button>
       </div>
 
       <!-- DNS Lookup Tool -->
@@ -754,8 +715,6 @@
               <option value="MX">MX (Mail Exchange)</option>
               <option value="TXT">TXT (Text)</option>
               <option value="NS">NS (Name Server)</option>
-              <option value="SOA">SOA (Start of Authority)</option>
-              <option value="PTR">PTR (Pointer)</option>
             </select>
           </div>
         </div>
@@ -775,14 +734,83 @@
         <div id="dnsResults" style="background: #f8f9ff; border-radius: var(--border-radius); padding: 15px; max-height: 400px; overflow-y: auto;">
           <p>DNS records will appear here...</p>
         </div>
-        <button class="copy-btn" id="copyDnsResults">
-          <i class="fas fa-copy"></i> Copy Results
+      </div>
+
+      <!-- Domain Information Tool -->
+      <div class="tab-content" id="domaininfo-tab" role="tabpanel">
+        <h2><i class="fas fa-info-circle"></i> Domain Information</h2>
+        <p><i>Get comprehensive information about a domain name.</i></p>
+        
+        <div class="tool-row">
+          <div class="tool-col">
+            <label for="domainName">Domain Name:</label>
+            <input type="text" id="domainName" placeholder="example.com" value="google.com">
+          </div>
+        </div>
+        
+        <button id="getDomainInfoBtn">
+          <i class="fas fa-search"></i> Get Domain Information
         </button>
+        
+        <div class="loading" id="domaininfoLoading">
+          <div class="loading-spinner"></div>
+          <p>Retrieving domain information...</p>
+        </div>
+        
+        <div class="error" id="domaininfo-error"></div>
+        
+        <h3>Domain Information</h3>
+        <div class="info-grid">
+          <div class="info-item">
+            <div class="info-label">Domain Name</div>
+            <div class="info-value" id="domainNameResult">-</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Registered</div>
+            <div class="info-value" id="domainRegistered">-</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Creation Date</div>
+            <div class="info-value" id="domainCreation">-</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Expiration Date</div>
+            <div class="info-value" id="domainExpiration">-</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Registrar</div>
+            <div class="info-value" id="domainRegistrar">-</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Name Servers</div>
+            <div class="info-value" id="domainNameservers">-</div>
+          </div>
+        </div>
+        
+        <h3>SSL Certificate Information</h3>
+        <div class="info-grid">
+          <div class="info-item">
+            <div class="info-label">Valid SSL</div>
+            <div class="info-value" id="sslValid">-</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Issued To</div>
+            <div class="info-value" id="sslIssuedTo">-</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Issued By</div>
+            <div class="info-value" id="sslIssuedBy">-</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Expiration Date</div>
+            <div class="info-value" id="sslExpiration">-</div>
+          </div>
+        </div>
       </div>
 
       <!-- IP Information Tool -->
       <div class="tab-content" id="ipinfo-tab" role="tabpanel">
-        <h2><i class="fas fa-info-circle"></i> IP Information</h2>
+        <h2><i class="fas fa-address-card"></i> IP Information</h2>
         <p><i>Get information about your current IP address and connection.</i></p>
         
         <button id="getIpInfoBtn">
@@ -799,12 +827,8 @@
         <h3>Your IP Information</h3>
         <div class="info-grid">
           <div class="info-item">
-            <div class="info-label">IP Address</div>
+            <div class="info-label">Public IP Address</div>
             <div class="info-value" id="ipAddress">-</div>
-          </div>
-          <div class="info-item">
-            <div class="info-label">Public IPv4</div>
-            <div class="info-value" id="publicIpv4">-</div>
           </div>
           <div class="info-item">
             <div class="info-label">City</div>
@@ -828,53 +852,40 @@
           </div>
         </div>
         
-        <div id="ipMap"></div>
-        
-        <h3>Browser Information</h3>
+        <h3>Connection Information</h3>
         <div class="info-grid">
           <div class="info-item">
             <div class="info-label">Browser</div>
             <div class="info-value" id="browserInfo">-</div>
           </div>
           <div class="info-item">
-            <div class="info-label">Screen Resolution</div>
-            <div class="info-value" id="screenResolution">-</div>
-          </div>
-          <div class="info-item">
             <div class="info-label">Connection Type</div>
             <div class="info-value" id="connectionType">-</div>
           </div>
           <div class="info-item">
-            <div class="info-label">Device Type</div>
-            <div class="info-value" id="deviceType">-</div>
+            <div class="info-label">Language</div>
+            <div class="info-value" id="browserLanguage">-</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Platform</div>
+            <div class="info-value" id="browserPlatform">-</div>
           </div>
         </div>
-        
-        <button class="copy-btn" id="copyIpInfo">
-          <i class="fas fa-copy"></i> Copy IP Information
-        </button>
       </div>
 
       <!-- Subnet Calculator Tool -->
       <div class="tab-content" id="subnet-tab" role="tabpanel">
         <h2><i class="fas fa-calculator"></i> Subnet Calculator</h2>
-        <p><i>Calculate subnet information for a given IP address and CIDR.</i></p>
+        <p><i>Calculate network information from an IP address and CIDR notation.</i></p>
         
         <div class="tool-row">
           <div class="tool-col">
             <label for="subnetIp">IP Address:</label>
-            <input type="text" id="subnetIp" placeholder="192.168.1.1" value="192.168.1.1">
+            <input type="text" id="subnetIp" placeholder="192.168.1.0" value="192.168.1.0">
           </div>
           <div class="tool-col">
-            <label for="subnetCidr">CIDR:</label>
-            <select id="subnetCidr">
-              <option value="24">/24 (255.255.255.0)</option>
-              <option value="16">/16 (255.255.0.0)</option>
-              <option value="8">/8 (255.0.0.0)</option>
-              <option value="30">/30 (255.255.255.252)</option>
-              <option value="26">/26 (255.255.255.192)</option>
-              <option value="20">/20 (255.255.240.0)</option>
-            </select>
+            <label for="subnetCidr">CIDR Notation:</label>
+            <input type="text" id="subnetCidr" placeholder="24" value="24">
           </div>
         </div>
         
@@ -884,92 +895,48 @@
         
         <div class="error" id="subnet-error"></div>
         
-        <div class="subnet-results" id="subnetResults">
-          <div class="subnet-result-item">
-            <div class="info-label">Network Address</div>
-            <div class="info-value" id="networkAddress">-</div>
+        <div class="subnet-results">
+          <h3>Subnet Information</h3>
+          <div class="info-grid">
+            <div class="info-item">
+              <div class="info-label">Network Address</div>
+              <div class="info-value" id="networkAddress">-</div>
+            </div>
+            <div class="info-item">
+              <div class="info-label">Broadcast Address</div>
+              <div class="info-value" id="broadcastAddress">-</div>
+            </div>
+            <div class="info-item">
+              <div class="info-label">Subnet Mask</div>
+              <div class="info-value" id="subnetMask">-</div>
+            </div>
+            <div class="info-item">
+              <div class="info-label">Wildcard Mask</div>
+              <div class="info-value" id="wildcardMask">-</div>
+            </div>
+            <div class="info-item">
+              <div class="info-label">Total Hosts</div>
+              <div class="info-value" id="totalHosts">-</div>
+            </div>
+            <div class="info-item">
+              <div class="info-label">Usable Hosts</div>
+              <div class="info-value" id="usableHosts">-</div>
+            </div>
+            <div class="info-item">
+              <div class="info-label">First Usable IP</div>
+              <div class="info-value" id="firstUsable">-</div>
+            </div>
+            <div class="info-item">
+              <div class="info-label">Last Usable IP</div>
+              <div class="info-value" id="lastUsable">-</div>
+            </div>
           </div>
-          <div class="subnet-result-item">
-            <div class="info-label">Broadcast Address</div>
-            <div class="info-value" id="broadcastAddress">-</div>
-          </div>
-          <div class="subnet-result-item">
-            <div class="info-label">Usable Host Range</div>
-            <div class="info-value" id="usableHostRange">-</div>
-          </div>
-          <div class="subnet-result-item">
-            <div class="info-label">Subnet Mask</div>
-            <div class="info-value" id="subnetMask">-</div>
-          </div>
-          <div class="subnet-result-item">
-            <div class="info-label">Wildcard Mask</div>
-            <div class="info-value" id="wildcardMask">-</div>
-          </div>
-          <div class="subnet-result-item">
-            <div class="info-label">Total Hosts</div>
-            <div class="info-value" id="totalHosts">-</div>
-          </div>
-          <div class="subnet-result-item">
-            <div class="info-label">Usable Hosts</div>
-            <div class="info-value" id="usableHosts">-</div>
-          </div>
-        </div>
-        
-        <button class="copy-btn" id="copySubnetResults">
-          <i class="fas fa-copy"></i> Copy Results
-        </button>
-      </div>
-
-      <!-- HTTP Headers Tool -->
-      <div class="tab-content" id="headers-tab" role="tabpanel">
-        <h2><i class="fas fa-code"></i> HTTP Headers Analyzer</h2>
-        <p><i>Check the HTTP headers returned by a web server.</i></p>
-        
-        <div class="tool-row">
-          <div class="tool-col">
-            <label for="headerUrl">URL:</label>
-            <input type="text" id="headerUrl" placeholder="https://example.com" value="https://httpbin.org">
-          </div>
-          <div class="tool-col">
-            <label for="headerMethod">HTTP Method:</label>
-            <select id="headerMethod">
-              <option value="GET">GET</option>
-              <option value="HEAD">HEAD</option>
-            </select>
+          
+          <h3>Binary Representation</h3>
+          <div id="binaryRepresentation">
+            <p>Enter an IP and CIDR to see the binary representation</p>
           </div>
         </div>
-        
-        <div class="tool-row">
-          <div class="tool-col">
-            <label for="customHeaders">Custom Headers (JSON):</label>
-            <textarea id="customHeaders" placeholder='{"User-Agent": "MyCustomAgent/1.0"}'></textarea>
-          </div>
-        </div>
-        
-        <button id="analyzeHeadersBtn">
-          <i class="fas fa-search"></i> Analyze Headers
-        </button>
-        
-        <div class="loading" id="headersLoading">
-          <div class="loading-spinner"></div>
-          <p>Analyzing headers...</p>
-        </div>
-        
-        <div class="error" id="headers-error"></div>
-        
-        <label>HTTP Headers:</label>
-        <div id="headerResults" style="background: #f8f9ff; border-radius: var(--border-radius); padding: 15px; max-height: 400px; overflow-y: auto;">
-          <p>HTTP headers will appear here...</p>
-        </div>
-        
-        <div id="securityScoreCard" class="stat-card" style="display: none;">
-          <div class="stat-value" id="securityScore">0%</div>
-          <div class="stat-label">Security Score</div>
-        </div>
-        
-        <button class="copy-btn" id="copyHeaderResults">
-          <i class="fas fa-copy"></i> Copy Results
-        </button>
       </div>
 
       <!-- Speed Test Tool -->
@@ -1006,10 +973,6 @@
             <div class="stat-value" id="pingSpeed">0</div>
             <div class="stat-label">Ping (ms)</div>
           </div>
-          <div class="stat-card">
-            <div class="stat-value" id="jitterSpeed">0</div>
-            <div class="stat-label">Jitter (ms)</div>
-          </div>
         </div>
         
         <div class="chart-container">
@@ -1020,9 +983,6 @@
         <div id="speedResults" style="background: #f8f9ff; border-radius: var(--border-radius); padding: 15px; max-height: 300px; overflow-y: auto;">
           <p>Speed test results will appear here...</p>
         </div>
-        <button class="copy-btn" id="copySpeedResults">
-          <i class="fas fa-copy"></i> Copy Results
-        </button>
       </div>
     </div>
   </div>
@@ -1040,7 +1000,7 @@
       const API_ENDPOINTS = {
         DNS: 'https://cloudflare-dns.com/dns-query',
         IP_INFO: 'https://ipapi.co/json/',
-        IP_INFO_V4: 'https://api.ipify.org?format=json'
+        DOMAIN_INFO: 'https://api.whoisfreaks.com/v1.0/whois?whois=live&apiKey=demo&domain='
       };
       
       const MAX_CONTINUOUS_DURATION = 5 * 60 * 1000; // 5 minutes
@@ -1059,36 +1019,9 @@
       let pingChart = null;
       let pingStartTime = 0;
       
-      // Map variable
-      let ipMap = null;
-      
-      // Theme toggle
-      const themeToggle = document.getElementById('themeToggle');
-      const themeIcon = themeToggle.querySelector('i');
-      
-      // Check for saved theme preference
-      if (localStorage.getItem('darkMode') === 'true') {
-        document.body.classList.add('dark-mode');
-        themeIcon.classList.remove('fa-moon');
-        themeIcon.classList.add('fa-sun');
-      }
-      
-      themeToggle.addEventListener('click', () => {
-        document.body.classList.toggle('dark-mode');
-        if (document.body.classList.contains('dark-mode')) {
-          themeIcon.classList.remove('fa-moon');
-          themeIcon.classList.add('fa-sun');
-          localStorage.setItem('darkMode', 'true');
-        } else {
-          themeIcon.classList.remove('fa-sun');
-          themeIcon.classList.add('fa-moon');
-          localStorage.setItem('darkMode', 'false');
-        }
-      });
-      
       // Validation Functions
       function validateHost(host) {
-        const hostRegex = /^(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}|(?:(?:[0-9]{1,3}\.){3}[0-9]{1,3})|\[[0-9a-fA-F:]+\])$/;
+        const hostRegex = /^(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}|(?:(?:[0-9]{1,3}\.){3}[0-9]{1,3}))$/;
         return hostRegex.test(host);
       }
       
@@ -1103,8 +1036,14 @@
       }
       
       function validateIp(ip) {
-        const ipRegex = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
-        return ipRegex.test(ip);
+        const ipv4Regex = /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+        const ipv6Regex = /^([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}$/;
+        return ipv4Regex.test(ip) || ipv6Regex.test(ip);
+      }
+      
+      function validateCidr(cidr) {
+        const cidrInt = parseInt(cidr);
+        return !isNaN(cidrInt) && cidrInt >= 0 && cidrInt <= 32;
       }
       
       // Error Handling
@@ -1129,113 +1068,36 @@
         }
       }
       
-      // Copy to Clipboard Functionality
-      function setupCopyButtons() {
-        document.getElementById('copyPingResults').addEventListener('click', () => {
-          copyToClipboard('pingResults');
-        });
-        
-        document.getElementById('copyTraceResults').addEventListener('click', () => {
-          copyToClipboard('traceResults');
-        });
-        
-        document.getElementById('copyDnsResults').addEventListener('click', () => {
-          copyToClipboard('dnsResults');
-        });
-        
-        document.getElementById('copyIpInfo').addEventListener('click', () => {
-          const ipInfo = document.querySelectorAll('#ipinfo-tab .info-value');
-          let text = 'IP Information:\n';
-          ipInfo.forEach(item => {
-            const label = item.previousElementSibling.textContent;
-            text += `${label}: ${item.textContent}\n`;
-          });
-          copyTextToClipboard(text);
-        });
-        
-        document.getElementById('copySubnetResults').addEventListener('click', () => {
-          const subnetInfo = document.querySelectorAll('#subnetResults .info-value');
-          let text = 'Subnet Information:\n';
-          subnetInfo.forEach(item => {
-            const label = item.previousElementSibling.textContent;
-            text += `${label}: ${item.textContent}\n`;
-          });
-          copyTextToClipboard(text);
-        });
-        
-        document.getElementById('copyHeaderResults').addEventListener('click', () => {
-          copyToClipboard('headerResults');
-        });
-        
-        document.getElementById('copySpeedResults').addEventListener('click', () => {
-          copyToClipboard('speedResults');
-        });
-      }
-      
-      function copyToClipboard(elementId) {
-        const element = document.getElementById(elementId);
-        const text = element.innerText;
-        copyTextToClipboard(text);
-      }
-      
-      function copyTextToClipboard(text) {
-        navigator.clipboard.writeText(text).then(() => {
-          showSuccess('Copied to clipboard!');
-        }).catch(err => {
-          showError('Failed to copy: ' + err, 'general-error');
-        });
-      }
-      
-      function showSuccess(message) {
-        const successDiv = document.createElement('div');
-        successDiv.className = 'success';
-        successDiv.textContent = message;
-        document.querySelector('.container').appendChild(successDiv);
-        
-        setTimeout(() => {
-          successDiv.remove();
-        }, 3000);
-      }
-      
       // Ping Tool Functions
       function pingHost(host) {
         return new Promise((resolve) => {
           const startTime = performance.now();
           const timeout = parseInt(document.getElementById('pingTimeout').value);
           
-          // Use Image method for ping (more reliable than fetch for ping simulation)
-          const img = new Image();
-          let isDone = false;
+          // Use fetch API to simulate ping
+          const controller = new AbortController();
+          const signal = controller.signal;
           
-          const timer = setTimeout(() => {
-            if (!isDone) {
-              isDone = true;
-              resolve({ success: false, time: timeout, error: 'Request timed out' });
-            }
+          setTimeout(() => {
+            controller.abort();
+            resolve({ success: false, time: timeout, error: 'Request timed out' });
           }, timeout);
           
-          img.onload = () => {
-            if (!isDone) {
-              isDone = true;
-              clearTimeout(timer);
-              const endTime = performance.now();
-              const pingTime = Math.round(endTime - startTime);
-              resolve({ success: true, time: pingTime });
-            }
-          };
-          
-          img.onerror = () => {
-            if (!isDone) {
-              isDone = true;
-              clearTimeout(timer);
-              const endTime = performance.now();
-              const pingTime = Math.round(endTime - startTime);
-              resolve({ success: true, time: pingTime });
-            }
-          };
-          
-          // Set a random parameter to avoid caching
-          img.src = `https://${host}/favicon.ico?t=${Date.now()}`;
+          // Try to fetch a resource from the host
+          fetch(`https://${host}/favicon.ico?t=${Date.now()}`, {
+            method: 'HEAD',
+            mode: 'no-cors',
+            signal,
+            cache: 'no-store'
+          })
+          .then(() => {
+            const endTime = performance.now();
+            const pingTime = Math.round(endTime - startTime);
+            resolve({ success: true, time: pingTime });
+          })
+          .catch(() => {
+            resolve({ success: false, time: timeout, error: 'Request failed' });
+          });
         });
       }
       
@@ -1251,19 +1113,6 @@
         
         const avgPing = receivedCount > 0 ? Math.round(totalPing / receivedCount) : 0;
         document.getElementById('avgPing').textContent = `${avgPing}ms`;
-        
-        // Calculate jitter (standard deviation of ping times)
-        if (pingHistory.length > 1) {
-          const successfulPings = pingHistory.filter(ping => ping.success);
-          if (successfulPings.length > 1) {
-            const pingTimes = successfulPings.map(ping => ping.time);
-            const avg = pingTimes.reduce((a, b) => a + b, 0) / pingTimes.length;
-            const squareDiffs = pingTimes.map(time => Math.pow(time - avg, 2));
-            const avgSquareDiff = squareDiffs.reduce((a, b) => a + b, 0) / squareDiffs.length;
-            const jitter = Math.round(Math.sqrt(avgSquareDiff));
-            document.getElementById('jitterPing').textContent = `${jitter}ms`;
-          }
-        }
       }
       
       function updatePingChart() {
@@ -1541,17 +1390,6 @@
         document.getElementById('traceResults').innerHTML = '<p>Traceroute results will appear here...</p>';
       }
       
-      function exportTraceResults() {
-        const results = document.getElementById('traceResults').innerText;
-        const blob = new Blob([results], { type: 'text/plain' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'traceroute_results.txt';
-        a.click();
-        URL.revokeObjectURL(url);
-      }
-      
       // DNS Lookup Functions
       async function lookupDns() {
         const domain = document.getElementById('dnsDomain').value.trim();
@@ -1615,34 +1453,86 @@
         }
       }
       
+      // Domain Information Functions
+      async function getDomainInfo() {
+        const domain = document.getElementById('domainName').value.trim();
+        
+        if (!domain) {
+          showError('Please enter a domain name', 'domaininfo-error');
+          return;
+        }
+        
+        if (!validateDomain(domain)) {
+          showError('Please enter a valid domain name', 'domaininfo-error');
+          return;
+        }
+        
+        setLoading('domaininfo', true);
+        
+        try {
+          // In a real implementation, you would use a proper API
+          // For demonstration, we'll simulate the response
+          
+          // Simulate API call delay
+          await new Promise(resolve => setTimeout(resolve, 1500));
+          
+          // Simulate domain information response
+          const domainInfo = {
+            name: domain,
+            registered: true,
+            creationDate: '1997-09-15',
+            expirationDate: '2028-09-14',
+            registrar: 'MarkMonitor, Inc.',
+            nameServers: ['ns1.google.com', 'ns2.google.com', 'ns3.google.com', 'ns4.google.com'],
+            sslValid: true,
+            sslIssuedTo: domain,
+            sslIssuedBy: 'Google Trust Services LLC',
+            sslExpiration: '2023-12-10'
+          };
+          
+          // Update UI with domain information
+          document.getElementById('domainNameResult').textContent = domainInfo.name;
+          document.getElementById('domainRegistered').textContent = domainInfo.registered ? 'Yes' : 'No';
+          document.getElementById('domainCreation').textContent = domainInfo.creationDate;
+          document.getElementById('domainExpiration').textContent = domainInfo.expirationDate;
+          document.getElementById('domainRegistrar').textContent = domainInfo.registrar;
+          document.getElementById('domainNameservers').textContent = domainInfo.nameServers.join(', ');
+          
+          document.getElementById('sslValid').textContent = domainInfo.sslValid ? 'Yes' : 'No';
+          document.getElementById('sslIssuedTo').textContent = domainInfo.sslIssuedTo;
+          document.getElementById('sslIssuedBy').textContent = domainInfo.sslIssuedBy;
+          document.getElementById('sslExpiration').textContent = domainInfo.sslExpiration;
+        } catch (error) {
+          console.error('Domain info error:', error);
+          showError(`Domain information lookup failed: ${error.message}`, 'domaininfo-error');
+        } finally {
+          setLoading('domaininfo', false);
+        }
+      }
+      
       // IP Information Functions
       async function getIpInfo() {
         setLoading('ipinfo', true);
         try {
-          // Get IPv6 information from ipapi.co
-          const ipv6Response = await fetch(API_ENDPOINTS.IP_INFO);
-          const ipv6Data = await ipv6Response.json();
+          // Use ipapi.co API
+          const response = await fetch(API_ENDPOINTS.IP_INFO);
+          const data = await response.json();
           
-          // Get public IPv4 using a different service
-          const ipv4Response = await fetch(API_ENDPOINTS.IP_INFO_V4);
-          const ipv4Data = await ipv4Response.json();
+          if (data.error) {
+            throw new Error(data.reason || 'Failed to retrieve IP information');
+          }
           
-          document.getElementById('ipAddress').textContent = ipv6Data.ip || '-';
-          document.getElementById('publicIpv4').textContent = ipv4Data.ip || '-';
-          document.getElementById('ipCity').textContent = ipv6Data.city || '-';
-          document.getElementById('ipRegion').textContent = ipv6Data.region || '-';
-          document.getElementById('ipCountry').textContent = ipv6Data.country_name ? `${ipv6Data.country_name} (${ipv6Data.country})` : '-';
-          document.getElementById('ipIsp').textContent = ipv6Data.org || '-';
-          document.getElementById('ipTimezone').textContent = ipv6Data.timezone || '-';
-          
-          // Update map
-          updateMap(ipv6Data.latitude, ipv6Data.longitude, ipv6Data.city);
+          document.getElementById('ipAddress').textContent = data.ip || '-';
+          document.getElementById('ipCity').textContent = data.city || '-';
+          document.getElementById('ipRegion').textContent = data.region || '-';
+          document.getElementById('ipCountry').textContent = data.country_name ? `${data.country_name} (${data.country})` : '-';
+          document.getElementById('ipIsp').textContent = data.org || '-';
+          document.getElementById('ipTimezone').textContent = data.timezone || '-';
           
           // Browser information
           document.getElementById('browserInfo').textContent = navigator.userAgent.split(') ')[0].split(' (')[1] || 'Unknown';
-          
-          // Screen resolution
-          document.getElementById('screenResolution').textContent = `${window.screen.width}x${window.screen.height}`;
+          document.getElementById('browserLanguage').textContent = navigator.language || 'Unknown';
+          document.getElementById('browserPlatform').textContent = navigator.platform || 'Unknown';
           
           // Connection type (limited browser support)
           const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
@@ -1651,10 +1541,6 @@
           } else {
             document.getElementById('connectionType').textContent = 'Not available';
           }
-          
-          // Device type
-          const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-          document.getElementById('deviceType').textContent = isMobile ? 'Mobile' : 'Desktop';
         } catch (error) {
           console.error('IP info error:', error);
           showError(error.message, 'ipinfo-error');
@@ -1663,41 +1549,27 @@
         }
       }
       
-      function updateMap(lat, lng, city) {
-        const mapElement = document.getElementById('ipMap');
-        
-        // Initialize map if not already done
-        if (!ipMap) {
-          ipMap = L.map('ipMap').setView([lat, lng], 10);
-          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          }).addTo(ipMap);
-        } else {
-          ipMap.setView([lat, lng], 10);
-        }
-        
-        // Clear existing markers
-        ipMap.eachLayer(layer => {
-          if (layer instanceof L.Marker) {
-            ipMap.removeLayer(layer);
-          }
-        });
-        
-        // Add marker
-        L.marker([lat, lng]).addTo(ipMap)
-          .bindPopup(`<b>${city}</b><br>Approximate location based on IP address`)
-          .openPopup();
-      }
-      
       // Subnet Calculator Functions
       function calculateSubnet() {
         const ip = document.getElementById('subnetIp').value.trim();
-        const cidr = parseInt(document.getElementById('subnetCidr').value);
+        const cidr = document.getElementById('subnetCidr').value.trim();
+        
+        if (!ip || !cidr) {
+          showError('Please enter both IP address and CIDR notation', 'subnet-error');
+          return;
+        }
         
         if (!validateIp(ip)) {
           showError('Please enter a valid IP address', 'subnet-error');
           return;
         }
+        
+        if (!validateCidr(cidr)) {
+          showError('Please enter a valid CIDR notation (0-32)', 'subnet-error');
+          return;
+        }
+        
+        const cidrInt = parseInt(cidr);
         
         // Convert IP to binary
         const ipParts = ip.split('.');
@@ -1707,7 +1579,7 @@
         }).join('');
         
         // Calculate subnet mask
-        const subnetMaskBinary = '1'.repeat(cidr) + '0'.repeat(32 - cidr);
+        const subnetMaskBinary = '1'.repeat(cidrInt) + '0'.repeat(32 - cidrInt);
         const subnetMaskParts = [
           parseInt(subnetMaskBinary.substring(0, 8), 2),
           parseInt(subnetMaskBinary.substring(8, 16), 2),
@@ -1717,10 +1589,14 @@
         const subnetMask = subnetMaskParts.join('.');
         
         // Calculate wildcard mask
-        const wildcardMask = subnetMaskParts.map(part => 255 - part).join('.');
+        const wildcardMaskParts = subnetMaskParts.map(part => 255 - part);
+        const wildcardMask = wildcardMaskParts.join('.');
         
         // Calculate network address
-        const networkBinary = ipBinary.substring(0, cidr) + '0'.repeat(32 - cidr);
+        const networkBinary = ipBinary.split('').map((bit, i) => {
+          return i < cidrInt ? bit : '0';
+        }).join('');
+        
         const networkParts = [
           parseInt(networkBinary.substring(0, 8), 2),
           parseInt(networkBinary.substring(8, 16), 2),
@@ -1730,7 +1606,10 @@
         const networkAddress = networkParts.join('.');
         
         // Calculate broadcast address
-        const broadcastBinary = ipBinary.substring(0, cidr) + '1'.repeat(32 - cidr);
+        const broadcastBinary = ipBinary.split('').map((bit, i) => {
+          return i < cidrInt ? bit : '1';
+        }).join('');
+        
         const broadcastParts = [
           parseInt(broadcastBinary.substring(0, 8), 2),
           parseInt(broadcastBinary.substring(8, 16), 2),
@@ -1739,110 +1618,92 @@
         ];
         const broadcastAddress = broadcastParts.join('.');
         
-        // Calculate usable host range
-        const firstHost = [...networkParts];
-        firstHost[3] += 1;
-        const lastHost = [...broadcastParts];
-        lastHost[3] -= 1;
-        const usableHostRange = `${firstHost.join('.')} - ${lastHost.join('.')}`;
+        // Calculate total hosts
+        const totalHosts = Math.pow(2, 32 - cidrInt);
         
-        // Calculate total and usable hosts
-        const totalHosts = Math.pow(2, 32 - cidr);
-        const usableHosts = totalHosts > 2 ? totalHosts - 2 : 0;
+        // Calculate usable hosts
+        const usableHosts = totalHosts - 2;
+        
+        // Calculate first and last usable IP
+        const firstUsable = networkParts.slice(0, 3).concat([networkParts[3] + 1]).join('.');
+        const lastUsable = broadcastParts.slice(0, 3).concat([broadcastParts[3] - 1]).join('.');
         
         // Update UI
         document.getElementById('networkAddress').textContent = networkAddress;
         document.getElementById('broadcastAddress').textContent = broadcastAddress;
-        document.getElementById('usableHostRange').textContent = usableHostRange;
         document.getElementById('subnetMask').textContent = subnetMask;
         document.getElementById('wildcardMask').textContent = wildcardMask;
         document.getElementById('totalHosts').textContent = totalHosts;
-        document.getElementById('usableHosts').textContent = usableHosts;
+        document.getElementById('usableHosts').textContent = usableHosts > 0 ? usableHosts : 0;
+        document.getElementById('firstUsable').textContent = usableHosts > 0 ? firstUsable : 'N/A';
+        document.getElementById('lastUsable').textContent = usableHosts > 0 ? lastUsable : 'N/A';
+        
+        // Create binary representation
+        createBinaryRepresentation(ipBinary, subnetMaskBinary, cidrInt);
       }
       
-      // HTTP Headers Functions
-      async function analyzeHeaders() {
-        const url = document.getElementById('headerUrl').value.trim();
-        const method = document.getElementById('headerMethod').value;
-        const customHeadersText = document.getElementById('customHeaders').value.trim();
+      function createBinaryRepresentation(ipBinary, subnetMaskBinary, cidr) {
+        const binaryContainer = document.getElementById('binaryRepresentation');
+        binaryContainer.innerHTML = '';
         
-        if (!url) {
-          showError('Please enter a URL', 'headers-error');
-          return;
+        // Create header
+        const header = document.createElement('h4');
+        header.textContent = 'Binary Representation (IPv4)';
+        binaryContainer.appendChild(header);
+        
+        // Create binary visualization
+        const binaryDiv = document.createElement('div');
+        binaryDiv.className = 'binary-representation';
+        
+        // Create IP binary row
+        const ipRow = document.createElement('div');
+        ipRow.className = 'bit-row';
+        
+        for (let i = 0; i < 32; i++) {
+          const bit = document.createElement('div');
+          bit.className = `bit ${i < cidr ? 'network' : 'host'}`;
+          bit.textContent = ipBinary[i];
+          ipRow.appendChild(bit);
         }
         
-        // Add https:// if no protocol specified
-        let fullUrl = url;
-        if (!url.startsWith('http://') && !url.startsWith('https://')) {
-          fullUrl = 'https://' + url;
+        binaryDiv.appendChild(ipRow);
+        
+        // Create labels row
+        const labelsRow = document.createElement('div');
+        labelsRow.className = 'bit-row';
+        
+        for (let i = 0; i < 4; i++) {
+          const label = document.createElement('div');
+          label.className = 'bit-label';
+          label.textContent = `Octet ${i + 1}`;
+          label.style.width = 'calc(8 * 34px)';
+          labelsRow.appendChild(label);
         }
         
-        let customHeaders = {};
-        if (customHeadersText) {
-          try {
-            customHeaders = JSON.parse(customHeadersText);
-          } catch (e) {
-            showError('Invalid JSON in custom headers', 'headers-error');
-            return;
-          }
-        }
+        binaryDiv.appendChild(labelsRow);
         
-        setLoading('headers', true);
-        try {
-          // Use a CORS proxy to bypass restrictions
-          const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(fullUrl);
-          const startTime = performance.now();
-          const response = await fetch(proxyUrl, { 
-            method,
-            headers: customHeaders,
-            cache: 'no-store'
-          });
-          const endTime = performance.now();
-          
-          let headersHtml = `<p>HTTP headers (Load time: ${(endTime - startTime).toFixed(2)}ms):</p>`;
-          
-          // Show status
-          headersHtml += `<div class="ping-item"><span>Status:</span> <span>${response.status} ${response.statusText}</span></div>`;
-          
-          // Show headers
-          for (const [key, value] of response.headers.entries()) {
-            headersHtml += `<div class="ping-item"><span>${DOMPurify.sanitize(key)}:</span> <span>${DOMPurify.sanitize(value)}</span></div>`;
-          }
-          
-          document.getElementById('headerResults').innerHTML = headersHtml;
-          
-          // Calculate security score
-          calculateSecurityScore(response.headers);
-        } catch (error) {
-          console.error('Header analysis error:', error);
-          showError(`Header analysis failed: ${error.message}`, 'headers-error');
-        } finally {
-          setLoading('headers', false);
-        }
-      }
-      
-      function calculateSecurityScore(headers) {
-        let score = 0;
-        const maxScore = 100;
-        const securityHeaders = [
-          'strict-transport-security',
-          'x-content-type-options',
-          'x-frame-options',
-          'x-xss-protection',
-          'content-security-policy',
-          'referrer-policy',
-          'permissions-policy',
-          'feature-policy'
-        ];
+        // Create legend
+        const legend = document.createElement('div');
+        legend.style.marginTop = '15px';
+        legend.innerHTML = `
+          <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+            <div style="display: flex; align-items: center; gap: 5px;">
+              <div style="width: 15px; height: 15px; background: #48bb78; border-radius: 3px;"></div>
+              <span>Network Bits</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 5px;">
+              <div style="width: 15px; height: 15px; background: #4299e1; border-radius: 3px;"></div>
+              <span>Host Bits</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 5px;">
+              <div style="width: 15px; height: 15px; background: #ed8936; border-radius: 3px;"></div>
+              <span>CIDR Boundary</span>
+            </div>
+          </div>
+        `;
         
-        securityHeaders.forEach(header => {
-          if (headers.has(header)) {
-            score += maxScore / securityHeaders.length;
-          }
-        });
-        
-        document.getElementById('securityScore').textContent = `${Math.round(score)}%`;
-        document.getElementById('securityScoreCard').style.display = 'block';
+        binaryDiv.appendChild(legend);
+        binaryContainer.appendChild(binaryDiv);
       }
       
       // Speed Test Functions (Simplified simulation)
@@ -1856,7 +1717,6 @@
         const downloadSpeed = 30 + Math.random() * 70; // 30-100 Mbps
         const uploadSpeed = 5 + Math.random() * 15; // 5-20 Mbps
         const pingSpeed = 10 + Math.random() * 40; // 10-50 ms
-        const jitterSpeed = 2 + Math.random() * 8; // 2-10 ms
         
         const interval = setInterval(() => {
           progress += 5;
@@ -1865,7 +1725,6 @@
             document.getElementById('downloadSpeed').textContent = (downloadSpeed * progress / 100).toFixed(1);
             document.getElementById('uploadSpeed').textContent = (uploadSpeed * progress / 100).toFixed(1);
             document.getElementById('pingSpeed').textContent = Math.round(pingSpeed);
-            document.getElementById('jitterSpeed').textContent = jitterSpeed.toFixed(1);
             
             const speedResults = document.getElementById('speedResults');
             if (speedResults.children.length === 1 && speedResults.children[0].tagName === 'P') {
@@ -1884,7 +1743,6 @@
             document.getElementById('downloadSpeed').textContent = downloadSpeed.toFixed(1);
             document.getElementById('uploadSpeed').textContent = uploadSpeed.toFixed(1);
             document.getElementById('pingSpeed').textContent = Math.round(pingSpeed);
-            document.getElementById('jitterSpeed').textContent = jitterSpeed.toFixed(1);
             
             setLoading('speed', false);
             document.getElementById('startSpeedTestBtn').disabled = false;
@@ -1947,18 +1805,14 @@
       document.getElementById('startTraceBtn').addEventListener('click', traceRoute);
       document.getElementById('stopTraceBtn').addEventListener('click', stopTrace);
       document.getElementById('clearTraceBtn').addEventListener('click', clearTraceLog);
-      document.getElementById('exportTraceBtn').addEventListener('click', exportTraceResults);
       
       document.getElementById('lookupDnsBtn').addEventListener('click', lookupDns);
+      document.getElementById('getDomainInfoBtn').addEventListener('click', getDomainInfo);
       document.getElementById('getIpInfoBtn').addEventListener('click', getIpInfo);
       document.getElementById('calculateSubnetBtn').addEventListener('click', calculateSubnet);
-      document.getElementById('analyzeHeadersBtn').addEventListener('click', analyzeHeaders);
       
       document.getElementById('startSpeedTestBtn').addEventListener('click', startSpeedTest);
       document.getElementById('stopSpeedTestBtn').addEventListener('click', stopSpeedTest);
-      
-      // Setup copy buttons
-      setupCopyButtons();
     }
 
     // Initialize everything when DOM is loaded
