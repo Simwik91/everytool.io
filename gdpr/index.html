@@ -460,6 +460,81 @@
       </div>
     </div>
   </div>
+<!-- Buy Me a Coffee Floating Button Only -->
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cookie&display=swap');
+
+  /* Floating Button Container - Centered */
+  #bmc-floating {
+    position: fixed;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10001;
+  }
+
+  /* Centered floating button (bigger with enhanced animation) */
+  .centered-floating-bmc-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 16px 32px !important;
+    background: linear-gradient(135deg, #5F7FFF, #4a6fe3) !important;
+    color: #ffffff !important;
+    border: 5px solid #000000 !important;
+    border-radius: 15px !important;
+    font-family: 'Cookie', cursive !important;
+    font-size: 26px !important;
+    text-decoration: none !important;
+    cursor: pointer !important;
+    min-width: 220px !important;
+    height: 60px !important;
+    box-shadow: 0 6px 20px rgba(95, 127, 255, 0.4) !important;
+    transition: all 0.3s ease !important;
+    animation: enhancedWiggle 2.5s ease-in-out infinite, pulseGlow 3s ease-in-out infinite;
+  }
+
+  .centered-floating-bmc-btn:hover {
+    background: linear-gradient(135deg, #4a6fe3, #3a5fd8) !important;
+    transform: scale(1.08) !important;
+    box-shadow: 0 10px 30px rgba(95, 127, 255, 0.7) !important;
+    animation: none !important;
+  }
+
+  .centered-floating-bmc-btn img {
+    height: 30px !important;
+    margin-right: 10px !important;
+    filter: brightness(0) invert(1);
+  }
+
+  /* Enhanced wiggle animation */
+  @keyframes enhancedWiggle {
+    0%, 100% { transform: scale(1) rotate(0deg); }
+    15% { transform: scale(1.05) rotate(2deg); }
+    30% { transform: scale(1.03) rotate(-2deg); }
+    45% { transform: scale(1.05) rotate(1.5deg); }
+    60% { transform: scale(1.03) rotate(-1.5deg); }
+    75% { transform: scale(1.04) rotate(1deg); }
+  }
+
+  /* Pulsing glow effect */
+  @keyframes pulseGlow {
+    0%, 100% {
+      box-shadow: 0 6px 20px rgba(95, 127, 255, 0.4);
+    }
+    50% {
+      box-shadow: 0 6px 30px rgba(95, 127, 255, 0.7), 0 0 20px rgba(95, 127, 255, 0.4);
+    }
+  }
+</style>
+
+<!-- Floating Button -->
+<div id="bmc-floating">
+  <a href="https://buymeacoffee.com/simwik91" target="_blank" class="centered-floating-bmc-btn" title="Support my work">
+    <img src="/images/bmc-new-btn-logo.svg" alt="Buy Me a Coffee" onerror="this.style.display='none'">
+    Buy me a coffee
+  </a>
+</div>
 
   <!-- JavaScript -->
   <script src="/js/main.js"></script>
