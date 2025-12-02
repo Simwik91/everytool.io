@@ -15,136 +15,13 @@
   
   <!-- Shared CSS -->
   <link rel="stylesheet" href="/css/styles.css">
-  
-  <!-- Credits Page Specific Styles -->
-  <style>
-    :root {
-      --primary: #4361ee;
-      --primary-dark: #3a56d4;
-      --secondary: #7209b7;
-      --accent: #f72585;
-      --light: #f8f9fa;
-      --dark: #212529;
-      --gray: #6c757d;
-      --light-gray: #e9ecef;
-      --border-radius: 12px;
-      --box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-      --transition: all 0.3s ease;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, var(--light) 0%, #f0f4ff 100%);
-      color: var(--dark);
-      line-height: 1.6;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-
-    /* Main Content */
-    .main-content {
-      padding: 50px 0;
-      text-align: center;
-    }
-
-    .main-content h1 {
-      font-size: 2.5rem;
-      margin-bottom: 20px;
-      font-weight: 700;
-      color: var(--dark);
-      background: linear-gradient(90deg, var(--primary), var(--secondary));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .main-content p {
-      font-size: 1.2rem;
-      color: var(--gray);
-      max-width: 700px;
-      margin: 0 auto 30px;
-    }
-
-    .credits-list {
-      background: white;
-      border-radius: var(--border-radius);
-      padding: 30px;
-      box-shadow: var(--box-shadow);
-      text-align: left;
-      max-width: 800px;
-      margin: 0 auto;
-    }
-
-    .credits-list ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    .credits-list li {
-      margin-bottom: 20px;
-      font-size: 1.1rem;
-      line-height: 1.8;
-    }
-
-    .credits-list li strong {
-      color: var(--primary);
-      font-weight: 600;
-    }
-
-    .credits-list a {
-      color: var(--primary);
-      text-decoration: none;
-      transition: var(--transition);
-    }
-
-    .credits-list a:hover,
-    .credits-list a:focus {
-      text-decoration: underline;
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-
-    /* Responsive Design */
-    @media (max-width: 768px) {
-      .main-content h1 {
-        font-size: 2rem;
-      }
-
-      .credits-list {
-        padding: 20px;
-      }
-
-      .credits-list li {
-        font-size: 1rem;
-      }
-    }
-
-    @media (max-width: 576px) {
-      .main-content {
-        padding: 30px 0;
-      }
-
-      .main-content h1 {
-        font-size: 1.8rem;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="/css/credits.css">
+  <link rel="stylesheet" href="/css/bmc.css">
 </head>
 <body>
   <!-- Header Placeholder -->
   <header id="main-header">
-    <p class="error-message" style="display: none; color: red; text-align: center;">Failed to load header. Please try refreshing the page.</p>
+    <p class="error-message">Failed to load header. Please try refreshing the page.</p>
   </header>
 
   <!-- Main Content -->
@@ -238,76 +115,8 @@
     </div>
   </div>
 
-  <!-- JavaScript -->
   <script src="/js/main.js"></script>
   <!-- Buy Me a Coffee Floating Button Only -->
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Cookie&display=swap');
-
-  /* Floating Button Container - Centered */
-  #bmc-floating {
-    position: fixed;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10001;
-  }
-
-  /* Centered floating button (bigger with enhanced animation) */
-  .centered-floating-bmc-btn {
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    padding: 16px 32px !important;
-    background: linear-gradient(135deg, #5F7FFF, #4a6fe3) !important;
-    color: #ffffff !important;
-    border: 5px solid #000000 !important;
-    border-radius: 15px !important;
-    font-family: 'Cookie', cursive !important;
-    font-size: 26px !important;
-    text-decoration: none !important;
-    cursor: pointer !important;
-    min-width: 220px !important;
-    height: 60px !important;
-    box-shadow: 0 6px 20px rgba(95, 127, 255, 0.4) !important;
-    transition: all 0.3s ease !important;
-    animation: enhancedWiggle 2.5s ease-in-out infinite, pulseGlow 3s ease-in-out infinite;
-  }
-
-  .centered-floating-bmc-btn:hover {
-    background: linear-gradient(135deg, #4a6fe3, #3a5fd8) !important;
-    transform: scale(1.08) !important;
-    box-shadow: 0 10px 30px rgba(95, 127, 255, 0.7) !important;
-    animation: none !important;
-  }
-
-  .centered-floating-bmc-btn img {
-    height: 30px !important;
-    margin-right: 10px !important;
-    filter: brightness(0) invert(1);
-  }
-
-  /* Enhanced wiggle animation */
-  @keyframes enhancedWiggle {
-    0%, 100% { transform: scale(1) rotate(0deg); }
-    15% { transform: scale(1.05) rotate(2deg); }
-    30% { transform: scale(1.03) rotate(-2deg); }
-    45% { transform: scale(1.05) rotate(1.5deg); }
-    60% { transform: scale(1.03) rotate(-1.5deg); }
-    75% { transform: scale(1.04) rotate(1deg); }
-  }
-
-  /* Pulsing glow effect */
-  @keyframes pulseGlow {
-    0%, 100% {
-      box-shadow: 0 6px 20px rgba(95, 127, 255, 0.4);
-    }
-    50% {
-      box-shadow: 0 6px 30px rgba(95, 127, 255, 0.7), 0 0 20px rgba(95, 127, 255, 0.4);
-    }
-  }
-</style>
-
 <!-- Floating Button -->
 <div id="bmc-floating">
   <a href="https://buymeacoffee.com/simwik91" target="_blank" class="centered-floating-bmc-btn" title="Support my work">

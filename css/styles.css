@@ -1076,3 +1076,15 @@ footer {
     width: 100%;
   }
 }
+
+.error-message {
+  display: none;
+  color: red;
+  text-align: center;
+}
+
+.dropdown-error {
+  display: none;
+  color: red;
+  padding: 10px 20px;
+}

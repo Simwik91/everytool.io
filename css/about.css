@@ -1,0 +1,230 @@
+
+.about-page {
+  padding: 60px 0;
+}
+
+.about-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.about-header h1 {
+  font-size: 2.8rem;
+  margin-bottom: 15px;
+  font-weight: 700;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.about-header p {
+  font-size: 1.2rem;
+  color: var(--gray);
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.about-hero {
+  background: linear-gradient(135deg, var(--secondary), var(--primary));
+  color: white;
+  border-radius: var(--border-radius);
+  padding: 60px 40px;
+  margin: 40px 0;
+  box-shadow: var(--box-shadow);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.about-hero:before {
+  content: "";
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  width: 200px;
+  height: 200px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+}
+
+.about-hero:after {
+  content: "";
+  position: absolute;
+  bottom: -80px;
+  left: -80px;
+  width: 250px;
+  height: 250px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+}
+
+.about-hero h2 {
+  font-size: 2.2rem;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 2;
+}
+
+.about-hero p {
+  max-width: 800px;
+  margin: 0 auto 20px;
+  font-size: 1.15rem;
+  position: relative;
+  z-index: 2;
+  line-height: 1.8;
+}
+
+.mission-section {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+  margin: 60px 0;
+}
+
+.mission-card {
+  background: white;
+  border-radius: var(--border-radius);
+  padding: 40px 30px;
+  text-align: center;
+  box-shadow: var(--box-shadow);
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.mission-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+.mission-icon {
+  font-size: 3.5rem;
+  color: var(--primary);
+  margin-bottom: 25px;
+  background: rgba(67, 97, 238, 0.1);
+  width: 90px;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  margin: 0 auto 25px;
+}
+
+.mission-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  color: var(--primary);
+}
+
+.mission-card p {
+  color: var(--gray);
+  flex-grow: 1;
+}
+
+.values-section {
+  margin: 60px 0;
+  padding: 20px 0;
+}
+
+.values-section h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+
+.value-card {
+  background: white;
+  border-radius: var(--border-radius);
+  padding: 40px 30px;
+  box-shadow: var(--box-shadow);
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.value-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+.value-card h3 {
+  font-size: 1.5rem;
+  color: var(--primary);
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.value-card p {
+  color: var(--gray);
+  flex-grow: 1;
+}
+
+/* Responsive Design for About Page */
+@media (max-width: 992px) {
+  .about-hero {
+    padding: 60px 30px;
+  }
+  
+  .mission-card, .step, .value-card {
+    padding: 30px 20px;
+  }
+
+  .mission-section {
+    grid-template-columns: 1fr;
+  }
+
+  .values-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .about-header h1 {
+    font-size: 2.2rem;
+  }
+  
+  .about-header p {
+    font-size: 1.1rem;
+  }
+  
+  .about-hero h2 {
+    font-size: 1.8rem;
+  }
+
+  .values-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 576px) {
+  .about-hero {
+    padding: 50px 20px;
+  }
+  
+  .about-hero h2 {
+    font-size: 1.6rem;
+  }
+  
+  .mission-card, .step, .value-card {
+    padding: 25px 20px;
+  }
+}
